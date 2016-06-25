@@ -5,8 +5,4 @@ target
 *.idea
 *.iml
 .DS_Store
-css/
-index.html
-index_files/
-jQueryAssets/
-js/
+
