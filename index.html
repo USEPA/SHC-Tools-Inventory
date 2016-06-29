@@ -126,12 +126,12 @@
                         </td>
                         <td style="width:33%;">
                         	Decision Sector<br>
-             				<select id="simpleDecisionSelect" style="width:100%" disabled="false">
-                                <option value="undefined" selected="selected">All</option>
-                                <option value="building">Building and Infrastructure</option>
-                                <option value="land">Land Use</option>
-                                <option value="transportation">Transportation</option>
-                                <option value="waste">Waste Management</option>
+             				<select id="simpleDecisionSelect" style="width:100%" >
+                                <option value="" selected="selected">All</option>
+                                <option value="Building Infrastructure">Building and Infrastructure</option>
+                                <option value="Land Use">Land Use</option>
+                                <option value="Transportation">Transportation</option>
+                                <option value="Waste Management">Waste Management</option>
                           </select>
                         </td>
                     </tr>
@@ -147,12 +147,12 @@
                         </td>
                         <td style="width:30%;">
                         	Decision Sector<br>
-             				<select id="detailDecisionSelect" style="width:100%" disabled="false">
-                                <option value="undefined" selected="selected">All</option>
-                                <option value="building">Building and Infrastructure</option>
-                                <option value="land">Land Use</option>
-                                <option value="transportation">Transportation</option>
-                                <option value="waste">Waste Management</option>
+             				<select id="detailDecisionSelect" style="width:100%" >
+                                <option value="" selected="selected">All</option>
+                                <option value="Building Infrastructure">Building and Infrastructure</option>
+                                <option value="Land Use">Land Use</option>
+                                <option value="Transportation">Transportation</option>
+                                <option value="Waste Management">Waste Management</option>
                           </select>
                         </td>
                         <td style="width:20%;" align="middle">
@@ -440,17 +440,17 @@ function detailSearchClk2() {
     var query_string = $('#detailSearchText')[0].value.toLowerCase();
 
 
-    if (query_string != "") {
+   // if (query_string != "") {
 
 
-        // var decision_select = document.getElementById('detailDecisionSelect').value;
+         var decision_select = document.getElementById('detailDecisionSelect').value;
 
 
         $.ajax({
             type: 'GET',
             url: resourceSearchURL,
 
-            data: {Name: query_string, BaseCostOfSoftware:cost_select[2],  Format: 'JSON' },
+            data: {Name: query_string, BaseCostOfSoftware:cost_select[2], DecisionSector:decision_select, Format: 'JSON' },
             dataType: 'json',
             success: function (data) {
 
@@ -467,7 +467,7 @@ function detailSearchClk2() {
 
 
 
-    } else {alert("Please enter a search term!")}
+   // } else {alert("Please enter a search term!")}
 
 }
 
@@ -479,12 +479,14 @@ function detailSearchClk2() {
      var name_query = $('#simpleSearchText')[0].value.toLowerCase();
 
      //Not in Data
-     //var decision_query = $('#simpleDecisionSelect')[0].value;
+     var decision_query = $('#simpleDecisionSelect')[0].value;
+
+     console.log("decision_query = ", decision_query);
 
      $.ajax({
          type: 'GET',
          url: resourceSearchURL,
-         data: { Name: name_query,  Format: 'JSON' },
+         data: { Name: name_query, DecisionSector:decision_query, Format: 'JSON' },
          dataType: 'json',
          success: function (data) {
 
