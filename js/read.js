@@ -24,9 +24,13 @@ $( document ).ready(function() {
 //                $("[href='#tabSelected']").hide();
 //                $(this).hide();
 //    });
-// loadModels();
+    
+ loadModels();
 
 });
+
+
+
 //var endpoint = 'http://localhost:8081/rest/read/';
 var endpoint = '/rest/read/';
 try{
@@ -53,62 +57,10 @@ var database_columns = [
          'Constrained_Keywords', 'Keywords', 'Organization', 'Contact_Person', 'Phone_Number', 'Email', 'Internet',
          'Life_Cycle', 'Last_Known_Software_Update', 'READ_Info_Updated', 'Operating_Environment', 'Compatible_Operating_Systems',
          'Other_proprietary_software_requirements_if_any', 'Model_Inputs', 'Data_requirements', 'Model_Output_Types',
-         'Output_Variables', 'Source_of_Support_Materials', 'Types_of_Support_Materials', 'Model_Evaluation',
+         'Output_Variables', 'Source_of_Support_Materials', 'Model_Evaluation',
          'Model_Structure', 'Time_Scale', 'Spatial_Extent', 'Technical_skills_needed_to_apply_model',
          'Interfaces_to_other_Resources', 'Notes'
     ];
-/*
-function simpleSearchClk()
-{
-    clearResults();
-    var query_string = $('#simpleSearchText')[0].value;
-    if (huge_array.indexOf(query_string) == -1) {
-            huge_array.push(query_string);
-        };
-    var decision_select = $('#simpleDecisionSelect')[0].value;
-    $.get(endpoint + "search", {
-        query: query_string,
-        dec: decision_select
-    }, function (resp) {
-        var response = parseResults(resp, "#resultsTable");
-        if (response == 'No Results Found'){
-            $('#popup-message')[0].style.fontSize = "x-small";
-            $('#popup-message')[0].innerHTML = "Your search for '"+ query_string + "' returned no results. Please try again.";
-            $("#dialog-message").dialog("open");
-        }
-    });
-}
-
-function detailSearchClk() {
-    clearResults();
-    var query_string = document.getElementById('detailSearchText').value;
-    if (huge_array.indexOf(query_string) == -1) {
-        huge_array.push(query_string);
-    }
-    var decision_select = document.getElementById('detailDecisionSelect').value;
-    var os_select = checkBoxValue(document.getElementsByName('RadioEnvironment'));
-    var cost_select = checkBoxValue(document.getElementsByName('CheckBase'));
-    var extent_select = multiSelectValue(document.getElementById('selectExtent'));
-    //var outputs_select = multiSelectValue(document.getElementById('selectOutput'));
-    //var software_select = radiovalue(document.getElementsByName('RadioSoftware'));
-    $.get(endpoint + "search", {
-        query: query_string,
-        dec: decision_select,
-        os: os_select,
-        cost: cost_select,
-        extent: extent_select//,
-        //outputs: outputs_select,
-        //soft: software_select
-    }, function (resp) {
-        var response = parseResults(resp, "#resultsTable");
-        if (response == 'No Results Found'){
-            $('#popup-message')[0].style.fontSize = "x-small";
-            $('#popup-message')[0].innerHTML = "Your search for '"+ query_string + "' returned no results. Please try again.";
-            $("#dialog-message").dialog("open");
-        }
-    });
-}
-*/
 
 
 function radiovalue(radios){
@@ -130,7 +82,8 @@ function multiSelectValue(multiselect){
     for (var i = 0; i < multiselect.length; i++) {
         if (multiselect.options[i].selected)selected.push(multiselect.options[i].value);
     }
-    return JSON.stringify(selected);
+    //return JSON.stringify(selected);
+    return selected;
 }
 
 function checkBoxValue(multiselect){
@@ -139,7 +92,8 @@ function checkBoxValue(multiselect){
     for (var i = 0, length = multiselect.length; i < length; i++) {
         if (multiselect[i].checked)selected.push(multiselect[i].value);
     }
-    return JSON.stringify(selected);
+    //return JSON.stringify(selected);
+    return selected;
 }
 
 function parseResults(str, table_reference){
@@ -261,11 +215,11 @@ function showDetails(id)
 
     var columns = [
              'Name', 'Acronym', 'Short_Description_for_Reports', 'Ownership_Type', 'Base_Cost_of_Software',
-             'Other_Cost_Considerations', 'Open_Source', 'Alternative_Names', 'Sustainability_Sector',
-             'Constrained_Keywords', 'Keywords', 'Organization', 'Contact_Person', 'Phone_Number', 'Email', 'Internet',
-             'Life_Cycle', 'Last_Known_Software_Update', 'READ_Info_Updated', 'Operating_Environment', 'Compatible_Operating_Systems',
+             'Other_Cost_Considerations', 'Open_Source', 'Sustainability_Sector',
+             'Keywords', 'Organization', 'Contact_Person', 'Phone_Number', 'Email', 'Internet',
+             'Life_Cycle', 'READ_Info_Updated', 'Operating_Environment', 'Compatible_Operating_Systems',
              'Other_proprietary_software_requirements_if_any', 'Model_Inputs', 'Data_requirements', 'Model_Output_Types',
-             'Output_Variables', 'Source_of_Support_Materials', 'Types_of_Support_Materials', 'Model_Evaluation',
+             'Output_Variables', 'Source_of_Support_Materials',  'Model_Evaluation',
              'Model_Structure', 'Time_Scale', 'Spatial_Extent', 'Technical_skills_needed_to_apply_model',
              'Interfaces_to_other_Resources', 'Notes'
         ];
@@ -366,31 +320,33 @@ function showDetails(id)
             }
 
             //'Alternative_Names'
-
+/*
             if(this_key == "Alternative_Names") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
 
             }
-
+*/
 
             // 'Sustainability_Sector'
             if(this_key == "Sustainability_Sector") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+               detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelScopeDetail.ModelScopeDecisionSector;
 
             }
             //'Constrained_Keywords'
+            /*
             if(this_key == "Constrained_Keywords") {
 
                 //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
 
             }
+            */
 
             // 'Keywords'
             if(this_key == "Keywords") {
 
-               // detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.InterfaceDetail.KeywordDetail;
+                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.KeywordDetail.KeywordText;
 
             }
             // 'Organization'
@@ -402,40 +358,39 @@ function showDetails(id)
 
                 } else {detail_obj[this_key] = "No Data Provided"}
 
-                //var OrganizationData = id.record.READExportDetail.InfoResourceDetail.ContactDetail.OrganizationContactDetail.OrganizationName;
-
 
             }
             // 'Contact_Person'
             if(this_key == "Contact_Person") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.FirstName + " "+id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.LastName ;
 
             }
             // 'Phone_Number'
             if(this_key == "Phone_Number") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.TelephoneNumber;
 
             }
             // 'Email'
             if(this_key == "Email") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.EmailAddressText;
 
             }
             // 'Internet'
             if(this_key == "Internet") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.AccessDetail.InternetDetail.URLText;
 
             }
 
             //'Life_Cycle'
             if(this_key == "Life_Cycle") {
 
-              var lifeclycledata = id.record.READExportDetail.InfoResourceDetail.LifeCycleDetail.LifeCyclePhaseVersion.CurrentVersionText;
+                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.LifeCycleDetail.CurrentLifeCyclePhase;
 
+                   /*
                     switch (lifeclycledata) {
 
                         case 1:
@@ -451,33 +406,31 @@ function showDetails(id)
                         default: detail_obj[this_key] = "No Data Available";
 
                     }
+                    */
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
 
             }
             //'Last_Known_Software_Update'
+            /*
             if(this_key == "Last_Known_Software_Update") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
-
+                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.LastModifiedDateTimeText;
             }
+            */
             //'READ_Info_Updated'
             if(this_key == "READ_Info_Updated") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
-
+                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.LastModifiedDateTimeText + ", "+id.record.READExportDetail.InfoResourceDetail.LastModifiedPersonName;
             }
             //'Operating_Environment'
             if(this_key == "Operating_Environment") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
-
+                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqCompatibleOSDetail.OSName;
             }
             //'Compatible_Operating_Systems'
             if(this_key == "Compatible_Operating_Systems") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
-
+                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqCompatibleOSDetail.OSName;
             }
             //'Other_proprietary_software_requirements_if_any'
             if(this_key == "Other_proprietary_software_requirements_if_any") {
@@ -488,52 +441,50 @@ function showDetails(id)
             //'Model_Inputs'
             if(this_key == "Model_Inputs") {
 
-                var ModelInputsTextAreaData = id.record.READExportDetail.InfoResourceDetail.ModelInputsDetail.ModelInputsTextArea;
-                if(ModelInputsTextAreaData.typeof === "string"){detail_obj[this_key] = ModelOutputsTextAreaData;}else{detail_obj[this_key] = "No Data Available";}
+                var ModelOutputsTextAreaData = id.record.READExportDetail.InfoResourceDetail.ModelInputsDetail.ModelInputsTextArea;
+                if(ModelOutputsTextAreaData){detail_obj[this_key] = ModelOutputsTextAreaData;}else{this_result = "No Data Available";}
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
-
-            }
-            //'Data_requirements'
-            if(this_key == "Data_requirements") {
-
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
 
             }
+
+
             //'Model_Output_Types'
+
             if(this_key == "Model_Output_Types") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+                var ModelOutputsTextAreaData = id.record.READExportDetail.InfoResourceDetail.ModelOutputsDetail.ModelOutputsModelVariablesTextArea;
+                if(ModelOutputsTextAreaData){detail_obj[this_key] = ModelOutputsTextAreaData;}else{this_result = "No Data Available";}
+
 
             }
             //'Output_Variables'
             if(this_key == "Output_Variables") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+                var ModelOutputsVariables = id.record.READExportDetail.InfoResourceDetail.ModelOutputsDetail.ModelOutputsModelVariablesTextArea;
+                if(ModelOutputsVariables){detail_obj[this_key] = ModelOutputsVariables;}else{this_result = "No Data Available";}
 
             }
             //'Source_of_Support_Materials'
             if(this_key == "Source_of_Support_Materials") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+                var UserSupportSource = id.record.READExportDetail.InfoResourceDetail.UserSupportDetail.UserSupportSourceOfSupportMaterials;
+                if(UserSupportSource){detail_obj[this_key] = UserSupportSource;}else{this_result = "No Data Available";}
 
             }
-            //'Types_of_Support_Materials'
-            if(this_key == "Types_of_Support_Materials") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
-
-            }
             //'Model_Evaluation'
             if(this_key == "Model_Evaluation") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+                var ModeEvaluation = id.record.READExportDetail.InfoResourceDetail.ModelEvaluationDetail.ModelEvaluationTextArea;
+                if(ModeEvaluation){detail_obj[this_key] = ModeEvaluation;}else{this_result = "No Data Available";}
 
             }
             //'Model_Structure'
             if(this_key == "Model_Structure") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+                var ModeStructure = id.record.READExportDetail.InfoResourceDetail.
+                    ModelStructureDetail.ModelStructureTextArea;
+                if(ModeStructure){detail_obj[this_key] = ModeStructure;}else{this_result = "No Data Available";}
 
             }
             //'Time_Scale'
@@ -542,38 +493,40 @@ function showDetails(id)
                 //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
 
             }
+
             //'Spatial_Extent'
+
+
             if(this_key == "Spatial_Extent") {
 
 
-                var spatialextentstring = "";
                 var SpatialExtentData = id.record.READExportDetail.InfoResourceDetail.ModelScopeDetail.ModelScopeSpatialExtentDetail;
 
 
-                if(SpatialExtentData)
+                if(SpatialExtentData.length != 0)
                 {
-
+                    detail_obj[this_key]="";
                     for (i = 0; i < SpatialExtentData.length; i++) {
                         if(i < SpatialExtentData.length-1) {
-                            spatialextentstring += SpatialExtentData[i].SpatialExtentName + ", ";
+                            //spatialextentstring += SpatialExtentData[i].SpatialExtentName + ", ";
+                            detail_obj[this_key] += SpatialExtentData[i].SpatialExtentName + ", ";
                         }
                         else
-                        {spatialextentstring += SpatialExtentData[i].SpatialExtentName;}
+                        {detail_obj[this_key] += SpatialExtentData[i].SpatialExtentName;}
                     }
                 }
 
-                if(spatialextentstring != ""){
 
-                    detail_obj[this_key] = spatialextentstring;
-                }
                 else
                 {
                     detail_obj[this_key] = "No Data Available";
                 }
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
 
             }
+
+
+
             //'Technical_skills_needed_to_apply_model'
             if(this_key == "Technical_skills_needed_to_apply_model") {
 
@@ -594,22 +547,24 @@ function showDetails(id)
             }
 
 
-
-
             if(this_key == "Data_requirements"){
 
-                switch (detail_obj[this_key]) {
+                var DataRequirements = id.record.READExportDetail.InfoResourceDetail.ModelInputsDetail.ModelInputsDataRequirements;
 
-                    case "1":
+                //console.log("Data_requirements", DataRequirements);
+
+                switch (DataRequirements) {
+
+                    case 1:
                         detail_obj[this_key] = "None – All Data Supported";
                         break;
-                    case "2":
+                    case 2:
                         detail_obj[this_key] = "Low – Data Generally Publicly Available";
                         break;
-                    case "3":
+                    case 3:
                         detail_obj[this_key] = "Med – Not Publicly Available, but Routinely Available";
                         break;
-                    case "4":
+                    case 4:
                         detail_obj[this_key] = "High – New Data Must Be Created";
                         break;
 
@@ -620,12 +575,24 @@ function showDetails(id)
 
             }
 
-            if(this_key == "Model_Output_Types"){
+
+            if(this_key == "Model_Output_Types") {
 
 
                 var ModelOutputsTextAreaData = id.record.READExportDetail.InfoResourceDetail.ModelOutputsDetail.ModelOutputsModelVariablesTextArea;
 
-                if(ModelOutputsTextAreaData.typeof === "string"){detail_obj[this_key] = ModelOutputsTextAreaData;}else{detail_obj[this_key] = "No Data Available";}
+                if (ModelOutputsTextAreaData) {
+                    detail_obj[this_key] = ModelOutputsTextAreaData;
+                } else {
+                    this_result = "No Data Available";
+                }
+
+            }
+
+
+
+
+
 
 
                /*
@@ -673,16 +640,18 @@ function showDetails(id)
 
                 */
 
-            }
-
-
-
             var this_value = $("<p>");
-                this_value.text(detail_obj[this_key]);
-
+            this_value.text(detail_obj[this_key]);
 
 
         }
+
+
+
+
+
+
+       // }
         else{
             var this_value = $("<p>");
             this_value.text("No Data");
@@ -759,27 +728,7 @@ function detailClearForm(){
     //radioClear(document.getElementsByName('RadioSoftware'));
 }
 
-/*
-function loadModels(){
-    $(".accordion-pane").each(function() {
-       var table_name = this.children[1].id;
-       console.log("loading "+table_name);
-        var this_sector = table_name.replace("table", "").toLowerCase();
-        $.get( endpoint+"browse", {
-            dec: this_sector
-        }, function( resp ) {
-            console.log("loaded " + table_name);
-            parseResults(resp, '#' + table_name);
-        });
-        $( "#Tabs1" ).tabs( "option", {
-                "enable": 2
-              }
-            );
-    });
-    $("[href='#tabsBrowse']").show();
 
-}
-*/
 
 function exportCSV(tablereference){
     var records = $("#"+tablereference).data().records;

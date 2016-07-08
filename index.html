@@ -111,7 +111,7 @@
             <ol>
               <li><a href="#tabsSimple">Simple Search</a></li>
               <li><a href="#tabsDetail">Detailed Search</a></li>
-              <!--li><a href="#tabsBrowse">Browse Tools</a></li-->
+              <li><a href="#tabsBrowse">Browse Tools</a></li>
               <li><a href="#tabsResults">Results</a></li>
               <li><a href="#tabsSelected">Selected Tool</a></li>
               <li><a href="#tabsSaved">Saved Tools</a></li>
@@ -211,7 +211,7 @@
                 <br>
                 <button id="detailSearchBtn"  onClick="detailSearchClk2()">Search</button>
             </div>
-            <div id="tabsBrowse" hidden="hidden">
+            <div id="tabsBrowse" >
                 Browse the tools by Decision Sector:<br>
                 <div class="accordion" id="accordion"  >
                     <h3 class="accordion-title">Building and Infrastructure</h3>
@@ -433,9 +433,10 @@ function detailSearchClk2() {
 
     var extent_select = multiSelectValue(document.getElementById('selectExtent'));
 
-    console.log("costvalue");
-    console.log(cost_select.length);
-    console.log(extent_select);
+    console.log("os_select", os_select.length);
+    console.log("cost_select", cost_select[0]);
+    console.log("cost_select", cost_select.length);
+    console.log("extent_select", extent_select.length);
 
     var query_string = $('#detailSearchText')[0].value.toLowerCase();
 
@@ -443,29 +444,48 @@ function detailSearchClk2() {
    // if (query_string != "") {
 
 
-         var decision_select = document.getElementById('detailDecisionSelect').value;
+    var decision_select = document.getElementById('detailDecisionSelect').value;
+
+    for (ios = 0; ios < os_select.length; ios++) {
+        for (ics = 0; ics < cost_select.length; ics++) {
+            var previousIDExtent = 9999;
+            for (ies = 0; ies < extent_select.length; ies++) {
+
+                    $.ajax({
+                        type: 'GET',
+                        url: resourceSearchURL,
+
+                        data: {
+                            Name: query_string,
+                            OperatingEnvironment: os_select[ios],
+                            BaseCostOfSoftware: cost_select[ics],
+                            SpatialExtent:extent_select[ies],
+                            DecisionSector: decision_select,
+                            Format: 'JSON'
+                        },
+                        dataType: 'json',
+                        success: function (data) {
 
 
-        $.ajax({
-            type: 'GET',
-            url: resourceSearchURL,
 
-            data: {Name: query_string, BaseCostOfSoftware:cost_select[2], DecisionSector:decision_select, Format: 'JSON' },
-            dataType: 'json',
-            success: function (data) {
+                            for (i = 0; i < data.length; i++) {
 
-                // console.log(data);
-                for (i = 0; i < data.length; i++) {
+                                if (data[i].ResourceId != previousIDExtent) {
+                                    simpleSearchClk5(data[i].ResourceId);
+                                }
+
+                            }
 
 
-                    simpleSearchClk5(data[i].ResourceId);
 
-                }
+                        }
+                    });
+
+                previousID = data[i].ResourceId;
 
             }
-        });
-
-
+        }
+    }
 
    // } else {alert("Please enter a search term!")}
 
@@ -598,8 +618,6 @@ simpleSearchClk5 = function (resourceID) {
 
                       var this_result;
 
-
-
                       switch(columnnumber) {
 
 
@@ -679,18 +697,26 @@ simpleSearchClk5 = function (resourceID) {
 
                               break;
 
-                          case 5: //ModelInputs
-                              var ModelInputsTextAreaData = str.READExportDetail.InfoResourceDetail.ModelInputsDetail.ModelInputsTextArea;
-                              if(ModelInputsTextAreaData.typeof === "string"){this_result = ModelOutputsTextAreaData;}else{this_result = "No Data Available";}
+                          case 5: //Model Inputs
+
+                              var ModelOutputsTextAreaData = str.READExportDetail.InfoResourceDetail.ModelInputsDetail.ModelInputsTextArea;
+
+                              if(ModelOutputsTextAreaData){this_result = ModelOutputsTextAreaData;}else{this_result = "No Data Available";}
+
                               break;
+
+                              break;
+
+
 
                           case 6: //ModelOutputs
 
                               var ModelOutputsTextAreaData = str.READExportDetail.InfoResourceDetail.ModelOutputsDetail.ModelOutputsModelVariablesTextArea;
 
-                              if(ModelOutputsTextAreaData.typeof === "string"){this_result = ModelOutputsTextAreaData;}else{this_result = "No Data Available";}
+                              if(ModelOutputsTextAreaData){this_result = ModelOutputsTextAreaData;}else{this_result = "No Data Available";}
 
                               break;
+
 
                           default: this_result = "No Data Available";
                       }
@@ -737,6 +763,39 @@ simpleSearchClk5 = function (resourceID) {
 
 
 
+        //Load Models
+
+function loadModels(){
+    $(".accordion-pane").each(function() {
+        var table_name = this.children[1].id;
+
+        console.log("loading "+table_name);
+
+        var this_sector = table_name.replace("table", "").toLowerCase();
+
+        console.log("this_sector", this_sector);
+
+        /*
+        var textjson2 = $.grep(textjson, function (obj, index) {
+            var booleanVal = (((obj.Keywords.toLowerCase().indexOf(this_sector) > -1) || (obj.Short_Description_for_Reports.toLowerCase().indexOf(this_sector) > -1)));
+            return booleanVal;
+        });
+
+
+        parseResults(textjson2, '#' + table_name);
+
+
+
+         */
+
+        $( "#Tabs1" ).tabs( "option", {
+                    "enable": 2
+                }
+        );
+    });
+    $("[href='#tabsBrowse']").show();
+
+}
 
   </script>
 
