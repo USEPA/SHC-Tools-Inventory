@@ -211,7 +211,8 @@
                 <br>
                 <button id="detailSearchBtn"  onClick="detailSearchClk2()">Search</button>
             </div>
-            <div id="tabsBrowse" >
+            <div id="tabsBrowse" onClick="loadModels2()">
+
                 Browse the tools by Decision Sector:<br>
                 <div class="accordion" id="accordion"  >
                     <h3 class="accordion-title">Building and Infrastructure</h3>
@@ -481,7 +482,7 @@ function detailSearchClk2() {
                         }
                     });
 
-                previousID = data[i].ResourceId;
+                previousIDExtent = data[i].ResourceId;
 
             }
         }
@@ -766,16 +767,92 @@ simpleSearchClk5 = function (resourceID) {
         //Load Models
 
 function loadModels(){
-    $(".accordion-pane").each(function() {
+
+    $("[href='#tabsBrowse']").show();
+
+}
+
+var tabsBrowserClicked = false;
+
+function loadModels2() {
+    if(tabsBrowserClicked == false){
+    $(".accordion-pane").each(function () {
         var table_name = this.children[1].id;
 
-        console.log("loading "+table_name);
+        console.log("start loop table name =", table_name);
+
+        //console.log("loading "+table_name);
 
         var this_sector = table_name.replace("table", "").toLowerCase();
 
-        console.log("this_sector", this_sector);
+        //console.log("this_sector", this_sector);
+        //Building, Infrastructure, Land Use, Transportation, Waste Management
+        //building, land, transportation, waste
 
-        /*
+
+        switch (this_sector) {
+
+            case "building":
+                decision_query = "Building Infrastructure";
+                break;
+            case "land":
+                decision_query = "Land Use";
+                break;
+            case "transportation":
+                decision_query = "Transportation";
+                break;
+            case "waste":
+                decision_query = "Waste Management";
+                break;
+
+
+            default:
+                detail_obj[this_key] = "No Data Available";
+
+        }
+
+
+                $.ajax({
+            type: 'GET',
+            url: resourceSearchURL,
+            data: {DecisionSector: decision_query, Format: 'JSON'},
+            dataType: 'json',
+            success: function (data) {
+
+                // console.log(data);
+                for (i = 0; i < data.length; i++) {
+                    console.log("ID");
+                    console.log(data[i].ResourceId);
+
+
+                    $.ajax({
+                        type: 'GET',
+                        url: resourceDetailURL,
+                        data: {ResourceId: data[i].ResourceId, Format: 'JSON'},
+                        dataType: 'json',
+                        success: function (data) {
+
+                            console.log("table name =", table_name)
+
+                            parseResults(data, '#' + table_name);
+
+
+                        }
+                    });
+
+                }
+
+            }
+        });
+
+
+        //decisionSectorSearch = function (resourceID) {
+
+
+                // };
+
+
+                /*
         var textjson2 = $.grep(textjson, function (obj, index) {
             var booleanVal = (((obj.Keywords.toLowerCase().indexOf(this_sector) > -1) || (obj.Short_Description_for_Reports.toLowerCase().indexOf(this_sector) > -1)));
             return booleanVal;
@@ -792,10 +869,14 @@ function loadModels(){
                     "enable": 2
                 }
         );
-    });
-    $("[href='#tabsBrowse']").show();
-
+    }
+    );
+   // $("[href='#tabsBrowse']").show();
 }
+    tabsBrowserClicked = true;
+}
+
+
 
   </script>
 

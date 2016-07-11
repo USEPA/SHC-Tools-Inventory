@@ -390,24 +390,6 @@ function showDetails(id)
 
                 detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.LifeCycleDetail.CurrentLifeCyclePhase;
 
-                   /*
-                    switch (lifeclycledata) {
-
-                        case 1:
-                            detail_obj[this_key] = "Beta";
-                            break;
-                        case 2:
-                            detail_obj[this_key] = "Mature";
-                            break;
-                        case 3:
-                            detail_obj[this_key] = "Available, but No Longer Supported";
-                            break;
-
-                        default: detail_obj[this_key] = "No Data Available";
-
-                    }
-                    */
-
 
             }
             //'Last_Known_Software_Update'
@@ -425,12 +407,19 @@ function showDetails(id)
             //'Operating_Environment'
             if(this_key == "Operating_Environment") {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqCompatibleOSDetail.OSName;
+                if(id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqCompatibleOSDetail.OSName != 'undefined') {
+
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqCompatibleOSDetail.OSName;
+                }
+                else{detail_obj[this_key] ="NoData";}
             }
             //'Compatible_Operating_Systems'
             if(this_key == "Compatible_Operating_Systems") {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqCompatibleOSDetail.OSName;
+                if(id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqCompatibleOSDetail.OSName != 'undefined') {
+
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqCompatibleOSDetail.OSName;
+                } else{detail_obj[this_key] ="NoData";}
             }
             //'Other_proprietary_software_requirements_if_any'
             if(this_key == "Other_proprietary_software_requirements_if_any") {
@@ -490,7 +479,28 @@ function showDetails(id)
             //'Time_Scale'
             if(this_key == "Time_Scale") {
 
-                //detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+                var TimeScaleData = id.record.READExportDetail.InfoResourceDetail.ModelScopeDetail.ModelScopeTimeScaleDetail;
+
+
+                if(TimeScaleData.length != 0)
+                {
+                    detail_obj[this_key]="";
+                    for (i = 0; i < TimeScaleData.length; i++) {
+                        if(i < TimeScaleData.length-1) {
+
+                            detail_obj[this_key] += TimeScaleData[i].TimeScaleName + ", ";
+                        }
+                        else
+                        {detail_obj[this_key] += TimeScaleData[i].TimeScaleName;}
+                    }
+                }
+
+                else
+                {
+                    detail_obj[this_key] = "No Data Available";
+                }
+
+
 
             }
 
@@ -508,7 +518,7 @@ function showDetails(id)
                     detail_obj[this_key]="";
                     for (i = 0; i < SpatialExtentData.length; i++) {
                         if(i < SpatialExtentData.length-1) {
-                            //spatialextentstring += SpatialExtentData[i].SpatialExtentName + ", ";
+
                             detail_obj[this_key] += SpatialExtentData[i].SpatialExtentName + ", ";
                         }
                         else
@@ -592,62 +602,11 @@ function showDetails(id)
 
 
 
-
-
-
-               /*
-                switch (detail_obj[this_key]) {
-
-                    case "1":
-                        detail_obj[this_key] = "Data (spreadsheet, database)";
-                        break;
-                    case "2":
-                        detail_obj[this_key] = "Indicators";
-                        break;
-                    case "3":
-                        detail_obj[this_key] = "Indices, Aggregate Scores";
-                        break;
-                    case "4":
-                        detail_obj[this_key] = "Priority Ranks";
-                        break;
-                    case "5":
-                        detail_obj[this_key] = "Monetary Values, ROI";
-                        break;
-                    case "6":
-                        detail_obj[this_key] = "Graphs";
-                        break;
-                    case "7":
-                        detail_obj[this_key] = "Maps";
-                        break;
-                    case "8":
-                        detail_obj[this_key] = "GIS layers";
-                        break;
-                    case "9":
-                        detail_obj[this_key] = "3-D Visualizations, Movies";
-                        break;
-                    case "10":
-                        detail_obj[this_key] = "Checklists";
-                        break;
-                    case "11":
-                        detail_obj[this_key] = "Narratives, Reports";
-                        break;
-                    case "12":
-                        detail_obj[this_key] = "Other";
-                        break;
-
-                    default:
-                }
-
-                */
-
             var this_value = $("<p>");
             this_value.text(detail_obj[this_key]);
 
 
         }
-
-
-
 
 
 
