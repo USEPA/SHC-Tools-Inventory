@@ -56,10 +56,9 @@ var database_columns = [
          'Other_Cost_Considerations', 'Open_Source', 'Alternative_Names', 'Sustainability_Sector',
          'Constrained_Keywords', 'Keywords', 'Organization', 'Contact_Person', 'Phone_Number', 'Email', 'Internet',
          'Life_Cycle', 'Last_Known_Software_Update', 'READ_Info_Updated', 'Operating_Environment', 'Compatible_Operating_Systems',
-         'Other_proprietary_software_requirements_if_any', 'Model_Inputs', 'Data_requirements', 'Model_Output_Types',
+          'Model_Inputs', 'Data_requirements', 'Model_Output_Types',
          'Output_Variables', 'Source_of_Support_Materials', 'Model_Evaluation',
-         'Model_Structure', 'Time_Scale', 'Spatial_Extent', 'Technical_skills_needed_to_apply_model',
-         'Interfaces_to_other_Resources', 'Notes'
+         'Model_Structure', 'Time_Scale', 'Spatial_Extent'
     ];
 
 
@@ -218,10 +217,9 @@ function showDetails(id)
              'Other_Cost_Considerations', 'Open_Source', 'Sustainability_Sector',
              'Keywords', 'Organization', 'Contact_Person', 'Phone_Number', 'Email', 'Internet',
              'Life_Cycle', 'READ_Info_Updated', 'Operating_Environment', 'Compatible_Operating_Systems',
-             'Other_proprietary_software_requirements_if_any', 'Model_Inputs', 'Data_requirements', 'Model_Output_Types',
+              'Model_Inputs', 'Data_requirements', 'Model_Output_Types',
              'Output_Variables', 'Source_of_Support_Materials',  'Model_Evaluation',
-             'Model_Structure', 'Time_Scale', 'Spatial_Extent', 'Technical_skills_needed_to_apply_model',
-             'Interfaces_to_other_Resources', 'Notes'
+             'Model_Structure', 'Time_Scale', 'Spatial_Extent'
         ];
 
     for(i in columns) {
@@ -234,64 +232,124 @@ function showDetails(id)
             //Name
             if(this_key == "Name") {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.GeneralDetail.ShortTitleText;
+
+                try {
+
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.GeneralDetail.ShortTitleText;
+
+                }
+                catch(err) {
+
+                    detail_obj[this_key] ="Now Data";
+
+                        console.log(err);
+                }
 
             }
 
             //Acronym
             if(this_key == "Acronym") {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym;
+                try {
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym;
+                }
+                catch(err) {
+
+                    detail_obj[this_key] ="Now Data";
+
+                    console.log(err);
+                }
+
+
 
             }
 
             //Short_Description_for_Reports
             if(this_key == "Short_Description_for_Reports") {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.GeneralDetail.ShortDescription;
+                try {
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.GeneralDetail.ShortDescription;
+                }
+                catch(err) {
+
+                    detail_obj[this_key] ="Now Data";
+
+                    console.log(err);
+                }
+
+
 
             }
 
             //Ownership_Type
             if(this_key == "Ownership_Type") {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.GeneralDetail.OwnershipTypeName;
+                try {
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.GeneralDetail.OwnershipTypeName;
+                }
+                catch(err) {
+
+                    detail_obj[this_key] ="Now Data";
+
+                    console.log(err);
+                }
+
+
 
             }
 
             //Ownership_Type
             if(this_key == "Base_Cost_of_Software") {
 
-                var DetailsBaseSoftwareCostData = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsBaseSoftwareCost;
+                try {
+                    var DetailsBaseSoftwareCostData = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsBaseSoftwareCost;
 
-                switch (DetailsBaseSoftwareCostData) {
+                    switch (DetailsBaseSoftwareCostData) {
 
-                    case 1:
-                        detail_obj[this_key] =  "Free";
-                        break;
-                    case 2:
-                        detail_obj[this_key] =  "$1-$499";
-                        break;
-                    case 3:
-                        detail_obj[this_key] =  "$500-$1499";
-                        break;
-                    case 4:
-                        detail_obj[this_key] =  "$1500-$3999";
-                        break;
-                    case 5:
-                        detail_obj[this_key] =  ">$4000";
-                        break;
-                    default: detail_obj[this_key] =  "No Data Available"
+                        case 1:
+                            detail_obj[this_key] =  "Free";
+                            break;
+                        case 2:
+                            detail_obj[this_key] =  "$1-$499";
+                            break;
+                        case 3:
+                            detail_obj[this_key] =  "$500-$1499";
+                            break;
+                        case 4:
+                            detail_obj[this_key] =  "$1500-$3999";
+                            break;
+                        case 5:
+                            detail_obj[this_key] =  ">$4000";
+                            break;
+                        default: detail_obj[this_key] =  "No Data Available"
 
+                    }
                 }
+                catch(err) {
+
+                    detail_obj[this_key] ="Now Data";
+
+                    console.log(err);
+                }
+
+
 
             }
 
             //Other_Cost_Considerations
             if(this_key == "Other_Cost_Considerations") {
 
+                try {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOtherCostConsiderations;
+
+                }
+                catch(err) {
+
+                    detail_obj[this_key] ="Now Data";
+
+                    console.log(err);
+                }
 
 
             }
@@ -299,23 +357,35 @@ function showDetails(id)
             //Open_Source
             if(this_key == "Open_Source") {
 
-                var DetailsOpenSource = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOpenSource;
+                try {
 
-                switch (DetailsOpenSource ) {
+                    var DetailsOpenSource = id.record.READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsOpenSource;
 
-                    case 1:
-                        detail_obj[this_key] = "Yes";
-                        break;
-                    case 2:
-                        detail_obj[this_key] = "No";
-                        break;
-                    case 3:
-                        detail_obj[this_key] = "Partial";
-                        break;
+                    switch (DetailsOpenSource ) {
 
-                    default: detail_obj[this_key] = "No Data Available";
+                        case 1:
+                            detail_obj[this_key] = "Yes";
+                            break;
+                        case 2:
+                            detail_obj[this_key] = "No";
+                            break;
+                        case 3:
+                            detail_obj[this_key] = "Partial";
+                            break;
+
+                        default: detail_obj[this_key] = "No Data Available";
+
+                    }
+
 
                 }
+                catch(err) {
+
+                    detail_obj[this_key] ="Now Data";
+
+                    console.log(err);
+                }
+
 
             }
 
@@ -331,7 +401,19 @@ function showDetails(id)
             // 'Sustainability_Sector'
             if(this_key == "Sustainability_Sector") {
 
-               detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelScopeDetail.ModelScopeDecisionSector;
+                try {
+
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ModelScopeDetail.ModelScopeDecisionSector;
+
+                }
+                catch(err) {
+
+                    detail_obj[this_key] ="Now Data";
+
+                    console.log(err);
+                }
+
+
 
             }
             //'Constrained_Keywords'
@@ -346,49 +428,117 @@ function showDetails(id)
             // 'Keywords'
             if(this_key == "Keywords") {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.KeywordDetail.KeywordText;
+                try {
+
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.KeywordDetail.KeywordText;
+
+                }
+                catch(err) {
+
+                    detail_obj[this_key] ="Now Data";
+
+                    console.log(err);
+                }
+
+
 
             }
             // 'Organization'
             if(this_key == "Organization") {
 
-                if(id.record.READExportDetail.InfoResourceDetail.ContactDetail.OrganizationContactDetail){
+                try {
 
-                    detail_obj[this_key] =  id.record.READExportDetail.InfoResourceDetail.ContactDetail.OrganizationContactDetail.OrganizationName;
+                    if(id.record.READExportDetail.InfoResourceDetail.ContactDetail.OrganizationContactDetail){
 
-                } else {detail_obj[this_key] = "No Data Provided"}
+                        detail_obj[this_key] =  id.record.READExportDetail.InfoResourceDetail.ContactDetail.OrganizationContactDetail.OrganizationName;
+
+                    } else {detail_obj[this_key] = "No Data Provided"}
+                }
+                catch(err) {
+
+                    detail_obj[this_key] ="Now Data";
+
+                    console.log(err);
+                }
+
+
 
 
             }
             // 'Contact_Person'
             if(this_key == "Contact_Person") {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.FirstName + " "+id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.LastName ;
+                try {
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.FirstName + " "+id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.LastName ;
+                }
+                catch(err) {
+
+                    detail_obj[this_key] ="Now Data";
+
+                    console.log(err);
+                }
+
+
 
             }
             // 'Phone_Number'
             if(this_key == "Phone_Number") {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.TelephoneNumber;
+                try {
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.TelephoneNumber;
+                }
+                catch(err) {
+
+                    detail_obj[this_key] ="Now Data";
+
+                    console.log(err);
+                }
+
+
 
             }
             // 'Email'
             if(this_key == "Email") {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.EmailAddressText;
+                try {
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.EmailAddressText;
+                }
+                catch(err) {
+
+                    detail_obj[this_key] ="Now Data";
+
+                    console.log(err);
+                }
+
+
 
             }
             // 'Internet'
             if(this_key == "Internet") {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.AccessDetail.InternetDetail.URLText;
+                try {
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.AccessDetail.InternetDetail.URLText;
+                }
+                catch(err) {
+                    detail_obj[this_key] ="Now Data";
+                    console.log(err);
+                }
+
+
 
             }
 
             //'Life_Cycle'
             if(this_key == "Life_Cycle") {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.LifeCycleDetail.CurrentLifeCyclePhase;
+                try {
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.LifeCycleDetail.CurrentLifeCyclePhase;
+                }
+                catch(err) {
+                    detail_obj[this_key] ="Now Data";
+                    console.log(err);
+                }
+
 
 
             }
@@ -402,24 +552,41 @@ function showDetails(id)
             //'READ_Info_Updated'
             if(this_key == "READ_Info_Updated") {
 
-                detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.LastModifiedDateTimeText + ", "+id.record.READExportDetail.InfoResourceDetail.LastModifiedPersonName;
+                try {
+                    detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.LastModifiedDateTimeText + ", "+id.record.READExportDetail.InfoResourceDetail.LastModifiedPersonName;
+                }
+                catch(err) {
+                    detail_obj[this_key] ="Now Data";
+                    console.log(err);
+                }
+
+
             }
             //'Operating_Environment'
             if(this_key == "Operating_Environment") {
 
-                if(id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqCompatibleOSDetail.OSName != 'undefined') {
 
+
+                try {
                     detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqCompatibleOSDetail.OSName;
                 }
-                else{detail_obj[this_key] ="NoData";}
+                catch(err) {
+                    detail_obj[this_key] ="NoData";
+                    console.log(err);
+                }
+
+
             }
             //'Compatible_Operating_Systems'
             if(this_key == "Compatible_Operating_Systems") {
 
-                if(id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqCompatibleOSDetail.OSName != 'undefined') {
-
+                try {
                     detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqCompatibleOSDetail.OSName;
-                } else{detail_obj[this_key] ="NoData";}
+                }
+                catch(err) {
+                    detail_obj[this_key] ="NoData";
+                    console.log(err);
+                }
             }
             //'Other_proprietary_software_requirements_if_any'
             if(this_key == "Other_proprietary_software_requirements_if_any") {
@@ -430,8 +597,16 @@ function showDetails(id)
             //'Model_Inputs'
             if(this_key == "Model_Inputs") {
 
-                var ModelOutputsTextAreaData = id.record.READExportDetail.InfoResourceDetail.ModelInputsDetail.ModelInputsTextArea;
-                if(ModelOutputsTextAreaData){detail_obj[this_key] = ModelOutputsTextAreaData;}else{this_result = "No Data Available";}
+                try {
+
+                    var ModelOutputsTextAreaData = id.record.READExportDetail.InfoResourceDetail.ModelInputsDetail.ModelInputsTextArea;
+                    if(ModelOutputsTextAreaData){detail_obj[this_key] = ModelOutputsTextAreaData;}else{this_result = "No Data Available";}
+                }
+                catch(err) {
+                    detail_obj[this_key] ="Now Data";
+                    console.log(err);
+                }
+
 
 
             }
@@ -441,64 +616,110 @@ function showDetails(id)
 
             if(this_key == "Model_Output_Types") {
 
-                var ModelOutputsTextAreaData = id.record.READExportDetail.InfoResourceDetail.ModelOutputsDetail.ModelOutputsModelVariablesTextArea;
-                if(ModelOutputsTextAreaData){detail_obj[this_key] = ModelOutputsTextAreaData;}else{this_result = "No Data Available";}
+                try {
+                    var ModelOutputsTextAreaData = id.record.READExportDetail.InfoResourceDetail.ModelOutputsDetail.ModelOutputsModelVariablesTextArea;
+                    if(ModelOutputsTextAreaData){detail_obj[this_key] = ModelOutputsTextAreaData;}else{this_result = "No Data Available";}
+                }
+                catch(err) {
+                    detail_obj[this_key] ="Now Data";
+                    console.log(err);
+                }
+
+
 
 
             }
             //'Output_Variables'
             if(this_key == "Output_Variables") {
 
-                var ModelOutputsVariables = id.record.READExportDetail.InfoResourceDetail.ModelOutputsDetail.ModelOutputsModelVariablesTextArea;
-                if(ModelOutputsVariables){detail_obj[this_key] = ModelOutputsVariables;}else{this_result = "No Data Available";}
+                try {
+                    var ModelOutputsVariables = id.record.READExportDetail.InfoResourceDetail.ModelOutputsDetail.ModelOutputsModelVariablesTextArea;
+                    if(ModelOutputsVariables){detail_obj[this_key] = ModelOutputsVariables;}else{this_result = "No Data Available";}
+                }
+                catch(err) {
+                    detail_obj[this_key] ="Now Data";
+                    console.log(err);
+                }
+
+
 
             }
             //'Source_of_Support_Materials'
             if(this_key == "Source_of_Support_Materials") {
 
-                var UserSupportSource = id.record.READExportDetail.InfoResourceDetail.UserSupportDetail.UserSupportSourceOfSupportMaterials;
-                if(UserSupportSource){detail_obj[this_key] = UserSupportSource;}else{this_result = "No Data Available";}
+                try {
+                    var UserSupportSource = id.record.READExportDetail.InfoResourceDetail.UserSupportDetail.UserSupportSourceOfSupportMaterials;
+                    if(UserSupportSource){detail_obj[this_key] = UserSupportSource;}else{this_result = "No Data Available";}
+                }
+                catch(err) {
+                    detail_obj[this_key] ="Now Data";
+                    console.log(err);
+                }
+
+
 
             }
 
             //'Model_Evaluation'
             if(this_key == "Model_Evaluation") {
 
-                var ModeEvaluation = id.record.READExportDetail.InfoResourceDetail.ModelEvaluationDetail.ModelEvaluationTextArea;
-                if(ModeEvaluation){detail_obj[this_key] = ModeEvaluation;}else{this_result = "No Data Available";}
+                try {
+                    var ModeEvaluation = id.record.READExportDetail.InfoResourceDetail.ModelEvaluationDetail.ModelEvaluationTextArea;
+                    if(ModeEvaluation){detail_obj[this_key] = ModeEvaluation;}else{this_result = "No Data Available";}
+
+                }
+                catch(err) {
+                    detail_obj[this_key] ="Now Data";
+                    console.log(err);
+                }
+
 
             }
             //'Model_Structure'
             if(this_key == "Model_Structure") {
 
-                var ModeStructure = id.record.READExportDetail.InfoResourceDetail.
-                    ModelStructureDetail.ModelStructureTextArea;
-                if(ModeStructure){detail_obj[this_key] = ModeStructure;}else{this_result = "No Data Available";}
+                try {
+
+                }
+                catch(err) {
+                    detail_obj[this_key] ="Now Data";
+                    console.log(err);
+                }
+
+
 
             }
             //'Time_Scale'
             if(this_key == "Time_Scale") {
 
-                var TimeScaleData = id.record.READExportDetail.InfoResourceDetail.ModelScopeDetail.ModelScopeTimeScaleDetail;
+                try {
+                    var TimeScaleData = id.record.READExportDetail.InfoResourceDetail.ModelScopeDetail.ModelScopeTimeScaleDetail;
 
 
-                if(TimeScaleData.length != 0)
-                {
-                    detail_obj[this_key]="";
-                    for (i = 0; i < TimeScaleData.length; i++) {
-                        if(i < TimeScaleData.length-1) {
+                    if(TimeScaleData.length != 0)
+                    {
+                        detail_obj[this_key]="";
+                        for (i = 0; i < TimeScaleData.length; i++) {
+                            if(i < TimeScaleData.length-1) {
 
-                            detail_obj[this_key] += TimeScaleData[i].TimeScaleName + ", ";
+                                detail_obj[this_key] += TimeScaleData[i].TimeScaleName + ", ";
+                            }
+                            else
+                            {detail_obj[this_key] += TimeScaleData[i].TimeScaleName;}
                         }
-                        else
-                        {detail_obj[this_key] += TimeScaleData[i].TimeScaleName;}
                     }
+
+                    else
+                    {
+                        detail_obj[this_key] = "No Data Available";
+                    }
+
+                }
+                catch(err) {
+                    detail_obj[this_key] ="Now Data";
+                    console.log(err);
                 }
 
-                else
-                {
-                    detail_obj[this_key] = "No Data Available";
-                }
 
 
 
@@ -509,28 +730,36 @@ function showDetails(id)
 
             if(this_key == "Spatial_Extent") {
 
+                try {
+                    var SpatialExtentData = id.record.READExportDetail.InfoResourceDetail.ModelScopeDetail.ModelScopeSpatialExtentDetail;
 
-                var SpatialExtentData = id.record.READExportDetail.InfoResourceDetail.ModelScopeDetail.ModelScopeSpatialExtentDetail;
 
+                    if(SpatialExtentData.length != 0)
+                    {
+                        detail_obj[this_key]="";
+                        for (i = 0; i < SpatialExtentData.length; i++) {
+                            if(i < SpatialExtentData.length-1) {
 
-                if(SpatialExtentData.length != 0)
-                {
-                    detail_obj[this_key]="";
-                    for (i = 0; i < SpatialExtentData.length; i++) {
-                        if(i < SpatialExtentData.length-1) {
-
-                            detail_obj[this_key] += SpatialExtentData[i].SpatialExtentName + ", ";
+                                detail_obj[this_key] += SpatialExtentData[i].SpatialExtentName + ", ";
+                            }
+                            else
+                            {detail_obj[this_key] += SpatialExtentData[i].SpatialExtentName;}
                         }
-                        else
-                        {detail_obj[this_key] += SpatialExtentData[i].SpatialExtentName;}
                     }
-                }
 
 
-                else
-                {
-                    detail_obj[this_key] = "No Data Available";
+                    else
+                    {
+                        detail_obj[this_key] = "No Data Available";
+                    }
+
+
                 }
+                catch(err) {
+                    detail_obj[this_key] ="Now Data";
+                    console.log(err);
+                }
+
 
 
             }
@@ -559,47 +788,59 @@ function showDetails(id)
 
             if(this_key == "Data_requirements"){
 
-                var DataRequirements = id.record.READExportDetail.InfoResourceDetail.ModelInputsDetail.ModelInputsDataRequirements;
+                try {
+                    var DataRequirements = id.record.READExportDetail.InfoResourceDetail.ModelInputsDetail.ModelInputsDataRequirements;
 
-                //console.log("Data_requirements", DataRequirements);
+                    //console.log("Data_requirements", DataRequirements);
 
-                switch (DataRequirements) {
+                    switch (DataRequirements) {
 
-                    case 1:
-                        detail_obj[this_key] = "None – All Data Supported";
-                        break;
-                    case 2:
-                        detail_obj[this_key] = "Low – Data Generally Publicly Available";
-                        break;
-                    case 3:
-                        detail_obj[this_key] = "Med – Not Publicly Available, but Routinely Available";
-                        break;
-                    case 4:
-                        detail_obj[this_key] = "High – New Data Must Be Created";
-                        break;
+                        case 1:
+                            detail_obj[this_key] = "None – All Data Supported";
+                            break;
+                        case 2:
+                            detail_obj[this_key] = "Low – Data Generally Publicly Available";
+                            break;
+                        case 3:
+                            detail_obj[this_key] = "Med – Not Publicly Available, but Routinely Available";
+                            break;
+                        case 4:
+                            detail_obj[this_key] = "High – New Data Must Be Created";
+                            break;
 
-                    default:
+                        default:
 
 
+                    }
                 }
+                catch(err) {
+                    detail_obj[this_key] ="Now Data";
+                    console.log(err);
+                }
+
+
 
             }
 
 
             if(this_key == "Model_Output_Types") {
 
+                try {
+                    var ModelOutputsTextAreaData = id.record.READExportDetail.InfoResourceDetail.ModelOutputsDetail.ModelOutputsModelVariablesTextArea;
 
-                var ModelOutputsTextAreaData = id.record.READExportDetail.InfoResourceDetail.ModelOutputsDetail.ModelOutputsModelVariablesTextArea;
-
-                if (ModelOutputsTextAreaData) {
-                    detail_obj[this_key] = ModelOutputsTextAreaData;
-                } else {
-                    this_result = "No Data Available";
+                    if (ModelOutputsTextAreaData) {
+                        detail_obj[this_key] = ModelOutputsTextAreaData;
+                    } else {
+                        this_result = "No Data Available";
+                    }
+                }
+                catch(err) {
+                    detail_obj[this_key] ="Now Data";
+                    console.log(err);
                 }
 
+
             }
-
-
 
 
             var this_value = $("<p>");

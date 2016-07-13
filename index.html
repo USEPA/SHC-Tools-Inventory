@@ -423,6 +423,8 @@
 
 
 //Detailed Search
+//Note this needs to be refactored!!!
+
 
 function detailSearchClk2() {
 
@@ -435,7 +437,6 @@ function detailSearchClk2() {
     var extent_select = multiSelectValue(document.getElementById('selectExtent'));
 
     console.log("os_select", os_select.length);
-    console.log("cost_select", cost_select[0]);
     console.log("cost_select", cost_select.length);
     console.log("extent_select", extent_select.length);
 
@@ -447,26 +448,48 @@ function detailSearchClk2() {
 
     var decision_select = document.getElementById('detailDecisionSelect').value;
 
-    for (ios = 0; ios < os_select.length; ios++) {
-        for (ics = 0; ics < cost_select.length; ics++) {
-            var previousIDExtent = 9999;
-            for (ies = 0; ies < extent_select.length; ies++) {
+
+    if((os_select.length !=0)&&(cost_select.length !=0)&&(extent_select.length !=0)) {
+
+        for (ios = 0; ios < os_select.length; ios++) {
+            for (ics = 0; ics < cost_select.length; ics++) {
+                var previousIDExtent = 9999;
+                for (ies = 0; ies < extent_select.length; ies++) {
+
+                    if (os_select.length != 0) {
+                        var osSelect = os_select[ios];
+                    } else {
+                        var osSelect;
+                    }
+
+                    if (cost_select.length != 0) {
+                        var costSelect = cost_select[ics];
+                    } else {
+                        var costSelect;
+                    }
+
+                    if (extent_select.length != 0) {
+                        var extentSelect = extent_select[ies];
+                    } else {
+                        var extentSelect;
+                    }
+
+
+                    console.log("looping");
 
                     $.ajax({
                         type: 'GET',
                         url: resourceSearchURL,
-
                         data: {
                             Name: query_string,
-                            OperatingEnvironment: os_select[ios],
-                            BaseCostOfSoftware: cost_select[ics],
-                            SpatialExtent:extent_select[ies],
+                            OperatingEnvironment: osSelect,
+                            BaseCostOfSoftware: costSelect,
+                            SpatialExtent: extentSelect,
                             DecisionSector: decision_select,
                             Format: 'JSON'
                         },
                         dataType: 'json',
                         success: function (data) {
-
 
 
                             for (i = 0; i < data.length; i++) {
@@ -478,17 +501,390 @@ function detailSearchClk2() {
                             }
 
 
+                        }
+                    });
+
+                    previousIDExtent = data[i].ResourceId;
+
+                }
+            }
+        }
+
+    }
+
+
+
+    if((os_select.length == 0)&&(cost_select.length !=0)&&(extent_select.length !=0)) {
+
+
+            for (ics = 0; ics < cost_select.length; ics++) {
+                var previousIDExtent = 9999;
+                for (ies = 0; ies < extent_select.length; ies++) {
+
+                    if (os_select.length != 0) {
+                        var osSelect = os_select[ios];
+                    } else {
+                        var osSelect;
+                    }
+
+                    if (cost_select.length != 0) {
+                        var costSelect = cost_select[ics];
+                    } else {
+                        var costSelect;
+                    }
+
+                    if (extent_select.length != 0) {
+                        var extentSelect = extent_select[ies];
+                    } else {
+                        var extentSelect;
+                    }
+
+
+                    console.log("looping");
+
+                    $.ajax({
+                        type: 'GET',
+                        url: resourceSearchURL,
+                        data: {
+                            Name: query_string,
+                            OperatingEnvironment: osSelect,
+                            BaseCostOfSoftware: costSelect,
+                            SpatialExtent: extentSelect,
+                            DecisionSector: decision_select,
+                            Format: 'JSON'
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+
+
+                            for (i = 0; i < data.length; i++) {
+
+                                if (data[i].ResourceId != previousIDExtent) {
+                                    simpleSearchClk5(data[i].ResourceId);
+                                }
+
+                            }
+
 
                         }
                     });
 
-                previousIDExtent = data[i].ResourceId;
+                    previousIDExtent = data[i].ResourceId;
+
+                }
+            }
+
+
+    }
+
+
+    if((os_select.length ==0)&&(cost_select.length ==0)&&(extent_select.length !=0)) {
+
+
+                var previousIDExtent = 9999;
+                for (ies = 0; ies < extent_select.length; ies++) {
+
+                    if (os_select.length != 0) {
+                        var osSelect = os_select[ios];
+                    } else {
+                        var osSelect;
+                    }
+
+                    if (cost_select.length != 0) {
+                        var costSelect = cost_select[ics];
+                    } else {
+                        var costSelect;
+                    }
+
+                    if (extent_select.length != 0) {
+                        var extentSelect = extent_select[ies];
+                    } else {
+                        var extentSelect;
+                    }
+
+
+                    console.log("looping");
+
+                    $.ajax({
+                        type: 'GET',
+                        url: resourceSearchURL,
+                        data: {
+                            Name: query_string,
+                            OperatingEnvironment: osSelect,
+                            BaseCostOfSoftware: costSelect,
+                            SpatialExtent: extentSelect,
+                            DecisionSector: decision_select,
+                            Format: 'JSON'
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+
+
+                            for (i = 0; i < data.length; i++) {
+
+                                if (data[i].ResourceId != previousIDExtent) {
+                                    simpleSearchClk5(data[i].ResourceId);
+                                }
+
+                            }
+
+
+                        }
+                    });
+
+                    previousIDExtent = data[i].ResourceId;
+
+                }
+
+    }
+
+
+    if((os_select.length ==0)&&(cost_select.length ==0)&&(extent_select.length ==0)) {
+
+            if (os_select.length != 0) {
+                var osSelect = os_select[ios];
+            } else {
+                var osSelect;
+            }
+
+            if (cost_select.length != 0) {
+                var costSelect = cost_select[ics];
+            } else {
+                var costSelect;
+            }
+
+            if (extent_select.length != 0) {
+                var extentSelect = extent_select[ies];
+            } else {
+                var extentSelect;
+            }
+
+
+            console.log("looping");
+
+            $.ajax({
+                type: 'GET',
+                url: resourceSearchURL,
+                data: {
+                    Name: query_string,
+                    OperatingEnvironment: osSelect,
+                    BaseCostOfSoftware: costSelect,
+                    SpatialExtent: extentSelect,
+                    DecisionSector: decision_select,
+                    Format: 'JSON'
+                },
+                dataType: 'json',
+                success: function (data) {
+
+
+                    for (i = 0; i < data.length; i++) {
+
+                        if (data[i].ResourceId != previousIDExtent) {
+                            simpleSearchClk5(data[i].ResourceId);
+                        }
+
+                    }
+
+
+                }
+            });
+
+
+
+    }
+
+
+    if((os_select.length !=0)&&(cost_select.length ==0)&&(extent_select.length !=0)) {
+
+        for (ios = 0; ios < os_select.length; ios++) {
+
+                var previousIDExtent = 9999;
+                for (ies = 0; ies < extent_select.length; ies++) {
+
+                    if (os_select.length != 0) {
+                        var osSelect = os_select[ios];
+                    } else {
+                        var osSelect;
+                    }
+
+                    if (cost_select.length != 0) {
+                        var costSelect = cost_select[ics];
+                    } else {
+                        var costSelect;
+                    }
+
+                    if (extent_select.length != 0) {
+                        var extentSelect = extent_select[ies];
+                    } else {
+                        var extentSelect;
+                    }
+
+
+                    console.log("looping");
+
+                    $.ajax({
+                        type: 'GET',
+                        url: resourceSearchURL,
+                        data: {
+                            Name: query_string,
+                            OperatingEnvironment: osSelect,
+                            BaseCostOfSoftware: costSelect,
+                            SpatialExtent: extentSelect,
+                            DecisionSector: decision_select,
+                            Format: 'JSON'
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+
+
+                            for (i = 0; i < data.length; i++) {
+
+                                if (data[i].ResourceId != previousIDExtent) {
+                                    simpleSearchClk5(data[i].ResourceId);
+                                }
+
+                            }
+
+
+                        }
+                    });
+
+                    previousIDExtent = data[i].ResourceId;
+
+                }
+
+        }
+
+    }
+
+
+
+    if((os_select.length !=0)&&(cost_select.length ==0)&&(extent_select.length ==0)) {
+
+        for (ios = 0; ios < os_select.length; ios++) {
+
+
+                if (os_select.length != 0) {
+                    var osSelect = os_select[ios];
+                } else {
+                    var osSelect;
+                }
+
+                if (cost_select.length != 0) {
+                    var costSelect = cost_select[ics];
+                } else {
+                    var costSelect;
+                }
+
+                if (extent_select.length != 0) {
+                    var extentSelect = extent_select[ies];
+                } else {
+                    var extentSelect;
+                }
+
+
+                console.log("looping");
+
+                $.ajax({
+                    type: 'GET',
+                    url: resourceSearchURL,
+                    data: {
+                        Name: query_string,
+                        OperatingEnvironment: osSelect,
+                        BaseCostOfSoftware: costSelect,
+                        SpatialExtent: extentSelect,
+                        DecisionSector: decision_select,
+                        Format: 'JSON'
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+
+
+                        for (i = 0; i < data.length; i++) {
+
+                            if (data[i].ResourceId != previousIDExtent) {
+                                simpleSearchClk5(data[i].ResourceId);
+                            }
+
+                        }
+
+
+                    }
+                });
+
+        }
+
+    }
+
+
+    if((os_select.length !=0)&&(cost_select.length !=0)&&(extent_select.length ==0)) {
+
+        for (ios = 0; ios < os_select.length; ios++) {
+            for (ics = 0; ics < cost_select.length; ics++) {
+
+
+                    if (os_select.length != 0) {
+                        var osSelect = os_select[ios];
+                    } else {
+                        var osSelect;
+                    }
+
+                    if (cost_select.length != 0) {
+                        var costSelect = cost_select[ics];
+                    } else {
+                        var costSelect;
+                    }
+
+                    if (extent_select.length != 0) {
+                        var extentSelect = extent_select[ies];
+                    } else {
+                        var extentSelect;
+                    }
+
+
+                    console.log("looping");
+
+                    $.ajax({
+                        type: 'GET',
+                        url: resourceSearchURL,
+                        data: {
+                            Name: query_string,
+                            OperatingEnvironment: osSelect,
+                            BaseCostOfSoftware: costSelect,
+                            SpatialExtent: extentSelect,
+                            DecisionSector: decision_select,
+                            Format: 'JSON'
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+
+
+                            for (i = 0; i < data.length; i++) {
+
+                                if (data[i].ResourceId != previousIDExtent) {
+                                    simpleSearchClk5(data[i].ResourceId);
+                                }
+
+                            }
+
+
+                        }
+                    });
+
 
             }
         }
+
     }
 
-   // } else {alert("Please enter a search term!")}
+
+
+
+
+
+
+
+    // } else {alert("Please enter a search term!")}
 
 }
 
@@ -498,6 +894,8 @@ function detailSearchClk2() {
      clearResults();
 
      var name_query = $('#simpleSearchText')[0].value.toLowerCase();
+
+     console.log("name_query = ", name_query);
 
      //Not in Data
      var decision_query = $('#simpleDecisionSelect')[0].value;
