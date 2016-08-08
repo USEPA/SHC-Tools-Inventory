@@ -3745,4 +3745,11 @@ th.headerSortDown { /* sort-down.svg */
 /* TIMELINE CSS Overrides */
 #timeline-embed .storyjs-embed.sized-embed {margin:0 0 20px !important;}
 #timeline-embed .vco-timeline .vco-navigation .timenav .time .time-interval{position:relative;}
-#timeline-embed .vco-timeline .vco-navigation .timenav .time .time-interval div{padding-top:0 !important;}
+ #timeline-embed .vco-timeline .vco-navigation .timenav .time .time-interval div{padding-top:0 !important;}
+
+/* resultsTable responsive */
+#resultsTable tr:hover {
+  background-color:#ada;
+  cursor: pointer;
+  cursor: hand;
+}
