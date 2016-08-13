@@ -240,7 +240,7 @@ function showDetails(id)
                 }
                 catch(err) {
 
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
 
                         console.log(err);
                 }
@@ -255,7 +255,7 @@ function showDetails(id)
                 }
                 catch(err) {
 
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
 
                     console.log(err);
                 }
@@ -272,7 +272,7 @@ function showDetails(id)
                 }
                 catch(err) {
 
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
 
                     console.log(err);
                 }
@@ -289,7 +289,7 @@ function showDetails(id)
                 }
                 catch(err) {
 
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
 
                     console.log(err);
                 }
@@ -327,7 +327,7 @@ function showDetails(id)
                 }
                 catch(err) {
 
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
 
                     console.log(err);
                 }
@@ -346,7 +346,7 @@ function showDetails(id)
                 }
                 catch(err) {
 
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
 
                     console.log(err);
                 }
@@ -381,7 +381,7 @@ function showDetails(id)
                 }
                 catch(err) {
 
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
 
                     console.log(err);
                 }
@@ -408,7 +408,7 @@ function showDetails(id)
                 }
                 catch(err) {
 
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
 
                     console.log(err);
                 }
@@ -435,7 +435,7 @@ function showDetails(id)
                 }
                 catch(err) {
 
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
 
                     console.log(err);
                 }
@@ -456,7 +456,7 @@ function showDetails(id)
                 }
                 catch(err) {
 
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
 
                     console.log(err);
                 }
@@ -473,7 +473,7 @@ function showDetails(id)
                 }
                 catch(err) {
 
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
 
                     console.log(err);
                 }
@@ -489,7 +489,7 @@ function showDetails(id)
                 }
                 catch(err) {
 
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
 
                     console.log(err);
                 }
@@ -505,7 +505,7 @@ function showDetails(id)
                 }
                 catch(err) {
 
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
 
                     console.log(err);
                 }
@@ -520,7 +520,7 @@ function showDetails(id)
                     detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.AccessDetail.InternetDetail.URLText;
                 }
                 catch(err) {
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
                     console.log(err);
                 }
 
@@ -535,7 +535,7 @@ function showDetails(id)
                     detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.LifeCycleDetail.CurrentLifeCyclePhase;
                 }
                 catch(err) {
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
                     console.log(err);
                 }
 
@@ -556,7 +556,7 @@ function showDetails(id)
                     detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.LastModifiedDateTimeText + ", "+id.record.READExportDetail.InfoResourceDetail.LastModifiedPersonName;
                 }
                 catch(err) {
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
                     console.log(err);
                 }
 
@@ -603,7 +603,7 @@ function showDetails(id)
                     if(ModelOutputsTextAreaData){detail_obj[this_key] = ModelOutputsTextAreaData;}else{this_result = "No Data Available";}
                 }
                 catch(err) {
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
                     console.log(err);
                 }
 
@@ -621,7 +621,7 @@ function showDetails(id)
                     if(ModelOutputsTextAreaData){detail_obj[this_key] = ModelOutputsTextAreaData;}else{this_result = "No Data Available";}
                 }
                 catch(err) {
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
                     console.log(err);
                 }
 
@@ -637,7 +637,7 @@ function showDetails(id)
                     if(ModelOutputsVariables){detail_obj[this_key] = ModelOutputsVariables;}else{this_result = "No Data Available";}
                 }
                 catch(err) {
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
                     console.log(err);
                 }
 
@@ -652,7 +652,7 @@ function showDetails(id)
                     if(UserSupportSource){detail_obj[this_key] = UserSupportSource;}else{this_result = "No Data Available";}
                 }
                 catch(err) {
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
                     console.log(err);
                 }
 
@@ -669,7 +669,7 @@ function showDetails(id)
 
                 }
                 catch(err) {
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
                     console.log(err);
                 }
 
@@ -682,7 +682,7 @@ function showDetails(id)
 
                 }
                 catch(err) {
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
                     console.log(err);
                 }
 
@@ -716,7 +716,7 @@ function showDetails(id)
 
                 }
                 catch(err) {
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
                     console.log(err);
                 }
 
@@ -756,7 +756,7 @@ function showDetails(id)
 
                 }
                 catch(err) {
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
                     console.log(err);
                 }
 
@@ -814,7 +814,7 @@ function showDetails(id)
                     }
                 }
                 catch(err) {
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
                     console.log(err);
                 }
 
@@ -835,7 +835,7 @@ function showDetails(id)
                     }
                 }
                 catch(err) {
-                    detail_obj[this_key] ="Now Data";
+                    detail_obj[this_key] ="No Data";
                     console.log(err);
                 }
 
