@@ -31,12 +31,17 @@
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA&#39;s Blog" href="http://blog.epa.gov/blog/feed/">
   <!--[if lt IE 9]><script src="http://www2.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
 <style>
-/* make results responsive */
-.revision-table tr ~ tr:hover {
-  background-color:#ada;
-  cursor: pointer;
-  cursor: hand;
-}
+  /* don't initially display no results returned from simple search */
+  #simpleFeedback {
+    display: none;
+    background-color: rgb(221,206,204);
+  }
+  /* make results responsive */
+  .revision-table tr ~ tr:hover {
+    background-color: rgb(206,221,204);
+    cursor: pointer;
+    cursor: hand;
+  }
 </style>
 <script type="text/javascript" src="index_files/foresee-surveydef.js"></script>
 </head>
@@ -44,7 +49,7 @@
 <body class="node-type-(web-area|page|document|webform) (microsite|resource-directory)">
   <!-- Google Tag Manager -->
   <noscript>&lt;iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"&gt;&lt;/iframe&gt;</noscript>
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script>
+  <!--<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script>-->
   <!-- End Google Tag Manager -->
   <div class="skip-links"><a href="http://www2.epa.gov/sites/all/libraries/template/standalone.html#main-content" class="skip-link element-invisible element-focusable">Jump to main content</a></div>
   <nav id="mobile-nav" class="mobile-nav"><div class="mobile-bar clearfix"><a class="mobile-home" href="http://www2.epa.gov/" rel="home"><span class="mobile-home-icon">Home</span></a> <a class="menu-button" href="http://www2.epa.gov/sites/all/libraries/template/standalone.html#mobile-links">Menu</a></div><div id="mobile-links" class="mobile-links element-hidden" style="height: 955px;"><ul class="menu" role="menu">
@@ -142,7 +147,6 @@
               <li><a href="#tabsSaved">Saved Tools</a></li>
           </ol>
             <div id="tabsSimple">
-
             	<table width="100%" cellpadding="0" cellspacing="0" class="noborder">
                 	<tr>
                     	<td style="width:67%;">
@@ -162,6 +166,7 @@
                     </tr>
                 </table>
                 <button id="simpleSearchBtn" onClick="simpleSearchClk3()">Search</button>
+                <p id="simpleFeedback">No results were returned.</p>
             </div>
             <div id="tabsDetail">
             	<table width="100%" cellpadding="0" cellspacing="0" class="noborder">
@@ -172,17 +177,17 @@
                         </td>
                         <td style="width:30%;">
                         	Decision Sector<br>
-             				<select id="detailDecisionSelect" style="width:100%" >
-                                <option value="" selected="selected">All</option>
-                                <option value="Building Infrastructure">Building and Infrastructure</option>
-                                <option value="Land Use">Land Use</option>
-                                <option value="Transportation">Transportation</option>
-                                <option value="Waste Management">Waste Management</option>
+                          <select id="detailDecisionSelect" style="width:100%" >
+                            <option value="" selected="selected">All</option>
+                            <option value="Building Infrastructure">Building and Infrastructure</option>
+                            <option value="Land Use">Land Use</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Waste Management">Waste Management</option>
                           </select>
                         </td>
                         <td style="width:20%;" align="middle">
-                            <br><br>
-                            <button id="detailClearForm"  onClick="detailClearForm()">Reset Form</button>
+                          <br><br>
+                          <button id="detailClearForm"  onClick="detailClearForm()">Reset Form</button>
                         </td>
                     </tr>
                 </table>
@@ -221,17 +226,17 @@
                 </tr>
               </table>
               <div width="25%">Spatial Extent of Model<br>
-                  <select multiple id="selectExtent" title="What geographical areas would the tool be used for?" width="25%">
-                      <option value="building">Building</option>
-                      <option value="site">Site</option>
-                      <option value="neighborhood">Neighborhood</option>
-                      <option value="city">City</option>
-                      <option value="county">County</option>
-                      <option value="state">State</option>
-                      <option value="nation">Nation</option>
-                      <option value="continent">Continent</option>
-                      <option value="globe">Globe</option>
-                  </select></div>
+                <select multiple id="selectExtent" title="What geographical areas would the tool be used for?" width="25%">
+                  <option value="building">Building</option>
+                  <option value="site">Site</option>
+                  <option value="neighborhood">Neighborhood</option>
+                  <option value="city">City</option>
+                  <option value="county">County</option>
+                  <option value="state">State</option>
+                  <option value="nation">Nation</option>
+                  <option value="continent">Continent</option>
+                  <option value="globe">Globe</option>
+                </select></div>
 
                 <br>
                 <button id="detailSearchBtn"  onClick="detailSearchClk2()">Search</button>
@@ -242,63 +247,63 @@
                 <div class="accordion" id="accordion"  >
                   <h3 class="accordion-title"><a>Building and Infrastructure</a></h3>
                     <div class="accordion-pane" id="browseBuildingInfrastructure">
-                        <button class="button" onclick="saveAllRecords('tableBuilding')" >Save All</button>
-                        <table class="revision-table" id="tableBuilding" width="100%" hidden="hidden">
-                        	<tr>
-                                <th>Acronym</th>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Base Cost</th>
-                                <th>Spatial Extent</th>
-                                <th>Tool Inputs</th>
-                                <th>Tool Outputs</th>
-                            </tr>
-                        </table>
+                      <button class="button" onclick="saveAllRecords('tableBuilding')" >Save All</button>
+                      <table class="revision-table" id="tableBuilding" width="100%" hidden="hidden">
+                        <tr>
+                          <th>Acronym</th>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Base Cost</th>
+                          <th>Spatial Extent</th>
+                          <th>Tool Inputs</th>
+                          <th>Tool Outputs</th>
+                        </tr>
+                      </table>
                     </div>
                     <h3 class="accordion-title"><a>Land Use</a></h3>
                     <div class="accordion-pane" id="browseLand">
-                        <button class="button" onclick="saveAllRecords('tableLand')">Save All</button>
-                        <table class="revision-table" id="tableLand" width="100%" hidden="hidden">
-                        	<tr>
-                                <th>Acronym</th>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Base Cost</th>
-                                <th>Spatial Extent</th>
-                                <th>Tool Inputs</th>
-                                <th>Tool Outputs</th>
-                            </tr>
-                        </table>
+                      <button class="button" onclick="saveAllRecords('tableLand')">Save All</button>
+                      <table class="revision-table" id="tableLand" width="100%" hidden="hidden">
+                        <tr>
+                          <th>Acronym</th>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Base Cost</th>
+                          <th>Spatial Extent</th>
+                          <th>Tool Inputs</th>
+                          <th>Tool Outputs</th>
+                        </tr>
+                      </table>
                     </div>
                     <h3 class="accordion-title"><a>Transportation</a></h3>
                     <div class="accordion-pane" id="browseTransportation">
-                        <button class="button" onclick="saveAllRecords('tableTransportation')">Save All</button>
-                        <table class="revision-table" id="tableTransportation" width="100%" hidden="hidden">
-                        	<tr>
-                                <th>Acronym</th>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Base Cost</th>
-                                <th>Spatial Extent</th>
-                                <th>Tool Inputs</th>
-                                <th>Tool Outputs</th>
-                            </tr>
-                        </table>
+                      <button class="button" onclick="saveAllRecords('tableTransportation')">Save All</button>
+                      <table class="revision-table" id="tableTransportation" width="100%" hidden="hidden">
+                        <tr>
+                          <th>Acronym</th>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Base Cost</th>
+                          <th>Spatial Extent</th>
+                          <th>Tool Inputs</th>
+                          <th>Tool Outputs</th>
+                        </tr>
+                      </table>
                     </div>
                     <h3 class="accordion-title"><a>Waste Management</a></h3>
                     <div class="accordion-pane" id="browseWasteManagement">
-                        <button class="button" onclick="saveAllRecords('tableWaste')">Save All</button>
-                        <table class="revision-table" id="tableWaste" width="100%" hidden="hidden">
-                        	<tr>
-                                <th>Acronym</th>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Base Cost</th>
-                                <th>Spatial Extent</th>
-                                <th>Tool Inputs</th>
-                                <th>Tool Outputs</th>
-                            </tr>
-                        </table>
+                      <button class="button" onclick="saveAllRecords('tableWaste')">Save All</button>
+                      <table class="revision-table" id="tableWaste" width="100%" hidden="hidden">
+                        <tr>
+                          <th>Acronym</th>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Base Cost</th>
+                          <th>Spatial Extent</th>
+                          <th>Tool Inputs</th>
+                          <th>Tool Outputs</th>
+                        </tr>
+                      </table>
                     </div>
 
 
@@ -914,45 +919,33 @@ function detailSearchClk2() {
 }
 
 
- simpleSearchClk3 = function () {
-
-     clearResults();
-
-     var name_query = $('#simpleSearchText')[0].value.toLowerCase();
-
-     console.log("name_query = ", name_query);
-
-     //Not in Data
-     var decision_query = $('#simpleDecisionSelect')[0].value;
-
-     console.log("decision_query = ", decision_query);
-
-     $.ajax({
-         type: 'GET',
-         url: resourceSearchURL,
-         data: { Name: name_query, DecisionSector:decision_query, Format: 'JSON' },
-         dataType: 'json',
-         success: function (data) {
-
-            // console.log(data);
-             for (i = 0; i < data.length; i++) {
-                 console.log("ID");
-                 console.log(data[i].ResourceId);
-
-                 simpleSearchClk4(data[i].ResourceId);
-
-             }
-
-         }
-     });
-
- };
-
+simpleSearchClk3 = function () {
+  clearResults();
+  var name_query = $('#simpleSearchText')[0].value.toLowerCase();
+  var decision_query = $('#simpleDecisionSelect')[0].value;
+  $.ajax({
+    type: 'GET',
+    url: resourceSearchURL,
+    data: { Name: name_query, DecisionSector:decision_query, Format: 'JSON' },
+    dataType: 'json',
+    success: function (data) {
+      console.log('data.length: ' + data.length); 
+      if (data.length < 1) {
+        $('#simpleFeedback').css( 'display', 'block');
+      } else {
+        debugger;
+        $('#simpleFeedback').css( 'display', 'none');
+      } 
+      for (i = 0; i < data.length; i++) {
+        //console.log("ID");
+        //console.log(data[i].ResourceId);
+        simpleSearchClk4(data[i].ResourceId);
+      }
+    },
+  });
+};
 
  simpleSearchClk4 = function (resourceID) {
-
-
-
      $.ajax({
          type: 'GET',
          url: resourceDetailURL,
@@ -960,10 +953,7 @@ function detailSearchClk2() {
          //data: { Name: name_query, ShortDescriptionForReports: decision_query, Format: 'JSON' },
          dataType: 'json',
          success: function (data) {
-
-
              var response = parseResults(data, "#resultsTable");
-
              if (response == 'No Results Found') {
                  $('#popup-message')[0].style.fontSize = "x-small";
                  $('#popup-message')[0].innerHTML = "Your search for resource ID '" + resourceID + "' returned no results. Please try again.";
@@ -1014,7 +1004,7 @@ simpleSearchClk5 = function (resourceID) {
       function parseResults(str, table_reference){
 
 
-          console.log("str");
+          //console.log("str");
 
 
           try{
@@ -1022,7 +1012,7 @@ simpleSearchClk5 = function (resourceID) {
               var row_template = {'Acronym':0,'ShortTitleText':1,'ShortDescription':2,'BaseCostOfSoftware':3,'SpatialExtent':4,'ModelInputs':5,'ModelOutputTypes':6};
 
                   result = str;
-                  console.log(str);
+                  //console.log(str);
 
 
               var result_table = $(table_reference)[0];
@@ -1048,7 +1038,7 @@ simpleSearchClk5 = function (resourceID) {
 
                           case 0: //Acronym
 
-                              console.log("gothere 1");
+                              //console.log("gothere 1");
 
                               var AcronymData = str.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym;
                               this_result = AcronymData;
