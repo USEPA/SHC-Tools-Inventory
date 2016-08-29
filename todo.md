@@ -7,7 +7,8 @@
   - send zip to Allen
 
 - TODOUNTILDONE keep in mind that your task now is to build a call to jquery.ajax(query) to find projects that list allen as POC where query is a JSON-object that contains a set of query parameters to the jquery method named ajax. This object is appended to this paragraph. The command used from the console is also listed following.
-- #FIXME { ...
+
+  - `ajaxQuery = { url : 'http://something.com/rest/of/url', query : $('#inputQuery').value() }` 
 
 - HIGH find all projects that list Allen as POC
 
