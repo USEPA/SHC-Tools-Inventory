@@ -1,24 +1,19 @@
 # TODO
 
 - PRIORITY 
-  - finish work on telling user if no result or error
-  - zip page
-  - check zip contents against original
-  - send zip to Allen
+  - find all records in READ that list "Allen Brookes" in the "Contact_Person" column of the database
+    - option 1: ask Michael Pendleton how to gain a list of the records
+    - option 2: search with ajax as follows
+      - make a copy of the function simpleSearchClk3 called fetcher
+      - build a javascript array of each record-ID in READ by searching for name = " "
+        - var resourceSearchURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch";
+      - pass each record id to detailSearchUrl
+        - var resourceDetailURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail";
+				- create ajax request to this url:
+					
 
-- TODOUNTILDONE keep in mind that your task now is to build a call to jquery.ajax(query) to find projects that list allen as POC where query is a JSON-object that contains a set of query parameters to the jquery method named ajax. This object is appended to this paragraph. The command used from the console is also listed following.
-
-  - `ajaxQuery = { url : 'http://something.com/rest/of/url', query : $('#inputQuery').value() }` 
-
-- HIGH find all projects that list Allen as POC
-
-  - search for current contact for each tool
-
-  - follow leads to find the appropriate POC for each tool
 
 - "species ecosyst" and other text cut short in view
-
-- "now data" -> "no data"
 
 - titles of tools in browse -> hotlinks that populate descriptions
 
