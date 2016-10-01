@@ -1,0 +1,508 @@
+Record #1
+----------
+READResourceIdentifier:  12500
+HSPF: Hydrological Simulation Program - FORTRAN
+http://www2.epa.gov/exposure-assessment-models/hspf
+706-355-8403
+##############################
+
+Record #2
+----------
+READResourceIdentifier:  12501
+SUSTAIN: System for Urban Stormwater Treatment and Analysis Integration
+http://www2.epa.gov/water-research/system-urban-stormwater-treatment-and-analysis-integration-sustain
+##############################
+
+Record #3
+----------
+READResourceIdentifier:  12504
+RapidFire: RapidFire
+http://www.calthorpe.com/scenario_modeling_tools
+510.548.6800
+##############################
+
+Record #4
+----------
+READResourceIdentifier:  12507
+Wildlife Habita: Wildlife Habitat Benefits Estimation Toolkit
+http://www.defenders.org/sites/default/files/whprp.zip
+##############################
+
+Record #5
+----------
+READResourceIdentifier:  12503
+SWC: National Stormwater Calculator
+http://www2.epa.gov/water-research/national-stormwater-calculator
+##############################
+
+Record #6
+----------
+READResourceIdentifier:  12505
+RUBMRIO: Random-Utility-Based Multiregional Input-Output
+http://www.ce.utexas.edu/prof/kockelman/RUBMRIO_Website/homepage.htm
+512-471-0210
+##############################
+
+Record #7
+----------
+READResourceIdentifier:  12508
+WMOST: Watershed Management Optimization Support Tool v. 1
+http://cfpub.epa.gov/si/si_public_record_report.cfm?dirEntryId=262280
+##############################
+
+Record #8
+----------
+READResourceIdentifier:  12506
+SolVES: Social Values for Ecosystem Services
+http://solves.cr.usgs.gov/
+443-498-5606
+##############################
+
+Record #9
+----------
+READResourceIdentifier:  12509
+ComPlan: ComPlan
+http://www.tjpdc.org/community/epi.asp
+##############################
+
+Record #10
+----------
+READResourceIdentifier:  12511
+UPlan: Urban Gr: UPlan: Urban Growth Model
+http://ice.ucdavis.edu/project/uplan
+(530) 746-8184
+##############################
+
+Record #11
+----------
+READResourceIdentifier:  12510
+UrbanSim: UrbanSim
+http://www.urbansim.org/Main/WebHome
+##############################
+
+Record #12
+----------
+READResourceIdentifier:  12512
+C2RouteApp: C2RouteApp
+http://www.c2logix.com/?Name=Value
+866-927-8324
+##############################
+
+Record #13
+----------
+READResourceIdentifier:  12513
+EASETECH: Environmental Assessment System for Environmental TECHnologies
+http://www.easewaste.dk/
+see notes
+##############################
+
+Record #14
+----------
+READResourceIdentifier:  12514
+WRATE: Waste and Resources Assessment Tool for the Environment
+http://webarchive.nationalarchives.gov.uk/20140328084622/http://www.environment-agency.gov.uk/research/commercial/102922.aspx
+##############################
+
+Record #15
+----------
+READResourceIdentifier:  12515
+Food Waste Asse: Food Waste Assessment Tool
+http://www.epa.gov/osw/conserve/foodwaste/tools/index.htm
+703-308-8669
+##############################
+
+Record #16
+----------
+READResourceIdentifier:  12518
+Integrated Wast: Integrated Waste Management Tool for Municipalities
+http://www.iwm-model.uwaterloo.ca/english.html
+##############################
+
+Record #17
+----------
+READResourceIdentifier:  12517
+Electronics Env: Electronics Environmental Benefits Calculator
+http://isse.utk.edu/ccp/projects/benefitscalculator/elecbenecalc.html
+865-974-4251
+##############################
+
+Record #18
+----------
+READResourceIdentifier:  12516
+Waste Target-Se: Waste Target-Setting Tool
+http://www.sustainabilityroadmap.org/strategies/targetwaste.shtml#target
+##############################
+
+Record #19
+----------
+READResourceIdentifier:  12521
+CACP: Clean Air and Climate Protection Software
+http://www.icleiusa.org/tools/cacp-2009/register-for-access-to-cacp-2009
+##############################
+
+Record #20
+----------
+READResourceIdentifier:  12520
+WAMPS: Waste Management Planning system
+https://wamps.ivl.se/prod/
+##############################
+
+Record #21
+----------
+READResourceIdentifier:  12519
+Umberto NXT: Umberto NXT
+http://www.umberto.de/en/
+see notes
+##############################
+
+Record #22
+----------
+READResourceIdentifier:  12522
+GEMIS: Global Emission Model for Integrated Systems
+http://www.iinas.org/gemis-download-en.html
+##############################
+
+Record #23
+----------
+READResourceIdentifier:  12524
+LandGEM: Landfill Gas Emissions Model
+http://www.epa.gov/ttn/catc/products.html#software
+##############################
+
+Record #24
+----------
+READResourceIdentifier:  12527
+MIKE URBAN: MIKE URBAN
+http://mikebydhi.com/Products/Cities/MIKEURBAN.aspx
+888 344 9232
+##############################
+
+Record #25
+----------
+READResourceIdentifier:  12530
+WinSLAMM: Source Loading and Management Model for Windows
+http://www.winslamm.com/default.html
+##############################
+
+Record #26
+----------
+READResourceIdentifier:  12526
+InfoSWMM: InfoSWMM
+http://www.innovyze.com/products/infoswmm/
+626 568 6868
+##############################
+
+Record #27
+----------
+READResourceIdentifier:  12528
+Storm and Sanit: Storm and Sanitary Analysis
+http://knowledge.autodesk.com/support/autocad-map-3d
+##############################
+
+Record #28
+----------
+READResourceIdentifier:  12529
+CivilStorm: CivilStorm
+http://www.bentley.com/en-US/Products/CivilStorm/
+1-800-236-8539
+##############################
+
+Record #29
+----------
+READResourceIdentifier:  12531
+PCSWMM: PCSWMM
+http://www.chiwater.com/Software/PCSWMM/index.asp
+888-972-7966
+##############################
+
+Record #30
+----------
+READResourceIdentifier:  12532
+XPSWMM: Stormwater & Wastewater Managment Model
+http://xpsolutions.com/Software/XPSWMM
+888 554 5022
+##############################
+
+Record #31
+----------
+READResourceIdentifier:  12534
+SPARC INDEX: Scenario Planning Analytical Resources Core INDEX
+http://www.crit.com/sparc/
+503) 224-8606
+##############################
+
+Record #32
+----------
+READResourceIdentifier:  12535
+MSWDST: Municipal Solid Waste Decision Suppot Tool
+https://mswdst.rti.org/Login.htm
+919-541-6973
+##############################
+
+Record #33
+----------
+READResourceIdentifier:  12533
+NatureServe Vis: NatureServe Vista
+http://www.natureserve.org/conservation-tools/data-maps-tools/natureserve-vista
+##############################
+
+Record #34
+----------
+READResourceIdentifier:  12537
+ET+: Envision Tomorrow
+http://www.envisiontomorrow.org/
+503.228.3054
+##############################
+
+Record #35
+----------
+READResourceIdentifier:  12536
+CommunityViz: CommunityViz
+http://placeways.com/communityviz/index.php
+866.953.1400
+##############################
+
+Record #36
+----------
+READResourceIdentifier:  12538
+ATHENA Impact E: ATHENA Impact Estimator for Buildings 4
+http://calculatelca.com/software/impact-estimator/
+613.729.9996
+##############################
+
+Record #37
+----------
+READResourceIdentifier:  12540
+BEES: Building for Environmental and Economic Sustainability
+http://www.nist.gov/el/economics/BEESSoftware.cfm
+(301) 975-6857
+##############################
+
+Record #38
+----------
+READResourceIdentifier:  12539
+SimaPro: SimaPro
+http://www.earthshift.com/software/simapro
+802-434-3326
+##############################
+
+Record #39
+----------
+READResourceIdentifier:  12543
+Eco-Bat: Eco-Bat
+http://ecobat.heig-vd.ch/index.php?option=com_content&view=article&id=64&Itemid=61&lang=en
+024 557 63 52
+##############################
+
+Record #40
+----------
+READResourceIdentifier:  12541
+LandUse Analyst: LandUse Analyst
+http://www.argusone.com/DHV/LandUse.html
+1-888-299-8384
+##############################
+
+Record #41
+----------
+READResourceIdentifier:  12542
+TREAT: Targeted Retrofit Energy Analysis Tool
+http://psdconsulting.com/software/treat/
+(607) 793-7369
+##############################
+
+Record #42
+----------
+READResourceIdentifier:  12544
+INVEST: Infrastructure Voluntary Evaluation Sustainability Tool
+www.sustainablehighways.org
+##############################
+
+Record #43
+----------
+READResourceIdentifier:  12547
+STEAM: Surface Transportation Efficiency Analysis Model
+http://www.fhwa.dot.gov/steam/
+##############################
+
+Record #44
+----------
+READResourceIdentifier:  12545
+EERPAT: The Energy and Emissions Reduction Policy Analysis Tool
+http://planning.dot.gov/FHWA_tool/
+202-493-0158
+##############################
+
+Record #45
+----------
+READResourceIdentifier:  12548
+E+: EnergyPlus
+http://apps1.eere.energy.gov/buildings/energyplus/
+##############################
+
+Record #46
+----------
+READResourceIdentifier:  12549
+IDAS: Intelligent Transportation System Deployment Analysis System
+https://www.fhwa.dot.gov/research/deployment/idas.cfm
+202.366.6072
+##############################
+
+Record #47
+----------
+READResourceIdentifier:  12550
+eSight: eSight
+http://www.eSightenergy.com
+1 847-701-2340
+##############################
+
+Record #48
+----------
+READResourceIdentifier:  12552
+SRI: Solar Reflectance Index Calculator
+http://www.usgbc.org/resources/lawrence-berkeley-national-laboratory-sri-calculator
+##############################
+
+Record #49
+----------
+READResourceIdentifier:  12554
+SmartGAP: SmartGAP
+http://www.trb.org/main/blurbs/168842.aspx
+512-471-0210
+##############################
+
+Record #50
+----------
+READResourceIdentifier:  12555
+FRESA: Federal Renewable Energy Screening Assistant
+https://www3.eere.energy.gov/femp/fresa/
+202-586-1505
+##############################
+
+Record #51
+----------
+READResourceIdentifier:  12553
+BLCC5: Building Life Cycle Cost
+http://www1.eere.energy.gov/femp/information/download_blcc.html
+(301) 975-6857
+##############################
+
+Record #52
+----------
+READResourceIdentifier:  12556
+Urban Footprint: Urban Footprint
+http://www.calthorpe.com/scenario_modeling_tools
+510.548.6800
+##############################
+
+Record #53
+----------
+READResourceIdentifier:  12557
+Cool Roof Calcu: Cool Roof Calculator
+http://web.ornl.gov/sci/roofs+walls/facts/CoolCalcEnergy.htm
+##############################
+
+Record #54
+----------
+READResourceIdentifier:  12561
+VE-Toolkit: VE-Toolkit
+http://www.iesve.com/software/toolkits/Sustainability-VE-Toolkit_557
+44 (0) 141 945 8500
+##############################
+
+Record #55
+----------
+READResourceIdentifier:  12560
+eQuest: Quick Energy Simulation Tool
+http://www.doe2.com/equest/
+(805) 553-9000
+##############################
+
+Record #56
+----------
+READResourceIdentifier:  12558
+RSC: Roof Savings Calculator
+http://rsc.ornl.gov/
+##############################
+
+Record #57
+----------
+READResourceIdentifier:  12559
+VE-Ware: VE-Ware
+http://www.iesve.com/software/ve-ware
+44 (0) 141 945 8500
+##############################
+
+Record #58
+----------
+READResourceIdentifier:  12563
+C-Plan: Conservation Planning System
+http://www.edg.org.au/free-tools/cplan.html
+61 2 6776 0040
+##############################
+
+Record #59
+----------
+READResourceIdentifier:  12562
+MetroQuest: MetroQuest
+http://metroquest.com/
+604.317.6200info@metroquest.com
+##############################
+
+Record #60
+----------
+READResourceIdentifier:  12564
+ITHIM: Integrated Transport and Health Impact Modelling Tool
+http://www.cedar.iph.cam.ac.uk/research/modelling/ithim/
+01223 746887
+##############################
+
+Record #61
+----------
+READResourceIdentifier:  12566
+StreetMix: StreetMix
+http://streetmix.net/
+##############################
+
+Record #62
+----------
+READResourceIdentifier:  12565
+IDRISI: IDRISI
+http://clarklabs.org/products/Land-Change-Modeler-Overview.cfm
+dsutter@clarku.edu
+##############################
+
+Record #63
+----------
+READResourceIdentifier:  12567
+GHG Emissions f: GHG Emissions from Transport or Mobile Sources Calculator
+http://www.ghgprotocol.org/calculation-tools/all-tools
+##############################
+
+Record #64
+----------
+READResourceIdentifier:  12568
+GREET: The Greenhouse Gases, Regulated Emissions, and Energy Use in Transportation Model
+https://greet.es.anl.gov/
+##############################
+
+Record #65
+----------
+READResourceIdentifier:  12569
+AFLEET: Alternative Fuel Life-Cycle Environmental and Economic Transportation
+https://greet.es.anl.gov/afleet
+##############################
+
+Record #66
+----------
+READResourceIdentifier:  12570
+Clean Cities Ar: Clean Cities Area of Interest 4: Alternative Fuel and Advanced Technology Vehicles Pilot Program Emissions Benefit Tool
+http://www.transportation.anl.gov/modeling_simulation/clean_cities_area_interest4.html
+##############################
+
+Record #67
+----------
+READResourceIdentifier:  12571
+AirCRED: AirCRED
+http://www.hydrogen.energy.gov/analysis_repository/project.cfm/PID=119
+630-252-6606
+##############################
