@@ -5,12 +5,27 @@ HSPF: Hydrological Simulation Program - FORTRAN
 http://www2.epa.gov/exposure-assessment-models/hspf
 706-355-8403
 ############################## 
+LEFT MESSAGE AT PHONE NUMBER 2016.10.03
+http://water.usgs.gov/software/HSPF/
+############################## 
 
 Record #2
 ----------
 READResourceIdentifier:  12501
 SUSTAIN: System for Urban Stormwater Treatment and Analysis Integration
 http://www2.epa.gov/water-research/system-urban-stormwater-treatment-and-analysis-integration-sustain
+############################## 
+WEBSITE LISTS CONTACT INFO FOR TOOL:
+------------------------------
+Call us at: 732-906-6990
+Send e-mail to: selvakumar.ariamalar@epa.gov
+Mailing Address:
+US EPA Research
+National Risk Management Research Laboratory
+Raritan Depot
+2890 Woodbridge Avenue
+Mail Code: MS104
+Edison, NJ 08837-3679
 ############################## 
 
 Record #3
@@ -20,6 +35,9 @@ RapidFire: RapidFire
 http://www.calthorpe.com/scenario_modeling_tools
 510.548.6800
 ############################## 
+PHONE NUMBER IS CALTHORPE'S GENERAL PHONE-LINE
+OFFICE HOURS 9-5:30 PST M-F
+############################## 
 
 Record #4
 ----------
@@ -27,12 +45,30 @@ READResourceIdentifier:  12507
 Wildlife Habita: Wildlife Habitat Benefits Estimation Toolkit
 http://www.defenders.org/sites/default/files/whprp.zip
 ############################## 
+this info is general
+------------------------------
+NCSE
+1101 17th Street NW, Suite 250
+Washington, DC 20036
+Phone: 202-530-5810
+Fax: 202-628-4311
+NCSE@NCSEonline.org
+############################## 
 
 Record #5
 ----------
 READResourceIdentifier:  12503
 SWC: National Stormwater Calculator
 http://www2.epa.gov/water-research/national-stormwater-calculator
+############################## 
+SWC@EPA.gov
+202-564-3165
+mattas-curry.lahne@epa.gov?subject=BIOPLUME%20III
+US EPA Research
+Office of Science Information Management
+Mail Drop: D343-04
+109 Alexander Drive
+Durham, NC 27711
 ############################## 
 
 Record #6
@@ -42,6 +78,15 @@ RUBMRIO: Random-Utility-Based Multiregional Input-Output
 http://www.ce.utexas.edu/prof/kockelman/RUBMRIO_Website/homepage.htm
 512-471-0210
 ############################## 
+Professor, and E.P. Schoch Professor in Engineering
+Department of Civil, Architectural and Environmental Engineering 
+The University of Texas 
+1 University Station (Mail Code C1761) 
+Austin, TX 78712-1076 
+Phone 512-471-0210 
+FAX 512-475-8744 
+email: kkockelm@mail.utexas.edu 
+############################## 
 
 Record #7
 ----------
@@ -49,6 +94,9 @@ READResourceIdentifier:  12508
 WMOST: Watershed Management Optimization Support Tool v. 1
 http://cfpub.epa.gov/si/si_public_record_report.cfm?dirEntryId=262280
 ############################## 
+email: NHEERLScience@epa.gov
+############################## 
+
 
 Record #8
 ----------
@@ -57,12 +105,53 @@ SolVES: Social Values for Ecosystem Services
 http://solves.cr.usgs.gov/
 443-498-5606
 ############################## 
+SolVES Tool Contact Information:
+Ben Sherrouse (for technical support or general information)
+bcsherrouse@usgs.gov
+Geosciences and Environmental Change Science Center
+Phone: 443-498-5606
+Fax: 443-498-5510
+Mailing Address:
+U.S. Geological Survey
+5522 Research Park Drive
+Baltimore, MD 21228
+Darius Semmens (for general information)
+dsemmens@usgs.gov
+Phone: 303-578-6966
+Fax: 303-236-5349
+Mailing Address:
+U.S. Geological Survey
+Geosciences and Environmental Change Science Center
+P.O. Box 25046, DFC, MS 980
+Denver, CO 80225
+############################## 
 
 Record #9
 ----------
 READResourceIdentifier:  12509
 ComPlan: ComPlan
 http://www.tjpdc.org/community/epi.asp
+############################## 
+EPA Technical Contacts
+Wen-Hsiung Lee
+U.S. Environmental Protection Agency
+Office of Pollution Prevention and Toxic
+Risk Assessment Division
+E-mail:  lee.wen-hsiung@epa.gov
+Laurence Libelo
+U.S. Environmental Protection Agency
+Office of Pollution Prevention and Toxic
+Risk Assessment Division
+E-mail:  libelo.laurence@epa.gov
+Technical Support and Training on EPI SuiteTM
+Dr. Philip Howard
+Syracuse Research Corporation
+301 Plainfield Road
+Syracuse, NY 13212
+(315) 452-8417
+E-mail:  howardp@syrres.com
+Contact Us to ask a question, provide feedback, or report a problem.
+https://www.epa.gov/tsca-screening-tools/forms/contact-us-about-predictive-models-and-tools-screening-chemicals-under
 ############################## 
 
 Record #10
@@ -72,12 +161,25 @@ UPlan: Urban Gr: UPlan: Urban Growth Model
 http://ice.ucdavis.edu/project/uplan
 (530) 746-8184
 ############################## 
+Contact Information
+Dept. of Environmental Science and Policy University of California, Davis One Shields Avenue
+Davis, CA 95616
+Position: GIS Programmer
+Email: neroth@ucdavis.edu
+Phone: (530) 746-8184
+Office: Wickson 2113
+############################## 
+
 
 Record #11
 ----------
 READResourceIdentifier:  12510
 UrbanSim: UrbanSim
 http://www.urbansim.org/Main/WebHome
+############################## 
+SITE BLOCKED FROM EPA NETWORK
+EXTENSIVE GITHUB SITE:
+https://github.com/UDST/urbansim
 ############################## 
 
 Record #12
@@ -87,6 +189,9 @@ C2RouteApp: C2RouteApp
 http://www.c2logix.com/?Name=Value
 866-927-8324
 ############################## 
+CONTACT WEBFORM:
+http://www.c2logix.com/contact?Name=Value
+############################## 
 
 Record #13
 ----------
@@ -95,12 +200,17 @@ EASETECH: Environmental Assessment System for Environmental TECHnologies
 http://www.easewaste.dk/
 see notes
 ############################## 
+Please notice: We have released a new model EASETECH that will take over for EASEWASTE which we will not update anymore. Information on EASETECH can be found at www.easetech.dk
+############################## 
 
 Record #14
 ----------
 READResourceIdentifier:  12514
 WRATE: Waste and Resources Assessment Tool for the Environment
 http://webarchive.nationalarchives.gov.uk/20140328084622/http://www.environment-agency.gov.uk/research/commercial/102922.aspx
+############################## 
+contact webform:
+http://webarchive.nationalarchives.gov.uk/frame/20140328144037/http://www.environment-agency.gov.uk/contactus/feedback.aspx
 ############################## 
 
 Record #15
@@ -110,12 +220,18 @@ Food Waste Asse: Food Waste Assessment Tool
 http://www.epa.gov/osw/conserve/foodwaste/tools/index.htm
 703-308-8669
 ############################## 
+CURRENT URL IS BROKEN; HERE IS WORKING LINK:
+https://www.epa.gov/sustainable-management-food/tools-assessing-wasted-food#packaging
+############################## 
 
 Record #16
 ----------
 READResourceIdentifier:  12518
 Integrated Wast: Integrated Waste Management Tool for Municipalities
 http://www.iwm-model.uwaterloo.ca/english.html
+############################## 
+CONTACT WEBFORM:
+https://uwaterloo.ca/integrated-waste-management-model-for-municipalities/application-formformulaire-demande
 ############################## 
 
 Record #17
@@ -125,12 +241,20 @@ Electronics Env: Electronics Environmental Benefits Calculator
 http://isse.utk.edu/ccp/projects/benefitscalculator/elecbenecalc.html
 865-974-4251
 ############################## 
+Center for Clean Products
+Institute for a Secure and Sustainable Environment (ISSE)
+311 Conference Center Building, Knoxville, Tennessee 37996-4134
+PHONE: 865-974-4251 • FAX: 865-974-1838 • EMAIL: isse@utk.edu
+############################## 
 
 Record #18
 ----------
 READResourceIdentifier:  12516
 Waste Target-Se: Waste Target-Setting Tool
 http://www.sustainabilityroadmap.org/strategies/targetwaste.shtml#target
+############################## 
+CONTACT WEBFORM:
+http://www.sustainabilityroadmap.org/contact
 ############################## 
 
 Record #19
@@ -139,12 +263,20 @@ READResourceIdentifier:  12521
 CACP: Clean Air and Climate Protection Software
 http://www.icleiusa.org/tools/cacp-2009/register-for-access-to-cacp-2009
 ############################## 
+CURRENT URL BROKEN; USE BELOW URL:
+http://en.openei.org/wiki/International_Council_for_Local_Environmental_Initiatives_(ICLEI)_Clean_Air_and_Climate_Protection_Software_Tools
+############################## 
 
 Record #20
 ----------
 READResourceIdentifier:  12520
 WAMPS: Waste Management Planning system
 https://wamps.ivl.se/prod/
+############################## 
+OLD URL REQUIRES SILVERLIGHT; NEW URL:
+http://www.recobaltic21.net/en/waste-management-planning-system.html
+CONTACT EMAIL:
+wamps@ivl.se
 ############################## 
 
 Record #21
@@ -154,6 +286,9 @@ Umberto NXT: Umberto NXT
 http://www.umberto.de/en/
 see notes
 ############################## 
+CONTACT WEBFORM:
+https://www.ifu.com/en/umberto/contact-request/
+############################## 
 
 Record #22
 ----------
@@ -161,6 +296,9 @@ READResourceIdentifier:  12522
 GEMIS: Global Emission Model for Integrated Systems
 http://www.iinas.org/gemis-download-en.html
 ############################## 
+WEB-FORM:
+http://iinas.org/contact.html
+
 
 Record #23
 ----------
