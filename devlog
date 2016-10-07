@@ -1,0 +1,15 @@
+# devlog - dev records ongoing work; supervisors review and direct
+## Items are prepended with DONE when completed.
+## New items are appended to the end of this file.
+## Incomplete items are manually scraped and sunk to the bottom.
+==================================================================
+
+- Put disclaimer text into tool: "The tools listed below are for informational purposes only.  The EPA and its employees do not endorse any product, services, or organizations listed below."
+
+- Show the last time a tool's information was updated. This is not simply the last time the record was updated.
+
+- Test tool for internal release in internet explorer, safari, and opera. Minor bugs in some browsers won't hold up internal release.
+
+- #devAdded Fix apparent bug where some searches that should work don't.
+
+- #devAdded Make search results links accessible.
