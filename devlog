@@ -1,15 +1,37 @@
 # devlog - dev records ongoing work; managers review and direct
-## Items are prepended with DONE when completed.
+## Items are prepended with #DONE when completed.
+## #DONE items floated above incomplete items.
 ## New items are appended to the end of this file.
 ## Incomplete items are manually scraped and sunk to the bottom.
+## #devAdded items sink to bottom.
+## Result: #DONE items, incomplete items, #devAdded items
 ==================================================================
 
-- DONE Put disclaimer text into tool: "The tools listed below are for informational purposes only.  The EPA and its employees do not endorse any product, services, or organizations listed below."
+- #DONE Put disclaimer text into tool: "The tools listed are for informational purposes only.  The EPA and its employees do not endorse any product, services, or organizations listed."
 
-- Show the last time a tool's information was updated. This is not simply the last time the record was updated.
+- Show the last time a tool's information was updated.
+  - This is not simply the last time the record was updated.
+  - WIP use .READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsLastKnownSoftwareUpdate
 
-- Test tool for internal release in internet explorer, safari, and opera. Minor bugs in some browsers won't hold up internal release.
+- Test tool for internal release in internet explorer, safari, firefox, and opera. Minor bugs in some browsers won't hold up internal release.
+  - WIP remake page with template at https://www.epa.gov/sites/all/libraries/template/standalone.html#main-content
+    - WIP save result to ./epa-template.html
 
-- #devAdded Fix apparent bug where some searches that should work don't.
+- Search short name if text is short enough.
 
-- #devAdded Make search results links accessible.
+- Replace '[object Object]' with 'No Data Available.'
+  - Refer to how this has been done already.
+
+- #devAdded Make search results are accessible by keyboard.
+
+- #devAdded Display "no results" on detailed search as in simple search.
+
+- #devAdded Remove second mobile-bar.
+
+- #devAdded Replace keyIdentifier at 
+  - # @ chrome-extension://dbepggeogbaibhgnhhndojpepiihcmeb/lib/keyboard_utils.js 
+  - # use 'keydown' in example at https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+
+- #devAdded Fix "Save All Records."
+
+- #devAdded Fix "Save This Record."

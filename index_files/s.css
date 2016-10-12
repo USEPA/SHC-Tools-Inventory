@@ -3729,6 +3729,7 @@ th.headerSortDown { /* sort-down.svg */
 .secondary-nav {
   display: none;
 }
+/*
 @media screen and (min-width: 40em) {
   #mobile-nav {
     display: none;
@@ -3739,7 +3740,7 @@ th.headerSortDown { /* sort-down.svg */
     display: block;
   }
 }
-
+*/
 
 
 /* TIMELINE CSS Overrides */
