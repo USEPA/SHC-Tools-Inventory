@@ -12,15 +12,19 @@
 - Show the last time a tool's information was updated.
   - This is not simply the last time the record was updated.
   - WIP use .READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsLastKnownSoftwareUpdate
+    from detail URL
 
-- Test tool for internal release in internet explorer, safari, firefox, and opera. Minor bugs in some browsers won't hold up internal release.
-  - WIP remake page with template at https://www.epa.gov/sites/all/libraries/template/standalone.html#main-content
+- Test tool for internal release in internet explorer, safari, firefox, and opera.
+  - Don't hold for bugs in minor browsers.
+  - remake page with template at https://www.epa.gov/sites/all/libraries/template/standalone.html#main-content
     - WIP save result to ./epa-template.html
 
 - Search short name if text is short enough.
 
 - Replace '[object Object]' with 'No Data Available.'
   - Refer to how this has been done already.
+  - Search for where data is inserted into table.
+    - Validate before toStr() or whichevever fncn sends data obj to string.
 
 - #devAdded Make search results are accessible by keyboard.
 
