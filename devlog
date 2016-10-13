@@ -2,29 +2,30 @@
 ## Items are prepended with #DONE when completed.
 ## #DONE items floated above incomplete items.
 ## New items are appended to the end of this file.
-## Incomplete items are manually scraped and sunk to the bottom.
-## #devAdded items sink to bottom.
-## Result: #DONE items, incomplete items, #devAdded items
+## Incomplete items are manually scraped and sunk.
+## #devAdded items sink beneath incomplete assignments.
+## Resulting order: #DONE items, incomplete items, #devAdded items
 ==================================================================
 
 - #DONE Put disclaimer text into tool: "The tools listed are for informational purposes only.  The EPA and its employees do not endorse any product, services, or organizations listed."
 
-- Show the last time a tool's information was updated.
-  - This is not simply the last time the record was updated.
-  - WIP use .READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsLastKnownSoftwareUpdate
-    from detail URL
+- #DONE Show the last time a tool's information was updated.
+  - #DONE This is not simply the last time the record was updated.
+  - #DONE use .READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsLastKnownSoftwareUpdate
+    #DONE from detail URL
+
+- names longer than 35 chars, even autocompleted, return no results
+  - truncate name searched to 30 chars
+
+- Replace '[object Object]' with 'No Data Available.'
+  - Refer to how this has been done already.
+  - Search for where data is inserted into table.
+    - Validate before toStr() or whichever fncn sends data obj to string.
 
 - Test tool for internal release in internet explorer, safari, firefox, and opera.
   - Don't hold for bugs in minor browsers.
   - remake page with template at https://www.epa.gov/sites/all/libraries/template/standalone.html#main-content
     - WIP save result to ./epa-template.html
-
-- Search short name if text is short enough.
-
-- Replace '[object Object]' with 'No Data Available.'
-  - Refer to how this has been done already.
-  - Search for where data is inserted into table.
-    - Validate before toStr() or whichevever fncn sends data obj to string.
 
 - #devAdded Make search results are accessible by keyboard.
 
@@ -39,3 +40,7 @@
 - #devAdded Fix "Save All Records."
 
 - #devAdded Fix "Save This Record."
+
+- #devAdded Search acronym as well as name.
+
+- #devAdded Remove all underscores in details' titles.

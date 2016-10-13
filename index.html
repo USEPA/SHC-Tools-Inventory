@@ -177,7 +177,7 @@ rel="home"><span>US EPA</span></a></H1>
     </div>
     <div class="main-column clearfix">
       <!--googleon: all-->
-      <H1 class="page-title">Tools & Model Inventory</H1>
+      <h1 class="page-title">Tools & Model Inventory</h1>
       <div class="panel-pane pane-node-content">
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
@@ -215,6 +215,10 @@ rel="home"><span>US EPA</span></a></H1>
             </table>
           </div>
           <p>Users may search by using keywords or browse the available tools.
+          </p>
+          <h2 id="disclaimer-title">Disclaimer</h2>
+          <p id="disclaimer-text">The tools listed below are for informational purposes only.
+          The EPA and its employees do not endorse any product, services, or organizations listed below.
           </p>
           <div id="Tabs1" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
             <ol class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all" role="tablist">
@@ -476,10 +480,6 @@ rel="home"><span>US EPA</span></a></H1>
           </div>
           <div class="block block-epa-og" id="block-epa-og-footer">
             <!--{FOOTER CONTENT}-->
-            <br>
-            <h2 id="disclaimer-title">Disclaimer</h2>
-            <p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.
-              <p>
           </div>
           <!--googleoff: all-->
         </div>
@@ -1019,6 +1019,7 @@ social media at&nbsp;EPA&nbsp;»</a>
       }
     } // else {alert("Please enter a search term!")}
   }
+
   simpleSearchClk3 = function() {
     clearResults();
     var name_query = $(
@@ -1027,6 +1028,35 @@ social media at&nbsp;EPA&nbsp;»</a>
     var decision_query = $(
         '#simpleDecisionSelect')[0]
       .value;
+    $.ajax({
+      type: 'GET',
+      url: resourceSearchURL,
+      data: {
+        Acronym: name_query,
+        DecisionSector: decision_query,
+        Format: 'JSON'
+      },
+      dataType: 'json',
+      success: function(data) {
+        console.log(
+          'data.length: ' +
+          data.length);
+        if (data.length < 1) {
+          $('#simpleFeedback')
+            .css('display',
+              'block');
+        } else {
+          $('#simpleFeedback')
+            .css('display',
+              'none');
+        }
+        for (i = 0; i < data.length; i++) {
+          simpleSearchClk4(
+            data[i].ResourceId
+          );
+        }
+      },
+    });
     $.ajax({
       type: 'GET',
       url: resourceSearchURL,
@@ -1050,10 +1080,6 @@ social media at&nbsp;EPA&nbsp;»</a>
               'none');
         }
         for (i = 0; i < data.length; i++) {
-          console.log(
-            "simpleSearchClk3 result ID: " +
-            data[i].ResourceId
-          );
           simpleSearchClk4(
             data[i].ResourceId
           );
