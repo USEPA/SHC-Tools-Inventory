@@ -257,10 +257,11 @@ function showDetails(id) {
   ];
   for (i in columns) {
     var this_key = columns[i];
-    var name = columns[i].replace(/_/, ' ');
+    var name = columns[i].replace(/_/g, ' ');
     var this_name = $("<h3>");
     this_name.text(name + ':');
     if (detail_obj[this_key] != '') {
+      padding = '# '.repeat(6)
 
       //Name
       if (this_key == "Name") {

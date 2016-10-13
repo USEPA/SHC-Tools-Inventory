@@ -14,8 +14,10 @@
   - #DONE use .READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsLastKnownSoftwareUpdate
     #DONE from detail URL
 
-- names longer than 35 chars, even autocompleted, return no results
-  - truncate name searched to 30 chars
+- #DONE names longer than 35 chars, even autocompleted, return no results
+  - #DONE truncate name searched to 30 chars
+
+- #DONE #devAdded Search acronym as well as name.
 
 - Replace '[object Object]' with 'No Data Available.'
   - Refer to how this has been done already.
@@ -40,7 +42,5 @@
 - #devAdded Fix "Save All Records."
 
 - #devAdded Fix "Save This Record."
-
-- #devAdded Search acronym as well as name.
 
 - #devAdded Remove all underscores in details' titles.
