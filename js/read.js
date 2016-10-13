@@ -465,7 +465,6 @@ function showDetails(id) {
 
       //'Last_Known_Software_Update'
       if(this_key == "Last_Known_Software_Update") {
-        debugger;
         detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.LastModifiedDateTimeText;
       }
 

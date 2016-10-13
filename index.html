@@ -47,7 +47,7 @@
   <style>
   /* don't initially display "no results returned from search" */
   
-  #simpleFeedback {
+  #simpleFeedbackAcronym, #simpleFeedbackTitle {
     display: none;
     background-color: rgb(221, 206, 204);
   }
@@ -259,7 +259,8 @@ rel="home"><span>US EPA</span></a></H1>
                 </tbody>
               </table>
               <button id="simpleSearchBtn" onclick="simpleSearchClk3()">Search</button>
-              <p id="simpleFeedback">No results were returned.</p>
+              <p id="simpleFeedbackTitle">No titles contained an exact, case-insensitive match.</p>
+              <p id="simpleFeedbackAcronym">No acronyms contained an exact, case-insensitive match.</p>
             </div>
             <div id="tabsDetail" aria-labelledby="ui-id-4" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;">
               <table width="100%" cellpadding="0" cellspacing="0" class="noborder">
@@ -1028,6 +1029,7 @@ social media at&nbsp;EPA&nbsp;»</a>
     var decision_query = $(
         '#simpleDecisionSelect')[0]
       .value;
+    // run acronym-search
     $.ajax({
       type: 'GET',
       url: resourceSearchURL,
@@ -1042,11 +1044,11 @@ social media at&nbsp;EPA&nbsp;»</a>
           'data.length: ' +
           data.length);
         if (data.length < 1) {
-          $('#simpleFeedback')
+          $('#simpleFeedbackAcronym')
             .css('display',
               'block');
         } else {
-          $('#simpleFeedback')
+          $('#simpleFeedbackAcronym')
             .css('display',
               'none');
         }
@@ -1057,6 +1059,7 @@ social media at&nbsp;EPA&nbsp;»</a>
         }
       },
     });
+    // run name-search
     $.ajax({
       type: 'GET',
       url: resourceSearchURL,
@@ -1071,11 +1074,11 @@ social media at&nbsp;EPA&nbsp;»</a>
           'data.length: ' +
           data.length);
         if (data.length < 1) {
-          $('#simpleFeedback')
+          $('#simpleFeedbackTitle')
             .css('display',
               'block');
         } else {
-          $('#simpleFeedback')
+          $('#simpleFeedbackTitle')
             .css('display',
               'none');
         }

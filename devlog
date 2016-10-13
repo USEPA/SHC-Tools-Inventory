@@ -7,27 +7,30 @@
 ## Resulting order: #DONE items, incomplete items, #devAdded items
 ==================================================================
 
-- #DONE Put disclaimer text into tool: "The tools listed are for informational purposes only.  The EPA and its employees do not endorse any product, services, or organizations listed."
+- #DONE Put disclaimer text into tool:
+  - # "The tools listed are for informational purposes only.  The EPA and its employees do not endorse any product, services, or organizations listed."
 
 - #DONE Show the last time a tool's information was updated.
-  - #DONE This is not simply the last time the record was updated.
-  - #DONE use .READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsLastKnownSoftwareUpdate
-    #DONE from detail URL
+  - # This is not simply the last time the record was updated.
+  - # use .READExportDetail.InfoResourceDetail.ModelDetailsDetail.DetailsLastKnownSoftwareUpdate
+    # from detail URL
 
 - #DONE names longer than 35 chars, even autocompleted, return no results
-  - #DONE truncate name searched to 30 chars
+  - # truncate name searched to 30 chars
 
 - #DONE #devAdded Search acronym as well as name.
 
-- Replace '[object Object]' with 'No Data Available.'
-  - Refer to how this has been done already.
-  - Search for where data is inserted into table.
-    - Validate before toStr() or whichever fncn sends data obj to string.
+- #devAdded Remove all underscores in details' titles.
 
-- Test tool for internal release in internet explorer, safari, firefox, and opera.
-  - Don't hold for bugs in minor browsers.
-  - remake page with template at https://www.epa.gov/sites/all/libraries/template/standalone.html#main-content
-    - WIP save result to ./epa-template.html
+- #DONE Test tool for internal release in internet explorer, safari, firefox, and opera.
+  - # Don't hold for bugs in minor browsers.
+  - # remake page with template at
+    - # https://www.epa.gov/sites/all/libraries/template/standalone.html#main-content
+
+- #devAdded Replace '[object Object]' with 'No Data Available.'
+  - # Refer to how this has been done already.
+  - # Search for where data is inserted into table.
+    - # Validate before toStr() or whichever fncn sends data obj to string.
 
 - #devAdded Make search results are accessible by keyboard.
 
@@ -35,12 +38,10 @@
 
 - #devAdded Remove second mobile-bar.
 
-- #devAdded Replace keyIdentifier at 
-  - # @ chrome-extension://dbepggeogbaibhgnhhndojpepiihcmeb/lib/keyboard_utils.js 
+- #devAdded Replace keyIdentifier in keyboard_utils.js 
+  - # keyIdentifier support is to be removed from Chrome
   - # use 'keydown' in example at https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
 
 - #devAdded Fix "Save All Records."
 
 - #devAdded Fix "Save This Record."
-
-- #devAdded Remove all underscores in details' titles.
