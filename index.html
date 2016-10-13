@@ -1061,7 +1061,7 @@ social media at&nbsp;EPA&nbsp;»</a>
       type: 'GET',
       url: resourceSearchURL,
       data: {
-        Name: name_query,
+        Name: name_query.substring(0,30),
         DecisionSector: decision_query,
         Format: 'JSON'
       },
