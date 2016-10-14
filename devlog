@@ -27,10 +27,10 @@
   - # remake page with template at
     - # https://www.epa.gov/sites/all/libraries/template/standalone.html#main-content
 
+- #DONE Write the decision-sector descriptions.
+
 - Try updating READ records via the web-app again.
   - WIP If this fails then contact Allen.
-
-- Write the decision-sector descriptions.
 
 - Return only one feedback indicating no results.
 
