@@ -27,6 +27,13 @@
   - # remake page with template at
     - # https://www.epa.gov/sites/all/libraries/template/standalone.html#main-content
 
+- Try updating READ records via the web-app again.
+  - WIP If this fails then contact Allen.
+
+- Write the decision-sector descriptions.
+
+- Return only one feedback indicating no results.
+
 - #devAdded Replace '[object Object]' with 'No Data Available.'
   - # Refer to how this has been done already.
   - # Search for where data is inserted into table.
