@@ -46,13 +46,11 @@
 
   <style>
   /* don't initially display "no results returned from search" */
-  
-  #simpleFeedbackAcronym, #simpleFeedbackTitle {
+  #simpleFeedback {
     display: none;
     background-color: rgb(221, 206, 204);
   }
   /* make results responsive */
-  
   .revision-table tr ~ tr:hover {
     background-color: rgb(206, 221, 204);
     cursor: pointer;
@@ -257,8 +255,7 @@ rel="home"><span>US EPA</span></a></H1>
                 </tbody>
               </table>
               <button id="simpleSearchBtn" onclick="simpleSearchClk3()">Search</button>
-              <p id="simpleFeedbackTitle">No titles contained an exact, case-insensitive match.</p>
-              <p id="simpleFeedbackAcronym">No acronyms contained an exact, case-insensitive match.</p>
+              <p id="simpleFeedback">No results were returned: no acronyms or titles contained the query.</p>
             </div>
             <div id="tabsDetail" aria-labelledby="ui-id-4" class="ui-tabs-panel ui-widget-content ui-corner-bottom" role="tabpanel" aria-hidden="true" style="display: none;">
               <table width="100%" cellpadding="0" cellspacing="0" class="noborder">
@@ -1042,11 +1039,11 @@ social media at&nbsp;EPA&nbsp;»</a>
           'data.length: ' +
           data.length);
         if (data.length < 1) {
-          $('#simpleFeedbackAcronym')
+          $('#simpleFeedback')
             .css('display',
               'block');
         } else {
-          $('#simpleFeedbackAcronym')
+          $('#simpleFeedback')
             .css('display',
               'none');
         }
@@ -1071,14 +1068,16 @@ social media at&nbsp;EPA&nbsp;»</a>
         console.log(
           'data.length: ' +
           data.length);
-        if (data.length < 1) {
-          $('#simpleFeedbackTitle')
-            .css('display',
-              'block');
-        } else {
-          $('#simpleFeedbackTitle')
-            .css('display',
-              'none');
+        if ($('#simpleFeedback').css('display') == 'block') {
+          if (data.length < 1) {
+            $('#simpleFeedback')
+              .css('display',
+                'block');
+          } else {
+            $('#simpleFeedback')
+              .css('display',
+                'none');
+          }
         }
         for (i = 0; i < data.length; i++) {
           simpleSearchClk4(
