@@ -3,8 +3,10 @@
 import json
 from os import path
 import pdb
+import pdb
+import csv
 
-file_path = path.join('.','records.json')
+file_path = path.join('.','records-listing-allen-as-contact.json')
 with open(file_path) as json_file:
     records = json.load(json_file)
 length = len(records)
@@ -46,8 +48,17 @@ def report():
             print(user_support_phone_numbers[i])
         print(30*'#','\n')
 
+def idcsv(filename='records_to_remove_allen_brookes_from.csv'):
+    #FINISH WRITING CSV-REPORTER FOR JOHN HARMON
+    with open(filename, 'w', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile,delimiter=',')
+        # write header
+        spamwriter.writerow(['READ_Resource_Identifier'])
+        for i in range(length):
+            spamwriter.writerow(['{0}'.format(READ_IDs[i])])
+
 def main():
     parse()
-    report()
+    idcsv()
 
 if __name__ == '__main__': main()

@@ -1,3 +1,26 @@
+### METADATA: report description and format ###
+Records in READ needing the following info removed from them:
+Name: 
+Allen Brookes(sometimes in two fields: first and last name)
+Email:
+Brookes.Allen@epa.gov
+phone:
+(541) 754-4480
+### format of this report ###
+following is a sample item from this report:
+Record #NUMBER
+----------
+READResourceIdentifier:  READ_RECORD_ID
+ACRONYM: SHORT_TITLE
+URL
+ANOTHER_PHONE_NUMBER_FROM_RECORD
+############################## 
+data to update the record with
+handle this task separately
+from removing Allen's info
+############################## 
+### END METADATA ###
+
 Record #1
 ----------
 READResourceIdentifier:  12500
