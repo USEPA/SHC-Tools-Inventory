@@ -1208,9 +1208,9 @@ social media at&nbsp;EPA&nbsp;»</a>
         cell.innerHTML = this_result;
       }
       $(table_reference + " tr").click(function() {
-        showDetails($(this).data());
         console.log("showdetails");
         console.log($(this).data());
+        showDetails($(this).data());
       });
       if (table_reference == "#resultsTable") {
         jQuery.data(result_table, 'records', result);

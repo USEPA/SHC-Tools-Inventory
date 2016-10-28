@@ -217,8 +217,6 @@ function getDetails(id) {
 
 function showDetails(id) {
   var detail_obj = id['record'];
-  console.log("showDetails");
-  console.log(detail_obj);
   var tab = $("#selectedAccordion");
   try {
     tab.empty();
@@ -237,9 +235,10 @@ function showDetails(id) {
     'Sustainability_Sector',
     'Keywords',
     'Organization',
-    'Contact_Person',
-    'Phone_Number',
-    'Email',
+    'User_Support_Name',
+    'User_Support_Phone_Number',
+    'User_Support_Email',
+    'User_Support_Source_Of_Support_Materials',
     'Internet',
     'Life_Cycle',
     'READ_Info_Updated',
@@ -398,44 +397,42 @@ function showDetails(id) {
         }
       }
 
-      // 'Organization'
-      if (this_key == "Organization") {
-        try {
-          if (id.record.READExportDetail.InfoResourceDetail.ContactDetail.OrganizationContactDetail) {
-            detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ContactDetail.OrganizationContactDetail.OrganizationName;
-          } else {
-            detail_obj[this_key] = "No Data Provided"
-          }
-        } catch (err) {
-          detail_obj[this_key] = "No Data";
-          console.log(err);
-        }
-      }
-
       // 'Contact_Person'
-      if (this_key == "Contact_Person") {
+      if (this_key == "User_Support_Name") {
         try {
-          detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.FirstName + " " + id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.LastName;
+          detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.UserSupportDetail.UserSupportName;
         } catch (err) {
           detail_obj[this_key] = "No Data";
           console.log(err);
         }
       }
 
-      // 'Phone_Number'
-      if (this_key == "Phone_Number") {
+      // 'User_Support_Phone_Number'
+      if (this_key == "User_Support_Phone_Number") {
         try {
-          detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.TelephoneNumber;
+          detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.UserSupportDetail.UserSupportPhoneNumber;
+          //=======DEBUGRINCH
+          //console.log(typeof detail_obj[this_key]);
         } catch (err) {
           detail_obj[this_key] = "No Data";
           console.log(err);
         }
       }
 
-      // 'Email'
-      if (this_key == "Email") {
+      // 'User_Support_Email'
+      if (this_key == "User_Support_Email") {
         try {
-          detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.ContactDetail.IndividualContactDetail.EmailAddressText;
+          detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.UserSupportDetail.UserSupportEmail;
+        } catch (err) {
+          detail_obj[this_key] = "No Data";
+          console.log(err);
+        }
+      }
+
+      // 'User_Support_Source_Of_Source_Materials'
+      if (this_key == "User_Support_Source_Of_Source_Materials") {
+        try {
+          detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.UserSupportDetail.UserSupportSourceOfSupportMaterials;
         } catch (err) {
           detail_obj[this_key] = "No Data";
           console.log(err);
