@@ -1,5 +1,4 @@
 ﻿<!DOCTYPE html>
-<!DOCTYPE html PUBLIC "" "">
 <!--[if IEMobile 7]><html class="iem7 no-js" lang="en" dir="ltr"><![endif]-->
 <!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7 no-js" lang="en" dir="ltr"><![endif]-->
 <!--[if (IE 7)&(!IEMobile)]><html class="lt-ie9 lt-ie8 no-js" lang="en" dir="ltr"><![endif]-->
@@ -659,16 +658,12 @@ social media at&nbsp;EPA&nbsp;»</a>
                   if (data[i].ResourceId !=
                     previousIDExtent
                   ) {
-                    simpleSearchClk5
-                      (data[i]
-                        .ResourceId
-                      );
+                    simpleSearchClk5(data[i].ResourceId);
                   }
                 }
               }
             });
-            previousIDExtent = data[
-              i].ResourceId;
+            previousIDExtent = data[i].ResourceId;
           }
         }
       }
@@ -738,25 +733,19 @@ social media at&nbsp;EPA&nbsp;»</a>
         cost_select.length == 0) &&
       (extent_select.length != 0)) {
       var previousIDExtent = 9999;
-      for (ies = 0; ies <
-        extent_select.length; ies++
-      ) {
+      for (ies = 0; ies < extent_select.length; ies++) {
         if (os_select.length != 0) {
-          var osSelect = os_select[
-            ios];
+          var osSelect = os_select[ ios];
         } else {
           var osSelect;
         }
         if (cost_select.length != 0) {
-          var costSelect =
-            cost_select[ics];
+          var costSelect = cost_select[ics];
         } else {
           var costSelect;
         }
-        if (extent_select.length !=
-          0) {
-          var extentSelect =
-            extent_select[ies];
+        if (extent_select.length != 0) {
+          var extentSelect = extent_select[ies];
         } else {
           var extentSelect;
         }
@@ -775,12 +764,8 @@ social media at&nbsp;EPA&nbsp;»</a>
           dataType: 'json',
           success: function(
             data) {
-            for (i = 0; i <
-              data.length; i++
-            ) {
-              if (data[i].ResourceId !=
-                previousIDExtent
-              ) {
+            for (i = 0; i < data.length; i++) {
+              if (data[i].ResourceId != previousIDExtent) {
                 simpleSearchClk5
                   (data[i].ResourceId);
               }
@@ -837,31 +822,24 @@ social media at&nbsp;EPA&nbsp;»</a>
         }
       });
     }
-    if ((os_select.length != 0) && (
-        cost_select.length == 0) &&
+    if ((os_select.length != 0) &&
+      (cost_select.length == 0) &&
       (extent_select.length != 0)) {
       for (ios = 0; ios < os_select.length; ios++) {
         var previousIDExtent = 9999;
-        for (ies = 0; ies <
-          extent_select.length; ies++
-        ) {
+        for (ies = 0; ies < extent_select.length; ies++) {
           if (os_select.length != 0) {
-            var osSelect =
-              os_select[ios];
+            var osSelect = os_select[ios];
           } else {
             var osSelect;
           }
-          if (cost_select.length !=
-            0) {
-            var costSelect =
-              cost_select[ics];
+          if (cost_select.length != 0) {
+            var costSelect = cost_select[ics];
           } else {
             var costSelect;
           }
-          if (extent_select.length !=
-            0) {
-            var extentSelect =
-              extent_select[ies];
+          if (extent_select.length != 0) {
+            var extentSelect = extent_select[ies];
           } else {
             var extentSelect;
           }
@@ -880,30 +858,24 @@ social media at&nbsp;EPA&nbsp;»</a>
             dataType: 'json',
             success: function(
               data) {
-              for (i = 0; i <
-                data.length; i++
-              ) {
-                if (data[i].ResourceId !=
-                  previousIDExtent
+              for (i = 0; i < data.length; i++) {
+                if (data[i].ResourceId != previousIDExtent
                 ) {
-                  simpleSearchClk5
-                    (data[i].ResourceId);
+                  simpleSearchClk5(data[i].ResourceId);
                 }
               }
             }
           });
-          previousIDExtent = data[i]
-            .ResourceId;
+          previousIDExtent = data[i].ResourceId;
         }
       }
     }
-    if ((os_select.length != 0) && (
-        cost_select.length == 0) &&
+    if ((os_select.length != 0) &&
+      (cost_select.length == 0) &&
       (extent_select.length == 0)) {
       for (ios = 0; ios < os_select.length; ios++) {
         if (os_select.length != 0) {
-          var osSelect = os_select[
-            ios];
+          var osSelect = os_select[ ios];
         } else {
           var osSelect;
         }
@@ -933,46 +905,33 @@ social media at&nbsp;EPA&nbsp;»</a>
             Format: 'JSON'
           },
           dataType: 'json',
-          success: function(
-            data) {
-            for (i = 0; i <
-              data.length; i++
-            ) {
-              if (data[i].ResourceId !=
-                previousIDExtent
-              ) {
-                simpleSearchClk5
-                  (data[i].ResourceId);
+          success: function(data) {
+            for (i = 0; i < data.length; i++) {
+              if (data[i].ResourceId != previousIDExtent) {
+                simpleSearchClk5(data[i].ResourceId);
               }
             }
           }
         });
       }
     }
-    if ((os_select.length != 0) && (
-        cost_select.length != 0) &&
+    if ((os_select.length != 0) &&
+      (cost_select.length != 0) &&
       (extent_select.length == 0)) {
       for (ios = 0; ios < os_select.length; ios++) {
-        for (ics = 0; ics <
-          cost_select.length; ics++
-        ) {
+        for (ics = 0; ics < cost_select.length; ics++) {
           if (os_select.length != 0) {
-            var osSelect =
-              os_select[ios];
+            var osSelect = os_select[ios];
           } else {
             var osSelect;
           }
-          if (cost_select.length !=
-            0) {
-            var costSelect =
-              cost_select[ics];
+          if (cost_select.length != 0) {
+            var costSelect = cost_select[ics];
           } else {
             var costSelect;
           }
-          if (extent_select.length !=
-            0) {
-            var extentSelect =
-              extent_select[ies];
+          if (extent_select.length != 0) {
+            var extentSelect = extent_select[ies];
           } else {
             var extentSelect;
           }
@@ -991,9 +950,7 @@ social media at&nbsp;EPA&nbsp;»</a>
             dataType: 'json',
             success: function(
               data) {
-              for (i = 0; i <
-                data.length; i++
-              ) {
+              for (i = 0; i < data.length; i++) {
                 if (data[i].ResourceId !=
                   previousIDExtent
                 ) {
@@ -1057,285 +1014,214 @@ social media at&nbsp;EPA&nbsp;»</a>
       },
       dataType: 'json',
       success: function(data) {
-        console.log(
-          'data.length: ' +
-          data.length);
         if ($('#simpleFeedback').css('display') == 'block') {
           if (data.length < 1) {
-            $('#simpleFeedback')
-              .css('display',
-                'block');
+            $('#simpleFeedback').css('display', 'block');
           } else {
-            $('#simpleFeedback')
-              .css('display',
-                'none');
+            $('#simpleFeedback').css('display', 'none');
           }
         }
         for (i = 0; i < data.length; i++) {
-          simpleSearchClk4(
-            data[i].ResourceId
-          );
+          simpleSearchClk4(data[i].ResourceId);
         }
       },
     });
   };
+
   simpleSearchClk4 = function(
     resourceID) {
     $.ajax({
-      type: 'GET',
+      type: "GET",
       url: resourceDetailURL,
       data: {
         ResourceId: resourceID,
-        Format: 'JSON'
+        Format: "JSON"
       },
-      //data: { Name: name_query, ShortDescriptionForReports: decision_query, Format: 'JSON' },
-      dataType: 'json',
+      //data: { Name: name_query, ShortDescriptionForReports: decision_query, Format: "JSON" },
+      dataType: "json",
       success: function(data) {
         var response =
-          parseResults(data,
-            "#resultsTable");
-        if (response ==
-          'No Results Found') {
-          $('#popup-message')[
-              0].style.fontSize =
-            "x-small";
-          $('#popup-message')[
-              0].innerHTML =
+          parseResults(data, "#resultsTable");
+        if (response == "No Results Found") {
+          $('#popup-message')[0].style.fontSize = "x-small";
+          $('#popup-message')[0].innerHTML =
             "Your search for resource ID '" +
             resourceID +
             "' returned no results. Please try again.";
-          $("#dialog-message")
-            .dialog("open");
-        }
-      }
-    });
-  };
-  simpleSearchClk5 = function(
-    resourceID) {
-    $.ajax({
-      type: 'GET',
-      url: resourceDetailURL,
-      data: {
-        ResourceId: resourceID,
-        Format: 'JSON'
-      },
-      dataType: 'json',
-      success: function(data) {
-        var response =
-          parseResults(data,
-            "#resultsTable");
-        if (response ==
-          'No Results Found') {
-          $('#popup-message')[
-              0].style.fontSize =
-            "x-small";
-          $('#popup-message')[
-              0].innerHTML =
-            "Your search for resource ID '" +
-            resourceID +
-            "' returned no results. Please try again.";
-          $("#dialog-message")
-            .dialog("open");
+          $("#dialog-message").dialog("open");
         }
       }
     });
   };
 
-  function parseResults(str,
-    table_reference) {
-    //console.log("str");
+  simpleSearchClk5 = function(
+    resourceID) {
+    $.ajax({
+      type: "GET",
+      url: resourceDetailURL,
+      data: {
+        ResourceId: resourceID,
+        Format: "JSON"
+      },
+      dataType: "json",
+      success: function(data) {
+        var response = parseResults(data, "#resultsTable");
+        if (response == "No Results Found") {
+          $("#popup-message")[0].style.fontSize = "x-small";
+          $("#popup-message")[0].innerHTML =
+            "Your search for resource ID '" + resourceID +
+            "' returned no results. Please try again.";
+          $("#dialog-message").dialog("open");
+        }
+      }
+    });
+  };
+
+  function parseResults(str, table_reference) {
     try {
-      // var row_template = {'Name':0,'ShortDescriptionForReports':1,'BaseCostOfSoftware':2,'SpatialExtent':3,'ModelInputs':4,'ModelOutputTypes':5};
+      // var row_template = {"Name":0,"ShortDescriptionForReports":1,"BaseCostOfSoftware":2,"SpatialExtent":3,"ModelInputs":4,"ModelOutputTypes":5};
       var row_template = {
-        'Acronym': 0,
-        'ShortTitleText': 1,
-        'ShortDescription': 2,
-        'BaseCostOfSoftware': 3,
-        'SpatialExtent': 4,
-        'ModelInputs': 5,
-        'ModelOutputTypes': 6
+        "Acronym": 0,
+        "ShortTitleText": 1,
+        "ShortDescription": 2,
+        "BaseCostOfSoftware": 3,
+        "SpatialExtent": 4,
+        "ModelInputs": 5,
+        "ModelOutputTypes": 6
       };
       result = str;
-      //console.log(str);
-      var result_table = $(
-        table_reference)[0];
-      var row = result_table.insertRow(
-        1);
-      jQuery.data(row, "record",
-        result);
+      var result_table = $(table_reference)[0];
+      var row = result_table.insertRow(1);
+      jQuery.data(row, "record", result);
       for (var key in row_template) {
-        var cell = row.insertCell(
-          row_template[key]);
-        var columnnumber =
-          row_template[key];
-        cell.style.fontSize =
-          'x-small';
+        var cell = row.insertCell(row_template[key]);
+        var columnnumber = row_template[key];
+        cell.style.fontSize = 'x-small';
         var this_result;
         switch (columnnumber) {
           case 0: //Acronym
-            //console.log("gothere 1");
-            var AcronymData = str.READExportDetail
-              .InfoResourceDetail.GeneralDetail
+            var AcronymData = str
+              .READExportDetail
+              .InfoResourceDetail
+              .GeneralDetail
               .Acronym;
-            this_result =
-              AcronymData;
+            this_result = AcronymData;
             break;
-          case 1: //ShortTitleText //Need to be brought in from data and Name is missing as well.
-            var ShortTitleTextData =
-              str.READExportDetail.InfoResourceDetail
-              .GeneralDetail.ShortTitleText;
-            this_result =
-              ShortTitleTextData;
+          case 1: //ShortTitleText
+            //Needs brought in from data; name is missing.
+            var ShortTitleTextData = str
+              .READExportDetail
+              .InfoResourceDetail
+              .GeneralDetail
+              .ShortTitleText;
+            this_result = ShortTitleTextData;
             break;
           case 2: //ShortDescription
-            var ShortDescriptionData =
-              str.READExportDetail.InfoResourceDetail
-              .GeneralDetail.ShortDescription;
-            this_result =
-              ShortDescriptionData;
+            var ShortDescriptionData = str
+              .READExportDetail
+              .InfoResourceDetail
+              .GeneralDetail
+              .ShortDescription;
+            this_result = ShortDescriptionData;
             break;
           case 3: //DetailsBaseSoftwareCost
-            var
-              DetailsBaseSoftwareCostData =
-              str.READExportDetail.InfoResourceDetail
-              .ModelDetailsDetail.DetailsBaseSoftwareCost;
-            this_result =
-              DetailsBaseSoftwareCostData;
-            switch (
-              DetailsBaseSoftwareCostData
-            ) {
+            var DetailsBaseSoftwareCostData = str
+              .READExportDetail
+              .InfoResourceDetail
+              .ModelDetailsDetail
+              .DetailsBaseSoftwareCost;
+            this_result = DetailsBaseSoftwareCostData;
+            switch (DetailsBaseSoftwareCostData) {
               case 1:
-                this_result =
-                  "Free";
+                this_result = "Free";
                 break;
               case 2:
-                this_result =
-                  "$1-$499";
+                this_result = "$1-$499";
                 break;
               case 3:
-                this_result =
-                  "$500-$1499";
+                this_result = "$500-$1499";
                 break;
               case 4:
-                this_result =
-                  "$1500-$3999";
+                this_result = "$1500-$3999";
                 break;
               case 5:
-                this_result =
-                  ">$4000";
+                this_result = ">$4000";
                 break;
               default:
-                this_result =
-                  "No Data Available"
+                this_result = "No Data Available"
             }
             break;
           case 4: //SpatialExtent
-            var spatialextentstring =
-              "";
-            var SpatialExtentData =
-              str.READExportDetail.InfoResourceDetail
-              .ModelScopeDetail.ModelScopeSpatialExtentDetail;
+            var spatialextentstring = "";
+            var SpatialExtentData = str
+              .READExportDetail
+              .InfoResourceDetail
+              .ModelScopeDetail
+              .ModelScopeSpatialExtentDetail;
             if (SpatialExtentData) {
-              for (i = 0; i <
-                SpatialExtentData.length; i++
-              ) {
-                if (i <
-                  SpatialExtentData
-                  .length - 1) {
-                  spatialextentstring
-                    +=
-                    SpatialExtentData[
-                      i].SpatialExtentName +
-                    ", ";
+              for (i = 0; i < SpatialExtentData.length; i++) {
+                if (i < SpatialExtentData .length - 1) {
+                  spatialextentstring +=
+                    SpatialExtentData[i].SpatialExtentName + ", ";
                 } else {
-                  spatialextentstring
-                    +=
-                    SpatialExtentData[
-                      i].SpatialExtentName;
+                  spatialextentstring +=
+                    SpatialExtentData[i].SpatialExtentName;
                 }
               }
             }
-            if (spatialextentstring !=
-              "") {
-              this_result =
-                spatialextentstring;
+            if (spatialextentstring != "") {
+              this_result = spatialextentstring;
             } else {
-              this_result =
-                "No Data Available";
+              this_result = "No Data Available";
             }
             break;
           case 5: //Model Inputs
-            var
-              ModelOutputsTextAreaData =
-              str.READExportDetail.InfoResourceDetail
-              .ModelInputsDetail.ModelInputsTextArea;
-            if (
-              ModelOutputsTextAreaData
-            ) {
-              this_result =
-                ModelOutputsTextAreaData;
+            var ModelOutputsTextAreaData = str
+              .READExportDetail
+              .InfoResourceDetail
+              .ModelInputsDetail
+              .ModelInputsTextArea;
+            if (ModelOutputsTextAreaData) {
+              this_result = ModelOutputsTextAreaData;
             } else {
-              this_result =
-                "No Data Available";
+              this_result = "No Data Available";
             }
             break;
-            break;
           case 6: //ModelOutputs
-            var
-              ModelOutputsTextAreaData =
-              str.READExportDetail.InfoResourceDetail
-              .ModelOutputsDetail.ModelOutputsModelVariablesTextArea;
-            if (
-              ModelOutputsTextAreaData
-            ) {
-              this_result =
-                ModelOutputsTextAreaData;
+            var ModelOutputsTextAreaData = str
+              .READExportDetail
+              .InfoResourceDetail
+              .ModelOutputsDetail
+              .ModelOutputsModelVariablesTextArea;
+            if (ModelOutputsTextAreaData) {
+              this_result = ModelOutputsTextAreaData;
             } else {
-              this_result =
-                "No Data Available";
+              this_result = "No Data Available";
             }
             break;
           default:
-            this_result =
-              "No Data Available";
+            this_result = "No Data Available";
         }
         if (this_result.length > 140) {
-          //cell.title = this_result;
-          this_result = this_result
-            .substr(0, 140) + '...'
+          this_result = this_result.substr(0, 140) + '...';
         }
-        cell.innerHTML =
-          this_result;
+        cell.innerHTML = this_result;
       }
-      //}
-      $(table_reference + " tr")
-        .click(function() {
-          showDetails($(this)
-            .data());
-          console.log(
-            "showdetails");
-          console.log($(this)
-            .data());
-        });
-      if (table_reference ==
-        "#resultsTable") {
-        jQuery.data(result_table,
-          'records', result);
-        $("[href='#tabsResults']")
-          .show();
-        $("[href='#tabsResults']")
-          .click();
-      } else if (table_reference ==
-        "#savedTable") {
-        $("[href='#tabsSaved']")
-          .show();
-        $("[href='#tabsSaved']")
-          .click();
+      $(table_reference + " tr").click(function() {
+        showDetails($(this).data());
+        console.log("showdetails");
+        console.log($(this).data());
+      });
+      if (table_reference == "#resultsTable") {
+        jQuery.data(result_table, 'records', result);
+        $("[href='#tabsResults']").show();
+        $("[href='#tabsResults']").click();
+      } else if (table_reference == "#savedTable") {
+        $("[href='#tabsSaved']").show();
+        $("[href='#tabsSaved']").click();
       } else {
-        jQuery.data(result_table,
-          'records', result);
-        $(table_reference)
-          .show()
+        jQuery.data(result_table, 'records', result);
+        $(table_reference).show()
       }
       return 'FOUND RESULTS!'
     } catch (err) {
@@ -1346,48 +1232,33 @@ social media at&nbsp;EPA&nbsp;»</a>
 
   //Load Models
   function loadModels() {
-    $("[href='#tabsBrowse']")
-      .show();
+    $("[href='#tabsBrowse']").show();
   }
   var tabsBrowserClicked = false;
 
   function loadModels2() {
     if (tabsBrowserClicked == false) {
-      $(".accordion-pane")
-        .each(function() {
-          var table_name = this.children[
-            1].id;
-          console.log(
-            "start loop table name =",
-            table_name);
-          //console.log("loading "+table_name);
-          var this_sector =
-            table_name.replace(
-              "table", "")
+      $(".accordion-pane").each(function() {
+          var table_name = this.children[1].id;
+          console.log("start loop tbl name =", table_name);
+          var this_sector = table_name
+            .replace("table", "")
             .toLowerCase();
-          //console.log("this_sector", this_sector);
-          //Building, Infrastructure, Land Use, Transportation, Waste Management
-          //building, land, transportation, waste
           switch (this_sector) {
             case "building":
-              decision_query =
-                "Building Infrastructure";
+              decision_query = "Building Infrastructure";
               break;
             case "land":
-              decision_query =
-                "Land Use";
+              decision_query = "Land Use";
               break;
             case "transportation":
-              decision_query =
-                "Transportation";
+              decision_query = "Transportation";
               break;
             case "waste":
-              decision_query =
-                "Waste Management";
+              decision_query = "Waste Management";
               break;
             default:
-              detail_obj[this_key] =
-                "No Data Available";
+              detail_obj[this_key] = "No Data Available";
           }
           $.ajax({
             type: 'GET',
@@ -1397,66 +1268,34 @@ social media at&nbsp;EPA&nbsp;»</a>
               Format: 'JSON'
             },
             dataType: 'json',
-            success: function(
-              data) {
-              for (i = 0; i <
-                data.length; i++
-              ) {
-                console.log(
-                  "ID");
-                console.log(
-                  data[i]
-                  .ResourceId
-                );
+            success: function(data) {
+              for (i = 0; i < data.length; i++) {
+                console.log("ID");
+                console.log(data[i].ResourceId);
                 $.ajax({
                   type: 'GET',
                   url: resourceDetailURL,
                   data: {
-                    ResourceId: data[
-                        i
-                      ]
-                      .ResourceId,
+                    ResourceId: data[i].ResourceId,
                     Format: 'JSON'
                   },
                   dataType: 'json',
-                  success: function(
-                    data
-                  ) {
-                    console
-                      .log(
-                        "table name =",
-                        table_name
-                      )
-                    parseResults
-                      (
-                        data,
-                        '#' +
-                        table_name
-                      );
+                  success: function(data) {
+                    console.log("table name =", table_name)
+                    parseResults(data, '#' + table_name);
                   }
                 });
               }
             }
           });
-          //decisionSectorSearch = function (resourceID) {
-          // };
-          /*
-            var textjson2 = $.grep(textjson, function (obj, index) {
-                var booleanVal = (((obj.Keywords.toLowerCase().indexOf(this_sector) > -1) || (obj.Short_Description_for_Reports.toLowerCase().indexOf(this_sector) > -1)));
-                return booleanVal;
-            });
-            parseResults(textjson2, '#' + table_name);
-          */
-          $("#Tabs1")
-            .tabs("option", {
-              "enable": 2
-            });
+          $("#Tabs1").tabs("option", {"enable": 2});
         });
-      // $("[href='#tabsBrowse']").show();
     }
     tabsBrowserClicked = true;
   }
   </script>
+  <!-- MIGRATE TO PRE JQ3; STILL NEED TO SEPARATELY MIGRATE TO 3
+  <script src="http://code.jquery.com/jquery-migrate-1.4.1.js"></script>
+  -->
 </body>
-
 </html>
