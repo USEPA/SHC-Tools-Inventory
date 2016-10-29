@@ -234,7 +234,7 @@ function showDetails(id) {
     'Open_Source',
     'Sustainability_Sector',
     'Keywords',
-    'Organization',
+    //'Organization',
     'User_Support_Name',
     'User_Support_Phone_Number',
     'User_Support_Email',
@@ -410,9 +410,10 @@ function showDetails(id) {
       // 'User_Support_Phone_Number'
       if (this_key == "User_Support_Phone_Number") {
         try {
-          detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.UserSupportDetail.UserSupportPhoneNumber;
-          //=======DEBUGRINCH
-          //console.log(typeof detail_obj[this_key]);
+          var value = id.record.READExportDetail.InfoResourceDetail.UserSupportDetail.UserSupportPhoneNumber;
+          if (typeof detailobj[this_key] == "string") {
+            detail_obj[this_key] = value;
+          }
         } catch (err) {
           detail_obj[this_key] = "No Data";
           console.log(err);
