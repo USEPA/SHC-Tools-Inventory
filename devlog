@@ -20,7 +20,7 @@
 
 - #DONE #devAdded Search acronym as well as name.
 
-- #devAdded Remove all underscores in details' titles.
+- #DONE Remove all underscores in details' titles.
 
 - #DONE Test tool for internal release in internet explorer, safari, firefox, and opera.
   - # Don't hold for bugs in minor browsers.
@@ -31,14 +31,16 @@
 
 - #DONE Return only one feedback indicating no results from simple search.
 
-- Try updating READ records via the web-app again.
-  - WIP Waiting on John Harmon
-  - WIP emailed Tim Bizal before I learned that John Harmon is on it
+- #DONE Try updating READ records via the web-app again.
+  - # resolution implemented in webapp's js
+  - # results will always include EPA's contact in a role of either
+    - # Primary Info Resource Steward(PIRS) or
+    - # Info Mgmt Officer(IMO)
 
 - #devAdded Replace '[object Object]' with 'No Data Available.'
   - # WIP attempting to construct fncn using JSON.stringify == '[object Object]'
 
-- #devAdded Make search results are accessible via keyboard.
+- #devAdded Make search results accessible. 
 
 - #devAdded Display "no results" on detailed search as in simple search.
 
@@ -51,3 +53,8 @@
 - #devAdded Fix "Save All Records."
 
 - #devAdded Fix "Save This Record."
+
+- return results only from desired records
+
+- give results browse-functionality 
+  - link keywords at bottom of search-results-table
