@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+<!--template retrieved from https://www.epa.gov/sites/all/libraries/template/standalone.html#main-content -->
 <!--[if IEMobile 7]><html class="iem7 no-js" lang="en" dir="ltr"><![endif]-->
 <!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7 no-js" lang="en" dir="ltr"><![endif]-->
 <!--[if (IE 7)&(!IEMobile)]><html class="lt-ie9 lt-ie8 no-js" lang="en" dir="ltr"><![endif]-->
@@ -1008,6 +1009,8 @@ social media at&nbsp;EPA&nbsp;»</a>
       type: 'GET',
       url: resourceSearchURL,
       data: {
+        /* take substring of name_query because exact match
+           longer than field length returns no results */
         Name: name_query.substring(0,30),
         DecisionSector: decision_query,
         Format: 'JSON'
