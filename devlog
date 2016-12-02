@@ -54,7 +54,35 @@
 
 - #devAdded Fix "Save This Record."
 
-- return results only from desired records
+- #devAdded Add ResourceBasicSearchURL = 'https://ofmpub.epa.gov:443/readwebservices/v1/ResourceSearch'
+  - # ajax call includes
+    - # Data : { QueryText: queryBothNameAndAcronym.substr(0,34) }
+  - # this does a single ajax call to replace doubled search in simpleSearchClk3()
 
-- give results browse-functionality 
-  - link keywords at bottom of search-results-table
+- return only records in one of the four decision sectors from both simple search and detailed search
+
+- give results browse-functionality
+  - create keywords column in #resultsTable
+  // display keywords in a column of #resultsTable
+  if (!($.data(document.body,resultsKeywords))){
+    $.data(document.body,resultsKeywords)={record: []};
+  }
+  - scrape keywords from each record in #resultsTable
+  // scrape keywords from each record in #resultsTable
+  for row in $(tableRef).rows
+    $.ajax({
+      type: "GET",
+      url: resourceDetailURL,
+      data: {
+        ResourceId: ResourceID,
+        Format: "JSON"
+      },
+      dataType: "json",
+      success: function(data) {
+        console.log(data.READExportDetail.InfoResourceDetail.KeywordDetail.KeywordText)
+      }
+    });
+  - DPL is used to find related keywords for each keyword
+  - Each Keyword’s text links to a search for the keyword
+  - Results from searches for keywords are placed in the existing table
+  - Records may be “browsed by keyword” in this way
