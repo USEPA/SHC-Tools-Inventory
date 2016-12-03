@@ -967,94 +967,210 @@ social media at&nbsp;EPA&nbsp;»</a>
   }
 
   simpleSearchClk3 = function() {
+	console.log("simpleSearchClk3");
     clearResults();
-    var name_query = $(
-        '#simpleSearchText')[0].value
-      .toLowerCase();
-    var decision_query = $(
-        '#simpleDecisionSelect')[0]
-      .value;
-    // run acronym-search
-    $.ajax({
-      type: 'GET',
-      url: resourceSearchURL,
-      data: {
-        Acronym: name_query,
-        DecisionSector: decision_query,
-        Format: 'JSON'
-      },
-      dataType: 'json',
-      success: function(data) {
-        console.log(
-          'data.length: ' +
-          data.length);
-        if (data.length < 1) {
-          $('#simpleFeedback')
-            .css('display',
-              'block');
-        } else {
-          $('#simpleFeedback')
-            .css('display',
-              'none');
-        }
-        for (i = 0; i < data.length; i++) {
-          simpleSearchClk4(
-            data[i].ResourceId
-          );
-        }
-      },
-    });
-    // run name-search
-    $.ajax({
-      type: 'GET',
-      url: resourceSearchURL,
-      data: {
-        /* take substring of name_query because exact match
-           longer than field length returns no results */
-        Name: name_query.substring(0,30),
-        DecisionSector: decision_query,
-        Format: 'JSON'
-      },
-      dataType: 'json',
-      success: function(data) {
-        if ($('#simpleFeedback').css('display') == 'block') {
-          if (data.length < 1) {
-            $('#simpleFeedback').css('display', 'block');
-          } else {
-            $('#simpleFeedback').css('display', 'none');
-          }
-        }
-        for (i = 0; i < data.length; i++) {
-          simpleSearchClk4(data[i].ResourceId);
-        }
-      },
-    });
-  };
-
-  simpleSearchClk4 = function(
-    resourceID) {
-    $.ajax({
-      type: "GET",
-      url: resourceDetailURL,
-      data: {
-        ResourceId: resourceID,
-        Format: "JSON"
-      },
-      //data: { Name: name_query, ShortDescriptionForReports: decision_query, Format: "JSON" },
-      dataType: "json",
-      success: function(data) {
-        var response =
-          parseResults(data, "#resultsTable");
-        if (response == "No Results Found") {
-          $('#popup-message')[0].style.fontSize = "x-small";
-          $('#popup-message')[0].innerHTML =
-            "Your search for resource ID '" +
-            resourceID +
-            "' returned no results. Please try again.";
-          $("#dialog-message").dialog("open");
-        }
-      }
-    });
+	var name_query = $('#simpleSearchText').val().toLowerCase().trim();
+    var decision_query = $('#simpleDecisionSelect').val();
+	if (name_query) {	// makes sure search string is not empty
+		if (decision_query) {
+			console.log(decision_query);
+			$.when(
+				// run acronym-search
+				$.ajax({
+				  type: 'GET',
+				  url: resourceSearchURL,
+				  data: {
+					Acronym: name_query,
+					DecisionSector: decision_query,
+					Format: 'JSON'
+				  },
+				  dataType: 'json',
+				}),				
+				// run name-search
+				$.ajax({
+				  type: 'GET',
+				  url: resourceSearchURL,
+				  data: {
+					Name: name_query.substring(0,30),
+					DecisionSector: decision_query,
+					Format: 'JSON'
+				  },
+				  dataType: 'json',
+				})
+			)
+			.done(function ( a1, a2 ) {		
+				console.log('a1[0].length: ' + a1[0].length);
+				console.log('a2[0].length: ' + a2[0].length);
+				
+				var arr = [];
+				var resultLength = a1[0].length;
+				
+				if (0 < resultLength) {
+					for (var i = 0; i < resultLength; i++) {
+						console.log("a1: "+a1[0][i].ResourceId);
+						
+						if(arr.indexOf(a1[0][i].ResourceId) === -1) {
+							arr.push(a1[0][i].ResourceId);
+							console.log("a1 SEND: "+a1[0][i].ResourceId);
+							simpleSearchClk4(a1[0][i].ResourceId);
+						}
+					}
+				}
+				
+				resultLength = a2[0].length;
+				if (0 < resultLength) {
+					for (i = 0; i < resultLength; i++) {
+						console.log("a2: "+a2[0][i].ResourceId);
+						
+						if(arr.indexOf(a2[0][i].ResourceId) === -1) {
+							arr.push(a2[0][i].ResourceId);
+							console.log("a2 SEND: "+a2[0][i].ResourceId);
+							simpleSearchClk4(a2[0][i].ResourceId);	
+						}									
+					}
+				}
+				
+				if (arr.length === 0) {
+					$('#simpleFeedback').css('display', 'block');
+				}
+				
+				console.log(arr);
+			});
+		} else {
+			console.log("All");
+			$.when(
+				// run acronym-search
+				$.ajax({
+				  type: 'GET',
+				  url: resourceSearchURL,
+				  data: {
+					Acronym: name_query,
+					DecisionSector: 'Building Infrastructure',
+					Format: 'JSON'
+				  },
+				  dataType: 'json'				  
+				}),
+				$.ajax({
+				  type: 'GET',
+				  url: resourceSearchURL,
+				  data: {
+					Acronym: name_query,
+					DecisionSector: 'Land Use',
+					Format: 'JSON'
+				  },
+				  dataType: 'json'				  
+				}),
+				$.ajax({
+				  type: 'GET',
+				  url: resourceSearchURL,
+				  data: {
+					Acronym: name_query,
+					DecisionSector: 'Transportation',
+					Format: 'JSON'
+				  },
+				  dataType: 'json'				  
+				}),
+				$.ajax({
+				  type: 'GET',
+				  url: resourceSearchURL,
+				  data: {
+					Acronym: name_query,
+					DecisionSector: 'Waste Management',
+					Format: 'JSON'
+				  },
+				  dataType: 'json'				  
+				}),
+				
+				// run name-search
+				$.ajax({
+				  type: 'GET',
+				  url: resourceSearchURL,
+				  data: {
+					Name: name_query.substring(0,30),
+					DecisionSector: 'Building Infrastructure',
+					Format: 'JSON'
+				  },
+				  dataType: 'json'
+				}),
+				$.ajax({
+				  type: 'GET',
+				  url: resourceSearchURL,
+				  data: {
+					Name: name_query.substring(0,30),
+					DecisionSector: 'Land Use',
+					Format: 'JSON'
+				  },
+				  dataType: 'json',
+				}),
+				$.ajax({
+				  type: 'GET',
+				  url: resourceSearchURL,
+				  data: {
+					Name: name_query.substring(0,30),
+					DecisionSector: 'Transportation',
+					Format: 'JSON'
+				  },
+				  dataType: 'json',
+				}),
+				$.ajax({
+				  type: 'GET',
+				  url: resourceSearchURL,
+				  data: {
+					Name: name_query.substring(0,30),
+					DecisionSector: 'Waste Management',
+					Format: 'JSON'
+				  },
+				  dataType: 'json',
+				})
+			).done(function ( a1, a2, a3, a4, a5, a6, a7, a8 ) {				
+				var results = [a1, a2, a3, a4, a5, a6, a7, a8];
+				var arr = [];
+				var resultLength;
+				for (var y = 0; y < results.length; y++) {
+					resultLength = results[y][0].length;
+					if (resultLength > 0) {									
+						if (0 < resultLength) {
+							for (i = 0; i < resultLength; i++) {
+								console.log("a"+y+": "+results[y][0][i].ResourceId);							
+								if(arr.indexOf(results[y][0][i].ResourceId) === -1) {
+									arr.push(results[y][0][i].ResourceId);
+									console.log("a"+y+" SEND: "+results[y][0][i].ResourceId);
+									simpleSearchClk4(results[y][0][i].ResourceId);
+								}
+							}
+						}
+					}
+				}
+				console.log(arr);
+				if (0 === arr.length) {
+					$('#simpleFeedback').css('display', 'block');
+				}
+			});
+		}		
+	  }
+	};
+	  simpleSearchClk4 = function(resourceID) {
+		console.log("simpleSearchClk4");
+		$.ajax({
+		  type: 'GET',
+		  url: resourceDetailURL,
+		  data: {
+			ResourceId: resourceID,
+			Format: 'JSON'
+		  },
+		  //data: { Name: name_query, ShortDescriptionForReports: decision_query, Format: 'JSON' },
+		  dataType: 'json',
+		  success: function(data) {
+			var response = parseResults(data, "#resultsTable");
+			/*
+			if (response == 'No Results Found') {
+			  $('#popup-message').css('fontSize', 'x-small');
+			  $('#popup-message').html("Your search for resource ID '" + resourceID + "' returned no results. Please try again.");
+			  $("#dialog-message").dialog("open");
+			}
+			*/
+		  }
+		});
   };
 
   simpleSearchClk5 = function(
