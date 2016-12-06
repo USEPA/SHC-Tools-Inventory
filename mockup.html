@@ -84,7 +84,7 @@
             <div class="accordion">
 
               <h3><a>Search:</a></h3>
-              <div>
+              <div hidden>
                 <input type="text"></input>
                 <button>Search</button>
                 <!--<p>If results are listed then show an option to either reduce results with a new search or expand results with a new earch. List each searched word separately. Group words by whether they reduce results ("and" operation) or expand results ("or" operation).
@@ -92,7 +92,7 @@
               </div>
 
               <h3><a>Categories:</a></h3>
-              <div>
+              <div hidden>
                 <fieldset>
                   <label for="checkbox-nested-1">
                     <input type="checkbox" name="checkbox-nested-1">
@@ -114,7 +114,7 @@
               </div>
 
               <h3><a>User Information:</a></h3>
-              <div>
+              <div hidden>
                 <fieldset>
                   <label>
                     <input type="radio" name="radio">
@@ -128,7 +128,7 @@
               </div>
 
               <h3><a>Problem Information:</a></h3>
-              <div>
+              <div hidden>
                 <fieldset>
                   <label for="checkbox-nested-1">
                     <input type="checkbox" name="checkbox-nested-1">
@@ -150,7 +150,7 @@
               </div>
 
               <h3><a>Exclusions:</a></h3>
-              <div>
+              <div hidden>
                 <input type="text"></input>
                 <button>Exclude these words</button>
               </div>
@@ -237,7 +237,9 @@
   </script>-->
   <script>
     $ = jQuery;
-    $('.accordion a').click( function() { $( '.accordion' ).children(':odd').toggle() } );
+    $('.accordion > h3 > a').click( function() { 
+		$(this).parent().next().toggle();
+	});
   </script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <!-- REMOVE if not using -->
