@@ -35,6 +35,11 @@
   <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters" />
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
+  <style>
+    .accordion > * {
+      padding: 0
+    }
+  </style>
 </head>
 <!-- NOTE, figure out body classes! -->
 <body class="node-type-(web-area|page|document|webform) (microsite|resource-directory)" >
@@ -74,31 +79,82 @@
       <div class="panel-pane pane-node-content" >
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
-            <button class="ui-button">HELLP</button>
-            <input type="text"></input>
-            <button>Search</button>
-            <div id="browse-accordion">
+            <button class="ui-button">HELLLLLLP</button>
+            <p>Give the user a tool that works like system-sketch by telling the user what causal relationships exist relating to a search query.
+            <div class="accordion">
+
+              <h3><a>Search:</a></h3>
+              <div>
+                <input type="text"></input>
+                <button>Search</button>
+                <!--<p>If results are listed then show an option to either reduce results with a new search or expand results with a new earch. List each searched word separately. Group words by whether they reduce results ("and" operation) or expand results ("or" operation).
+                <p>The user can search for an exact string by quoting it. List some common search terms as links. When clicked, these linked terms will be added to those searched. Each word gets an accompanying "[x]" for removal. Terms can be changed from reductive "and" operation to expansive "or" operation by dragging and dropping.-->
+              </div>
+
+              <h3><a>Categories:</a></h3>
               <div>
                 <fieldset>
-                  <legend>Decision Sectors:</legend>
                   <label for="checkbox-nested-1">
-                    <input type="checkbox" name="checkbox-nested-1" id="checkbox-nested-1">
+                    <input type="checkbox" name="checkbox-nested-1">
                     Land Use
                   </label>
                   <label for="checkbox-nested-2">
-                    <input type="checkbox" name="checkbox-nested-2" id="checkbox-nested-2">
+                    <input type="checkbox" name="checkbox-nested-2">
                     Transportation
                   </label>
                   <label for="checkbox-nested-3">
-                    <input type="checkbox" name="checkbox-nested-3" id="checkbox-nested-3">
+                    <input type="checkbox" name="checkbox-nested-3">
                     Waste Disposal
                   </label>
                   <label for="checkbox-nested-4">
-                    <input type="checkbox" name="checkbox-nested-4" id="checkbox-nested-4">
+                    <input type="checkbox" name="checkbox-nested-4">
                     Buildings and Related Infrastructure
                   </label>
                 </fieldset>
               </div>
+
+              <h3><a>User Information:</a></h3>
+              <div>
+                <fieldset>
+                  <label>
+                    <input type="radio" name="radio">
+                    "Quantitative analysis sounds like a fun friday night."
+                  </label>
+                  <label>
+                    <input type="radio" name="radio" checked>
+                    "Math and science hurt more than they help."
+                  </label>
+                  </fieldset>
+              </div>
+
+              <h3><a>Problem Information:</a></h3>
+              <div>
+                <fieldset>
+                  <label for="checkbox-nested-1">
+                    <input type="checkbox" name="checkbox-nested-1">
+                    Modeling
+                  </label>
+                  <label for="checkbox-nested-2">
+                    <input type="checkbox" name="checkbox-nested-2">
+                    Toxins
+                  </label>
+                  <label for="checkbox-nested-3">
+                    <input type="checkbox" name="checkbox-nested-3">
+                    Planning
+                  </label>
+                  <label for="checkbox-nested-4">
+                    <input type="checkbox" name="checkbox-nested-4">
+                    Preservation
+                  </label>
+                </fieldset>
+              </div>
+
+              <h3><a>Exclusions:</a></h3>
+              <div>
+                <input type="text"></input>
+                <button>Exclude these words</button>
+              </div>
+
             </div> 
           </div>
         </div>
@@ -169,13 +225,21 @@
   <script src="https://www.epa.gov/sites/all/libraries/template/jquery.js"></script>
   <script src="https://www.epa.gov/sites/all/libraries/template/js.js"></script>
   <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
-  <script src="js/jquery-ui.js"></script>
-  <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
-  <!-- REMOVE if not using -->
+  <!--<script src="js/jquery-ui.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
     $( function() {
-      $("#browse-accordion").accordion();
-    });
+      $( ".accordion" ).accordion({
+        collapsible: true
+      });
+    } );
+  </script>-->
+  <script>
+    $ = jQuery;
+    $('.accordion a').click( function() { $( '.accordion' ).children(':odd').toggle() } );
   </script>
+  <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
+  <!-- REMOVE if not using -->
 </body>
 </html>
