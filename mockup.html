@@ -37,16 +37,33 @@
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
   <style>
     .accordion > * {
-      padding: 0
+      padding: 2px;
+      margin: 0
+    }
+    .accordion div {
+      display: inline
+    }
+    .accordion > div {
+      display: none
+    }
+    .toggler {
+      line-height: initial;
+      font-size: initial;
+      width: 100%;
+      background-color: #dddddd
+    }
+    #search-terms span {
+      border: 1px solid gray;
+      margin: .1em
     }
   </style>
 </head>
 <!-- NOTE, figure out body classes! -->
 <body class="node-type-(web-area|page|document|webform) (microsite|resource-directory)" >
-  <!-- Google Tag Manager -->
+  <!-- Google Tag Manager
   <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script>
-  <!-- End Google Tag Manager -->
+  End Google Tag Manager -->
   <div class="skip-links"><a href="#main-content" class="skip-link element-invisible element-focusable">Jump to main content</a></div>
   <header class="masthead clearfix" role="banner">
     <img class="site-logo" src="https://www.epa.gov/sites/all/themes/epa/logo.png" alt="" />
@@ -79,20 +96,24 @@
       <div class="panel-pane pane-node-content" >
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
-            <button class="ui-button">HELLLLLLP</button>
-            <p>Give the user a tool that works like system-sketch by telling the user what causal relationships exist relating to a search query.
             <div class="accordion">
 
-              <h3><a>Search:</a></h3>
-              <div hidden>
-                <input type="text"></input>
-                <button>Search</button>
-                <!--<p>If results are listed then show an option to either reduce results with a new search or expand results with a new earch. List each searched word separately. Group words by whether they reduce results ("and" operation) or expand results ("or" operation).
-                <p>The user can search for an exact string by quoting it. List some common search terms as links. When clicked, these linked terms will be added to those searched. Each word gets an accompanying "[x]" for removal. Terms can be changed from reductive "and" operation to expansive "or" operation by dragging and dropping.-->
+              <button class="toggler">Search:</button>
+              <div>
+                <div style="display:inline">
+                  <input type="text" id="search-query"></input>
+                  <button onclick="search($('#search-query').val())" type="button">Search</button>
+                </div>
+                <div id="search-terms" style="display:none">
+                  <div id="search-and-terms">
+                  </div>
+                  <div id="search-or-terms">
+                  </div>
+                </div>
               </div>
 
-              <h3><a>Categories:</a></h3>
-              <div hidden>
+              <button class="toggler">Categories:</button>
+              <div>
                 <fieldset>
                   <label for="checkbox-nested-1">
                     <input type="checkbox" name="checkbox-nested-1">
@@ -113,8 +134,8 @@
                 </fieldset>
               </div>
 
-              <h3><a>User Information:</a></h3>
-              <div hidden>
+              <button class="toggler">User Information:</button>
+              <div>
                 <fieldset>
                   <label>
                     <input type="radio" name="radio">
@@ -127,8 +148,8 @@
                   </fieldset>
               </div>
 
-              <h3><a>Problem Information:</a></h3>
-              <div hidden>
+              <button class="toggler">Problem Information:</button>
+              <div>
                 <fieldset>
                   <label for="checkbox-nested-1">
                     <input type="checkbox" name="checkbox-nested-1">
@@ -149,11 +170,18 @@
                 </fieldset>
               </div>
 
-              <h3><a>Exclusions:</a></h3>
-              <div hidden>
+              <button class="toggler">Exclusions:</button>
+              <div>
                 <input type="text"></input>
                 <button>Exclude these words</button>
               </div>
+
+            <button class="toggler">HELLLLLLP</button>
+            <div>
+            <p>If results are listed then show an option to either reduce results with a new search or expand results with a new earch. List each searched word separately. Group words by whether they reduce results ("and" operation) or expand results ("or" operation).
+            <p>The user can search for an exact string by quoting it. List some common search terms as links. When clicked, these linked terms will be added to those searched. Each word gets an accompanying "[x]" for removal. Terms can be changed from reductive "and" operation to expansive "or" operation by dragging and dropping.
+            <p>Give the user a tool that works like system-sketch by telling the user what causal relationships exist relating to a search query.
+            </div>
 
             </div> 
           </div>
@@ -225,21 +253,24 @@
   <script src="https://www.epa.gov/sites/all/libraries/template/jquery.js"></script>
   <script src="https://www.epa.gov/sites/all/libraries/template/js.js"></script>
   <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
-  <!--<script src="js/jquery-ui.min.js"></script>
+  <!-- #FIXME old imports
+  <script src="js/jquery-ui.min.js"></script>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-    $( function() {
-      $( ".accordion" ).accordion({
-        collapsible: true
-      });
-    } );
-  </script>-->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js">
+  -->
   <script>
     $ = jQuery;
-    $('.accordion > h3 > a').click( function() { 
-		$(this).parent().next().toggle();
-	});
+    $('.accordion > button').click( function() { 
+      $(this).next().toggle();
+    });
+    var search = function(str) {
+        $('#search-terms').show()
+        $('#search-terms').css('display:inline');
+        var terms = str.split(" ");
+        $.each(terms, function(index, value) {
+          $('<span>',{ 'text': value }).appendTo('#search-and-terms');
+        });
+      };
   </script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <!-- REMOVE if not using -->
