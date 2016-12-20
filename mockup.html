@@ -44,7 +44,6 @@
       display: inline
     }
     .accordion > div {
-      display: none
     }
     .toggler {
       line-height: initial;
@@ -98,20 +97,6 @@
           <div class="node node-page clearfix view-mode-full">
             <div class="accordion">
 
-              <button class="toggler">Search:</button>
-              <div>
-                <div style="display:inline">
-                  <input type="text" id="search-query"></input>
-                  <button onclick="search($('#search-query').val())" type="button">Search</button>
-                </div>
-                <div id="search-terms" style="display:none">
-                  <div id="search-and-terms">
-                  </div>
-                  <div id="search-or-terms">
-                  </div>
-                </div>
-              </div>
-
               <button class="toggler">Categories:</button>
               <div>
                 <fieldset>
@@ -133,43 +118,85 @@
                   </label>
                 </fieldset>
               </div>
-
               <button class="toggler">User Information:</button>
               <div>
-                <fieldset>
-                  <label>
-                    <input type="radio" name="radio">
-                    "Quantitative analysis sounds like a fun friday night."
-                  </label>
-                  <label>
-                    <input type="radio" name="radio" checked>
-                    "Math and science hurt more than they help."
-                  </label>
-                  </fieldset>
+                <label for="role-select">Who Will use the tools?</label>
+                <select id="role-select" onchange="roleSelect(event)">
+                  <option value selected disabled>Role</option>
+                  <option value="2">Community Representative/Volunteer</option>
+                  <option value="3">Developer</option>
+                  <option value="4">Engineer/Architect/Designer</option>
+                  <option value="5">Environmental Group Representative</option>
+                  <option value="6">Farmer</option>
+                  <option value="7">Industrial or Commercial Facility Representative</option>
+                  <option value="8">Land Use, City, or Regional Planner</option>
+                  <option value="9">Landowner/Homeowner</option>
+                  <option value="10">Natural Resource Manager</option>
+                  <option value="11">Regulatory Official</option>
+                  <option value="12">Scientist/Academic</option>
+                  <option value="13">Sustainability or Environmental Program Coordinator</option>
+                  <option value="14">Urban Forest Manager</option>
+                  <option value="15">Water Utility Manager</option>
+                </select>
+
+                <label for="select-subrole">Who is this, in a subrole kinda sense?</label>
+                <select id="select-subrole">
+                  <option value selected disabled>Subrole</option>
+                  <option value="2">Community Representative/Volunteer</option>
+                  <option value="3">Developer</option>
+                  <option value="4">Engineer/Architect/Designer</option>
+                  <option value="5">Environmental Group Representative</option>
+                  <option value="6">Farmer</option>
+                  <option value="7">Industrial or Commercial Facility Representative</option>
+                  <option value="8">Land Use, City, or Regional Planner</option>
+                  <option value="9">Landowner/Homeowner</option>
+                  <option value="10">Natural Resource Manager</option>
+                  <option value="11">Regulatory Official</option>
+                  <option value="12">Scientist/Academic</option>
+                  <option value="13">Sustainability or Environmental Program Coordinator</option>
+                  <option value="14">Urban Forest Manager</option>
+                  <option value="15">Water Utility Manager</option>
+                </select>
               </div>
 
               <button class="toggler">Problem Information:</button>
               <div>
-                <fieldset>
-                  <label for="checkbox-nested-1">
-                    <input type="checkbox" name="checkbox-nested-1">
-                    Modeling
-                  </label>
-                  <label for="checkbox-nested-2">
-                    <input type="checkbox" name="checkbox-nested-2">
-                    Toxins
-                  </label>
-                  <label for="checkbox-nested-3">
-                    <input type="checkbox" name="checkbox-nested-3">
-                    Planning
-                  </label>
-                  <label for="checkbox-nested-4">
-                    <input type="checkbox" name="checkbox-nested-4">
-                    Preservation
-                  </label>
-                </fieldset>
+                <label for="select-objective">What is a user's goal?</label>
+                <select id="select-objective">
+                  <option value selected disabled>Objective</option>
+                  <option value="2">Community Representative/Volunteer</option>
+                  <option value="3">Developer</option>
+                  <option value="4">Engineer/Architect/Designer</option>
+                  <option value="5">Environmental Group Representative</option>
+                  <option value="6">Farmer</option>
+                  <option value="7">Industrial or Commercial Facility Representative</option>
+                  <option value="8">Land Use, City, or Regional Planner</option>
+                  <option value="9">Landowner/Homeowner</option>
+                  <option value="10">Natural Resource Manager</option>
+                  <option value="11">Regulatory Official</option>
+                  <option value="12">Scientist/Academic</option>
+                  <option value="13">Sustainability or Environmental Program Coordinator</option>
+                  <option value="14">Urban Forest Manager</option>
+                  <option value="15">Water Utility Manager</option>
+                </select>
+              
               </div>
 
+              <button class="toggler">Search:</button>
+              <div>
+                <div style="display:inline">
+                  <input type="text" id="search-query"></input>
+                  <button onclick="search($('#search-query').val())" type="button">Search</button>
+                </div>
+                <div id="search-terms" style="display:none">
+                  <div id="search-and-terms">
+                  </div>
+                  <div id="search-or-terms">
+                  </div>
+                </div>
+              </div>
+
+              <!--
               <button class="toggler">Exclusions:</button>
               <div>
                 <input type="text"></input>
@@ -182,6 +209,7 @@
             <p>The user can search for an exact string by quoting it. List some common search terms as links. When clicked, these linked terms will be added to those searched. Each word gets an accompanying "[x]" for removal. Terms can be changed from reductive "and" operation to expansive "or" operation by dragging and dropping.
             <p>Give the user a tool that works like system-sketch by telling the user what causal relationships exist relating to a search query.
             </div>
+            -->
 
             </div> 
           </div>
@@ -263,6 +291,133 @@
     $('.accordion > button').click( function() { 
       $(this).next().toggle();
     });
+    subroles = {
+      "Community Representative/Volunteer":[
+        "Member of a community task force",
+        "City Council Person",
+        "Community board member",
+        "Community volunteer/steward",
+        "Community organizer",
+        "Interested citizen",
+        "Local official",
+      ],
+      "Developer":[
+        "Residential development/architecture",
+        "Conservation or cluster development",
+        "Historic retrofit",
+        "Subdivision",
+        "Real estate",
+        "Mixed use",
+        "Infill",
+        "Brownfield",
+        "Commercial or industrial development/architecture",
+        "Building & construction",
+        "Greenfield (new development on previously undeveloped land)",
+      ],
+      "Engineer/Architect/Designer":[
+        "Residential development/architecture",
+        "Environmental consulting and/or compliance",
+        "Green design and/or LEED accredited professional",
+        "Ecological landscape design",
+        "Project management/project design",
+        "Geotechnical engineering",
+        "Environmental engineering",
+        "Civil engineering",
+        "Commercial or industrial development/architecture",
+        "Landscape architecture or design",
+      ],
+      "Environmental Group Representative":[
+        "Energy committee",
+        "Neighborhood or city greening council or organization",
+        "Land trust(s)",
+        "Urban forest organization or coalition",
+        "Watershed association",
+        "Conservation organization",
+        "Grant writer",
+      ],
+      "Farmer":[
+        "Organic farming",
+        "Urban farming",
+        "Conventional farming",
+        "Community farming and/or community supported agriculture",
+      ],
+      "Industrial or Commercial Facility Representative":[
+        "Commercial or industrial facility representative",
+        "Non-recreational vessel representative",
+        "Construction industry representative",
+        "Oil and gas industry representative",
+        "Mining industry representative",
+      ],
+      "Land Use, City, or Regional Planner":[
+        "Neighborhood/community planning",
+        "Environmental planning",
+        "Transportation planning",
+        "Economic & community development planning",
+        "Land use planning",
+        "Site planning",
+        "Urban or city/municipal planning",
+        "Regional planning",
+        "Hazard or natural disaster mitigation planning & response",
+        "Energy planning",
+        "Integrated water resources planning",
+        "Sustainability planning",
+      ],
+      "Landowner/Homeowner":[
+        "Homeowner occupant - resident that owns home",
+        "Commercial landowner",
+        "Homeowner with small lot (<1acre) or no lot",
+        "Homeowner with large lot (1-5 acres)",
+        "Small landowner (5-10 acres)",
+        "Large landowner (>10 acres)",
+        "Landlord",
+        "Building, property, or estate manager",
+        "Renter",
+      ],
+      "Natural Resource Manager":[
+        "Conservation lands",
+        "Coastal or marine areas",
+        "Fisheries",
+        "Natural disaster management (eg FEMA)",
+        "Watershed or drinking water",
+        "Estuaries, wetlands, lakes, or rivers",
+        "Forests",
+      ],
+      "Regulatory Official":[
+        "Federal",
+        "State",
+        "Local (municipal, city, town, county, etc)",
+        "NPDES (National Pollution Discharge Ellimination System)",
+        "Permitting specialist",
+      ],
+      "Scientist/Academic":[
+        "Researcher/scientist",
+        "Academic administrator or program coordinator",
+        "University professor",
+        "K-12 teacher",
+        "Grant writer",
+      ],
+      "Sustainability or Environmental Program Coordinator":[
+        "Green infrastructure coordinator",
+        "Sustainability coordinator",
+        "Environmental program coordinator (state)",
+        "Environmental program coordinator (local)",
+      ],
+      "Urban Forest Manager":[
+        "City/town forester (public employee)",
+        "Citizen tree steward",
+        "Public landscape or garden manager (e.g. employee of Parks or Public Works Department)",
+      ],
+      "Water Utility Manager":[
+        "Drinking water representative (source protection)",
+        "Drinking water representative (treatment)",
+        "Wastewater treatment representative",
+        "Sewer district representative and/or stormwater management coordinator",
+        "Integrated water resources planning",
+      ],
+    }
+    //var this_role = $('#role-select option:selected')[1].text;
+    //var this_list = subroles[this_role];
+
     var search = function(str) {
         $('#search-terms').show()
         $('#search-terms').css('display:inline');
@@ -271,6 +426,22 @@
           $('<span>',{ 'text': value }).appendTo('#search-and-terms');
         });
       };
+    var roleSelect = function(event){
+      console.log(event);
+      selectedRole = $('#role-select option:selected')[0].text;
+      subroles[selectedRole];
+      console.log('pooh');
+      /* THIS IS A NAIVE APPROACH. I SHOW A MORE MATURE DESIGN PATTERN.
+      switch($('#role-select').val()){
+        case '2':
+          $.each(role[subrole]
+              ('#subrole-select')
+          break;
+        default:
+          console.log('oops');
+      };
+      */
+    };
   </script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <!-- REMOVE if not using -->
