@@ -123,61 +123,33 @@
                 <label for="role-select">Who Will use the tools?</label>
                 <select id="role-select" onchange="roleSelect(event)">
                   <option value selected disabled>Role</option>
-                  <option value="2">Community Representative/Volunteer</option>
-                  <option value="3">Developer</option>
-                  <option value="4">Engineer/Architect/Designer</option>
-                  <option value="5">Environmental Group Representative</option>
-                  <option value="6">Farmer</option>
-                  <option value="7">Industrial or Commercial Facility Representative</option>
-                  <option value="8">Land Use, City, or Regional Planner</option>
-                  <option value="9">Landowner/Homeowner</option>
-                  <option value="10">Natural Resource Manager</option>
-                  <option value="11">Regulatory Official</option>
-                  <option value="12">Scientist/Academic</option>
-                  <option value="13">Sustainability or Environmental Program Coordinator</option>
-                  <option value="14">Urban Forest Manager</option>
-                  <option value="15">Water Utility Manager</option>
+                  <option>Community Representative/Volunteer</option>
+                  <option>Developer</option>
+                  <option>Engineer/Architect/Designer</option>
+                  <option>Environmental Group Representative</option>
+                  <option>Farmer</option>
+                  <option>Industrial or Commercial Facility Representative</option>
+                  <option>Land Use, City, or Regional Planner</option>
+                  <option>Landowner/Homeowner</option>
+                  <option>Natural Resource Manager</option>
+                  <option>Regulatory Official</option>
+                  <option>Scientist/Academic</option>
+                  <option>Sustainability or Environmental Program Coordinator</option>
+                  <option>Urban Forest Manager</option>
+                  <option>Water Utility Manager</option>
                 </select>
 
-                <label for="select-subrole">Who is this, in a subrole kinda sense?</label>
-                <select id="select-subrole">
+                <label for="subrole-select">Who is this, in a subrole kinda sense?</label>
+                <select id="subrole-select">
                   <option value selected disabled>Subrole</option>
-                  <option value="2">Community Representative/Volunteer</option>
-                  <option value="3">Developer</option>
-                  <option value="4">Engineer/Architect/Designer</option>
-                  <option value="5">Environmental Group Representative</option>
-                  <option value="6">Farmer</option>
-                  <option value="7">Industrial or Commercial Facility Representative</option>
-                  <option value="8">Land Use, City, or Regional Planner</option>
-                  <option value="9">Landowner/Homeowner</option>
-                  <option value="10">Natural Resource Manager</option>
-                  <option value="11">Regulatory Official</option>
-                  <option value="12">Scientist/Academic</option>
-                  <option value="13">Sustainability or Environmental Program Coordinator</option>
-                  <option value="14">Urban Forest Manager</option>
-                  <option value="15">Water Utility Manager</option>
                 </select>
               </div>
 
               <button class="toggler">Problem Information:</button>
               <div>
-                <label for="select-objective">What is a user's goal?</label>
-                <select id="select-objective">
+                <label for="objective-select">What is the user's goal?</label>
+                <select id="objective-select">
                   <option value selected disabled>Objective</option>
-                  <option value="2">Community Representative/Volunteer</option>
-                  <option value="3">Developer</option>
-                  <option value="4">Engineer/Architect/Designer</option>
-                  <option value="5">Environmental Group Representative</option>
-                  <option value="6">Farmer</option>
-                  <option value="7">Industrial or Commercial Facility Representative</option>
-                  <option value="8">Land Use, City, or Regional Planner</option>
-                  <option value="9">Landowner/Homeowner</option>
-                  <option value="10">Natural Resource Manager</option>
-                  <option value="11">Regulatory Official</option>
-                  <option value="12">Scientist/Academic</option>
-                  <option value="13">Sustainability or Environmental Program Coordinator</option>
-                  <option value="14">Urban Forest Manager</option>
-                  <option value="15">Water Utility Manager</option>
                 </select>
               
               </div>
@@ -1381,21 +1353,30 @@
         });
       };
 
+    /** populate a list into specified container of elements
+      * 
+    */
+    var populate = function(list, container, element){
+      var currentItems = container.children('*~*');
+      console.log('currentItems: ', currentItems);
+      // #FIXME not removing elements from listbox correctly
+      if (currentItems.length > 1){ currentItems.remove() }
+      $.each(list, function(index, value){
+          console.log('element: ',element);
+          console.log('value: ',value);
+          // #FIXME not appending correctly
+          var this_element = $(element).text(value);
+          container.append(this_element);
+      } );
+    };
+
     var roleSelect = function(event){
-      console.log(event);
       selectedRole = $('#role-select option:selected')[0].text;
-      subroles[selectedRole];
-      console.log('pooh');
-      /* THIS IS A NAIVE APPROACH. I SHOW A MORE MATURE DESIGN PATTERN.
-      switch($('#role-select').val()){
-        case '2':
-          $.each(role[subrole]
-              ('#subrole-select')
-          break;
-        default:
-          console.log('oops');
-      };
-      */
+      console.log('role that was selected: ',selectedRole);
+      var selectedSubroles = subroles[selectedRole];
+      console.log('subroles selected: ',selectedSubroles);
+      // populate #subrole-select with subrole options for this_role
+      populate(selectedSubroles, $('#subrole-select'), 'option');
 
     };
   </script>
