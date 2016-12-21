@@ -103,7 +103,7 @@
                     <input type="checkbox"  id="checkbox-nested-1">
 					<label for="checkbox-nested-1">Land Use</label>
                     <input type="checkbox" id="checkbox-nested-2">
-					<label for="checkbox-nested-2"> Transportation</label>
+					<label for="checkbox-nested-2">Transportation</label>
                     <input type="checkbox" id="checkbox-nested-3">
                     <label for="checkbox-nested-3">Waste Disposal</label>
                     <input type="checkbox" id="checkbox-nested-4">
@@ -130,8 +130,8 @@
                   <option>Urban Forest Manager</option>
                   <option>Water Utility Manager</option>
                 </select>
-                <label for="select-subrole">Who is this, in a subrole kinda sense?</label>
-                <select id="select-subrole">
+                <label for="subrole-select">Who is this, in a subrole kinda sense?</label>
+                <select id="subrole-select" onchange="subroleSelect(event)">
                   <option value selected disabled>Subrole</option>
                 </select>
               </div>
@@ -1346,32 +1346,40 @@
           $('<span>',{ 'text': value }).appendTo('#search-and-terms');
         });
       };
-
     /** populate a list into specified container of elements
       * 
     */
     var populate = function(list, container, element){
       var currentItems = container.children('*~*');
-      console.log('currentItems: ', currentItems);
+      console.log('currentItems.length: ', currentItems.length);
       // #FIXME not removing elements from listbox correctly
-      if (currentItems.length > 1){ currentItems.remove() }
+      if (currentItems.length > 1){ console.log("remove");currentItems.remove() }
       $.each(list, function(index, value){
-          console.log('element: ',element);
-          console.log('value: ',value);
+          //console.log('element: '+ typeof element);
+          //console.log('index: '+ index);
+          //console.log('current element.text: '+ $(container > element).text());
+          //console.log('value to set: '+value);
           // #FIXME not appending correctly
-          var this_element = $(element).text(value);
-          container.append(this_element);
+          //var this_element = $(element).text(value);
+          //container.append(this_element);
+          container.append($("<"+element+"></"+element+">").text(value));          
       } );
     };
-
     var roleSelect = function(event){
       selectedRole = $('#role-select option:selected')[0].text;
-      console.log('role that was selected: ',selectedRole);
+      //console.log('role that was selected: ',selectedRole);
       var selectedSubroles = subroles[selectedRole];
-      console.log('subroles selected: ',selectedSubroles);
+      //console.log('subroles selected: ',selectedSubroles);
       // populate #subrole-select with subrole options for this_role
       populate(selectedSubroles, $('#subrole-select'), 'option');
-
+    };
+    var subroleSelect = function(event){
+      selectedSubrole = $('#subrole-select option:selected')[0].text;
+      //console.log('subrole that was selected: ',selectedSubrole);
+      var selectedObjectives = objectives[selectedSubrole];
+      //console.log('objectives selected: ',selectedObjectives);
+      // populate #objective-select with objective options for this_subrole
+      populate(selectedObjectives, $('#objective-select'), 'option');
     };
   </script>
 </body>
