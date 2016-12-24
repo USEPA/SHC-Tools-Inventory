@@ -123,7 +123,7 @@
                 </select>
 
                 <label for="objective-select">What is the user's goal?</label>
-                <select id="objective-select">
+                <select id="objective-select" onchange="objectiveSelect(event)">
                   <option value selected disabled>Objective</option>
                 </select>
 
@@ -250,7 +250,7 @@
     var populate = function(list, container, element){
       var currentItems = container.children('*~*');
       console.log('currentItems.length: ', currentItems.length);
-      if (currentItems.length > 1){ console.log("remove");currentItems.remove() }
+      if (currentItems.length > 1){ currentItems.remove() }
       $.each(list, function(index, value){
           container.append($("<"+element+"></"+element+">").text(value));          
       } );
@@ -273,8 +273,10 @@
     };
     var objectiveSelect = function(event){
       var selectedObjective = $('#objective-select option:selected')[0].text;
+      console.log(selectedObjective);
       var selectedConcepts = conceptsByObjective[selectedObjective];
-      populate(selectedConcepts, $('#concepts-select'), 'option');
+      console.log(selectedConcepts);
+      populate(selectedConcepts, $('#concept-select'), 'option');
     };
   </script>
 </body>
