@@ -127,10 +127,9 @@
                   <option value selected disabled>Objective</option>
                 </select>
 
-                <label for="concept-select">What is the user's goal?</label>
-                <select id="concept-select">
-                  <option value selected disabled>Concept</option>
-                </select>
+                <!--<label for="concept-select">What are the user's concepts?</label>-->
+                <h3>Concepts</h3>
+                <div id="concept-select"></div>
 
               </div>
               <div aria-labelledby="search-tab" id="search-panel" role="tabpanel">Searchy words here...</div>
@@ -273,11 +272,22 @@
     };
     var objectiveSelect = function(event){
       var selectedObjective = $('#objective-select option:selected')[0].text;
-      console.log(selectedObjective);
+      //console.log(selectedObjective);
       var selectedConcepts = conceptsByObjective[selectedObjective];
-      console.log(selectedConcepts);
-      populate(selectedConcepts, $('#concept-select'), 'option');
+      //console.log(selectedConcepts);
+      //populate(selectedConcepts, $('#concept-select'), 'option');
+      $('#concept-select *').remove();
+      for (i=0; i<selectedConcepts.length; i++){
+        addCheckbox(selectedConcepts[i], '#concept-select');
+      }
     };
+    function addCheckbox(name, containerName) {
+     var container = $(containerName);
+     var inputs = container.find('input');
+     var id = inputs.length+1;
+     $('<input />', { type: 'checkbox', id: 'cb'+id, value: name }).appendTo(container);
+     $('<label />', { 'for': 'cb'+id, text: name }).appendTo(container);
+    }
   </script>
 </body>
 </html>
