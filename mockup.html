@@ -256,26 +256,21 @@
     };
     var roleSelect = function(event){
       var selectedRole = $('#role-select option:selected')[0].text;
-      //console.log('role that was selected: ',selectedRole);
       var selectedSubroles = subroles[selectedRole];
-      //console.log('subroles selected: ',selectedSubroles);
       // populate #subrole-select with subrole options for this_role
       populate(selectedSubroles, $('#subrole-select'), 'option');
     };
     var subroleSelect = function(event){
       var selectedSubrole = $('#subrole-select option:selected')[0].text;
-      //console.log('subrole that was selected: ',selectedSubrole);
       var selectedObjectives = objectives[selectedSubrole];
-      //console.log('objectives selected: ',selectedObjectives);
       // populate #objective-select with objective options for this_subrole
       populate(selectedObjectives, $('#objective-select'), 'option');
     };
     var objectiveSelect = function(event){
       var selectedObjective = $('#objective-select option:selected')[0].text;
-      //console.log(selectedObjective);
       var selectedConcepts = conceptsByObjective[selectedObjective];
+      if (selectedConcepts === undefined){selectedConcepts = []}
       //console.log(selectedConcepts);
-      //populate(selectedConcepts, $('#concept-select'), 'option');
       $('#concept-select *').remove();
       for (i=0; i<selectedConcepts.length; i++){
         addCheckbox(selectedConcepts[i], '#concept-select');
