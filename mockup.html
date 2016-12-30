@@ -131,6 +131,10 @@
                 <h3>Concepts</h3>
                 <div id="concept-select"></div>
 
+                <button id="search-button" onclick="keywordSearch(event)">Run Keyword Search</button>
+
+                <div id="search-results"></div>
+
               </div>
               <div aria-labelledby="search-tab" id="search-panel" role="tabpanel" aria-hidden="true">Searchy words here...</div>
               <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" aria-hidden="true">...detailed searchy words...</div>
@@ -272,16 +276,71 @@
       if (typeof selectedConcepts === 'undefined'){selectedConcepts = [];}
       $('#concept-select *').remove();
       for (i=0; i<selectedConcepts.length; i++){
-        addCheckbox(selectedConcepts[i], '#concept-select');
+        addCheckbox(selectedConcepts[i], 'concept-select');
       }
     };
     function addCheckbox(name, containerName) {
-     var container = $(containerName);
-     var inputs = container.find('input');
-     var id = inputs.length+1;
-     $('<input />', { type: 'checkbox', id: 'cb'+id, value: name }).appendTo(container);
-     $('<label />', { 'for': 'cb'+id, text: name }).appendTo(container);
-    }
+      var container = $('#'+containerName);
+      var inputs = container.find('input');
+      var id = inputs.length+1;
+      $('<input />', { type: 'checkbox', id: 'cb'+containerName+id, value: name, name: containerName+'-checkbox' }).appendTo(container);
+      $('<label />', { 'for': 'cb'+containerName+id, text: name }).appendTo(container);
+    };
+    var decisionSectors = [
+      "Land Use",
+      "Waste Management",
+      "Building & Infrastructure",
+      "Transportation"
+    ];
+    var keywordSearch = function(event) {
+      $('#search-results *').remove();
+      var keywords = getKeywords();
+      for (i=0; i<keywords.length; i++) {
+        for (j=0; j<decisionSectors.length; j++) {
+          $.ajax({
+            type: 'GET',
+            url: 'https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch',
+            data: {
+              Keywords: keywords[i],
+              DecisionSector: decisionSectors[j],
+              Format: 'JSON'
+            },
+            dataType: 'json'
+          }).done(function(data) {
+            for (i=0; i<data.length; i++) {
+              getResourceDetail(data[i].ResourceId);
+            }
+          });
+        }
+      }
+    };
+    var getKeywords = function() {
+      var concept = '';
+      var concepts = [];
+      var keyword = '';
+      var keywords = [];
+      $('input[name=concept-select-checkbox]:checked').each(function() {
+        concept = $(this).val();
+        if (concept.length > 1) {
+          keywords = concept.split(' ');
+          for (i=0; i<keywords.length; i++) {
+            keyword = keywords[i];
+            if ((concepts.indexOf(keywords[i]) === -1) && (keywords[i].length > 1)) { 
+              concepts.push(keyword);
+            }
+          }
+        }
+      });
+      return concepts;
+    };
+    var getResourceDetail = function(id) {
+      $.get('https://ofmpub.epa.gov:443/readwebservices/v1/ResourceDetail', { ResourceId: id }).done(function(data) {
+          displayResult(data);
+      });
+    };
+    var displayResult = function(data) {
+      addCheckbox(data.READExportDetail.InfoResourceDetail.GeneralDetail.LongTitleText, 'search-results');
+    };
   </script>
 </body>
 </html>
