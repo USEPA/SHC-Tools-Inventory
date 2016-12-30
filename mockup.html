@@ -248,7 +248,7 @@
     /** populate a list into specified a container of elements */
     var populate = function(list, container, element){
       var currentItems = container.children('*~*');
-      console.log('currentItems.length: ', currentItems.length);
+      if (typeof list === 'undefined'){list = [];}
       if (currentItems.length > 1){ currentItems.remove() }
       $.each(list, function(index, value){
           container.append($("<"+element+"></"+element+">").text(value));          
@@ -269,8 +269,7 @@
     var objectiveSelect = function(event){
       var selectedObjective = $('#objective-select option:selected')[0].text;
       var selectedConcepts = conceptsByObjective[selectedObjective];
-      if (selectedConcepts === undefined){selectedConcepts = []}
-      //console.log(selectedConcepts);
+      if (typeof selectedConcepts === 'undefined'){selectedConcepts = [];}
       $('#concept-select *').remove();
       for (i=0; i<selectedConcepts.length; i++){
         addCheckbox(selectedConcepts[i], '#concept-select');
