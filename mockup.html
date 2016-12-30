@@ -97,7 +97,7 @@
                 <button aria-controls="results-panel" aria-selected="false" id="results-tab" role="tab" tabindex="-1">Results</button>
               </div>
 
-              <div aria-labelledby="explore-tab" id="explore-panel" role="tabpanel">
+              <div aria-labelledby="explore-tab" id="explore-panel" role="tabpanel" aria-hidden="false">
                 <label for="role-select">Who will use the tools?</label>
                 <select id="role-select" onchange="roleSelect(event)">
                   <option value selected disabled>Role</option>
@@ -132,10 +132,10 @@
                 <div id="concept-select"></div>
 
               </div>
-              <div aria-labelledby="search-tab" id="search-panel" role="tabpanel">Searchy words here...</div>
-              <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">...detailed searchy words...</div>
-              <div aria-labelledby="browse-tab" id="browse-panel" role="tabpanel">These words feel browsy.</div>
-              <div aria-labelledby="results-tab" id="results-panel" role="tabpanel">Resultantasticalisticity</div>
+              <div aria-labelledby="search-tab" id="search-panel" role="tabpanel" aria-hidden="true">Searchy words here...</div>
+              <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" aria-hidden="true">...detailed searchy words...</div>
+              <div aria-labelledby="browse-tab" id="browse-panel" role="tabpanel" aria-hidden="true">These words feel browsy.</div>
+              <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">Resultantasticalisticity</div>
             </div>
           </div>
         </div>
