@@ -296,7 +296,7 @@ function addCheckbox(name, containerName) {
 function addDiv(name, containerName) {
   var container = $('#'+containerName);
   var divs = container.find('div');
-  $('<div></div>').text(name).appendTo(container);
+  $('<div></div>').appendTo(container).text(name);
 };
 var decisionSectors = [
   "Land Use",
@@ -347,46 +347,50 @@ var getResourceDetail = function(id) {
       displayResult(data);
   });
 };
+/** display a result; save result's data to the containing element */
 var displayResult = function(data) {
-  addDiv(data.READExportDetail.InfoResourceDetail.GeneralDetail.LongTitleText, 'search-results');
+  var containerId = 'search-results';
+  var parsedResult = parseResult(data);
+  addDiv(parsedResult.title, containerId);
+  $('#'+containerId).data(String(parsedResult.id), JSON.stringify(parsedResult));
+  if (typeof($('#'+containerId).data('ids')) == 'undefined'){$('#'+containerId).data('ids',[])}
+  currentIds = $('#'+containerId).data('ids');
+  currentIds.push(parsedResult.id);
 };
 
 
-var parseResults = function(results=[]){
-  //#TODO parse a list of results into the resultsCache = {<readID1>: <resultObject1>,...}
-  var parsedResults = {}
-  for (result in results){
-    var dataMap = {
-      id: result[readexportdetail][inforesourcedetail][readresourceidentifier],
-      title: result[readexportdetail][inforesourcedetail][generaldetail][longtitletext],
-      description: result[readexportdetail][inforesourcedetail][generaldetail][longdescription],
-      acronym: result[readexportdetail][inforesourcedetail][generaldetail][acronym],
-      keywords: result[readexportdetail][inforesourcedetail][keyworddetail][keywordtext],
-      contactname: result[readexportdetail][inforesourcedetail][usersupportdetail][usersupportname],
-      contactemail: result[readexportdetail][inforesourcedetail][usersupportdetail][usersupportemail],
-      contactphonenumber: result[readexportdetail][inforesourcedetail][usersupportdetail][usersupportphonenumber],
-      url: result[readexportdetail][inforesourcedetail][accessdetail][internetdetail][urltext],
-      tags: result[readexportdetail][inforesourcedetail][tagdetail][inforesourcestewardtagtext],
-    };
-    parsedResults[dataMap.id] = dataMap;
-  }
+var parseResult = function(result=false){
+  //parse a result into the form {<readID1>: <resultObject1>,...}
+  var parsedResult = {
+    id: result['READExportDetail']['InfoResourceDetail']['READResourceIdentifier'],
+    title: result['READExportDetail']['InfoResourceDetail']['GeneralDetail']['LongTitleText'],
+    description: result['READExportDetail']['InfoResourceDetail']['GeneralDetail']['LongDescription'],
+    acronym: result['READExportDetail']['InfoResourceDetail']['GeneralDetail']['Acronym'],
+    keywords: result['READExportDetail']['InfoResourceDetail']['KeywordDetail']['KeywordText'],
+    contactName: result['READExportDetail']['InfoResourceDetail']['UserSupportDetail']['UserSupportName'],
+    contactEmail: result['READExportDetail']['InfoResourceDetail']['UserSupportDetail']['UserSupportEmail'],
+    contactPhoneNumber: result['READExportDetail']['InfoResourceDetail']['UserSupportDetail']['UserSupportPhoneNumber'],
+    url: result['READExportDetail']['InfoResourceDetail']['AccessDetail']['InternetDetail']['URLText'],
+    tags: result['READExportDetail']['InfoResourceDetail']['TagDetail']['InfoResourceStewardTagText'],
+  };
+  return parsedResult
 };
 
-isNil = function(obj){obj['xsi:nil'] == true ? true : false};
+var isNil = function(obj){(obj['xsi:nil']==true)?(true):(false)};
 
-var updateResults = function(cachedResults={}, newResults){
-  for (result in newResults){
-    if (cachedResults.hasOwnProperty(result.id)){continue}// skip result if already in cachedResults
-    cachedResults[result.id] = result;// add result to cachedResults keyed by id
-    return cachedResults;
-  }
+var updateResults = function(newResult, containerId){
+  if (cachedResults.hasOwnProperty(result.id)){continue}// skip result if already in cachedResults
+  cachedResults[result.id] = result;// add result to cachedResults keyed by id
+  return cachedResults;
 };
 
+/*
 var narrowResults = function(){
-  for(concept in conceptCache){
+  for(concept in concepts){
     
   }
 };
+*/
 
 </script>
 </body>
