@@ -48,6 +48,10 @@
       border: 1px solid gray;
       margin: .1em;
     }
+    #search-results > div{
+      background-color: #ddd;
+      margin-top: .5em;
+    }
   </style>
 </head>
 <!-- NOTE, figure out body classes! -->
@@ -127,9 +131,9 @@
                   <option value selected disabled>Objective</option>
                 </select>
 
-                <!--<label for="concept-select">What are the user's concepts?</label>-->
                 <h3>Concepts</h3>
                 <div id="concept-select"></div>
+                <button id="expand-concepts" onclick="broadenConcepts()">Expand Concepts</button>
 
                 <button id="search-button" onclick="keywordSearch(event)">Run Keyword Search</button>
 
@@ -206,7 +210,7 @@
                 <li><a class="menu-link social-flickr" href="https://www.flickr.com/photos/usepagov">Flickr</a></li>
                 <li><a class="menu-link social-instagram" href="https://instagram.com/epagov">Instagram</a></li>
               </ul>
-              <p class="last-updated">2016.12.20</p>
+              <p class="last-updated">2017.01.05</p>
             </div>
           </div>
         </div>
@@ -286,17 +290,18 @@ var objectiveSelect = function(event){
     addCheckbox(selectedConcepts[i], 'concept-select');
   }
 };
-function addCheckbox(name, containerName) {
-  var container = $('#'+containerName);
+function addCheckbox(name, containerId) {
+  var container = $('#'+containerId);
   var inputs = container.find('input');
   var id = inputs.length+1;
-  $('<input />', { type: 'checkbox', id: 'cb'+containerName+id, value: name, name: containerName+'-checkbox' }).appendTo(container);
-  $('<label />', { 'for': 'cb'+containerName+id, text: name }).appendTo(container);
+  $('<input />', { type: 'checkbox', id: 'cb'+containerId+id, value: name, name: containerId+'-checkbox' }).appendTo(container);
+  $('<label />', { 'for': 'cb'+containerId+id, text: name }).appendTo(container);
 };
-function addDiv(name, containerName) {
-  var container = $('#'+containerName);
+function addDiv(parsedResult, containerId) {
+  var container = $('#'+containerId);
+  var text = parsedResult.title+': '+parsedResult.description;
+  $('<div></div>').appendTo(container).text(text).attr('id',parsedResult.id);
   var divs = container.find('div');
-  $('<div></div>').appendTo(container).text(name);
 };
 var decisionSectors = [
   "Land Use",
@@ -306,13 +311,13 @@ var decisionSectors = [
 ];
 var keywordSearch = function(event) {
   $('#search-results *').remove();
+  clearResultData();
   var keywords = getKeywords();
   for (i=0; i<keywords.length; i++) {
     for (j=0; j<decisionSectors.length; j++) {
-      $.get(
-        'https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch',
+      $.get('https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch',
         {
-          Keywords: keywords[i],
+          ShortDescriptionForReports: keywords[i],
           DecisionSector: decisionSectors[j]
         }
       ).done(function(data) {
@@ -334,7 +339,7 @@ var getKeywords = function() {
       keywords = concept.split(' ');
       for (i=0; i<keywords.length; i++) {
         keyword = keywords[i];
-        if ((concepts.indexOf(keywords[i]) === -1) && (keywords[i].length > 2)) { 
+        if ((concepts.indexOf(keyword) === -1) && (keyword.length > 3)) {
           concepts.push(keyword);
         }
       }
@@ -343,22 +348,18 @@ var getKeywords = function() {
   return concepts;
 };
 var getResourceDetail = function(id) {
-  $.get(resourceDetailURL, { ResourceId: id }).done(function(data) {
-      displayResult(data);
-  });
+  $.get(resourceDetailURL, { ResourceId: id }).done(function(data){displayResult(data)});
 };
-/** display a result; save result's data to the containing element */
-var displayResult = function(data) {
+/** display a result; save result's data to the containing element
+  * @arg data {object} READ Web Services detail object */
+var displayResult = function(data,fields=['title']) {
   var containerId = 'search-results';
   var parsedResult = parseResult(data);
-  addDiv(parsedResult.title, containerId);
-  $('#'+containerId).data(String(parsedResult.id), JSON.stringify(parsedResult));
-  if (typeof($('#'+containerId).data('ids')) == 'undefined'){$('#'+containerId).data('ids',[])}
-  currentIds = $('#'+containerId).data('ids');
-  currentIds.push(parsedResult.id);
+  fields = ['title', 'description', 'url'];
+  if (isNewResult(containerId, parsedResult)) {addDiv(parsedResult, containerId)}
 };
 
-
+//============================================================================================
 var parseResult = function(result=false){
   //parse a result into the form {<readID1>: <resultObject1>,...}
   var parsedResult = {
@@ -376,21 +377,87 @@ var parseResult = function(result=false){
   return parsedResult
 };
 
+var clearResultData = function(){
+  container = $('#search-results')
+  ids = container.data('ids');
+  if (typeof(ids) != 'undefined'){
+    for (i=0;i<ids.length;i++){
+      id = ids[i];
+      container.removeData(id)
+    }
+    ids.length = 0;
+  }
+}
+
+var isNewResult = function(containerId, parsedResult){
+  if (typeof($('#'+containerId).data('ids')) == 'undefined'){$('#'+containerId).data('ids',[])}
+  var cachedIds = $('#'+containerId).data('ids');
+  if(cachedIds.indexOf(parsedResult.id)==-1){
+    cachedIds.push(parsedResult.id)
+    $('#'+containerId).data(String(parsedResult.id), JSON.stringify(parsedResult));
+    return true
+  return false
+  }
+};
+
+/** get selected concepts by default or all concepts shown when given argument selected==false
+  * @arg selected {boolean} default of true gets selected concepts, false returns all concepts displayed */
+var getConcepts = function(selected=true) {
+  var concept = '';
+  var concepts = [];
+  var selector = 'input[name=concept-select-checkbox]';
+  if (selected==true){selector=selector+':checked'}
+  $(selector).each(function() {
+    concept = $(this).val();
+    concepts.push(concept);
+  });
+  return concepts;
+};
+
+var broadenConcepts = function(){
+  // get all concepts
+  var allConcepts = getConcepts(false)
+  // get selected concepts
+  var selectedConcepts = getConcepts();
+  // iterate through conceptsByObjective for all objectives associated with selected concepts
+  var associatedObjectives = [];
+  for (objective in conceptsByObjective){
+    if (conceptsByObjective.hasOwnProperty(objective)){
+      for (j=0;j<selectedConcepts.length;j++){
+        if ((conceptsByObjective[objective].indexOf(selectedConcepts[j])!=-1)&&
+            (associatedObjectives.indexOf(objective)==-1)){
+          associatedObjectives.push(objective)
+        }
+      }
+    }
+  }
+  // possibly let user select objectives from those found above
+  // collect all concepts indexed by these objectives
+  var associatedConcepts = [];
+  for (i=0;i<associatedObjectives.length;i++){
+    for (j=0;j<conceptsByObjective[associatedObjectives[i]].length;j++){
+      conceptsToCheckForDuplicates = associatedConcepts.concat(allConcepts)
+      candidateConcept = conceptsByObjective[associatedObjectives[i]][j]
+      if ((conceptsToCheckForDuplicates.indexOf(candidateConcept)==-1)&&(candidateConcept.length>1)){
+        associatedConcepts.push(candidateConcept)
+      }
+    }
+  }
+  // possibly let user select from among these concepts
+  for (i=0;i<associatedConcepts.length;i++){
+    addCheckbox(associatedConcepts[i],'concept-select')
+  }
+  // get tools from concepts
+  // optionally search all fields when getting tools from concepts
+}
+
 var isNil = function(obj){(obj['xsi:nil']==true)?(true):(false)};
 
 var updateResults = function(newResult, containerId){
-  if (cachedResults.hasOwnProperty(result.id)){continue}// skip result if already in cachedResults
+  cachedResultIds = $('#'+containerId).data('ids');
   cachedResults[result.id] = result;// add result to cachedResults keyed by id
   return cachedResults;
 };
-
-/*
-var narrowResults = function(){
-  for(concept in concepts){
-    
-  }
-};
-*/
 
 </script>
 </body>
