@@ -99,7 +99,7 @@
 
               <div aria-labelledby="explore-tab" id="explore-panel" role="tabpanel" aria-hidden="false">
                 <label for="role-select">Who will use the tools?</label>
-                <select id="role-select" onchange="roleSelect(event)">
+                <select multiple id="role-select" onchange="roleSelect()">
                   <option value selected disabled>Role</option>
                   <option>Community Representative/Volunteer</option>
                   <option>Developer</option>
@@ -116,14 +116,12 @@
                   <option>Urban Forest Manager</option>
                   <option>Water Utility Manager</option>
                 </select>
-
                 <label for="subrole-select">Further describe this user of the tools.</label>
-                <select id="subrole-select" onchange="subroleSelect(event)">
+                <select multiple id="subrole-select" onchange="subroleSelect()">
                   <option value selected disabled>Subrole</option>
                 </select>
-
                 <label for="objective-select">What is the user's goal?</label>
-                <select id="objective-select" onchange="objectiveSelect(event)">
+                <select multiple id="objective-select" onchange="objectiveSelect()">
                   <option value selected disabled>Objective</option>
                 </select>
 
@@ -257,36 +255,51 @@
         currentItems.remove(); 
       }
       $.each(list, function(index, value){
-          container.append($("<"+element+"></"+element+">").text(value));          
+        container.append($("<"+element+"></"+element+">").text(value));
       } );
     };
-    var roleSelect = function(event){
-      var selectedRole = $('#role-select option:selected')[0].text;
-      var selectedSubroles = subroles[selectedRole];
+    var roleSelect = function(){
       // populate #subrole-select with subrole options for this_role
-      populate(selectedSubroles, $('#subrole-select'), 'option');
+      populate(readArray($('#role-select option:selected'), subroles), $('#subrole-select'), 'option');
     };
-    var subroleSelect = function(event){
-      var selectedSubrole = $('#subrole-select option:selected')[0].text;
-      var selectedObjectives = objectives[selectedSubrole];
+    var subroleSelect = function(){
       // populate #objective-select with objective options for this_subrole
-      populate(selectedObjectives, $('#objective-select'), 'option');
+      populate(readArray($('#subrole-select option:selected'), objectives), $('#objective-select'), 'option');
     };
-    var objectiveSelect = function(event){
-      var selectedObjective = $('#objective-select option:selected')[0].text;
-      var selectedConcepts = conceptsByObjective[selectedObjective];
-      if (typeof selectedConcepts === 'undefined'){selectedConcepts = [];}
+    var objectiveSelect = function(){
+      var selectedConcepts = readArray($('#objective-select option:selected'), conceptsByObjective);
+      if (typeof selectedConcepts === 'undefined'){
+        selectedConcepts = [];
+      }
       $('#concept-select *').remove();
-      for (i=0; i<selectedConcepts.length; i++){
+      for (var i=0; i<selectedConcepts.length; i++){
         addCheckbox(selectedConcepts[i], 'concept-select');
       }
     };
-    function addCheckbox(name, containerName) {
+    var readArray = function(selectedOptions, selectedArray) {
+      var selectedElement = '';
+      var selectedElements = [];
+      var allSelectedElements = [];
+      for (var i = 0; i < selectedOptions.length; i++) {
+        selectedElement = selectedOptions[i].value;
+        selectedElements = selectedArray[selectedElement];
+        if (typeof selectedElements === 'undefined'){
+          selectedElements = [];
+        }
+        for (var j=0;j<selectedElements.length;j++) {
+          if(allSelectedElements.indexOf(selectedElements[j]) === -1){
+            allSelectedElements.push(selectedElements[j]);
+          }
+        }
+      }
+      return allSelectedElements.sort();
+    };
+    function addCheckbox(name, containerName, onClick="") {
       var container = $('#'+containerName);
       var inputs = container.find('input');
       var id = inputs.length+1;
-      $('<input />', { type: 'checkbox', id: 'cb'+containerName+id, value: name, name: containerName+'-checkbox' }).appendTo(container);
-      $('<label />', { 'for': 'cb'+containerName+id, text: name }).appendTo(container);
+      $('<input />', { type: 'checkbox', id: 'cb'+containerName+id, value: name, name: containerName+'-checkbox', onclick:onClick }).appendTo(container);
+      $('<label />', { 'for': 'cb'+containerName+id, text: name, class: "unselectable button" }).appendTo(container);
     };
     var decisionSectors = [
       "Land Use",
