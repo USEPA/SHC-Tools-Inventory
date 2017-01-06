@@ -312,6 +312,8 @@
       var keywords = getKeywords();
       for (i=0; i<keywords.length; i++) {
         for (j=0; j<decisionSectors.length; j++) {
+      for (var i=0; i<keywords.length; i++) {
+        for (var j=0; j<decisionSectors.length; j++) {
           $.ajax({
             type: 'GET',
             url: 'https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch',
@@ -324,6 +326,8 @@
           }).done(function(data) {
             for (i=0; i<data.length; i++) {
               getResourceDetail(data[i].ResourceId);
+            for (var i=0; i<data.length; i++) {
+              getResourceDetail(data[i].ResourceId, div);
             }
           });
         }
@@ -339,8 +343,9 @@
         if (concept.length > 1) {
           keywords = concept.split(' ');
           for (i=0; i<keywords.length; i++) {
+          for (var i=0; i<keywords.length; i++) {
             keyword = keywords[i];
-            if ((concepts.indexOf(keywords[i]) === -1) && (keywords[i].length > 1)) { 
+            if ((concepts.indexOf(keyword) === -1) && (keyword.length > 1)) {
               concepts.push(keyword);
             }
           }
