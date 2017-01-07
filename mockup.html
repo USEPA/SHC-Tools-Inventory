@@ -398,19 +398,16 @@ var decisionSectors = [
 ];
 var keywordSearch = function(div) {
   $('#'+div+' *').remove();
+  clearResultData();
   var keywords = getKeywords();
   for (var i=0; i<keywords.length; i++) {
     for (var j=0; j<decisionSectors.length; j++) {
-      $.ajax({
-        type: 'GET',
-        url: 'https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch',
-        data: {
-          Keywords: keywords[i],
-          DecisionSector: decisionSectors[j],
-          Format: 'JSON'
-        },
-        dataType: 'json'
-      }).done(function(data) {
+      $.get('https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch',
+        {
+          ShortDescriptionForReports: keywords[i],
+          DecisionSector: decisionSectors[j]
+        }
+      ).done(function(data) {
         for (var i=0; i<data.length; i++) {
           getResourceDetail(data[i].ResourceId, div);
         }
