@@ -63,6 +63,7 @@
       background-color: #ddd;
       margin-top: .5em;
     }
+    button:disabled{background-color:#aaa}
   </style>
 </head>
 <!-- NOTE, figure out body classes! -->
@@ -115,11 +116,10 @@
               <div aria-labelledby="explore-tab" id="explore-panel" role="tabpanel" name="tab1panel" aria-hidden="false">
                 <div role="tablist">
                   <button aria-controls="role-panel" aria-selected="true" id="role-tab" role="tab" name="tab2" tabindex="-1">Role</button>
-                  <button aria-controls="subrole-panel" aria-selected="false" id="subrole-tab" role="tab" name="tab2" tabindex="-1">Subrole</button>
-                  <button aria-controls="objective-panel" aria-selected="false" id="objective-tab" role="tab" name="tab2" tabindex="-1">Objective</button>
-                  <button aria-controls="concept-panel" aria-selected="false" id="concept-tab" role="tab" name="tab2" tabindex="-1">Concept</button>
+                  <button aria-controls="subrole-panel" aria-selected="false" id="subrole-tab" role="tab" name="tab2" tabindex="-1" disabled>Subrole</button>
+                  <button aria-controls="objective-panel" aria-selected="false" id="objective-tab" role="tab" name="tab2" tabindex="-1" disabled>Objective</button>
+                  <button aria-controls="concept-panel" aria-selected="false" id="concept-tab" role="tab" name="tab2" tabindex="-1" disabled>Concept</button>
                 </div>
-
                 <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
                   <label for="role-select">Who will use the tools?</label>
                   <select multiple id="role-select" onchange="roleSelect()">
@@ -572,6 +572,12 @@ var isStopWord = function(word){
     return true;
   }
 };
+
+var selectNextTab = function(name){
+  // select next tab using value of "data-tab-number" attribute
+  // remove newly selected tab's disabled attr:
+  // $(THIS_TAB).prop('disabled', false)
+}
 
 </script>
 </body>
