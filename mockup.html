@@ -105,47 +105,62 @@
           <div class="node node-page clearfix view-mode-full">
             <div id="main-tabs">
               <div role="tablist">
-                <button aria-controls="explore-panel" aria-selected="true" id="explore-tab" role="tab" tabindex="-1">Explore</button>
-                <button aria-controls="explore-panel-test" aria-selected="false" id="explore-tab-test" role="tab" tabindex="-1">Explore Buttons</button>
-                <button aria-controls="search-panel" aria-selected="false" id="search-tab" role="tab" tabindex="-1">Search</button>
-                <button aria-controls="detailed-search-panel" aria-selected="false" id="detailed-search-tab" role="tab" tabindex="-1">Detailed Search</button>
-                <button aria-controls="browse-panel" aria-selected="false" id="browse-tab" role="tab" tabindex="-1">Browse</button>
-                <button aria-controls="results-panel" aria-selected="false" id="results-tab" role="tab" tabindex="-1">Results</button>
+                <button aria-controls="explore-panel" aria-selected="true" id="explore-tab" role="tab" name="tab1" tabindex="-1">Explore</button>
+                <button aria-controls="explore-panel-test" aria-selected="false" id="explore-tab-test" role="tab" name="tab1" tabindex="-1">Explore Buttons</button>
+                <button aria-controls="search-panel" aria-selected="false" id="search-tab" role="tab" name="tab1" tabindex="-1">Search</button>
+                <button aria-controls="detailed-search-panel" aria-selected="false" id="detailed-search-tab" role="tab" name="tab1" tabindex="-1">Detailed Search</button>
+                <button aria-controls="browse-panel" aria-selected="false" id="browse-tab" role="tab" name="tab1" tabindex="-1">Browse</button>
+                <button aria-controls="results-panel" aria-selected="false" id="results-tab" role="tab" name="tab1" tabindex="-1">Results</button>
               </div>
-              <div aria-labelledby="explore-tab" id="explore-panel" role="tabpanel" aria-hidden="false">
-                <label for="role-select">Who will use the tools?</label>
-                <select multiple id="role-select" onchange="roleSelect()">
-                  <option value selected disabled>Role</option>
-                  <option>Community Representative/Volunteer</option>
-                  <option>Developer</option>
-                  <option>Engineer/Architect/Designer</option>
-                  <option>Environmental Group Representative</option>
-                  <option>Farmer</option>
-                  <option>Industrial or Commercial Facility Representative</option>
-                  <option>Land Use, City, or Regional Planner</option>
-                  <option>Landowner/Homeowner</option>
-                  <option>Natural Resource Manager</option>
-                  <option>Regulatory Official</option>
-                  <option>Scientist/Academic</option>
-                  <option>Sustainability or Environmental Program Coordinator</option>
-                  <option>Urban Forest Manager</option>
-                  <option>Water Utility Manager</option>
-                </select>
-                <label for="subrole-select">Further describe this user of the tools.</label>
-                <select multiple id="subrole-select" onchange="subroleSelect()">
-                  <option value selected disabled>Subrole</option>
-                </select>
-                <label for="objective-select">What is the user's goal?</label>
-                <select multiple id="objective-select" onchange="objectiveSelect()">
-                  <option value selected disabled>Objective</option>
-                </select>
-                <h3>Concepts</h3>
-                <div id="concept-select"></div>
-                <button id="expand-concepts" onclick="broadenConcepts()">Expand Concepts</button>
-                <button id="search-button" onclick="keywordSearch('search-results')">Run Keyword Search</button>
+              <div aria-labelledby="explore-tab" id="explore-panel" role="tabpanel" name="tab1panel" aria-hidden="false">
+                <div role="tablist">
+                  <button aria-controls="role-panel" aria-selected="true" id="role-tab" role="tab" name="tab2" tabindex="-1">Role</button>
+                  <button aria-controls="subrole-panel" aria-selected="false" id="subrole-tab" role="tab" name="tab2" tabindex="-1">Subrole</button>
+                  <button aria-controls="objective-panel" aria-selected="false" id="objective-tab" role="tab" name="tab2" tabindex="-1">Objective</button>
+                  <button aria-controls="concept-panel" aria-selected="false" id="concept-tab" role="tab" name="tab2" tabindex="-1">Concept</button>
+                </div>
+
+                <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
+                  <label for="role-select">Who will use the tools?</label>
+                  <select multiple id="role-select" onchange="roleSelect()">
+                    <option value selected disabled>Role</option>
+                    <option>Community Representative/Volunteer</option>
+                    <option>Developer</option>
+                    <option>Engineer/Architect/Designer</option>
+                    <option>Environmental Group Representative</option>
+                    <option>Farmer</option>
+                    <option>Industrial or Commercial Facility Representative</option>
+                    <option>Land Use, City, or Regional Planner</option>
+                    <option>Landowner/Homeowner</option>
+                    <option>Natural Resource Manager</option>
+                    <option>Regulatory Official</option>
+                    <option>Scientist/Academic</option>
+                    <option>Sustainability or Environmental Program Coordinator</option>
+                    <option>Urban Forest Manager</option>
+                    <option>Water Utility Manager</option>
+                  </select>
+                </div>
+                <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                  <label for="subrole-select">Further describe this user of the tools.</label>
+                  <select multiple id="subrole-select" onchange="subroleSelect()">
+                    <option value selected disabled>Subrole</option>
+                  </select>
+                </div>
+                <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                  <label for="objective-select">What is the user's goal?</label>
+                  <select multiple id="objective-select" onchange="objectiveSelect()">
+                    <option value selected disabled>Objective</option>
+                  </select>
+                </div>
+                <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                  <h3>Concepts</h3>
+                  <div id="concept-select"></div>
+                  <button id="expand-concepts" onclick="broadenConcepts()">Expand Concepts</button>
+                  <button id="search-button" onclick="keywordSearch('search-results')">Run Keyword Search</button>
+                </div>
                 <div id="search-results"></div>
               </div>
-              <div aria-labelledby="explore-tab-test" id="explore-panel-test" role="tabpanel" aria-hidden="true">
+              <div aria-labelledby="explore-tab-test" id="explore-panel-test" role="tabpanel" name="tab1panel" aria-hidden="true">
                 <h3>Who will use the tools?</h3>
                 <div style="font-size:90%">
                 <input type="checkbox" id="role-1" name="role-checkbox" value="Community Representative/Volunteer">
@@ -186,10 +201,10 @@
                 <button id="search-button-test" onclick="keywordSearch('search-results-test')">Run Keyword Search</button>
                 <div id="search-results-test"></div>
               </div>
-              <div aria-labelledby="search-tab" id="search-panel" role="tabpanel" aria-hidden="true">Searchy words here...</div>
-              <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" aria-hidden="true">...detailed searchy words...</div>
-              <div aria-labelledby="browse-tab" id="browse-panel" role="tabpanel" aria-hidden="true">These words feel browsy.</div>
-              <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">Resultantasticalisticity</div>
+              <div aria-labelledby="search-tab" id="search-panel" role="tabpanel" name="tab1panel" aria-hidden="true">Searchy words here...</div>
+              <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" name="tab1panel" aria-hidden="true">...detailed searchy words...</div>
+              <div aria-labelledby="browse-tab" id="browse-panel" role="tabpanel" name="tab1panel" aria-hidden="true">These words feel browsy.</div>
+              <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" name="tab1panel" aria-hidden="true">Resultantasticalisticity</div>
             </div>
           </div>
         </div>
@@ -323,13 +338,16 @@ var search = function(str) {
  *  this function originally retrieved from example accessible tabs at
  *  http://accessibility.athena-ict.com/aria/examples/tabpanel2.shtml */
 $('[role="tab"]').click(function(){
-    $('[role="tab"]').attr('aria-selected', 'false');// deselect all tabs
+    var tab = $(this).attr('name');
+    console.log('clicked name:'+tab);
+    $('[name="'+tab+'"]').attr('aria-selected', 'false');// deselect all tabs
     $(this).attr('aria-selected', 'true');// select the clicked tab
     var tabpanid= $(this).attr('aria-controls');// get the id of the panel controlled by the clicked tab
     var tabpan= $('#'+tabpanid);// get panel's document-element from its id
-    $('[role="tabpanel"]').attr('aria-hidden','true');// hide all panels
+    console.log('hide all: '+tab+"panel");
+    $('[name="'+tab+'panel"]').attr('aria-hidden','true');// hide all panels
     tabpan.attr('aria-hidden','false');// show the clicked tab's panel
-} );
+});
 /** populate a list into specified a container of elements */
 var populate = function(list, container, element){
   var currentItems = container.children('*~*');
