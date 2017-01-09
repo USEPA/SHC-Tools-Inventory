@@ -115,15 +115,15 @@
               </div>
               <div aria-labelledby="explore-tab" id="explore-panel" role="tabpanel" name="tab1panel" aria-hidden="false">
                 <div role="tablist">
-                  <button aria-controls="role-panel" aria-selected="true" id="role-tab" role="tab" name="tab2" tabindex="-1">Role</button>
-                  <button aria-controls="subrole-panel" aria-selected="false" id="subrole-tab" role="tab" name="tab2" tabindex="-1" disabled>Subrole</button>
-                  <button aria-controls="objective-panel" aria-selected="false" id="objective-tab" role="tab" name="tab2" tabindex="-1" disabled>Objective</button>
-                  <button aria-controls="concept-panel" aria-selected="false" id="concept-tab" role="tab" name="tab2" tabindex="-1" disabled>Concept</button>
+                  <button aria-controls="role-panel" aria-selected="true" id="explore-role-tab" role="tab" name="tab2" tabindex="-1">Role</button>
+                  <button aria-controls="subrole-panel" aria-selected="false" id="explore-subrole-tab" role="tab" name="tab2" tabindex="-1" disabled>Subrole</button>
+                  <button aria-controls="objective-panel" aria-selected="false" id="explore-objective-tab" role="tab" name="tab2" tabindex="-1" disabled>Objective</button>
+                  <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" tabindex="-1" disabled>Concept</button>
                 </div>
-                <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
+                <h3>Press the control key or the shift key while clicking to select multiple values.<button style="height:2ex;margin:1px;padding:1px" onClick="$(this).parent().hide()">hide these instructions</button></h3>
+                <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
                   <label for="role-select">Who will use the tools?</label>
                   <select multiple id="role-select" onchange="roleSelect()">
-                    <option value selected disabled>Role</option>
                     <option>Community Representative/Volunteer</option>
                     <option>Developer</option>
                     <option>Engineer/Architect/Designer</option>
@@ -141,19 +141,16 @@
                   </select>
                 </div>
                 <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                  <label for="subrole-select">Further describe this user of the tools.</label>
-                  <select multiple id="subrole-select" onchange="subroleSelect()">
-                    <option value selected disabled>Subrole</option>
-                  </select>
+                  <label for="subrole-select">Provide more information about this user of the tools.</label>
+                  <select multiple id="subrole-select" onchange="subroleSelect()"></select>
                 </div>
                 <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                  <label for="objective-select">What is the user's goal?</label>
-                  <select multiple id="objective-select" onchange="objectiveSelect()">
-                    <option value selected disabled>Objective</option>
-                  </select>
+                  <label for="objective-select">What are the user's goals? Select objectives related to the desired tools.</label>
+                  <select multiple id="objective-select" onchange="objectiveSelect()"></select>
                 </div>
                 <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <h3>Concepts</h3>
+                  <label for="concept-select">Select all concepts that apply to the intended use of the tool.</label>
                   <div id="concept-select"></div>
                   <button id="expand-concepts" onclick="broadenConcepts()">Expand Concepts</button>
                   <button id="search-button" onclick="keywordSearch('search-results')">Run Keyword Search</button>
