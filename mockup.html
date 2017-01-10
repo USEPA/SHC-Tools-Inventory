@@ -116,9 +116,9 @@
               <div aria-labelledby="explore-tab" id="explore-panel" role="tabpanel" name="tab1panel" aria-hidden="false">
                 <div role="tablist">
                   <button aria-controls="role-panel" aria-selected="true" id="explore-role-tab" role="tab" name="tab2" tabindex="-1">Role</button>
-                  <button aria-controls="subrole-panel" aria-selected="false" id="explore-subrole-tab" role="tab" name="tab2" tabindex="-1" disabled>Subrole</button>
-                  <button aria-controls="objective-panel" aria-selected="false" id="explore-objective-tab" role="tab" name="tab2" tabindex="-1" disabled>Objective</button>
-                  <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" tabindex="-1" disabled>Concept</button>
+                  <button aria-controls="subrole-panel" aria-selected="false" id="explore-subrole-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="2">Subrole</button>
+                  <button aria-controls="objective-panel" aria-selected="false" id="explore-objective-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="3">Objective</button>
+                  <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="4">Concept</button>
                 </div>
                 <h3>Press the control key or the shift key while clicking to select multiple values.<button style="height:2ex;margin:1px;padding:1px" onClick="$(this).parent().hide()">hide these instructions</button></h3>
                 <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
@@ -155,6 +155,7 @@
                   <button id="expand-concepts" onclick="broadenConcepts()">Expand Concepts</button>
                   <button id="search-button" onclick="keywordSearch('search-results')">Run Keyword Search</button>
                 </div>
+                <button class="next" onclick="selectNextTab($(this))">Next</button>
                 <div id="search-results"></div>
               </div>
               <div aria-labelledby="explore-tab-test" id="explore-panel-test" role="tabpanel" name="tab1panel" aria-hidden="true">
@@ -570,10 +571,24 @@ var isStopWord = function(word){
   }
 };
 
-var selectNextTab = function(name){
+var selectNextTab = function(arg){
+  var tabs = $(arg).siblings('[role=tablist]').children('[role=tab]:disabled');
   // select next tab using value of "data-tab-number" attribute
+  var min = 100;
+  tabs.each(function(){
+      var number = parseInt($(this).attr('data-tab-number'),10);
+      if (number < min){min=number}
+  });
+  var nextTab = $($(arg).siblings('[role=tablist]').children('[data-tab-number='+min+']'));
+  nextTab.click();
   // remove newly selected tab's disabled attr:
-  // $(THIS_TAB).prop('disabled', false)
+  nextTab.prop('disabled', false);
+  // hide next button if last tab
+  if ($(arg).siblings('[role=tablist]').children('[role=tab]:disabled').length==0){$(arg).hide()}
+}
+
+var expandListbox = function(){
+  // expand listbox to show all entries up to a size of 20
 }
 
 </script>
