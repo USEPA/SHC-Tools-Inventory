@@ -123,7 +123,7 @@
                 <h3>Press the control key or the shift key while clicking to select multiple values.<button style="height:2ex;margin:1px;padding:1px" onClick="$(this).parent().hide()">hide these instructions</button></h3>
                 <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
                   <label for="role-select">Who will use the tools?</label>
-                  <select multiple id="role-select" onchange="roleSelect()">
+                  <select multiple id="role-select" onchange="roleSelect()" size="14">
                     <option>Community Representative/Volunteer</option>
                     <option>Developer</option>
                     <option>Engineer/Architect/Designer</option>
@@ -359,6 +359,7 @@ var populate = function(list, container, element){
   $.each(list, function(index, value){
     container.append($("<"+element+"></"+element+">").text(value));
   } );
+  container.attr('size', list.length);
 };
 var roleSelect = function(){
   // populate #subrole-select with subrole options for this_role
