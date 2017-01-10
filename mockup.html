@@ -36,14 +36,14 @@
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
   <style>
+    [role=tab] {margin: 1px 0 0;}
+    [role=tabpanel] {
+      padding: 1px;
+      border: 2px solid black;
+      border-radius: 5px;
+    }
     div[aria-hidden='true'] {display: none;}
     *.hidden {display: none;}
-    .toggler {
-      line-height: initial;
-      font-size: initial;
-      width: 100%;
-      background-color: #dddddd;
-    }
     #search-terms span {
       border: 1px solid gray;
       margin: .1em;
@@ -109,7 +109,7 @@
           <div class="node node-page clearfix view-mode-full">
             <div id="main-tabs">
               <div role="tablist">
-                <button aria-controls="explore-panel" aria-selected="true" id="explore-tab" role="tab" name="tab1" tabindex="-1">Explore</button>
+                <button aria-controls="explore-panel" aria-selected="true" id="explore-tab" role="tab" name="tab1" tabindex="-1" style="background-color: rgb(32,84,147)">Explore</button>
                 <button aria-controls="explore-panel-test" aria-selected="false" id="explore-tab-test" role="tab" name="tab1" tabindex="-1">Explore Buttons</button>
                 <button aria-controls="search-panel" aria-selected="false" id="search-tab" role="tab" name="tab1" tabindex="-1">Search</button>
                 <button aria-controls="detailed-search-panel" aria-selected="false" id="detailed-search-tab" role="tab" name="tab1" tabindex="-1">Detailed Search</button>
@@ -118,12 +118,11 @@
               </div>
               <div aria-labelledby="explore-tab" id="explore-panel" role="tabpanel" name="tab1panel" aria-hidden="false">
                 <div role="tablist">
-                  <button aria-controls="role-panel" aria-selected="true" id="explore-role-tab" role="tab" name="tab2" tabindex="-1">Role</button>
+                  <button aria-controls="role-panel" aria-selected="true" id="explore-role-tab" role="tab" name="tab2" tabindex="-1" style="background-color: rgb(32,84,147)">Role</button>
                   <button aria-controls="subrole-panel" aria-selected="false" id="explore-subrole-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="2">Subrole</button>
                   <button aria-controls="objective-panel" aria-selected="false" id="explore-objective-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="3">Objective</button>
                   <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="4">Concept</button>
                 </div>
-                <h3>Press the control key or the shift key while clicking to select multiple values.<button style="height:2ex;margin:1px;padding:1px" onClick="$(this).parent().hide()">hide these instructions</button></h3>
                 <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
                   <label for="role-select">Who will use the tools?</label>
                   <select multiple id="role-select" onchange="roleSelect()" size="14">
@@ -158,6 +157,7 @@
                   <button id="expand-concepts" onclick="broadenConcepts()">Expand Concepts</button>
                   <button id="search-button" onclick="keywordSearch('search-results', 'input[name=concept-select-checkbox]:checked')">Run Keyword Search</button>
                 </div>
+              <h3>Press the control key or the shift key while clicking to select multiple values.<button style="height:2ex;margin:1px;padding:1px" onClick="$(this).parent().hide()">hide these instructions</button></h3>
                 <button class="next" onclick="selectNextTab($(this))">Next</button>
                 <div id="search-results"></div>
               </div>
@@ -365,6 +365,8 @@ $('[role="tab"]').click(function(){
     var tab = $(this).attr('name');
     $('[name="'+tab+'"]').attr('aria-selected', 'false');// deselect all tabs
     $(this).attr('aria-selected', 'true');// select the clicked tab
+    $(this).css('background-color', '#205493');// darken the selected tab
+    $(this).siblings('[role=tab]:enabled').css('background-color', '#0071bc');// lighten tabs not selected
     var tabpanid= $(this).attr('aria-controls');// get the id of the panel controlled by the clicked tab
     var tabpan= $('#'+tabpanid);// get panel's document-element from its id
     $('[name="'+tab+'panel"]').attr('aria-hidden','true');// hide all panels
