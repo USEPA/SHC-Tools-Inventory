@@ -58,6 +58,9 @@
       -ms-user-select: none;
       -o-user-select: none;
       user-select: none;
+      margin: 0 .15em .3em;
+      padding: 0.4em;
+
     }
     #search-results > div, #search-results-test > div, #simple-search-results > div{
       background-color: #ddd;
@@ -153,50 +156,66 @@
                   <label for="concept-select">Select all concepts that apply to the intended use of the tool.</label>
                   <div id="concept-select"></div>
                   <button id="expand-concepts" onclick="broadenConcepts()">Expand Concepts</button>
-                  <button id="search-button" onclick="keywordSearch('search-results')">Run Keyword Search</button>
+                  <button id="search-button" onclick="keywordSearch('search-results', 'input[name=concept-select-checkbox]:checked')">Run Keyword Search</button>
                 </div>
                 <button class="next" onclick="selectNextTab($(this))">Next</button>
                 <div id="search-results"></div>
               </div>
               <div aria-labelledby="explore-tab-test" id="explore-panel-test" role="tabpanel" name="tab1panel" aria-hidden="true">
-                <h3>Who will use the tools?</h3>
-                <div style="font-size:90%">
-                <input type="checkbox" id="role-1" name="role-checkbox" value="Community Representative/Volunteer">
-                <label for="role-1" class="button unselectable">Community Representative/Volunteer</label>
-                <input type="checkbox" id="role-2" name="role-checkbox" value="Developer">
-                <label for="role-2" class="button unselectable">Developer</label>
-                <input type="checkbox" id="role-3" name="role-checkbox" value="Engineer/Architect/Designer">
-                <label for="role-3" class="button unselectable">Engineer/Architect/Designer</label>
-                <input type="checkbox" id="role-4" name="role-checkbox" value="Environmental Group Representative">
-                <label for="role-4" class="button unselectable">Environmental Group Representative</label>
-                <input type="checkbox" id="role-5" name="role-checkbox" value="Farmer">
-                <label for="role-5" class="button unselectable">Farmer</label>
-                <input type="checkbox" id="role-6" name="role-checkbox" value="Industrial or Commercial Facility Representative">
-                <label for="role-6" class="button unselectable">Industrial or Commercial Facility Representative</label>
-                <input type="checkbox" id="role-7" name="role-checkbox" value="Land Use, City, or Regional Planner">
-                <label for="role-7" class="button unselectable">Land Use, City, or Regional Planner</label>
-                <input type="checkbox" id="role-8" name="role-checkbox" value="Landowner/Homeowner">
-                <label for="role-8" class="button unselectable">Landowner/Homeowner</label>
-                <input type="checkbox" id="role-9" name="role-checkbox" value="Natural Resource Manager">
-                <label for="role-9" class="button unselectable">Natural Resource Manager</label>
-                <input type="checkbox" id="role-10" name="role-checkbox" value="Regulatory Official">
-                <label for="role-10" class="button unselectable">Regulatory Official</label>
-                <input type="checkbox" id="role-11" name="role-checkbox" value="Scientist/Academic">
-                <label for="role-11" class="button unselectable">Scientist/Academic</label>
-                <input type="checkbox" id="role-12" name="role-checkbox" value="Sustainability or Environmental Program Coordinator">
-                <label for="role-12" class="button unselectable">Sustainability or Environmental Program Coordinator</label>
-                <input type="checkbox" id="role-13" name="role-checkbox" value="Urban Forest Manager">
-                <label for="role-13" class="button unselectable">Urban Forest Manager</label>
-                <input type="checkbox" id="role-14" name="role-checkbox" value="Water Utility Manager">
-                <label for="role-14" class="button unselectable">Water Utility Manager</label>
+                <div role="tablist">
+                  <button aria-controls="button-role-panel" aria-selected="true" id="button-explore-role-tab" role="tab" name="tab2" tabindex="-1">Role</button>
+                  <button aria-controls="button-subrole-panel" aria-selected="false" id="button-explore-subrole-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="2">Subrole</button>
+                  <button aria-controls="button-objective-panel" aria-selected="false" id="button-explore-objective-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="3">Objective</button>
+                  <button aria-controls="button-concept-panel" aria-selected="false" id="button-explore-concept-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="4">Concept</button>
                 </div>
-                <h3>Further describe this user of the tools.</h3>
-                <div id="subrole-select-test" style="font-size:90%"></div>
-                <h3>What is the user's goal?</h3>
-                <div id="objective-select-test" style="font-size:90%"></div>
-                <h3>Concepts</h3>
-                <div id="concept-select-test" style="font-size:90%"></div>
-                <button id="search-button-test" onclick="keywordSearch('search-results-test')">Run Keyword Search</button>
+                <h3>Press the control key or the shift key while clicking to select multiple values.<button style="height:2ex;margin:1px;padding:1px" onClick="$(this).parent().hide()">hide these instructions</button></h3>
+                <div aria-labelledby="button-explore-role-tab" id="button-role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
+                  <h3>Who will use the tools?</h3>
+                  <div style="font-size:90%">
+                  <input type="checkbox" id="role-1" name="role-checkbox" value="Community Representative/Volunteer">
+                  <label for="role-1" class="button unselectable">Community Representative/Volunteer</label>
+                  <input type="checkbox" id="role-2" name="role-checkbox" value="Developer">
+                  <label for="role-2" class="button unselectable">Developer</label>
+                  <input type="checkbox" id="role-3" name="role-checkbox" value="Engineer/Architect/Designer">
+                  <label for="role-3" class="button unselectable">Engineer/Architect/Designer</label>
+                  <input type="checkbox" id="role-4" name="role-checkbox" value="Environmental Group Representative">
+                  <label for="role-4" class="button unselectable">Environmental Group Representative</label>
+                  <input type="checkbox" id="role-5" name="role-checkbox" value="Farmer">
+                  <label for="role-5" class="button unselectable">Farmer</label>
+                  <input type="checkbox" id="role-6" name="role-checkbox" value="Industrial or Commercial Facility Representative">
+                  <label for="role-6" class="button unselectable">Industrial or Commercial Facility Representative</label>
+                  <input type="checkbox" id="role-7" name="role-checkbox" value="Land Use, City, or Regional Planner">
+                  <label for="role-7" class="button unselectable">Land Use, City, or Regional Planner</label>
+                  <input type="checkbox" id="role-8" name="role-checkbox" value="Landowner/Homeowner">
+                  <label for="role-8" class="button unselectable">Landowner/Homeowner</label>
+                  <input type="checkbox" id="role-9" name="role-checkbox" value="Natural Resource Manager">
+                  <label for="role-9" class="button unselectable">Natural Resource Manager</label>
+                  <input type="checkbox" id="role-10" name="role-checkbox" value="Regulatory Official">
+                  <label for="role-10" class="button unselectable">Regulatory Official</label>
+                  <input type="checkbox" id="role-11" name="role-checkbox" value="Scientist/Academic">
+                  <label for="role-11" class="button unselectable">Scientist/Academic</label>
+                  <input type="checkbox" id="role-12" name="role-checkbox" value="Sustainability or Environmental Program Coordinator">
+                  <label for="role-12" class="button unselectable">Sustainability or Environmental Program Coordinator</label>
+                  <input type="checkbox" id="role-13" name="role-checkbox" value="Urban Forest Manager">
+                  <label for="role-13" class="button unselectable">Urban Forest Manager</label>
+                  <input type="checkbox" id="role-14" name="role-checkbox" value="Water Utility Manager">
+                  <label for="role-14" class="button unselectable">Water Utility Manager</label>
+                  </div>
+                </div>
+                <div aria-labelledby="button-explore-subrole-tab" id="button-subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                  <h3>Further describe this user of the tools.</h3>
+                  <div id="subrole-select-test" style="font-size:90%"></div>
+                </div>
+                <div aria-labelledby="button-explore-objective-tab" id="button-objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                  <h3>What is the user's goal?</h3>
+                  <div id="objective-select-test" style="font-size:90%"></div>
+                </div>
+                <div aria-labelledby="button-explore-concept-tab" id="button-concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                  <h3>Concepts</h3>
+                  <div id="concept-select-test" style="font-size:90%"></div>
+                  <button id="search-button-test" onclick="keywordSearch('search-results-test', 'input[name=\'concept-select-test-checkbox\']:checked')">Run Keyword Search</button>
+                </div>
+                <button class="next" onclick="selectNextTab($(this))">Next</button>
                 <div id="search-results-test"></div>
               </div>
               <div aria-labelledby="search-tab" id="search-panel" role="tabpanel" name="tab1panel" aria-hidden="true">
@@ -417,10 +436,10 @@ var decisionSectors = [
   "Building & Infrastructure",
   "Transportation"
 ];
-var keywordSearch = function(div) {
+var keywordSearch = function(div, input) {
   $('#'+div+' *').remove();
   clearResultData(div);
-  var keywords = getKeywords();
+  var keywords = getKeywords(input);
   for (var i=0; i<keywords.length; i++) {
     for (var j=0; j<decisionSectors.length; j++) {
       $.get('https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch',
@@ -436,12 +455,12 @@ var keywordSearch = function(div) {
     }
   }
 };
-var getKeywords = function() {
+var getKeywords = function(input) {
   var concept = '';
   var concepts = [];
   var keyword = '';
   var keywords = [];
-  $('input[name=concept-select-checkbox]:checked').each(function() {
+  $(input).each(function() {
     concept = $(this).val();
     if (concept.length > 1) {
       keywords = concept.split(' ');
