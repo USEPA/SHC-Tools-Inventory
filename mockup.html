@@ -59,7 +59,7 @@
       -o-user-select: none;
       user-select: none;
     }
-    #search-results > div, #search-results-test > div{
+    #search-results > div, #search-results-test > div, #simple-search-results > div{
       background-color: #ddd;
       margin-top: .5em;
     }
@@ -199,7 +199,14 @@
                 <button id="search-button-test" onclick="keywordSearch('search-results-test')">Run Keyword Search</button>
                 <div id="search-results-test"></div>
               </div>
-              <div aria-labelledby="search-tab" id="search-panel" role="tabpanel" name="tab1panel" aria-hidden="true">Searchy words here...</div>
+              <div aria-labelledby="search-tab" id="search-panel" role="tabpanel" name="tab1panel" aria-hidden="true">
+                <p>Search for a tool by entering a keyword.</p>
+                <form action="javascript:simpleSearch()">
+                  <input type="text" id="simple-search-input" title="Search for tools by entering specific keywords" maxlength="35">
+                  <input type="submit" value="Search">
+                </form>
+                <div id="simple-search-results"></div>
+              </div>
               <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" name="tab1panel" aria-hidden="true">...detailed searchy words...</div>
               <div aria-labelledby="browse-tab" id="browse-panel" role="tabpanel" name="tab1panel" aria-hidden="true">These words feel browsy.</div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" name="tab1panel" aria-hidden="true">Resultantasticalisticity</div>
@@ -337,12 +344,10 @@ var search = function(str) {
  *  http://accessibility.athena-ict.com/aria/examples/tabpanel2.shtml */
 $('[role="tab"]').click(function(){
     var tab = $(this).attr('name');
-    console.log('clicked name:'+tab);
     $('[name="'+tab+'"]').attr('aria-selected', 'false');// deselect all tabs
     $(this).attr('aria-selected', 'true');// select the clicked tab
     var tabpanid= $(this).attr('aria-controls');// get the id of the panel controlled by the clicked tab
     var tabpan= $('#'+tabpanid);// get panel's document-element from its id
-    console.log('hide all: '+tab+"panel");
     $('[name="'+tab+'panel"]').attr('aria-hidden','true');// hide all panels
     tabpan.attr('aria-hidden','false');// show the clicked tab's panel
 });
@@ -413,7 +418,7 @@ var decisionSectors = [
 ];
 var keywordSearch = function(div) {
   $('#'+div+' *').remove();
-  clearResultData();
+  clearResultData(div);
   var keywords = getKeywords();
   for (var i=0; i<keywords.length; i++) {
     for (var j=0; j<decisionSectors.length; j++) {
@@ -483,8 +488,8 @@ var parseResult = function(result=false){
   return parsedResult
 };
 
-var clearResultData = function(){
-  container = $('#search-results')
+var clearResultData = function(div){
+  container = $('#'+div);
   ids = container.data('ids');
   if (typeof(ids) != 'undefined'){
     for (i=0;i<ids.length;i++){
@@ -502,8 +507,8 @@ var isNewResult = function(containerId, parsedResult){
     cachedIds.push(parsedResult.id)
     $('#'+containerId).data(String(parsedResult.id), JSON.stringify(parsedResult));
     return true
-  return false
   }
+  return false
 };
 
 /** get selected concepts by default or all concepts shown when given argument selected==false
@@ -591,6 +596,63 @@ var expandListbox = function(){
   // expand listbox to show all entries up to a size of 20
 }
 
+var executeSearch = function(url, data){
+    return $.ajax({
+      type: 'GET',
+      url: url,
+      data: data
+    });
+  };
+
+var parseResultsArray = function(arr, a) {
+  var resultLength = a.length;
+  for (var i = 0; i < resultLength; i++) {
+    if(arr.indexOf(a[i].ResourceId) === -1) {
+      arr.push(a[i].ResourceId);
+      getResourceDetail(a[i].ResourceId, 'simple-search-results');
+    }
+  }
+  return arr;
+};
+var simpleSearch = function() {
+  var div = 'simple-search-results';
+  clearResultData(div);
+  $('#'+div+' *').remove();
+  var arr = [];
+  var results = [];
+  var $resultsDiv = $('#'+div);
+  var $searchInput = $('#simple-search-input');
+  var queryString = $searchInput.val().toLowerCase().trim();
+  if (queryString) { // makes sure search string is not empty
+      $.when(
+        // Run acronym search in all 4 decision sectors
+        executeSearch(resourceAdvancedSearchURL, { Acronym: queryString, DecisionSector: 'Building Infrastructure' }),
+        executeSearch(resourceAdvancedSearchURL, { Acronym: queryString, DecisionSector: 'Land Use' }),
+        executeSearch(resourceAdvancedSearchURL, { Acronym: queryString, DecisionSector: 'Transportation' }),
+        executeSearch(resourceAdvancedSearchURL, { Acronym: queryString, DecisionSector: 'Waste Management' }),
+        // Run name-search in all 4 decision sectors
+        executeSearch(resourceAdvancedSearchURL, { Name: queryString, DecisionSector: 'Building Infrastructure' }),
+        executeSearch(resourceAdvancedSearchURL, { Name: queryString, DecisionSector: 'Land Use' }),
+        executeSearch(resourceAdvancedSearchURL, { Name: queryString, DecisionSector: 'Transportation' }),
+        executeSearch(resourceAdvancedSearchURL, { Name: queryString, DecisionSector: 'Waste Management' }),
+        // Run name-search in all 4 decision sectors
+        executeSearch(resourceAdvancedSearchURL, { ShortDescriptionForReports: queryString, DecisionSector: 'Building Infrastructure' }),
+        executeSearch(resourceAdvancedSearchURL, { ShortDescriptionForReports: queryString, DecisionSector: 'Land Use' }),
+        executeSearch(resourceAdvancedSearchURL, { ShortDescriptionForReports: queryString, DecisionSector: 'Transportation' }),
+        executeSearch(resourceAdvancedSearchURL, { ShortDescriptionForReports: queryString, DecisionSector: 'Waste Management' })
+      ).done(function ( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 ) {
+        for (var i=0; i<arguments.length; i++){
+          results = results.concat(arguments[i][0]);
+        }
+        arr = parseResultsArray(arr, results);
+        if (0 === arr.length) {
+          $resultsDiv.html('<p>No results found.</p>');
+        }
+      });
+  } else {
+    $resultsDiv.html('<p>Enter a search term.</p>');
+  }
+};
 </script>
 </body>
 </html>
