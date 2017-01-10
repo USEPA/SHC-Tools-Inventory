@@ -39,7 +39,7 @@
     [role=tab] {margin: 1px 0 0;}
     [role=tabpanel] {
       padding: 1px;
-      border: 2px solid black;
+      border: 2px solid #d3d3d3;
       border-radius: 5px;
     }
     div[aria-hidden='true'] {display: none;}
@@ -374,9 +374,8 @@ $('[role="tab"]').click(function(){
 });
 /** populate a list into specified a container of elements */
 var populate = function(list, container, element){
-  var currentItems = container.children('*~*');
   if (typeof list === 'undefined'){list = [];}
-  if (currentItems.length > 1){currentItems.remove()}
+  container.html('');
   $.each(list, function(index, value){
     container.append($("<"+element+"></"+element+">").text(value));
   } );
@@ -612,10 +611,6 @@ var selectNextTab = function(arg){
   nextTab.prop('disabled', false);
   // hide next button if last tab
   if ($(arg).siblings('[role=tablist]').children('[role=tab]:disabled').length==0){$(arg).hide()}
-}
-
-var expandListbox = function(){
-  // expand listbox to show all entries up to a size of 20
 }
 
 var executeSearch = function(url, data){
