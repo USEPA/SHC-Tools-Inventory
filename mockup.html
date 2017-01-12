@@ -226,7 +226,63 @@
                 </form>
                 <div id="simple-search-results"></div>
               </div>
-              <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" name="tab1panel" aria-hidden="true">...detailed searchy words...</div>
+              <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" name="tab1panel" aria-hidden="true">
+                <p>Search for a tool by entering a keyword.</p>
+                <style>
+                    .inline{
+                      display: inline;
+                      padding-left: 5px;
+                    }
+                </style>
+                <form action="javascript:detailedSearch()">
+                  <input type="text" id="detailed-search-input" title="Search for tools by entering specific keywords" maxlength="35">
+                  <br>
+                  <h5>Select the Spatial Extent of the tool</h5>
+                  <input type="checkbox" id="building-cb" name="spatial-extent" value="Building">
+                  <label for="building-cb" class="inline unselectable">Building</label>
+                  
+                  <input type="checkbox" id="site-cb" name="spatial-extent" value="Site">
+                  <label for="site-cb" class="inline unselectable">Site</label>
+                  
+                  <input type="checkbox" id="neighborhood-cb" name="spatial-extent" value="Neighborhood">
+                  <label for="neighborhood-cb" class="inline unselectable">Neighborhood</label>
+                  
+                  <input type="checkbox" id="city-cb" name="spatial-extent" value="City">
+                  <label for="city-cb" class="inline unselectable">City</label>
+
+                  <input type="checkbox" id="county-cb" name="spatial-extent" value="County">
+                  <label for="county-cb" class="inline unselectable">County</label>
+
+                  <input type="checkbox" id="state-cb" name="spatial-extent" value="State">
+                  <label for="state-cb" class="inline unselectable">State</label>
+
+                  <input type="checkbox" id="nation-cb" name="spatial-extent" value="Nation">
+                  <label for="nation-cb" class="inline unselectable">Nation</label>
+
+                  <input type="checkbox" id="continent-cb" name="spatial-extent" value="Continent">
+                  <label for="continent-cb" class="inline unselectable">Continent</label>
+
+                  <input type="checkbox" id="globe-cb" name="spatial-extent" value="Globe">
+                  <label for="globe-cb" class="inline unselectable">Globe</label>
+                  <br>
+                  <h5>Select the Decision Sector of the tool</h5>
+                  <input type="checkbox" id="building-infrastructure-cb" name="decision-sector" value="Building and Infrastructure">
+                  <label for="building-infrastructure-cb" class="inline unselectable">Building & Infrastructure</label>
+                  
+                  <input type="checkbox" id="land-use-cb" name="decision-sector" value="Land Use">
+                  <label for="land-use-cb" class="inline unselectable">Land Use</label>
+                  
+                  <input type="checkbox" id="transportation-cb" name="decision-sector" value="Transportation">
+                  <label for="transportation-cb" class="inline unselectable">Transportation</label>
+                  
+                  <input type="checkbox" id="waste-management-cb" name="decision-sector" value="Waste Management">
+                  <label for="waste-management-cb" class="inline unselectable">Waste Management</label>
+                  <br>
+
+                  <input type="submit" value="Search">
+                </form>
+                <div id="detailed-search-results"></div>
+              </div>
               <div aria-labelledby="browse-tab" id="browse-panel" role="tabpanel" name="tab1panel" aria-hidden="true">These words feel browsy.</div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" name="tab1panel" aria-hidden="true">Resultantasticalisticity</div>
             </div>
@@ -670,6 +726,10 @@ var simpleSearch = function() {
   } else {
     $resultsDiv.html('<p>Enter a search term.</p>');
   }
+};
+
+var detailedSearch = function(){
+
 };
 </script>
 </body>
