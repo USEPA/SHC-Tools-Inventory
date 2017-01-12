@@ -666,7 +666,7 @@ var broadenConcepts = function(){
   }
 }
 
-var isNil = function(obj){(obj['xsi:nil']==true)?(true):(false)};
+var isNil = function(obj){return (obj['xsi:nil'] === true ? true : false);};
 
 var updateResults = function(newResult, containerId){
   cachedResultIds = $('#'+containerId).data('ids');
