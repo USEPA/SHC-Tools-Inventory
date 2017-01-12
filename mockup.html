@@ -692,37 +692,36 @@ var simpleSearch = function() {
   var div = 'simple-search-results';
   clearResultData(div);
   $('#'+div+' *').remove();
-  var arr = [];
-  var results = [];
-  var $resultsDiv = $('#'+div);
   var $searchInput = $('#simple-search-input');
-  var queryString = $searchInput.val().toLowerCase().trim();
+  var queryString = $searchInput.val().toLowerCase().trim();  
+  actualSearch(queryString, div);  
+};
+
+var actualSearch = function(queryString, div){
+  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
+  var $resultsDiv = $('#'+div);
+  var results = [];
+  var requests = [];
+  var arr = [];
+  var data = {};
   if (queryString) { // makes sure search string is not empty
-		$.when(
-			// Run acronym search in all 4 decision sectors
-			executeSearch(resourceAdvancedSearchURL, { Acronym: queryString, DecisionSector: 'Building Infrastructure' }),
-			executeSearch(resourceAdvancedSearchURL, { Acronym: queryString, DecisionSector: 'Land Use' }),
-			executeSearch(resourceAdvancedSearchURL, { Acronym: queryString, DecisionSector: 'Transportation' }),
-			executeSearch(resourceAdvancedSearchURL, { Acronym: queryString, DecisionSector: 'Waste Management' }),
-			// Run name-search in all 4 decision sectors
-			executeSearch(resourceAdvancedSearchURL, { Name: queryString, DecisionSector: 'Building Infrastructure' }),
-			executeSearch(resourceAdvancedSearchURL, { Name: queryString, DecisionSector: 'Land Use' }),
-			executeSearch(resourceAdvancedSearchURL, { Name: queryString, DecisionSector: 'Transportation' }),
-			executeSearch(resourceAdvancedSearchURL, { Name: queryString, DecisionSector: 'Waste Management' }),
-			// Run name-search in all 4 decision sectors
-			executeSearch(resourceAdvancedSearchURL, { ShortDescriptionForReports: queryString, DecisionSector: 'Building Infrastructure' }),
-			executeSearch(resourceAdvancedSearchURL, { ShortDescriptionForReports: queryString, DecisionSector: 'Land Use' }),
-			executeSearch(resourceAdvancedSearchURL, { ShortDescriptionForReports: queryString, DecisionSector: 'Transportation' }),
-			executeSearch(resourceAdvancedSearchURL, { ShortDescriptionForReports: queryString, DecisionSector: 'Waste Management' })
-		).done(function ( a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 ) {
-			for (var i=0; i<arguments.length; i++){
+    for (var i=0;i<queryTypes.length;i++){
+      data[queryTypes[i]] = queryString;
+      for (var j=0;j<decisionSectors.length;j++){
+        data.DecisionSector = decisionSectors[j];
+        requests.push(executeSearch(resourceAdvancedSearchURL, data));
+      }
+      data = {};
+    }
+    $.when.apply(null, requests).done(function () {
+      for (var i=0; i<arguments.length; i++){
         results = results.concat(arguments[i][0]);
-			}
-			arr = parseResultsArray(arr, results);
-			if (0 === arr.length) {
-				$resultsDiv.html('<p>No results found.</p>');
-			}
-		});
+      }
+      arr = parseResultsArray(arr, results);
+      if (0 === arr.length) {
+        $resultsDiv.html('<p>No results found.</p>');
+      }
+    });
   } else {
     $resultsDiv.html('<p>Enter a search term.</p>');
   }
