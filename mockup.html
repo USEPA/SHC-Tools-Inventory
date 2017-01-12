@@ -545,8 +545,33 @@ var displayResult = function(data, div, fields=['title']) {
 };
 function addDiv(parsedResult, containerId) {
   var container = $('#'+containerId);
-  var text = parsedResult.title+': '+parsedResult.description;
-  $('<div></div>').appendTo(container).text(text).attr('id',parsedResult.id);
+  $(container).append(
+    $('<div/>')
+      .attr('id', parsedResult.id)
+      .append(
+        $('<span/>')
+          .html('<strong>'+parsedResult.title+' ('+parsedResult.acronym+')</strong>: '+parsedResult.description+'<br>'))
+      .append(
+        $('<span/>')
+        .html('<strong>Keywords</strong>: '+parsedResult.keywords+'<br>'))
+      .append(
+        $('<span/>')
+        .html('<strong>Contact Name</strong>: '+ (isNil(parsedResult.contactName) ? 'No data' : parsedResult.contactName)+'<br>'))
+      .append(
+        $('<span/>')
+        .html('<strong>Contact Email</strong>: '+ (isNil(parsedResult.contactEmail) ? 'No data' : parsedResult.contactEmail)+'<br>'))
+      .append(
+        $('<span/>')
+        .html('<strong>Contact Phone</strong>: '+ (isNil(parsedResult.contactPhoneNumber) ? 'No data' : parsedResult.contactPhoneNumber)+'<br>'))
+      .append(
+        $('<span/>')
+        .html('<strong>Tags</strong>: '+parsedResult.tags+'<br>'))
+      .append(
+        $('<a/>')
+        .attr('href',parsedResult.url)
+        .attr('target', '_blank')
+        .text('Visit the tool\'s homepage'))
+  );
   var divs = container.find('div');
 };
 var parseResult = function(result=false){
