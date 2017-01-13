@@ -72,7 +72,6 @@
       border-radius: 5px;
       padding: 2px;
     }
-    .block, #explore-panel button{display:block;}
     .flex {
       display: flex;
     }
@@ -703,7 +702,7 @@ var broadenConcepts = function(){
   }
 }
 
-var isNil = function(obj){return (obj['xsi:nil'] === true ? true : false);};
+var isNil = function(obj){return obj['xsi:nil'] === true;};
 
 var updateResults = function(newResult, containerId){
   cachedResultIds = $('#'+containerId).data('ids');
