@@ -129,7 +129,7 @@
           <div class="node node-page clearfix view-mode-full">
             <div id="main-tabs">
                 <div id="explore-tab-container" role="tablist">
-                  <button aria-controls="role-panel" aria-selected="true" id="explore-role-tab" role="tab" name="tab2" tabindex="-1" style="background-color: rgb(32,84,147)" data-tab-number="1">Role</button>
+                  <button aria-controls="role-panel" aria-selected="true" id="explore-role-tab" role="tab" name="tab2" tabindex="-1" data-tab-number="1">Role</button>
                   <button aria-controls="subrole-panel" aria-selected="false" id="explore-subrole-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="2">Subrole</button>
                   <button aria-controls="objective-panel" aria-selected="false" id="explore-objective-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="3">Objective</button>
                   <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="4">Concept</button>
@@ -152,17 +152,17 @@
                     <option>Urban Forest Manager</option>
                     <option>Water Utility Manager</option>
                   </select>
-                  <button class="next" onclick="activateNextTab($('#explore-subrole-tab'))">Next</button>
+                  <!-- <button class="next" onclick="activateNextTab($('#explore-subrole-tab'))">Next</button> -->
                 </div>
                 <div aria-labelledby="explore-subrole-tab" id="subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <label for="subrole-select">Provide more information about this user of the tools.</label>
                   <select multiple id="subrole-select" onchange="subroleSelect()"></select>
-                  <button class="next" onclick="activateNextTab($('#explore-objective-tab'))">Next</button>
+                  <!-- <button class="next" onclick="activateNextTab($('#explore-objective-tab'))">Next</button> -->
                 </div>
                 <div aria-labelledby="explore-objective-tab" id="objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <label for="objective-select">What are the user's goals? Select objectives related to the desired tools.</label>
                   <select multiple id="objective-select" onchange="objectiveSelect()"></select>
-                  <button class="next" onclick="activateNextTab($('#explore-concept-tab'))">Next</button>
+                  <!-- <button class="next" onclick="activateNextTab($('#explore-concept-tab'))">Next</button> -->
                 </div>
                 <div aria-labelledby="explore-concept-tab" id="concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <h3>Concepts</h3>
@@ -253,6 +253,7 @@
 <script src="js/porter-stemmer.js"></script>
 <script>
 $ = jQuery;// ensure jquery gets where it's expected
+$("#explore-role-tab").focus();
 var resourceSearchURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceSearch";
 var resourceAdvancedSearchURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch";
 var resourceDetailURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail";
@@ -320,8 +321,6 @@ $('[role="tab"]').click(function(){
     var tab = $this.attr('name');
     $('[name="'+tab+'"]').attr('aria-selected', 'false');// deselect all tabs
     $this.attr('aria-selected', 'true');// select clicked tab
-    $this.css('background-color', '#205493');// darken selected tab
-    $this.siblings('[role=tab]:enabled').css('background-color', '#0071bc');// lighten tabs not selected
     var tabpanid= $this.attr('aria-controls');// get the id of the panel controlled by the clicked tab
     var tabpan= $('#'+tabpanid);// get panel's document-element from its id
     $('[name="'+tab+'panel"]').attr('aria-hidden','true');// hide all panels
@@ -335,14 +334,24 @@ var populate = function(list, container, element){
     container.append($("<"+element+"></"+element+">").text(value));
   } );
   container.attr('size', list.length);
+  toggleTab(list, container);
+};
+var toggleTab = function(list, container){
+  if (list.length > 0){
+    $('#'+container.parent().attr('aria-labelledby')).prop('disabled',false);
+  } else {
+    $('#'+container.parent().attr('aria-labelledby')).prop('disabled',true);
+  }
 };
 var roleSelect = function(){
   // populate #subrole-select with subrole options for this_role
   populate(readArray($('#role-select option:selected'), subrolesByRole), $('#subrole-select'), 'option');
+  subroleSelect();
 };
 var subroleSelect = function(){
   // populate #objective-select with objective options for this_subrole
   populate(readArray($('#subrole-select option:selected'), objectivesBySubrole), $('#objective-select'), 'option');
+  objectiveSelect();
 };
 var objectiveSelect = function(){
   // populate #concept-select with concept-options for selected objectives
