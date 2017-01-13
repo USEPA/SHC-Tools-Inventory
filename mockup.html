@@ -286,30 +286,6 @@ $('select').on('mousedown','option',function(e) {
 // listen for selection changes that don't trigger the onchange event
 $('#role-select').change(function(){console.log('selection was changed')});
 
-// add the subrules for the seleted roles to the page
-$("input[name='role-checkbox']").click(function(){
-  $('#subrole-select-test').html('');
-  var elements = readArray($("input[name='role-checkbox']:checked"), subrolesByRole);
-  for (var i=0;i<elements.length;i++){
-    addCheckboxButton(elements[i], 'subrole-select-test', "addObjectives()");
-  }
-});
-/** add objectives for the selected subroles to the page */
-var addObjectives = function(){
-  $('#objective-select-test').html('');
-  var elements = readArray($("input[name='subrole-select-test-checkbox']:checked"), objectivesBySubrole);
-  for (var i=0;i<elements.length;i++){
-    addCheckboxButton(elements[i], 'objective-select-test', "addConcepts()");
-  }
-};
-/** add concepts for the selected objectives to page */
-var addConcepts = function(){
-  $('#concept-select-test').html('');
-  var elements = readArray($("input[name='objective-select-test-checkbox']:checked"), conceptsByObjective);
-  for (var i=0;i<elements.length;i++){
-    addCheckboxButton(elements[i], 'concept-select-test');
-  }
-};
 /** search and update terms */
 var search = function(str) {
   var terms = str.split(" ");
@@ -376,13 +352,6 @@ var readArray = function(selectedOptions, selectedArray) {
     }
   }
   return allSelectedElements.sort();
-};
-function addCheckboxButton(name, containerName, onClick="") {
-  var container = $('#'+containerName);
-  var inputs = container.find('input');
-  var id = inputs.length+1;
-  $('<input />', { type: 'checkbox', id: 'cb'+containerName+id, value: name, name: containerName+'-checkbox', onclick:onClick }).appendTo(container);
-  $('<label />', { 'for': 'cb'+containerName+id, text: name, class: "unselectable button" }).appendTo(container);
 };
 function addCheckbox(name, containerId) {
   var container = $('#'+containerId);
