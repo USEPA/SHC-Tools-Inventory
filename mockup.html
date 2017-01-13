@@ -36,7 +36,7 @@
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
   <style>
-    select{width:100%;overflow:visible}
+    select {overflow: auto;}
     [role=tab] {margin: 1px 0 0;}
     [role=tabpanel] {
       padding: 1px;
@@ -81,7 +81,6 @@
     .right {
       flex: 1;
     }
-    .next{display:block}
     button:disabled{background-color:#aaa}
   </style>
 </head>
@@ -726,8 +725,7 @@ var activateNextTab = function($nextTab){
   $nextTab.prop('disabled',false);// enable tab
   $nextTab.click();// activate tab
   //location.hash = '#explore-role-tab';// not working...
-  //document.getElementById('explore-role-tab').scrollIntoView();// not work when not in explore-tab
-  $nextTab.get().scrollIntoView();
+  $nextTab[0].scrollIntoView()
 }
 
 var executeSearch = function(url, data){
