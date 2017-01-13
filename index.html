@@ -590,12 +590,6 @@ social media at&nbsp;EPA&nbsp;»</a>
     var os_select = checkBoxValue(document.getElementsByName('RadioEnvironment'));
     var cost_select = checkBoxValue(document.getElementsByName('CheckBase'));
     var extent_select = multiSelectValue(document.getElementById('selectExtent'));
-    console.log("os_select",
-      os_select.length);
-    console.log("cost_select",
-      cost_select.length);
-    console.log("extent_select",
-      extent_select.length);
     var query_string = $(
         '#detailSearchText')[0].value
       .toLowerCase();
@@ -635,7 +629,6 @@ social media at&nbsp;EPA&nbsp;»</a>
             } else {
               var extentSelect;
             }
-            console.log("looping");
             $.ajax({
               type: 'GET',
               url: resourceAdvancedSearchURL,
@@ -695,7 +688,6 @@ social media at&nbsp;EPA&nbsp;»</a>
           } else {
             var extentSelect;
           }
-          console.log("looping");
           $.ajax({
             type: 'GET',
             url: resourceAdvancedSearchURL,
@@ -747,7 +739,6 @@ social media at&nbsp;EPA&nbsp;»</a>
         } else {
           var extentSelect;
         }
-        console.log("looping");
         $.ajax({
           type: 'GET',
           url: resourceAdvancedSearchURL,
@@ -794,7 +785,6 @@ social media at&nbsp;EPA&nbsp;»</a>
       } else {
         var extentSelect;
       }
-      console.log("looping");
       $.ajax({
         type: 'GET',
         url: resourceAdvancedSearchURL,
@@ -841,7 +831,6 @@ social media at&nbsp;EPA&nbsp;»</a>
           } else {
             var extentSelect;
           }
-          console.log("looping");
           $.ajax({
             type: 'GET',
             url: resourceAdvancedSearchURL,
@@ -890,7 +879,6 @@ social media at&nbsp;EPA&nbsp;»</a>
         } else {
           var extentSelect;
         }
-        console.log("looping");
         $.ajax({
           type: 'GET',
           url: resourceAdvancedSearchURL,
@@ -933,7 +921,6 @@ social media at&nbsp;EPA&nbsp;»</a>
           } else {
             var extentSelect;
           }
-          console.log("looping");
           $.ajax({
             type: 'GET',
             url: resourceAdvancedSearchURL,
@@ -982,59 +969,47 @@ social media at&nbsp;EPA&nbsp;»</a>
     return arr;
   };
 
-  var simpleSearchOneDecisionSector = function(){
-
-  };
-
-  var simpleSearchAllDecisionSectors = function(){
-
-  };
-
   simpleSearchClk3 = function() {
-    var arr = [];
-    var results = [];
     clearResults();
-    var name_query = $('#simpleSearchText').val().toLowerCase().trim();
-    var decisionSector = $('#simpleDecisionSelect').val();
-    if (name_query) { // makes sure search string is not empty
-      if (decisionSector) {
-        $.when(
-          // Run acronym-search in specified decision sector
-          executeSearch(resourceAdvancedSearchURL, { Acronym: name_query, DecisionSector: decisionSector }),        
-          // Run name-search in specified decision sector
-          executeSearch(resourceAdvancedSearchURL, { Name: name_query.substring(0,30), DecisionSector: decisionSector })
-        )
-        .done(function ( a1, a2 ) {       
-          results = a1[0].concat(a2[0]);
-          arr = parseResultsArray(arr, results);
-          if (arr.length === 0) {
-            $('#simpleFeedback').css('display', 'block');
-          }
-        });
-      } else {
-        $.when(
-          // Run acronym search in all 4 decision sectors
-          executeSearch(resourceAdvancedSearchURL, { Acronym: name_query, DecisionSector: 'Building Infrastructure' }),
-          executeSearch(resourceAdvancedSearchURL, { Acronym: name_query, DecisionSector: 'Land Use' }),
-          executeSearch(resourceAdvancedSearchURL, { Acronym: name_query, DecisionSector: 'Transportation' }),
-          executeSearch(resourceAdvancedSearchURL, { Acronym: name_query, DecisionSector: 'Waste Management' }),        
-          // Run name-search in all 4 decision sectors
-          executeSearch(resourceAdvancedSearchURL, { Name: name_query.substring(0,30), DecisionSector: 'Building Infrastructure' }),
-          executeSearch(resourceAdvancedSearchURL, { Name: name_query.substring(0,30), DecisionSector: 'Land Use' }),
-          executeSearch(resourceAdvancedSearchURL, { Name: name_query.substring(0,30), DecisionSector: 'Transportation' }),
-          executeSearch(resourceAdvancedSearchURL, { Name: name_query.substring(0,30), DecisionSector: 'Waste Management' })
-        ).done(function ( a1, a2, a3, a4, a5, a6, a7, a8 ) {
-          var results = a1[0].concat(a2[0], a2[0], a3[0], a4[0], a5[0], a6[0], a7[0], a8[0]);
-          arr = parseResultsArray(arr, results);
-          if (0 === arr.length) {
-            $('#simpleFeedback').css('display', 'block');
-          }
-        });
-      }   
+    var queryString = $('#simpleSearchText').val().toLowerCase().trim();
+    var decisionSectors = [$('#simpleDecisionSelect').val()];
+    var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
+    var $feedbackDiv = $('#simpleFeedback');
+    var results = [];
+    var requests = [];
+    var arr = [];
+    var data = {};
+    if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
+      decisionSectors = [
+        "Land Use",
+        "Waste Management",
+        "Building & Infrastructure",
+        "Transportation"
+      ];
+    }
+    if (queryString) { // makes sure search string is not empty
+      for (var i=0;i<queryTypes.length;i++){
+        data[queryTypes[i]] = queryString;
+        for (var j=0;j<decisionSectors.length;j++){
+          data.DecisionSector = decisionSectors[j];
+          requests.push(executeSearch(resourceAdvancedSearchURL, data));
+        }
+        data = {};
+      }
+      $.when.apply(null, requests).done(function () {
+        for (var i=0; i<arguments.length; i++){
+          results = results.concat(arguments[i][0]);
+        }
+        arr = parseResultsArray(arr, results);
+        if (0 === arr.length) {
+          $feedbackDiv.css('display', 'block');
+        }
+      });
+    } else {
+      $feedbackDiv.css('display', 'block');
     }
   };
 	  simpleSearchClk4 = function(resourceID) {
-		console.log("simpleSearchClk4");
 		$.ajax({
 		  type: 'GET',
 		  url: resourceDetailURL,
@@ -1046,19 +1021,11 @@ social media at&nbsp;EPA&nbsp;»</a>
 		  dataType: 'json',
 		  success: function(data) {
 			var response = parseResults(data, "#resultsTable");
-			/*
-			if (response == 'No Results Found') {
-			  $('#popup-message').css('fontSize', 'x-small');
-			  $('#popup-message').html("Your search for resource ID '" + resourceID + "' returned no results. Please try again.");
-			  $("#dialog-message").dialog("open");
-			}
-			*/
 		  }
 		});
   };
 
-  simpleSearchClk5 = function(
-    resourceID) {
+  simpleSearchClk5 = function(resourceID) {
     $.ajax({
       type: "GET",
       url: resourceDetailURL,
@@ -1071,9 +1038,7 @@ social media at&nbsp;EPA&nbsp;»</a>
         var response = parseResults(data, "#resultsTable");
         if (response == "No Results Found") {
           $("#popup-message")[0].style.fontSize = "x-small";
-          $("#popup-message")[0].innerHTML =
-            "Your search for resource ID '" + resourceID +
-            "' returned no results. Please try again.";
+          $("#popup-message")[0].innerHTML = "Your search for resource ID '" + resourceID + "' returned no results. Please try again.";
           $("#dialog-message").dialog("open");
         }
       }
@@ -1082,7 +1047,6 @@ social media at&nbsp;EPA&nbsp;»</a>
 
   function parseResults(str, table_reference) {
     try {
-      // var row_template = {"Name":0,"ShortDescriptionForReports":1,"BaseCostOfSoftware":2,"SpatialExtent":3,"ModelInputs":4,"ModelOutputTypes":5};
       var row_template = {
         "Acronym": 0,
         "ShortTitleText": 1,
@@ -1211,8 +1175,6 @@ social media at&nbsp;EPA&nbsp;»</a>
         cell.innerHTML = this_result;
       }
       $(table_reference + " tr").click(function() {
-        console.log("showdetails");
-        console.log($(this).data());
         showDetails($(this).data());
       });
       if (table_reference == "#resultsTable") {
@@ -1243,7 +1205,6 @@ social media at&nbsp;EPA&nbsp;»</a>
     if (tabsBrowserClicked == false) {
       $(".accordion-pane").each(function() {
           var table_name = this.children[1].id;
-          console.log("start loop tbl name =", table_name);
           var this_sector = table_name
             .replace("table", "")
             .toLowerCase();
@@ -1273,8 +1234,6 @@ social media at&nbsp;EPA&nbsp;»</a>
             dataType: 'json',
             success: function(data) {
               for (i = 0; i < data.length; i++) {
-                console.log("ID");
-                console.log(data[i].ResourceId);
                 $.ajax({
                   type: 'GET',
                   url: resourceDetailURL,
@@ -1284,7 +1243,6 @@ social media at&nbsp;EPA&nbsp;»</a>
                   },
                   dataType: 'json',
                   success: function(data) {
-                    console.log("table name =", table_name)
                     parseResults(data, '#' + table_name);
                   }
                 });

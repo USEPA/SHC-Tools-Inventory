@@ -60,14 +60,25 @@
       user-select: none;
       margin: 0 .15em .3em;
       padding: 0.4em;
-
+    }
+    .inline{
+      display: inline;
+      padding-left: 5px;
     }
     #search-results > div, #search-results-test > div, #simple-search-results > div{
-      background-color: #ddd;
+      background-color: #f1f1f1;
       margin-top: .5em;
-      border: 2px solid gray;
       border-radius: 5px;
       padding: 2px;
+    }
+    .flex {
+      display: flex;
+    }
+    .left {
+      flex: 0 0 50%;
+    }
+    .right {
+      flex: 1;
     }
     button:disabled{background-color:#aaa}
   </style>
@@ -235,12 +246,6 @@
               </div>
               <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" name="tab1panel" aria-hidden="true">
                 <p>Search for a tool by entering a keyword.</p>
-                <style>
-                    .inline{
-                      display: inline;
-                      padding-left: 5px;
-                    }
-                </style>
                 <form action="javascript:detailedSearch()">
                   <input type="text" id="detailed-search-input" title="Search for tools by entering specific keywords" maxlength="35">
                   <br>
@@ -554,29 +559,46 @@ function addDiv(parsedResult, containerId) {
   $(container).append(
     $('<div/>')
       .attr('id', parsedResult.id)
+      .attr('onclick','$("#additional-details-'+parsedResult.id+'").toggle()')
       .append(
         $('<span/>')
-          .html('<strong>'+parsedResult.title+' ('+parsedResult.acronym+')</strong>: '+parsedResult.description+'<br>'))
+          .html('<strong>'+parsedResult.title+' ('+parsedResult.acronym+')</strong>: '+parsedResult.description+'<br>')
+          .append(
+            $('<span/>')
+              .text('')
+              .addClass('')
+              ))
       .append(
-        $('<span/>')
-        .html('<strong>Keywords</strong>: '+parsedResult.keywords+'<br>'))
-      .append(
-        $('<span/>')
-        .html('<strong>Contact Name</strong>: '+ (isNil(parsedResult.contactName) ? 'No data' : parsedResult.contactName)+'<br>'))
-      .append(
-        $('<span/>')
-        .html('<strong>Contact Email</strong>: '+ (isNil(parsedResult.contactEmail) ? 'No data' : parsedResult.contactEmail)+'<br>'))
-      .append(
-        $('<span/>')
-        .html('<strong>Contact Phone</strong>: '+ (isNil(parsedResult.contactPhoneNumber) ? 'No data' : parsedResult.contactPhoneNumber)+'<br>'))
-      .append(
-        $('<span/>')
-        .html('<strong>Tags</strong>: '+parsedResult.tags+'<br>'))
-      .append(
-        $('<a/>')
-        .attr('href',parsedResult.url)
-        .attr('target', '_blank')
-        .text('Visit the tool\'s homepage'))
+        $('<div/>')
+          .css('display', 'none')
+          .attr('id', 'additional-details-'+parsedResult.id)
+          .addClass('flex')
+        .append(
+          $('<span/>')    
+          .addClass('left')
+          .append(
+            $('<span/>')
+            .html('<strong>Keywords</strong>: '+parsedResult.keywords+'<br>'))
+          .append(
+            $('<span/>')
+            .html('<strong>Contact Name</strong>: '+ (isNil(parsedResult.contactName) ? 'No data' : parsedResult.contactName)+'<br>'))
+          .append(
+            $('<span/>')
+            .html('<strong>Contact Email</strong>: '+ (isNil(parsedResult.contactEmail) ? 'No data' : parsedResult.contactEmail)+'<br>'))
+          .append(
+            $('<span/>')
+            .html('<strong>Contact Phone</strong>: '+ (isNil(parsedResult.contactPhoneNumber) ? 'No data' : parsedResult.contactPhoneNumber)+'<br>')))
+        .append(
+          $('<span/>')
+          .addClass('right')
+          .append(
+            $('<span/>')
+            .html('<strong>Tags</strong>: '+parsedResult.tags+'<br>'))
+          .append(
+            $('<a/>')
+            .attr('href',parsedResult.url)
+            .attr('target', '_blank')
+            .text('Visit the tool\'s homepage'))))
   );
   var divs = container.find('div');
 };
