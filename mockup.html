@@ -120,13 +120,13 @@
                 <button aria-controls="results-panel" aria-selected="false" id="results-tab" role="tab" name="tab1" tabindex="-1">Results</button>
               </div>
               <div aria-labelledby="explore-tab" id="explore-panel" role="tabpanel" name="tab1panel" aria-hidden="false">
-                <div role="tablist">
-                  <button aria-controls="role-panel" aria-selected="true" id="explore-role-tab" role="tab" name="tab2" tabindex="-1" style="background-color: rgb(32,84,147)">Role</button>
+                <div id="explore-tab-container" role="tablist">
+                  <button aria-controls="role-panel" aria-selected="true" id="explore-role-tab" role="tab" name="tab2" tabindex="-1" style="background-color: rgb(32,84,147)" data-tab-number="1">Role</button>
                   <button aria-controls="subrole-panel" aria-selected="false" id="explore-subrole-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="2">Subrole</button>
                   <button aria-controls="objective-panel" aria-selected="false" id="explore-objective-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="3">Objective</button>
                   <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="4">Concept</button>
                 </div>
-                <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
+                <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
                   <label for="role-select">Who will use the tools?</label>
                   <select multiple id="role-select" onchange="roleSelect()" size="14">
                     <option>Community Representative/Volunteer</option>
@@ -144,14 +144,17 @@
                     <option>Urban Forest Manager</option>
                     <option>Water Utility Manager</option>
                   </select>
+                  <button class="next" onclick="activateNextTab($('#explore-subrole-tab'))">Next</button>
                 </div>
                 <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <label for="subrole-select">Provide more information about this user of the tools.</label>
                   <select multiple id="subrole-select" onchange="subroleSelect()"></select>
+                  <button class="next" onclick="activateNextTab($('#explore-objective-tab'))">Next</button>
                 </div>
                 <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <label for="objective-select">What are the user's goals? Select objectives related to the desired tools.</label>
                   <select multiple id="objective-select" onchange="objectiveSelect()"></select>
+                  <button class="next" onclick="activateNextTab($('#explore-concept-tab'))">Next</button>
                 </div>
                 <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <h3>Concepts</h3>
@@ -160,8 +163,7 @@
                   <button id="expand-concepts" onclick="broadenConcepts()">Expand Concepts</button>
                   <button id="search-button" onclick="keywordSearch('search-results', 'input[name=concept-select-checkbox]:checked')">Run Keyword Search</button>
                 </div>
-              <h3>Press the control key or the shift key while clicking to select multiple values.<button style="height:2ex;margin:1px;padding:1px" onClick="$(this).parent().hide()">hide these instructions</button></h3>
-                <button class="next" onclick="selectNextTab($(this))">Next</button>
+                <h3>Press the control key or the shift key while clicking to select multiple values.<button style="height:2ex;margin:1px;padding:1px" onClick="$(this).parent().hide()">hide these instructions</button></h3>
                 <div id="search-results"></div>
               </div>
               <div aria-labelledby="explore-tab-test" id="explore-panel-test" role="tabpanel" name="tab1panel" aria-hidden="true">
@@ -204,21 +206,23 @@
                   <input type="checkbox" id="role-14" name="role-checkbox" value="Water Utility Manager">
                   <label for="role-14" class="button unselectable">Water Utility Manager</label>
                   </div>
+                  <button class="next" onclick="activateNextTab($('#button-explore-subrole-tab'))">Next</button>
                 </div>
                 <div aria-labelledby="button-explore-subrole-tab" id="button-subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <h3>Further describe this user of the tools.</h3>
                   <div id="subrole-select-test" style="font-size:90%"></div>
+                  <button class="next" onclick="activateNextTab($('#button-explore-objective-tab'))">Next</button>
                 </div>
                 <div aria-labelledby="button-explore-objective-tab" id="button-objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <h3>What is the user's goal?</h3>
                   <div id="objective-select-test" style="font-size:90%"></div>
+                  <button class="next" onclick="activateNextTab($('#button-explore-concept-tab'))">Next</button>
                 </div>
                 <div aria-labelledby="button-explore-concept-tab" id="button-concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <h3>Concepts</h3>
                   <div id="concept-select-test" style="font-size:90%"></div>
                   <button id="search-button-test" onclick="keywordSearch('search-results-test', 'input[name=\'concept-select-test-checkbox\']:checked')">Run Keyword Search</button>
                 </div>
-                <button class="next" onclick="selectNextTab($(this))">Next</button>
                 <div id="search-results-test"></div>
               </div>
               <div aria-labelledby="search-tab" id="search-panel" role="tabpanel" name="tab1panel" aria-hidden="true">
@@ -418,16 +422,15 @@ var search = function(str) {
       $('<button>',{ 'text': value }).appendTo('#search-terms');
   } );
 };
-/** select only "clicked" tab and show only this tab's corresponding panel
- *  this function originally retrieved from example accessible tabs at
- *  http://accessibility.athena-ict.com/aria/examples/tabpanel2.shtml */
+/** listener:select only "clicked" tab and show only this tab's corresponding panel */
 $('[role="tab"]').click(function(){
-    var tab = $(this).attr('name');
+    var $this = $(this)
+    var tab = $this.attr('name');
     $('[name="'+tab+'"]').attr('aria-selected', 'false');// deselect all tabs
-    $(this).attr('aria-selected', 'true');// select the clicked tab
-    $(this).css('background-color', '#205493');// darken the selected tab
-    $(this).siblings('[role=tab]:enabled').css('background-color', '#0071bc');// lighten tabs not selected
-    var tabpanid= $(this).attr('aria-controls');// get the id of the panel controlled by the clicked tab
+    $this.attr('aria-selected', 'true');// select clicked tab
+    $this.css('background-color', '#205493');// darken selected tab
+    $this.siblings('[role=tab]:enabled').css('background-color', '#0071bc');// lighten tabs not selected
+    var tabpanid= $this.attr('aria-controls');// get the id of the panel controlled by the clicked tab
     var tabpan= $('#'+tabpanid);// get panel's document-element from its id
     $('[name="'+tab+'panel"]').attr('aria-hidden','true');// hide all panels
     tabpan.attr('aria-hidden','false');// show the clicked tab's panel
@@ -682,20 +685,13 @@ var isStopWord = function(word){
   }
 };
 
-var selectNextTab = function(arg){
-  var tabs = $(arg).siblings('[role=tablist]').children('[role=tab]:disabled');
-  // select next tab using value of "data-tab-number" attribute
-  var min = 100;
-  tabs.each(function(){
-      var number = parseInt($(this).attr('data-tab-number'),10);
-      if (number < min){min=number}
-  });
-  var nextTab = $($(arg).siblings('[role=tablist]').children('[data-tab-number='+min+']'));
-  nextTab.click();
-  // remove newly selected tab's disabled attr:
-  nextTab.prop('disabled', false);
-  // hide next button if last tab
-  if ($(arg).siblings('[role=tablist]').children('[role=tab]:disabled').length==0){$(arg).hide()}
+/** select next tab when next button is activated
+  * @arg $tabContainer the container for the tabs */
+var activateNextTab = function($nextTab){
+  $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected','false');// deactivate active tab
+  $nextTab.attr('aria-selected','true');// list this tab as active
+  $nextTab.prop('disabled',false);// enable tab
+  $nextTab.click();// activate tab
 }
 
 var executeSearch = function(url, data){
