@@ -92,8 +92,10 @@
 <!-- NOTE, figure out body classes! -->
 <body class="node-type-(web-area|page|document|webform) (microsite|resource-directory)" >
   <!-- Google Tag Manager -->
+  <!--
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script>
+  -->
   <!-- End Google Tag Manager -->
   <div class="skip-links"><a href="#main-content" class="skip-link element-invisible element-focusable">Jump to main content</a></div>
   <header class="masthead clearfix" role="banner">
@@ -438,7 +440,8 @@ var getResourceDetail = function(id, div) {
 };
 /** display a result; save result's data to the containing element
   * @arg data {object} READ Web Services detail object */
-var displayResult = function(data, div, fields=['title']) {
+var displayResult = function(data, div, fields) {
+  fields = (typeof fields !== 'undefined') ?  fields : ['title'];
   var containerId = div;
   var parsedResult = parseResult(data);
   fields = ['title', 'description', 'url'];
@@ -492,7 +495,8 @@ function addDiv(parsedResult, containerId) {
   );
   var divs = container.find('div');
 };
-var parseResult = function(result=false){
+var parseResult = function(result){
+  result = (typeof result !== 'undefined') ?  result : false;
   //parse a result into the form {<readID1>: <resultObject1>,...}
   var parsedResult = {
     id: result['READExportDetail']['InfoResourceDetail']['READResourceIdentifier'],
@@ -537,7 +541,8 @@ var isNewResult = function(containerId, parsedResult){
 
 /** get selected concepts by default or all concepts shown when given argument selected==false
   * @arg selected {boolean} default of true gets selected concepts, false returns all concepts displayed */
-var getConcepts = function(selected=true) {
+var getConcepts = function(selected) {
+  selected = (typeof selected !== 'undefined') ?  selected : true;
   var concept = '';
   var concepts = [];
   var selector = '#concept-select option';
