@@ -137,7 +137,7 @@
                   <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="4">Concept</button>
                 </div>
                 <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
-                  <label for="role-select">Who will use the tools?</label>
+                  <label for="role-select">Who will use the tools? Select roles and proceed to the Subrole tab.</label>
                   <select multiple id="role-select" onchange="roleSelect()" size="14">
                     <option>Community Representative/Volunteer</option>
                     <option>Developer</option>
@@ -157,18 +157,18 @@
                   <!-- <button class="next" onclick="activateNextTab($('#explore-subrole-tab'))">Next</button> -->
                 </div>
                 <div aria-labelledby="explore-subrole-tab" id="subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                  <label for="subrole-select">Provide more information about this user of the tools.</label>
+                  <label for="subrole-select">Provide some more information about your roles, and then proceed to the Objective tab.</label>
                   <select multiple id="subrole-select" onchange="subroleSelect()"></select>
                   <!-- <button class="next" onclick="activateNextTab($('#explore-objective-tab'))">Next</button> -->
                 </div>
                 <div aria-labelledby="explore-objective-tab" id="objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                  <label for="objective-select">What are the user's goals? Select objectives related to the desired tools.</label>
+                  <label for="objective-select">What are the user's goals? Select objectives for the desired tools and move to the next tab.</label>
                   <select multiple id="objective-select" onchange="objectiveSelect()"></select>
                   <!-- <button class="next" onclick="activateNextTab($('#explore-concept-tab'))">Next</button> -->
                 </div>
                 <div aria-labelledby="explore-concept-tab" id="concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <h3>Concepts</h3>
-                  <label for="concept-select">Select all concepts that apply to the intended use of the tool.</label>
+                  <label for="concept-select">Select all concepts that apply to the intended use of the tool. Clink Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</label>
                   <select multiple id="concept-select"></select>
                   <br />
                   <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
