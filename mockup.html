@@ -145,7 +145,7 @@
                   <button aria-controls="objective-panel" aria-selected="false" id="explore-objective-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="3">Objective</button>
                   <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="4">Concept</button>
                 </div>
-                <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
+                <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
                   <label for="role-select">Who will use the tools?</label>
                   <select multiple id="role-select" onchange="roleSelect()" size="14">
                     <option>Community Representative/Volunteer</option>
@@ -165,22 +165,22 @@
                   </select>
                   <button class="next" onclick="activateNextTab($('#explore-subrole-tab'))">Next</button>
                 </div>
-                <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                <div aria-labelledby="explore-subrole-tab" id="subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <label for="subrole-select">Provide more information about this user of the tools.</label>
                   <select multiple id="subrole-select" onchange="subroleSelect()"></select>
                   <button class="next" onclick="activateNextTab($('#explore-objective-tab'))">Next</button>
                 </div>
-                <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                <div aria-labelledby="explore-objective-tab" id="objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <label for="objective-select">What are the user's goals? Select objectives related to the desired tools.</label>
                   <select multiple id="objective-select" onchange="objectiveSelect()"></select>
                   <button class="next" onclick="activateNextTab($('#explore-concept-tab'))">Next</button>
                 </div>
-                <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                <div aria-labelledby="explore-concept-tab" id="concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <h3>Concepts</h3>
                   <label for="concept-select">Select all concepts that apply to the intended use of the tool.</label>
                   <select multiple id="concept-select"></select>
                   <button id="expand-concepts" onclick="broadenConcepts()">Expand Concepts</button>
-                  <button id="search-button" onclick="keywordSearch('search-results', '#concept-select option:selected')">Run Keyword Search</button>
+                  <button id="keyword-search-button" onclick="keywordSearch('search-results', '#concept-select option:selected')">Run Keyword Search</button>
                 </div>
                 <div id="search-results"></div>
               </div>
@@ -238,7 +238,7 @@
                 <div aria-labelledby="button-explore-concept-tab" id="button-concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <h3>Concepts</h3>
                   <div id="concept-select-test" style="font-size:90%"></div>
-                  <button id="search-button-test" onclick="keywordSearch('search-results-test', 'input[name=\'concept-select-test-checkbox\']:checked')">Run Keyword Search</button>
+                  <button id="keyword-search-button-test" onclick="keywordSearch('search-results-test', 'input[name=\'concept-select-test-checkbox\']:checked')">Run Keyword Search</button>
                 </div>
                 <div id="search-results-test"></div>
               </div>
@@ -250,6 +250,7 @@
                 </form>
                 <div id="simple-search-results"></div>
               </div>
+              <!--
               <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" name="tab1panel" aria-hidden="true">
                 <p>Search for a tool by entering a keyword.</p>
                 <form action="javascript:detailedSearch()">
@@ -303,6 +304,7 @@
               </div>
               <div aria-labelledby="browse-tab" id="browse-panel" role="tabpanel" name="tab1panel" aria-hidden="true">These words feel browsy.</div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" name="tab1panel" aria-hidden="true">Resultantasticalisticity</div>
+              -->
             </div>
           </div>
         </div>
