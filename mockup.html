@@ -612,6 +612,7 @@ var activateNextTab = function($nextTab){
   $nextTab.attr('aria-selected','true');// list this tab as active
   $nextTab.prop('disabled',false);// enable tab
   $nextTab.click();// activate tab
+  $nextTab.focus();// focus tab
   //location.hash = '#explore-role-tab';// not working...
   $nextTab[0].scrollIntoView()
 }
