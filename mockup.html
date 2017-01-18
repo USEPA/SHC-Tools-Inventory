@@ -89,6 +89,17 @@
       -ms-transition: none;
       transition: none;
     }
+    .accordian-result {
+    background-image: url(https://www.epa.gov/sites/all/themes/epa/img/arrow-alt-down.png);
+    background-size: 100% 100%;
+    float: right;
+    height: 13px;
+    margin: 5px;
+    width: 13px;
+    }
+    .collapsible {
+      transform: rotateX(180deg);
+    }
   </style>
 </head>
 <!-- NOTE, figure out body classes! -->
@@ -451,15 +462,18 @@ function addDiv(parsedResult, containerId) {
   $(container).append(
     $('<div/>')
       .attr('id', parsedResult.id)
-      .attr('onclick','$("#additional-details-'+parsedResult.id+'").toggle()')
       .append(
-        $('<span/>')
-          .html('<strong>'+parsedResult.title+' ('+parsedResult.acronym+')</strong>: '+parsedResult.description+'<br>')
-          .append(
-            $('<span/>')
-              .text('')
-              .addClass('')
-              ))
+        $('<div/>')
+          .click(function(){
+            $("#additional-details-"+parsedResult.id).toggle();
+            $(this).find('.accordian-result').toggleClass('collapsible');
+          })
+        .append(
+          $('<span/>')
+            .html('<strong>'+parsedResult.title+' ('+parsedResult.acronym+')</strong>: '+parsedResult.description)
+            .append(
+          $('<span/>')
+            .addClass('accordian-result'))))
       .append(
         $('<div/>')
           .css('display', 'none')
