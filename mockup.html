@@ -490,7 +490,8 @@ function addDiv(parsedResult, containerId) {
             $('<a/>')
             .attr('href',parsedResult.url)
             .attr('target', '_blank')
-            .text('Visit the tool\'s homepage'))))
+            .text('Visit the tool\'s homepage')
+            .attr('onclick','stopPropagation(event);'))))
   );
   var divs = container.find('div');
 };
@@ -684,6 +685,9 @@ var actualSearch = function(queryString, div){
   }
 };
 
+var stopPropagation = function(e){
+  e.stopPropagation();
+};
 </script>
 </body>
 </html>
