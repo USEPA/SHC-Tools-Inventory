@@ -290,6 +290,14 @@ var search = function(str) {
   } );
 };
 
+// prevent accidentally clearing a listbox with a single click of the mouse
+$('select').on('mousedown','option',function(e) {
+    e.preventDefault();
+   $(this).prop('selected', $(this).prop('selected') ? false : true);
+   $(this).change();
+    return false;
+});
+
 /** listener:select only "clicked" tab and show only this tab's corresponding panel */
 $('[role="tab"]').click(function(){
     var $this = $(this)
