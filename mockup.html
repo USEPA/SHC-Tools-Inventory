@@ -146,7 +146,7 @@
                 <div id="explore-tab-container" role="tablist">
                   <button aria-controls="role-panel" aria-selected="true" id="explore-role-tab" role="tab" name="tab2" tabindex="-1" data-tab-number="1">Role</button>
                   <button aria-controls="subrole-panel" aria-selected="false" id="explore-subrole-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="2">Subrole</button>
-                  <button aria-controls="funjective-panel" aria-selected="false" id="explore-funjective-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="3">Fundamental Objective</button>
+                  <button aria-controls="fundamental-objective-panel" aria-selected="false" id="explore-fundamental-objective-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="3">Fundamental Objective</button>
                   <button aria-controls="objective-panel" aria-selected="false" id="explore-objective-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="4">Objective</button>
                   <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="5">Concept</button>
                 </div>
@@ -175,11 +175,11 @@
                   <label for="subrole-select">Provide some more information about your roles, and then proceed to the Objective tab.</label>
                   <select multiple id="subrole-select" onchange="subroleSelect()"></select>
                   <br />
-                  <button class="next enabled-by-objective-select" onclick="activateNextTab($('#explore-funjective-tab'))" disabled>Next</button>
+                  <button class="next enabled-by-objective-select" onclick="activateNextTab($('#explore-fundamental-objective-tab'))" disabled>Next</button>
                 </div>
-                <div aria-labelledby="explore-funjective-tab" id="funjective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                  <label for="funjective-select">Choose fundamental objectives and proceed to the next tab.</label>
-                  <select multiple id="funjective-select" onchange="funjectiveSelect()"></select>
+                <div aria-labelledby="explore-fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                  <label for="fundamental-objective-select">Choose fundamental objectives and proceed to the next tab.</label>
+                  <select multiple id="fundamental-objective-select" onchange="fundamentalObjectiveSelect()"></select>
                   <br />
                   <button class="next enabled-by-objective-select" onclick="activateNextTab($('#explore-objective-tab'))" disabled>Next</button>
                 </div>
@@ -350,20 +350,20 @@ var toggleTab = function(list, $container){
 
 /** populate #subrole-select with subrole options for this role */
 var roleSelect = function(){
-  populate(scrapeDictionary($( option'#role-select option:selected'), subrolesByRole), $('#subrole-select'), 'option');
+  populate(scrapeDictionary($( '#role-select option:selected'), subrolesByRole), $('#subrole-select'), 'option');
   subroleSelect();
 };
 
 /** populate #objective-select with objective options for this subrole */
 var subroleSelect = function(){
-  populate(Object.keys(objectivesByFundamentalObjective), $('#funjective-select'), 'option')
+  populate(Object.keys(objectivesByFundamentalObjective), $('#fundamental-objective-select'), 'option')
   fundamentalObjectiveSelect();
 };
 
 /** populate #objective-select with objectives for selected subroles and fundamental objectives */
-var funjectiveSelect = function(){
+var fundamentalObjectiveSelect = function(){
   var objectivesFromSubroles = scrapeDictionary($('#subrole-select option:selected'), objectivesBySubrole);
-  var objectivesFromFundamentalObjectives = scrapeDictionary($('#funjective-select option:selected'), objectivesByFundamentalObjective);
+  var objectivesFromFundamentalObjectives = scrapeDictionary($('#fundamental-objective-select option:selected'), objectivesByFundamentalObjective);
   var objectives = objectivesFromSubroles
     .filter(function(element){
         return objectivesFromFundamentalObjectives.indexOf(element) != -1;
