@@ -175,7 +175,7 @@
                   <label for="subrole-select">Provide some more information about your roles, and then proceed to the Objective tab.</label>
                   <select multiple id="subrole-select" onchange="subroleSelect()"></select>
                   <br />
-                  <button class="next enabled-by-objective-select" onclick="activateNextTab($('#explore-fundamental-objective-tab'))" disabled>Next</button>
+                  <button class="next enabled-by-fundamental-objective-select" onclick="activateNextTab($('#explore-fundamental-objective-tab'))" disabled>Next</button>
                 </div>
                 <div aria-labelledby="explore-fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
                   <label for="fundamental-objective-select">Choose fundamental objectives and proceed to the next tab.</label>
@@ -356,14 +356,17 @@ var roleSelect = function(){
 
 /** populate #objective-select with objective options for this subrole */
 var subroleSelect = function(){
-  populate(Object.keys(objectivesByFundamentalObjective), $('#fundamental-objective-select'), 'option')
+  populate(Object.keys(objectivesByFundamentalObjective), $('#fundamental-objective-select'), 'option');
   fundamentalObjectiveSelect();
 };
 
-/** populate #objective-select with objectives for selected subroles and fundamental objectives */
+/** populate #objective-select with objectives determined by selected subroles and fundamental objectives */
 var fundamentalObjectiveSelect = function(){
+  // get objectives specified by selected subroles
   var objectivesFromSubroles = scrapeDictionary($('#subrole-select option:selected'), objectivesBySubrole);
+  // get objectives specified by selected fundamental objectives
   var objectivesFromFundamentalObjectives = scrapeDictionary($('#fundamental-objective-select option:selected'), objectivesByFundamentalObjective);
+  // get objectives specified by both subroles and fundamental objectives
   var objectives = objectivesFromSubroles
     .filter(function(element){
         return objectivesFromFundamentalObjectives.indexOf(element) != -1;
