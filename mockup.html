@@ -333,9 +333,9 @@ var populate = function(list, $container, element){
 var toggleNext = function(list, nextButtonClassSubstring){
   var nextButtonSelector = '.enabled-by-'+nextButtonClassSubstring// identify next button by who enables it
   if (list.length > 0){
-    $(nextButtonSelector).attr('disabled',false);
+    $(nextButtonSelector).prop('disabled',false);
   } else {
-    $(nextButtonSelector).attr('disabled',true);
+    $(nextButtonSelector).prop('disabled',true);
   }
 };
 
@@ -352,11 +352,16 @@ var toggleTab = function(list, $container){
 var roleSelect = function(){
   populate(scrapeDictionary($( '#role-select option:selected'), subrolesByRole), $('#subrole-select'), 'option');
   subroleSelect();
+  $('#explore-fundamental-objective-tab').prop('disabled',true);
 };
 
 /** populate #objective-select with objective options for this subrole */
 var subroleSelect = function(){
-  populate(Object.keys(objectivesByFundamentalObjective), $('#fundamental-objective-select'), 'option');
+  var list =[];
+  if ($( '#subrole-select option:selected').length != 0) {
+    list = Object.keys(objectivesByFundamentalObjective);
+  }
+  populate(list, $('#fundamental-objective-select'), 'option');
   fundamentalObjectiveSelect();
 };
 
@@ -372,6 +377,7 @@ var fundamentalObjectiveSelect = function(){
         return objectivesFromFundamentalObjectives.indexOf(element) != -1;
     });
   populate(objectives, $('#objective-select'), 'option')
+  objectiveSelect();
 };
 
 /** populate #concept-select with concept-options for selected objectives */
