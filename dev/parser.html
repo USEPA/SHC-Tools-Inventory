@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Parser: parse data from a csv into a js object</title>
+</head>
+<body>
+<h2>Instructions</h2>
+<ol>
+  <li />Ensure papaparse.js is in the same folder as this file.
+  <li />Ensure the csv to parse is in the same folder, named data-to-parse.csv .
+  <li />Open this file in a browser.
+  <li />Click do via URI.
+</ol>
+<textarea id="input" rows="10" value="Insert text to be converted"></textarea>
+<!-- INSERT A FILE-CHOOSER FOR THE USER TO SELECT A CSV FROM HIS OR HER COMPUTER WHEN BROWSERS PROVIDE BETTER SUPPORT FOR THIS -->
+<br />
+<br />
+<h2>URI Method:</h2>
+<button id="uri-btn" onclick="viaURI()">Do Via URI</button>
+<h2>Output:</h2>
+<div id="output"></div>
+<script src="papaparse.js"></script>
+<script>
+
+/** requires papaparse.js loaded */
+var getData = function(){
+  var data = document.getElementById('input').value;
+  return data;
+};
+
+var parseData = function(gottenData=getData()){
+  // use header
+  // correct newline for ms xl
+  var config = { header: true }
+  var parsedData = Papa.parse(gottenData, config);
+  return parsedData;
+}
+
+function viaURI() {
+  var data = JSON.stringify(parseData());
+  var outputDiv = document.getElementById('output');
+  outputDiv.insertAdjacentText('beforeend',data)
+/* UNCOMMENT TO DOWNLOAD DATA
+  var link = document.createElement("a");
+  link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(data));
+  link.setAttribute("download", "parsed_data.json");
+  link.click();
+  link.remove();
+*/
+}
+
+</script>
+</body>
+<html>
