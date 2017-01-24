@@ -552,6 +552,31 @@ var parseResult = function(result){
     contactPhoneNumber: result['READExportDetail']['InfoResourceDetail']['UserSupportDetail']['UserSupportPhoneNumber'],
     url: result['READExportDetail']['InfoResourceDetail']['AccessDetail']['InternetDetail']['URLText'],
     tags: result['READExportDetail']['InfoResourceDetail']['TagDetail']['InfoResourceStewardTagText'],
+    //------------------------other details------------------------//
+    helpdeskEmail: result['READExportDetail']['InfoResourceDetail']['AccessDetailInternetDetail']['HelpDeskEmailAddressText'],
+    helpdeskTelephone: result['READExportDetail']['InfoResourceDetail']['AccessDetail']['InternetDetail']['HelpDeskTelephoneNumber'],
+    intranetHelpdeskEmail: result['READExportDetail']['InfoResourceDetail']['AccessDetail']['IntranetDetail']['HelpDeskEmailAddressText'],
+    intranetHelpdeskTelephone: result['READExportDetail']['InfoResourceDetail']['AccessDetail']['IntranetDetail']['HelpDeskTelephoneNumber'],
+    intranetUrl: result['READExportDetail']['InfoResourceDetail']['AccessDetail']['IntranetDetail']['URLText'],
+    rcsResource: result['READExportDetail']['InfoResourceDetail']['AccessDetail']['RCSDetail']['RCSResources'],
+    ownershipType: result['READExportDetail']['InfoResourceDetail']['GeneralDetail']['OwnershipTypeName'],
+    softwareCost: result['READExportDetail']['InfoResourceDetail']['ModelDetailsDetail']['DetailsBaseSoftwareCost'],
+    otherCost: result['READExportDetail']['InfoResourceDetail']['ModelDetailsDetail']['DetailsOtherCostConsiderations'],
+    openSource: result['READExportDetail']['InfoResourceDetail']['ModelDetailsDetail']['DetailsOpenSource'],
+    alternativeNames: result['READExportDetail']['InfoResourceDetail']['ModelDetailsDetail']['DetailsOtherCostConsiderations'],
+    sector: result['READExportDetail']['InfoResourceDetail']['ModelScopeDetail']['ModelScopeDecisionSector'],
+    constrainedKeywords: result['READExportDetail']['InfoResourceDetail']['UserSupportDetail']['UserSupportSourceOfSupportMaterials'],
+    lifeCyclePhase: result['READExportDetail']['InfoResourceDetail']['LifeCycleDetail']['CurrentLifeCyclePhase'],
+    lastModified: result['READExportDetail']['InfoResourceDetail']['LastModifiedDateTimeText'],
+    lastModifiedBy: result['READExportDetail.InfoResourceDetail']['LastModifiedPersonName'],
+    operatingEnvironment: result['READExportDetail']['InfoResourceDetail']['TechRequirementsDetail']['TechReqCompatibleOSDetail']['OSName'],
+    modelInputs: result['READExportDetail']['InfoResourceDetail']['ModelInputsDetail']['ModelInputsTextArea'],
+    modelOutputs: result['READExportDetail']['InfoResourceDetail']['ModelOutputsDetail']['ModelOutputsModelVariablesTextArea'],
+    supportMaterial: result['READExportDetail']['InfoResourceDetail']['UserSupportDetail']['UserSupportSourceOfSupportMaterials'],
+    modelEvaluation: result['READExportDetail']['InfoResourceDetail']['ModelEvaluationDetail']['ModelEvaluationTextArea'],
+    modelTimeScale: result['READExportDetail']['InfoResourceDetail']['ModelScopeDetail']['ModelScopeTimeScaleDetail'],
+    spatialExtent: result['READExportDetail']['InfoResourceDetail']['ModelScopeDetail']['ModelScopeSpatialExtentDetail'],
+    dataRequirements: result['READExportDetail']['InfoResourceDetail']['ModelInputsDetail']['ModelInputsDataRequirements']
   };
   return parsedResult
 };
