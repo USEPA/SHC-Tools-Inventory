@@ -36,15 +36,27 @@
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
   <style>
+    .next {
+      position: fixed;
+      bottom: 0;
+      margin: 0 auto;
+      border: 1vh solid green;
+    }
     #search-results > :hover {
       background-color: #e7f4e4;
     }
     select {overflow: auto;}
-    [role=tab] {margin: 1px 0 0;}
+    [role=tab] {
+      margin: 1px 0 0;
+      border-bottom-left-radius:0;
+      border-bottom-right-radius:0;
+    }
     [role=tabpanel] {
       padding: 1px;
       border: 2px solid #d6d7d9;
       border-radius: 5px;
+      border-top-left-radius:0;
+      border-top-right-radius:0;
     }
     div[aria-hidden='true'] {display: none;}
     *.hidden {display: none;}
@@ -707,7 +719,7 @@ var actualSearch = function(queryString, div){
       arr = parseResultsArray(arr, results);
       if (0 === arr.length) {
         $resultsDiv.html('<p>No results found.</p>');
-      }
+     }
     });
   } else {
     $resultsDiv.html('<p>Enter a search term.</p>');
