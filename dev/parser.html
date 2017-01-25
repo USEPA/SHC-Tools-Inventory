@@ -36,8 +36,30 @@ var parseData = function(gottenData=getData()){
   return parsedData;
 }
 
+var formatData = function(data){
+  var objectivesBySubrole = [{},{},{}]
+  var relevance;
+  var subroleIndex;
+  for (var i=0;i<data.length;i++) {
+    if (data[i].Primary === "TRUE") {
+      relevance = 0;
+    } else if (data[i].Secondary === "TRUE") {
+      relevance = 1;
+    } else {
+      relevance = 2;
+    }
+    if(!objectivesBySubrole[relevance].hasOwnProperty(data[i].SubRole)) {
+      objectivesBySubrole[relevance][data[i].SubRole] = [];  
+    }
+    objectivesBySubrole[relevance][data[i].SubRole].push(data[i]["Means Objective"]);    
+  }
+  return objectivesBySubrole;
+};
+
 function viaURI() {
-  var data = JSON.stringify(parseData());
+  var parsedData = parseData();
+  var data = JSON.stringify(formatData(parsedData.data));
+  //var data = JSON.stringify(parsedData);
   var outputDiv = document.getElementById('output');
   outputDiv.insertAdjacentText('beforeend',data)
 /* UNCOMMENT TO DOWNLOAD DATA
