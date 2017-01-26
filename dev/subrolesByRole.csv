@@ -1,0 +1,96 @@
+Role,SubRole
+Community Representative/Volunteer,Member of a community task force
+Community Representative/Volunteer,City Council Person
+Community Representative/Volunteer,Community board member
+Community Representative/Volunteer,Community volunteer/steward
+Community Representative/Volunteer,Community organizer
+Community Representative/Volunteer,Interested citizen
+Community Representative/Volunteer,Local official
+Developer,Residential development/architecture
+Developer,Conservation or cluster development
+Developer,Historic retrofit
+Developer,Subdivision
+Developer,Real estate
+Developer,Mixed use
+Developer,Infill
+Developer,Brownfield
+Developer,Commercial or industrial development/architecture
+Developer,Building & construction
+Developer,Greenfield (new development on previously undeveloped land)
+Engineer/Architect/Designer,Residential development/architecture
+Engineer/Architect/Designer,Environmental consulting and/or compliance
+Engineer/Architect/Designer,Green design and/or LEED accredited professional
+Engineer/Architect/Designer,Ecological landscape design
+Engineer/Architect/Designer,Project management/project design
+Engineer/Architect/Designer,Geotechnical engineering
+Engineer/Architect/Designer,Environmental engineering
+Engineer/Architect/Designer,Civil engineering
+Engineer/Architect/Designer,Commercial or industrial development/architecture
+Engineer/Architect/Designer,Landscape architecture or design
+Environmental Group Representative,Energy committee
+Environmental Group Representative,Neighborhood or city greening council or organization
+Environmental Group Representative,Land trust(s)
+Environmental Group Representative,Urban forest organization or coalition
+Environmental Group Representative,Watershed association
+Environmental Group Representative,Conservation organization
+Farmer,Organic farming
+Farmer,Urban farming
+Farmer,Conventional farming
+Farmer,Community farming and/or community supported agriculture
+"Land Use, City, or Regional Planner",Neighborhood/community planning
+"Land Use, City, or Regional Planner",Environmental planning
+"Land Use, City, or Regional Planner",Transportation planning
+"Land Use, City, or Regional Planner",Economic & community development planning
+"Land Use, City, or Regional Planner",Land use planning
+"Land Use, City, or Regional Planner",Site planning
+"Land Use, City, or Regional Planner",Urban or city/municipal planning
+"Land Use, City, or Regional Planner",Regional planning
+"Land Use, City, or Regional Planner",Hazard or natural disaster mitigation planning & response
+"Land Use, City, or Regional Planner",Energy planning
+"Land Use, City, or Regional Planner",Integrated water resources planning
+"Land Use, City, or Regional Planner",Sustainability planning
+Landowner/Homeowner,Homeowner occupant - resident that owns home
+Landowner/Homeowner,Commercial landowner
+Landowner/Homeowner,Homeowner with small lot (<1acre) or no lot
+Landowner/Homeowner,Homeowner with large lot (1-5 acres)
+Landowner/Homeowner,Small landowner (5-10 acres)
+Landowner/Homeowner,Large landowner (>10 acres)
+Landowner/Homeowner,Landlord
+Landowner/Homeowner,"Building, property, or estate manager"
+Landowner/Homeowner,Renter
+Natural Resource Manager,Conservation lands
+Natural Resource Manager,Coastal or marine areas
+Natural Resource Manager,Fisheries
+Natural Resource Manager,Natural disaster management (eg FEMA)
+Natural Resource Manager,Watershed or drinking water
+Natural Resource Manager,"Estuaries, wetlands, lakes, or rivers"
+Natural Resource Manager,Forests
+Regulatory Official,Federal
+Regulatory Official,State
+Regulatory Official,"Local (municipal, city, town, county, etc)"
+Regulatory Official,NPDES (National Pollution Discharge Ellimination System)
+Scientist/Academic,Researcher/scientist
+Scientist/Academic,Academic administrator or program coordinator
+Scientist/Academic,University professor
+Scientist/Academic,K-12 teacher
+Scientist/Academic,Grant writer
+Urban Forest Manager,City/town forester (public employee)
+Urban Forest Manager,Citizen tree steward
+Urban Forest Manager,Public landscape or garden manager (e.g. employee of Parks or Public Works Department)
+Urban Forest Manager,Representative of non-governmental urban forestry organization
+Water Utility Manager,Drinking water representative (source protection)
+Water Utility Manager,Drinking water representative (treatment)
+Water Utility Manager,Wastewater treatment representative
+Water Utility Manager,Sewer district representative and/or stormwater management coordinator
+Water Utility Manager,Integrated water resources planning
+Sustainability or Environmental Program Coordinator,Green infrastructure coordinator
+Sustainability or Environmental Program Coordinator,Sustainability coordinator
+Sustainability or Environmental Program Coordinator,Environmental program coordinator (state)
+Sustainability or Environmental Program Coordinator,Environmental program coordinator (local)
+Industrial or Commercial Facility Representative,Commercial or industrial facility representative
+Industrial or Commercial Facility Representative,Non-recreational vessel representative
+Industrial or Commercial Facility Representative,Construction industry representative
+Industrial or Commercial Facility Representative,Oil and gas industry representative
+Industrial or Commercial Facility Representative,Mining industry representative
+Regulatory Official,Permitting specialist
+Environmental Group Representative,Grant writer

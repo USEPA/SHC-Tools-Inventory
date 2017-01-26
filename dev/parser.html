@@ -7,28 +7,36 @@
 <h2>Instructions</h2>
 <ol>
   <li />Ensure papaparse.js is in the same folder as this file.
-  <li />Ensure the csv to parse is in the same folder, named data-to-parse.csv .
-  <li />Open this file in a browser.
-  <li />Click do via URI.
+  <li />Copy the comma delimited data into the text area.
+  <li />Select the correct option for the data you want to format.
+  <li />Click Display formatted data
 </ol>
+
+<label><input type="radio" name="output-type" value="0" checked>subrolesByRole</label><br>
+<label><input type="radio" name="output-type" value="1">objectivesBySubroleRelevance</label><br>
+<label><input type="radio" name="output-type" value="2">conceptsByObjective</label><br>
+<label><input type="radio" name="output-type" value="3">objectivesByFundamentalObjective</label><br>
+
 <textarea id="input" rows="10" value="Insert text to be converted"></textarea>
 <!-- INSERT A FILE-CHOOSER FOR THE USER TO SELECT A CSV FROM HIS OR HER COMPUTER WHEN BROWSERS PROVIDE BETTER SUPPORT FOR THIS -->
 <br />
 <br />
-<h2>URI Method:</h2>
 <button id="uri-btn" onclick="viaURI()">Do Via URI</button>
+<button onclick="displayFormattedData()">Display formatted data</button>
+
 <h2>Output:</h2>
+<button onclick="copyToClipboard('output')">Copy output to clipboard</button>
 <div id="output"></div>
 <script src="papaparse.js"></script>
 <script>
 
 /** requires papaparse.js loaded */
-var getData = function(){
+function getData(){
   var data = document.getElementById('input').value;
   return data;
-};
+}
 
-var parseData = function(gottenData=getData()){
+function parseData(gottenData=getData()){
   // use header
   // correct newline for ms xl
   var config = { header: true }
@@ -36,10 +44,22 @@ var parseData = function(gottenData=getData()){
   return parsedData;
 }
 
-var formatData = function(data){
-  var objectivesBySubrole = [{},{},{}]
+function viaURI() {
+  var data = JSON.stringify(parseData());
+  var outputDiv = document.getElementById('output');
+  outputDiv.insertAdjacentText('beforeend',data)
+/* UNCOMMENT TO DOWNLOAD DATA
+  var link = document.createElement("a");
+  link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(data));
+  link.setAttribute("download", "parsed_data.json");
+  link.click();
+  link.remove();
+*/
+}
+
+function formatRelevancyData(data){
+  var objectivesBySubrole = [{},{},{}];
   var relevance;
-  var subroleIndex;
   for (var i=0;i<data.length;i++) {
     if (data[i].Primary === "TRUE") {
       relevance = 0;
@@ -54,23 +74,69 @@ var formatData = function(data){
     objectivesBySubrole[relevance][data[i].SubRole].push(data[i]["Means Objective"]);    
   }
   return objectivesBySubrole;
-};
-
-function viaURI() {
-  var parsedData = parseData();
-  var data = JSON.stringify(formatData(parsedData.data));
-  //var data = JSON.stringify(parsedData);
-  var outputDiv = document.getElementById('output');
-  outputDiv.insertAdjacentText('beforeend',data)
-/* UNCOMMENT TO DOWNLOAD DATA
-  var link = document.createElement("a");
-  link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(data));
-  link.setAttribute("download", "parsed_data.json");
-  link.click();
-  link.remove();
-*/
 }
 
+function formatDataConceptsObjectives(data){
+  var conceptsByObjective = {};
+  for (var i=0;i<data.length;i++) {
+    if(!conceptsByObjective.hasOwnProperty(data[i]["Objective"])) {
+      conceptsByObjective[data[i]["Objective"]] = [];
+    }
+    conceptsByObjective[data[i]["Objective"]].push(data[i]["DPSIR Node"]);
+    console.log(data[i]["Objective"]);
+    console.log(data[i]["DPSIR Node"]);
+    if (data[i]["And"] != "") {
+      conceptsByObjective[data[i]["Objective"]].push(data[i]["And"]);
+      console.log(data[i]["And"]);
+    }
+  }
+  return conceptsByObjective;
+}
+
+function formatData(data, x, y){
+  var xByY = {};
+  for (var i=0;i<data.length;i++) {
+    if(!xByY.hasOwnProperty(data[i][y])) {
+      xByY[data[i][y]] = [];  
+    }
+    xByY[data[i][y]].push(data[i][x]);    
+  }
+  return xByY;
+}
+
+function displayFormattedData() {
+  var parsedData = parseData();
+  var outputType;
+  var radios = document.getElementsByName('output-type');
+  for (var i = 0, length = radios.length; i < length; i++) {
+    if (radios[i].checked) {
+        outputType = radios[i].value;
+        break;
+    }
+  }
+  if (outputType == 0){
+    var formattedData = formatData(parsedData.data, "SubRole", "Role");
+  } else if (outputType == 1){
+    var formattedData = formatRelevancyData(parsedData.data);
+  } else if (outputType == 2){
+    var formattedData = formatDataConceptsObjectives(parsedData.data);
+  } else {
+    var formattedData = formatData(parsedData.data, "means_objective","fundamental_objective");
+  }
+  //Returns xByY (ObjectivesBySubrole where x=objective and y=subrole)
+  var data = JSON.stringify(formattedData);
+  var outputDiv = document.getElementById('output');
+  outputDiv.innerText = data;
+}
+
+function copyToClipboard(elementId) {
+  var hiddenInput = document.createElement("input");
+  hiddenInput.setAttribute("value", document.getElementById(elementId).textContent);
+  document.body.appendChild(hiddenInput);
+  hiddenInput.select();
+  document.execCommand("copy");
+  document.body.removeChild(hiddenInput);
+}
 </script>
 </body>
 <html>
