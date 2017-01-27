@@ -502,7 +502,7 @@ var getResourceDetail = function(id, div){
 /** display a result; save result's data to the containing element
   * @arg data{object} READ Web Services detail object */
 var displayResult = function(data, div, fields){
-  fields = (typeof fields !== 'undefined') ?  fields : ['title'];
+  fields = (typeof(fields) === 'undefined') ? ['title'] : fields;
   var containerId = div;
   var parsedResult = parseResult(data);
   fields = ['title', 'description', 'url'];
@@ -538,81 +538,89 @@ function addDiv(parsedResult, containerId){
         .append(
           $('<span />')    
             .addClass('left')
-            .append(
-              $('<span />')
-                .html('<strong>Contact Name</strong>: '+validata(parsedResult.contactName)+'<br />'))
-            .append(
-              $('<span />')
-                .html('<strong>Contact Email</strong>: '+validata(parsedResult.contactEmail)+'<br />'))
-            .append(
-              $('<span />')
-                .html('<strong>Contact Phone</strong>: '+validata(parsedResult.contactPhoneNumber)+'<br />')))
+            .append($('<span />').html('<strong>Contact Name</strong>: '+parsedResult.contactName+'<br />'))
+            .append($('<span />').html('<strong>Contact Email</strong>: '+parsedResult.contactEmail+'<br />'))
+            .append($('<span />').html('<strong>Contact Phone</strong>: '+parsedResult.contactPhoneNumber+'<br />'))
+            .append($('<a />')
+              .attr('href',parsedResult.internetUrl)
+              .attr('target', '_blank')
+              .text('Visit the tool\'s homepage')
+              .attr('onclick','stopPropagation(event)')
+            ).append('<br />')
+            .append($('<span />').html('<strong>Internet Help Desk Phone</strong>: '+parsedResult.internetHelpDeskPhone+'<br />'))
+            .append($('<span />').html('<strong>Internet Help Desk Email</strong>: '+parsedResult.internetHelpDeskEmail+'<br />'))
+            .append($('<span />').html('<strong>Lifecycle Phase</strong>: '+parsedResult.lifecyclePhase+'<br />'))
+            .append($('<span />').html('<strong>Last Modified</strong>: '+parsedResult.lastModified+'<br />'))
+            .append($('<span />').html('<strong>Last Modified By</strong>: '+parsedResult.lastModifiedBy+'<br />'))
+            .append($('<span />').html('<strong>Operating Environment</strong>: '+parsedResult.operatingEnvironment+'<br />'))
+            .append($('<span />').html('<strong>Other Technical Requirements</strong>: '+parsedResult.otherTechnicalRequirements+'<br />'))
+            .append($('<span />').html('<strong>Model Inputs</strong>: '+parsedResult.modelInputs+'<br />'))
+            .append($('<span />').html('<strong>Model Outputs</strong>: '+parsedResult.modelOutputs+'<br />'))
+            .append($('<span />').html('<strong>Model Evaluation</strong>: '+parsedResult.modelEvaluation+'<br />'))
+            .append($('<span />').html('<strong>Model Time Scale</strong>: '+parsedResult.modelTimeScale+'<br />'))
+            .append($('<span />').html('<strong>Spatial Extent</strong>: '+parsedResult.spatialExtent+'<br />'))
+            .append($('<span />').html('<strong>Data Requirements</strong>: '+parsedResult.dataRequirements+'<br />'))
+          )
         .append(
           $('<span />')
             .addClass('right')
-            .append(
-              $('<span />')
-                .html('<strong>Keywords</strong>: '+validata(parsedResult.keywords)+'<br />'))
-            .append(
-              $('<span />')
-                .html('<strong>Tags</strong>: '+validata(parsedResult.tags)+'<br />'))
-            .append(
-              $('<a />')
-                .attr('href',parsedResult.url)
-                .attr('target', '_blank')
-                .text('Visit the tool\'s homepage')
-                .attr('onclick','stopPropagation(event);'))))
+            .append($('<span />').html('<strong>Keywords</strong>: '+parsedResult.keywords+'<br />'))
+            .append($('<span />').html('<strong>Tags</strong>: '+parsedResult.tags+'<br />'))
+            .append($('<span />').html('<strong>Alternative Names</strong>: '+parsedResult.alternativeNames+'<br />'))
+            .append($('<span />').html('<strong>Intranet Address</strong>: '+parsedResult.intranetUrl+'<br />'))
+            .append($('<span />').html('<strong>Intranet Help Desk Phone</strong>: '+parsedResult.intranetHelpDeskPhone+'<br />'))
+            .append($('<span />').html('<strong>Intranet Help Desk Email</strong>: '+parsedResult.intranetHelpDeskEmail+'<br />'))
+            .append($('<span />').html('<strong>Revision Control</strong>: '+parsedResult.rcsResource+'<br />'))
+            .append($('<span />').html('<strong>Owvership</strong>: '+parsedResult.ownershipType+'<br />'))
+            .append($('<span />').html('<strong>Software Cost</strong>: '+parsedResult.softwareCost+'<br />'))
+            .append($('<span />').html('<strong>Other Cost</strong>: '+parsedResult.otherCost+'<br />'))
+            .append($('<span />').html('<strong>Open Source</strong>: '+parsedResult.openSource+'<br />'))
+            .append($('<span />').html('<strong>Decision Sector</strong>: '+parsedResult.sector+'<br />'))
+            .append($('<span />').html('<strong>Support Materials</strong>: '+parsedResult.supportMaterials+'<br />'))
+          )
+        )
   );
   var divs = container.find('div');
 };
 
-/** map details of a result into known locations */
+/** map details of a result into accessible locations */
 var parseResult = function(result){
-  //console.log('parsing ',result);
-  if(typeof(result)=='undefined'){return}
-  var parsedResult = {
-    id: result['READExportDetail']['InfoResourceDetail']['READResourceIdentifier'],
-    title: result['READExportDetail']['InfoResourceDetail']['GeneralDetail']['LongTitleText'],
-    description: result['READExportDetail']['InfoResourceDetail']['GeneralDetail']['LongDescription'],
-    acronym: result['READExportDetail']['InfoResourceDetail']['GeneralDetail']['Acronym'],
-    keywords: result['READExportDetail']['InfoResourceDetail']['KeywordDetail']['KeywordText'],
-    contactName: result['READExportDetail']['InfoResourceDetail']['UserSupportDetail']['UserSupportName'],
-    contactEmail: result['READExportDetail']['InfoResourceDetail']['UserSupportDetail']['UserSupportEmail'],
-    contactPhoneNumber: result['READExportDetail']['InfoResourceDetail']['UserSupportDetail']['UserSupportPhoneNumber'],
-    url: result['READExportDetail']['InfoResourceDetail']['AccessDetail']['InternetDetail']['URLText'],
-    //tags: result['READExportDetail']['InfoResourceDetail']['TagDetail']['InfoResourceStewardTagText'],
-  };
-  parsedResult.tags = readSafe(result,['READExportDetail','InfoResourceDetail','TagDetail','InfoResourceStewardTagText'])
-/*
-  additionalData = {};
-  additionalData['helpDeskTelephone'] = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskTelephoneNumber']);
-  parsedResult.helpDeskEmail = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskEmailAddressText']);
-  console.log('id: ',parsedResult.id,'readSafe assigned helpDeskEmail: ',parsedResult.helpDeskEmail);
-  additionalData.intranetHelpDeskEmail = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','HelpDeskEmailAddressText']);
-  additionalData.intranetHelpDeskTelephone = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','HelpDeskTelephoneNumber']);
-  additionalData.intranetUrl = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','URLText']);
-  additionalData.rcsResource = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
-  additionalData.ownershipType = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
-  additionalData.softwareCost = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']);
-  additionalData.otherCost = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
-  additionalData.openSource = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']);
-  additionalData.alternativeNames = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
-  additionalData.sector = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeDecisionSector']);
-  additionalData.constrainedKeywords = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportSourceOfSupportMaterials']);
-  additionalData.lifeCyclePhase = readSafe(result,['READExportDetail','InfoResourceDetail','LifeCycleDetail','CurrentLifeCyclePhase']);
-  additionalData.lastModified = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedDateTimeText']);
-  additionalData.lastModifiedBy = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedPersonName']);
-  additionalData.operatingEnvironment = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqCompatibleOSDetail','OSName']);
-  additionalData.otherTechnicalRequirements = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqOtherReqDetail','OtherReqName']);
-  additionalData.modelInputs = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsTextArea']);
-  additionalData.modelOutputs = readSafe(result,['READExportDetail','InfoResourceDetail','ModelOutputsDetail','ModelOutputsModelVariablesTextArea']);
-  additionalData.supportMaterial = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportSourceOfSupportMaterials']);
-  additionalData.modelEvaluation = readSafe(result,['READExportDetail','InfoResourceDetail','ModelEvaluationDetail','ModelEvaluationTextArea']);
-  additionalData.modelTimeScale = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeTimeScaleDetail']);
-  additionalData.spatialExtent = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']);
-  additionalData.dataRequirements = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']);
-  console.log('additionalData:',additionalData,'parsedResult:',parsedResult);
-*/
+  if(typeof(result)=='undefined'){return}// catch bad input
+  var parsedResult = {};
+  parsedResult.id = readSafe(result,['READExportDetail','InfoResourceDetail','READResourceIdentifier']);
+  parsedResult.title = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongTitleText']);
+  parsedResult.acronym = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','Acronym']);
+  parsedResult.description = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongDescription']);
+  parsedResult.contactName = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportName']);
+  parsedResult.contactEmail = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportEmail']);
+  parsedResult.contactPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportPhoneNumber']);
+  parsedResult.keywords = readSafe(result,['READExportDetail','InfoResourceDetail','KeywordDetail','KeywordText']);
+  parsedResult.tags = readSafe(result,['READExportDetail','InfoResourceDetail','TagDetail','InfoResourceStewardTagText']);
+  parsedResult.alternativeNames = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
+  parsedResult.internetUrl = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','URLText']);
+  parsedResult.internetHelpDeskEmail = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskEmailAddressText']);
+  parsedResult.internetHelpDeskPhone = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);;
+  parsedResult.intranetUrl = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','URLText']);
+  parsedResult.intranetHelpDeskEmail = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','HelpDeskEmailAddressText']);
+  parsedResult.intranetHelpDeskPhone = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','HelpDeskPhoneNumber']);
+  parsedResult.rcsResource = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
+  parsedResult.ownershipType = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
+  parsedResult.softwareCost = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']);
+  parsedResult.otherCost = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
+  parsedResult.openSource = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']);
+  parsedResult.sector = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeDecisionSector']);
+  parsedResult.supportMaterials = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportSourceOfSupportMaterials']);
+  parsedResult.lifecyclePhase = readSafe(result,['READExportDetail','InfoResourceDetail','LifeCycleDetail','CurrentLifeCyclePhase']);
+  parsedResult.lastModified = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedDateTimeText']);
+  parsedResult.lastModifiedBy = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedPersonName']);
+  parsedResult.operatingEnvironment = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqCompatibleOSDetail','OSName']);
+  parsedResult.otherTechnicalRequirements = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqOtherReqDetail','OtherReqName']);
+  parsedResult.modelInputs = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsTextArea']);
+  parsedResult.modelOutputs = readSafe(result,['READExportDetail','InfoResourceDetail','ModelOutputsDetail','ModelOutputsModelVariablesTextArea']);
+  parsedResult.modelEvaluation = readSafe(result,['READExportDetail','InfoResourceDetail','ModelEvaluationDetail','ModelEvaluationTextArea']);
+  parsedResult.modelTimeScale = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeTimeScaleDetail']);
+  parsedResult.spatialExtent = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']);
+  parsedResult.dataRequirements = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']);
   return parsedResult
 };
 
@@ -638,7 +646,7 @@ function readSafe(object, propertyArray){
     var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
     if(Object.keys(propertyArray).length==1){// is this the last property in the array?
         //console.log('propertyArray is only one element:',propertyArray[0],'object[propertyArray[0]:',value);// dev
-        console.log('SUCCESS: return',value);// dev
+        //console.log('SUCCESS: return',value);// dev
         return value;// return contents of property
     }else{// there are multiple elements remaining in propertyArray that we need to descend into
       try{
@@ -646,7 +654,7 @@ function readSafe(object, propertyArray){
         // recursion with obj[prop_1] as obj for next iteration
         return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
       }catch(e){
-        console.log('error: ',e);// dev
+        //console.log('error: ',e);// dev
         return 'no data'// return 'no data'
       }
     }
