@@ -580,12 +580,14 @@ var parseResult = function(result){
     contactEmail: result['READExportDetail']['InfoResourceDetail']['UserSupportDetail']['UserSupportEmail'],
     contactPhoneNumber: result['READExportDetail']['InfoResourceDetail']['UserSupportDetail']['UserSupportPhoneNumber'],
     url: result['READExportDetail']['InfoResourceDetail']['AccessDetail']['InternetDetail']['URLText'],
-    tags: result['READExportDetail']['InfoResourceDetail']['TagDetail']['InfoResourceStewardTagText'],
+    //tags: result['READExportDetail']['InfoResourceDetail']['TagDetail']['InfoResourceStewardTagText'],
   };
+  parsedResult.tags = readSafe(result,['READExportDetail','InfoResourceDetail','TagDetail','InfoResourceStewardTagText'])
+/*
+  additionalData = {};
+  additionalData['helpDeskTelephone'] = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskTelephoneNumber']);
   parsedResult.helpDeskEmail = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskEmailAddressText']);
   console.log('id: ',parsedResult.id,'readSafe assigned helpDeskEmail: ',parsedResult.helpDeskEmail);
-  additionalData = {};
-  readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskTelephoneNumber'],additionalData,helpDeskTelephone);
   additionalData.intranetHelpDeskEmail = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','HelpDeskEmailAddressText']);
   additionalData.intranetHelpDeskTelephone = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','HelpDeskTelephoneNumber']);
   additionalData.intranetUrl = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','URLText']);
@@ -610,6 +612,7 @@ var parseResult = function(result){
   additionalData.spatialExtent = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']);
   additionalData.dataRequirements = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']);
   console.log('additionalData:',additionalData,'parsedResult:',parsedResult);
+*/
   return parsedResult
 };
 
@@ -630,33 +633,26 @@ var parseResult = function(result){
   * or returns final propertys' value if all properties exist
   * and fails safely to (assignee[assignedPropertyName] = 'no data')
   * or (return false) if no assignee[assignedPropertyName] passed */
-function readSafe(object, propertyArray, assignee, assignedPropertyName){
+function readSafe(object, propertyArray){
   if(object[propertyArray[0]]){// is first element of propertyArray a property of this object?
     var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
     if(Object.keys(propertyArray).length==1){// is this the last property in the array?
-      //console.log('propertyArray is only one element:',propertyArray[0],'object[propertyArray[0]:',value);// dev
-      if(typeof(assignee[assignedPropertyName])!='undefined'){// is arg assignee[assignedPropertyName] defined?
-        assignee[assignedPropertyName] = value;// success: assignee gets property's validated value
-        console.log('assignee[assignedPropertyName] assigned: ',assignee[assignedPropertyName]);// dev
-      }else{
-        console.log('SUCCESS: return ',value);// dev
-        return value;// if no assignee[assignedPropertyName] then return contents of property
-      }
+        //console.log('propertyArray is only one element:',propertyArray[0],'object[propertyArray[0]:',value);// dev
+        console.log('SUCCESS: return',value);// dev
+        return value;// return contents of property
     }else{// there are multiple elements remaining in propertyArray that we need to descend into
       try{
         //console.log('readSafe iterating with value: ',value);// dev
-        readSafe(value,// recursion with obj[prop_1] as obj for next iteration
-            propertyArray.slice(1),// pass the second element through the last element of the property array
-            assignee,// assignee comes along for the ride
-            assignedPropertyName);// the property's name is needed and so passed
+        // recursion with obj[prop_1] as obj for next iteration
+        return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
       }catch(e){
         console.log('error: ',e);// dev
-        if(typeof(assignee[assignedPropertyName])!='undefined'){assignee[assignedPropertyName] = 'no data'}else{return 'no data'}// fail safely: assignee[assignedPropertyName] set to 'no data' else return 'no data'
+        return 'no data'// return 'no data'
       }
     }
   }else{//fail: element zero of propertyArray isn't a property of this object
     console.log('readSafe is tripping on object:',object,' at property:',propertyArray[0]);// dev
-    if(typeof(assignee[assignedPropertyName])!='undefined'){assignee[assignedPropertyName] = 'no data'}else{return false}// fail safely: assignee[assignedPropertyName] set to 'no data' or return 'no data'
+    return 'no data'// fail safely: return 'no data'
   }
 }
 
