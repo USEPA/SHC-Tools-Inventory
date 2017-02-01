@@ -426,7 +426,7 @@ var roleSelect = function() {
   * the selected subroles */
 var subroleSelect = function(){
   var list =[];
-  if ($("input[name='role-checkbox']:checked").length != 0) {
+  if ($("input[name='subrole-checkbox']:checked").length != 0) {
     list = Object.keys(objectivesByFundamentalObjective);
   }
   populate(list, $('#fundamental-objective'), "fundamentalObjectiveSelect()");
