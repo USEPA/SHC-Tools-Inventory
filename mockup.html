@@ -374,7 +374,7 @@ $('[role="tab"]').click(function(){
  * maintaining selections of items if selected items 
  * remain in the list after population
  */
-var populate = function(list, $container, onClick){
+var populate = function(list, $container, onChange){
   if (typeof list === 'undefined'){list = [];}// ensure list is defined
   currentlySelected = [];
   $container.find(':checked').each(function(i,v){// create an array for currently selected values
@@ -383,7 +383,7 @@ var populate = function(list, $container, onClick){
   if(currentlySelected.length>0){console.log( 'currentlySelected: ', currentlySelected)}
   $container.html('');// clear items out of container
   $.each(list, function(index, value){
-      addCheckbox(value, $container, onClick);
+      addCheckbox(value, $container, onChange);
   });
   $container.attr('size', list.length+1);// add an extra space in case horizontal scrollbar appears
   toggleTab(list, $container);// enable next tab iff list not empty
@@ -416,7 +416,7 @@ var toggleTab = function(list, $container){
 };
 
 // add the subrules for the seleted roles to the page
-$("input[name='role-checkbox']").click(function(){
+$("input[name='role-checkbox']").change(function(){
   roleSelect();
 });
 
@@ -485,12 +485,12 @@ var scrapeDictionary = function(selectedOptions, dictionary){
 };
 
 /** add checkbox with text of name to container with containerId */
-function addCheckbox(name, container, onClick) {
-  onClick = (typeof onClick !== 'undefined') ? onClick : "";
+function addCheckbox(name, container, onChange) {
+  onChange = (typeof onChange !== 'undefined') ? onChange : "";
   var containerName = container.attr('id');
   var inputs = container.find('input');
   var id = inputs.length+1;
-  $('<input />', { type: 'checkbox', id: 'cb'+containerName+id, value: name, name: containerName+'-checkbox', onclick:onClick }).appendTo(container);
+  $('<input />', { type: 'checkbox', id: 'cb'+containerName+id, value: name, name: containerName+'-checkbox', onchange:onChange }).appendTo(container);
   $('<label />', { 'for': 'cb'+containerName+id, text: name, class: "unselectable" }).appendTo(container);
 };
 
@@ -781,7 +781,7 @@ var broadenConcepts = function(){
   for (i=0;i<associatedConcepts.length;i++){
     $('#concept-select').append('<option>'+associatedConcepts[i]+'</option>');
     $('#concept-select').css('overflow','visible');
-    $('#concept-select').attr('size',$('concept-select').children().length)
+    $('#concept-select').attr('size',$('concept-select').children().length);
   }
 }
 
