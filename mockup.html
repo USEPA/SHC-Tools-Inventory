@@ -172,62 +172,68 @@
           <div class="node node-page clearfix view-mode-full">
             <div id="main-tabs">
               <div id="explore-tab-container" role="tablist">
-                <button aria-controls="role-panel" aria-selected="true" data-tab-number="1" id="explore-role-tab" role="tab" name="tab2" tabindex="1">Role</button>
-                <button aria-controls="subrole-panel" aria-selected="false" id="explore-subrole-tab" role="tab" name="tab2" disabled data-tab-number="2">Subrole</button>
-                <button aria-controls="fundamental-objective-panel" aria-selected="false" id="explore-fundamental-objective-tab" role="tab" name="tab2" disabled data-tab-number="3">Fundamental Objective</button>
-                <button aria-controls="objective-panel" aria-selected="false" id="explore-objective-tab" role="tab" name="tab2" disabled data-tab-number="4">Objective</button>
-                <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" disabled data-tab-number="5">Concept</button>
+                <button aria-controls="role-panel" aria-selected="true" data-tab-number="1" id="explore-role-tab" name="tab2" role="tab">Role</button>
+                <button aria-controls="subrole-panel" aria-selected="false" data-tab-number="2" disabled id="explore-subrole-tab" name="tab2" role="tab">Subrole</button>
+                <button aria-controls="fundamental-objective-panel" aria-selected="false" data-tab-number="3" disabled id="explore-fundamental-objective-tab" name="tab2" role="tab">Fundamental Objective</button>
+                <button aria-controls="objective-panel" aria-selected="false" data-tab-number="4" disabled id="explore-objective-tab" name="tab2" role="tab">Objective</button>
+                <button aria-controls="concept-panel" aria-selected="false" data-tab-number="5" disabled id="explore-concept-tab" name="tab2" role="tab">Concept</button>
               </div>
               <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
-                <label for="role-select">Who will use the tools? Select roles and proceed to the Subrole tab.</label>
-                <select multiple id="role-select" onchange="roleSelect()" size="14">
-                  <option>Community Representative/Volunteer</option>
-                  <option>Developer</option>
-                  <option>Engineer/Architect/Designer</option>
-                  <option>Environmental Group Representative</option>
-                  <option>Farmer</option>
-                  <option>Industrial or Commercial Facility Representative</option>
-                  <option>Land Use, City, or Regional Planner</option>
-                  <option>Landowner/Homeowner</option>
-                  <option>Natural Resource Manager</option>
-                  <option>Regulatory Official</option>
-                  <option>Scientist/Academic</option>
-                  <option>Sustainability or Environmental Program Coordinator</option>
-                  <option>Urban Forest Manager</option>
-                  <option>Water Utility Manager</option>
-                </select>
-                <br />
+                <label>Who will use the tools? Select roles and proceed to the Subrole tab.</label><hr />
+                <input type="checkbox" id="role-1" name="role-checkbox" value="Community Representative/Volunteer">
+                <label class="unselectable" for="role-1">Community Representative/Volunteer</label>
+                <input type="checkbox" id="role-2" name="role-checkbox" value="Developer">
+                <label class="unselectable" for="role-2">Developer</label>
+                <input type="checkbox" id="role-3" name="role-checkbox" value="Engineer/Architect/Designer">
+                <label class="unselectable" for="role-3">Engineer/Architect/Designer</label>
+                <input type="checkbox" id="role-4" name="role-checkbox" value="Environmental Group Representative">
+                <label class="unselectable" for="role-4">Environmental Group Representative</label>
+                <input type="checkbox" id="role-5" name="role-checkbox" value="Farmer">
+                <label class="unselectable" for="role-5">Farmer</label>
+                <input type="checkbox" id="role-6" name="role-checkbox" value="Industrial or Commercial Facility Representative">
+                <label class="unselectable" for="role-6">Industrial or Commercial Facility Representative</label>
+                <input type="checkbox" id="role-7" name="role-checkbox" value="Land Use, City, or Regional Planner">
+                <label class="unselectable" for="role-7">Land Use, City, or Regional Planner</label>
+                <input type="checkbox" id="role-8" name="role-checkbox" value="Landowner/Homeowner">
+                <label class="unselectable" for="role-8">Landowner/Homeowner</label>
+                <input type="checkbox" id="role-9" name="role-checkbox" value="Natural Resource Manager">
+                <label class="unselectable" for="role-9">Natural Resource Manager</label>
+                <input type="checkbox" id="role-10" name="role-checkbox" value="Regulatory Official">
+                <label class="unselectable" for="role-10">Regulatory Official</label>
+                <input type="checkbox" id="role-11" name="role-checkbox" value="Scientist/Academic">
+                <label class="unselectable" for="role-11">Scientist/Academic</label>
+                <input type="checkbox" id="role-12" name="role-checkbox" value="Sustainability or Environmental Program Coordinator">
+                <label class="unselectable" for="role-12">Sustainability or Environmental Program Coordinator</label>
+                <input type="checkbox" id="role-13" name="role-checkbox" value="Urban Forest Manager">
+                <label class="unselectable" for="role-13">Urban Forest Manager</label>
+                <input type="checkbox" id="role-14" name="role-checkbox" value="Water Utility Manager">
+                <label class="unselectable" for="role-14">Water Utility Manager</label>
                 <button class="next enabled-by-subrole-select" onclick="activateNextTab($('#explore-subrole-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="explore-subrole-tab" id="subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                <label for="subrole-select">Provide some more information about your roles, and then proceed to the Objective tab.</label>
-                <select multiple id="subrole-select" onchange="subroleSelect()"></select>
-                <br />
-                <button class="next enabled-by-fundamental-objective-select" onclick="activateNextTab($('#explore-fundamental-objective-tab'))" disabled>Next</button>
+                <label>Provide some more information about your roles, and then proceed to the Objective tab.</label><hr />
+                <div id="subrole"></div>
+                <button class="next enabled-by-fundamental-objective" onclick="activateNextTab($('#explore-fundamental-objective-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="explore-fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                <label for="fundamental-objective-select">Choose fundamental objectives and proceed to the next tab.</label>
-                <select multiple id="fundamental-objective-select" onchange="fundamentalObjectiveSelect()"></select>
-                <br />
-                <button class="next enabled-by-objective-select" onclick="activateNextTab($('#explore-objective-tab'))" disabled>Next</button>
+                <label>Choose fundamental objectives and proceed to the next tab.</label><hr />
+                <div id="fundamental-objective"></div>
+                <button class="next enabled-by-objective" onclick="activateNextTab($('#explore-objective-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="explore-objective-tab" id="objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                <label for="objective-select">What are the user's goals? Select objectives for the desired tools and move to the next tab.</label>
+                <label>What are the user's goals? Select objectives for the desired tools and move to the next tab.</label><hr />
                 <button onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show more objectives</button>
                 <button onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show less objectives</button>
                 <br />
                 <input id="objective-relevance" type="hidden" value="1" />
-                <select multiple id="objective-select" onchange="objectiveSelect()"></select>
-                <br />
-                <button class="next enabled-by-concept-select" onclick="activateNextTab($('#explore-concept-tab'))" disabled>Next</button>
+                <div id="objective"></div>
+                <button class="next enabled-by-concept" onclick="activateNextTab($('#explore-concept-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="explore-concept-tab" id="concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                <h3>Concepts</h3>
-                <label for="concept-select">Select all concepts that apply to the intended use of the tool. Clink Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</label>
-                <select multiple id="concept-select"></select>
-                <br />
+                <label>Select all concepts that apply to the intended use of the tool. Clink Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</label><hr />
+                <div id="concept"></div>
                 <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
-                <button id="keyword-search-button" onclick="keywordSearch('search-results', '#concept-select option:selected')">Find Tools</button>
+                <button id="keyword-search-button" onclick="keywordSearch('search-results', $('input[name=\x22role-checkbox\x22]:checked'))">Find Tools</button>
               </div>
               <h2>Tools</h2>
               <div id="search-results"></div>
