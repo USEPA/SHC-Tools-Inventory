@@ -64,8 +64,26 @@
       border: 1px solid gray;
       margin: .1em;
     }
+    [name=role-checkbox]:focus + label{
+      background-color:#e1f3f8;
+    }
     [name=role-checkbox]:checked + label{
-      background-color:#112e51;
+      background-color:#d6d7d9;
+    }
+    .select-button{
+      background-color: #2e8540;
+      border: 0;
+      color: #fff;
+      cursor: pointer;
+      display: inline-block;
+      font-weight: bold;
+      line-height: 1;
+      margin: 0 .15em .3em;
+      padding: 0.4em;
+      text-align: center;
+      text-decoration: none;
+      vertical-align: baseline;
+      white-space: normal;
     }
     /* Makes text in an element unselectable */
     .unselectable{
@@ -74,8 +92,6 @@
       -ms-user-select: none;
       -o-user-select: none;
       user-select: none;
-      margin: 0 .15em .3em;
-      padding: 0.4em;
     }
     .inline{
       display: inline;
@@ -163,55 +179,61 @@
                   <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="5">Concept</button>
                 </div>
                 <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
-                  <label for="role-select">Who will use the tools? Select roles and proceed to the Subrole tab.</label>
-                  <select multiple id="role-select" onchange="roleSelect()" size="14">
-                    <option>Community Representative/Volunteer</option>
-                    <option>Developer</option>
-                    <option>Engineer/Architect/Designer</option>
-                    <option>Environmental Group Representative</option>
-                    <option>Farmer</option>
-                    <option>Industrial or Commercial Facility Representative</option>
-                    <option>Land Use, City, or Regional Planner</option>
-                    <option>Landowner/Homeowner</option>
-                    <option>Natural Resource Manager</option>
-                    <option>Regulatory Official</option>
-                    <option>Scientist/Academic</option>
-                    <option>Sustainability or Environmental Program Coordinator</option>
-                    <option>Urban Forest Manager</option>
-                    <option>Water Utility Manager</option>
-                  </select>
-                  <br />
+                  <label>Who will use the tools? Select roles and proceed to the Subrole tab.</label><hr />
+                  <input type="checkbox" id="role-1" name="role-checkbox" value="Community Representative/Volunteer">
+                  <label class="unselectable" for="role-1">Community Representative/Volunteer</label>
+                  <input type="checkbox" id="role-2" name="role-checkbox" value="Developer">
+                  <label class="unselectable" for="role-2">Developer</label>
+                  <input type="checkbox" id="role-3" name="role-checkbox" value="Engineer/Architect/Designer">
+                  <label class="unselectable" for="role-3">Engineer/Architect/Designer</label>
+                  <input type="checkbox" id="role-4" name="role-checkbox" value="Environmental Group Representative">
+                  <label class="unselectable" for="role-4">Environmental Group Representative</label>
+                  <input type="checkbox" id="role-5" name="role-checkbox" value="Farmer">
+                  <label class="unselectable" for="role-5">Farmer</label>
+                  <input type="checkbox" id="role-6" name="role-checkbox" value="Industrial or Commercial Facility Representative">
+                  <label class="unselectable" for="role-6">Industrial or Commercial Facility Representative</label>
+                  <input type="checkbox" id="role-7" name="role-checkbox" value="Land Use, City, or Regional Planner">
+                  <label class="unselectable" for="role-7">Land Use, City, or Regional Planner</label>
+                  <input type="checkbox" id="role-8" name="role-checkbox" value="Landowner/Homeowner">
+                  <label class="unselectable" for="role-8">Landowner/Homeowner</label>
+                  <input type="checkbox" id="role-9" name="role-checkbox" value="Natural Resource Manager">
+                  <label class="unselectable" for="role-9">Natural Resource Manager</label>
+                  <input type="checkbox" id="role-10" name="role-checkbox" value="Regulatory Official">
+                  <label class="unselectable" for="role-10">Regulatory Official</label>
+                  <input type="checkbox" id="role-11" name="role-checkbox" value="Scientist/Academic">
+                  <label class="unselectable" for="role-11">Scientist/Academic</label>
+                  <input type="checkbox" id="role-12" name="role-checkbox" value="Sustainability or Environmental Program Coordinator">
+                  <label class="unselectable" for="role-12">Sustainability or Environmental Program Coordinator</label>
+                  <input type="checkbox" id="role-13" name="role-checkbox" value="Urban Forest Manager">
+                  <label class="unselectable" for="role-13">Urban Forest Manager</label>
+                  <input type="checkbox" id="role-14" name="role-checkbox" value="Water Utility Manager">
+                  <label class="unselectable" for="role-14">Water Utility Manager</label>
                   <button class="next enabled-by-subrole-select" onclick="activateNextTab($('#explore-subrole-tab'))" disabled>Next</button>
                 </div>
                 <div aria-labelledby="explore-subrole-tab" id="subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                  <label for="subrole-select">Provide some more information about your roles, and then proceed to the Objective tab.</label>
-                  <select multiple id="subrole-select" onchange="subroleSelect()"></select>
-                  <br />
-                  <button class="next enabled-by-fundamental-objective-select" onclick="activateNextTab($('#explore-fundamental-objective-tab'))" disabled>Next</button>
+                  <label>Provide some more information about your roles, and then proceed to the Objective tab.</label><hr />
+                  <div id="subrole"></div>
+                  <button class="next enabled-by-fundamental-objective" onclick="activateNextTab($('#explore-fundamental-objective-tab'))" disabled>Next</button>
                 </div>
                 <div aria-labelledby="explore-fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                  <label for="fundamental-objective-select">Choose fundamental objectives and proceed to the next tab.</label>
-                  <select multiple id="fundamental-objective-select" onchange="fundamentalObjectiveSelect()"></select>
-                  <br />
-                  <button class="next enabled-by-objective-select" onclick="activateNextTab($('#explore-objective-tab'))" disabled>Next</button>
+                  <label>Choose fundamental objectives and proceed to the next tab.</label><hr />
+                  <div id="fundamental-objective"></div>
+                  <button class="next enabled-by-objective" onclick="activateNextTab($('#explore-objective-tab'))" disabled>Next</button>
                 </div>
                 <div aria-labelledby="explore-objective-tab" id="objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                  <label for="objective-select">What are the user's goals? Select objectives for the desired tools and move to the next tab.</label>
+                  <label>What are the user's goals? Select objectives for the desired tools and move to the next tab.</label><hr />
                   <button onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show more objectives</button>
                   <button onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show less objectives</button>
                   <br />
                   <input id="objective-relevance" type="hidden" value="1" />
-                  <select multiple id="objective-select" onchange="objectiveSelect()"></select>
-                  <br />
-                  <button class="next enabled-by-concept-select" onclick="activateNextTab($('#explore-concept-tab'))" disabled>Next</button>
+                  <div id="objective"></div>
+                  <button class="next enabled-by-concept" onclick="activateNextTab($('#explore-concept-tab'))" disabled>Next</button>
                 </div>
                 <div aria-labelledby="explore-concept-tab" id="concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                  <h3>Concepts</h3>
-                  <label for="concept-select">Select all concepts that apply to the intended use of the tool. Clink Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</label>
-                  <select multiple id="concept-select"></select>
-                  <br />
+                  <label>Select all concepts that apply to the intended use of the tool. Clink Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</label><hr />
+                  <div id="concept"></div>
                   <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
-                  <button id="keyword-search-button" onclick="keywordSearch('search-results', '#concept-select option:selected')">Find Tools</button>
+                  <button id="keyword-search-button" onclick="keywordSearch('search-results', $('input[name=\x22role-checkbox\x22]:checked'))">Find Tools</button>
                 </div>
                 <div id="search-results"></div>
             </div>
@@ -351,12 +373,11 @@ $('[role="tab"]').click(function(){
 var populate = function(list, $container, element){
   if (typeof list === 'undefined'){list = [];}
   $container.html('');
-  $.each(list, function(index, value){
-    $container.append($("<"+element+"></"+element+">").text(value));
-  } );
-  $container.attr('size', list.length+1);
+  $.each(list, function(index, value) {
+    addCheckbox(value, $container, onClick);
+  });
   toggleTab(list, $container);// enable next tab iff list not empty
-  var nextButtonClassSubstring = $container[0].id;// identify next button by who enables it
+  var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
   toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
 };
 
@@ -379,48 +400,53 @@ var toggleTab = function(list, $container){
   }
 };
 
+// add the subrules for the seleted roles to the page
+$("input[name='role-checkbox']").click(function(){
+  roleSelect();
+});
+
 /** populate #subrole-select with subrole options for the
   * selected roles */
-var roleSelect = function(){
-  populate(scrapeDictionary($('#role-select option:selected'),subrolesByRole),$('#subrole-select'),'option');
+var roleSelect = function() {
+  populate(scrapeDictionary($("input[name='role-checkbox']:checked"), subrolesByRole), $('#subrole'), "subroleSelect()");
   subroleSelect();
   $('#explore-fundamental-objective-tab').prop('disabled',true);
 };
 
-/** populate #objective-select with objective options for
+/** populate #objective with objective options for
   * the selected subroles */
 var subroleSelect = function(){
   var list =[];
-  if ($( '#subrole-select option:selected').length != 0){
+  if ($("input[name='role-checkbox']:checked").length != 0) {
     list = Object.keys(objectivesByFundamentalObjective);
   }
-  populate(list,$('#fundamental-objective-select'),'option');
+  populate(list, $('#fundamental-objective'), "fundamentalObjectiveSelect()");
   fundamentalObjectiveSelect();
 };
 
-/** populate #objective-select with objectives determined by selected subroles and fundamental objectives */
-var fundamentalObjectiveSelect = function(){
+/** populate #objective with objectives determined by selected subroles and fundamental objectives */
+var fundamentalObjectiveSelect = function() {
   // get objectives specified by selected subroles
   //var objectivesFromSubroles = scrapeDictionary($('#subrole-select option:selected'),objectivesBySubrole);
   var relevance = $('#objective-relevance').val();
   var objectivesFromSubroles = [];
-  for (var i=0;i<=relevance;i++){
-    objectivesFromSubroles = objectivesFromSubroles.concat(scrapeDictionary($('#subrole-select option:selected'),objectivesBySubroleRelevance[i]));
+  for (var i=0;i<=relevance;i++) {
+    objectivesFromSubroles = objectivesFromSubroles.concat(scrapeDictionary($("input[name='subrole-checkbox']:checked"), objectivesBySubroleRelevance[i]));
   }
   // get objectives specified by selected fundamental objectives
-  var objectivesFromFundamentalObjectives = scrapeDictionary($('#fundamental-objective-select option:selected'),objectivesByFundamentalObjective);
+  var objectivesFromFundamentalObjectives = scrapeDictionary($("input[name='fundamental-objective-checkbox']:checked"), objectivesByFundamentalObjective);
   // get objectives specified by both subroles and fundamental objectives
   var objectives = objectivesFromSubroles
     .filter(function(element){
         return objectivesFromFundamentalObjectives.indexOf(element) != -1;
     });
-  populate(objectives,$('#objective-select'),'option');
+  populate(objectives, $('#objective'), "objectiveSelect()");
   objectiveSelect();
 };
 
-/** populate #concept-select with concept-options for selected objectives */
-var objectiveSelect = function(){
-  populate(scrapeDictionary($('#objective-select option:selected'),conceptsByObjective),$('#concept-select'),'option');
+/** populate #concept with concept-options for selected objectives */
+var objectiveSelect = function() {
+  populate(scrapeDictionary($("input[name='objective-checkbox']:checked"), conceptsByObjective), $('#concept'));
 };
 
 /** get elements of arrays in dictionary without repeats */
@@ -444,12 +470,13 @@ var scrapeDictionary = function(selectedOptions, dictionary){
 };
 
 /** add checkbox with text of name to container with containerId */
-function addCheckbox(name, containerId){
-  var container = $('#'+containerId);
+function addCheckbox(name, container, onClick) {
+  onClick = (typeof onClick !== 'undefined') ? onClick : "";
+  var containerName = container.attr('id');
   var inputs = container.find('input');
   var id = inputs.length+1;
-  $('<input />',{ type: 'checkbox', id: 'cb'+containerId+id, value: name, name: containerId+'-checkbox' }).appendTo(container);
-  $('<label />',{ 'for': 'cb'+containerId+id, text: name }).appendTo(container);
+  $('<input />', { type: 'checkbox', id: 'cb'+containerName+id, value: name, name: containerName+'-checkbox', onclick:onClick }).appendTo(container);
+  $('<label />', { 'for': 'cb'+containerName+id, text: name, class: "unselectable" }).appendTo(container);
 };
 
 /** search in descriptions for each word in query string from input and display results in div */
