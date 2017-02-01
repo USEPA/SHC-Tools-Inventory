@@ -155,65 +155,66 @@
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
             <div id="main-tabs">
-                <div id="explore-tab-container" role="tablist">
-                  <button aria-controls="role-panel" aria-selected="true" id="explore-role-tab" role="tab" name="tab2" data-tab-number="1">Role</button>
-                  <button aria-controls="subrole-panel" aria-selected="false" id="explore-subrole-tab" role="tab" name="tab2" disabled data-tab-number="2">Subrole</button>
-                  <button aria-controls="fundamental-objective-panel" aria-selected="false" id="explore-fundamental-objective-tab" role="tab" name="tab2" disabled data-tab-number="3">Fundamental Objective</button>
-                  <button aria-controls="objective-panel" aria-selected="false" id="explore-objective-tab" role="tab" name="tab2" disabled data-tab-number="4">Objective</button>
-                  <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" disabled data-tab-number="5">Concept</button>
-                </div>
-                <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
-                  <label for="role-select">Who will use the tools? Select roles and proceed to the Subrole tab.</label>
-                  <select multiple id="role-select" onchange="roleSelect()" size="14">
-                    <option>Community Representative/Volunteer</option>
-                    <option>Developer</option>
-                    <option>Engineer/Architect/Designer</option>
-                    <option>Environmental Group Representative</option>
-                    <option>Farmer</option>
-                    <option>Industrial or Commercial Facility Representative</option>
-                    <option>Land Use, City, or Regional Planner</option>
-                    <option>Landowner/Homeowner</option>
-                    <option>Natural Resource Manager</option>
-                    <option>Regulatory Official</option>
-                    <option>Scientist/Academic</option>
-                    <option>Sustainability or Environmental Program Coordinator</option>
-                    <option>Urban Forest Manager</option>
-                    <option>Water Utility Manager</option>
-                  </select>
-                  <br />
-                  <button class="next enabled-by-subrole-select" onclick="activateNextTab($('#explore-subrole-tab'))" disabled>Next</button>
-                </div>
-                <div aria-labelledby="explore-subrole-tab" id="subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                  <label for="subrole-select">Provide some more information about your roles, and then proceed to the Objective tab.</label>
-                  <select multiple id="subrole-select" onchange="subroleSelect()"></select>
-                  <br />
-                  <button class="next enabled-by-fundamental-objective-select" onclick="activateNextTab($('#explore-fundamental-objective-tab'))" disabled>Next</button>
-                </div>
-                <div aria-labelledby="explore-fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                  <label for="fundamental-objective-select">Choose fundamental objectives and proceed to the next tab.</label>
-                  <select multiple id="fundamental-objective-select" onchange="fundamentalObjectiveSelect()"></select>
-                  <br />
-                  <button class="next enabled-by-objective-select" onclick="activateNextTab($('#explore-objective-tab'))" disabled>Next</button>
-                </div>
-                <div aria-labelledby="explore-objective-tab" id="objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                  <label for="objective-select">What are the user's goals? Select objectives for the desired tools and move to the next tab.</label>
-                  <button onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show more objectives</button>
-                  <button onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show less objectives</button>
-                  <br />
-                  <input id="objective-relevance" type="hidden" value="1" />
-                  <select multiple id="objective-select" onchange="objectiveSelect()"></select>
-                  <br />
-                  <button class="next enabled-by-concept-select" onclick="activateNextTab($('#explore-concept-tab'))" disabled>Next</button>
-                </div>
-                <div aria-labelledby="explore-concept-tab" id="concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                  <h3>Concepts</h3>
-                  <label for="concept-select">Select all concepts that apply to the intended use of the tool. Clink Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</label>
-                  <select multiple id="concept-select"></select>
-                  <br />
-                  <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
-                  <button id="keyword-search-button" onclick="keywordSearch('search-results', '#concept-select option:selected')">Find Tools</button>
-                </div>
-                <div id="search-results"></div>
+              <div id="explore-tab-container" role="tablist">
+                <button aria-controls="role-panel" aria-selected="true" data-tab-number="1" id="explore-role-tab" role="tab" name="tab2" tabindex="1">Role</button>
+                <button aria-controls="subrole-panel" aria-selected="false" id="explore-subrole-tab" role="tab" name="tab2" disabled data-tab-number="2">Subrole</button>
+                <button aria-controls="fundamental-objective-panel" aria-selected="false" id="explore-fundamental-objective-tab" role="tab" name="tab2" disabled data-tab-number="3">Fundamental Objective</button>
+                <button aria-controls="objective-panel" aria-selected="false" id="explore-objective-tab" role="tab" name="tab2" disabled data-tab-number="4">Objective</button>
+                <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" disabled data-tab-number="5">Concept</button>
+              </div>
+              <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
+                <label for="role-select">Who will use the tools? Select roles and proceed to the Subrole tab.</label>
+                <select multiple id="role-select" onchange="roleSelect()" size="14">
+                  <option>Community Representative/Volunteer</option>
+                  <option>Developer</option>
+                  <option>Engineer/Architect/Designer</option>
+                  <option>Environmental Group Representative</option>
+                  <option>Farmer</option>
+                  <option>Industrial or Commercial Facility Representative</option>
+                  <option>Land Use, City, or Regional Planner</option>
+                  <option>Landowner/Homeowner</option>
+                  <option>Natural Resource Manager</option>
+                  <option>Regulatory Official</option>
+                  <option>Scientist/Academic</option>
+                  <option>Sustainability or Environmental Program Coordinator</option>
+                  <option>Urban Forest Manager</option>
+                  <option>Water Utility Manager</option>
+                </select>
+                <br />
+                <button class="next enabled-by-subrole-select" onclick="activateNextTab($('#explore-subrole-tab'))" disabled>Next</button>
+              </div>
+              <div aria-labelledby="explore-subrole-tab" id="subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                <label for="subrole-select">Provide some more information about your roles, and then proceed to the Objective tab.</label>
+                <select multiple id="subrole-select" onchange="subroleSelect()"></select>
+                <br />
+                <button class="next enabled-by-fundamental-objective-select" onclick="activateNextTab($('#explore-fundamental-objective-tab'))" disabled>Next</button>
+              </div>
+              <div aria-labelledby="explore-fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                <label for="fundamental-objective-select">Choose fundamental objectives and proceed to the next tab.</label>
+                <select multiple id="fundamental-objective-select" onchange="fundamentalObjectiveSelect()"></select>
+                <br />
+                <button class="next enabled-by-objective-select" onclick="activateNextTab($('#explore-objective-tab'))" disabled>Next</button>
+              </div>
+              <div aria-labelledby="explore-objective-tab" id="objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                <label for="objective-select">What are the user's goals? Select objectives for the desired tools and move to the next tab.</label>
+                <button onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show more objectives</button>
+                <button onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show less objectives</button>
+                <br />
+                <input id="objective-relevance" type="hidden" value="1" />
+                <select multiple id="objective-select" onchange="objectiveSelect()"></select>
+                <br />
+                <button class="next enabled-by-concept-select" onclick="activateNextTab($('#explore-concept-tab'))" disabled>Next</button>
+              </div>
+              <div aria-labelledby="explore-concept-tab" id="concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                <h3>Concepts</h3>
+                <label for="concept-select">Select all concepts that apply to the intended use of the tool. Clink Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</label>
+                <select multiple id="concept-select"></select>
+                <br />
+                <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
+                <button id="keyword-search-button" onclick="keywordSearch('search-results', '#concept-select option:selected')">Find Tools</button>
+              </div>
+              <h2>Tools</h2>
+              <div id="search-results"></div>
             </div>
           </div>
         </div>
