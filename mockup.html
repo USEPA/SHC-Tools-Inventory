@@ -419,7 +419,6 @@ $("input[name='role-checkbox']").change(function(){
 var roleSelect = function() {
   populate(scrapeDictionary($("input[name='role-checkbox']:checked"), subrolesByRole), $('#subrole'), "subroleSelect()");
   subroleSelect();
-  $('#explore-fundamental-objective-tab').prop('disabled',true);
 };
 
 /** populate #objective with objective options for
