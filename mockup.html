@@ -347,17 +347,31 @@ $('[role="tab"]').click(function(){
     tabpan.attr('aria-hidden','false');// show the clicked tab's panel
 });
 
-/** populate a list into specified $container of elements */
+/**
+ * populate a list into specified $container while
+ * maintaining selections of items if selected items 
+ * remain in the list after population
+ */
 var populate = function(list, $container, element){
-  if (typeof list === 'undefined'){list = [];}
-  $container.html('');
+  if (typeof list === 'undefined'){list = [];}// ensure list is defined
+  currentlySelected = [];
+  $container.find(':checked').each(function(i,v){// create an array for currently selected values
+      currentlySelected.push(v.text);
+  });
+  if(currentlySelected.length>0){console.log( 'currentlySelected: ', currentlySelected)}
+  $container.html('');// clear items out of container
   $.each(list, function(index, value){
-    $container.append($("<"+element+"></"+element+">").text(value));
-  } );
-  $container.attr('size', list.length+1);
+      $container.append($("<"+element+"></"+element+">").text(value));
+  });
+  $container.attr('size', list.length+1);// add an extra space in case horizontal scrollbar appears
   toggleTab(list, $container);// enable next tab iff list not empty
   var nextButtonClassSubstring = $container[0].id;// identify next button by who enables it
   toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
+  $container.find(element).each(function(i,v){// look through each element in $container
+      if(currentlySelected.indexOf(v.text)!=-1){// check if item was currentlySelected
+        $($(v)[0]).prop('selected',true);// select item
+      }
+  });
 };
 
 /** toggle disabled state of a next button */
