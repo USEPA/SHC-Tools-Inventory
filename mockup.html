@@ -58,8 +58,8 @@
       border-top-left-radius:0;
       border-top-right-radius:0;
     }
-    div[aria-hidden='true']{display: none;}
-    *.hidden{display: none;}
+    [aria-hidden='true']{display: none;}
+    /* *.hidden{display: none;}*/
     #search-terms span{
       border: 1px solid gray;
       margin: .1em;
@@ -172,11 +172,11 @@
           <div class="node node-page clearfix view-mode-full">
             <div id="main-tabs">
                 <div id="explore-tab-container" role="tablist">
-                  <button aria-controls="role-panel" aria-selected="true" id="explore-role-tab" role="tab" name="tab2" tabindex="-1" data-tab-number="1">Role</button>
-                  <button aria-controls="subrole-panel" aria-selected="false" id="explore-subrole-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="2">Subrole</button>
-                  <button aria-controls="fundamental-objective-panel" aria-selected="false" id="explore-fundamental-objective-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="3">Fundamental Objective</button>
-                  <button aria-controls="objective-panel" aria-selected="false" id="explore-objective-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="4">Objective</button>
-                  <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" tabindex="-1" disabled data-tab-number="5">Concept</button>
+                  <button aria-controls="role-panel" aria-selected="true" id="explore-role-tab" role="tab" name="tab2" data-tab-number="1">Role</button>
+                  <button aria-controls="subrole-panel" aria-selected="false" id="explore-subrole-tab" role="tab" name="tab2" disabled data-tab-number="2">Subrole</button>
+                  <button aria-controls="fundamental-objective-panel" aria-selected="false" id="explore-fundamental-objective-tab" role="tab" name="tab2" disabled data-tab-number="3">Fundamental Objective</button>
+                  <button aria-controls="objective-panel" aria-selected="false" id="explore-objective-tab" role="tab" name="tab2" disabled data-tab-number="4">Objective</button>
+                  <button aria-controls="concept-panel" aria-selected="false" id="explore-concept-tab" role="tab" name="tab2" disabled data-tab-number="5">Concept</button>
                 </div>
                 <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
                   <label>Who will use the tools? Select roles and proceed to the Subrole tab.</label><hr />
@@ -369,16 +369,31 @@ $('[role="tab"]').click(function(){
     tabpan.attr('aria-hidden','false');// show the clicked tab's panel
 });
 
-/** populate a list into specified $container of elements */
-var populate = function(list, $container, element){
-  if (typeof list === 'undefined'){list = [];}
-  $container.html('');
-  $.each(list, function(index, value) {
-    addCheckbox(value, $container, onClick);
+/**
+ * populate a list into specified $container while
+ * maintaining selections of items if selected items 
+ * remain in the list after population
+ */
+var populate = function(list, $container, onClick){
+  if (typeof list === 'undefined'){list = [];}// ensure list is defined
+  currentlySelected = [];
+  $container.find(':checked').each(function(i,v){// create an array for currently selected values
+      currentlySelected.push(v.value);
   });
+  if(currentlySelected.length>0){console.log( 'currentlySelected: ', currentlySelected)}
+  $container.html('');// clear items out of container
+  $.each(list, function(index, value){
+      addCheckbox(value, $container, onClick);
+  });
+  $container.attr('size', list.length+1);// add an extra space in case horizontal scrollbar appears
   toggleTab(list, $container);// enable next tab iff list not empty
   var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
   toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
+  $container.find('input[type=checkbox]').each(function(i,v){// look through each element in $container
+      if(currentlySelected.indexOf(v.value)!=-1){// check if item was currentlySelected
+        $($(v)[0]).prop('checked',true);// select item
+      }
+  });
 };
 
 /** toggle disabled state of a next button */
