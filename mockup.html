@@ -382,7 +382,7 @@ var populate = function(list, $container, onChange){
   });
   if(currentlySelected.length>0){console.log( 'currentlySelected: ', currentlySelected)}
   $container.html('');// clear items out of container
-  $.each(list, function(index, value){
+  $.each(list.sort(), function(index, value){
       addCheckbox(value, $container, onChange);
   });
   $container.attr('size', list.length+1);// add an extra space in case horizontal scrollbar appears
@@ -480,7 +480,7 @@ var scrapeDictionary = function(selectedOptions, dictionary){
       }
     }
   }
-  return allSelectedElements.sort();
+  return allSelectedElements;
 };
 
 /** add checkbox with text of name to container with containerId */
