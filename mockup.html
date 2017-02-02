@@ -484,7 +484,7 @@ var scrapeDictionary = function(selectedOptions, dictionary){
 };
 
 /** add checkbox with text of name to container with containerId */
-function addCheckbox(name, container, onChange) {
+function addCheckbox(value, container, onChange) {
   onChange = (typeof onChange !== 'undefined') ? onChange : "";
   var containerName = container.attr('id');
   var inputs = container.find('input');
