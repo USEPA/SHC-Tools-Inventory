@@ -750,9 +750,18 @@ var getConcepts = function(selected){
 /** find all concepts associated with selected concepts by being grouped in same objective */
 var broadenConcepts = function(){
   // get all concepts
-  var allConcepts = getConcepts(false)
+  //var allConcepts = getConcepts(false)
   // get selected concepts
-  var selectedConcepts = getConcepts();
+  //var selectedConcepts = getConcepts();
+  var allConcepts = [];
+  var selectedConcepts = [];
+  $("input[name='concept-checkbox']").each(function(){
+      var value = $(this).val();
+      allConcepts.push(value);
+      if ($(this).prop('checked')) {
+        selectedConcepts.push(value);
+      }
+  });
   // iterate through conceptsByObjective for all objectives associated with selected concepts
   var associatedObjectives = [];
   for (objective in conceptsByObjective){
@@ -761,7 +770,8 @@ var broadenConcepts = function(){
         if ((conceptsByObjective[objective].indexOf(selectedConcepts[j])!=-1)&&
             (associatedObjectives.indexOf(objective)==-1)){
           associatedObjectives.push(objective)
-        } }
+        } 
+      }
     }
   }
   // possibly let user select objectives from those found above
@@ -778,9 +788,7 @@ var broadenConcepts = function(){
   }
   // possibly let user select from among these concepts
   for (i=0;i<associatedConcepts.length;i++){
-    $('#concept-select').append('<option>'+associatedConcepts[i]+'</option>');
-    $('#concept-select').css('overflow','visible');
-    $('#concept-select').attr('size',$('concept-select').children().length);
+    addCheckbox(associatedConcepts[i], $('#concept'));
   }
 }
 
