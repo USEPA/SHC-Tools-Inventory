@@ -443,8 +443,14 @@ var fundamentalObjectiveSelect = function() {
   //var objectivesFromSubroles = scrapeDictionary($('#subrole-select option:selected'),objectivesBySubrole);
   var relevance = $('#objective-relevance').val();
   var objectivesFromSubroles = [];
+  var objectivesFromSubrolesRelevance = [];
   for (var i=0;i<=relevance;i++) {
-    objectivesFromSubroles = objectivesFromSubroles.concat(scrapeDictionary($("input[name='subrole-checkbox']:checked"), objectivesBySubroleRelevance[i]));
+    objectivesFromSubrolesRelevance = scrapeDictionary($("input[name='subrole-checkbox']:checked"), objectivesBySubroleRelevance[i]);
+    for (var j=0;j<objectivesFromSubrolesRelevance.length;j++){
+      if (objectivesFromSubroles.indexOf(objectivesFromSubrolesRelevance[j]) === -1){
+        objectivesFromSubroles.push(objectivesFromSubrolesRelevance[j]);
+      }
+    }
   }
   // get objectives specified by selected fundamental objectives
   var objectivesFromFundamentalObjectives = scrapeDictionary($("input[name='fundamental-objective-checkbox']:checked"), objectivesByFundamentalObjective);
