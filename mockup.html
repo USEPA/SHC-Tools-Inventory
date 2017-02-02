@@ -489,8 +489,8 @@ function addCheckbox(value, container, onChange) {
   var containerName = container.attr('id');
   var inputs = container.find('input');
   var id = inputs.length+1;
-  $('<input />', { type: 'checkbox', id: 'cb'+containerName+id, value: name, name: containerName+'-checkbox', onchange:onChange }).appendTo(container);
-  $('<label />', { 'for': 'cb'+containerName+id, text: name, class: "unselectable" }).appendTo(container);
+  $('<input />', { type: 'checkbox', id: 'cb'+containerName+id, value: value, name: containerName+'-checkbox', onchange:onChange }).appendTo(container);
+  $('<label />', { 'for': 'cb'+containerName+id, text: value, class: "unselectable" }).appendTo(container);
 };
 
 /** search in descriptions for each word in query string from input and display results in div */
