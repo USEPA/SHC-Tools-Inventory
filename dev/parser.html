@@ -93,6 +93,20 @@ function formatDataConceptsObjectives(data){
   return conceptsByObjective;
 }
 
+function formatDataConceptsObjectivesObject(data){
+  var conceptsByObjective = {};
+  for (var i=0;i<data.length;i++) {
+    if(conceptsByObjective[data[i]["Objective"]] !== true) {
+      conceptsByObjective[data[i]["Objective"]] = {};
+    }
+    conceptsByObjective[data[i]["Objective"]][data[i]["DPSIR Node"]] = true;
+    if (data[i]["And"] != "") {
+      conceptsByObjective[data[i]["Objective"]][data[i]["And"]] = true;
+    }
+  }
+  return conceptsByObjective;
+}
+
 function formatData(data, x, y){
   var xByY = {};
   for (var i=0;i<data.length;i++) {
