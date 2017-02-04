@@ -382,7 +382,9 @@ var populate = function(list, $container, onChange){
   });
   if(currentlySelected.length>0){console.log( 'currentlySelected: ', currentlySelected)}
   $container.html('');// clear items out of container
-  addCheckboxes(list.sort(), $container, onChange);
+  $.each(list.sort(), function(index, value){
+      addCheckbox(value, $container, onChange);
+  });
   toggleTab(list, $container);// enable next tab iff list not empty
   var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
   toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
@@ -488,19 +490,12 @@ var scrapeDictionary = function(selectedOptions, dictionary){
 
 /** add checkbox with text of name to container with containerId */
 function addCheckbox(value, container, onChange) {
-/** add checkboxes with text of name to container with containerId */
-function addCheckboxes(list, container, onChange) {
   onChange = (typeof onChange !== 'undefined') ? onChange : "";
   var containerName = container.attr('id');
-  var div = document.getElementById(containerName);
-  var inputs = container.children('input');
+  var inputs = container.find('input');
   var id = inputs.length+1;
-  var html = '';
-  for (var i=0;i<list.length;i++){
-    html += '<input type="checkbox" id="cb'+containerName+id+'" value="'+list[i]+'" name="'+containerName+'-checkbox" onchange="'+onChange+'"</input><label for="cb'+containerName+id+'" class="unselectable">'+list[i]+'</label>';
-    id++;
-  }
-  div.innerHTML = html;
+  $('<input />', { type: 'checkbox', id: 'cb'+containerName+id, value: value, name: containerName+'-checkbox', onchange:onChange }).appendTo(container);
+  $('<label />', { 'for': 'cb'+containerName+id, text: value, class: "unselectable" }).appendTo(container);
 };
 
 /** search in descriptions for each word in query string from input and display results in div */
@@ -797,7 +792,9 @@ var broadenConcepts = function(){
     }
   }
   // possibly let user select from among these concepts
-  addCheckboxes(associatedConcepts, $('#concept'));
+  for (i=0;i<associatedConcepts.length;i++){
+    addCheckbox(associatedConcepts[i], $('#concept'));
+  }
 }
 
 /** check if object represents xsi:nil or unsanitized absence of data */
