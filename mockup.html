@@ -546,6 +546,8 @@ function addDiv(parsedResult, containerId){
             $("#additional-details-"+parsedResult.id).toggle();
             $(this).find('.accordian-result').toggleClass('collapsible');
           })
+          .attr('role','button')// baseline accessibility for details
+          .attr('tabindex','0')// ensure inclusion in tab-order based on position in document(default order)
         .append(
           $('<span />')
             .html('<strong>'+parsedResult.title+' ('+parsedResult.acronym+')</strong>: '+parsedResult.description)
@@ -558,7 +560,7 @@ function addDiv(parsedResult, containerId){
           .attr('id', 'additional-details-'+parsedResult.id)
           .addClass('flex')
         .append(
-          $('<span />')    
+          $('<span />')
             .addClass('left')
             .append($('<span />').html('<strong>Contact Name</strong>: '+parsedResult.contactName+'<br />'))
             .append($('<span />').html('<strong>Contact Email</strong>: '+parsedResult.contactEmail+'<br />'))
