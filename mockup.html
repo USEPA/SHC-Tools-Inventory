@@ -647,20 +647,24 @@ var parseResult = function(result){
   parsedResult.spatialExtent = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']);
   parsedResult.dataRequirements = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']);
   if(typeof(result)=='undefined'){return}// catch bad input
-  var openSourceMap = {}// hasn't yet been found
-  var dataRequirementsMap = {// map data standard to text(a function is a means of mapping each point in its domain to a particular point in a set called the function's image)
+  var openSourceMap = {// map integral data-standard to text
+    1:'Yes',
+    2:'No',
+    3:'Partial'
+  };
+  var dataRequirementsMap = {// map integral data-standard to text
     0:'All data is provided.',
     1:'Data is publicly available.',
     2:'Data is not publicly available but routinely available.',
     3:'New data must be created.'
-  };// map integers in READ to textual values
-  var softwareCostMap = {
-    1: 'Free',
-    2: '$1-$499',
-    3: '$500-$1499',
-    4: '$1500-$3999',
-    5: '>$4000'
-  };// map integers in READ to textual values
+  };
+  var softwareCostMap = {// map integral data-standard to text
+    1:'Free',
+    2:'$1-$499',
+    3:'$500-$1499',
+    4:'$1500-$3999',
+    5:'>$4000'
+  };
   var parsedResult = {};
   parsedResult.id = readSafe(result,['READExportDetail','InfoResourceDetail','READResourceIdentifier']);
   parsedResult.title = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongTitleText']);
@@ -682,7 +686,7 @@ var parseResult = function(result){
   parsedResult.ownershipType = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
   parsedResult.softwareCost = mapAll(readSafe(result,['READE)portDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']),undefined,softwareCostMap);
   parsedResult.otherCost = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
-  parsedResult.openSource = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']);
+  parsedResult.openSource = parseOpenSource(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']));
   parsedResult.sector = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeDecisionSector']);
   parsedResult.supportMaterials = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportSourceOfSupportMaterials']);
   parsedResult.lifecyclePhase = readSafe(result,['READExportDetail','InfoResourceDetail','LifeCycleDetail','CurrentLifeCyclePhase']);
@@ -793,14 +797,13 @@ var parseResult = function(result){
     }
   }
 
-  function parseOpenSource(){}// requires decoding a data-standard; will be mapped in parseResult.openSourceMap[INTEGER]
+  function parseOpenSource(openSource){return openSourceMap[openSource]}// requires decoding a data-standard; will be mapped in parseResult.openSourceMap[INTEGER]
 
   function parseDataRequirements(dataRequirements){// requires decoding a data-standard
     return dataRequirementsMap[dataRequirements];// do work
   }
 
   function parseTimeScale(timeScale){//all that apply
-      
     if (timeScale.TimeScaleName) {console.log(parsedResult.title,'timeScale:',timeStr);return timeScale.TimeScaleName};// return value if possible
     if (timeScale.length) {
       if (typeof timeScale === 'string') {return timeScale};// if it's a string then return it
@@ -816,6 +819,7 @@ var parseResult = function(result){
       return timeStr// return accumulated values in string
     }
   }
+
   return parsedResult
 };
 
