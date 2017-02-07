@@ -86,4 +86,14 @@
   - Each Keyword’s text links to a search for the keyword
   - Results from searches for keywords are placed in the existing table
   - Records may be “browsed by keyword” in this way
-- subtabs
+
+- implement a machine-learning-backend to grow application
+  - a button indicates this tool is not pertinent
+    - adds negative weight = "set of selected roles, subroles,..." for y_i = "this tool"
+  - a button indicates this tool is pertinent
+    - adds positive weight to X = "set of selected roles, subroles,..." for y_i = "this tool"
+  - weights can be used to rank tools
+  - weights may determine which tools appear for a given input
+  - there is an initial guess at how the tools should be classified from DPL
+  - give the initial guess a weight so it may be outweighed by sufficient input from users
+  - 
