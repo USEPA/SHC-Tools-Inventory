@@ -653,10 +653,10 @@ var parseResult = function(result){
     3:'Partial'
   };
   var dataRequirementsMap = {// map integral data-standard to text
-    0:'All data is provided.',
-    1:'Data is publicly available.',
-    2:'Data is not publicly available but routinely available.',
-    3:'New data must be created.'
+    1:'All data is provided.',
+    2:'Data is publicly available.',
+    3:'Data is not publicly available but routinely available.',
+    4:'New data must be created.'
   };
   var softwareCostMap = {// map integral data-standard to text
     1:'Free',
@@ -699,9 +699,8 @@ var parseResult = function(result){
   parsedResult.modelEvaluation = readSafe(result,['READExportDetail','InfoResourceDetail','ModelEvaluationDetail','ModelEvaluationTextArea']);
   parsedResult.modelTimeScale = parseTimeScale(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeTimeScaleDetail']));
   parsedResult.spatialExtent = parseSpatialExtent(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']));
-  //console.log(parsedResult.title,'spatial extent: ', parsedResult.spatialExtent);
   parsedResult.dataRequirements = parseDataRequirements(readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']));
-  //console.log(parsedResult.title,'data-requirements: ', parsedResult.dataRequirements);
+  console.log(parsedResult.title,'data-requirements: ', readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']));
 
   /**
    * return decoded value(s) accumulated into a string
