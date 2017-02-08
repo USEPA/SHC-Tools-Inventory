@@ -964,7 +964,7 @@ var broadenConcepts = function(){
   }
   // let user select from among these concepts
   var html = addCheckboxes(associatedConcepts, $('#concept'));
-  $('#concept').html(html);
+  $('#concept').append(html);
 }
 
 /** check if object represents xsi:nil or unsanitized absence of data */
