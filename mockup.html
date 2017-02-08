@@ -581,10 +581,6 @@ function addDiv(parsedResult, containerId){
             .append($('<span />').html('<strong>Other Technical Requirements</strong>: '+parsedResult.otherTechnicalRequirements+'<br />'))
             .append($('<span />').html('<strong>Model Inputs</strong>: '+parsedResult.modelInputs+'<br />'))
             .append($('<span />').html('<strong>Model Outputs</strong>: '+parsedResult.modelOutputs+'<br />'))
-            .append($('<span />').html('<strong>Model Evaluation</strong>: '+parsedResult.modelEvaluation+'<br />'))
-            .append($('<span />').html('<strong>Model Time Scale</strong>: '+parsedResult.modelTimeScale+'<br />'))
-            .append($('<span />').html('<strong>Spatial Extent</strong>: '+parsedResult.spatialExtent+'<br />'))
-            .append($('<span />').html('<strong>Data Requirements</strong>: '+parsedResult.dataRequirements+'<br />'))
           )
         .append(
           $('<span />')
@@ -602,50 +598,21 @@ function addDiv(parsedResult, containerId){
             .append($('<span />').html('<strong>Open Source</strong>: '+parsedResult.openSource+'<br />'))
             .append($('<span />').html('<strong>Decision Sector</strong>: '+parsedResult.sector+'<br />'))
             .append($('<span />').html('<strong>Support Materials</strong>: '+parsedResult.supportMaterials+'<br />'))
+            .append($('<span />').html('<strong>Model Evaluation</strong>: '+parsedResult.modelEvaluation+'<br />'))
+            .append($('<span />').html('<strong>Model Time Scale</strong>: '+parsedResult.modelTimeScale+'<br />'))
+            .append($('<span />').html('<strong>Spatial Extent</strong>: '+parsedResult.spatialExtent+'<br />'))
+            .append($('<span />').html('<strong>Data Requirements</strong>: '+parsedResult.dataRequirements+'<br />'))
+            .append($('<span />').html('<strong>Last Known Software Update</strong>: '+parsedResult.lastKnownSoftwareUpdate+'<br />'))
           )
         )
   );
   var divs = container.find('div');
 };
 
-/** map details of a result into accessible locations */
+/**
+ * map details of a result into accessible locations
+ */
 var parseResult = function(result){
-  if(typeof(result)=='undefined'){return}// catch bad input
-  var parsedResult = {};
-  parsedResult.id = readSafe(result,['READExportDetail','InfoResourceDetail','READResourceIdentifier']);
-  parsedResult.title = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongTitleText']);
-  parsedResult.acronym = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','Acronym']);
-  parsedResult.description = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongDescription']);
-  parsedResult.contactName = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportName']);
-  parsedResult.contactEmail = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportEmail']);
-  parsedResult.contactPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportPhoneNumber']);
-  parsedResult.keywords = readSafe(result,['READExportDetail','InfoResourceDetail','KeywordDetail','KeywordText']);
-  parsedResult.tags = readSafe(result,['READExportDetail','InfoResourceDetail','TagDetail','InfoResourceStewardTagText']);
-  parsedResult.alternativeNames = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
-  parsedResult.internetUrl = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','URLText']);
-  parsedResult.internetHelpDeskEmail = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskEmailAddressText']);
-  parsedResult.internetHelpDeskPhone = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);;
-  parsedResult.intranetUrl = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','URLText']);
-  parsedResult.intranetHelpDeskEmail = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','HelpDeskEmailAddressText']);
-  parsedResult.intranetHelpDeskPhone = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','HelpDeskPhoneNumber']);
-  parsedResult.rcsResource = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
-  parsedResult.ownershipType = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
-  parsedResult.softwareCost = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']);
-  parsedResult.otherCost = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
-  parsedResult.openSource = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']);
-  parsedResult.sector = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeDecisionSector']);
-  parsedResult.supportMaterials = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportSourceOfSupportMaterials']);
-  parsedResult.lifecyclePhase = readSafe(result,['READExportDetail','InfoResourceDetail','LifeCycleDetail','CurrentLifeCyclePhase']);
-  parsedResult.lastModified = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedDateTimeText']);
-  parsedResult.lastModifiedBy = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedPersonName']);
-  parsedResult.operatingEnvironment = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqCompatibleOSDetail','OSName']);
-  parsedResult.otherTechnicalRequirements = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqOtherReqDetail','OtherReqName']);
-  parsedResult.modelInputs = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsTextArea']);
-  parsedResult.modelOutputs = readSafe(result,['READExportDetail','InfoResourceDetail','ModelOutputsDetail','ModelOutputsModelVariablesTextArea']);
-  parsedResult.modelEvaluation = readSafe(result,['READExportDetail','InfoResourceDetail','ModelEvaluationDetail','ModelEvaluationTextArea']);
-  parsedResult.modelTimeScale = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeTimeScaleDetail']);
-  parsedResult.spatialExtent = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']);
-  parsedResult.dataRequirements = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']);
   if(typeof(result)=='undefined'){return}// catch bad input
   var openSourceMap = {// map integral data-standard to text
     1:'Yes',
@@ -687,6 +654,7 @@ var parseResult = function(result){
   parsedResult.softwareCost = mapAll(readSafe(result,['READE)portDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']),undefined,softwareCostMap);
   parsedResult.otherCost = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
   parsedResult.openSource = parseOpenSource(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']));
+  parsedResult.lastKnownSoftwareUpdate = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsLastKnownSoftwareUpdate']);
   parsedResult.sector = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeDecisionSector']);
   parsedResult.supportMaterials = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportSourceOfSupportMaterials']);
   parsedResult.lifecyclePhase = readSafe(result,['READExportDetail','InfoResourceDetail','LifeCycleDetail','CurrentLifeCyclePhase']);
@@ -700,7 +668,6 @@ var parseResult = function(result){
   parsedResult.modelTimeScale = parseTimeScale(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeTimeScaleDetail']));
   parsedResult.spatialExtent = parseSpatialExtent(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']));
   parsedResult.dataRequirements = parseDataRequirements(readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']));
-  console.log(parsedResult.title,'data-requirements: ', readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']));
 
   /**
    * return decoded value(s) accumulated into a string
