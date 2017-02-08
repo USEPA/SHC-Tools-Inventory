@@ -365,7 +365,7 @@ var populate = function(list, $container, onChange){
   var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
   toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
   $container.find('input[type=checkbox]').each(function(i,v){// look through each element in $container
-      if(currentlySelected.indexOf(v.value)!=-1){// check if item was currentlySelected
+    if(currentlySelected.indexOf(v.value)!=-1){// check if item was currentlySelected
         $($(v)[0]).prop('checked',true);// select item
       }
   });
@@ -868,6 +868,8 @@ var getConcepts = function(selected){
 
 /** find all concepts associated with selected concepts by being grouped in same objective */
 var broadenConcepts = function(){
+  // exit if no concepts are selected
+  if ($('input[name="concept-checkbox"]:checked').length === 0) {return}
   // get all concepts
   //var allConcepts = getConcepts(false)
   // get selected concepts
@@ -905,7 +907,7 @@ var broadenConcepts = function(){
       }
     }
   }
-  // possibly let user select from among these concepts
+  // let user select from among associated concepts
   addCheckboxes(associatedConcepts, $('#concept'));
 }
 
