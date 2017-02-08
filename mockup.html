@@ -36,6 +36,11 @@
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
   <style>
+    @media screen and (min-width: 45em), print and (min-width: 45em) {
+      .row > .size-9of10.col {
+        width: 95%;
+      }
+    }
     .next{
       position: fixed;
       bottom: 0;
@@ -103,15 +108,6 @@
       border-radius: 5px;
       padding: 2px;
     }
-    .flex{
-      display: flex;
-    }
-    .left{
-      flex: 0 0 50%;
-    }
-    .right{
-      flex: 1;
-    }
     button:disabled{background-color:#aeb0b5}
     *{
       -ms-transition: none;
@@ -119,7 +115,7 @@
     }
     .accordian-result{
     background-image: url(https://www.epa.gov/sites/all/themes/epa/img/arrow-alt-down.png);
-    background-size: 100% 100%;
+    background-repeat: no-repeat;
     float: right;
     height: 13px;
     margin: 5px;
@@ -546,20 +542,23 @@ function addDiv(parsedResult, containerId){
             $("#additional-details-"+parsedResult.id).toggle();
             $(this).find('.accordian-result').toggleClass('collapsible');
           })
-        .append(
-          $('<span />')
-            .html('<strong>'+parsedResult.title+' ('+parsedResult.acronym+')</strong>: '+parsedResult.description)
-            .append(
-          $('<span />')
-            .addClass('accordian-result'))))
+          .addClass('row')
+          .append(
+            $('<div />')
+              .html('<strong>'+parsedResult.title+' ('+parsedResult.acronym+')</strong>: '+parsedResult.description)
+              .addClass('col size-9of10'))
+          .append(
+            $('<div />')
+              .addClass('col')
+              .addClass('accordian-result')))
       .append(
         $('<div />')
           .css('display', 'none')
           .attr('id', 'additional-details-'+parsedResult.id)
-          .addClass('flex')
+          .addClass('row')
         .append(
-          $('<span />')    
-            .addClass('left')
+          $('<div />')    
+            .addClass('col size-1of2')
             .append($('<span />').html('<strong>Contact Name</strong>: '+parsedResult.contactName+'<br />'))
             .append($('<span />').html('<strong>Contact Email</strong>: '+parsedResult.contactEmail+'<br />'))
             .append($('<span />').html('<strong>URL</strong>: <a href="'+parsedResult.internetUrl+'" target="_blank" onclick="stopPropagation(event)">'+parsedResult.internetUrl+'</a><br />'))
@@ -578,8 +577,8 @@ function addDiv(parsedResult, containerId){
             .append($('<span />').html('<strong>Data Requirements</strong>: '+parsedResult.dataRequirements+'<br />'))
           )
         .append(
-          $('<span />')
-            .addClass('right')
+          $('<div />')
+            .addClass('col')
             .append($('<span />').html('<strong>Keywords</strong>: '+parsedResult.keywords+'<br />'))
             .append($('<span />').html('<strong>Tags</strong>: '+parsedResult.tags+'<br />'))
             .append($('<span />').html('<strong>Alternative Names</strong>: '+parsedResult.alternativeNames+'<br />'))
