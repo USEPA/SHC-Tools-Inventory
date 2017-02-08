@@ -37,7 +37,7 @@
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
   <style>
     @media screen and (min-width: 45em), print and (min-width: 45em) {
-      .row > .size-9of10.col {
+      .row > .size-95of100.col {
         width: 95%;
       }
     }
@@ -584,6 +584,13 @@ var displayResult = function(data, div, fields){
 };
 
 /** display details of parsedResult in container with containerId
+  var containerId = div;
+  var parsedResult = parseResult(data);
+  fields = ['title', 'description', 'url'];
+  if (isNewResult(containerId, parsedResult)){addDiv(parsedResult, containerId)}
+};
+
+/** display details of parsedResult in container with containerId
   * dev aspiration: dynamically append spans and dynamically apply
   *                 .left class or .right class to each in order
   *                 to balance columns*/
@@ -599,10 +606,12 @@ function addDiv(parsedResult, containerId){
             $(this).find('.accordian-result').toggleClass('collapsible');
           })
           .addClass('row')
+          .attr('role','button')// baseline accessibility for details
+          .attr('tabindex','0')// ensure inclusion in tab-order based on position in document(default order)
           .append(
             $('<div />')
               .html('<strong>'+parsedResult.title+' ('+parsedResult.acronym+')</strong>: '+parsedResult.description)
-              .addClass('col size-9of10'))
+              .addClass('col size-95of100'))
           .append(
             $('<div />')
               .addClass('col')
@@ -627,14 +636,10 @@ function addDiv(parsedResult, containerId){
             .append($('<span />').html('<strong>Other Technical Requirements</strong>: '+parsedResult.otherTechnicalRequirements+'<br />'))
             .append($('<span />').html('<strong>Model Inputs</strong>: '+parsedResult.modelInputs+'<br />'))
             .append($('<span />').html('<strong>Model Outputs</strong>: '+parsedResult.modelOutputs+'<br />'))
-            .append($('<span />').html('<strong>Model Evaluation</strong>: '+parsedResult.modelEvaluation+'<br />'))
-            .append($('<span />').html('<strong>Model Time Scale</strong>: '+parsedResult.modelTimeScale+'<br />'))
-            .append($('<span />').html('<strong>Spatial Extent</strong>: '+parsedResult.spatialExtent+'<br />'))
-            .append($('<span />').html('<strong>Data Requirements</strong>: '+parsedResult.dataRequirements+'<br />'))
           )
         .append(
           $('<div />')
-            .addClass('col')
+            .addClass('col size-1of2')
             .append($('<span />').html('<strong>Keywords</strong>: '+parsedResult.keywords+'<br />'))
             .append($('<span />').html('<strong>Tags</strong>: '+parsedResult.tags+'<br />'))
             .append($('<span />').html('<strong>Alternative Names</strong>: '+parsedResult.alternativeNames+'<br />'))
@@ -648,15 +653,40 @@ function addDiv(parsedResult, containerId){
             .append($('<span />').html('<strong>Open Source</strong>: '+parsedResult.openSource+'<br />'))
             .append($('<span />').html('<strong>Decision Sector</strong>: '+parsedResult.sector+'<br />'))
             .append($('<span />').html('<strong>Support Materials</strong>: '+parsedResult.supportMaterials+'<br />'))
+            .append($('<span />').html('<strong>Model Evaluation</strong>: '+parsedResult.modelEvaluation+'<br />'))
+            .append($('<span />').html('<strong>Model Time Scale</strong>: '+parsedResult.modelTimeScale+'<br />'))
+            .append($('<span />').html('<strong>Spatial Extent</strong>: '+parsedResult.spatialExtent+'<br />'))
+            .append($('<span />').html('<strong>Data Requirements</strong>: '+parsedResult.dataRequirements+'<br />'))
+            .append($('<span />').html('<strong>Last Known Software Update</strong>: '+parsedResult.lastKnownSoftwareUpdate+'<br />'))
           )
         )
   );
   var divs = container.find('div');
 };
 
-/** map details of a result into accessible locations */
+/**
+ * map details of a result into accessible locations
+ */
 var parseResult = function(result){
   if(typeof(result)=='undefined'){return}// catch bad input
+  var openSourceMap = {// map integral data-standard to text
+    1:'Yes',
+    2:'No',
+    3:'Partial'
+  };
+  var dataRequirementsMap = {// map integral data-standard to text
+    1:'All data is provided.',
+    2:'Data is publicly available.',
+    3:'Data is not publicly available but routinely available.',
+    4:'New data must be created.'
+  };
+  var softwareCostMap = {// map integral data-standard to text
+    1:'Free',
+    2:'$1-$499',
+    3:'$500-$1499',
+    4:'$1500-$3999',
+    5:'>$4000'
+  };
   var parsedResult = {};
   parsedResult.id = readSafe(result,['READExportDetail','InfoResourceDetail','READResourceIdentifier']);
   parsedResult.title = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongTitleText']);
@@ -676,9 +706,10 @@ var parseResult = function(result){
   parsedResult.intranetHelpDeskPhone = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','HelpDeskPhoneNumber']);
   parsedResult.rcsResource = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
   parsedResult.ownershipType = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
-  parsedResult.softwareCost = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']);
+  parsedResult.softwareCost = mapAll(readSafe(result,['READE)portDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']),undefined,softwareCostMap);
   parsedResult.otherCost = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
-  parsedResult.openSource = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']);
+  parsedResult.openSource = parseOpenSource(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']));
+  parsedResult.lastKnownSoftwareUpdate = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsLastKnownSoftwareUpdate']);
   parsedResult.sector = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeDecisionSector']);
   parsedResult.supportMaterials = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportSourceOfSupportMaterials']);
   parsedResult.lifecyclePhase = readSafe(result,['READExportDetail','InfoResourceDetail','LifeCycleDetail','CurrentLifeCyclePhase']);
@@ -689,48 +720,161 @@ var parseResult = function(result){
   parsedResult.modelInputs = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsTextArea']);
   parsedResult.modelOutputs = readSafe(result,['READExportDetail','InfoResourceDetail','ModelOutputsDetail','ModelOutputsModelVariablesTextArea']);
   parsedResult.modelEvaluation = readSafe(result,['READExportDetail','InfoResourceDetail','ModelEvaluationDetail','ModelEvaluationTextArea']);
-  parsedResult.modelTimeScale = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeTimeScaleDetail']);
-  parsedResult.spatialExtent = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']);
-  parsedResult.dataRequirements = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']);
+  parsedResult.modelTimeScale = parseTimeScale(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeTimeScaleDetail']));
+  parsedResult.spatialExtent = parseSpatialExtent(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']));
+  parsedResult.dataRequirements = parseDataRequirements(readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']));
+
+  /**
+   * return decoded value(s) accumulated into a string
+   * @arg field{object} contains either object[propertyName] or object[0][propertyName]
+   * @arg propertyName{string} name of the property that holds the desired value
+   * @arg map{object} decode values with map[object[propertyName]] or map[object[0][propertyName]]
+   * READ Web Services return one value if only one value exists. If several values then they're in an array.
+   * There are various data-standards used in READ, like storing integers in place of strings for options.
+  */
+  function mapAll(field, propertyName, map) {// 
+    if (typeof propertyName != 'undefined'){// arg propertyName passed?
+      if (field[propertyName]) {return map[field[propertyName]]}// money-shot!
+      if (field.length) {
+        accumulatedString = '';// append accumulated values here
+        for (i = 0; i < field.length - 1; i++) {
+          if (typeof map === 'undefined') {// no arg map passed...
+            accumulatedString += field[i][propertyName] + ', ';// ...accumulate ith value
+          } else {// arg map was passed...
+            accumulatedString += map[field[i]][propertyName] + ', ';// ...accumulate ith value
+          }
+        }
+        if (typeof map === 'undefined') {// no arg map passed...
+          accumulatedString += 'and ' + field[field.length - 1][propertyName];// ...accumulate final value
+        } else {// arg map was passed...
+          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
+        }
+        return accumulatedString
+      }
+      console.log('ERROR: mapAll is naughty');
+    } else {// no arg propertyName
+      if (field) {return field}
+      if (field.length) {
+        accumulatedString = '';// append accumulated values here
+        for (i = 0; i < field.length - 1; i++) {
+          if (typeof map === 'undefined') {// no arg map passed...
+            accumulatedString += field[i] + ', ';// ...accumulate ith value
+          } else {// arg map was passed...
+            accumulatedString += map[field[i]] + ', ';// ...accumulate ith value
+          }
+        }
+        if (typeof map === 'undefined') {// no arg map passed...
+          accumulatedString += 'and ' + field[field.length - 1][propertyName];// ...accumulate final value
+        } else {// arg map was passed...
+          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
+        }
+        return accumulatedString
+      }
+      console.log('ERROR: mapAll is naughty');
+    }
+  }
+
+  function parseSoftwareCost(cost) {
+    if (!typeof(cost)==='string') {
+      if (cost.length) {
+        var str = '';
+        for (i=0;i<cost.length-1;i++) {
+          str += parseSoftwareCost(cost[i]) + ', ';
+        }
+        str += parseSoftwareCost(cost[cost.length-1]);
+      }
+    }
+    switch (cost) {
+      case 1:
+        return "Free";
+        break;
+      case 2:
+        return "$1-$499";
+        break;
+      case 3:
+        return "$500-$1499";
+        break;
+      case 4:
+        return "$1500-$3999";
+        break;
+      case 5:
+        return ">$4000";
+        break;
+      default:
+        return cost;// return some unexpected value instead of squelching any hint to the cause of the issue
+    }
+  }
+
+  function parseSpatialExtent(extent) {// possibly joins strings in an array
+    if (extent.SpatialExtentName) {return extent.SpatialExtentName;}// return desired value if it is a property of extent
+    if (extent.length) {// is array?(this means several values instead of just one)
+      if (typeof extent === 'string') {return extent}
+      var str = '';// create string for appending each spatial extent to while looping through array
+      for (i = 0; i < extent.length - 1; i++) {// loop through all elements except last...
+        str += parseSpatialExtent(extent[i]) + ", ";//...append ith value and a delimiter
+      }
+      str += 'and ' + parseSpatialExtent(extent[extent.length - 1]);//append final value
+      return str// return accumulated values in a string
+    }
+  }
+
+  function parseOpenSource(openSource){return openSourceMap[openSource]}// requires decoding a data-standard; will be mapped in parseResult.openSourceMap[INTEGER]
+
+  function parseDataRequirements(dataRequirements){// requires decoding a data-standard
+    return dataRequirementsMap[dataRequirements];// do work
+  }
+
+  function parseTimeScale(timeScale){//all that apply
+    if (timeScale.TimeScaleName) {console.log(parsedResult.title,'timeScale:',timeStr);return timeScale.TimeScaleName};// return value if possible
+    if (timeScale.length) {
+      if (typeof timeScale === 'string') {return timeScale};// if it's a string then return it
+      var timeStr = '';
+      for (i=0;i<timeScale.length-1;i++) {// loop through all elements except last...
+        timeStr += timeScale[i].TimeScaleName;//...append ith value and a delimiter
+        if (timeScale.length > 2) {timeStr += ','}// append comma when appropriate
+        timeStr += ' ';
+      }
+      if (timeScale.length > 2) {timeStr += 'and '}// append 'and ' when appropriate
+      timeStr += timeScale[i].TimeScaleName;//append final value from array
+      console.log(parsedResult.title,'timeScales:',timeStr)
+      return timeStr// return accumulated values in string
+    }
+  }
+
   return parsedResult
 };
 
 /** check existence of each prop_i in obj.prop_1...prop_n
-  * and assign argument assignee[assignedPropertyName]
-  * readSafe(obj, [prop_1,...,prop_n], assignee, assignedPropertyName)
-  * s.t. assignee[assignedPropertyName] = obj.prop_1...prop_n if
-  * prop_n exists where expected.
   * @arg object{object} test the properties of object
   * @arg propertyArray{array} [prop_1,...,prop_n] s.t.
   *      object[prop_1][...][prop_n] is the desired value
-  * @arg assignee{any type} specifies location to which the
-  *      validated desired value will be assigned(optional)
-  * @arg assignedPropertyName{string} name of assignee's
-  *      property to be set with safely read value
-  * E.G.: readSafe(obj,['foo','bar','baz'],assignee,assignedPropertyName)
-  * safely attempts (assignee[assignedPropertyName] = obj.foo.bar.baz)
-  * or returns final propertys' value if all properties exist
-  * and fails safely to (assignee[assignedPropertyName] = 'no data')
-  * or (return false) if no assignee[assignedPropertyName] passed */
+  * E.G.: readSafe(obj,['foo','bar','baz'])
+  * safely returns obj.foo.bar.baz value if all properties exist
+*/
 function readSafe(object, propertyArray){
   if(object[propertyArray[0]]){// is first element of propertyArray a property of this object?
     var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
     if(Object.keys(propertyArray).length==1){// is this the last property in the array?
-        //console.log('propertyArray is only one element:',propertyArray[0],'object[propertyArray[0]:',value);// dev
-        //console.log('SUCCESS: return',value);// dev
-        return value;// return contents of property
+      //console.log('propertyArray is only one element:',propertyArray[0],'object[propertyArray[0]:',value);// dev
+      //console.log('SUCCESS: return',value);// dev
+      if (value.length) {
+        if (typeof value != 'string') {
+          console.log('readSafe is returning an array from object',object,'at property',propertyArray[0])
+        }
+      }
+      return value;// return contents of property
     }else{// there are multiple elements remaining in propertyArray that we need to descend into
       try{
         //console.log('readSafe iterating with value: ',value);// dev
         // recursion with obj[prop_1] as obj for next iteration
         return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
       }catch(e){
-        //console.log('error: ',e);// dev
+        console.log('error: ',e);// dev
         return 'no data'// return 'no data'
       }
     }
   }else{//fail: element zero of propertyArray isn't a property of this object
-    console.log('readSafe is tripping on object:',object,' at property:',propertyArray[0]);// dev
+    //console.log('readSafe is tripping on object:',object,' at property:',propertyArray[0]);// dev
     return 'no data'// fail safely: return 'no data'
   }
 }
@@ -779,6 +923,8 @@ var getConcepts = function(selected){
 
 /** find all concepts associated with selected concepts by being grouped in same objective */
 var broadenConcepts = function(){
+  // exit if no concepts are selected
+  if ($('input[name="concept-checkbox"]:checked').length === 0) {return}
   // get all concepts
   //var allConcepts = getConcepts(false)
   // get selected concepts
@@ -816,7 +962,7 @@ var broadenConcepts = function(){
       }
     }
   }
-  // possibly let user select from among these concepts
+  // let user select from among these concepts
   var html = addCheckboxes(associatedConcepts, $('#concept'));
   $('#concept').html(html);
 }
@@ -918,7 +1064,7 @@ var actualSearch = function(queryString, div){
         data.DecisionSector = decisionSectors[j];
         requests.push(executeSearch(resourceAdvancedSearchURL, data));
       }
-      data ={};
+      data = {};
     }
     $.when.apply(null, requests).done(function(){
       for (var i=0; i<arguments.length; i++){
@@ -937,6 +1083,8 @@ var actualSearch = function(queryString, div){
 var stopPropagation = function(e){
   e.stopPropagation();
 };
+
+var getDetailsFromId = function(id) {$.get(resourceDetailURL,{ResourceId:id}).done(function(data) {console.log(data.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym,': ',data.READExportDetail.InfoResourceDetail)})};
 
 // store roles
 var roles = ["Community Representative/Volunteer", "Developer", "Engineer/Architect/Designer", "Environmental Group Representative", "Farmer", "Industrial or Commercial Facility Representative", "Land Use, City, or Regional Planner", "Landowner/Homeowner", "Natural Resource Manager", "Regulatory Official", "Scientist/Academic", "Sustainability or Environmental Program Coordinator", "Urban Forest Manager", "Water Utility Manager"];
