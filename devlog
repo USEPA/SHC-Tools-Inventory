@@ -37,6 +37,13 @@
     - # Primary Info Resource Steward(PIRS) or
     - # Info Mgmt Officer(IMO)
 
+- #DONE use an access database to label tools with concepts from the DPL
+  - # embed SQL queries in VBA with "CurrentDb.Execute <sql_query_string>"
+  - # acronym = tool
+  - # concept = [final] node
+  - # SQL-query to append tool:<tool_i>,concept:<concept_i> to junction table acting as a "many to many" relation between tools and concepts
+    # "INSERT INTO tbl_junction_acronym_node (acronym, node) VALUES ('" & strAcronym & "', '" & strConcept & "');"
+
 - #devAdded Replace '[object Object]' with 'No Data Available.'
   - # WIP attempting to construct fncn using JSON.stringify == '[object Object]'
 
@@ -96,4 +103,4 @@
   - weights may determine which tools appear for a given input
   - there is an initial guess at how the tools should be classified from DPL
   - give the initial guess a weight so it may be outweighed by sufficient input from users
-  - 
+  - HINT: investigate using a Bayes-net for a model, as suggested by Eric
