@@ -112,8 +112,8 @@ function getDetails(id) {
   };
 }
 
-function showDetails(id) {
-  var detail_obj = id['record'];
+function showDetails() {
+  //var detail_obj = id['record'];
   var tab = $("#selectedAccordion");
   try {
     tab.empty();
@@ -121,21 +121,21 @@ function showDetails(id) {
     console.log(error)
   }
   var columns = [
-    'Name',
-    'Acronym',
-    'Short_Description_for_Reports',
-    'Ownership_Type',
-    'Last_Known_Software_Update',
-    'Base_Cost_of_Software',
-    'Other_Cost_Considerations',
-    'Open_Source',
-    'Sustainability_Sector',
-    'Keywords',
+    'title',
+    'acronym',
+    'description',
+    'ownershipType',
+    'lastModified',
+    'softwareCost',
+    'otherCost',
+    'openSource',
+    'sector',
+    'keywords',
     //'Organization',
-    'User_Support_Name',
-    'User_Support_Phone_Number',
-    'User_Support_Email',
-    'User_Support_Source_Of_Support_Materials',
+    'contactName',
+    'contactPhoneNumber',
+    'contactEmail',
+    'supportMaterials',
     'Internet',
     'Life_Cycle',
     'READ_Info_Updated',
@@ -151,7 +151,7 @@ function showDetails(id) {
     'Time_Scale',
     'Spatial_Extent'
   ];
-  for (i in columns) {
+  for (i in id) {
     var this_key = columns[i];
     var name = columns[i].replace(/_/g, ' ');
     var this_name = $("<h3>");
@@ -585,37 +585,50 @@ function showDetails(id) {
     }
     tab.append(this_name, this_value);
   }
-  $('#selected-tool-tab').data("record", detail_obj);
+  $('#selectedAccordion').data("record", detail_obj);
   $('#selected-tool-tab').prop('disabled', false);
   $('#selected-tool-tab').click();
   $('#selected-tool-tab').focus();
 }
 
 function saveRecord() {
-  var record = Array($("#saved-tools-tab").data()["record"]);
-  parseResults(record, "#savedTable");
-  var data = $("#savedTable").data();
-  if (data.hasOwnProperty("records")) {
-    data["records"] = data["records"].concat(record);
-  } else {
-    data["records"] = record;
-  }
-  $("#savedTable").data("records", data["records"]);
-  $("#saved-tools-tab").prop('disabled', false);
-  $("#saved-tools-tab").click();
+	var currentSavedRecords = $('#savedTable > tbody  > tr');
+  var record = $('#selectedAccordion').data("record");
+	var unique = true;
+  currentSavedRecords.each(function() {
+  	if (record === jQuery.data($(this)[0], "record")){
+  		unique = false;
+  	}
+ 	});
+	if (unique) {
+	  parseResults(record, "#savedTable");
+	  $("#saved-tools-tab").prop('disabled', false);
+	  $("#saved-tools-tab").click();
+	} else {
+		// Record already saved
+	}
 }
 
 function saveAllRecords(table_reference) {
-  var records = $("#" + table_reference).data().records;
-  parseResults(records, "#savedTable");
-  var data = $("#savedTable").data();
-  if (data.hasOwnProperty("records")) {
-    data["records"] = data["records"].concat(records);
-  } else {
-    data["records"] = records;
-  }
-  $("#savedTable").data("records", data["records"]);
+	var recordsToSave = $('#'+table_reference+' > tbody  > tr');
+	var currentSavedRecords = $('#savedTable > tbody  > tr');
+	recordsToSave.each(function() {
+		var record = jQuery.data($(this)[0], "record");
 
+  	var unique = true;
+	  currentSavedRecords.each(function() {
+	  	if (record === jQuery.data($(this)[0], "record")){
+	  		unique = false;
+	  	}
+	 	});
+		if (unique) {
+		  parseResults(record, "#savedTable");
+		  $("#saved-tools-tab").prop('disabled', false);
+		  $("#saved-tools-tab").click();
+		} else {
+			// Record already saved
+		}
+	}); 
 }
 
 function radioClear(radio) {
@@ -656,7 +669,7 @@ function detailClearForm() {
 }
 
 function exportCSV(tablereference) {
-  var records = $("#" + tablereference).data().records;
+  var records = $('#'+tablereference+' > tbody  > tr');
   var csvContent = '';
   var columns = [
     'Name',
@@ -701,14 +714,17 @@ function exportCSV(tablereference) {
     names.push(name);
   };
   csvContent = names.join() + '\n'
-  for (i in records) {
-    var this_record = records[i];
-    var values = [];
-    for (j in columns) {
-      values.push('"' + this_record[columns[j]] + '"');
-    };
-    csvContent = csvContent + values.join() + '\n'
-  }
+  
+  records.each(function(){
+  	var record = jQuery.data($(this)[0], "record");
+  	if (record) {
+	  	var values = [];
+	    for (var j=0; j<columns.length; j++) {
+	      values.push('"' + record[columns[j]] + '"');
+	    };
+	    csvContent = csvContent + values.join() + '\n'
+	  }
+  });
 
   var encodedUri = encodeURI(csvContent);
   var link = document.createElement("a");

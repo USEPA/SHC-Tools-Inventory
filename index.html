@@ -1004,19 +1004,18 @@ function parseResults(str, table_reference) {
       showDetails($(this).data());
     });
     if (table_reference == "#resultsTable") {
-      jQuery.data(result_table, 'records', result);
       $("#results-tab").prop('disabled',false);
       $("#results-tab").click();
     } else if (table_reference == "#savedTable") {
       $("#saved-tools-tab").prop('disabled',false);
       $("#saved-tools-tab").click();
     } else {
-      jQuery.data(result_table, 'records', result);
-      $(table_reference).show()
+      $(table_reference).show();
     }
     return 'FOUND RESULTS!'
   } catch (err) {
     console.log(err);
+    $(table_reference+' tr:last').remove();
     return 'No results found'
   }
 }
@@ -1031,9 +1030,7 @@ function loadModels2() {
   if (tabsBrowserClicked == false) {
     $(".accordion-pane").each(function() {
         var table_name = this.children[1].id;
-        var this_sector = table_name
-          .replace("table", "")
-          .toLowerCase();
+        var this_sector = table_name.replace("table", "").toLowerCase();
         switch (this_sector) {
           case "building":
             decision_query = "Building Infrastructure";
