@@ -69,10 +69,14 @@
       border: 1px solid gray;
       margin: .1em;
     }
-    input[type="checkbox"]:focus + label{
+    .result-label{
+      display: inline;
+      background-color:transparent;
+    }
+    .tool-label:focus + label{
       background-color:#e1f3f8;
     }
-    input[type="checkbox"]:checked + label{
+    .tool-label:checked + label{
       background-color:#d6d7d9;
     }
     .select-button{
@@ -127,7 +131,7 @@
   </style>
 </head>
 <!-- NOTE, figure out body classes! -->
-<body class="node-type-(web-area|page|document|webform) (microsite|resource-directory)" >
+<body class="node-type-page microsite" >
   <!-- Google Tag Manager -->
   <!--REMOVED FOR DEVELOPMENT; REPLACE FOR PRODUCTION
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -174,6 +178,7 @@
                 <button aria-controls="fundamental-objective-panel" aria-selected="false" data-tab-number="3" disabled id="explore-fundamental-objective-tab" name="tab2" role="tab">Fundamental Objective</button>
                 <button aria-controls="objective-panel" aria-selected="false" data-tab-number="4" disabled id="explore-objective-tab" name="tab2" role="tab">Objective</button>
                 <button aria-controls="concept-panel" aria-selected="false" data-tab-number="5" disabled id="explore-concept-tab" name="tab2" role="tab">Concept</button>
+                <button aria-controls="saved-results-panel" aria-selected="false" data-tab-number="6" disabled id="saved-results-tab" name="tab2" role="tab">Saved Results</button>
               </div>
               <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
                 <label>Who will use the tools? Select roles and proceed to the Subrole tab.</label><hr />
@@ -205,7 +210,13 @@
                 <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <button id="keyword-search-button" onclick="keywordSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools</button>
               </div>
+              <div aria-labelledby="saved-results-tab" id="saved-results-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
+                <label>Select the tools you would like to export.</label><hr />
+                <div id="saved-results"></div>
+                <button id="export-results" onclick="exportCSV('saved-results')">Export to CSV</button>
+              </div>
               <h2>Tools</h2>
+              <button onclick="saveSelectedRecords('saved-results')">Save Selected Results</button>
               <div id="search-results"></div>
             </div>
           </div>
@@ -360,7 +371,6 @@ var populate = function(list, $container, onChange) {
   $container.find(':checked').each(function(i,v) {// create an array for currently selected values
       currentlySelected.push(v.value);
   });
-  if(currentlySelected.length>0) {console.log( 'currentlySelected: ', currentlySelected)}
   $container.html('');// clear items out of container
   var html = addCheckboxes(list.sort(), $container, onChange);
   $container.html(html);
@@ -526,7 +536,7 @@ function addCheckboxes(list, container, onChange, count) {
   var id = inputs.length+1;
   var html = '';
   for (var i=0;i<list.length;i++) {
-    html += '<input type="checkbox" id="cb-'+containerName+'-'+count+'-'+id+'" value="'+list[i]+'" name="'+containerName+'-checkbox" onchange="'+onChange+'"</input><label for="cb-'+containerName+'-'+count+'-'+id+'" class="unselectable">'+list[i]+'</label>';
+    html += '<input class="tool-label" type="checkbox" id="cb-'+containerName+'-'+count+'-'+id+'" value="'+list[i]+'" name="'+containerName+'-checkbox" onchange="'+onChange+'"</input><label for="cb-'+containerName+'-'+count+'-'+id+'" class="unselectable">'+list[i]+'</label>';
     id++;
   }
   return html;
@@ -616,7 +626,7 @@ function addDiv(parsedResult, containerId) {
           .attr('tabindex','0')// ensure inclusion in tab-order based on position in document(default order)
           .append(
             $('<div />')
-              .html('<strong>'+parsedResult.title+' ('+parsedResult.acronym+')</strong>: '+parsedResult.description)
+              .html('<input class="result-checkbox" type="checkbox" id="save-'+parsedResult.id+'" value="'+parsedResult.id+'" name="save-result"/><label for="save-'+parsedResult.id+'" class="result-label"></label><strong>'+parsedResult.title+'('+parsedResult.acronym+')</strong>: '+parsedResult.description)
               .addClass('col size-95of100'))
           .append(
             $('<div />')
@@ -758,7 +768,6 @@ var parseResult = function(result) {
         }
         return accumulatedString
       }
-      console.log('ERROR: mapAll is naughty');
     } else {// no arg propertyName
       if (field) {return field}
       if (field.length) {
@@ -777,7 +786,6 @@ var parseResult = function(result) {
         }
         return accumulatedString
       }
-      console.log('ERROR: mapAll is naughty');
     }
   }
 
@@ -832,7 +840,7 @@ var parseResult = function(result) {
   }
 
   function parseTimeScale(timeScale) {//all that apply
-    if (timeScale.TimeScaleName) {console.log(parsedResult.title,'timeScale:',timeStr);return timeScale.TimeScaleName};// return value if possible
+    if (timeScale.TimeScaleName) {return timeScale.TimeScaleName};// return value if possible
     if (timeScale.length) {
       if (typeof timeScale === 'string') {return timeScale};// if it's a string then return it
       var timeStr = '';
@@ -843,7 +851,6 @@ var parseResult = function(result) {
       }
       if (timeScale.length > 2) {timeStr += 'and '}// append 'and ' when appropriate
       timeStr += timeScale[i].TimeScaleName;//append final value from array
-      console.log(parsedResult.title,'timeScales:',timeStr)
       return timeStr// return accumulated values in string
     }
   }
@@ -862,8 +869,6 @@ function readSafe(object, propertyArray) {
   if(object[propertyArray[0]]) {// is first element of propertyArray a property of this object?
     var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
     if(Object.keys(propertyArray).length==1) {// is this the last property in the array?
-      //console.log('propertyArray is only one element:',propertyArray[0],'object[propertyArray[0]:',value);// dev
-      //console.log('SUCCESS: return',value);// dev
       if (value.length) {
         if (typeof value != 'string') {
           console.log('readSafe is returning an array from object',object,'at property',propertyArray[0])
@@ -872,7 +877,6 @@ function readSafe(object, propertyArray) {
       return value;// return contents of property
     }else{// there are multiple elements remaining in propertyArray that we need to descend into
       try{
-        //console.log('readSafe iterating with value: ',value);// dev
         // recursion with obj[prop_1] as obj for next iteration
         return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
       }catch(e) {
@@ -881,7 +885,6 @@ function readSafe(object, propertyArray) {
       }
     }
   }else{//fail: element zero of propertyArray isn't a property of this object
-    //console.log('readSafe is tripping on object:',object,' at property:',propertyArray[0]);// dev
     return 'no data'// fail safely: return 'no data'
   }
 }
@@ -907,7 +910,7 @@ var isNewResult = function(containerId, parsedResult) {
   var cachedIds = $('#'+containerId).data('ids');
   if(cachedIds.indexOf(parsedResult.id)==-1) {
     cachedIds.push(parsedResult.id)
-    $('#'+containerId).data(String(parsedResult.id), JSON.stringify(parsedResult));
+    $('#'+containerId).data(String(parsedResult.id), parsedResult);
     return true
   }
   return false
@@ -932,10 +935,6 @@ var getConcepts = function(selected) {
 var broadenConcepts = function() {
   // exit if no concepts are selected
   if ($('input[name="concept-checkbox"]:checked').length === 0) {return}
-  // get all concepts
-  //var allConcepts = getConcepts(false)
-  // get selected concepts
-  //var selectedConcepts = getConcepts();
   var allConcepts = [];
   var selectedConcepts = [];
   $("input[name='concept-checkbox']").each(function() {
@@ -1086,6 +1085,49 @@ var actualSearch = function(queryString, div) {
     $resultsDiv.html('<p>Enter a search term.</p>');
   }
 };
+
+function saveSelectedRecords(resultsDiv) {
+  var recordsToSave = $('input[name="save-result"]:checked');
+  recordsToSave.each(function() {
+    var record = $('#search-results').data($(this).val()+'');
+    if (isNewResult(resultsDiv, record)) {
+      var html = '<input type="checkbox" id="cb-'+record.id+'" value="'+record.id+'" name="saved-results" onchange=""</input><label for="cb-'+record.id+'" class="unselectable">'+record.title+'</label>';
+      $('#'+resultsDiv).append(html);
+      $("#saved-results-tab").prop('disabled', false);
+      $("#saved-results-tab").click();
+      $("#saved-results-tab").focus();
+    }
+  }); 
+}
+
+function exportCSV(savedResultsDiv) {
+  var records = $('#'+savedResultsDiv+' > input[name="saved-results"]:checked');
+  var csvContent = '';
+  var names = [];
+  var values;
+  records.each(function(){
+    values = []
+    var record = $('#'+savedResultsDiv).data($(this).val()+'');
+    if (record) {
+      if (names.length === 0) {
+        for (var prop in record) {
+          var name = prop;
+          names.push(name);
+        }
+        csvContent = names.join() + '\n';
+      }
+      for (var prop in record) {
+        values.push('"' + record[prop] + '"');
+      }
+      csvContent += values.join() + '\n';
+    }
+  });
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
+  link.setAttribute("download", "my_data.csv");
+  link.click();
+}
 
 var stopPropagation = function(e) {
   e.stopPropagation();
