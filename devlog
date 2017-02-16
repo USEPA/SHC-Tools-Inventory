@@ -104,3 +104,30 @@
   - there is an initial guess at how the tools should be classified from DPL
   - give the initial guess a weight so it may be outweighed by sufficient input from users
   - HINT: investigate using a Bayes-net for a model, as suggested by Eric
+
+- tag initial set of ~70 tools in all decision sectors with appropriate final nodes from the DPL
+
+- tag protocol candidate for tagging a set of tools:
+  1.get details of tool by any of the following methods
+    - get JSON of all details directly from read-web-services:
+      - collect details about a tool in one decision sector from:
+        - https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail?ResourceId=<RESOURCE_ID>
+          - where <RESOURCE_ID> is the read-id of the tool
+    - note that there are data standards which need decoded, such as integers encoding strings
+      - find map of all encodings in docs
+    - use tool-describer.html
+      - tool-describer.html functions as a web-service with address
+        - dev/tool-describer.html?id=<RESOURCE_ID>
+          - where <RESOURCE_ID> is the read-id of the tool
+    - use the  display of details at EPA's System of Registries(SoR) with address
+      - https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=<RESOURCE_ID>
+        - where <RESOURCE_ID> is the read-id of the tool
+        - note that not all details are shown
+        - note that there are data standards which need decoded, such as integers encoding strings
+          - find map of all encodings in docs
+  2.search system sketch for keywords
+    - where keywords are from description, model inputs, model outputs, users' manual, and other descriptors
+    - consider concepts related to concepts that match searched keywords
+  3.use READ_to_DPL.accdb to tag relevant concepts to tool
+  4.export all tools and their concepts to csv in schema <TOOL>,<CONCEPT>
+  5.use CSV importation tool to import values from csv to javascript literals
