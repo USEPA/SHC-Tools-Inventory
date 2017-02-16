@@ -112,8 +112,8 @@ function getDetails(id) {
   };
 }
 
-function showDetails() {
-  //var detail_obj = id['record'];
+function showDetails(id) {
+  var detail_obj = id['record'];
   var tab = $("#selectedAccordion");
   try {
     tab.empty();
@@ -121,20 +121,20 @@ function showDetails() {
     console.log(error)
   }
   var columns = [
-    'title',
-    'acronym',
-    'description',
-    'ownershipType',
-    'lastModified',
-    'softwareCost',
-    'otherCost',
-    'openSource',
-    'sector',
-    'keywords',
+    'Name',
+    'Acronym',
+    'Short_Description_for_Reports',
+    'Ownership_Type',
+    'Last_Known_Software_Update',
+    'Base_Cost_of_Software',
+    'Other_Cost_Considerations',
+    'Open_Source',
+    'Sustainability_Sector',
+    'Keywords',
     //'Organization',
-    'contactName',
-    'contactPhoneNumber',
-    'contactEmail',
+    'User_Support_Name',
+    'User_Support_Email',
+    'User_Support_Source_Of_Support_Materials',
     'supportMaterials',
     'Internet',
     'Life_Cycle',
@@ -151,7 +151,7 @@ function showDetails() {
     'Time_Scale',
     'Spatial_Extent'
   ];
-  for (i in id) {
+  for (i in columns) {
     var this_key = columns[i];
     var name = columns[i].replace(/_/g, ' ');
     var this_name = $("<h3>");
@@ -375,7 +375,7 @@ function showDetails() {
       //'Operating_Environment'
       if (this_key == "Operating_Environment") {
         try {
-          detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqCompatibleOSDetail.OSName;
+          detail_obj[this_key] = id.record.READExportDetail.InfoResourceDetail.TechRequirementsDetail.TechReqOperatingEnvironmentDetail.OperatingEnvironmentName;
         } catch (err) {
           detail_obj[this_key] = "NoData";
           console.log(err);
