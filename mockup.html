@@ -614,11 +614,11 @@ function addDiv(parsedResult, containerId) {
   var container = $('#'+containerId);
   $(container).append(
     $('<div />')
-      .attr('id', parsedResult.id)
+      .attr('id', parsedResult.READResourceIdentifier)
       .append(
         $('<div />')
           .click(function() {
-            $("#additional-details-"+parsedResult.id).toggle();
+            $("#additional-details-"+parsedResult.READResourceIdentifier).toggle();
             $(this).find('.accordian-result').toggleClass('collapsible');
           })
           .addClass('row')
@@ -626,7 +626,7 @@ function addDiv(parsedResult, containerId) {
           .attr('tabindex','0')// ensure inclusion in tab-order based on position in document(default order)
           .append(
             $('<div />')
-              .html('<input class="result-checkbox" type="checkbox" id="save-'+parsedResult.id+'" value="'+parsedResult.id+'" name="save-result"/><label for="save-'+parsedResult.id+'" class="result-label"></label><strong>'+parsedResult.title+'('+parsedResult.acronym+')</strong>: '+parsedResult.description)
+              .html('<input class="result-checkbox" type="checkbox" id="save-'+parsedResult.READResourceIdentifier+'" value="'+parsedResult.READResourceIdentifier+'" name="save-result"/><label for="save-'+parsedResult.READResourceIdentifier+'" class="result-label"></label><strong>'+parsedResult.LongTitleText+' ('+parsedResult.Acronym+')</strong>: '+parsedResult.LongDescription)
               .addClass('col size-95of100'))
           .append(
             $('<div />')
@@ -635,46 +635,46 @@ function addDiv(parsedResult, containerId) {
       .append(
         $('<div />')
           .css('display', 'none')
-          .attr('id', 'additional-details-'+parsedResult.id)
+          .attr('id', 'additional-details-'+parsedResult.READResourceIdentifier)
           .addClass('row')
         .append(
           $('<div />')    
             .addClass('col size-1of2')
-            .append($('<span />').html('<strong>Contact Name</strong>: '+parsedResult.contactName+'<br />'))
-            .append($('<span />').html('<strong>Contact Email</strong>: '+parsedResult.contactEmail+'<br />'))
-            .append($('<span />').html('<strong>URL</strong>: <a href="'+parsedResult.internetUrl+'" target="_blank" onclick="stopPropagation(event)">'+parsedResult.internetUrl+'</a><br />'))
-            .append($('<span />').html('<strong>Internet Help Desk Phone</strong>: '+parsedResult.internetHelpDeskPhone+'<br />'))
-            .append($('<span />').html('<strong>Internet Help Desk Email</strong>: '+parsedResult.internetHelpDeskEmail+'<br />'))
-            .append($('<span />').html('<strong>Lifecycle Phase</strong>: '+parsedResult.lifecyclePhase+'<br />'))
-            .append($('<span />').html('<strong>Last Modified</strong>: '+parsedResult.lastModified+'<br />'))
-            .append($('<span />').html('<strong>Last Modified By</strong>: '+parsedResult.lastModifiedBy+'<br />'))
-            .append($('<span />').html('<strong>Operating Environment</strong>: '+parsedResult.operatingEnvironment+'<br />'))
-            .append($('<span />').html('<strong>Other Technical Requirements</strong>: '+parsedResult.otherTechnicalRequirements+'<br />'))
-            .append($('<span />').html('<strong>Model Inputs</strong>: '+parsedResult.modelInputs+'<br />'))
-            .append($('<span />').html('<strong>Model Outputs</strong>: '+parsedResult.modelOutputs+'<br />'))
-            .append($('<span />').html('<strong>External Details</strong>: <a href="'+prefixForExternalDetails+parsedResult.id+'" target="_blank">View Details Externally</a><br />'))
+            .append($('<span />').html('<strong>Contact Name</strong>: '+parsedResult.UserSupportName+'<br />'))
+            .append($('<span />').html('<strong>Contact Email</strong>: '+parsedResult.UserSupportEmail+'<br />'))
+            .append($('<span />').html('<strong>URL</strong>: <a href="'+parsedResult.URLText+'" target="_blank" onclick="stopPropagation(event)">'+parsedResult.URLText+'</a><br />'))
+            .append($('<span />').html('<strong>Internet Help Desk Phone</strong>: '+parsedResult.HelpDeskPhoneNumber+'<br />'))
+            .append($('<span />').html('<strong>Internet Help Desk Email</strong>: '+parsedResult.HelpDeskEmailAddressText+'<br />'))
+            .append($('<span />').html('<strong>Lifecycle Phase</strong>: '+parsedResult.CurrentLifeCyclePhase+'<br />'))
+            .append($('<span />').html('<strong>Last Modified</strong>: '+parsedResult.LastModifiedDateTimeText+'<br />'))
+            .append($('<span />').html('<strong>Last Modified By</strong>: '+parsedResult.LastModifiedPersonName+'<br />'))
+            .append($('<span />').html('<strong>Operating Environment</strong>: '+parsedResult.OperatingEnvironmentName+'<br />'))
+            .append($('<span />').html('<strong>Operating System</strong>: '+parsedResult.OSName+'<br />'))
+            .append($('<span />').html('<strong>Other Technical Requirements</strong>: '+parsedResult.OtherReqName+'<br />'))
+            .append($('<span />').html('<strong>Model Inputs</strong>: '+parsedResult.ModelInputsTextArea+'<br />'))
+            .append($('<span />').html('<strong>Model Outputs</strong>: '+parsedResult.ModelOutputsModelVariablesTextArea+'<br />'))
+            .append($('<span />').html('<strong>External Details</strong>: <a href="'+prefixForExternalDetails+parsedResult.READResourceIdentifier+'" target="_blank">View Details Externally</a><br />'))
           )
         .append(
           $('<div />')
             .addClass('col size-1of2')
-            .append($('<span />').html('<strong>Keywords</strong>: '+parsedResult.keywords+'<br />'))
-            .append($('<span />').html('<strong>Tags</strong>: '+parsedResult.tags+'<br />'))
-            .append($('<span />').html('<strong>Alternative Names</strong>: '+parsedResult.alternativeNames+'<br />'))
+            .append($('<span />').html('<strong>Keywords</strong>: '+parsedResult.KeywordText+'<br />'))
+            .append($('<span />').html('<strong>Tags</strong>: '+parsedResult.InfoResourceStewardTagText+'<br />'))
+            .append($('<span />').html('<strong>Alternative Names</strong>: '+parsedResult.DetailsOtherCostConsiderations+'<br />'))
             .append($('<span />').html('<strong>Intranet Address</strong>: '+parsedResult.intranetUrl+'<br />'))
             .append($('<span />').html('<strong>Intranet Help Desk Phone</strong>: '+parsedResult.intranetHelpDeskPhone+'<br />'))
             .append($('<span />').html('<strong>Intranet Help Desk Email</strong>: '+parsedResult.intranetHelpDeskEmail+'<br />'))
-            .append($('<span />').html('<strong>Revision Control</strong>: '+parsedResult.rcsResource+'<br />'))
-            .append($('<span />').html('<strong>Ownership</strong>: '+parsedResult.ownershipType+'<br />'))
-            .append($('<span />').html('<strong>Software Cost</strong>: '+parsedResult.softwareCost+'<br />'))
-            .append($('<span />').html('<strong>Other Cost</strong>: '+parsedResult.otherCost+'<br />'))
-            .append($('<span />').html('<strong>Open Source</strong>: '+parsedResult.openSource+'<br />'))
-            .append($('<span />').html('<strong>Decision Sector</strong>: '+parsedResult.sector+'<br />'))
-            .append($('<span />').html('<strong>Support Materials</strong>: '+parsedResult.supportMaterials+'<br />'))
-            .append($('<span />').html('<strong>Model Evaluation</strong>: '+parsedResult.modelEvaluation+'<br />'))
-            .append($('<span />').html('<strong>Model Time Scale</strong>: '+parsedResult.modelTimeScale+'<br />'))
-            .append($('<span />').html('<strong>Spatial Extent</strong>: '+parsedResult.spatialExtent+'<br />'))
-            .append($('<span />').html('<strong>Data Requirements</strong>: '+parsedResult.dataRequirements+'<br />'))
-            .append($('<span />').html('<strong>Last Known Software Update</strong>: '+parsedResult.lastKnownSoftwareUpdate+'<br />'))
+            .append($('<span />').html('<strong>Revision Control</strong>: '+parsedResult.RCSResourcess+'<br />'))
+            .append($('<span />').html('<strong>Ownership</strong>: '+parsedResult.OwnershipTypeNameName+'<br />'))
+            .append($('<span />').html('<strong>Software Cost</strong>: '+parsedResult.DetailsBaseSoftwareCost+'<br />'))
+            .append($('<span />').html('<strong>Other Cost</strong>: '+parsedResult.DetailsOtherCostConsiderations+'<br />'))
+            .append($('<span />').html('<strong>Open Source</strong>: '+parsedResult.DetailsOpenSource+'<br />'))
+            .append($('<span />').html('<strong>Decision Sector</strong>: '+parsedResult.ModelScopeDecisionSector+'<br />'))
+            .append($('<span />').html('<strong>Support Materials</strong>: '+parsedResult.UserSupportSourceOfSupportMaterials+'<br />'))
+            .append($('<span />').html('<strong>Model Evaluation</strong>: '+parsedResult.ModelEvaluationTextArea+'<br />'))
+            .append($('<span />').html('<strong>Model Time Scale</strong>: '+parsedResult.ModelScopeTimeScaleDetail+'<br />'))
+            .append($('<span />').html('<strong>Spatial Extent</strong>: '+parsedResult.ModelScopeSpatialExtentDetail+'<br />'))
+            .append($('<span />').html('<strong>Data Requirements</strong>: '+parsedResult.ModelInputsDataRequirements+'<br />'))
           )
         )
   );
@@ -705,41 +705,38 @@ var parseResult = function(result) {
     5:'>$4000'
   };
   var parsedResult = {};
-  parsedResult.id = readSafe(result,['READExportDetail','InfoResourceDetail','READResourceIdentifier']);
-  parsedResult.title = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongTitleText']);
-  parsedResult.acronym = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','Acronym']);
-  parsedResult.description = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongDescription']);
-  parsedResult.contactName = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportName']);
-  parsedResult.contactEmail = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportEmail']);
-  parsedResult.contactPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportPhoneNumber']);
-  parsedResult.keywords = readSafe(result,['READExportDetail','InfoResourceDetail','KeywordDetail','KeywordText']);
-  parsedResult.tags = readSafe(result,['READExportDetail','InfoResourceDetail','TagDetail','InfoResourceStewardTagText']);
-  parsedResult.alternativeNames = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
-  parsedResult.internetUrl = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','URLText']);
-  parsedResult.internetHelpDeskEmail = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskEmailAddressText']);
-  parsedResult.internetHelpDeskPhone = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);;
-  parsedResult.intranetUrl = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','URLText']);
-  parsedResult.intranetHelpDeskEmail = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','HelpDeskEmailAddressText']);
-  parsedResult.intranetHelpDeskPhone = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','IntranetDetail','HelpDeskPhoneNumber']);
-  parsedResult.rcsResource = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
-  parsedResult.ownershipType = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
-  parsedResult.softwareCost = mapAll(readSafe(result,['READE)portDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']),undefined,softwareCostMap);
-  parsedResult.otherCost = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
-  parsedResult.openSource = parseOpenSource(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']));
-  parsedResult.lastKnownSoftwareUpdate = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsLastKnownSoftwareUpdate']);
-  parsedResult.sector = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeDecisionSector']);
-  parsedResult.supportMaterials = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportSourceOfSupportMaterials']);
-  parsedResult.lifecyclePhase = readSafe(result,['READExportDetail','InfoResourceDetail','LifeCycleDetail','CurrentLifeCyclePhase']);
-  parsedResult.lastModified = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedDateTimeText']);
-  parsedResult.lastModifiedBy = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedPersonName']);
-  parsedResult.operatingEnvironment = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqCompatibleOSDetail','OSName']);
-  parsedResult.otherTechnicalRequirements = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqOtherReqDetail','OtherReqName']);
-  parsedResult.modelInputs = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsTextArea']);
-  parsedResult.modelOutputs = readSafe(result,['READExportDetail','InfoResourceDetail','ModelOutputsDetail','ModelOutputsModelVariablesTextArea']);
-  parsedResult.modelEvaluation = readSafe(result,['READExportDetail','InfoResourceDetail','ModelEvaluationDetail','ModelEvaluationTextArea']);
-  parsedResult.modelTimeScale = parseTimeScale(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeTimeScaleDetail']));
-  parsedResult.spatialExtent = parseSpatialExtent(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']));
-  parsedResult.dataRequirements = parseDataRequirements(readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']));
+  parsedResult.READResourceIdentifier = readSafe(result,['READExportDetail','InfoResourceDetail','READResourceIdentifier']);
+  parsedResult.LongTitleText = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongTitleText']);
+  parsedResult.Acronym = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','Acronym']);
+  parsedResult.LongDescription = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongDescription']);
+  parsedResult.UserSupportName = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportName']);
+  parsedResult.UserSupportEmail = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportEmail']);
+  parsedResult.UserSupportPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportPhoneNumber']);
+  parsedResult.KeywordText = readSafe(result,['READExportDetail','InfoResourceDetail','KeywordDetail','KeywordText']);
+  parsedResult.InfoResourceStewardTagText = readSafe(result,['READExportDetail','InfoResourceDetail','TagDetail','InfoResourceStewardTagText']);
+  parsedResult.URLText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','URLText']);
+  parsedResult.HelpDeskEmailAddressText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskEmailAddressText']);
+  parsedResult.HelpDeskPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);;
+  parsedResult.RCSResources = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
+  parsedResult.OwnershipTypeName = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
+  parsedResult.DetailsBaseSoftwareCost = mapAll(readSafe(result,['READE)portDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']),undefined,softwareCostMap);
+  parsedResult.DetailsOtherCostConsiderations = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
+  parsedResult.DetailsOpenSource = parseOpenSource(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']));
+  parsedResult.DetailsLastKnownSoftwareUpdate = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsLastKnownSoftwareUpdate']);
+  parsedResult.ModelScopeDecisionSector = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeDecisionSector']);
+  parsedResult.UserSupportSourceOfSupportMaterials = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportSourceOfSupportMaterials']);
+  parsedResult.CurrentLifeCyclePhase = readSafe(result,['READExportDetail','InfoResourceDetail','LifeCycleDetail','CurrentLifeCyclePhase']);
+  parsedResult.LastModifiedDateTimeText = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedDateTimeText']);
+  parsedResult.LastModifiedPersonName = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedPersonName']);
+  parsedResult.OperatingEnvironmentName = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqOperatingEnvironmentDetail','OperatingEnvironmentName']);
+  parsedResult.OSName = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqCompatibleOSDetail','OSName']);
+  parsedResult.OtherReqName = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqOtherReqDetail','OtherReqName']);
+  parsedResult.ModelInputsTextArea = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsTextArea']);
+  parsedResult.ModelOutputsModelVariablesTextArea = readSafe(result,['READExportDetail','InfoResourceDetail','ModelOutputsDetail','ModelOutputsModelVariablesTextArea']);
+  parsedResult.ModelEvaluationTextArea = readSafe(result,['READExportDetail','InfoResourceDetail','ModelEvaluationDetail','ModelEvaluationTextArea']);
+  parsedResult.ModelScopeTimeScaleDetail = parseTimeScale(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeTimeScaleDetail']));
+  parsedResult.ModelScopeSpatialExtentDetail = parseSpatialExtent(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']));
+  parsedResult.ModelInputsDataRequirements = parseDataRequirements(readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']));
 
   /**
    * return decoded value(s) accumulated into a string
@@ -821,7 +818,7 @@ var parseResult = function(result) {
   }
 
   function parseSpatialExtent(extent) {// possibly joins strings in an array
-    if (extent.SpatialExtentName) {return extent.SpatialExtentName;}// return desired value if it is a property of extent
+    if (extent.ModelScopeSpatialExtentDetailName) {return extent.ModelScopeSpatialExtentDetailName;}// return desired value if it is a property of extent
     if (extent.length) {// is array?(this means several values instead of just one)
       if (typeof extent === 'string') {return extent}
       var str = '';// create string for appending each spatial extent to while looping through array
@@ -833,7 +830,7 @@ var parseResult = function(result) {
     }
   }
 
-  function parseOpenSource(openSource) {return openSourceMap[openSource]}// requires decoding a data-standard; will be mapped in parseResult.openSourceMap[INTEGER]
+  function parseOpenSource(openSource) {return openSourceMap[openSource]}// requires decoding a data-standard; will be mapped in parseResult.DetailsOpenSourceMap[INTEGER]
 
   function parseDataRequirements(dataRequirements) {// requires decoding a data-standard
     return dataRequirementsMap[dataRequirements];// do work
@@ -908,9 +905,9 @@ var clearResultData = function(div) {
 var isNewResult = function(containerId, parsedResult) {
   if (typeof($('#'+containerId).data('ids')) == 'undefined') {$('#'+containerId).data('ids',[])}
   var cachedIds = $('#'+containerId).data('ids');
-  if(cachedIds.indexOf(parsedResult.id)==-1) {
-    cachedIds.push(parsedResult.id)
-    $('#'+containerId).data(String(parsedResult.id), parsedResult);
+  if(cachedIds.indexOf(parsedResult.READResourceIdentifier)==-1) {
+    cachedIds.push(parsedResult.READResourceIdentifier)
+    $('#'+containerId).data(String(parsedResult.READResourceIdentifier), parsedResult);
     return true
   }
   return false
@@ -949,9 +946,8 @@ var broadenConcepts = function() {
   for (objective in conceptsByObjective) {
     if (conceptsByObjective.hasOwnProperty(objective)) {
       for (j=0;j<selectedConcepts.length;j++) {
-        if ((conceptsByObjective[objective].indexOf(selectedConcepts[j])!=-1)&&
-            (associatedObjectives.indexOf(objective)==-1)) {
-          associatedObjectives.push(objective)
+        if ((conceptsByObjective[objective].indexOf(selectedConcepts[j])!=-1) && (associatedObjectives.indexOf(objective)==-1)) {
+          associatedObjectives.push(objective);
         } 
       }
     }
@@ -963,8 +959,8 @@ var broadenConcepts = function() {
     for (j=0;j<conceptsByObjective[associatedObjectives[i]].length;j++) {
       conceptsToCheckForDuplicates = associatedConcepts.concat(allConcepts)
       candidateConcept = conceptsByObjective[associatedObjectives[i]][j]
-      if ((conceptsToCheckForDuplicates.indexOf(candidateConcept)==-1)&&(candidateConcept.length>1)) {
-        associatedConcepts.push(candidateConcept)
+      if ((conceptsToCheckForDuplicates.indexOf(candidateConcept)==-1) && (candidateConcept.length>1)) {
+        associatedConcepts.push(candidateConcept);
       }
     }
   }
@@ -1002,7 +998,7 @@ var validata = function(obj) {
 /** add a new result to container containerId and cache data without validation */
 var updateResults = function(newResult, containerId) {
   cachedResultIds = $('#'+containerId).data('ids');
-  cachedResults[result.id] = result;// add result to cachedResults keyed by id
+  cachedResults[result.READResourceIdentifier] = result;// add result to cachedResults keyed by id
   return cachedResults;
 };
 
@@ -1091,11 +1087,10 @@ function saveSelectedRecords(resultsDiv) {
   recordsToSave.each(function() {
     var record = $('#search-results').data($(this).val()+'');
     if (isNewResult(resultsDiv, record)) {
-      var html = '<input type="checkbox" id="cb-'+record.id+'" value="'+record.id+'" name="saved-results" onchange=""</input><label for="cb-'+record.id+'" class="unselectable">'+record.title+'</label>';
+      var html = '<input type="checkbox" id="cb-'+record.READResourceIdentifier+'" value="'+record.READResourceIdentifier+'" name="saved-results" onchange=""</input><label for="cb-'+record.READResourceIdentifier+'" class="unselectable">'+record.LongTitleText+'</label>';
       $('#'+resultsDiv).append(html);
-      $("#saved-results-tab").prop('disabled', false);
-      $("#saved-results-tab").click();
-      $("#saved-results-tab").focus();
+      $("#saved-results-li").show();
+      $("#saved-results-li > a").click();
     }
   }); 
 }
