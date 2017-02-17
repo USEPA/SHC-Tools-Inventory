@@ -1089,8 +1089,8 @@ function saveSelectedRecords(resultsDiv) {
     if (isNewResult(resultsDiv, record)) {
       var html = '<input type="checkbox" id="cb-'+record.READResourceIdentifier+'" value="'+record.READResourceIdentifier+'" name="saved-results" onchange=""</input><label for="cb-'+record.READResourceIdentifier+'" class="unselectable">'+record.LongTitleText+'</label>';
       $('#'+resultsDiv).append(html);
-      $("#saved-results-li").show();
-      $("#saved-results-li > a").click();
+      $("#saved-results-tab").prop("disabled",false);
+      $("#saved-results-tab").click();
     }
   }); 
 }
