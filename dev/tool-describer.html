@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tool-describer</title>
+  </head>
+  <body>
+    <div id="result"><div>
+    <script>
+      var query = window.location.search;
+      var toolId = query.replace(/\?id=/g,'');
+      var resourceDetailURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail";
+      var response;
+      var ajax = new XMLHttpRequest();
+      ajax.open('GET', resourceDetailURL + '?ResourceId=' + toolId, false);
+      ajax.send();
+      toolDescription = JSON.parse(ajax.responseText).READExportDetail.InfoResourceDetail.GeneralDetail.LongDescription;
+      document.getElementById('result').innerHTML = toolDescription;
+    </script>
+  </body>
+</html>
