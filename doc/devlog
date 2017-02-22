@@ -131,3 +131,66 @@
   3.use READ_to_DPL.accdb to tag relevant concepts to tool
   4.export all tools and their concepts to csv in schema <TOOL>,<CONCEPT>
   5.use CSV importation tool to import values from csv to javascript literals
+
+- tag protocol notes
+  - tag with labels that are a generalization of functionality
+    - EG, label "Sequestration/Storage/Accumulation of Toxins or Pollutants" for
+      model-output of "total mass discharged of each pollutant (lbs or kg)"
+  - scrape additional resources if READ\'s description yields too little
+    - fields, manuals, and external descriptions:
+      - descriptive fields: model-inputs, model-outputs, keywords
+      - manuals in fields: user\'s manual, source of support materials, and support url
+      - external descriptions linked in fields: url, source of support materials, and support url
+  - 
+
+
+- absent from Decision Path Library(DPL)
+  - site-scale
+    - heating
+    - cooling
+    - insulation
+    - efficiencies
+    - energy-modeling
+    - duct-placement
+    - passive solar such as window placement and roof-reflectance
+    - roof-type
+    - thermal emittance
+    - reflectance
+    - noise-costs
+    - accident-costs
+    - 
+  - locality-scale
+    - energy costs
+    - energy-type availability
+    - auto-occupancies AKA vehicular occupancy
+    - 
+  - scale-free
+    - import, export, and other trade
+    - simulation(more specific than modeling)
+    - life-cycle-assessment(LCA)
+    - terrestrial acidification
+    - sentiment
+    - transit-network-output
+    - vehicular operating-costs
+    - roadway utilization
+    - carbon-equivalent
+    - carbon-footprint
+    - vehicle-miles-traveled
+    - feasibility
+    - c2h4
+    - goals and targets
+    - best practices
+    - disposal costs
+    - metal wastes and disposal
+    - willingness to pay
+    - loading of pollution
+    - detention ponds
+    - grass swale
+    - outfall
+    - 
+
+- bad info in READ
+  - 12534: source of support materials link broken
+  - 12520: typo in model-outputs "tonns C2H4"
+  - 12530: typo in model-inputs "runiff"
+  - 
