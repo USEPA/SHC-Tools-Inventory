@@ -50,7 +50,10 @@
     #search-results > :hover{
       background-color: #e7f4e4;
     }
-    select{overflow: auto;}
+    /** UNUSED **/
+    select{
+      overflow: auto;
+    }
     [role=tab]{
       margin: 1px 0 0;
       border-bottom-left-radius:0;
@@ -63,8 +66,10 @@
       border-top-left-radius:0;
       border-top-right-radius:0;
     }
-    [aria-hidden='true']{display: none;}
-    /* *.hidden{display: none;}*/
+    [aria-hidden='true']{
+      display: none;
+    }
+    /** UNUSED **/
     #search-terms span{
       border: 1px solid gray;
       margin: .1em;
@@ -79,6 +84,7 @@
     .tool-label:checked + label{
       background-color:#d6d7d9;
     }
+    /** UNUSED **/
     .select-button{
       background-color: #2e8540;
       border: 0;
@@ -102,6 +108,7 @@
       -o-user-select: none;
       user-select: none;
     }
+    /** UNUSED **/
     .inline{
       display: inline;
       padding-left: 5px;
@@ -316,6 +323,7 @@ $(function() {
   populate(roles, $('#role'), "roleSelect()");
 });
 
+/** UNUSED **/
 /** search and update terms */
 var search = function(str) {
   var terms = str.split(" ");
@@ -339,6 +347,7 @@ var objectiveDisplay = function(adjust) {
   fundamentalObjectiveSelect();
 };
 
+/** UNUSED **/
 // This listener prevents accidentally clearing a listbox with a stray click of
 // the mouse by making a click toggle the selection state of only the clicked option.
 $('select').on('mousedown','option',function(e) {
@@ -346,7 +355,7 @@ $('select').on('mousedown','option',function(e) {
     $(this).prop('selected',!$(this).prop('selected'));// toggle selection property's existence
     $(this).change();// fire the change event in order to trigger onchange listeners
     return false;// return false when successful(implements naive error handling)
-} );
+});
 
 /** listener:select only "clicked" tab and show only this tab's corresponding panel */
 $('[role="tab"]').click(function() {
@@ -913,6 +922,7 @@ var isNewResult = function(containerId, parsedResult) {
   return false
 };
 
+/** UNUSED **/
 /** get selected concepts by default or all concepts shown when given argument selected==false
   * @arg selected{boolean} default of true gets selected concepts, false returns all concepts displayed */
 var getConcepts = function(selected) {
@@ -995,6 +1005,7 @@ var validata = function(obj) {
   }
 };
 
+/** UNUSED **/
 /** add a new result to container containerId and cache data without validation */
 var updateResults = function(newResult, containerId) {
   cachedResultIds = $('#'+containerId).data('ids');
@@ -1002,6 +1013,7 @@ var updateResults = function(newResult, containerId) {
   return cachedResults;
 };
 
+/** UNUSED **/
 /** check if a word is contained in array stopWords */
 var isStopWord = function(word) {
   if (stopWords.indexOf(word) == -1) {
@@ -1022,65 +1034,6 @@ var activateNextTab = function($nextTab) {
   //location.hash = '#explore-role-tab';// not working...
   $nextTab[0].scrollIntoView()
 }
-
-/** wrap an ajax get request */
-var executeSearch = function(url, data) {
-    return $.ajax({
-      type: 'GET',
-      url: url,
-      data: data
-    });
-  };
-
-var parseResultsArray = function(arr, a) {
-  var resultLength = a.length;
-  for (var i = 0; i < resultLength; i++) {
-    if(arr.indexOf(a[i].ResourceId) === -1) {
-      arr.push(a[i].ResourceId);
-      getResourceDetail(a[i].ResourceId, 'simple-search-results');
-    }
-  }
-  return arr;
-};
-
-var simpleSearch = function() {
-  var div = 'simple-search-results';
-  clearResultData(div);
-  $('#'+div+' *').remove();
-  var $searchInput = $('#simple-search-input');
-  var queryString = $searchInput.val().toLowerCase().trim();  
-  actualSearch(queryString, div);  
-};
-
-var actualSearch = function(queryString, div) {
-  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
-  var $resultsDiv = $('#'+div);
-  var results = [];
-  var requests = [];
-  var arr = [];
-  var data = {};
-  if (queryString) { // makes sure search string is not empty
-    for (var i=0;i<queryTypes.length;i++) {
-      data[queryTypes[i]] = queryString;
-      for (var j=0;j<decisionSectors.length;j++) {
-        data.DecisionSector = decisionSectors[j];
-        requests.push(executeSearch(resourceAdvancedSearchURL, data));
-      }
-      data = {};
-    }
-    $.when.apply(null, requests).done(function() {
-      for (var i=0; i<arguments.length; i++) {
-        results = results.concat(arguments[i][0]);
-      }
-      arr = parseResultsArray(arr, results);
-      if (0 === arr.length) {
-        $resultsDiv.html('<p>No results found.</p>');
-     }
-    });
-  }else{
-    $resultsDiv.html('<p>Enter a search term.</p>');
-  }
-};
 
 function saveSelectedRecords(resultsDiv) {
   var recordsToSave = $('input[name="save-result"]:checked');
