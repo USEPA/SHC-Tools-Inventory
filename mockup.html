@@ -50,10 +50,6 @@
     #search-results > :hover{
       background-color: #e7f4e4;
     }
-    /** UNUSED **/
-    select{
-      overflow: auto;
-    }
     [role=tab]{
       margin: 1px 0 0;
       border-bottom-left-radius:0;
@@ -69,11 +65,6 @@
     [aria-hidden='true']{
       display: none;
     }
-    /** UNUSED **/
-    #search-terms span{
-      border: 1px solid gray;
-      margin: .1em;
-    }
     .result-label{
       display: inline;
       background-color:transparent;
@@ -84,22 +75,6 @@
     .tool-label:checked + label{
       background-color:#d6d7d9;
     }
-    /** UNUSED **/
-    .select-button{
-      background-color: #2e8540;
-      border: 0;
-      color: #fff;
-      cursor: pointer;
-      display: inline-block;
-      font-weight: bold;
-      line-height: 1;
-      margin: 0 .15em .3em;
-      padding: 0.4em;
-      text-align: center;
-      text-decoration: none;
-      vertical-align: baseline;
-      white-space: normal;
-    }
     /* Makes text in an element unselectable */
     .unselectable{
       -webkit-user-select: none;
@@ -107,11 +82,6 @@
       -ms-user-select: none;
       -o-user-select: none;
       user-select: none;
-    }
-    /** UNUSED **/
-    .inline{
-      display: inline;
-      padding-left: 5px;
     }
     #search-results > div{
       background-color: #f1f1f1;
@@ -323,16 +293,9 @@ $(function() {
   populate(roles, $('#role'), "roleSelect()");
 });
 
-/** UNUSED **/
-/** search and update terms */
-var search = function(str) {
-  var terms = str.split(" ");
-  $.each(terms, function(index, value) {
-      $('<button>',{ 'text': value }).appendTo('#search-terms');
-  } );
-};
-
-/** DESCRIBE FUNCTIONALITY */
+/**
+ * DESCRIBE FUNCTIONALITY
+ */
 var objectiveDisplay = function(adjust) {
   $('#objective-relevance').val(parseInt($('#objective-relevance').val()) + parseInt(adjust));
   var val = $('#objective-relevance').val();
@@ -347,17 +310,9 @@ var objectiveDisplay = function(adjust) {
   fundamentalObjectiveSelect();
 };
 
-/** UNUSED **/
-// This listener prevents accidentally clearing a listbox with a stray click of
-// the mouse by making a click toggle the selection state of only the clicked option.
-$('select').on('mousedown','option',function(e) {
-    e.preventDefault();// prevent default handling of event
-    $(this).prop('selected',!$(this).prop('selected'));// toggle selection property's existence
-    $(this).change();// fire the change event in order to trigger onchange listeners
-    return false;// return false when successful(implements naive error handling)
-});
-
-/** listener:select only "clicked" tab and show only this tab's corresponding panel */
+/**
+ * listener:select only "clicked" tab and show only this tab's corresponding panel
+ */
 $('[role="tab"]').click(function() {
     var $this = $(this)
     var tab = $this.attr('name');
@@ -426,7 +381,9 @@ var populateWithHeader = function(list, $container, onChange) {
   });
 };
 
-/** toggle disabled state of a next button */
+/**
+ * toggle disabled state of a next button
+ */
 var toggleNext = function(list, nextButtonClassSubstring) {
   var nextButtonSelector = '.enabled-by-'+nextButtonClassSubstring// identify next button by who enables it
   if (list.length > 0 || Object.keys(list).length > 0) {
@@ -436,7 +393,9 @@ var toggleNext = function(list, nextButtonClassSubstring) {
   }
 };
 
-/** toggle disabled state of a tab */
+/**
+ * toggle disabled state of a tab
+ */
 var toggleTab = function(list, $container) {
   if (list.length > 0 || Object.keys(list).length > 0) {
     $('#'+$container.parent().attr('aria-labelledby')).prop('disabled',false);
@@ -445,16 +404,20 @@ var toggleTab = function(list, $container) {
   }
 };
 
-/** populate #subrole-select with subrole options for the
-  * selected roles */
+/**
+ * populate #subrole-select with subrole options for the
+ * selected roles
+ */
 var roleSelect = function() {
   var selectedElements = scrapeDictionaryToObject($("input[name='role-checkbox']:checked"), subrolesByRole);
   populateWithHeader(selectedElements, $('#subrole'), "subroleSelect()");
   subroleSelect();
 };
 
-/** populate #objective with objective options for
-  * the selected subroles */
+/**
+ * populate #objective with objective options for
+ * the selected subroles
+ */
 var subroleSelect = function() {
   var list =[];
   if ($("input[name='subrole-checkbox']:checked").length != 0) {
@@ -464,7 +427,9 @@ var subroleSelect = function() {
   fundamentalObjectiveSelect();
 };
 
-/** populate #objective with objectives determined by selected subroles and fundamental objectives */
+/**
+ * populate #objective with objectives determined by selected subroles and fundamental objectives
+ */
 var fundamentalObjectiveSelect = function() {
   var relevance = $('#objective-relevance').val();
   var objectivesFromSubroles = [];
@@ -488,13 +453,17 @@ var fundamentalObjectiveSelect = function() {
   objectiveSelect();
 };
 
-/** populate #concept with concept-options for selected objectives */
+/**
+ * populate #concept with concept-options for selected objectives
+ */
 var objectiveSelect = function() {
   var selectedElements = scrapeDictionary($("input[name='objective-checkbox']:checked"), conceptsByObjective);
   populate(selectedElements, $('#concept'));
 };
 
-/** get elements of arrays in dictionary without repeats */
+/**
+ * get elements of arrays in dictionary without repeats
+ */
 var scrapeDictionary = function(selectedOptions, dictionary) {
   var selectedElement = '';
   var selectedElements = [];
@@ -513,7 +482,9 @@ var scrapeDictionary = function(selectedOptions, dictionary) {
   }
   return allSelectedElements;
 };
-/** get elements in dictionary with key values retained for use in headers */
+/**
+ * get elements in dictionary with key values retained for use in headers
+ */
 var scrapeDictionaryToObject = function(selectedOptions, dictionary) {
   var selectedElement = '';
   var selectedElements = [];
@@ -535,7 +506,9 @@ var scrapeDictionaryToObject = function(selectedOptions, dictionary) {
   return selectedElementsObject;
 };
 
-/** add checkboxes with text of name to container with containerId */
+/**
+ * add checkboxes with text of name to container with containerId
+ */
 function addCheckboxes(list, container, onChange, count) {
   onChange = (typeof onChange !== 'undefined') ? onChange : "";
   count = (typeof count !== 'undefined') ? count : "0";
@@ -551,7 +524,9 @@ function addCheckboxes(list, container, onChange, count) {
   return html;
 };
 
-/** search in descriptions for each word in query string from input and display results in div */
+/**
+ * search in descriptions for each word in query string from input and display results in div
+ */
 var keywordSearch = function(div, input) {
   $('#'+div+' *').remove();
   clearResultData(div);
@@ -572,7 +547,9 @@ var keywordSearch = function(div, input) {
   }
 };
 
-/** get keywords from input as a list */
+/**
+ * get keywords from input as a list
+ */
 var getKeywords = function(input) {
   var concept = '';
   var concepts = [];
@@ -593,13 +570,17 @@ var getKeywords = function(input) {
   return concepts;
 };
 
-/** return details of id into div */
+/**
+ * return details of id into div
+ */
 var getResourceDetail = function(id, div) {
   $.get(resourceDetailURL,{ ResourceId: id }).done(function(data) {displayResult(data, div)});
 };
 
-/** display a result; save result's data to the containing element
-  * @arg data{object} READ Web Services detail object */
+/**
+ * display a result; save result's data to the containing element
+ * @arg data{object} READ Web Services detail object
+ */
 var displayResult = function(data, div, fields) {
   fields = (typeof(fields) === 'undefined') ? ['title'] : fields;
   var containerId = div;
@@ -608,17 +589,12 @@ var displayResult = function(data, div, fields) {
   if (isNewResult(containerId, parsedResult)) {addDiv(parsedResult, containerId)}
 };
 
-/** display details of parsedResult in container with containerId
-  var containerId = div;
-  var parsedResult = parseResult(data);
-  fields = ['title', 'description', 'url'];
-  if (isNewResult(containerId, parsedResult)) {addDiv(parsedResult, containerId)}
-};
-
-/** display details of parsedResult in container with containerId
-  * dev aspiration: dynamically append spans and dynamically apply
-  *                 .left class or .right class to each in order
-  *                 to balance columns*/
+/**
+ * display details of parsedResult in container with containerId
+ * dev aspiration: dynamically append spans and dynamically apply
+ *                 .left class or .right class to each in order
+ *                 to balance columns
+ */
 function addDiv(parsedResult, containerId) {
   var container = $('#'+containerId);
   $(container).append(
@@ -864,12 +840,13 @@ var parseResult = function(result) {
   return parsedResult
 };
 
-/** check existence of each prop_i in obj.prop_1...prop_n
-  * @arg object{object} test the properties of object
-  * @arg propertyArray{array} [prop_1,...,prop_n] s.t.
-  *      object[prop_1][...][prop_n] is the desired value
-  * E.G.: readSafe(obj,['foo','bar','baz'])
-  * safely returns obj.foo.bar.baz value if all properties exist
+/**
+ * check existence of each prop_i in obj.prop_1...prop_n
+ * @arg object{object} test the properties of object
+ * @arg propertyArray{array} [prop_1,...,prop_n] s.t.
+ *      object[prop_1][...][prop_n] is the desired value
+ * E.G.: readSafe(obj,['foo','bar','baz'])
+ * safely returns obj.foo.bar.baz value if all properties exist
 */
 function readSafe(object, propertyArray) {
   if(object[propertyArray[0]]) {// is first element of propertyArray a property of this object?
@@ -895,7 +872,9 @@ function readSafe(object, propertyArray) {
   }
 }
 
-/** clear results and their cached ids */
+/**
+ * clear results and their cached ids
+ */
 var clearResultData = function(div) {
   container = $('#'+div);
   ids = container.data('ids');
@@ -908,9 +887,11 @@ var clearResultData = function(div) {
   }
 }
 
-/** true if tool is not already in results
-  * @arg containerId is the id of container for results
-  * @arg parsedResult is the result whose details are returned from parseResults */
+/**
+ * true if tool is not already in results
+ * @arg containerId is the id of container for results
+ * @arg parsedResult is the result whose details are returned from parseResults
+ */
 var isNewResult = function(containerId, parsedResult) {
   if (typeof($('#'+containerId).data('ids')) == 'undefined') {$('#'+containerId).data('ids',[])}
   var cachedIds = $('#'+containerId).data('ids');
@@ -922,23 +903,9 @@ var isNewResult = function(containerId, parsedResult) {
   return false
 };
 
-/** UNUSED **/
-/** get selected concepts by default or all concepts shown when given argument selected==false
-  * @arg selected{boolean} default of true gets selected concepts, false returns all concepts displayed */
-var getConcepts = function(selected) {
-  selected = (typeof selected !== 'undefined') ?  selected : true;
-  var concept = '';
-  var concepts = [];
-  var selector = '#concept-select option';
-  if (selected==true) {selector=selector+':selected'}
-  $(selector).each(function() {
-    concept = $(this).val();
-    concepts.push(concept);
-  });
-  return concepts;
-};
-
-/** find all concepts associated with selected concepts by being grouped in same objective */
+/**
+ * find all concepts associated with selected concepts by being grouped in same objective
+ */
 var broadenConcepts = function() {
   // exit if no concepts are selected
   if ($('input[name="concept-checkbox"]:checked').length === 0) {return}
@@ -979,7 +946,9 @@ var broadenConcepts = function() {
   $('#concept').append(html);
 }
 
-/** check if object represents xsi:nil or unsanitized absence of data */
+/**
+ * check if object represents xsi:nil or unsanitized absence of data
+ */
 var isNil = function(obj) {
   return Boolean(
       typeof(obj)==='undefined'||
@@ -990,8 +959,10 @@ var isNil = function(obj) {
   )
 };
 
-/** return 'no data' if obj is invalid data
-  * return obj otherwise */
+/**
+ * return 'no data' if obj is invalid data
+ * return obj otherwise
+ */
 var validata = function(obj) {
   try{
     if(isNil(obj)) {
@@ -1005,26 +976,10 @@ var validata = function(obj) {
   }
 };
 
-/** UNUSED **/
-/** add a new result to container containerId and cache data without validation */
-var updateResults = function(newResult, containerId) {
-  cachedResultIds = $('#'+containerId).data('ids');
-  cachedResults[result.READResourceIdentifier] = result;// add result to cachedResults keyed by id
-  return cachedResults;
-};
-
-/** UNUSED **/
-/** check if a word is contained in array stopWords */
-var isStopWord = function(word) {
-  if (stopWords.indexOf(word) == -1) {
-    return false;
-  }else{
-    return true;
-  }
-};
-
-/** select next tab when next button is activated
-  * @arg $tabContainer the container for the tabs */
+/**
+ * select next tab when next button is activated
+ * @arg $tabContainer the container for the tabs
+ */
 var activateNextTab = function($nextTab) {
   $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected','false');// deactivate active tab
   $nextTab.attr('aria-selected','true');// list this tab as active
