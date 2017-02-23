@@ -14,8 +14,9 @@
 
 <label><input type="radio" name="output-type" value="0" checked>subrolesByRole</label><br>
 <label><input type="radio" name="output-type" value="1">objectivesBySubroleRelevance</label><br>
-<label><input type="radio" name="output-type" value="2">conceptsByObjective</label><br>
 <label><input type="radio" name="output-type" value="3">objectivesByFundamentalObjective</label><br>
+<label><input type="radio" name="output-type" value="2">conceptsByObjective</label><br>
+<label><input type="radio" name="output-type" value="4">readIDsByConcept</label><br>
 
 <textarea id="input" rows="10" value="Insert text to be converted"></textarea>
 <!-- INSERT A FILE-CHOOSER FOR THE USER TO SELECT A CSV FROM HIS OR HER COMPUTER WHEN BROWSERS PROVIDE BETTER SUPPORT FOR THIS -->
@@ -134,8 +135,10 @@ function displayFormattedData() {
     var formattedData = formatRelevancyData(parsedData.data);
   } else if (outputType == 2){
     var formattedData = formatDataConceptsObjectives(parsedData.data);
-  } else {
+  } else if (outputType == 3) {
     var formattedData = formatData(parsedData.data, "means_objective","fundamental_objective");
+  } else {
+    var formattedData = formatData(parsedData.data, "READ_ID","node");
   }
   //Returns xByY (ObjectivesBySubrole where x=objective and y=subrole)
   var data = JSON.stringify(formattedData);
