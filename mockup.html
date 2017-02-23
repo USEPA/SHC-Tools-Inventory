@@ -950,22 +950,6 @@ var isNewResult = function(containerId, parsedResult) {
   return false
 };
 
-/** UNUSED **/
-/** get selected concepts by default or all concepts shown when given argument selected==false
-  * @arg selected{boolean} default of true gets selected concepts, false returns all concepts displayed */
-var getConcepts = function(selected) {
-  selected = (typeof selected !== 'undefined') ?  selected : true;
-  var concept = '';
-  var concepts = [];
-  var selector = '#concept-select option';
-  if (selected==true) {selector=selector+':selected'}
-  $(selector).each(function() {
-    concept = $(this).val();
-    concepts.push(concept);
-  });
-  return concepts;
-};
-
 /** find all concepts associated with selected concepts by being grouped in same objective */
 var broadenConcepts = function() {
   // exit if no concepts are selected
