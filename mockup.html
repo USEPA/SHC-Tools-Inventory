@@ -420,8 +420,19 @@ var roleSelect = function() {
  * the selected subroles
  */
 var subroleSelect = function() {
+  var relevance = $('#objective-relevance').val();
+  var objectivesFromSubroles = [];
+  var objectivesFromSubrolesRelevance = [];
+  for (var i=0;i<=relevance;i++) {
+    objectivesFromSubrolesRelevance = scrapeDictionary($("input[name='subrole-checkbox']:checked"), objectivesBySubroleRelevance[i]);
+    for (var j=0;j<objectivesFromSubrolesRelevance.length;j++) {
+      if (objectivesFromSubroles.indexOf(objectivesFromSubrolesRelevance[j]) === -1) {
+        objectivesFromSubroles.push(objectivesFromSubrolesRelevance[j]);
+      }
+    }
+  }
   var list =[];
-  if ($("input[name='subrole-checkbox']:checked").length != 0) {
+  if (objectivesFromSubroles.length > 0) {
     list = Object.keys(objectivesByFundamentalObjective);
   }
   populate(list, $('#fundamental-objective'), "fundamentalObjectiveSelect()");
@@ -446,10 +457,12 @@ var fundamentalObjectiveSelect = function() {
   // get objectives specified by selected fundamental objectives
   var objectivesFromFundamentalObjectives = scrapeDictionary($("input[name='fundamental-objective-checkbox']:checked"), objectivesByFundamentalObjective);
   // get objectives specified by both subroles and fundamental objectives
-  var objectives = objectivesFromSubroles
-    .filter(function(element) {
-        return objectivesFromFundamentalObjectives.indexOf(element) != -1;
-    });
+  var objectives = [];
+  for (var i=0;i<objectivesFromSubroles.length;i++){
+    if (objectivesFromFundamentalObjectives.indexOf(objectivesFromSubroles[i]) !== -1){
+      objectives.push(objectivesFromSubroles[i]);
+    }
+  }  
   populate(objectives, $('#objective'), "objectiveSelect()");
   objectiveSelect();
 };
@@ -1106,40 +1119,40 @@ var objectivesBySubroleRelevance = [{"Academic administrator or program coordina
 
 //var readIDsByConcept = {"Biofuel":["12569","12571"],"Biofuels":["12569","12571","12568"],"Policy Evaluation":["12571","12545","11884","12504"],"Greenhouse Gas Emissions":["12571","12538","12521","12570","12545","11884","12555","12522","12567","12565","12518","12564","12524","12556"],"Building & Home Construction & Maintenance":["12538","12540","12553","12543","12558","12542"],"Building Materials":["12553","12557","12558","12552"],"Waste Management Policies & Programs":["12512","12535","12520","12514"],"Fuel":["12521","12555"],"Waste Management":["12521","12518","12535","12520","12516"],"Water Resources Management":["12529","12527","12533","12508"],"Air Emissions Regulations":["12570"],"Public Policy Administration":["12570","12545","12504"],"Land Development":["12536","12509","11884","12565","12541","12533","12504","12511","12556","12510"],"Deforestation & Devegetation":["12563","11980","12565"],"Conservation, Restoration, & Ecosystem Management":["12563","12565"],"Building Heat":["12548"],"Energy Use":["12548","12560","12542","12519","12556","12559"],"Resource Use":["12513","12522"],"Remediation & Recovery Services":["12513"],"Mass Stabilization & Erosion Control":["12513"],"Metals, Electronics & Machinery Products":["12545","12517"],"Air & Climate Regulation":["12545"],"Administration of Green Infrastructure Programs":["12545"],"Transportation Infrastructure":["12545","12549","12544","12547","12510"],"Energy Policies & Programs":["12550","12205"],"Energy Resources Management":["12550","12533"],"Landuse Management & Urban/Regional Planning":["12537","12541","12534"],"Solid Waste Disposal & Recycling Services":["12515","12535","12514"],"Electricity Use":["12555"],"Alternative Energy Sources":["12555","12205"],"Public Transit Infrastructure & Fleets":["12567"],"Timber & Wood Fiber":["11980"],"Carbon Storage & Cycling":["11980"],"Landscape Changes":["12565"],"Biodiversity":["12565","12506"],"Non-Point Source Runoff":["12526","12503","12530"],"Green Infrastructure (GI) & Low Impact Development (LID)":["12544","12533","12508"],"Landfill":["12524"],"Solid Waste Disposal Sites":["12524"],"Methane (CH4) Emission":["12524"],"Carbon Dioxide (CO2) Emission":["12524"],"Non-Methane Hydrocarbon Emission":["12524"],"Landuse Management & Smart Growth":["12541","12554"],"Regional Planning":["12562","12554","12534"],"Stormwater Management":["12527","12531","12528","12501","12530","12508","12532"],"Resource Use Management":["12533"],"Climate Change":["12533","12519"],"Wastewater Management":["12531","12528","12508","12532"],"Watershed Integrity":["12531"],"Climate":["12504"],"Infrastructure":["12504"],"Energy Industry":["12205"],"Manufacturing & Trade":["12505"],"Sustainable Resource Use":["12539","12519"],"Aesthetic or Sensory Value":["12506"],"Recreational Value":["12506"],"Drainage":["12528"],"Sewer Line Construction & Maintenance":["12528"],"Land Transportation Infrastructure":["12566"],"Bicycle Transportation Infrastructure":["12566"],"Pedestrian Transportation Infrastructure":["12566"],"Road Transportation Infrastructure":["12566"],"Water Quality":["12501"],"Materials Use":["12519"],"Urbanization":["12511","12510"],"Water Use":["12556"],"Economic State":["12510"],"Environmental State":["12510"],"Carbon Dioxide (CO2)":["12559"],"Economic Productivity":["12507"],"Living Habitat":["12507"],"Water Resources":["12508"],"Municipal Wastes":["12514"],"Waste Collection":["12514"],"Flooding":["12532"],"Streams & Rivers":["12532"]};
 
-function pruneAll() {
-  console.log(Object.keys(conceptsByObjective).length);
-  conceptsByObjective = pruneData(conceptsByObjective, readIDsByConcept);
-  console.log(Object.keys(conceptsByObjective).length);
-  objectivesByFundamentalObjective = pruneData(objectivesByFundamentalObjective, conceptsByObjective);
-  objectivesBySubroleRelevance[0] = pruneData(objectivesBySubroleRelevance[0], conceptsByObjective);
-  objectivesBySubroleRelevance[1] = pruneData(objectivesBySubroleRelevance[1], conceptsByObjective);
-  objectivesBySubroleRelevance[2] = pruneData(objectivesBySubroleRelevance[2], conceptsByObjective);
-  subrolesByRole = pruneData(subrolesByRole, objectivesBySubroleRelevance[0]);
-  subrolesByRole = pruneData(subrolesByRole, objectivesBySubroleRelevance[1]);
-  subrolesByRole = pruneData(subrolesByRole, objectivesBySubroleRelevance[2]);
+function checkPaths() {
+  markBlanks(conceptsByObjective, readIDsByConcept);
+  markBlanks(objectivesBySubroleRelevance[0], conceptsByObjective);
+  markBlanks(objectivesBySubroleRelevance[1], conceptsByObjective);
+  markBlanks(objectivesBySubroleRelevance[2], conceptsByObjective);
+  markBlanks(objectivesByFundamentalObjective, conceptsByObjective);
+  markBlanks(subrolesByRole, objectivesBySubroleRelevance[0]);
   populate(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
 }
 
-function pruneData(pruneThis, byThis){
-  var found;
-  for (prop in pruneThis) {
-    found = false;
-    for (var i=0;i<Object.keys(byThis).length;i++){
-      if(pruneThis.hasOwnProperty(prop)) {
-        if (pruneThis[prop].indexOf(Object.keys(byThis)[i]) !== -1){  
-          found = true;
-        } else {
-
+function markBlanks(markThis, byThis) {
+  var match;
+  var numberOfBlanks = 0;
+  var numberOfMatches = 0;
+  for (var prop in markThis) {
+    if(markThis.hasOwnProperty(prop)) {
+      for (var i=0;i<markThis[prop].length;i++) {
+        match = false;
+        for (var j=0;j<Object.keys(byThis).length;j++) {
+          if (markThis[prop][i] === Object.keys(byThis)[j]) {
+            match = true;
+            numberOfMatches++;
+          }
+        }
+        if (!match && markThis[prop][i] !== ".") {
+          markThis[prop][i] = "x"+markThis[prop][i];
+          //console.log(markThis[prop][i]);
+          numberOfBlanks++;
         }
       }
     }
-    if(!found) {
-      console.log("Delete: "+prop);
-      delete pruneThis[prop];
-    } 
   }
-  console.log("################")
-  return pruneThis;
+  numberOfMatches+=numberOfBlanks;
+  console.log(numberOfBlanks+"/"+numberOfMatches);
 }
 
 
