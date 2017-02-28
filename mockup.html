@@ -275,7 +275,7 @@
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
 <script src="js/porter-stemmer.js"></script>
 <script>
-$ = jQuery;// ensure jquery gets where it's expected
+var $ = jQuery;// ensure jquery gets where it's expected
 // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
 var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
 // URLs provided without a query (data following ?) to build requests with; details at READ web services' docs-page
@@ -315,7 +315,7 @@ var objectiveDisplay = function(adjust) {
  * listener:select only "clicked" tab and show only this tab's corresponding panel
  */
 $('[role="tab"]').click(function() {
-    var $this = $(this)
+    var $this = $(this);
     var tab = $this.attr('name');
     $('[name="'+tab+'"]').attr('aria-selected', 'false');// deselect all tabs
     $this.attr('aria-selected', 'true');// select clicked tab
@@ -332,7 +332,7 @@ $('[role="tab"]').click(function() {
  */
 var populate = function(list, $container, onChange) {
   if (typeof list === 'undefined') {list = [];}// ensure list is defined
-  currentlySelected = [];
+  var currentlySelected = [];
   $container.find(':checked').each(function(i,v) {// create an array for currently selected values
       currentlySelected.push(v.value);
   });
@@ -356,7 +356,7 @@ var populate = function(list, $container, onChange) {
  */
 var populateWithHeader = function(list, $container, onChange) {
   if (typeof list === 'undefined') {list = {length:0};}// ensure list is defined
-  currentlySelected = [];
+  var currentlySelected = [];
   $container.find(':checked').each(function(i,v) {// create an array for currently selected values
       currentlySelected.push(v.value);
   });
@@ -386,7 +386,7 @@ var populateWithHeader = function(list, $container, onChange) {
  * toggle disabled state of a next button
  */
 var toggleNext = function(list, nextButtonClassSubstring) {
-  var nextButtonSelector = '.enabled-by-'+nextButtonClassSubstring// identify next button by who enables it
+  var nextButtonSelector = '.enabled-by-'+nextButtonClassSubstring; // identify next button by who enables it
   if (list.length > 0 || Object.keys(list).length > 0) {
     $(nextButtonSelector).prop('disabled',false);
   }else{
@@ -458,7 +458,7 @@ var fundamentalObjectiveSelect = function() {
   var objectivesFromFundamentalObjectives = scrapeDictionary($("input[name='fundamental-objective-checkbox']:checked"), objectivesByFundamentalObjective);
   // get objectives specified by both subroles and fundamental objectives
   var objectives = [];
-  for (var i=0;i<objectivesFromSubroles.length;i++){
+  for (i=0;i<objectivesFromSubroles.length;i++){
     if (objectivesFromFundamentalObjectives.indexOf(objectivesFromSubroles[i]) !== -1){
       objectives.push(objectivesFromSubroles[i]);
     }
@@ -527,7 +527,6 @@ function addCheckboxes(list, container, onChange, count) {
   onChange = (typeof onChange !== 'undefined') ? onChange : "";
   count = (typeof count !== 'undefined') ? count : "0";
   var containerName = container.attr('id');
-  var div = document.getElementById(containerName);
   var inputs = container.children('input');
   var id = inputs.length+1;
   var html = '';
@@ -536,7 +535,7 @@ function addCheckboxes(list, container, onChange, count) {
     id++;
   }
   return html;
-};
+}
 
 /**
  * search in descriptions for each word in query string from input and display results in div
@@ -568,11 +567,11 @@ var conceptSearch = function(div, input) {
   $('#'+div+' *').remove();
   clearResultData(div);
   var concepts = getConcepts(input);
-  console.log(concepts);
   for (var i=0; i<concepts.length; i++) {
-    for (var j=0;j<readIDsByConcept[concepts[i]].length;j++) {
-      readIDsByConcept[concepts[i]][j];
-      getResourceDetail(readIDsByConcept[concepts[i]][j], div);
+    if(readIDsByConcept[concepts[i]]) {
+      for (var j=0;j<readIDsByConcept[concepts[i]].length;j++) {
+        getResourceDetail(readIDsByConcept[concepts[i]][j], div);
+      }
     }
   }
 };
@@ -602,7 +601,7 @@ var getKeywords = function(input) {
     concept = $(this).val();
     if (concept.length > 1) {
       keywords = concept.split(' ');
-      for (i=0; i<keywords.length; i++) {
+      for (var i=0; i<keywords.length; i++) {
         keyword = keywords[i];
         if ((concepts.indexOf(keyword) === -1) && (keyword.length > 3)) {
           concepts.push(keyword);
@@ -617,7 +616,7 @@ var getKeywords = function(input) {
  * return details of id into div
  */
 var getResourceDetail = function(id, div) {
-  $.get(resourceDetailURL,{ ResourceId: id }).done(function(data) {displayResult(data, div)});
+  $.get(resourceDetailURL,{ ResourceId: id }).done(function(data) {displayResult(data, div);});
 };
 
 /**
@@ -629,7 +628,7 @@ var displayResult = function(data, div, fields) {
   var containerId = div;
   var parsedResult = parseResult(data);
   fields = ['title', 'description', 'url'];
-  if (isNewResult(containerId, parsedResult)) {addDiv(parsedResult, containerId)}
+  if (isNewResult(containerId, parsedResult)) {addDiv(parsedResult, containerId);}
 };
 
 /**
@@ -706,14 +705,13 @@ function addDiv(parsedResult, containerId) {
           )
         )
   );
-  var divs = container.find('div');
-};
+}
 
 /**
  * map details of a result into accessible locations
  */
 var parseResult = function(result) {
-  if(typeof(result)=='undefined') {return}// catch bad input
+  if(typeof(result)=='undefined') {return;}// catch bad input
   var openSourceMap = {// map integral data-standard to text
     1:'Yes',
     2:'No',
@@ -744,7 +742,7 @@ var parseResult = function(result) {
   parsedResult.InfoResourceStewardTagText = readSafe(result,['READExportDetail','InfoResourceDetail','TagDetail','InfoResourceStewardTagText']);
   parsedResult.URLText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','URLText']);
   parsedResult.HelpDeskEmailAddressText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskEmailAddressText']);
-  parsedResult.HelpDeskPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);;
+  parsedResult.HelpDeskPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);
   parsedResult.RCSResources = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
   parsedResult.OwnershipTypeName = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
   parsedResult.DetailsBaseSoftwareCost = mapAll(readSafe(result,['READE)portDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']),undefined,softwareCostMap);
@@ -774,12 +772,12 @@ var parseResult = function(result) {
    * READ Web Services return one value if only one value exists. If several values then they're in an array.
    * There are various data-standards used in READ, like storing integers in place of strings for options.
   */
-  function mapAll(field, propertyName, map) {// 
+  function mapAll(field, propertyName, map) {//
     if (typeof propertyName != 'undefined') {// arg propertyName passed?
-      if (field[propertyName]) {return map[field[propertyName]]}// money-shot!
+      if (field[propertyName]) {return map[field[propertyName]];}// money-shot!
       if (field.length) {
-        accumulatedString = '';// append accumulated values here
-        for (i = 0; i < field.length - 1; i++) {
+        var accumulatedString = '';// append accumulated values here
+        for (var i = 0; i < field.length - 1; i++) {
           if (typeof map === 'undefined') {// no arg map passed...
             accumulatedString += field[i][propertyName] + ', ';// ...accumulate ith value
           } else {// arg map was passed...
@@ -791,13 +789,13 @@ var parseResult = function(result) {
         } else {// arg map was passed...
           accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
         }
-        return accumulatedString
+        return accumulatedString;
       }
     } else {// no arg propertyName
-      if (field) {return field}
+      if (field) {return field;}
       if (field.length) {
-        accumulatedString = '';// append accumulated values here
-        for (i = 0; i < field.length - 1; i++) {
+        var accumulatedString = '';// append accumulated values here
+        for (var i = 0; i < field.length - 1; i++) {
           if (typeof map === 'undefined') {// no arg map passed...
             accumulatedString += field[i] + ', ';// ...accumulate ith value
           } else {// arg map was passed...
@@ -809,16 +807,16 @@ var parseResult = function(result) {
         } else {// arg map was passed...
           accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
         }
-        return accumulatedString
+        return accumulatedString;
       }
     }
   }
 
   function parseSoftwareCost(cost) {
-    if (!typeof(cost)==='string') {
+    if (typeof(cost) !== 'string') {
       if (cost.length) {
         var str = '';
-        for (i=0;i<cost.length-1;i++) {
+        for (var i=0;i<cost.length-1;i++) {
           str += parseSoftwareCost(cost[i]) + ', ';
         }
         str += parseSoftwareCost(cost[cost.length-1]);
@@ -827,19 +825,14 @@ var parseResult = function(result) {
     switch (cost) {
       case 1:
         return "Free";
-        break;
       case 2:
         return "$1-$499";
-        break;
       case 3:
         return "$500-$1499";
-        break;
       case 4:
         return "$1500-$3999";
-        break;
       case 5:
         return ">$4000";
-        break;
       default:
         return cost;// return some unexpected value instead of squelching any hint to the cause of the issue
     }
@@ -848,39 +841,39 @@ var parseResult = function(result) {
   function parseSpatialExtent(extent) {// possibly joins strings in an array
     if (extent.ModelScopeSpatialExtentDetailName) {return extent.ModelScopeSpatialExtentDetailName;}// return desired value if it is a property of extent
     if (extent.length) {// is array?(this means several values instead of just one)
-      if (typeof extent === 'string') {return extent}
+      if (typeof extent === 'string') {return extent;}
       var str = '';// create string for appending each spatial extent to while looping through array
-      for (i = 0; i < extent.length - 1; i++) {// loop through all elements except last...
+      for (var i = 0; i < extent.length - 1; i++) {// loop through all elements except last...
         str += parseSpatialExtent(extent[i]) + ", ";//...append ith value and a delimiter
       }
       str += 'and ' + parseSpatialExtent(extent[extent.length - 1]);//append final value
-      return str// return accumulated values in a string
+      return str; // return accumulated values in a string
     }
   }
 
-  function parseOpenSource(openSource) {return openSourceMap[openSource]}// requires decoding a data-standard; will be mapped in parseResult.DetailsOpenSourceMap[INTEGER]
+  function parseOpenSource(openSource) {return openSourceMap[openSource];}// requires decoding a data-standard; will be mapped in parseResult.DetailsOpenSourceMap[INTEGER]
 
   function parseDataRequirements(dataRequirements) {// requires decoding a data-standard
     return dataRequirementsMap[dataRequirements];// do work
   }
 
   function parseTimeScale(timeScale) {//all that apply
-    if (timeScale.TimeScaleName) {return timeScale.TimeScaleName};// return value if possible
+    if (timeScale.TimeScaleName) {return timeScale.TimeScaleName;}// return value if possible
     if (timeScale.length) {
-      if (typeof timeScale === 'string') {return timeScale};// if it's a string then return it
+      if (typeof timeScale === 'string') {return timeScale;}// if it's a string then return it
       var timeStr = '';
-      for (i=0;i<timeScale.length-1;i++) {// loop through all elements except last...
+      for (var i=0;i<timeScale.length-1;i++) {// loop through all elements except last...
         timeStr += timeScale[i].TimeScaleName;//...append ith value and a delimiter
-        if (timeScale.length > 2) {timeStr += ','}// append comma when appropriate
+        if (timeScale.length > 2) {timeStr += ',';}// append comma when appropriate
         timeStr += ' ';
       }
-      if (timeScale.length > 2) {timeStr += 'and '}// append 'and ' when appropriate
+      if (timeScale.length > 2) {timeStr += 'and ';}// append 'and ' when appropriate
       timeStr += timeScale[i].TimeScaleName;//append final value from array
-      return timeStr// return accumulated values in string
+      return timeStr; // return accumulated values in string
     }
   }
 
-  return parsedResult
+  return parsedResult;
 };
 
 /**
@@ -897,7 +890,7 @@ function readSafe(object, propertyArray) {
     if(Object.keys(propertyArray).length==1) {// is this the last property in the array?
       if (value.length) {
         if (typeof value != 'string') {
-          console.log('readSafe is returning an array from object',object,'at property',propertyArray[0])
+          console.log('readSafe is returning an array from object',object,'at property',propertyArray[0]);
         }
       }
       return value;// return contents of property
@@ -907,11 +900,11 @@ function readSafe(object, propertyArray) {
         return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
       }catch(e) {
         console.log('error: ',e);// dev
-        return 'no data'// return 'no data'
+        return 'no data'; // return 'no data'
       }
     }
   }else{//fail: element zero of propertyArray isn't a property of this object
-    return 'no data'// fail safely: return 'no data'
+    return 'no data'; // fail safely: return 'no data'
   }
 }
 
@@ -919,16 +912,16 @@ function readSafe(object, propertyArray) {
  * clear results and their cached ids
  */
 var clearResultData = function(div) {
-  container = $('#'+div);
-  ids = container.data('ids');
+  var container = $('#'+div);
+  var ids = container.data('ids');
   if (typeof(ids) != 'undefined') {
-    for (i=0;i<ids.length;i++) {
-      id = ids[i];
-      container.removeData(id)
+    for (var i=0;i<ids.length;i++) {
+      var id = ids[i];
+      container.removeData(id);
     }
     ids.length = 0;
   }
-}
+};
 
 /**
  * true if tool is not already in results
@@ -936,14 +929,14 @@ var clearResultData = function(div) {
  * @arg parsedResult is the result whose details are returned from parseResults
  */
 var isNewResult = function(containerId, parsedResult) {
-  if (typeof($('#'+containerId).data('ids')) == 'undefined') {$('#'+containerId).data('ids',[])}
+  if (typeof($('#'+containerId).data('ids')) == 'undefined') {$('#'+containerId).data('ids',[]);}
   var cachedIds = $('#'+containerId).data('ids');
   if(cachedIds.indexOf(parsedResult.READResourceIdentifier)==-1) {
-    cachedIds.push(parsedResult.READResourceIdentifier)
+    cachedIds.push(parsedResult.READResourceIdentifier);
     $('#'+containerId).data(String(parsedResult.READResourceIdentifier), parsedResult);
-    return true
+    return true;
   }
-  return false
+  return false;
 };
 
 /**
@@ -951,7 +944,7 @@ var isNewResult = function(containerId, parsedResult) {
  */
 var broadenConcepts = function() {
   // exit if no concepts are selected
-  if ($('input[name="concept-checkbox"]:checked').length === 0) {return}
+  if ($('input[name="concept-checkbox"]:checked').length === 0) {return;}
   var allConcepts = [];
   var selectedConcepts = [];
   $("input[name='concept-checkbox']").each(function() {
@@ -963,9 +956,9 @@ var broadenConcepts = function() {
   });
   // iterate through conceptsByObjective for all objectives associated with selected concepts
   var associatedObjectives = [];
-  for (objective in conceptsByObjective) {
+  for (var objective in conceptsByObjective) {
     if (conceptsByObjective.hasOwnProperty(objective)) {
-      for (j=0;j<selectedConcepts.length;j++) {
+      for (var j=0;j<selectedConcepts.length;j++) {
         if ((conceptsByObjective[objective].indexOf(selectedConcepts[j])!=-1) && (associatedObjectives.indexOf(objective)==-1)) {
           associatedObjectives.push(objective);
         } 
@@ -975,10 +968,10 @@ var broadenConcepts = function() {
   // possibly let user select objectives from those found above
   // collect all concepts indexed by these objectives
   var associatedConcepts = [];
-  for (i=0;i<associatedObjectives.length;i++) {
-    for (j=0;j<conceptsByObjective[associatedObjectives[i]].length;j++) {
-      conceptsToCheckForDuplicates = associatedConcepts.concat(allConcepts)
-      candidateConcept = conceptsByObjective[associatedObjectives[i]][j]
+  for (var i=0;i<associatedObjectives.length;i++) {
+    for (var j=0;j<conceptsByObjective[associatedObjectives[i]].length;j++) {
+      var conceptsToCheckForDuplicates = associatedConcepts.concat(allConcepts);
+      var candidateConcept = conceptsByObjective[associatedObjectives[i]][j];
       if ((conceptsToCheckForDuplicates.indexOf(candidateConcept)==-1) && (candidateConcept.length>1)) {
         associatedConcepts.push(candidateConcept);
       }
@@ -987,7 +980,7 @@ var broadenConcepts = function() {
   // let user select from among these concepts
   var html = addCheckboxes(associatedConcepts, $('#concept'));
   $('#concept').append(html);
-}
+};
 
 /**
  * check if object represents xsi:nil or unsanitized absence of data
@@ -999,7 +992,7 @@ var isNil = function(obj) {
       obj===null||
       obj===''||
       obj==='no data'
-  )
+  );
 };
 
 /**
@@ -1009,13 +1002,13 @@ var isNil = function(obj) {
 var validata = function(obj) {
   try{
     if(isNil(obj)) {
-      return 'no data'
+      return 'no data';
     }else{
-      return obj
+      return obj;
     }
   }catch(e) {
-    console.log('caught this error while parsing: ',e)
-    return 'no data'
+    console.log('caught this error while parsing: ',e);
+    return 'no data';
   }
 };
 
@@ -1030,8 +1023,8 @@ var activateNextTab = function($nextTab) {
   $nextTab.click();// activate tab
   $nextTab.focus();// focus tab
   //location.hash = '#explore-role-tab';// not working...
-  $nextTab[0].scrollIntoView()
-}
+  $nextTab[0].scrollIntoView();
+};
 
 function saveSelectedRecords(resultsDiv) {
   var recordsToSave = $('input[name="save-result"]:checked');
@@ -1052,23 +1045,26 @@ function exportCSV(savedResultsDiv) {
   var names = [];
   var values;
   records.each(function(){
-    values = []
+    values = [];
     var record = $('#'+savedResultsDiv).data($(this).val()+'');
     if (record) {
       if (names.length === 0) {
         for (var prop in record) {
-          var name = prop;
-          names.push(name);
+          if (record.hasOwnProperty(prop)) {
+            var name = prop;
+            names.push(name);
+          }
         }
         csvContent = names.join() + '\n';
       }
-      for (var prop in record) {
-        values.push('"' + record[prop] + '"');
+      for (var property in record) {
+        if (record.hasOwnProperty(property)) {
+          values.push('"' + record[property] + '"');
+        }
       }
       csvContent += values.join() + '\n';
     }
   });
-  var encodedUri = encodeURI(csvContent);
   var link = document.createElement("a");
   link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
   link.setAttribute("download", "my_data.csv");
@@ -1083,22 +1079,22 @@ var stopPropagation = function(e) {
  * return an object containing all SHC-tools indexed by decision-sector
 */
 var allTools = function() {
-	tools={};
-	tools.transportation={};
-	$.get(resourceAdvancedSearchURL,{DecisionSector:'Transportation'}).done(function(data) {$.each(data,function(i) {tools.transportation[data[i].ResourceId]=data[i].ResourceAcronym})});
-	tools.wasteManagement={};
-	$.get(resourceAdvancedSearchURL,{DecisionSector:'Waste Management'}).done(function(data) {$.each(data,function(i) {tools.wasteManagement[data[i].ResourceId]=data[i].ResourceAcronym})});
-	tools.buildingInfrastructure={};
-	$.get(resourceAdvancedSearchURL,{DecisionSector:'Building Infrastructure'}).done(function(data) {$.each(data,function(i) {tools.buildingInfrastructure[data[i].ResourceId]=data[i].ResourceAcronym})});
-	tools.landUse={};
-	$.get(resourceAdvancedSearchURL,{DecisionSector:'Land Use'}).done(function(data) {$.each(data,function(i) {tools.landUse[data[i].ResourceId]=data[i].ResourceAcronym})});
-	return tools
+  var tools={};
+  tools.transportation={};
+  $.get(resourceAdvancedSearchURL,{DecisionSector:'Transportation'}).done(function(data) {$.each(data,function(i) {tools.transportation[data[i].ResourceId]=data[i].ResourceAcronym;});});
+  tools.wasteManagement={};
+  $.get(resourceAdvancedSearchURL,{DecisionSector:'Waste Management'}).done(function(data) {$.each(data,function(i) {tools.wasteManagement[data[i].ResourceId]=data[i].ResourceAcronym;});});
+  tools.buildingInfrastructure={};
+  $.get(resourceAdvancedSearchURL,{DecisionSector:'Building Infrastructure'}).done(function(data) {$.each(data,function(i) {tools.buildingInfrastructure[data[i].ResourceId]=data[i].ResourceAcronym;});});
+  tools.landUse={};
+  $.get(resourceAdvancedSearchURL,{DecisionSector:'Land Use'}).done(function(data) {$.each(data,function(i) {tools.landUse[data[i].ResourceId]=data[i].ResourceAcronym;});});
+  return tools;
 };
 
 /**
  * print details for a given READ ID in the console
 */
-var getDetailsFromId = function(id) {$.get(resourceDetailURL,{ResourceId:id}).done(function(data) {console.log(data.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym,': ',data.READExportDetail.InfoResourceDetail)})};
+var getDetailsFromId = function(id) {$.get(resourceDetailURL,{ResourceId:id}).done(function(data) {console.log(data.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym,': ',data.READExportDetail.InfoResourceDetail);});};
 
 // stopwords to use in testing
 var stopWords = ["&","a","about","above","across","after","afterwards","again","against","all","almost","alone","along","already","also","although","always","am","among","amongst","amoungst","amount","an","and","another","any","anyhow","anyone","anything","anyway","anywhere","are","around","as","at","back","be","became","because","become","becomes","becoming","been","before","beforehand","behind","being","below","beside","besides","between","beyond","bill","both","bottom","but","by","call","can","cannot","cant","co","computer","con","could","couldnt","cry","de","describe","detail","do","done","down","due","during","each","eg","eight","either","eleven","else","elsewhere","empty","enough","etc","even","ever","every","everyone","everything","everywhere","except","few","fifteen","fify","fill","find","fire","first","five","for","former","formerly","forty","found","four","from","front","full","further","get","give","go","had","has","hasnt","have","he","hence","her","here","hereafter","hereby","herein","hereupon","hers","herself","him","himself","his","how","however","hundred","i","ie","if","in","inc","indeed","interest","into","is","it","its","itself","keep","last","latter","latterly","least","less","ltd","made","many","may","me","meanwhile","might","mill","mine","more","moreover","most","mostly","move","much","must","my","myself","name","namely","neither","never","nevertheless","next","nine","no","nobody","none","noone","nor","not","nothing","now","nowhere","of","off","often","on","once","one","only","onto","or","other","others","otherwise","our","ours","ourselves","out","over","own","part","per","perhaps","please","put","rather","re","same","see","seem","seemed","seeming","seems","serious","several","she","should","show","side","since","sincere","six","sixty","so","some","somehow","someone","something","sometime","sometimes","somewhere","still","such","system","take","ten","than","that","the","their","them","themselves","then","thence","there","thereafter","thereby","therefore","therein","thereupon","these","they","thick","thin","third","this","those","though","three","through","throughout","thru","thus","to","together","too","top","toward","towards","twelve","twenty","two","un","under","until","up","upon","us","very","via","was","we","well","were","what","whatever","when","whence","whenever","where","whereafter","whereas","whereby","wherein","whereupon","wherever","whether","which","while","whither","who","whoever","whole","whom","whose","why","will","with","within","without","would","yet","you","your","yours","yourself","yourselves"];
