@@ -66,6 +66,8 @@
     - # Data : { QueryText: queryBothNameAndAcronym.substr(0,34) }
   - # this does a single ajax call to replace doubled search in simpleSearchClk3()
 
+- #DONE2017.02.23 tag initial set of ~70 tools in all decision sectors with appropriate final nodes from the DPL
+
 - return only records in one of the four decision sectors from both simple search and detailed search
 
 - give results browse-functionality
@@ -105,8 +107,6 @@
   - give the initial guess a weight so it may be outweighed by sufficient input from users
   - HINT: investigate using a Bayes-net for a model, as suggested by Eric
 
-- tag initial set of ~70 tools in all decision sectors with appropriate final nodes from the DPL
-
 - tag protocol candidate for tagging a set of tools:
   1.get details of tool by any of the following methods
     - get JSON of all details directly from read-web-services:
@@ -131,8 +131,7 @@
   3.use READ_to_DPL.accdb to tag relevant concepts to tool
   4.export all tools and their concepts to csv in schema <TOOL>,<CONCEPT>
   5.use CSV importation tool to import values from csv to javascript literals
-
-- tag protocol notes
+- tag protocol notes determined during tagging
   - tag with labels that are a generalization of functionality
     - EG, label "Sequestration/Storage/Accumulation of Toxins or Pollutants" for
       model-output of "total mass discharged of each pollutant (lbs or kg)"
@@ -141,8 +140,6 @@
       - descriptive fields: model-inputs, model-outputs, keywords
       - manuals in fields: user\'s manual, source of support materials, and support url
       - external descriptions linked in fields: url, source of support materials, and support url
-  - 
-
 
 - absent from Decision Path Library(DPL)
   - site-scale
@@ -158,12 +155,10 @@
     - reflectance
     - noise-costs
     - accident-costs
-    - 
   - locality-scale
     - energy costs
     - energy-type availability
     - auto-occupancies AKA vehicular occupancy
-    - 
   - scale-free
     - import, export, and other trade
     - simulation(more specific than modeling)
@@ -187,10 +182,37 @@
     - detention ponds
     - grass swale
     - outfall
-    - 
 
 - bad info in READ
   - 12534: source of support materials link broken
   - 12520: typo in model-outputs "tonns C2H4"
   - 12530: typo in model-inputs "runiff"
-  - 
+
+- script additions to a READ-resource's keywords via post request 
+  - requires user to be logged in at
+      https://ofmext.epa.gov/sor_extranet/registry/systmreg/manage/basic/search.do
+  - requires a dict desiredKeywords with keys of READ_IDS for each string of desired keywords
+  - code:
+      // scrape the keywords for the resources
+      keywords = {};
+      ids = [12522];// CHANGE 12522 TO COMMA-SEPARATED READ-IDS WHOSE KEYWORDS WILL BE UPDATED
+      for (i in ids) {
+        $.get('https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail',{ResourceId:ids[i]},function(data){
+          keywords[ids[i]] = data.READExportDetail.InfoResourceDetail.KeywordDetail.KeywordText + ',,';
+        });
+        // post the resulting keyword-strings to their respective resources
+        $.post(
+          'https://ofmext.epa.gov/sor_extranet/registry/systmreg/resourcedetail/general/keywords/keywords.do',
+          {
+            'infoResourcePkId':ids[i],
+            // append desired keywords to the scraped keywords-string
+            'keywords[0].keywordText':keywords[ids[i]]+desiredKeywords[ids[i]],
+            'update':'Save'
+          }
+        )
+      }
+
+- keyword-strings that were possibly wiped to test scripting the update of keyword-text
+  - 12522,GEMIS had keywords 'LCA, material flow'
+  - 12569,AFLEET had keywords ''
+  - 12567,'GHG Emissions f' had keywords ''
