@@ -148,55 +148,55 @@
       <div class="panel-pane pane-node-content" >
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
-            <div id="main-tabs">
-              <div id="explore-tab-container" role="tablist">
-                <button aria-controls="role-panel" aria-selected="true" data-tab-number="1" id="explore-role-tab" name="tab2" role="tab">Role</button>
-                <button aria-controls="subrole-panel" aria-selected="false" data-tab-number="2" disabled id="explore-subrole-tab" name="tab2" role="tab">Subrole</button>
-                <button aria-controls="fundamental-objective-panel" aria-selected="false" data-tab-number="3" disabled id="explore-fundamental-objective-tab" name="tab2" role="tab">Fundamental Objective</button>
-                <button aria-controls="objective-panel" aria-selected="false" data-tab-number="4" disabled id="explore-objective-tab" name="tab2" role="tab">Objective</button>
-                <button aria-controls="concept-panel" aria-selected="false" data-tab-number="5" disabled id="explore-concept-tab" name="tab2" role="tab">Concept</button>
-                <button aria-controls="saved-results-panel" aria-selected="false" data-tab-number="6" disabled id="saved-results-tab" name="tab2" role="tab">Saved Results</button>
-              </div>
-              <div aria-labelledby="explore-role-tab" id="role-panel" role="tabpanel" name="tab2panel" aria-hidden="false">
-                <label>Who will use the tools? Select roles and proceed to the Subrole tab.</label><hr />
+            <div id="tabs">
+              <ul class="tabs" id="tabsnav" role="tablist">
+                <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal" href="#role-panel" id="role-tab" role="tab">Role</a></li>
+                <li><a aria-controls="subrole-panel" aria-selected="false" class="menu-internal" href="#subrole-panel" id="subrole-tab" role="tab">Subrole</a></li>
+                <li><a aria-controls="fundamental-objective-panel" aria-selected="false" class="menu-internal" href="#fundamental-objective-panel" id="fundamental-objective-tab" role="tab">Fundamental Objective</a></li>
+                <li><a aria-controls="objective-panel" aria-selected="false" class="menu-internal" href="#objective-panel" id="objective-tab" role="tab">Objective</a></li>
+                <li><a aria-controls="concept-panel" aria-selected="false" class="menu-internal" href="#concept-panel" id="concept-tab" role="tab">Concept</a></li>
+                <li><a aria-controls="saved-results-panel" aria-selected="false" class="menu-internal" href="#saved-results-panel" id="saved-results-tab" role="tab">Saved Results</a></li>
+              </ul>
+              <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
+                <h5>Who will use the tools? Select roles and proceed to the Subrole tab.</h5><hr />
                 <div id="role"></div>
-                <button class="next enabled-by-subrole" onclick="activateNextTab($('#explore-subrole-tab'))" disabled>Next</button>
+                <button class="next enabled-by-subrole" onclick="activateNextTab($('#subrole-tab'))" disabled>Next</button>
               </div>
-              <div aria-labelledby="explore-subrole-tab" id="subrole-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                <label>Provide some more information about your roles, and then proceed to the Objective tab.</label><hr />
+              <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
+                <h5>Provide some more information about your roles, and then proceed to the Objective tab.</h5><hr />
                 <div id="subrole"></div>
-                <button class="next enabled-by-fundamental-objective" onclick="activateNextTab($('#explore-fundamental-objective-tab'))" disabled>Next</button>
+                <button class="next enabled-by-fundamental-objective" onclick="activateNextTab($('#fundamental-objective-tab'))" disabled>Next</button>
               </div>
-              <div aria-labelledby="explore-fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                <label>Choose fundamental objectives and proceed to the next tab.</label><hr />
+              <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
+                <h5>Choose fundamental objectives and proceed to the next tab.</h5><hr />
                 <div id="fundamental-objective"></div>
-                <button class="next enabled-by-objective" onclick="activateNextTab($('#explore-objective-tab'))" disabled>Next</button>
+                <button class="next enabled-by-objective" onclick="activateNextTab($('#objective-tab'))" disabled>Next</button>
               </div>
-              <div aria-labelledby="explore-objective-tab" id="objective-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                <label>What are the user's goals? Select objectives for the desired tools and move to the next tab.</label><hr />
+              <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
+                <h5>What are the user's goals? Select objectives for the desired tools and move to the next tab.</h5><hr />
                 <button onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show fewer objectives</button>
                 <button onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show more objectives</button>
                 <br />
                 <input id="objective-relevance" type="hidden" value="1" />
                 <div id="objective"></div>
-                <button class="next enabled-by-concept" onclick="activateNextTab($('#explore-concept-tab'))" disabled>Next</button>
+                <button class="next enabled-by-concept" onclick="activateNextTab($('#concept-tab'))" disabled>Next</button>
               </div>
-              <div aria-labelledby="explore-concept-tab" id="concept-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                <label>Select all concepts that apply to the intended use of the tool. Clink Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</label><hr />
+              <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
+                <h5>Select all concepts that apply to the intended use of the tool. Click Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</h5><hr />
                 <div id="concept"></div>
                 <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <button id="keyword-search-button" onclick="keywordSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Keyword</button>
                 <button id="concept-search-button" onclick="conceptSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
               </div>
-              <div aria-labelledby="saved-results-tab" id="saved-results-panel" role="tabpanel" name="tab2panel" aria-hidden="true">
-                <label>Select the tools you would like to export.</label><hr />
+              <div aria-labelledby="saved-results-tab" id="saved-results-panel" role="tabpanel" aria-hidden="true">
+                <h5>Select the tools you would like to export.</h5><hr />
                 <div id="saved-results"></div>
                 <button id="export-results" onclick="exportCSV('saved-results')">Export to CSV</button>
               </div>
-              <h2>Tools</h2>
-              <button onclick="saveSelectedRecords('saved-results')">Save Selected Results</button>
-              <div id="search-results"></div>
             </div>
+            <h2>Tools</h2>
+            <button onclick="saveSelectedRecords('saved-results')">Save Selected Results</button>
+            <div id="search-results"></div>
           </div>
         </div>
       </div>
@@ -274,6 +274,21 @@
   <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
 <script src="js/porter-stemmer.js"></script>
+<!--<script>
+ jQuery(document).ready(function() {
+  jQuery('#tabs > div').hide(); // hide all child divs
+  jQuery('#tabs div:first').show(); // show first child dive
+  jQuery('#tabsnav li:first').addClass('active');
+  jQuery('.menu-internal').click(function(){
+   jQuery('#tabsnav li').removeClass('active');
+   var currentTab = jQuery(this).attr('href');
+   jQuery('#tabsnav li a[href="'+currentTab+'"]').parent().addClass('active');
+   jQuery('#tabs > div').hide();
+   jQuery(currentTab).show();
+   return false;
+  });
+ });
+</script>-->
 <script>
 $ = jQuery;// ensure jquery gets where it's expected
 // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
@@ -289,10 +304,44 @@ var advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","Owner
 // details at READ web services' docs-page
 var decisionSectors = ['land use','transportation','building infrastructure','waste management'];
 
-// populate the roles into #role div
-$(function() {
+jQuery(function() { // jquery's shorthand for document.ready
+  // populate the roles into #role div
   populate(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
+  // initialize tabs and their listeners
+  initializeTabs();
 });
+
+var initializeTabs = function() {
+  jQuery('#tabs > div').hide(); // hide all tab-panels
+  jQuery('#tabs div:first').show(); // show first tab-panel
+  jQuery('#tabsnav li:first').addClass('active'); // class tabs active for styling
+  jQuery('.menu-internal').click(function(){ // add listener to tabbing elements
+    console.log(jQuery('#tabsnav li')); // DELETEME
+    jQuery('#tabsnav li').removeClass('active'); // remove active styling from all tabs
+    console.log(jQuery('#tabsnav li')); // DELETEME
+    var currentTab = jQuery(this).attr('href'); // get name of clicked tab
+    jQuery('#tabsnav li a[href="'+currentTab+'"]').parent().addClass('active'); // activate the clicked tab
+    jQuery('#tabs > div').hide(); // hide all panels
+    jQuery(currentTab).show(); // show clicked tab's panel
+    return false;// return false for success; return truthy description of failure
+  });
+};
+
+/*
+jQuery(document).ready(function() {
+  jQuery('#tabs > div').hide(); // hide all tab-panels
+  jQuery('#tabs div:first').show(); // show first tab-panel
+  jQuery('#tabsnav li:first').addClass('active'); // class tabs active for styling
+  jQuery('.menu-internal').click(function(){ // add listener to tabbing elements
+    jQuery('#tabsnav li').removeClass('active'); // remove active styling from all tabs
+    var currentTab = jQuery(this).attr('href'); // get name of clicked tab
+    jQuery('#tabsnav li a[href="'+currentTab+'"]').parent().addClass('active'); // activate the clicked tab
+    jQuery('#tabs > div').hide(); // hide all panels
+    jQuery(currentTab).show(); // 
+    return false;
+  });
+});
+*/
 
 /**
  * DESCRIBE FUNCTIONALITY
@@ -311,9 +360,8 @@ var objectiveDisplay = function(adjust) {
   fundamentalObjectiveSelect();
 };
 
-/**
+/** REFACTOR TO EPA WEBGUIDE
  * listener:select only "clicked" tab and show only this tab's corresponding panel
- */
 $('[role="tab"]').click(function() {
     var $this = $(this)
     var tab = $this.attr('name');
@@ -324,6 +372,7 @@ $('[role="tab"]').click(function() {
     $('[name="'+tab+'panel"]').attr('aria-hidden','true');// hide all panels
     tabpan.attr('aria-hidden','false');// show the clicked tab's panel
 });
+ */
 
 /**
  * populate a list into specified $container while
@@ -496,6 +545,7 @@ var scrapeDictionary = function(selectedOptions, dictionary) {
   }
   return allSelectedElements;
 };
+
 /**
  * get elements in dictionary with key values retained for use in headers
  */
@@ -814,6 +864,7 @@ var parseResult = function(result) {
     }
   }
 
+// DOCUMENT
   function parseSoftwareCost(cost) {
     if (!typeof(cost)==='string') {
       if (cost.length) {
@@ -845,6 +896,7 @@ var parseResult = function(result) {
     }
   }
 
+// DOCUMENT
   function parseSpatialExtent(extent) {// possibly joins strings in an array
     if (extent.ModelScopeSpatialExtentDetailName) {return extent.ModelScopeSpatialExtentDetailName;}// return desired value if it is a property of extent
     if (extent.length) {// is array?(this means several values instead of just one)
@@ -858,12 +910,15 @@ var parseResult = function(result) {
     }
   }
 
+// DOCUMENT
   function parseOpenSource(openSource) {return openSourceMap[openSource]}// requires decoding a data-standard; will be mapped in parseResult.DetailsOpenSourceMap[INTEGER]
 
+// DOCUMENT
   function parseDataRequirements(dataRequirements) {// requires decoding a data-standard
     return dataRequirementsMap[dataRequirements];// do work
   }
 
+// DOCUMENT
   function parseTimeScale(timeScale) {//all that apply
     if (timeScale.TimeScaleName) {return timeScale.TimeScaleName};// return value if possible
     if (timeScale.length) {
@@ -879,7 +934,6 @@ var parseResult = function(result) {
       return timeStr// return accumulated values in string
     }
   }
-
   return parsedResult
 };
 
@@ -1029,10 +1083,10 @@ var activateNextTab = function($nextTab) {
   $nextTab.prop('disabled',false);// enable tab
   $nextTab.click();// activate tab
   $nextTab.focus();// focus tab
-  //location.hash = '#explore-role-tab';// not working...
   $nextTab[0].scrollIntoView()
 }
 
+// DOCUMENT
 function saveSelectedRecords(resultsDiv) {
   var recordsToSave = $('input[name="save-result"]:checked');
   recordsToSave.each(function() {
@@ -1046,6 +1100,7 @@ function saveSelectedRecords(resultsDiv) {
   }); 
 }
 
+// DOCUMENT
 function exportCSV(savedResultsDiv) {
   var records = $('#'+savedResultsDiv+' > input[name="saved-results"]:checked');
   var csvContent = '';
@@ -1075,6 +1130,7 @@ function exportCSV(savedResultsDiv) {
   link.click();
 }
 
+// DOCUMENT
 var stopPropagation = function(e) {
   e.stopPropagation();
 };
@@ -1119,6 +1175,7 @@ var objectivesBySubroleRelevance = [{"Academic administrator or program coordina
 
 //var readIDsByConcept = {"Biofuel":["12569","12571"],"Biofuels":["12569","12571","12568"],"Policy Evaluation":["12571","12545","11884","12504"],"Greenhouse Gas Emissions":["12571","12538","12521","12570","12545","11884","12555","12522","12567","12565","12518","12564","12524","12556"],"Building & Home Construction & Maintenance":["12538","12540","12553","12543","12558","12542"],"Building Materials":["12553","12557","12558","12552"],"Waste Management Policies & Programs":["12512","12535","12520","12514"],"Fuel":["12521","12555"],"Waste Management":["12521","12518","12535","12520","12516"],"Water Resources Management":["12529","12527","12533","12508"],"Air Emissions Regulations":["12570"],"Public Policy Administration":["12570","12545","12504"],"Land Development":["12536","12509","11884","12565","12541","12533","12504","12511","12556","12510"],"Deforestation & Devegetation":["12563","11980","12565"],"Conservation, Restoration, & Ecosystem Management":["12563","12565"],"Building Heat":["12548"],"Energy Use":["12548","12560","12542","12519","12556","12559"],"Resource Use":["12513","12522"],"Remediation & Recovery Services":["12513"],"Mass Stabilization & Erosion Control":["12513"],"Metals, Electronics & Machinery Products":["12545","12517"],"Air & Climate Regulation":["12545"],"Administration of Green Infrastructure Programs":["12545"],"Transportation Infrastructure":["12545","12549","12544","12547","12510"],"Energy Policies & Programs":["12550","12205"],"Energy Resources Management":["12550","12533"],"Landuse Management & Urban/Regional Planning":["12537","12541","12534"],"Solid Waste Disposal & Recycling Services":["12515","12535","12514"],"Electricity Use":["12555"],"Alternative Energy Sources":["12555","12205"],"Public Transit Infrastructure & Fleets":["12567"],"Timber & Wood Fiber":["11980"],"Carbon Storage & Cycling":["11980"],"Landscape Changes":["12565"],"Biodiversity":["12565","12506"],"Non-Point Source Runoff":["12526","12503","12530"],"Green Infrastructure (GI) & Low Impact Development (LID)":["12544","12533","12508"],"Landfill":["12524"],"Solid Waste Disposal Sites":["12524"],"Methane (CH4) Emission":["12524"],"Carbon Dioxide (CO2) Emission":["12524"],"Non-Methane Hydrocarbon Emission":["12524"],"Landuse Management & Smart Growth":["12541","12554"],"Regional Planning":["12562","12554","12534"],"Stormwater Management":["12527","12531","12528","12501","12530","12508","12532"],"Resource Use Management":["12533"],"Climate Change":["12533","12519"],"Wastewater Management":["12531","12528","12508","12532"],"Watershed Integrity":["12531"],"Climate":["12504"],"Infrastructure":["12504"],"Energy Industry":["12205"],"Manufacturing & Trade":["12505"],"Sustainable Resource Use":["12539","12519"],"Aesthetic or Sensory Value":["12506"],"Recreational Value":["12506"],"Drainage":["12528"],"Sewer Line Construction & Maintenance":["12528"],"Land Transportation Infrastructure":["12566"],"Bicycle Transportation Infrastructure":["12566"],"Pedestrian Transportation Infrastructure":["12566"],"Road Transportation Infrastructure":["12566"],"Water Quality":["12501"],"Materials Use":["12519"],"Urbanization":["12511","12510"],"Water Use":["12556"],"Economic State":["12510"],"Environmental State":["12510"],"Carbon Dioxide (CO2)":["12559"],"Economic Productivity":["12507"],"Living Habitat":["12507"],"Water Resources":["12508"],"Municipal Wastes":["12514"],"Waste Collection":["12514"],"Flooding":["12532"],"Streams & Rivers":["12532"]};
 
+// DOCUMENT
 function checkPaths() {
   markBlanks(conceptsByObjective, readIDsByConcept);
   markBlanks(objectivesBySubroleRelevance[0], conceptsByObjective);
@@ -1129,6 +1186,7 @@ function checkPaths() {
   populate(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
 }
 
+// DOCUMENT
 function markBlanks(markThis, byThis) {
   var match;
   var numberOfBlanks = 0;
@@ -1154,7 +1212,6 @@ function markBlanks(markThis, byThis) {
   numberOfMatches+=numberOfBlanks;
   console.log(numberOfBlanks+"/"+numberOfMatches);
 }
-
 
 var readIDsByConcept = {"Decision Support Tools":["12569","12563","12501","12510"],"Public Transit Infrastructure & Fleets":["12569","12571","12545","12522","12567","12568","12554","12566"],"Biofuels":["12569","12570","12555","12568","12205"],"Fossil Fuels":["12569","12570","12555","12568"],"Fuel":["12569","12570","12555","12568","12544","12554"],"Subsistence Fuel":["12569","12555"],"Atmospheric Emissions":["12569","12571","12521","12570","12522","12518","12524","12205","12539","12547"],"Carbon Dioxide (CO2) Emission":["12569","12571","12521","12570","12522","12567","11980","12518","12564","12524","12205","12519","12559","12520"],"Discharge & Emissions Limitations":["12569","12571","12521","12526","12518","12524","12205","12539","12547","12530"],"Greenhouse Gas Emissions":["12569","12571","12521","12570","12543","12545","11884","12555","12522","12567","12518","12524","12205","12539","12554","12547","12519","12556","12559"],"Methane (CH4) Emission":["12569","12571","12521","12570","12522","12567","12518","12524"],"Nitrogen Oxide (NOx) Emission":["12569","12571","12521","12570","12522","12518","12524","12530"],"Nitrous Oxide (N2O) Emission":["12569","12521","12570","12522","12567","12524"],"Water Vapor (H2O) Emission":["12569","12571","12521","12570","12522","12526","12524","12501"],"Assessment & Analysis":["12569","12538","12540","12553","12529","12536","12548","12513","12543","12515","12565","12544","12564","12541","12535","12539","12506","12528","12542","12519","12510","12561"],"Car & Boat Rental Services":["12569"],"Alternative Energy Sources":["12569","12571","12555","12205","12561"],"Modeling":["12569","12571","12536","12557","12513","12517","12537","11884","11980","12500","12565","12526","12518","12564","12527","12531","12504","12505","12539","12552","12547","12528","12542","12511","12556","12561","12507","12532"],"Air Emissions Regulations":["12569","12571","12521","12570","12518","12524","12205","12539","12547","12559"],"Non-Methane Hydrocarbon Emission":["12569","12571","12521","12570","12522","11980","12518","12524","12205","12519","12520"],"Particulates Emissions":["12569","12571","12521","12570","12522","12518","12524","12539","12547","12530"],"Sulfur Oxide (Sox) Emission":["12569","12571","12521","12570","12522","12518","12524"],"Volatile Organic Compounds (VOC) Emission":["12569","12571","12521","12570","12522","12518","12524","12205","12520"],"Motor Vehicle Manufacturing & Retail":["12569","12571","12567","12568"],"Funding & Incentives":["12569","12571"],"Administration of Energy Policy & Programs":["12569","12571","12548","12545","11980","12544","12205","12542","12556","12561","12559"],"Energy Policies & Programs":["12569","12571","12544","12205","12542","12556","12561","12559","12514"],"Energy Resources Management":["12569","12571","12550","12518","12544","12205","12542","12556","12561","12559","12514"],"Energy Use":["12569","12571","12548","12560","12550","12555","12568","12518","12542","12556","12561","12559","12514"],"Economic Markets & Policies":["12569","12571","11884","11980","12547","12519","12507","12508"],"Green Infrastructure (GI) & Low Impact Development (LID)":["12538","12536","12509","12543","12537","12544","12564","12541","12501","12519","12511","12510","12508"],"Impacts":["12538","12536","12543","11884","12568","12565","12519","12556"],"Assessment, Decision Support, Research & Development":["12538","12540","12509","12563","12513","12543","12537","12515","12544","12564","12541","12506","12501","12519","12511","12510"],"Building Materials":["12538","12540","12553","12548","12543","12560","12544","12558","12552","12542","12556","12559"],"Management of Mining and Mined Materials":["12538","12513"],"Materials Use":["12538","12513","12544","12539","12552","12542","12559","12514"],"Building & Home Construction & Maintenance":["12538","12540","12553","12509","12548","12543","12560","12555","12567","12558","12552","12542","12556","12559"],"Building Heat":["12538","12553","12557","12548","12543","12560","12555","12558","12552","12542","12556","12559"],"Infrastructure & Buildings Management & Planning":["12538","12540","12553","12536","12509","12557","12548","12543","12560","12537","12555","12565","12544","12541","12562","12504","12558","12554","12534","12552","12547","12566","12501","12542","12511","12556","12510","12559","12508"],"Site-Scale Planning, Design, & Development":["12540","12553","12536","12509","12557","12543","12537","12565","12544","12564","12541","12562","12504","12558","12534","12552","12547","12528","12566","12501","12503","12511","12510","12561","12508"],"Built or Constructed Environment":["12553","12560","12558","12552","12542","12556","12510","12559","12508"],"Industrial Wastes":["12512","12518","12516","12514"],"Mediation of Waste, Toxics & Other Nuisances":["12512","12515","12518","12535","12539","12520","12516","12514"],"Municipal Wastes":["12512","12515","12518","12524","12535","12520","12516","12514"],"Solid Waste Disposal & Recycling Services":["12512","12521","12515","12568","12518","12544","12524","12535","12520","12516","12514"],"Solid Waste Disposal Sites":["12512","12521","12518","12524","12535","12503","12520","12514"],"Waste & Materials Management":["12512","12521","12513","12515","12518","12544","12524","12535","12539","12559","12520","12516","12508","12514"],"Waste Collection":["12512","12515","12518","12524","12535","12520","12516","12514"],"Waste Management":["12512","12521","12515","12518","12524","12535","12520","12516","12508","12514"],"Waste Management Policies & Programs":["12512","12521","12515","11980","12518","12544","12524","12535","12520","12516","12508","12514"],"Water Purification & Waste Treatment":["12512","12518","12524","12535","12539","12501","12516","12508","12514"],"Chlorofluorocarbon (CFC) Emission":["12521","12522","12518","12524","12539"],"Metals Emission":["12521","12518","12524"],"Comprehensive or Management Plans":["12521","12536","12544","12535","12504","12547","12566","12542","12510","12508"],"Environmental Management Plans":["12521","12565","12544","12535","12547","12566","12501","12510","12508"],"Resource Use Management":["12521","12544","12539","12559","12508"],"Wastewater Management":["12521","12500","12531","12501","12516","12508","12514"],"Water Utilities & Management":["12521","12527","12501","12556","12561","12508"],"Greenhouse Gases":["12521","12543","12545","11884","12555","12567","12524","12554","12519","12556","12559"],"Electricity Use":["12521","12557","12548","12517","12544","12205","12558","12559"],"???Stormwater Management":["12529"],"Storm-Surge & Flood Protection":["12529","12526","12544","12527","12531","12528","12501","12503","12530"],"Stormwater Management":["12529","12500","12526","12544","12527","12531","12528","12501","12503","12561","12530","12508","12532"],"Stormwater Retention":["12529","12500","12526","12527","12531","12528","12501","12503","12561","12530","12532"],"Storms & Hurricanes":["12529","12544","12527","12531","12528","12501","12503","12530"],"Combined Sewer Overflows (CSOs)":["12529","12528","12501","12530","12532"],"Surface & Groundwater Flow":["12529","12500","12526","12527","12501","12556","12530","12508"],"Water":["12529","12500","12526","12527","12501","12556","12561","12508"],"Biofuel":["12570","12555","12568","12205"],"Air & Climate Regulation":["12570","12518","12533","12504","12539","12561","12559"],"Air Quality":["12570","12518"],"Air Quality Regulation":["12570","12518","12559"],"Landuse Management & Smart Growth":["12536","12537","12544","12541","12533","12554","12506","12511","12556","12510","12559","12507","12530","12508"],"Landuse Management & Urban/Regional Planning":["12536","12509","12537","12565","12526","12544","12541","12562","12527","12533","12504","12558","12554","12506","12534","12547","12528","12566","12501","12511","12556","12510","12559","12507","12530","12508"],"Land Development":["12536","12509","12537","12564","12541","12533","12501","12511","12556","12510"],"Land-Based Civil Engineering & Construction":["12536","12543","12537","12511","12556","12559"],"Land-Based Spatial Resources":["12536","12531","12511","12556","12507","12508"],"Landscape Changes":["12536","12563","12537","12556","12508"],"Landscaping & Household Services":["12536"],"Homeownership and Landownership Choices":["12536","12511","12556","12507"],"Land Acquisition & Protection":["12536","12533","12501","12507","12508"],"Alternative Scenarios":["12536","12535","12533","12504"],"Growth":["12536","12511"],"Communities":["12509","12562","12566"],"Community & Neighborhood Non-Profit Organizations":["12509"],"Community or Stakeholder Engagement":["12509","12562","12506","12566"],"Regional Planning":["12509","12537","12565","12544","12541","12562","12504","12554","12534","12547","12566","12501","12511","12510","12508"],"Administration of Housing & Urban Development":["12509","12537","12526","12564","12541","12527","12534","12528","12501","12511","12556","12510"],"Commercial Development":["12509","12537","12541","12501","12511","12510"],"Housing Development":["12509","12537","12564","12541","12501","12511","12556","12510"],"Industrial Development":["12509","12557","12537","12564","12541","12501","12511","12510"],"Socio-Economic Status":["12509"],"Characterization & Classification":["12509"],"Street Design & Patterns":["12509","12566","12561"],"Heat & Electric Utilities":["12557","12548","12517","12205","12556","12559"],"Impervious Surfaces":["12557","12500","12530"],"Industrial Facilities":["12557","12555","12516"],"Conservation, Restoration, & Ecosystem Management":["12563","12507","12508"],"Existence & Intrinsic Value":["12563","12506","12507"],"Desert Species":["12563"],"Forest Species":["12563","11980","12565"],"Grasslands Species":["12563"],"Prairie Species":["12563"],"Terrestrial Species":["12563"],"Urban Wildlife Species":["12563","12528","12556","12510","12507"],"Wetlands Species":["12563"],"Vegetative Cover & Distribution":["12563","12565","12503","12507"],"Civil Engineering & Construction":["12543","12567","12544","12559"],"Coastal Engineering & Construction":["12543","12559"],"Administration of Green Infrastructure Programs":["12543","12545","12544","12554"],"Access to Transportation":["12545","12567","12549","12564","12554","12566","12556","12510"],"Administration of Transportation":["12545","12567","12549","12544","12505","12566","12556","12510","12520"],"Bicycle Transportation Infrastructure":["12545","12567","12549","12554","12566","12556"],"Infrastructure for Transport of Goods":["12545","12567","12549","12544","12505","12554","12566","12556","12510"],"Infrastructure for Transport of Humans":["12545","12567","12549","12505","12554","12566","12556","12510"],"Land Transportation Infrastructure":["12545","12537","12567","12549","12544","12554","12566","12556","12510","12520"],"Pedestrian Transportation Infrastructure":["12545","12567","12549","12505","12566","12556"],"Public Transit Ridership":["12545","12567","12554","12566"],"Rail Transportation Infrastructure":["12545","12567","12549","12505","12554","12566","12556"],"Road Transportation & Congestion":["12545","12549","12544","12505","12547","12566","12556"],"Road Transportation Infrastructure":["12545","12567","12549","12544","12505","12554","12547","12566","12556","12510"],"Scenic Transportation":["12545","12549","12566","12556"],"Transportation Demand Management":["12545","12549","12544","12505","12547","12566","12556","12520"],"Transportation Equipment Manufacturing":["12545","12549","12556"],"Transportation Infrastructure":["12545","12567","12549","12544","12505","12554","12566","12556","12510","12520"],"Transportation Mode/Preference":["12545","12567","12549","12566","12556","12510"],"Urban Transportation Infrastructure":["12545","12537","12567","12549","12544","12505","12554","12528","12566","12556","12510"],"Water Transportation":["12545","12567","12549","12505","12556"],"Climate":["12545","12533","12504","12539","12561","12559"],"Climate Change":["12545","11884","12533","12504","12539","12561","12559"],"Administration of Economic Programs":["12545","11884","12547","12519","12510","12507","12508"],"Public Policy Administration":["12545","11884","11980","12544","12205","12554","12506"],"Acquisition of Goods":["12517","12505"],"Electronics & Electric Equipment Manufacturing":["12517"],"Management of Companies":["12517","12535"],"Technology Improvements & Innovations":["12517"],"Electric Power Available":["12517","12544","12205"],"Metals, Electronics & Machinery Products":["12517","12539","12516"],"Monitoring & Evaluation":["12550","12537","12555","12568","12507"],"Revitalization & Urban Renewal":["12537","12526","12534","12528","12511","12556","12510"],"Urban Forestry":["12537","11884","11980","12565","12511","12556","12510"],"Urban Green Space":["12537","12526","12527","12528","12556","12510"],"Urban Habitat":["12537","12526","12527","12528","12511","12556","12510","12507"],"Agricultural Habitat":["11884"],"Agricultural Land":["11884"],"Agriculture":["11884","12567"],"Agriculture BMPs":["11884","12567"],"Food & Agriculture Policies & Programs":["11884","12515","12567","11980"],"Forestry":["11884","11980","12565"],"Forestry Harvest":["11884","11980","12565"],"Forests":["11884","11980","12565"],"Timber & Wood Fiber":["11884","11980"],"Policy Evaluation":["11884","12568","11980","12544","12205","12554"],"Untapped Future Potential":["11884"],"Indicators & Metrics":["11884"],"Economic Productivity":["11884","12547","12519","12510","12507","12508"],"Economic Prosperity":["11884","12547","12519","12510","12507","12508"],"Crop Production":["11884"],"Soil Production":["11884"],"Crops":["11884"],"Ecological Vulnerability to Climate Change":["11884","12533","12539","12519","12561"],"Global Climate Regulation":["11884","12533","12504","12539","12561","12559"],"Micro & Regional Climate Regulation":["11884","12533","12504","12539","12554","12561","12559"],"Access to Healthy Food":["12515","12556"],"Food & Raw Materials Sectors":["12515"],"Food Resources":["12515"],"Food, Beverage & Tobacco Products":["12515"],"Hotel & Food Services":["12515"],"Hunting Stock & Wild Foods":["12515"],"Subsistence Food & Cooking":["12515"],"Household Waste Disposal Choices":["12515","12568","12524","12535","12520","12514"],"Decomposers":["12515","12518"],"Recycling":["12515","12544","12516","12514"],"Rooftop Photovoltaic (PV) Panels":["12555"],"Wind Power":["12555","12205"],"Fuelwood & Charcoal":["12555","12205"],"Natural Gas Combustion":["12555","12558"],"Ground Level Ozone":["12522"],"Carbon Dioxide (CO2)":["12567","11980","12564","12205","12519","12561","12559","12520"],"Air travel":["12567"],"Air Transportation Infrastructure":["12567","12549","12505","12556"],"Freight Rail Infrastructure":["12567"],"Passenger Rail Infrastructure":["12567","12554"],"Remediation & Recovery Services":["12568","12518","12503"],"Deforestation & Devegetation":["11980","12565"],"Reforestation":["11980","12565"],"Environmental Policies and Programs":["11980","12544","12535","12205","12510","12508"],"Plant Harvest":["11980"],"Plants":["11980"],"Terrestrial Plants":["11980"],"Carbon Storage & Cycling":["11980","12205","12519","12559","12520"],"Carbon Monoxide":["11980","12205","12519","12520"],"Hydrologic Cycle":["12500","12526"],"Hydrologic or Hydraulic  Modifications":["12500","12526"],"Dissolved Oxygen in Water":["12500","12526","12501"],"Freshwater Habitat":["12500","12526","12527","12539","12501","12561","12507"],"Freshwater Quantity":["12500","12526","12539","12501","12561"],"Groundwater Availability":["12500","12526","12527","12501","12556","12561"],"Groundwater Depletion":["12500","12526","12501","12556","12561"],"Groundwater Quality":["12500","12526","12539","12501","12561"],"Surface Water Quality":["12500","12526","12501"],"Swimmable Water":["12500","12501"],"Wastewater Discharge":["12500","12531","12501","12516","12530","12508","12514"],"Water Contaminants":["12500","12526","12544","12539","12501","12556","12561"],"Water Cycling":["12500","12526","12501","12556","12561"],"Water Depth & Sea Level":["12500","12526","12501","12508"],"Water Quality":["12500","12526","12539","12501","12561"],"Water Quality Regulation":["12500","12526","12539","12501","12556","12508"],"Water recharge rate":["12500","12526","12527","12501","12561"],"Water Regulation":["12500","12526","12527","12501","12561","12508"],"Impervious Surface Runoff":["12500","12527","12528","12503","12530"],"Surface Permeability":["12500"],"Streams & Rivers":["12500","12532"],"Oil & Gas Transport":["12549","12505"],"Biodiversity":["12565","12506"],"Biotic State":["12565"],"Drainage":["12526","12527","12528","12530"],"Dredging, Draining & Filling":["12526"],"Flooding":["12526","12530"],"Floodplain Development":["12526","12541","12501","12511","12510","12530","12532"],"Administration of Environmental Quality":["12526","12535","12501","12510","12508"],"Dilution of Toxins or Pollutants":["12526","12501","12530"],"Filtration of Toxins or Pollutants":["12526","12501","12530"],"Sequestration/Storage/Accumulation of Toxins or Pollutants":["12526","12501","12561","12530"],"Contaminant Discharge":["12526","12544","12530"],"Discharges":["12526","12530"],"Nutrient Discharge":["12526","12530"],"Sediment Discharge":["12526","12527","12530"],"Waterborne Discharges":["12526","12539","12501","12530","12508"],"Lakes & Ponds":["12526","12530"],"Available Freshwater":["12526","12539","12501","12556","12561"],"Water Resources":["12526","12527","12501","12556","12561","12508"],"Water Resources Management":["12526","12527","12501","12556","12561","12508"],"Watershed Integrity":["12526","12531","12501","12556","12508"],"Precipitation":["12526","12503","12530"],"Aquifer Storage":["12526"],"Contaminant Runoff":["12526","12544","12503","12530"],"Urbanization":["12526","12527","12534","12528","12511","12556","12510"],"Mercury Compounds":["12518"],"Acid Deposition":["12518","12539"],"Aquatic Acidity":["12518","12530"],"Ocean Acidity":["12518"],"Organic Toxins":["12518"],"Volatile Organic Compounds":["12518","12520"],"Inorganic Toxins":["12518"],"Particulate Matter":["12518","12530"],"Chemical & Metal Contaminants":["12518","12539"],"Toxic Metals":["12518","12539"],"Air Temperature":["12518"],"Outdoor Air Quality":["12518"],"Hazardous Wastes":["12518","12516","12514"],"Landfill":["12518","12524","12514"],"Selenium Compounds":["12518"],"Public Utility Policies":["12518","12544","12205","12556","12514"],"Utilities":["12518","12205","12556","12514"],"Resource Use":["12544","12539","12506","12559","12507","12508"],"Health & Safety":["12544","12564","12547","12556","12516"],"Road Construction & Maintenance":["12544","12547","12566"],"Green Infrastructure":["12544"],"Infrastructure":["12544","12554"],"Ecological Vulnerability to Pollution":["12544","12501","12519","12530"],"Access to Health Care":["12564","12556","12516"],"Administration of Public Health Programs":["12564","12556","12516"],"Health Policies & Programs":["12564","12556","12516"],"Health Sector":["12564","12556","12516"],"Choice of Community or Neighborhood":["12564","12566"],"Road Development":["12564","12541","12547","12566","12501","12510"],"Exposure to Risk":["12564","12547"],"Exposure to Toxins":["12564"],"Health Disparity":["12564","12556"],"Survival & Mortality":["12564"],"Coastal Development":["12541","12501","12511","12510"],"Citizen Engagement":["12562","12506"],"Education, Outreach & Engagement":["12562","12506"],"Sediment Accumulation":["12527"],"Sediment Diversions":["12527"],"Sediment Resuspension":["12527"],"Sediment Runoff":["12527","12503","12530"],"Soil & Sediment Stabilization":["12527","12503"],"Aquatic Habitat":["12527","12507","12530"],"Aquatic Habitat Modification":["12527","12530"],"Coastal Habitat":["12527","12507"],"Living Habitat":["12527"],"Wetlands Habitat":["12527","12507","12508"],"Wastewater Treatment":["12531","12501","12516","12508","12514"],"Wind":["12205"],"Concentrated Solar Thermal Plants":["12205"],"Solar Power":["12205"],"Utility-Scale Photovoltaic (PV) Systems":["12205"],"Geothermal Power":["12205"],"Hydroelectric Power":["12205"],"Coal Combustion":["12205"],"Power Plants":["12205"],"Hydrocarbons":["12205","12519","12559","12520"],"Provisioning Services":["12205","12507"],"Natural Gas Utilities":["12205","12558","12556"],"Oil Utilities":["12205","12556"],"Utility Line Construction & Maintenance":["12205"],"Energy Industry":["12205"],"Solar Hot Water Heaters":["12558","12561","12559"],"Manufacturing & Trade":["12505"],"Standards, Codes, Permitting & Zoning":["12539"],"Product Choice":["12539"],"Primary & Fabricated Metals Products":["12539"],"Sustainable Resource Use":["12539","12506","12559","12507","12508"],"Human Illness or Disease":["12539"],"Human Needs Sectors":["12539"],"Human State":["12539"],"Fossil Fuel Reserves":["12539"],"Access to Jobs":["12554"],"Consumption Patterns":["12554","12556"],"Consumption Quantity":["12554","12556"],"Individual Consumption Choices":["12554","12556"],"Employment":["12554"],"Income":["12554"],"Community Population Size":["12554","12566"],"Human Population Demographics & Distribution":["12554","12511"],"Human Population Density & Distribution":["12554"],"Walking":["12554","12566"],"Bicycling":["12554","12566"],"Parking Infrastructure":["12554"],"Cultural & Social Well-Being":["12506"],"Social Drivers":["12506"],"Ecosystem Services":["12506","12507"],"Aesthetic or Sensory Value":["12506","12507"],"Appreciation of Beauty & Aesthetics":["12506","12507"],"Access to Open Space & Recreational Opportunities":["12506","12507"],"Recreational Value":["12506","12507"],"Tourism & Recreation":["12506","12507"],"Tourism & Recreation Policies & Programs":["12506","12507"],"Issue-Specific Education & Outreach":["12506"],"Social Group":["12506"],"Eliciting Public Perspectives or Information":["12506"],"Public Administration":["12506"],"Public Relations Services":["12506"],"Public Space":["12506","12556"],"Public Stewardship":["12506"],"Contact Uses":["12506","12507"],"Museums, Amusement Parks & Historical Sites":["12506","12503"],"Values & Ethics":["12506"],"Appreciation of Nature":["12506","12507"],"Economic State":["12547","12519","12510","12507","12508"],"Mobility":["12547"],"Perception of safety":["12547"],"Mediation of Noise":["12547"],"Noise Pollution":["12547"],"Roadway Distribution":["12547","12566"],"Sewer Line Construction & Maintenance":["12528","12532"],"Non-Point Source Runoff":["12528","12501","12503","12530"],"Community Identity":["12566"],"Community Vibrancy":["12566"],"Ecosystem Management":["12501","12507","12508"],"Open Space Management":["12501","12508"],"Professional Services Sectors":["12501"],"Mass Stabilization & Erosion Control":["12501","12530"],"Non-Point Source Controls":["12501","12530"],"Point & Mobile Source Controls":["12501","12530"],"Natural Hazard Protection":["12501"],"Shoreline Protection":["12501","12507"],"Point Source Discharges":["12501","12530"],"Drinkable Water":["12501","12556","12561"],"Drinking Water Management":["12501","12556","12561","12508"],"Freshwater Diversions":["12501","12561"],"Freshwater Fish":["12501","12561"],"Water Use":["12501","12556","12561","12508"],"Water-Based Spatial Resources":["12501","12507","12508"],"Waterfront Destinations":["12501","12508"],"Nutrient Runoff":["12503","12530"],"Ditching & Soil Disturbance":["12503"],"Soils":["12503"],"Site Remediation":["12503"],"Urban Canopy Cover":["12503","12556","12510","12507"],"Single Family Housing":["12542","12556"],"Multi-Unit Housing":["12542","12556"],"Ecological Abundance & Population Density":["12519"],"Ecological Attributes":["12519"],"Ecological Connectivity":["12519"],"Ecological Integrity":["12519"],"Ecological Mutualism & Commensalism":["12519"],"Ecological Process":["12519"],"Ecological Resilience & Thresholds":["12519"],"Ecological Vulnerability to Human Activities":["12519"],"Ecological Vulnerability to Stressors":["12519"],"Economic Demographics & Distribution":["12519"],"Space Resources":["12511","12508"],"Urban Abandonment":["12556","12510"],"Urban Identity":["12556","12510"],"Data Access & Management":["12556"],"Water Use for Industrial Processing or Cooling":["12556","12561"],"Access to Housing":["12556"],"Housing Affordability":["12556"],"Housing Choice":["12556"],"Housing Stock":["12556"],"Shipping, Warehousing & Storing":["12556"],"Internet & Telecommunications Utilities":["12556"],"Individual Health Care Choices":["12556","12516"],"Medical or Insurance Costs/Affordability":["12556","12516"],"Budget & Fiscal Resources":["12556","12508"],"Grants & Funding from Local Government":["12556"],"Concern for the Environment":["12510","12508"],"Environmental State":["12510","12508"],"Cooling Water Discharge":["12561","12530"],"Light":["12561"],"Certification":["12561"],"Dock & Marina Construction & Maintenance":["12559"],"Chemical Use Regulations":["12559"],"Mental & Cognitive Health":["12516"],"Medical Care":["12516"],"Wood & Paper Products":["12516"],"Pharmaceutical Products":["12516"],"Pharmaceuticals & Cosmetics Sources":["12516"],"Wildlife Health, Disease & Bleaching":["12507"],"Artificial Habitat":["12507"],"Complex Habitat & Resources":["12507","12508"],"Desert Habitat":["12507"],"Grasslands Habitat":["12507"],"Marine Habitat":["12507","12530"],"Nursery Habitat":["12507"],"Prairie Habitat":["12507"],"Terrestrial Habitat":["12507"],"Knowledge Value":["12507"],"Symbolic Value":["12507"],"Valuation":["12507"],"Connection with the Natural World":["12507"],"Regulating Services":["12507"],"Size, Height & Width":["12507"],"Air-Based Spatial Resources":["12507"],"Commercial/Residential Mix":["12507"],"Recreational Fishing":["12507"],"Wildlife Harassment":["12507"],"Educational Value":["12507"],"Property Values":["12507"],"Controlled Biological Introductions":["12530"],"Erosion":["12530"],"Aquatic Debris":["12530"],"Phosphorus":["12530"],"Nitrogen":["12530"],"Nitrogen Oxides (Nox)":["12530"],"Aquatic Resources":["12508"],"Fishing, Harvesting & Hunting Management":["12508"],"Environmental Cleanup/Remediation & Emergency Response":["12508"],"Environmental Restoration":["12508"],"Coastal Land Loss":["12508"],"Land Subsidence":["12508"],"Land-based Damage":["12508"],"Visitation of Beaches, Conservation Lands & Nature Parks":["12508"],"Contaminant Processing":["12514"],"Domestic Animal Waste":["12514"]};
 </script>
