@@ -198,9 +198,11 @@
                 <div id="saved-results"></div>
               </div>
             </div>
-            <h2>Tools</h2>
-            <button onclick="saveSelectedRecords('saved-results')">Save Selected Tools</button>
-            <div id="search-results"></div>
+            <div id="results-container">
+              <h2>Tools</h2>
+              <button onclick="saveSelectedRecords('saved-results')">Save Selected Tools</button>
+              <div id="search-results"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -278,21 +280,6 @@
   <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
 <script src="js/porter-stemmer.js"></script>
-<!--<script>
- jQuery(document).ready(function() {
-  jQuery('#tabs > div').hide(); // hide all child divs
-  jQuery('#tabs div:first').show(); // show first child dive
-  jQuery('#tabsnav li:first').addClass('active');
-  jQuery('.menu-internal').click(function(){
-   jQuery('#tabsnav li').removeClass('active');
-   var currentTab = jQuery(this).attr('href');
-   jQuery('#tabsnav li a[href="'+currentTab+'"]').parent().addClass('active');
-   jQuery('#tabs > div').hide();
-   jQuery(currentTab).show();
-   return false;
-  });
- });
-</script>-->
 <script>
 var $ = jQuery;// ensure jquery gets where it's expected
 // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
@@ -308,45 +295,35 @@ var advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","Owner
 // details at READ web services' docs-page
 var decisionSectors = ['land use','transportation','building infrastructure','waste management'];
 
-jQuery(function() { // jquery's shorthand for document.ready
+$(function() { // jquery's shorthand awaits readiness of document
   // populate the roles into #role div
   populate(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
   // initialize tabs and their listeners
   initializeTabs();
 });
 
+// DOCUMENT
 var initializeTabs = function() {
-  jQuery('#tabs > div').hide(); // hide all tab-panels
-  jQuery('#tabs div:first').show(); // show first tab-panel
-  jQuery('#tabsnav li:first').addClass('active'); // class tabs active for styling
-  jQuery('.menu-internal').click(function(){ // add listener to tabbing elements
-    jQuery('#tabsnav li').removeClass('active'); // remove active styling from all tabs
-    var currentTab = jQuery(this).attr('href'); // get name of clicked tab
-    jQuery('#tabsnav li a[href="'+currentTab+'"]').parent().addClass('active'); // activate the clicked tab
-    jQuery('#tabs > div').hide(); // hide all panels
-    jQuery(currentTab).show(); // show clicked tab's panel
-    return false;// return false for success; return truthy description of failure
+  $('#tabs > div').hide(); // hide all tab-panels
+  $('#tabs div:first').show(); // show first tab-panel
+  $('#tabsnav li:first').addClass('active'); // class tabs active for styling
+  $('.menu-internal').click(function(){ // add listener to tabbing elements
+    $('#tabsnav li').removeClass('active'); // remove active styling from all tabs
+    var currentTab = $(this).attr('href'); // get name of clicked tab
+    $('#tabsnav li a[href="'+currentTab+'"]').parent().addClass('active'); // activate the clicked tab
+    $('#tabs > div').hide(); // hide all panels
+    $(currentTab).show(); // show clicked tab's panel
+    if (currentTab == "#saved-results-panel"){// check if currentTab is saved-results
+      $('#results-container').hide();// hide results
+    } else {
+      $('#results-container').show();// show results
+    }
+    return false;// return false for success; conventionially return truthy description of failure
   });
 };
 
-/*
-jQuery(document).ready(function() {
-  jQuery('#tabs > div').hide(); // hide all tab-panels
-  jQuery('#tabs div:first').show(); // show first tab-panel
-  jQuery('#tabsnav li:first').addClass('active'); // class tabs active for styling
-  jQuery('.menu-internal').click(function(){ // add listener to tabbing elements
-    jQuery('#tabsnav li').removeClass('active'); // remove active styling from all tabs
-    var currentTab = jQuery(this).attr('href'); // get name of clicked tab
-    jQuery('#tabsnav li a[href="'+currentTab+'"]').parent().addClass('active'); // activate the clicked tab
-    jQuery('#tabs > div').hide(); // hide all panels
-    jQuery(currentTab).show(); // 
-    return false;
-  });
-});
-*/
-
 /**
- * DESCRIBE FUNCTIONALITY
+ * DOCUMENT
  */
 var objectiveDisplay = function(adjust) {
   $('#objective-relevance').val(parseInt($('#objective-relevance').val()) + parseInt(adjust));
