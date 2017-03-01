@@ -47,8 +47,14 @@
       margin: 0 auto;
       border: 1vh solid green;
     }
-    #search-results > :hover{
+    #search-results > :hover, #saved-results > :hover{
       background-color: #e7f4e4;
+    }
+    #search-results > div, #saved-results > div{
+      background-color: #f1f1f1;
+      margin-top: .5em;
+      border-radius: 5px;
+      padding: 2px;
     }
     [role=tab]{
       margin: 1px 0 0;
@@ -82,12 +88,6 @@
       -ms-user-select: none;
       -o-user-select: none;
       user-select: none;
-    }
-    #search-results > div{
-      background-color: #f1f1f1;
-      margin-top: .5em;
-      border-radius: 5px;
-      padding: 2px;
     }
     button:disabled{background-color:#aeb0b5}
     *{
@@ -155,7 +155,7 @@
                 <li><a aria-controls="fundamental-objective-panel" aria-selected="false" class="menu-internal" href="#fundamental-objective-panel" id="fundamental-objective-tab" role="tab">Fundamental Objective</a></li>
                 <li><a aria-controls="objective-panel" aria-selected="false" class="menu-internal" href="#objective-panel" id="objective-tab" role="tab">Objective</a></li>
                 <li><a aria-controls="concept-panel" aria-selected="false" class="menu-internal" href="#concept-panel" id="concept-tab" role="tab">Concept</a></li>
-                <li><a aria-controls="saved-results-panel" aria-selected="false" class="menu-internal" href="#saved-results-panel" id="saved-results-tab" role="tab">Saved Results</a></li>
+                <li><a aria-controls="saved-results-panel" aria-selected="false" class="menu-internal" href="#saved-results-panel" id="saved-results-tab" role="tab">Saved Tools</a></li>
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
                 <h5>Who will use the tools? Select roles and proceed to the Subrole tab.</h5><hr />
@@ -189,13 +189,17 @@
                 <button id="concept-search-button" onclick="conceptSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
               </div>
               <div aria-labelledby="saved-results-tab" id="saved-results-panel" role="tabpanel" aria-hidden="true">
+                <h3>Saved Tools</h3>
                 <h5>Select the tools you would like to export.</h5><hr />
+                <button id="export-results" onclick="selectAll('saved-results')">Select All</button>
+                <button id="export-results" onclick="deselectAll('saved-results')">Deselect All</button>
+                <button id="export-results" onclick="removeSelected('saved-results')">Remove Selected Tools</button>
+                <button id="export-results" onclick="exportCSV('saved-results')">Export Selected Tools to CSV</button>
                 <div id="saved-results"></div>
-                <button id="export-results" onclick="exportCSV('saved-results')">Export to CSV</button>
               </div>
             </div>
             <h2>Tools</h2>
-            <button onclick="saveSelectedRecords('saved-results')">Save Selected Results</button>
+            <button onclick="saveSelectedRecords('saved-results')">Save Selected Tools</button>
             <div id="search-results"></div>
           </div>
         </div>
@@ -697,7 +701,7 @@ function addDiv(parsedResult, containerId) {
   var container = $('#'+containerId);
   $(container).append(
     $('<div />')
-      .attr('id', parsedResult.READResourceIdentifier)
+      .attr('id', containerId+'-'+parsedResult.READResourceIdentifier)
       .append(
         $('<div />')
           .click(function() {
@@ -709,7 +713,7 @@ function addDiv(parsedResult, containerId) {
           .attr('tabindex','0')// ensure inclusion in tab-order based on position in document(default order)
           .append(
             $('<div />')
-              .html('<input class="result-checkbox" type="checkbox" id="save-'+parsedResult.READResourceIdentifier+'" value="'+parsedResult.READResourceIdentifier+'" name="save-result"/><label for="save-'+parsedResult.READResourceIdentifier+'" class="result-label"></label><strong>'+parsedResult.LongTitleText+' ('+parsedResult.Acronym+')</strong>: '+parsedResult.LongDescription)
+              .html('<input class="result-checkbox" type="checkbox" id="save-'+parsedResult.READResourceIdentifier+'" value="'+parsedResult.READResourceIdentifier+'"/><label for="save-'+parsedResult.READResourceIdentifier+'" class="result-label"></label><strong>'+parsedResult.LongTitleText+' ('+parsedResult.Acronym+')</strong>: '+parsedResult.LongDescription)
               .addClass('col size-95of100'))
           .append(
             $('<div />')
@@ -1087,51 +1091,90 @@ var activateNextTab = function($nextTab) {
   $nextTab[0].scrollIntoView();
 };
 
-// DOCUMENT
+/**
+ * Save all selected tools to the Saved Tools tab
+*/
 function saveSelectedRecords(resultsDiv) {
-  var recordsToSave = $('input[name="save-result"]:checked');
+  var recordsToSave = $('#search-results input:checked');
   recordsToSave.each(function() {
     var record = $('#search-results').data($(this).val()+'');
     if (isNewResult(resultsDiv, record)) {
-      var html = '<input type="checkbox" id="cb-'+record.READResourceIdentifier+'" value="'+record.READResourceIdentifier+'" name="saved-results" onchange=""</input><label for="cb-'+record.READResourceIdentifier+'" class="unselectable">'+record.LongTitleText+'</label>';
-      $('#'+resultsDiv).append(html);
+      addDiv(record, resultsDiv);
       $("#saved-results-tab").prop("disabled",false);
       $("#saved-results-tab").click();
     }
   }); 
 }
 
-// DOCUMENT
-function exportCSV(savedResultsDiv) {
-  var records = $('#'+savedResultsDiv+' > input[name="saved-results"]:checked');
-  var csvContent = '';
-  var names = [];
-  var values;
-  records.each(function(){
-    values = [];
-    var record = $('#'+savedResultsDiv).data($(this).val()+'');
-    if (record) {
-      if (names.length === 0) {
-        for (var prop in record) {
-          if (record.hasOwnProperty(prop)) {
-            var name = prop;
-            names.push(name);
-          }
-        }
-        csvContent = names.join() + '\n';
-      }
-      for (var property in record) {
-        if (record.hasOwnProperty(property)) {
-          values.push('"' + record[property] + '"');
-        }
-      }
-      csvContent += values.join() + '\n';
+/**
+ * Check all the checkboxes in the specified location
+*/
+function selectAll(divID) {
+  $('#'+divID +' input').each(function(){
+    $(this).prop("checked", true);
+  });
+}
+
+/**
+ * Uncheck all the checkboxes in the specified location
+*/
+function deselectAll(divID) {
+  $('#'+divID +' input').each(function(){
+    $(this).prop("checked", false);
+  });
+}
+
+/**
+ * Remove the selected tools from the saved tools list
+*/
+function removeSelected(divID) {
+  var ids = [];
+  $('#'+divID +' input').each(function(){
+    if ($(this).prop("checked")) {
+      $('#'+divID).removeData($(this).val());
+      $('#'+divID + ' > #' + divID + '-' + $(this).val()).remove();
+    } else {
+      ids.push(parseInt($(this).val()));
     }
   });
-  var link = document.createElement("a");
-  link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
-  link.setAttribute("download", "my_data.csv");
-  link.click();
+  $('#'+divID).data('ids', ids);
+}
+
+/**
+ * Export the selected Saved tools from the saved tools list to a downloaded CSV
+*/
+function exportCSV(savedResultsDiv) {
+  var records = $('#'+savedResultsDiv+' input:checked');
+  if (records.length > 0) {
+    var csvContent = '';
+    var names = [];
+    var values;
+    records.each(function(){
+      values = [];
+      var record = $('#'+savedResultsDiv).data($(this).val()+'');
+      if (record) {
+        if (names.length === 0) {
+          for (var prop in record) {
+            if (record.hasOwnProperty(prop)) {
+              var name = prop;
+              names.push(name);
+            }
+          }
+          csvContent = names.join() + '\n';
+        }
+        for (var property in record) {
+          if (record.hasOwnProperty(property)) {
+            values.push('"' + record[property] + '"');
+          }
+        }
+        csvContent += values.join() + '\n';
+      }
+    });
+    var link = document.createElement("a");
+    link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
+    link.setAttribute("download", "my_data.csv");
+    link.click();
+  }
 }
 
 // DOCUMENT
