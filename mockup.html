@@ -693,7 +693,7 @@ function addDiv(parsedResult, containerId) {
           .attr('tabindex','0')// ensure inclusion in tab-order based on position in document(default order)
           .append(
             $('<div />')
-              .html('<input class="result-checkbox" type="checkbox" id="save-'+parsedResult.READResourceIdentifier+'" value="'+parsedResult.READResourceIdentifier+'"/><label for="save-'+parsedResult.READResourceIdentifier+'" class="result-label"></label><strong>'+parsedResult.LongTitleText+' ('+parsedResult.Acronym+')</strong>: '+parsedResult.LongDescription)
+              .html('<input class="result-checkbox" type="checkbox" id="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" value="'+parsedResult.READResourceIdentifier+'"/><label for="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" class="result-label"></label><strong>'+parsedResult.LongTitleText+' ('+parsedResult.Acronym+')</strong>: '+parsedResult.LongDescription)
               .addClass('col size-95of100'))
           .append(
             $('<div />')
