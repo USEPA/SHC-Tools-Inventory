@@ -58,7 +58,6 @@
   }
   </style>
 </head>
-<!-- NOTE, figure out body classes! -->
 <body class="node-type-web-area microsite" >
   <!-- Google Tag Manager -->
   <!--REMOVED FOR DEVELOPMENT; REPLACE FOR PRODUCTION
@@ -126,15 +125,15 @@
             <p id="disclaimer-text">The tools listed below are for informational purposes only.
             The EPA and its employees do not endorse any product, services, or organizations listed below.
             </p>
-            <div id="main-tabs">
-              <div role="tablist">
-                <button aria-controls="simple-search-panel" aria-selected="true" id="simple-search-tab" name="tab1" role="tab" tabindex="-1" data-tab-number="1">Simple Search</button>
-                <button aria-controls="detailed-search-panel" aria-selected="false" id="detailed-search-tab" name="tab1" role="tab" tabindex="-1" data-tab-number="2">Detailed Search</button>
-                <button aria-controls="browse-tools-panel" aria-selected="false" id="browse-tools-tab" name="tab1" role="tab" tabindex="-1" data-tab-number="3" onclick="loadModels2()">Browse Tools</button>
-                <button aria-controls="results-panel" aria-selected="false" id="results-tab" name="tab1" role="tab" tabindex="-1" data-tab-number="4" disabled>Results</button>
-                <button aria-controls="selected-tool-panel" aria-selected="false" id="selected-tool-tab" name="tab1" role="tab" tabindex="-1" data-tab-number="5" disabled>Selected Tool</button>
-                <button aria-controls="saved-tools-panel" aria-selected="false" id="saved-tools-tab" name="tab1" role="tab" tabindex="-1" data-tab-number="6" disabled>Saved Tools</button>
-              </div>
+            <div id="tabs">
+              <ul class="tabs" id="tabsnav" role="tablist">
+                <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Simple Search</a></li>
+                <li><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" name="tab1" role="tab">Detailed Search</a></li>
+                <li><a aria-controls="browse-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#browse-tools-panel" id="browse-tools-tab" name="tab1" role="tab" onclick="loadModels2()">Browse Tools</a></li>
+                <li><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#results-panel" id="results-tab" name="tab1" role="tab">Results</a></li>
+                <li><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
+                <li><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Tools</a></li>
+              </ul>
               <div aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" name="tab1panel" aria-hidden="false" style="border: 1px solid #aaa;">
                 <table width="100%" cellpadding="0" cellspacing="0" class="noborder">
                   <tbody>
@@ -460,6 +459,26 @@ $ = jQuery;// ensure jquery gets where it's expected
 var resourceSearchURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceSearch";
 var resourceAdvancedSearchURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch";
 var resourceDetailURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail";
+
+// do fn on document's ready
+$(function() { // jquery's shorthand awaits readiness of document
+  initializeTabs();// initialize tabs and their listeners
+});
+
+// DOCUMENT
+var initializeTabs = function() {
+  $('#tabs > div').hide(); // hide all tab-panels
+  $('#tabs div:first').show(); // show first tab-panel
+  $('#tabsnav li:first').addClass('active'); // class tabs active for styling
+  $('.menu-internal').click(function(){ // add listener to tabbing elements
+    $('#tabsnav li').removeClass('active'); // remove active styling from all tabs
+    var currentTab = $(this).attr('href'); // get name of clicked tab
+    $('#tabsnav li a[href="'+currentTab+'"]').parent().addClass('active'); // activate the clicked tab
+    $('#tabs > div').hide(); // hide all panels
+    $(currentTab).show(); // show clicked tab's panel
+    return false;// return false for success; conventionially return truthy description of failure
+  });
+};
 //Clear Results
 function clearResults() {
     var result_table = document.getElementById('resultsTable');
@@ -1078,8 +1097,8 @@ function loadModels2() {
   tabsBrowserClicked = true;
 }
 /******* TAKEN FROM MOCKUP.HTML ****************/
-$("#simple-search-tab").focus();
-/** listener:select only "clicked" tab and show only this tab's corresponding panel */
+//$("#simple-search-tab").focus();
+/** listener:select only "clicked" tab and show only this tab's corresponding panel 
 $('[role="tab"]').click(function(){
     var $this = $(this)
     var tab = $this.attr('name');
@@ -1091,6 +1110,7 @@ $('[role="tab"]').click(function(){
     tabpan.attr('aria-hidden','false');// show the clicked tab's panel
     $(this).focus();
 });
+*/
 </script>
 <script src="js/jquery-ui.min.js"></script>
 <script language="javascript" src="js/read.js"></script>
