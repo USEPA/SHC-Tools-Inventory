@@ -1018,6 +1018,43 @@ var isNewResult = function(containerId, parsedResult) {
 };
 
 /**
+ * Use links table to find related concepts
+ */
+function conceptDplLinks(){
+  var allConcepts = [];
+  var checkedConcepts = [];
+  var associatedConcepts = [];
+  $("input[name='concept-checkbox']").each(function() {
+    if ($(this).prop("checked")) {
+      checkedConcepts.push($(this).val());
+    }
+    allConcepts.push($(this).val());
+  });
+
+  for (var k=0;k<checkedConcepts.length;k++) {
+    //find child nodes of selected concept
+    if (dplLinks[checkedConcepts[k]]) {
+      for (var i=0;i<dplLinks[checkedConcepts[k]].length;i++) {
+        if (readIDsByConcept[dplLinks[checkedConcepts[k]][i]]) {
+          console.log(checkedConcepts[k]+" > "+ dplLinks[checkedConcepts[k]][i] + " > " + readIDsByConcept[dplLinks[checkedConcepts[k]][i]]);
+        }
+      }
+    }
+
+    //find parent nodes of selected concept
+    for (var concept in dplLinks) {
+      if (dplLinks.hasOwnProperty(concept)) {
+        if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
+           if (readIDsByConcept[concept]) {
+            console.log(concept + " < " + checkedConcepts[k]+": "+readIDsByConcept[concept]);
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
  * find all concepts associated with selected concepts by being grouped in same objective
  */
 var broadenConcepts = function() {
