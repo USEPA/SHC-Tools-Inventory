@@ -285,9 +285,7 @@
 <script src="js/porter-stemmer.js"></script>
 <script>
 var $ = jQuery;// ensure jquery gets where it's expected
-// append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
-var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
-// URLs provided without a query (data following ?) to build requests with; details at READ web services' docs-page
+// URLs are provided without a query (data following ?) to build requests with; details at READ web services' docs-page
 // details at READ web services' docs-page
 var resourceSearchURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceSearch";
 // details at READ web services' docs-page
@@ -305,7 +303,9 @@ $(function() { // jquery's shorthand awaits readiness of document
   initializeTabs();
 });
 
-// DOCUMENT
+/**
+ * initialize tabs; create listener for swithing tabs
+*/
 var initializeTabs = function() {
   $('#tabs > div').hide(); // hide all tab-panels
   $('#tabs div:first').show(); // show first tab-panel
@@ -326,7 +326,7 @@ var initializeTabs = function() {
 };
 
 /**
- * DOCUMENT
+ * show more or less objectives
  */
 var objectiveDisplay = function(adjust) {
   $('#objective-relevance').val(parseInt($('#objective-relevance').val()) + parseInt(adjust));
@@ -342,24 +342,9 @@ var objectiveDisplay = function(adjust) {
   fundamentalObjectiveSelect();
 };
 
-/** REFACTOR TO EPA WEBGUIDE
- * listener:select only "clicked" tab and show only this tab's corresponding panel
-$('[role="tab"]').click(function() {
-    var $this = $(this);
-    var tab = $this.attr('name');
-    $('[name="'+tab+'"]').attr('aria-selected', 'false');// deselect all tabs
-    $this.attr('aria-selected', 'true');// select clicked tab
-    var tabpanid= $this.attr('aria-controls');// get the id of the panel controlled by the clicked tab
-    var tabpan= $('#'+tabpanid);// get panel's document-element from its id
-    $('[name="'+tab+'panel"]').attr('aria-hidden','true');// hide all panels
-    tabpan.attr('aria-hidden','false');// show the clicked tab's panel
-});
- */
-
 /**
- * populate a list into specified $container while
- * maintaining selections of items if selected items 
- * remain in the list after population
+ * populate list into specified $container;
+ * maintain selections when possible
  */
 var populate = function(list, $container, onChange) {
   if (typeof list === 'undefined') {list = [];}// ensure list is defined
@@ -381,9 +366,8 @@ var populate = function(list, $container, onChange) {
 };
 
 /**
- * populate a list with header values into specified $container while
- * maintaining selections of items if selected items 
- * remain in the list after population
+ * populate list with header values;
+ * maintain selections when possible
  */
 var populateWithHeader = function(list, $container, onChange) {
   if (typeof list === 'undefined') {list = {length:0};}// ensure list is defined
@@ -614,7 +598,9 @@ var conceptSearch = function(div, input) {
   }
 };
 
-/** get concepts from input as a list */
+/**
+ * get concepts from input as a list
+ */
 var getConcepts = function(input) {
   var concept = '';
   var concepts = [];
@@ -650,8 +636,9 @@ var getKeywords = function(input) {
   return concepts;
 };
 
+//START TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
 /**
- * return details of id into div
+ * pass details of id into displayResult
  */
 var getResourceDetail = function(id, div) {
   $.get(resourceDetailURL,{ ResourceId: id }).done(function(data) {displayResult(data, div);});
@@ -678,6 +665,8 @@ var displayResult = function(data, div, fields) {
  *                 to balance columns
  */
 function addDiv(parsedResult, containerId) {
+  // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
+  var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
   var container = $('#'+containerId);
   $(container).append(
     $('<div />')
@@ -852,7 +841,7 @@ var parseResult = function(result) {
     }
   }
 
-// DOCUMENT
+  // DOCUMENT
   function parseSoftwareCost(cost) {
     if (typeof(cost) !== 'string') {
       if (cost.length) {
@@ -879,7 +868,7 @@ var parseResult = function(result) {
     }
   }
 
-// DOCUMENT
+  // DOCUMENT
   function parseSpatialExtent(extent) {// possibly joins strings in an array
     if (extent.ModelScopeSpatialExtentDetailName) {return extent.ModelScopeSpatialExtentDetailName;}// return desired value if it is a property of extent
     if (extent.length) {// is array?(this means several values instead of just one)
@@ -892,17 +881,18 @@ var parseResult = function(result) {
       return str; // return accumulated values in a string
     }
   }
-// DOCUMENT
+
+  // DOCUMENT
   function parseOpenSource(openSource) {
     return openSourceMap[openSource];
   }// requires decoding a data-standard; will be mapped in parseResult.DetailsOpenSourceMap[INTEGER]
 
-// DOCUMENT
+  // DOCUMENT
   function parseDataRequirements(dataRequirements) {// requires decoding a data-standard
     return dataRequirementsMap[dataRequirements];// do work
   }
 
-// DOCUMENT
+  // DOCUMENT
   function parseTimeScale(timeScale) {//all that apply
     if (timeScale.TimeScaleName) {return timeScale.TimeScaleName;}// return value if possible
     if (timeScale.length) {
@@ -969,6 +959,37 @@ var clearResultData = function(div) {
 };
 
 /**
+ * check if object represents xsi:nil or unsanitized absence of data
+ */
+var isNil = function(obj) {
+  return Boolean(
+      typeof(obj)==='undefined'||
+      obj.hasOwnProperty('xsi:nil')||
+      obj===null||
+      obj===''||
+      obj==='no data'
+  );
+};
+
+/**
+ * return 'no data' if obj is invalid data
+ * return obj otherwise
+ */
+var validata = function(obj) {
+  try{
+    if(isNil(obj)) {
+      return 'no data';
+    }else{
+      return obj;
+    }
+  }catch(e) {
+    console.log('caught this error while parsing: ',e);
+    return 'no data';
+  }
+};
+//END TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
+
+/**
  * true if tool is not already in results
  * @arg containerId is the id of container for results
  * @arg parsedResult is the result whose details are returned from parseResults
@@ -1029,36 +1050,6 @@ var broadenConcepts = function() {
   // let user select from among these concepts
   var html = addCheckboxes(associatedConcepts, $('#concept'));
   $('#concept').append(html);
-};
-
-/**
- * check if object represents xsi:nil or unsanitized absence of data
- */
-var isNil = function(obj) {
-  return Boolean(
-      typeof(obj)==='undefined'||
-      obj.hasOwnProperty('xsi:nil')||
-      obj===null||
-      obj===''||
-      obj==='no data'
-  );
-};
-
-/**
- * return 'no data' if obj is invalid data
- * return obj otherwise
- */
-var validata = function(obj) {
-  try{
-    if(isNil(obj)) {
-      return 'no data';
-    }else{
-      return obj;
-    }
-  }catch(e) {
-    console.log('caught this error while parsing: ',e);
-    return 'no data';
-  }
 };
 
 /**

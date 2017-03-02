@@ -37,7 +37,8 @@
   <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters" />
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
-   <style>
+  <style>
+  #tabsnav{padding:0}
   /* don't initially display "no results returned from search" */
   #simpleFeedback {
     display: none;
@@ -56,6 +57,71 @@
   button:disabled { 
     background-color: #aeb0b5;
   }
+  </style>
+  <style>
+    @media screen and (min-width: 45em), print and (min-width: 45em) {
+      .row > .size-95of100.col {
+        width: 95%;
+      }
+    }
+    #search-results > :hover{
+      background-color: #e7f4e4;
+    }
+    #search-results > div{
+      background-color: #f1f1f1;
+      margin-top: .5em;
+      border-radius: 5px;
+      padding: 2px;
+    }
+    [role=tab]{
+      margin: 1px 0 0;
+      border-bottom-left-radius:0;
+      border-bottom-right-radius:0;
+    }
+    [role=tabpanel]{
+      padding: 1px;
+      border: 2px solid #d6d7d9;
+      border-radius: 5px;
+      border-top-left-radius:0;
+      border-top-right-radius:0;
+    }
+    [aria-hidden='true']{
+      display: none;
+    }
+    .result-label{
+      display: inline;
+      background-color:transparent;
+    }
+    .tool-label:focus + label{
+      background-color:#e1f3f8;
+    }
+    .tool-label:checked + label{
+      background-color:#d6d7d9;
+    }
+    /* Makes text in an element unselectable */
+    .unselectable{
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -o-user-select: none;
+      user-select: none;
+    }
+    button:disabled{background-color:#aeb0b5}
+    *{
+      -ms-transition: none;
+      transition: none;
+    }
+    .accordian-result{
+    background-image: url(https://www.epa.gov/sites/all/themes/epa/img/arrow-alt-down.png);
+    background-repeat: no-repeat;
+    float: right;
+    height: 13px;
+    margin: 5px;
+    width: 13px;
+    }
+    .collapsible{
+      transform: rotateX(180deg);
+    }
   </style>
 </head>
 <body class="node-type-web-area microsite" >
@@ -134,7 +200,7 @@
                 <li><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
                 <li><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Tools</a></li>
               </ul>
-              <div aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" name="tab1panel" aria-hidden="false" style="border: 1px solid #aaa;">
+              <div aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" aria-hidden="false" style="border: 1px solid #aaa;">
                 <table width="100%" cellpadding="0" cellspacing="0" class="noborder">
                   <tbody>
                     <tr>
@@ -160,7 +226,7 @@
                 <button id="simpleSearchBtn" onclick="simpleSearchClk3()">Search</button>
                 <p id="simpleFeedback">No results were returned: no acronyms or titles contained the query.</p>
               </div>
-              <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" name="tab1panel" aria-hidden="true">
+              <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" aria-hidden="true">
                 <table width="100%" cellpadding="0" cellspacing="0" class="noborder">
                   <tbody>
                     <tr>
@@ -253,7 +319,7 @@
                 <br>
                 <button id="detailSearchBtn" onclick="detailSearchClk2()">Search</button>
               </div>
-              <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" name="tab1panel" aria-hidden="true">
+              <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" aria-hidden="true">
                 Browse the tools by Decision Sector:
                 <br>
                 <div class="accordion" id="accordion">
@@ -327,7 +393,7 @@
                   </div>
                 </div>
               </div>
-              <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" name="tab1panel" aria-hidden="true">
+              <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
                 <p>Your search results:</p>
                 <button class="button" onclick="saveAllRecords('resultsTable')">Save All</button>
                 <table class="revision-table" id="resultsTable" width="100%">
@@ -347,13 +413,13 @@
                   <button class="button" onclick="exportCSV('resultsTable')">Export CSV</button>
                 </div>
               </div>
-              <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" name="tab1panel" aria-hidden="true">
+              <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
                 <div align="right">
                   <button class="button" onclick="saveRecord()">Save Record</button>
                 </div>
                 <div id="selectedAccordion" class=""></div>
               </div>
-              <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" name="tab1panel" aria-hidden="true">
+              <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
                 <p>Your saved tools:</p>
                 <div align="right">
                   <button class="button" onclick="clearSaved()">Clear Saved</button>
@@ -377,6 +443,7 @@
                 </div>
               </div>
             </div>
+            <div id="search-results"></div>
             </div>
           </div>
         </div>
@@ -479,6 +546,7 @@ var initializeTabs = function() {
     return false;// return false for success; conventionially return truthy description of failure
   });
 };
+
 //Clear Results
 function clearResults() {
     var result_table = document.getElementById('resultsTable');
@@ -854,6 +922,8 @@ simpleSearchClk3 = function() {
     $feedbackDiv.css('display', 'block');
   }
 };
+
+// DOCUMENT
 simpleSearchClk4 = function(resourceID) {
   $.ajax({
     type: 'GET',
@@ -866,6 +936,8 @@ simpleSearchClk4 = function(resourceID) {
     dataType: 'json',
     success: function(data) {
       var response = parseResults(data, "#resultsTable");
+      console.log(data);
+      displayResult(data, 'search-results')
     }
   });
 };
@@ -1038,6 +1110,375 @@ function parseResults(str, table_reference) {
     return 'No results found'
   }
 }
+
+//START TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
+/**
+ * pass details of id to displayResult
+ */
+var getResourceDetail = function(id, div) {
+  $.get(resourceDetailURL,{ ResourceId: id }).done(function(data) {displayResult(data, div);});
+};
+
+/**
+ * display a result; save result's data to the containing element
+ * @arg data{object} READ Web Services detail object
+ */
+var displayResult = function(data, containerId, fields) {
+  var parsedResult = parseResult(data);
+  fields = ['title', 'description', 'url'];
+  if (isNewResult(containerId, parsedResult)) {
+    addDiv(parsedResult, containerId);
+  }
+};
+
+/**
+ * true if tool is not already in results
+ * @arg containerId is the id of container for results
+ * @arg parsedResult is the result whose details are returned from parseResults
+ */
+var isNewResult = function(containerId, parsedResult) {
+  if (typeof($('#'+containerId).data('ids')) == 'undefined') {
+    $('#'+containerId).data('ids', []);
+  }
+  var cachedIds = $('#'+containerId).data('ids');
+  if (cachedIds.indexOf(parsedResult.READResourceIdentifier) == -1) {
+    cachedIds.push(parsedResult.READResourceIdentifier);
+    $('#'+containerId).data(String(parsedResult.READResourceIdentifier), parsedResult);
+    return true;
+  }
+  return false;
+};
+
+/**
+ * display details of parsedResult in container with containerId
+ * dev aspiration: dynamically append spans and dynamically apply
+ *                 .left class or .right class to each in order
+ *                 to balance columns
+ */
+function addDiv(parsedResult, containerId) {
+  // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
+  var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
+  var container = $('#'+containerId);
+  $(container).append(
+    $('<div />')
+      .attr('id', containerId+'-'+parsedResult.READResourceIdentifier)
+      .append(
+        $('<div />')
+          .click(function() {
+            $("#additional-details-"+parsedResult.READResourceIdentifier).toggle();
+            $(this).find('.accordian-result').toggleClass('collapsible');
+          })
+          .addClass('row')
+          .attr('role','button')// baseline accessibility for details
+          .attr('tabindex','0')// ensure inclusion in tab-order based on position in document(default order)
+          .append(
+            $('<div />')
+              .html('<input class="result-checkbox" type="checkbox" id="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" value="'+parsedResult.READResourceIdentifier+'"/><label for="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" class="result-label"></label><strong>'+parsedResult.LongTitleText+' ('+parsedResult.Acronym+')</strong>: '+parsedResult.LongDescription)
+              .addClass('col size-95of100'))
+          .append(
+            $('<div />')
+              .addClass('col')
+              .addClass('accordian-result')))
+      .append(
+        $('<div />')
+          .css('display', 'none')
+          .attr('id', 'additional-details-'+parsedResult.READResourceIdentifier)
+          .addClass('row')
+        .append(
+          $('<div />')    
+            .addClass('col size-1of2')
+            .append($('<span />').html('<strong>Contact Name</strong>: '+parsedResult.UserSupportName+'<br />'))
+            .append($('<span />').html('<strong>Contact Email</strong>: '+parsedResult.UserSupportEmail+'<br />'))
+            .append($('<span />').html('<strong>URL</strong>: <a href="'+parsedResult.URLText+'" target="_blank" onclick="stopPropagation(event)">'+parsedResult.URLText+'</a><br />'))
+            .append($('<span />').html('<strong>Internet Help Desk Phone</strong>: '+parsedResult.HelpDeskPhoneNumber+'<br />'))
+            .append($('<span />').html('<strong>Internet Help Desk Email</strong>: '+parsedResult.HelpDeskEmailAddressText+'<br />'))
+            .append($('<span />').html('<strong>Lifecycle Phase</strong>: '+parsedResult.CurrentLifeCyclePhase+'<br />'))
+            .append($('<span />').html('<strong>Last Modified</strong>: '+parsedResult.LastModifiedDateTimeText+'<br />'))
+            .append($('<span />').html('<strong>Last Modified By</strong>: '+parsedResult.LastModifiedPersonName+'<br />'))
+            .append($('<span />').html('<strong>Operating Environment</strong>: '+parsedResult.OperatingEnvironmentName+'<br />'))
+            .append($('<span />').html('<strong>Operating System</strong>: '+parsedResult.OSName+'<br />'))
+            .append($('<span />').html('<strong>Other Technical Requirements</strong>: '+parsedResult.OtherReqName+'<br />'))
+            .append($('<span />').html('<strong>Model Inputs</strong>: '+parsedResult.ModelInputsTextArea+'<br />'))
+            .append($('<span />').html('<strong>Model Outputs</strong>: '+parsedResult.ModelOutputsModelVariablesTextArea+'<br />'))
+            .append($('<span />').html('<strong>External Details</strong>: <a href="'+prefixForExternalDetails+parsedResult.READResourceIdentifier+'" target="_blank">View Details Externally</a><br />'))
+          )
+        .append(
+          $('<div />')
+            .addClass('col size-1of2')
+            .append($('<span />').html('<strong>Keywords</strong>: '+parsedResult.KeywordText+'<br />'))
+            .append($('<span />').html('<strong>Tags</strong>: '+parsedResult.InfoResourceStewardTagText+'<br />'))
+            .append($('<span />').html('<strong>Alternative Names</strong>: '+parsedResult.DetailsOtherCostConsiderations+'<br />'))
+            .append($('<span />').html('<strong>Intranet Address</strong>: '+parsedResult.intranetUrl+'<br />'))
+            .append($('<span />').html('<strong>Intranet Help Desk Phone</strong>: '+parsedResult.intranetHelpDeskPhone+'<br />'))
+            .append($('<span />').html('<strong>Intranet Help Desk Email</strong>: '+parsedResult.intranetHelpDeskEmail+'<br />'))
+            .append($('<span />').html('<strong>Revision Control</strong>: '+parsedResult.RCSResourcess+'<br />'))
+            .append($('<span />').html('<strong>Ownership</strong>: '+parsedResult.OwnershipTypeNameName+'<br />'))
+            .append($('<span />').html('<strong>Software Cost</strong>: '+parsedResult.DetailsBaseSoftwareCost+'<br />'))
+            .append($('<span />').html('<strong>Other Cost</strong>: '+parsedResult.DetailsOtherCostConsiderations+'<br />'))
+            .append($('<span />').html('<strong>Open Source</strong>: '+parsedResult.DetailsOpenSource+'<br />'))
+            .append($('<span />').html('<strong>Decision Sector</strong>: '+parsedResult.ModelScopeDecisionSector+'<br />'))
+            .append($('<span />').html('<strong>Support Materials</strong>: '+parsedResult.UserSupportSourceOfSupportMaterials+'<br />'))
+            .append($('<span />').html('<strong>Model Evaluation</strong>: '+parsedResult.ModelEvaluationTextArea+'<br />'))
+            .append($('<span />').html('<strong>Model Time Scale</strong>: '+parsedResult.ModelScopeTimeScaleDetail+'<br />'))
+            .append($('<span />').html('<strong>Spatial Extent</strong>: '+parsedResult.ModelScopeSpatialExtentDetail+'<br />'))
+            .append($('<span />').html('<strong>Data Requirements</strong>: '+parsedResult.ModelInputsDataRequirements+'<br />'))
+          )
+        )
+  );
+}
+
+/**
+ * map details of a result into accessible locations
+ */
+var parseResult = function(result) {
+  if(typeof(result)=='undefined') {return;}// catch bad input
+  var openSourceMap = {// map integral data-standard to text
+    1:'Yes',
+    2:'No',
+    3:'Partial'
+  };
+  var dataRequirementsMap = {// map integral data-standard to text
+    1:'All data is provided.',
+    2:'Data is publicly available.',
+    3:'Data is not publicly available but routinely available.',
+    4:'New data must be created.'
+  };
+  var softwareCostMap = {// map integral data-standard to text
+    1:'Free',
+    2:'$1-$499',
+    3:'$500-$1499',
+    4:'$1500-$3999',
+    5:'>$4000'
+  };
+  var parsedResult = {};
+  parsedResult.READResourceIdentifier = readSafe(result,['READExportDetail','InfoResourceDetail','READResourceIdentifier']);
+  parsedResult.LongTitleText = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongTitleText']);
+  parsedResult.Acronym = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','Acronym']);
+  parsedResult.LongDescription = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongDescription']);
+  parsedResult.UserSupportName = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportName']);
+  parsedResult.UserSupportEmail = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportEmail']);
+  parsedResult.UserSupportPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportPhoneNumber']);
+  parsedResult.KeywordText = readSafe(result,['READExportDetail','InfoResourceDetail','KeywordDetail','KeywordText']);
+  parsedResult.InfoResourceStewardTagText = readSafe(result,['READExportDetail','InfoResourceDetail','TagDetail','InfoResourceStewardTagText']);
+  parsedResult.URLText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','URLText']);
+  parsedResult.HelpDeskEmailAddressText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskEmailAddressText']);
+  parsedResult.HelpDeskPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);
+  parsedResult.RCSResources = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
+  parsedResult.OwnershipTypeName = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
+  parsedResult.DetailsBaseSoftwareCost = mapAll(readSafe(result,['READE)portDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']),undefined,softwareCostMap);
+  parsedResult.DetailsOtherCostConsiderations = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
+  parsedResult.DetailsOpenSource = parseOpenSource(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']));
+  parsedResult.DetailsLastKnownSoftwareUpdate = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsLastKnownSoftwareUpdate']);
+  parsedResult.ModelScopeDecisionSector = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeDecisionSector']);
+  parsedResult.UserSupportSourceOfSupportMaterials = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportSourceOfSupportMaterials']);
+  parsedResult.CurrentLifeCyclePhase = readSafe(result,['READExportDetail','InfoResourceDetail','LifeCycleDetail','CurrentLifeCyclePhase']);
+  parsedResult.LastModifiedDateTimeText = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedDateTimeText']);
+  parsedResult.LastModifiedPersonName = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedPersonName']);
+  parsedResult.OperatingEnvironmentName = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqOperatingEnvironmentDetail','OperatingEnvironmentName']);
+  parsedResult.OSName = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqCompatibleOSDetail','OSName']);
+  parsedResult.OtherReqName = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqOtherReqDetail','OtherReqName']);
+  parsedResult.ModelInputsTextArea = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsTextArea']);
+  parsedResult.ModelOutputsModelVariablesTextArea = readSafe(result,['READExportDetail','InfoResourceDetail','ModelOutputsDetail','ModelOutputsModelVariablesTextArea']);
+  parsedResult.ModelEvaluationTextArea = readSafe(result,['READExportDetail','InfoResourceDetail','ModelEvaluationDetail','ModelEvaluationTextArea']);
+  parsedResult.ModelScopeTimeScaleDetail = parseTimeScale(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeTimeScaleDetail']));
+  parsedResult.ModelScopeSpatialExtentDetail = parseSpatialExtent(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']));
+  parsedResult.ModelInputsDataRequirements = parseDataRequirements(readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']));
+
+  /**
+   * return decoded value(s) accumulated into a string
+   * @arg field{object} contains either object[propertyName] or object[0][propertyName]
+   * @arg propertyName{string} name of the property that holds the desired value
+   * @arg map{object} decode values with map[object[propertyName]] or map[object[0][propertyName]]
+   * READ Web Services return one value if only one value exists. If several values then they're in an array.
+   * There are various data-standards used in READ, like storing integers in place of strings for options.
+  */
+  function mapAll(field, propertyName, map) {//
+    if (typeof propertyName != 'undefined') {// arg propertyName passed?
+      if (field[propertyName]) {return map[field[propertyName]];}// money-shot!
+      if (field.length) {
+        var accumulatedString = '';// append accumulated values here
+        for (var i = 0; i < field.length - 1; i++) {
+          if (typeof map === 'undefined') {// no arg map passed...
+            accumulatedString += field[i][propertyName] + ', ';// ...accumulate ith value
+          } else {// arg map was passed...
+            accumulatedString += map[field[i]][propertyName] + ', ';// ...accumulate ith value
+          }
+        }
+        if (typeof map === 'undefined') {// no arg map passed...
+          accumulatedString += 'and ' + field[field.length - 1][propertyName];// ...accumulate final value
+        } else {// arg map was passed...
+          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
+        }
+        return accumulatedString;
+      }
+    } else {// no arg propertyName
+      if (field) {return field;}
+      if (field.length) {
+        var accumulatedString = '';// append accumulated values here
+        for (var i = 0; i < field.length - 1; i++) {
+          if (typeof map === 'undefined') {// no arg map passed...
+            accumulatedString += field[i] + ', ';// ...accumulate ith value
+          } else {// arg map was passed...
+            accumulatedString += map[field[i]] + ', ';// ...accumulate ith value
+          }
+        }
+        if (typeof map === 'undefined') {// no arg map passed...
+          accumulatedString += 'and ' + field[field.length - 1][propertyName];// ...accumulate final value
+        } else {// arg map was passed...
+          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
+        }
+        return accumulatedString;
+      }
+    }
+  }
+
+  // DOCUMENT
+  function parseSoftwareCost(cost) {
+    if (typeof(cost) !== 'string') {
+      if (cost.length) {
+        var str = '';
+        for (var i=0;i<cost.length-1;i++) {
+          str += parseSoftwareCost(cost[i]) + ', ';
+        }
+        str += parseSoftwareCost(cost[cost.length-1]);
+      }
+    }
+    switch (cost) {
+      case 1:
+        return "Free";
+      case 2:
+        return "$1-$499";
+      case 3:
+        return "$500-$1499";
+      case 4:
+        return "$1500-$3999";
+      case 5:
+        return ">$4000";
+      default:
+        return cost;// return some unexpected value instead of squelching any hint to the cause of the issue
+    }
+  }
+
+  // DOCUMENT
+  function parseSpatialExtent(extent) {// possibly joins strings in an array
+    if (extent.ModelScopeSpatialExtentDetailName) {return extent.ModelScopeSpatialExtentDetailName;}// return desired value if it is a property of extent
+    if (extent.length) {// is array?(this means several values instead of just one)
+      if (typeof extent === 'string') {return extent;}
+      var str = '';// create string for appending each spatial extent to while looping through array
+      for (var i = 0; i < extent.length - 1; i++) {// loop through all elements except last...
+        str += parseSpatialExtent(extent[i]) + ", ";//...append ith value and a delimiter
+      }
+      str += 'and ' + parseSpatialExtent(extent[extent.length - 1]);//append final value
+      return str; // return accumulated values in a string
+    }
+  }
+
+  // DOCUMENT
+  function parseOpenSource(openSource) {
+    return openSourceMap[openSource];
+  }// requires decoding a data-standard; will be mapped in parseResult.DetailsOpenSourceMap[INTEGER]
+
+  // DOCUMENT
+  function parseDataRequirements(dataRequirements) {// requires decoding a data-standard
+    return dataRequirementsMap[dataRequirements];// do work
+  }
+
+  // DOCUMENT
+  function parseTimeScale(timeScale) {//all that apply
+    if (timeScale.TimeScaleName) {return timeScale.TimeScaleName;}// return value if possible
+    if (timeScale.length) {
+      if (typeof timeScale === 'string') {return timeScale;}// if it's a string then return it
+      var timeStr = '';
+      for (var i=0;i<timeScale.length-1;i++) {// loop through all elements except last...
+        timeStr += timeScale[i].TimeScaleName;//...append ith value and a delimiter
+        if (timeScale.length > 2) {timeStr += ',';}// append comma when appropriate
+        timeStr += ' ';
+      }
+      if (timeScale.length > 2) {timeStr += 'and ';}// append 'and ' when appropriate
+      timeStr += timeScale[i].TimeScaleName;//append final value from array
+      return timeStr; // return accumulated values in string
+    }
+  }
+  return parsedResult;
+};
+
+/**
+ * check existence of each prop_i in obj.prop_1...prop_n
+ * @arg object{object} test the properties of object
+ * @arg propertyArray{array} [prop_1,...,prop_n] s.t.
+ *      object[prop_1][...][prop_n] is the desired value
+ * E.G.: readSafe(obj,['foo','bar','baz'])
+ * safely returns obj.foo.bar.baz value if all properties exist
+*/
+function readSafe(object, propertyArray) {
+  if(object[propertyArray[0]]) {// is first element of propertyArray a property of this object?
+    var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
+    if(Object.keys(propertyArray).length==1) {// is this the last property in the array?
+      if (value.length) {
+        if (typeof value != 'string') {
+          console.log('readSafe is returning an array from object',object,'at property',propertyArray[0]);
+        }
+      }
+      return value;// return contents of property
+    }else{// there are multiple elements remaining in propertyArray that we need to descend into
+      try{
+        // recursion with obj[prop_1] as obj for next iteration
+        return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
+      }catch(e) {
+        console.log('error: ',e);// dev
+        return 'no data'; // return 'no data'
+      }
+    }
+  }else{//fail: element zero of propertyArray isn't a property of this object
+    return 'no data'; // fail safely: return 'no data'
+  }
+}
+
+/**
+ * clear results and their cached ids
+ */
+var clearResultData = function(div) {
+  var container = $('#'+div);
+  var ids = container.data('ids');
+  if (typeof(ids) != 'undefined') {
+    for (var i=0;i<ids.length;i++) {
+      var id = ids[i];
+      container.removeData(id);
+    }
+    ids.length = 0;
+  }
+};
+
+/**
+ * check if object represents xsi:nil or unsanitized absence of data
+ */
+var isNil = function(obj) {
+  return Boolean(
+      typeof(obj)==='undefined'||
+      obj.hasOwnProperty('xsi:nil')||
+      obj===null||
+      obj===''||
+      obj==='no data'
+  );
+};
+
+/**
+ * return 'no data' if obj is invalid data
+ * return obj otherwise
+ */
+var validata = function(obj) {
+  try{
+    if(isNil(obj)) {
+      return 'no data';
+    }else{
+      return obj;
+    }
+  }catch(e) {
+    console.log('caught this error while parsing: ',e);
+    return 'no data';
+  }
+};
+//END TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
 
 //Load Models
 function loadModels() {
