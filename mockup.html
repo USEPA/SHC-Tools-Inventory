@@ -159,21 +159,29 @@
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
                 <h5>Who will use the tools? Select roles and proceed to the Subrole tab.</h5><hr />
+                <button onclick="selectAll('role')">Select All</button>
+                <button onclick="deselectAll('role')">Deselect All</button>
                 <div id="role"></div>
                 <button class="next enabled-by-subrole" onclick="activateNextTab($('#subrole-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
                 <h5>Provide some more information about your roles, and then proceed to the Objective tab.</h5><hr />
+                <button onclick="selectAll('subrole')">Select All</button>
+                <button onclick="deselectAll('subrole')">Deselect All</button>
                 <div id="subrole"></div>
                 <button class="next enabled-by-fundamental-objective" onclick="activateNextTab($('#fundamental-objective-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
                 <h5>Choose fundamental objectives and proceed to the next tab.</h5><hr />
+                <button onclick="selectAll('fundamental-objective')">Select All</button>
+                <button onclick="deselectAll('fundamental-objective')">Deselect All</button>
                 <div id="fundamental-objective"></div>
                 <button class="next enabled-by-objective" onclick="activateNextTab($('#objective-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
                 <h5>What are the user's goals? Select objectives for the desired tools and move to the next tab.</h5><hr />
+                <button onclick="selectAll('objective')">Select All</button>
+                <button onclick="deselectAll('objective')">Deselect All</button>
                 <button onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show fewer objectives</button>
                 <button onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show more objectives</button>
                 <br />
@@ -183,10 +191,12 @@
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
                 <h5>Select all concepts that apply to the intended use of the tool. Click Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</h5><hr />
-                <div id="concept"></div>
+                <button onclick="selectAll('concept')">Select All</button>
+                <button onclick="deselectAll('concept')">Deselect All</button>
                 <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <button id="keyword-search-button" onclick="keywordSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Keyword</button>
                 <button id="concept-search-button" onclick="conceptSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
+                <div id="concept"></div>
               </div>
               <div aria-labelledby="saved-results-tab" id="saved-results-panel" role="tabpanel" aria-hidden="true">
                 <h3>Saved Tools</h3>
@@ -1085,8 +1095,13 @@ function saveSelectedRecords(resultsDiv) {
  * Check all the checkboxes in the specified location
 */
 function selectAll(divID) {
-  $('#'+divID +' input').each(function(){
+  var $selected = $('#'+divID +' input');
+  var count = $selected.length;
+  $selected.each(function(){
     $(this).prop("checked", true);
+    if (--count === 0){
+      $(this).change();
+    }
   });
 }
 
@@ -1094,8 +1109,13 @@ function selectAll(divID) {
  * Uncheck all the checkboxes in the specified location
 */
 function deselectAll(divID) {
-  $('#'+divID +' input').each(function(){
+  var $selected = $('#'+divID +' input');
+  var count = $selected.length;
+  $selected.each(function(){
     $(this).prop("checked", false);
+    if (--count === 0){
+      $(this).change();
+    }
   });
 }
 
