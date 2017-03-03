@@ -17,6 +17,7 @@
 <label><input type="radio" name="output-type" value="3">objectivesByFundamentalObjective</label><br>
 <label><input type="radio" name="output-type" value="2">conceptsByObjective</label><br>
 <label><input type="radio" name="output-type" value="4">readIDsByConcept</label><br>
+<label><input type="radio" name="output-type" value="5">DPL Links</label><br>
 
 <textarea id="input" rows="10" value="Insert text to be converted"></textarea>
 <!-- INSERT A FILE-CHOOSER FOR THE USER TO SELECT A CSV FROM HIS OR HER COMPUTER WHEN BROWSERS PROVIDE BETTER SUPPORT FOR THIS -->
@@ -137,8 +138,10 @@ function displayFormattedData() {
     var formattedData = formatDataConceptsObjectives(parsedData.data);
   } else if (outputType == 3) {
     var formattedData = formatData(parsedData.data, "means_objective","fundamental_objective");
-  } else {
+  } else if (outputType == 4){
     var formattedData = formatData(parsedData.data, "READ_ID","node");
+  } else {
+    var formattedData = formatData(parsedData.data, "name_to","name_from");
   }
   //Returns xByY (ObjectivesBySubrole where x=objective and y=subrole)
   var data = JSON.stringify(formattedData);
