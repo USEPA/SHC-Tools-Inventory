@@ -1,0 +1,37 @@
+=====================================================
+backlog to track work to be done and by whom
+=====================================================
+= USAGE BELOW =======================================
+=====================================================
+
+- feature, bug tagged with text BUG, or issue
+  - who do what
+  - someone: something said
+=====================================================
+= EXAMPLES BELOW ====================================
+=====================================================
+
+- something needs to happen outside the code
+  - kyle: I think this is a good use of the backlog because it would otherwise go undocumented.
+=====================================================
+= BACKLOG BELOW =====================================
+=====================================================
+
+- create a backlog
+  - kyle type it
+=====================================================
+= COMPLETE ^=========================================
+=====================================================
+
+- provide Allen with contacts for records not in a decision-sector and not tagged "Sustainable Comm"
+
+- Why are LISA, BASINS, and SWMM absent from READ?
+  - kyle LISA appears deprecated
+  - kyle email John Harman about why BASINS and SWMM appear absent
+
+- WARM and MOVES not in decision-sectors
+  - seth send allen an EPA contact(PIRS or IMO) for each
+
+- FASOM GHG, GTM Model, ReEDS were added to READ by others and given a value in field DECISION_SECTOR
+  - allen: others should be allowed to add records to the shc-tools-inventory's search-results by populating this field  
+  - who do what action?
