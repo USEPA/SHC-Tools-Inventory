@@ -35,3 +35,34 @@ backlog to track work to be done and by whom
 - FASOM GHG, GTM Model, ReEDS were added to READ by others and given a value in field DECISION_SECTOR
   - allen: others should be allowed to add records to the shc-tools-inventory's search-results by populating this field  
   - who do what action?
+
+- specify filetype-specific actions for diffing
+  - specify in .gitattributes
+  - see documentation: https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes#Binary-Files
+
+- restyle mockup:
+  - place border on div.main-column to enclose application
+  - 
+  - containerDiv.style {
+      padding: 0.5em;
+      border: 0.5em solid rgb(214, 215, 217);
+      border-radius: 1em;
+    }
+  - hr.style {
+      border: .5em solid #d6d7d9;
+      border-radius: 1em;
+      height: 0;
+    }
+  - li.style {
+  }
+
+- alert whether results were found, number of results, a link to view results
+
+- disable unusable tabs
+  - inform user why not usable
+
+- anchor next button or remove next button
+
+- add "jump to top" links
+
+- display related concepts, tools, and other labels
