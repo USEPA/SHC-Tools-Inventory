@@ -26,8 +26,12 @@ backlog to track work to be done and by whom
 - provide Allen with contacts for records not in a decision-sector and not tagged "Sustainable Comm"
 
 - Why are LISA, BASINS, and SWMM absent from READ?
-  - kyle LISA appears deprecated
+  - kyle: LISA appears deprecated
   - kyle email John Harman about why BASINS and SWMM appear absent
+    - resolution: the tools were not visible from an internet-search in System of Registries(SOR or SoR), but an extranet-search finds these tools
+    - John: possibly not visible on internet-search because the stewards weren't pushed to make the data public
+  - kyle: this reveals relevant records can be hidden in READ
+  - kyle: LISA, BASINS, and SWMM should be assigned decision-sectors
 
 - WARM and MOVES not in decision-sectors
   - seth send allen an EPA contact(PIRS or IMO) for each
@@ -41,6 +45,7 @@ backlog to track work to be done and by whom
   - see documentation: https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes#Binary-Files
 
 - restyle mockup:
+  - kyle: borders suggest associations between groups of elements
   - place border on div.main-column to enclose application
   - 
   - containerDiv.style {
@@ -54,7 +59,7 @@ backlog to track work to be done and by whom
       height: 0;
     }
   - li.style {
-  }
+    }
 
 - alert whether results were found, number of results, a link to view results
 

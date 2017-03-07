@@ -308,7 +308,7 @@ var decisionSectors = ['land use','transportation','building infrastructure','wa
 
 $(function() { // jquery's shorthand awaits readiness of document
   // populate the roles into #role div
-  populate(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
+  updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
   // initialize tabs and their listeners
   initializeTabs();
 });
@@ -353,23 +353,34 @@ var objectiveDisplay = function(adjust) {
 };
 
 /**
+ * make interface react
+*/
+var updateInterface = function(list, $container, onChange){
+  // populate next selectables
+  populate(list, $container, onChange);// populate list into $container
+  // toggle tab
+  toggleTab(list, $container);// enable next tab iff list not empty
+  // build selector for next button
+  var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
+  // toggle next
+  toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
+}
+
+/**
  * populate list into specified $container;
  * maintain selections when possible
  */
 var populate = function(list, $container, onChange) {
   if (typeof list === 'undefined') {list = [];}// ensure list is defined
-  var currentlySelected = [];
-  $container.find(':checked').each(function(i,v) {// create an array for currently selected values
-      currentlySelected.push(v.value);
+  var currentlySelected = [];// create container for current selections
+  $container.find(':checked').each(function(i,v) {
+      currentlySelected.push(v.value);// store current selections in container
   });
   $container.html('');// clear items out of container
-  var html = addCheckboxes(list.sort(), $container, onChange);
-  $container.html(html);
-  toggleTab(list, $container);// enable next tab iff list not empty
-  var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
-  toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
+  var html = addCheckboxes(list.sort(), $container, onChange);// repopulate new selectables
+  $container.html(html);// create contents of $container
   $container.find('input[type=checkbox]').each(function(i,v) {// look through each element in $container
-      if(currentlySelected.indexOf(v.value)!=-1) {// check if item was currentlySelected
+      if(currentlySelected.indexOf(v.value)!=-1) {// check if item was selected
         $($(v)[0]).prop('checked',true);// select item
       }
   });
@@ -425,8 +436,10 @@ var toggleNext = function(list, nextButtonClassSubstring) {
 var toggleTab = function(list, $container) {
   if (list.length > 0 || Object.keys(list).length > 0) {
     $('#'+$container.parent().attr('aria-labelledby')).prop('disabled',false);
+    // aria-disabled, too!
   }else{
     $('#'+$container.parent().attr('aria-labelledby')).prop('disabled',true);
+    // aria-disabled, too!
   }
 };
 
@@ -460,7 +473,7 @@ var subroleSelect = function() {
   if (objectivesFromSubroles.length > 0) {
     list = Object.keys(objectivesByFundamentalObjective);
   }
-  populate(list, $('#fundamental-objective'), "fundamentalObjectiveSelect()");
+  updateInterface(list, $('#fundamental-objective'), "fundamentalObjectiveSelect()");
   fundamentalObjectiveSelect();
 };
 
@@ -488,7 +501,7 @@ var fundamentalObjectiveSelect = function() {
       objectives.push(objectivesFromSubroles[i]);
     }
   }  
-  populate(objectives, $('#objective'), "objectiveSelect()");
+  updateInterface(objectives, $('#objective'), "objectiveSelect()");
   objectiveSelect();
 };
 
@@ -497,7 +510,7 @@ var fundamentalObjectiveSelect = function() {
  */
 var objectiveSelect = function() {
   var selectedElements = scrapeDictionary($("input[name='objective-checkbox']:checked"), conceptsByObjective);
-  populate(selectedElements, $('#concept'));
+  updateInterface(selectedElements, $('#concept'));
 };
 
 /**
@@ -1297,7 +1310,7 @@ function checkPaths() {
   markBlanks(objectivesByFundamentalObjective, conceptsByObjective);
   markBlanks(subrolesByRole, objectivesBySubrole);
 
-  populate(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
+  updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
 }
 
 var leafNodes = ["Wildlife", "Community Diversity & Distribution", "Aquatic Species", "Supporting Services", "Age Demographics & Distribution", "Secure Home", "Life Stage", "Sense of Belonging", "Sense of Place", "Elementary & Secondary Schools", "Educational Attainment Demographics & Distribution", "Educational Attainment", "educational attainment", "Entertainment & Accomodation Services", "Education & Information", "Libraries", "Social Assistance Centers", "Equity", "Exercise", "Debris", "Sandy Beaches", "Social Resilience & Adaptive Capacity", "water quality", "Rental & Leasing", "aquatic habitat", "Wetland Conversion", "Preservation of History or Heritage", "Reef Habitat", "wildlife", "Justice & Law Enforcement", "drinking water", "Wealth Disparity", "Open Space", "Vulnerability to Crime", "Happiness & Fulfillment", "Access to Education", "fish", "Aquifer Recharge", "Groundwater Available", "shellfish", "Shellfish Stock", "Mangroves", "Seagrasses", "groundwater", "Colleges, Professional & Technical Schools", "Educational Disparity", "Aging Structures", "Repair & Maintenance Services", "Fish", "Navigable Water", "Nutrient Cycling", "Septic Systems", "Human Vulnerability to Natural Disaster", "Birds", "Marine Mammals", "Cultural Identity", "Littering", "Human Behavior", "Enforcement of Justice & Public Order", "Social Media", "Governance", "Respiratory System", "Government Funding", "Shellfish Harvest", "Social Relations", "Public Opposition or Support", "Aquatic Plants", "Artistic Trades", "Social Support", "Port & Harbor Construction & Maintenance", "Ocean Circulation & Flow", "Fishing Stock", "Toxins", "Odors", "Personal Injury", "Allergens", "carbon dioxide (CO2)", "Obesity", "Poverty Demographics & Distribution", "Exposure to Nuisances", "Eutrophication", "Pathogens", "Mineral, Rock, & Metal Mining", "Fire", "Coal Mining", "Mining", "Fertilizer Use", "Oil Combustion", "Algal Blooms", "Herbicide Use", "Invasive Species", "Hazardous Spills", "Petroleum Spills", "Disease Vectors", "Nutrients", "Pesticide & Insecticide Use", "Barren Rock & Sand", "sediments", "Sprawl", "Pet Ownership", "Historic Sites & Structures", "Applied Chemicals", "Heat Stress", "Maximize people's desire to live, work, and visit given city or place", "Maximize summer shade available in urban environments", "Maximize availability and protection of nesting, breeding, and/or nursery habitat", "Maximize conservation and protection of shorelines", "Minimize water pollutants", "Maximize support and capacity of community and neighborhood organizations", "Maximize reach and efficacy of education and outreach", "Maximize open space", "Maximize ecological integrity of rivers and streams", "Minimize energy use", "Minimize use of non-renewable energy", "Maximize usability, accessibility, and usefulness of public space", "Slow water runoff", "Minimize commutes", "Maximize quality of housing for low-income residents", "Minimize low-intensity auto-oriented uses of neighborhood space", "Maximize nutrient removal from wastewater", "Minimize wastewater discharge", "Maximize sustainable alternatives to gas-powered vehicles", "Minimize negative impacts of tourism on the environment and local communities", "Maxmize conservation and protection of barrier islands and barrier beaches", "Minimize sediment and dust", "Environmental consulting and/or compliance", "Green design and/or LEED accredited professional", "Ecological landscape design", "Project management/project design", "Geotechnical engineering", "Environmental engineering", "Civil engineering", "Landscape architecture or design", "Neighborhood or city greening council or organization", "Land trust(s)", "Urban forest organization or coalition", "Watershed association", "Neighborhood/community planning", "Environmental planning", "Transportation planning", "Economic & community development planning", "Land use planning", "Site planning", "Urban or city/municipal planning", "Regional planning", "Hazard or natural disaster mitigation planning & response", "Energy planning", "Integrated water resources planning", "Sustainability planning", "Homeowner occupant - resident that owns home", "Commercial landowner", "Homeowner with small lot (<1acre) or no lot", "Homeowner with large lot (1-5 acres)", "Small landowner (5-10 acres)", "Large landowner (>10 acres)", "Landlord", "Building, property, or estate manager", "Renter", "Federal", "State", "Local (municipal, city, town, county, etc)", "NPDES (National Pollution Discharge Ellimination System)", "Permitting specialist", "City/town forester (public employee)", "Public landscape or garden manager (e.g. employee of Parks or Public Works Department)", "Representative of non-governmental urban forestry organization", "Commercial or industrial facility representative", "Non-recreational vessel representative", "Construction industry representative", "Oil and gas industry representative", "Mining industry representative"];
