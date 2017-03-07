@@ -671,13 +671,10 @@ var getResourceDetail = function(id, div) {
  * display a result; save result's data to the containing element
  * @arg data{object} READ Web Services detail object
  */
-var displayResult = function(data, div, fields) {
-  fields = (typeof(fields) === 'undefined') ? ['title'] : fields;
-  var containerId = div;
+var displayResult = function(data, div) {
   var parsedResult = parseResult(data);
-  fields = ['title', 'description', 'url'];
-  if (isNewResult(containerId, parsedResult)) {
-    addDiv(parsedResult, containerId);
+  if (isNewResult(div, parsedResult)) {
+    addDiv(parsedResult, div);
   }
 };
 
