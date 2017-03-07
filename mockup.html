@@ -158,28 +158,28 @@
                 <li><a aria-controls="saved-results-panel" aria-selected="false" class="menu-internal" href="#saved-results-panel" id="saved-results-tab" role="tab">Saved Tools</a></li>
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
-                <h5>Who will use the tools? Select roles and proceed to the Subrole tab.</h5><hr />
+                <p>Who will use the tools? Select roles and proceed to the Subrole tab.</p><hr />
                 <button onclick="selectAll('role')">Select All</button>
                 <button onclick="deselectAll('role')">Deselect All</button>
                 <div id="role"></div>
                 <button class="next enabled-by-subrole" onclick="activateNextTab($('#subrole-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
-                <h5>Provide some more information about your roles, and then proceed to the Objective tab.</h5><hr />
+                <p>Provide some more information about your roles, and then proceed to the Objective tab.</p><hr />
                 <button onclick="selectAll('subrole')">Select All</button>
                 <button onclick="deselectAll('subrole')">Deselect All</button>
                 <div id="subrole"></div>
                 <button class="next enabled-by-fundamental-objective" onclick="activateNextTab($('#fundamental-objective-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
-                <h5>Choose fundamental objectives and proceed to the next tab.</h5><hr />
+                <p>Choose fundamental objectives and proceed to the next tab.</p><hr />
                 <button onclick="selectAll('fundamental-objective')">Select All</button>
                 <button onclick="deselectAll('fundamental-objective')">Deselect All</button>
                 <div id="fundamental-objective"></div>
                 <button class="next enabled-by-objective" onclick="activateNextTab($('#objective-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
-                <h5>What are the user's goals? Select objectives for the desired tools and move to the next tab.</h5><hr />
+                <p>What are the user's goals? Select objectives for the desired tools and move to the next tab.</p><hr />
                 <button onclick="selectAll('objective')">Select All</button>
                 <button onclick="deselectAll('objective')">Deselect All</button>
                 <button onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show fewer objectives</button>
@@ -190,7 +190,7 @@
                 <button class="next enabled-by-concept" onclick="activateNextTab($('#concept-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
-                <h5>Select all concepts that apply to the intended use of the tool. Click Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</h5><hr />
+                <p>Select all concepts that apply to the intended use of the tool. Click Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</p><hr />
                 <button onclick="selectAll('concept')">Select All</button>
                 <button onclick="deselectAll('concept')">Deselect All</button>
                 <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
