@@ -664,7 +664,9 @@ var getKeywords = function(input) {
  * pass details of id into displayResult
  */
 var getResourceDetail = function(id, div) {
-  $.get(resourceDetailURL,{ ResourceId: id }).done(function(data) {displayResult(data, div);});
+  $.get(resourceDetailURL,{ ResourceId: id }).done(function(data) {
+    displayResult(data, div);
+  });
 };
 
 /**
