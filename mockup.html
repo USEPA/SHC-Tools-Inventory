@@ -162,6 +162,7 @@
                 <button onclick="selectAll('role')">Select All</button>
                 <button onclick="deselectAll('role')">Deselect All</button>
                 <div id="role"></div>
+                <p class="pagetop"><a href="#tabs">Return to top</a></p>
                 <button class="next enabled-by-subrole" onclick="activateNextTab($('#subrole-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
@@ -169,6 +170,7 @@
                 <button onclick="selectAll('subrole')">Select All</button>
                 <button onclick="deselectAll('subrole')">Deselect All</button>
                 <div id="subrole"></div>
+                <p class="pagetop"><a href="#tabs">Return to top</a></p>
                 <button class="next enabled-by-fundamental-objective" onclick="activateNextTab($('#fundamental-objective-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
@@ -187,6 +189,7 @@
                 <br />
                 <input id="objective-relevance" type="hidden" value="1" />
                 <div id="objective"></div>
+                <p class="pagetop"><a href="#tabs">Return to top</a></p>
                 <button class="next enabled-by-concept" onclick="activateNextTab($('#concept-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
@@ -198,6 +201,7 @@
                 <button id="concept-search-button" onclick="conceptSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
                 <div id="results-notification"></div>
                 <div id="concept"></div>
+                <p class="pagetop"><a href="#tabs">Return to top</a></p>
               </div>
               <div aria-labelledby="saved-results-tab" id="saved-results-panel" role="tabpanel" aria-hidden="true">
                 <h3>Saved Tools</h3>
@@ -207,6 +211,7 @@
                 <button onclick="removeSelected('saved-results')">Remove Selected Tools</button>
                 <button onclick="exportCSV('saved-results')">Export Selected Tools to CSV</button>
                 <div id="saved-results"></div>
+                <p class="pagetop"><a href="#tabs">Return to top</a></p>
               </div>
             </div>
             <div id="results-container">
@@ -216,6 +221,7 @@
               <button onclick="removeSelected('search-results')">Remove Selected Tools</button>
               <button onclick="saveSelectedRecords('saved-results')">Save Selected Tools</button>
               <div id="search-results"></div>
+              <p class="pagetop"><a href="#tabs">Return to top</a></p>
             </div>
           </div>
         </div>
