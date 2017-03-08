@@ -196,6 +196,7 @@
                 <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <button id="keyword-search-button" onclick="keywordSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Keyword</button>
                 <button id="concept-search-button" onclick="conceptSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
+                <div id="results-notification"></div>
                 <div id="concept"></div>
               </div>
               <div aria-labelledby="saved-results-tab" id="saved-results-panel" role="tabpanel" aria-hidden="true">
@@ -209,7 +210,7 @@
               </div>
             </div>
             <div id="results-container">
-              <h2>Tools</h2>
+              <h2 id="tools">Tools</h2>
               <button onclick="selectAll('search-results')">Select All</button>
               <button onclick="deselectAll('search-results')">Deselect All</button>
               <button onclick="removeSelected('search-results')">Remove Selected Tools</button>
@@ -612,6 +613,10 @@ var conceptSearch = function(div, input) {
   $('#'+div+' *').remove();
   clearResultData(div);
   var concepts = getConcepts(input);
+  if (concepts.length < 1) {
+    $('#results-notification').html('<strong>Please select a concept.</strong>').css('background-color', '#e31c3d').css("color", "#fff").css("padding", ".2rem");
+    return;
+  }
   for (var i=0; i<concepts.length; i++) {
     if(readIDsByConcept[concepts[i]]) {
       for (var j=0;j<readIDsByConcept[concepts[i]].length;j++) {
@@ -624,6 +629,11 @@ var conceptSearch = function(div, input) {
         }
       }
     }
+  }
+  if (tools.length > 0) {
+    $('#results-notification').html('<strong>Found '+tools.length+' results. <a href="#tools">Take me to them!</a></strong>').css('background-color', '#2e8540').css("color", "#fff").css("padding", ".2rem");
+  } else {
+    $('#results-notification').html('<strong>No results found.</strong>').css('background-color', '#e31c3d').css("color", "#fff").css("padding", ".2rem");
   }
 };
 
