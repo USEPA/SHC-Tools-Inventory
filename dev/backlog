@@ -32,9 +32,13 @@ backlog to track work to be done and by whom
     - John: possibly not visible on internet-search because the stewards weren't pushed to make the data public
   - kyle: this reveals relevant records can be hidden in READ
   - kyle: LISA, BASINS, and SWMM should be assigned decision-sectors
+  - seth: spreadsheet comparing values on READ and in Tool spreadsheet sent to allen
+  - seth: do we need to just update decision sector, or also additional metadata?
 
 - WARM and MOVES not in decision-sectors
   - seth send allen an EPA contact(PIRS or IMO) for each
+  - seth: spreadsheet comparing values on READ and in Tool spreadsheet sent to allen
+  - seth: do we need to just update decision sector, or also additional metadata?
 
 - FASOM GHG, GTM Model, ReEDS were added to READ by others and given a value in field DECISION_SECTOR
   - allen: others should be allowed to add records to the shc-tools-inventory's search-results by populating this field  
@@ -62,6 +66,7 @@ backlog to track work to be done and by whom
     }
 
 - alert whether results were found, number of results, a link to view results
+	- seth: completed
 
 - disable unusable tabs
   - inform user why not usable
