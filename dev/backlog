@@ -19,6 +19,29 @@ backlog to track work to be done and by whom
 
 - create a backlog
   - kyle type it
+
+- alert whether results were found, number of results, a link to view results
+	- seth: completed
+
+- eliminate redundant getResourceDetail calls in conceptSearch
+	- seth: completed
+
+- hide tool results div unless there are tool results to display
+	- seth: completed
+
+- hr.style {
+	  border: .5em solid #d6d7d9;
+	  border-radius: 1em;
+	  height: 0;
+	}
+	- seth: completed
+
+ - add "jump to top" links
+	- seth: completed
+
+- disable unusable tabs
+  - inform user why not usable
+  	- this was stubbed as a console.log() suggestion to consider a good implementation of this
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -57,23 +80,16 @@ backlog to track work to be done and by whom
       border: 0.5em solid rgb(214, 215, 217);
       border-radius: 1em;
     }
-  - hr.style {
-      border: .5em solid #d6d7d9;
-      border-radius: 1em;
-      height: 0;
-    }
   - li.style {
     }
-
-- alert whether results were found, number of results, a link to view results
-	- seth: completed
-
-- disable unusable tabs
-  - inform user why not usable
+   - 
 
 - anchor next button or remove next button
 
-- add "jump to top" links
-	- seth: completed
-
 - display related concepts, tools, and other labels
+
+- scrape result text for urls
+	- validate urls
+	- create anchor
+
+- document both READ-fields steward-tag and decision-sector 
