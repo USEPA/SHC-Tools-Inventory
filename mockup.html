@@ -615,7 +615,13 @@ var conceptSearch = function(div, input) {
   for (var i=0; i<concepts.length; i++) {
     if(readIDsByConcept[concepts[i]]) {
       for (var j=0;j<readIDsByConcept[concepts[i]].length;j++) {
-        getResourceDetail(readIDsByConcept[concepts[i]][j], div);
+        if (tools.hasOwnProperty(readIDsByConcept[concepts[i]][j])) {
+          tools[readIDsByConcept[concepts[i]][j]]++;
+        } else {
+          getResourceDetail(readIDsByConcept[concepts[i]][j], div);
+          tools[readIDsByConcept[concepts[i]][j]] = 1;
+          tools.length++;
+        }
       }
     }
   }
