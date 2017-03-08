@@ -178,6 +178,7 @@
                 <button onclick="selectAll('fundamental-objective')">Select All</button>
                 <button onclick="deselectAll('fundamental-objective')">Deselect All</button>
                 <div id="fundamental-objective"></div>
+                <p class="pagetop"><a href="#tabs">Return to top</a></p>
                 <button class="next enabled-by-objective" onclick="activateNextTab($('#objective-tab'))" disabled>Next</button>
               </div>
               <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
@@ -214,7 +215,7 @@
                 <p class="pagetop"><a href="#tabs">Return to top</a></p>
               </div>
             </div>
-            <div id="results-container">
+            <div id="results-container" hidden aria-hidden="true">
               <h2 id="tools">Tools</h2>
               <button onclick="selectAll('search-results')">Select All</button>
               <button onclick="deselectAll('search-results')">Deselect All</button>
@@ -335,8 +336,13 @@ var initializeTabs = function() {
     $(currentTab).show(); // show clicked tab's panel
     if (currentTab == "#saved-results-panel"){// check if currentTab is saved-results
       $('#results-container').hide();// hide results
-    } else {
+      $('#results-container').attr('aria-hidden', 'true');
+    } else if ($('#search-results').has('div').length){
       $('#results-container').show();// show results
+      $('#results-container').attr('aria-hidden', 'false');
+    } else {
+      //$('#results-container').hide();// hide results
+      //$('#results-container').attr('aria-hidden', 'true');
     }
     return false;// return false for success; conventionially return truthy description of failure
   });
@@ -621,6 +627,8 @@ var conceptSearch = function(div, input) {
   var concepts = getConcepts(input);
   if (concepts.length < 1) {
     $('#results-notification').html('<strong>Please select a concept.</strong>').css('background-color', '#e31c3d').css("color", "#fff").css("padding", ".2rem");
+    $('#results-container').hide();
+    $('#results-container').attr('aria-hidden', 'true');
     return;
   }
   var tools = {length:0};
@@ -639,8 +647,12 @@ var conceptSearch = function(div, input) {
   }
   if (tools.length > 0) {
     $('#results-notification').html('<strong>Found '+tools.length+' results. <a href="#tools">Take me to them!</a></strong>').css('background-color', '#2e8540').css("color", "#fff").css("padding", ".2rem");
+    $('#results-container').show();
+    $('#results-container').attr('aria-hidden', 'false');
   } else {
     $('#results-notification').html('<strong>No results found.</strong>').css('background-color', '#e31c3d').css("color", "#fff").css("padding", ".2rem");
+    $('#results-container').hide();
+    $('#results-container').attr('aria-hidden', 'true');
   }
 };
 
