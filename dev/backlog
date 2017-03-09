@@ -52,6 +52,11 @@ backlog to track work to be done and by whom
   - kyle: complete
 
 - kyle round corners of labels for consistent style across app
+
+- kyle restyle next button
+  - float next button in lower right
+  - surround with whitespace
+  - distinguish with more prominent border
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -84,8 +89,6 @@ backlog to track work to be done and by whom
 - specify filetype-specific actions for diffing
   - specify in .gitattributes
   - see documentation: https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes#Binary-Files
-
-- kyle float next button in lower right, surround with whitespace, and distinguish with more prominent border
 
 - display related concepts, tools, and other labels
 
