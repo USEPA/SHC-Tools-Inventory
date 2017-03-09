@@ -42,17 +42,25 @@ backlog to track work to be done and by whom
 - disable unusable tabs
   - inform user why not usable
   	- this was stubbed as a console.log() suggestion to consider a good implementation of this
+    - complete
 
 - scrape result text for urls
 	- validate urls
 	- create anchor
   - kyle: I have implemented a method in readSafe to markup URLs and email addresses
   - kyle: some emails seem obfuscated
+  - kyle: complete
+
+- kyle round corners of labels for consistent style across app
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
 
 - provide Allen with contacts for records not in a decision-sector and not tagged "Sustainable Comm"
+  - create tool to script finding tools added by others
+    - these tools will have a decision-sector
+    - these tools will not be tagged "Sustainable Comm"
+    - return READ ID, title, acronym, description, decision-sector, and contact
 
 - Why are LISA, BASINS, and SWMM absent from READ?
   - kyle: LISA appears deprecated
@@ -69,7 +77,7 @@ backlog to track work to be done and by whom
   - seth: spreadsheet comparing values on READ and in Tool spreadsheet sent to allen
   - seth: do we need to just update decision sector, or also additional metadata?
 
-- FASOM GHG, GTM Model, ReEDS were added to READ by others and given a value in field DECISION_SECTOR
+- FASOM GHG, GTM Model, ReEDS were added to READ by others and given a decision-sector
   - allen: others should be allowed to add records to the shc-tools-inventory's search-results by populating this field  
   - who do what action?
 
@@ -77,21 +85,8 @@ backlog to track work to be done and by whom
   - specify in .gitattributes
   - see documentation: https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes#Binary-Files
 
-- restyle mockup:
-  - kyle: borders suggest associations between groups of elements
-  - place border on div.main-column to enclose application
-  - 
-  - containerDiv.style {
-      padding: 0.5em;
-      border: 0.5em solid rgb(214, 215, 217);
-      border-radius: 1em;
-    }
-  - li.style {
-    }
-   - 
-
-- anchor next button or remove next button
+- kyle float next button in lower right, surround with whitespace, and distinguish with more prominent border
 
 - display related concepts, tools, and other labels
 
-- document both READ-fields steward-tag and decision-sector 
+- document both READ-fields steward-tag and decision-sector
