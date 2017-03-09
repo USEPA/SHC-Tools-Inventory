@@ -774,7 +774,7 @@ function addDiv(parsedResult, containerId) {
             .addClass('col size-1of2')
             .append($('<span />').html('<strong>Contact Name</strong>: '+parsedResult.UserSupportName+'<br />'))
             .append($('<span />').html('<strong>Contact Email</strong>: '+parsedResult.UserSupportEmail+'<br />'))
-            .append($('<span />').html('<strong>URL</strong>: <a href="'+parsedResult.URLText+'" target="_blank" onclick="stopPropagation(event)">'+parsedResult.URLText+'</a><br />'))
+            .append($('<span />').html('<strong>URL</strong>: '+parsedResult.URLText+'<br />'))
             .append($('<span />').html('<strong>Internet Help Desk Phone</strong>: '+parsedResult.HelpDeskPhoneNumber+'<br />'))
             .append($('<span />').html('<strong>Internet Help Desk Email</strong>: '+parsedResult.HelpDeskEmailAddressText+'<br />'))
             .append($('<span />').html('<strong>Lifecycle Phase</strong>: '+parsedResult.CurrentLifeCyclePhase+'<br />'))
@@ -1003,8 +1003,23 @@ function readSafe(object, propertyArray) {
         if (typeof value != 'string') {
           console.log('readSafe is returning an array from object',object,'at property',propertyArray[0]);
         }
+        if (typeof value === 'string') {
+          // scrape value for URLs with regex
+          // create a simply rad regex to find URLs
+          var urlRegExp = /((http|ftp|https):\/\/[^ @"]+|[^@]\b[^ @"]+\.(com|gov|edu|org|net|info|io)[^ @"]*)/ig;
+          // create a template of how to format the URL into a descriptive anchor
+          var linkTemplate = '<a href="$1" target="_blank">$1<a>';
+          // replace all matched URLs with formatted anchors
+          value = value.replace(urlRegExp, linkTemplate).toString();
+          // create a sadly buggy regex to find emails
+          var emailRegExp = /(\S+@\S+\.(gov|edu|com|org|net|info))/ig;
+          // create a template of a mailto link
+          var mailtoTemplate = '<a href="mailto:$1">$1</a>';
+          // replace all email addresses in text with mailto links
+          value = value.replace(emailRegExp, mailtoTemplate);
+        }
       }
-      return value;// return contents of property
+      return value;// return possibly formatted contents of property
     }else{// there are multiple elements remaining in propertyArray that we need to descend into
       try{
         // recursion with obj[prop_1] as obj for next iteration
