@@ -42,6 +42,12 @@ backlog to track work to be done and by whom
 - disable unusable tabs
   - inform user why not usable
   	- this was stubbed as a console.log() suggestion to consider a good implementation of this
+
+- scrape result text for urls
+	- validate urls
+	- create anchor
+  - kyle: I have implemented a method in readSafe to markup URLs and email addresses
+  - kyle: some emails seem obfuscated
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -87,9 +93,5 @@ backlog to track work to be done and by whom
 - anchor next button or remove next button
 
 - display related concepts, tools, and other labels
-
-- scrape result text for urls
-	- validate urls
-	- create anchor
 
 - document both READ-fields steward-tag and decision-sector 
