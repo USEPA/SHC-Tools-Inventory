@@ -766,8 +766,16 @@ function addDiv(parsedResult, containerId) {
               .addClass('col size-95of100'))
           .append(
             $('<div />')
+              .css('float','right')
               .addClass('col')
               .addClass('accordian-result')))
+      /*.append(
+        $('<div />')
+          .addClass('row')
+          .append(
+            $('<div />')
+              .addClass('col')
+              .html('<strong>Concepts</strong>: '+getToolConcepts(parsedResult.READResourceIdentifier))))*/
       .append(
         $('<div />')
           .css('display', 'none')
@@ -1142,6 +1150,115 @@ function conceptDplLinks(){
       }
     }
   }
+}
+
+function getToolConcepts(toolId){
+  var concepts = [];
+  for (var concept in readIDsByConcept) {
+    if (readIDsByConcept.hasOwnProperty(concept)) {
+      if (readIDsByConcept[concept].indexOf(toolId+'') !== -1) {
+        concepts.push(concept);
+      }
+    }
+  }
+  return concepts;
+}
+
+function findChildConcepts(){
+  // exit if no concepts are selected
+  if ($('input[name="concept-checkbox"]:checked').length === 0) {
+    return;
+  }
+  var allConcepts = [];
+  var checkedConcepts = [];
+  var associatedConcepts = [];
+  $("input[name='concept-checkbox']").each(function() {
+    if ($(this).prop("checked")) {
+      checkedConcepts.push($(this).val());
+    }
+    allConcepts.push($(this).val());
+  });
+  for (var k=0;k<checkedConcepts.length;k++) {
+    //find child nodes of selected concept
+    if (dplLinks[checkedConcepts[k]]) {
+      for (var i=0;i<dplLinks[checkedConcepts[k]].length;i++) {
+        if (readIDsByConcept[dplLinks[checkedConcepts[k]][i]]) {
+          //console.log(dplLinks[checkedConcepts[k]][i]);
+          if (associatedConcepts.indexOf(dplLinks[checkedConcepts[k]][i]) === -1 && dplLinks[checkedConcepts[k]][i].length > 1 && allConcepts.indexOf(dplLinks[checkedConcepts[k]][i]) === -1) {
+            associatedConcepts.push(dplLinks[checkedConcepts[k]][i]);
+          }
+        }
+      }
+    }
+  }
+  console.log("Children: "+ associatedConcepts);
+}
+
+function findParentConcepts(){
+// exit if no concepts are selected
+  if ($('input[name="concept-checkbox"]:checked').length === 0) {
+    return;
+  }
+  var allConcepts = [];
+  var checkedConcepts = [];
+  var associatedConcepts = [];
+  $("input[name='concept-checkbox']").each(function() {
+    if ($(this).prop("checked")) {
+      checkedConcepts.push($(this).val());
+    }
+    allConcepts.push($(this).val());
+  });
+
+  for (var k=0;k<checkedConcepts.length;k++) {
+    //find parent nodes of selected concept
+    for (var concept in dplLinks) {
+      if (dplLinks.hasOwnProperty(concept)) {
+        if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
+           if (readIDsByConcept[concept]) {
+            //console.log(concept);
+            if (associatedConcepts.indexOf(concept) === -1 && concept.length > 1 && allConcepts.indexOf(concept) === -1) {
+              associatedConcepts.push(concept);
+            }
+          }
+        }
+      }
+    }
+  }
+  console.log("Parents: "+ associatedConcepts);
+}
+
+function findSiblingConcepts(){
+// exit if no concepts are selected
+  if ($('input[name="concept-checkbox"]:checked').length === 0) {
+    return;
+  }
+  var allConcepts = [];
+  var checkedConcepts = [];
+  var associatedConcepts = [];
+  $("input[name='concept-checkbox']").each(function() {
+    if ($(this).prop("checked")) {
+      checkedConcepts.push($(this).val());
+    }
+    allConcepts.push($(this).val());
+  });
+
+  for (var k=0;k<checkedConcepts.length;k++) {
+    //find parent nodes of selected concept
+    for (var concept in dplLinks) {
+      if (dplLinks.hasOwnProperty(concept)) {
+        if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
+           if (readIDsByConcept[concept]) {
+            console.log("Parent: "+concept);
+            console.log("Siblings: "+dplLinks[concept]);
+            //if (associatedConcepts.indexOf(concept) === -1 && concept.length > 1 && allConcepts.indexOf(concept) === -1) {
+              //associatedConcepts.push(concept);
+            //}
+          }
+        }
+      }
+    }
+  }
+  //console.log("Parents: "+ associatedConcepts);
 }
 
 /**
