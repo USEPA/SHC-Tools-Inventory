@@ -2,16 +2,28 @@
 
 ## Introduction
 
-Give your users an overview of the purpose and function of your project in a paragraph or two (at most).
-Because sometimes a picture is worth a thousand words, include screenshots when appropriate.
+This tool finds softwares of interest that promote sustainability.
+Users answer questions that allow this tool to select a set of softwares.
+Users can then review or print the details of selected softwares.
+
+Users may also search titles, acronyms, and descriptions of the many softwares.
+The search works as a search-engine.
 
 ## Usage
 
-Provide a short code snippet (if applicable), or short usage instructions
+1. Select one or more answers to each question from the choices shown.
+1. Use the button labeled "Next" or use the next tab to advance to the next question.
+1. Answers to any question may be changed at any time.
+  - Selecting new answers creates new choices for answers to later questions.
+  - Deselecting answers removes choices for answers to later questions.
+1. Use the find tools button after all questions have been answered to see relevant tools.
+1. Click the description of a tool to see its details.
 
 ## Contributing
 
-Give instructions on how to participate in your project patches.
+Please follow this project's documented code-conventions to contribute to maintain a healthy consistency.
+These conventions are outlined in `./dev/codelaborate`.
+`codelaborate` also specifies interfaces, web-services, and design-patterns.
 
 ## Help
 
@@ -19,38 +31,31 @@ Explain which communication channels are available to request help.
 Communication channels with a proven track record are mailing lists, IRC channels, and forums.
 Also be sure to tell your more experienced users how and where to submit bugs or feature requests, possibly turning them into project participants.
 
+The documentation for this project should provide a great help.
+Please maintain documentation by documenting new work in a consistent manner.
+If you appreciate good documentation then follow the golden rule: "doc unto others as you would have them doc unto you."
+
 ## Installation
+
+Installation is getting the documents and a web-browser.
 
 ### Requirements
 
-List anything your project requires in order to work as expected.
+This project requires a web-browser with javascript enabled.
+If the browser is Internet Explorer then it must be a version later than 9 to function completely.
 
 ### Installation
 
-Describe how to install your program.
-Be precise and give examples.
-Don't assume your users know how to clone from my github repo.
-Keep in mind that some of your users may be completely unskilled in system administration or software development.
+Install this tool by running `git clone https://www.github.com/USEPA/shc-tools-inventory.git`.
 
 ### Configuration
 
-After having installed the software, the user may need to configure it.
-List configuration options and explain how and where to set them.
+No configuration is required.
 
 ## Credits
 
-Sometimes also called Authors, this is the list of project contributors.
-
-## Contact
-
-People may want to reach out to you for various reasons, ranging from DCMA take down notices to questions about how to donate to your project.
-Provide contact information, such as an email address, and keep in mind that some countries may require certain information by law, such as a full postal address, website URL, and company name.
+Allen Brookes, Seth Jenkins, Marilyn Tenbrink, Ingrid Heilke, Julia Twitchell, Ryan Furey, and Kyle Thomas.
 
 ## License
 
-This project is licensed under [insert license].
-The license should be in a separate file called LICENSE, so don't explain it in detail within your documentation.
-Also, don't forget to specify licenses of third-party libraries and programs you use.
-
-Sometimes including a Table of Contents (TOC) at the beginning of the documentation makes sense, especially when your README file is more than a few paragraphs.
-If you think that the README file has grown too large, put some of the more detailed parts, such as installation or configuration sections, into their own files.
+This tool uses jquery. Hence, jquery's license is noted.
