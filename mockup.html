@@ -51,6 +51,10 @@
     label{
       border-radius: .5em;
     }
+    #results-notification{
+      border: .5em solid #2e8540;
+      border-radius: .5em;
+    }
     #results-container{
       border: 2px solid #d6d7d9;
       margin: 1em 0 0 0;
@@ -657,7 +661,7 @@ var conceptSearch = function(div, input) {
   clearResultData(div);
   var concepts = getConcepts(input);
   if (concepts.length < 1) {
-    $('#results-notification').html('<strong>Please select a concept.</strong>').css('background-color', '#e31c3d').css("color", "#fff").css("padding", ".2rem");
+    $('#results-notification').html('<strong>Please select a concept.</strong>').css('border-color:#e31c3d;');
     $('#results-container').hide();
     $('#results-container').attr('aria-hidden', 'true');
     return;
@@ -677,7 +681,7 @@ var conceptSearch = function(div, input) {
     }
   }
   if (tools.length > 0) {
-    $('#results-notification').html('<strong>Found '+tools.length+' results. <a href="#tools">Take me to them!</a></strong>').css('background-color', '#2e8540').css("color", "#fff").css("padding", ".2rem");
+    $('#results-notification').html('<strong>Found '+tools.length+' results. <a href="#tools">Take me to them!</a></strong>').css('border-color', '#2e8540');
     $('#results-container').show();
     $('#results-container').attr('aria-hidden', 'false');
   } else {

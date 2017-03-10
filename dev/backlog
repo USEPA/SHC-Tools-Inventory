@@ -57,13 +57,19 @@ backlog to track work to be done and by whom
   - float next button in lower right
   - surround with whitespace
   - distinguish with more prominent border
+  - kyle: done
 
 - append exit notification to links which don't contain the substring epa.gov
+  - kyle: done
 
 - update README.md
   - kyle: done
 
 - hide unusable tabs
+  - kyle: done
+
+- restyle results-notification to make links visible
+  - kyle: done
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
