@@ -169,12 +169,12 @@
           <div class="node node-page clearfix view-mode-full">
             <div id="tabs">
               <ul class="tabs" id="tabsnav" role="tablist">
-                <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal" href="#role-panel" id="role-tab" role="tab">Role</a></li>
-                <li><a aria-controls="subrole-panel" aria-disabled="true" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#subrole-panel" id="subrole-tab" role="tab">Subrole</a></li>
-                <li><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#fundamental-objective-panel" id="fundamental-objective-tab" role="tab">Fundamental Objective</a></li>
-                <li><a aria-controls="objective-panel" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#objective-panel" id="objective-tab" role="tab">Objective</a></li>
-                <li><a aria-controls="concept-panel" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#concept-panel" id="concept-tab" role="tab">Concept</a></li>
-                <li><a aria-controls="saved-results-panel" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#saved-results-panel" id="saved-results-tab" role="tab">Saved Tools</a></li>
+                <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal" href="#tabsnav" id="role-tab" role="tab">Role</a></li>
+                <li><a aria-controls="subrole-panel" aria-disabled="true" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="subrole-tab" role="tab">Subrole</a></li>
+                <li><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="fundamental-objective-tab" role="tab">Fundamental Objective</a></li>
+                <li><a aria-controls="objective-panel" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="objective-tab" role="tab">Objective</a></li>
+                <li><a aria-controls="concept-panel" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="concept-tab" role="tab">Concept</a></li>
+                <li><a aria-controls="saved-results-panel" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="saved-results-tab" role="tab">Saved Tools</a></li>
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
                 <p>Who will use the tools? Select roles and proceed to the Subrole tab.</p><hr />
@@ -349,12 +349,13 @@ var initializeTabs = function() {
   $('#tabsnav li:first').addClass('active'); // class tabs active for styling
   $('.menu-internal').click(function(){ // add listener to tabbing elements
     if (!$(this).is('[aria-disabled]')) {// tab doesn't have an aria-disabled attribute...
+      console.log($('#tabsnav li'));
       $('#tabsnav li').removeClass('active'); // remove active styling from all tabs
-      var currentTab = $(this).attr('href'); // get name of clicked tab
-      $('#tabsnav li a[href="'+currentTab+'"]').parent().addClass('active'); // activate the clicked tab
+      var currentPanel = '#'+$(this).attr('aria-controls');// make a jquery object selecting the panel associated with the clicked tab
+      $(this).parent().addClass('active'); // activate the clicked tab
       $('#tabs > div').hide(); // hide all panels
-      $(currentTab).show(); // show clicked tab's panel
-      if (currentTab == "#saved-results-panel"){// check if currentTab is saved-results
+      $(currentPanel).show(); // show clicked tab's panel
+      if (currentPanel == "#saved-results-panel"){// check if currentPanel is saved-results
         $('#results-container').hide();// hide results
         $('#results-container').attr('aria-hidden', 'true');
       } else if ($('#search-results').has('div').length){
