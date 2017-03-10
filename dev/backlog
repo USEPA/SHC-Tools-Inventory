@@ -4,15 +4,15 @@ backlog to track work to be done and by whom
 = USAGE BELOW =======================================
 =====================================================
 
-- feature, bug tagged with text BUG, or issue
-  - who do what
-  - someone: something said
+- feature, bug tagged with text BUG for statistical software-QA, or issue
+  - someone do what(present tense)
+  - someone: something that was said
 =====================================================
 = EXAMPLES BELOW ====================================
 =====================================================
 
 - something needs to happen outside the code
-  - kyle: I think this is a good use of the backlog because it would otherwise go undocumented.
+  - kyle: I think this is a good use of the backlog because it might otherwise go undocumented.
 =====================================================
 = BACKLOG BELOW =====================================
 =====================================================
@@ -57,34 +57,39 @@ backlog to track work to be done and by whom
   - float next button in lower right
   - surround with whitespace
   - distinguish with more prominent border
+
+- append exit notification to links which don't contain the substring epa.gov
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
 
 - provide Allen with contacts for records not in a decision-sector and not tagged "Sustainable Comm"
-  - create tool to script finding tools added by others
+  - create tool to script finding records added to the SHC-tools-inventory by others
     - these tools will have a decision-sector
     - these tools will not be tagged "Sustainable Comm"
     - return READ ID, title, acronym, description, decision-sector, and contact
+    - let maintainers add new records to the statically defined list of records in the SHC-tools-inventory
 
 - Why are LISA, BASINS, and SWMM absent from READ?
   - kyle: LISA appears deprecated
   - kyle email John Harman about why BASINS and SWMM appear absent
-    - resolution: the tools were not visible from an internet-search in System of Registries(SOR or SoR), but an extranet-search finds these tools
+    - kyle: the tools were not visible from an internet-search in System of Registries(SOR or SoR),
+            but an extranet-search in SoR finds these tools
+      - a box must be checked to do an extranet-search
     - John: possibly not visible on internet-search because the stewards weren't pushed to make the data public
   - kyle: this reveals relevant records can be hidden in READ
   - kyle: LISA, BASINS, and SWMM should be assigned decision-sectors
   - seth: spreadsheet comparing values on READ and in Tool spreadsheet sent to allen
   - seth: do we need to just update decision sector, or also additional metadata?
 
-- WARM and MOVES not in decision-sectors
+- WARM and MOVES have no decision-sectors
   - seth send allen an EPA contact(PIRS or IMO) for each
   - seth: spreadsheet comparing values on READ and in Tool spreadsheet sent to allen
   - seth: do we need to just update decision sector, or also additional metadata?
 
 - FASOM GHG, GTM Model, ReEDS were added to READ by others and given a decision-sector
   - allen: others should be allowed to add records to the shc-tools-inventory's search-results by populating this field  
-  - who do what action?
+  - who?
 
 - specify filetype-specific actions for diffing
   - specify in .gitattributes
@@ -92,4 +97,22 @@ backlog to track work to be done and by whom
 
 - display related concepts, tools, and other labels
 
-- document both READ-fields steward-tag and decision-sector
+- stub developer documentation
+  - html coding style,
+  - css coding style,
+  - javascript coding style,
+  - git style,
+  - backend interfaces,
+    - READ Web Services,
+    - System of Registries record-management,
+      - extranet search,
+  - READ's structure and function,
+    - document both READ-fields steward-tag and decision-sector
+      - describe how these fields are used by the project
+    - create a mapping of the used fields
+      - explain fields when useful
+  - documentation style,
+  - kyle: WIP
+
+- update README.md
+  - kyle: WIP
