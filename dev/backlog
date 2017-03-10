@@ -59,6 +59,11 @@ backlog to track work to be done and by whom
   - distinguish with more prominent border
 
 - append exit notification to links which don't contain the substring epa.gov
+
+- update README.md
+  - kyle: done
+
+- hide unusable tabs
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -112,7 +117,4 @@ backlog to track work to be done and by whom
     - create a mapping of the used fields
       - explain fields when useful
   - documentation style,
-  - kyle: WIP
-
-- update README.md
   - kyle: WIP

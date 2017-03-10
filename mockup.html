@@ -78,7 +78,7 @@
       border-top-left-radius:0;
       border-top-right-radius:0;
     }
-    [aria-hidden='true']{
+    [aria-hidden="true"]{
       display: none;
     }
     .result-label{
@@ -170,11 +170,11 @@
             <div id="tabs">
               <ul class="tabs" id="tabsnav" role="tablist">
                 <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal" href="#tabsnav" id="role-tab" role="tab">Role</a></li>
-                <li><a aria-controls="subrole-panel" aria-disabled="true" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="subrole-tab" role="tab">Subrole</a></li>
-                <li><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="fundamental-objective-tab" role="tab">Fundamental Objective</a></li>
-                <li><a aria-controls="objective-panel" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="objective-tab" role="tab">Objective</a></li>
-                <li><a aria-controls="concept-panel" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="concept-tab" role="tab">Concept</a></li>
-                <li><a aria-controls="saved-results-panel" aria-disabled="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="saved-results-tab" role="tab">Saved Tools</a></li>
+                <li aria-hidden="true"><a aria-controls="subrole-panel" aria-disabled="true" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" hidden id="subrole-tab" role="tab">Subrole</a></li>
+                <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" hidden id="fundamental-objective-tab" role="tab">Fundamental Objective</a></li>
+                <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" hidden id="objective-tab" role="tab">Objective</a></li>
+                <li aria-hidden="true"><a aria-controls="concept-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" hidden id="concept-tab" role="tab">Concept</a></li>
+                <li aria-hidden="true"><a aria-controls="saved-results-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" hidden id="saved-results-tab" role="tab">Saved Tools</a></li>
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
                 <p>Who will use the tools? Select roles and proceed to the Subrole tab.</p><hr />
@@ -349,16 +349,16 @@ var initializeTabs = function() {
   $('#tabsnav li:first').addClass('active'); // class tabs active for styling
   $('.menu-internal').click(function(){ // add listener to tabbing elements
     if (!$(this).is('[aria-disabled]')) {// tab doesn't have an aria-disabled attribute...
-      console.log($('#tabsnav li'));
       $('#tabsnav li').removeClass('active'); // remove active styling from all tabs
       var currentPanel = '#'+$(this).attr('aria-controls');// make a jquery object selecting the panel associated with the clicked tab
       $(this).parent().addClass('active'); // activate the clicked tab
       $('#tabs > div').hide(); // hide all panels
       $(currentPanel).show(); // show clicked tab's panel
-      if (currentPanel == "#saved-results-panel"){// check if currentPanel is saved-results
+      if (currentPanel === "#saved-results-panel"){// is currentPanel saved-results-panel?
         $('#results-container').hide();// hide results
-        $('#results-container').attr('aria-hidden', 'true');
-      } else if ($('#search-results').has('div').length){
+        $('#results-container').attr('aria-hidden', 'true');// make disabled for assistive technologies
+      } else if ($('#search-results').has('div').length){// 
+        console.log($('#search-results').has('div').length);
         $('#results-container').show();// show results
         $('#results-container').attr('aria-hidden', 'false');
       }
@@ -466,16 +466,24 @@ var toggleNext = function(list, nextButtonClassSubstring) {
 };
 
 /**
- * toggle disabled state of a tab
+ * show tab iff usable
  */
 var toggleTab = function(list, $container) {
+  tabAnchor = '#'+$container.parent().attr('aria-labelledby');
+  console.log("$(tabAnchor)",$(tabAnchor));
+  console.log("$(tabAnchor).parent()",$(tabAnchor).parent());
   if (list.length > 0 || Object.keys(list).length > 0) {// items in list...
     // ...enable tabs
-    $('#'+$container.parent().attr('aria-labelledby')).removeAttr('aria-disabled');
-    $('#'+$container.parent().attr('aria-labelledby')).attr('href',$('#'+$container.parent().attr('aria-labelledby')).attr('data-href'))
+    $(tabAnchor).removeAttr('aria-disabled');
+    $(tabAnchor).attr('href',$(tabAnchor).attr('data-href'));
+    $(tabAnchor).parent().removeAttr('aria-hidden');
+    $(tabAnchor).removeAttr('aria-hidden');
+    $(tabAnchor).show();
   }else{// no items in list...
     // ...disable tabs
-    $('#'+$container.parent().attr('aria-labelledby')).attr('aria-disabled','true').removeAttr('href');
+    $(tabAnchor).attr('aria-disabled','true').removeAttr('href');
+    $(tabAnchor).hide();
+    $(tabAnchor).parent().attr('aria-hidden','true');
   }
 };
 
