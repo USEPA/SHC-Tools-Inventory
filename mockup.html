@@ -178,7 +178,7 @@
                 <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" hidden id="fundamental-objective-tab" role="tab">Fundamental Objective</a></li>
                 <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" hidden id="objective-tab" role="tab">Objective</a></li>
                 <li aria-hidden="true"><a aria-controls="concept-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" hidden id="concept-tab" role="tab">Concept</a></li>
-                <li aria-hidden="true"><a aria-controls="saved-results-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" hidden id="saved-results-tab" role="tab">Saved Tools</a></li>
+                <li aria-hidden="true"><a aria-controls="saved-results-panel" aria-selected="false" class="menu-internal" href="#tabsnav" id="saved-results-tab" role="tab">Saved Tools</a></li>
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
                 <p>Who will use the tools? Select roles and proceed to the Subrole tab.</p><hr />
@@ -1360,10 +1360,12 @@ function saveSelectedRecords(resultsDiv) {
     var record = $('#search-results').data($(this).val()+'');
     if (isNewResult(resultsDiv, record)) {
       addDiv(record, resultsDiv);
-      $("#saved-results-tab").prop("disabled",false);
-      $("#saved-results-tab").click();
     }
-  }); 
+  });
+  if ($('#'+resultsDiv).data('ids').length > 0) {
+    $('#saved-results-tab').parent().attr("aria-hidden", "false");
+    document.getElementById("saved-results-tab").click();
+  }
 }
 
 /**
