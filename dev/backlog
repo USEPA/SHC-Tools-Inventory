@@ -124,3 +124,26 @@ backlog to track work to be done and by whom
       - explain fields when useful
   - documentation style,
   - kyle: WIP
+
+- create landing page were user can navigate to search or wizard tools
+	- kyle: WIP
+
+- add Tool tips or more explanatory button text
+
+- visually distinguish the "Find Tools By" buttons
+	- seth: added line break
+
+- provide better description of how Save Tools works
+
+- hide saved tools tab until tools are saved
+	- kyle: done
+
+- reformat the tabs 
+	- hide until clickable?
+		- done
+	- disabled?
+	- arrows to show directionality
+
+- Change link color from blue if backround is going ot be green
+
+- Record pathway data and/or saved tools
