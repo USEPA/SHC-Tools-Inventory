@@ -189,32 +189,32 @@
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
                 <p>Who will use the tools? Select roles and proceed to the Subrole tab.</p><hr />
-                <button onclick="selectAll('role')">Select All</button>
-                <button onclick="deselectAll('role')">Deselect All</button>
+                <button onclick="selectAll('role')">Select All Roles</button>
+                <button onclick="deselectAll('role')">Deselect All Roles</button>
                 <div id="role"></div>
                 <p class="pagetop"><a href="#tabs">Return to top</a></p>
                 <button class="next enabled-by-subrole" disabled onclick="activateNextTab($('#subrole-tab'))">Next</button>
               </div>
               <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
                 <p>Provide some more information about your roles, and then proceed to the Objective tab.</p><hr />
-                <button onclick="selectAll('subrole')">Select All</button>
-                <button onclick="deselectAll('subrole')">Deselect All</button>
+                <button onclick="selectAll('subrole')">Select All Subroles</button>
+                <button onclick="deselectAll('subrole')">Deselect All Subroles</button>
                 <div id="subrole"></div>
                 <p class="pagetop"><a href="#tabs">Return to top</a></p>
                 <button class="next enabled-by-fundamental-objective" disabled onclick="activateNextTab($('#fundamental-objective-tab'))">Next</button>
               </div>
               <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
                 <p>Choose fundamental objectives and proceed to the next tab.</p><hr />
-                <button onclick="selectAll('fundamental-objective')">Select All</button>
-                <button onclick="deselectAll('fundamental-objective')">Deselect All</button>
+                <button onclick="selectAll('fundamental-objective')">Select All Fundamental Objectives</button>
+                <button onclick="deselectAll('fundamental-objective')">Deselect All Fundamental Objectives</button>
                 <div id="fundamental-objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top</a></p>
                 <button class="next enabled-by-objective" disabled onclick="activateNextTab($('#objective-tab'))">Next</button>
               </div>
               <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
                 <p>What are the user's goals? Select objectives for the desired tools and move to the next tab.</p><hr />
-                <button onclick="selectAll('objective')">Select All</button>
-                <button onclick="deselectAll('objective')">Deselect All</button>
+                <button onclick="selectAll('objective')">Select All Objectives</button>
+                <button onclick="deselectAll('objective')">Deselect All Objectives</button>
                 <button onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show fewer objectives</button>
                 <button onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show more objectives</button>
                 <br />
@@ -225,8 +225,8 @@
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
                 <p>Select all concepts that apply to the intended use of the tool. Click Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</p><hr />
-                <button onclick="selectAll('concept')">Select All</button>
-                <button onclick="deselectAll('concept')">Deselect All</button>
+                <button onclick="selectAll('concept')">Select All Concepts</button>
+                <button onclick="deselectAll('concept')">Deselect All Concepts</button>
                 <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <br>
                 <button id="keyword-search-button" onclick="keywordSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Keyword</button>
