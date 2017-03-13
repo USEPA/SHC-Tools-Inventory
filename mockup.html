@@ -774,10 +774,6 @@ function addDiv(parsedResult, containerId) {
       .attr('id', containerId+'-'+parsedResult.READResourceIdentifier)
       .append(
         $('<div />')
-          .click(function() {
-            $("#additional-details-"+parsedResult.READResourceIdentifier).toggle();
-            $(this).find('.accordian-result').toggleClass('collapsible');
-          })
           .addClass('row')
           .attr('role','button')// baseline accessibility for details
           .attr('tabindex','0')// ensure inclusion in tab-order based on position in document(default order)
