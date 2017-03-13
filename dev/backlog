@@ -70,6 +70,34 @@ backlog to track work to be done and by whom
 
 - restyle results-notification to make links visible
   - kyle: done
+
+ - add Tool tips or more explanatory button text
+	- seth: added more explanatory text
+
+- visually distinguish the "Find Tools By" buttons
+	- seth: added line break
+
+- change link color from blue if backround is going ot be green
+	- seth: modified the background colrs to make links 508 compliant
+
+- update parser.html to handle vanilla objectivesBySubrole
+	- seth: done
+
+- restyle results divs
+	- seth: done
+
+- remove console.logs from toggleTab
+	- seth: done
+
+- update objectiveBySubrole objects with latest DPL data
+	- seth: done
+
+- update leafNodes array with lastest DPL data
+	- seth: done
+
+- remove unneeded click listener from addDiv function
+	- seth: done
+
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -128,11 +156,6 @@ backlog to track work to be done and by whom
 - create landing page were user can navigate to search or wizard tools
 	- kyle: WIP
 
-- add Tool tips or more explanatory button text
-
-- visually distinguish the "Find Tools By" buttons
-	- seth: added line break
-
 - provide better description of how Save Tools works
 
 - hide saved tools tab until tools are saved
@@ -143,7 +166,5 @@ backlog to track work to be done and by whom
 		- done
 	- disabled?
 	- arrows to show directionality
-
-- Change link color from blue if backround is going ot be green
 
 - Record pathway data and/or saved tools

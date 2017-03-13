@@ -776,7 +776,6 @@ function addDiv(parsedResult, containerId) {
         $('<div />')
           .addClass('row')
           .attr('role','button')// baseline accessibility for details
-          .attr('tabindex','0')// ensure inclusion in tab-order based on position in document(default order)
           .append(
             $('<div />')
               .html('<input class="result-checkbox" type="checkbox" id="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" value="'+parsedResult.READResourceIdentifier+'"/><label for="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" class="result-label"></label><span class="bold">'+parsedResult.LongTitleText+' ('+parsedResult.Acronym+')</span>: '+parsedResult.LongDescription)
@@ -784,6 +783,7 @@ function addDiv(parsedResult, containerId) {
       .append(
         $('<div />')
           .addClass('row')
+          .attr('tabindex','0')// ensure inclusion in tab-order based on position in document(default order)
           .click(function() {
             $("#additional-details-"+parsedResult.READResourceIdentifier).toggle();
             $(this).find('.accordian-result').toggleClass('collapsible');
