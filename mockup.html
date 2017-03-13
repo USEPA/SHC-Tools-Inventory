@@ -485,8 +485,6 @@ var toggleNext = function(list, nextButtonClassSubstring) {
  */
 var toggleTab = function(list, $container) {
   tabAnchor = '#'+$container.parent().attr('aria-labelledby');
-  console.log("$(tabAnchor)",$(tabAnchor));
-  console.log("$(tabAnchor).parent()",$(tabAnchor).parent());
   if (list.length > 0 || Object.keys(list).length > 0) {// items in list...
     // ...enable tabs
     $(tabAnchor).removeAttr('aria-disabled');
