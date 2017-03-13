@@ -98,6 +98,11 @@ backlog to track work to be done and by whom
 - remove unneeded click listener from addDiv function
 	- seth: done
 
+- hide saved tools tab until tools are saved
+	- kyle: done
+
+- Fix table describing the decision-sectors
+  - kyle: done
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -157,9 +162,6 @@ backlog to track work to be done and by whom
 	- kyle: WIP
 
 - provide better description of how Save Tools works
-
-- hide saved tools tab until tools are saved
-	- kyle: done
 
 - reformat the tabs 
 	- hide until clickable?
