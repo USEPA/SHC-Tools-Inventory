@@ -884,6 +884,8 @@ var parseResultsArray = function(arr, a) {
 
 simpleSearchClk3 = function() {
   clearResults();
+  $('#search-results *').remove(); //clears for new results
+  clearResultData('search-results'); //clears for new results
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
   var decisionSectors = [$('#simpleDecisionSelect').val()];
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
