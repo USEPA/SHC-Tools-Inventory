@@ -918,7 +918,7 @@ simpleSearchClk3 = function() {
       arr = parseResultsArray(arr, results);
       if (0 === arr.length) {
         $feedbackDiv.css('display', 'block');
-      }//else {$("#results-tab").click();}
+      }else {$feedbackDiv.css('display', 'none');}
     });
   } else {
     $feedbackDiv.css('display', 'block');
