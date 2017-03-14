@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7]><html class="iem7 no-js" lang="en" dir="ltr"><![endif]-->
+<!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7 no-js" lang="en" dir="ltr"><![endif]-->
+<!--[if (IE 7)&(!IEMobile)]><html class="lt-ie9 lt-ie8 no-js" lang="en" dir="ltr"><![endif]-->
+<!--[if IE 8]><html class="lt-ie9 no-js" lang="en" dir="ltr"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)]><!--> <html class="no-js not-oldie" lang="en" dir="ltr"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="true" />
+  <link rel="shortcut icon" href="https://www.epa.gov/sites/all/themes/epa/favicon.ico" type="image/vnd.microsoft.icon" />
+  <meta name="MobileOptimized" content="width" />
+  <meta http-equiv="cleartype" content="on" />
+  <meta http-equiv="ImageToolbar" content="false" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="version" content="20161218" />
+<!--googleon: all-->
+  <meta name="DC.description" content="" />
+  <meta name="DC.title" content="" />
+  <title>SHCRP | Tools & Inventory | US EPA</title>
+<!--googleoff: snippet-->
+  <meta name="keywords" content="" />
+  <link rel="shortlink" href="" />
+  <link rel="canonical" href="" />
+  <meta name="DC.creator" content="" />
+  <meta name="DC.language" content="en" />
+  <meta name="DC.Subject.epachannel" content="" />
+  <meta name="DC.type" content="" />
+  <meta name="DC.date.created" content="" />
+  <meta name="DC.date.modified" content="" />
+<!--googleoff: all-->
+  <link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/template2/s.css" media="all" />
+  <link href="css/read.css" rel="stylesheet" type="text/css">
+  <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+  <!--[if lt IE 9]><link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/themes/epa/css/ie.css" media="all" /><![endif]-->
+  <link rel="alternate" type="application/atom+xml" title="EPA.gov All Press Releases" href="https://www.epa.gov/newsreleases/search/rss" />
+  <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters" />
+  <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
+  <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
+  <style>
+  #tabsnav{padding:0}
+  /* don't initially display "no results returned from search" */
+  #simpleFeedback {
+    display: none;
+    background-color: rgb(221, 206, 204);
+  }
+  /* make results responsive */
+  .revision-table tr ~ tr:hover {
+    background-color: rgb(206, 221, 204);
+    cursor: pointer;
+    cursor: hand;
+  }
+  /************* ADDED FROM MOCKUP.HTML ************/
+  div[aria-hidden='true'] {
+    display: none;
+  }
+  button:disabled { 
+    background-color: #aeb0b5;
+  }
+  </style>
+  <style>
+    @media screen and (min-width: 45em), print and (min-width: 45em) {
+      .row > .size-95of100.col {
+        width: 95%;
+      }
+    }
+    #search-results > :hover{
+      background-color: #e7f4e4;
+    }
+    #search-results > div{
+      background-color: #f1f1f1;
+      margin-top: .5em;
+      border-radius: 5px;
+      padding: 2px;
+    }
+    [role=tab]{
+      margin: 1px 0 0;
+      border-bottom-left-radius:0;
+      border-bottom-right-radius:0;
+    }
+    [role=tabpanel]{
+      padding: 1px;
+      border: 2px solid #d6d7d9;
+      border-radius: 5px;
+      border-top-left-radius:0;
+      border-top-right-radius:0;
+    }
+    [aria-hidden='true']{
+      display: none;
+    }
+    .result-label{
+      display: inline;
+      background-color:transparent;
+    }
+    .tool-label:focus + label{
+      background-color:#e1f3f8;
+    }
+    .tool-label:checked + label{
+      background-color:#d6d7d9;
+    }
+    /* Makes text in an element unselectable */
+    .unselectable{
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -o-user-select: none;
+      user-select: none;
+    }
+    button:disabled{background-color:#aeb0b5}
+    *{
+      -ms-transition: none;
+      transition: none;
+    }
+    .accordian-result{
+    background-image: url(https://www.epa.gov/sites/all/themes/epa/img/arrow-alt-down.png);
+    background-repeat: no-repeat;
+    float: right;
+    height: 13px;
+    margin: 5px;
+    width: 13px;
+    }
+    .collapsible{
+      transform: rotateX(180deg);
+    }
+  </style>
+</head>
+<body class="node-type-web-area microsite" >
+  <!-- Google Tag Manager -->
+  <!--REMOVED FOR DEVELOPMENT; REPLACE FOR PRODUCTION
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script>
+  -->
+  <!-- End Google Tag Manager -->
+  <div class="skip-links"><a href="#main-content" class="skip-link element-invisible element-focusable">Jump to main content</a></div>
+  <header class="masthead clearfix" role="banner">
+    <img class="site-logo" src="https://www.epa.gov/sites/all/themes/epa/logo.png" alt="" />
+    <hgroup class="site-name-and-slogan">
+      <h1 class="site-name"><a href="https://www.epa.gov/" title="Go to the home page" rel="home"><span>US EPA</span></a></h1>
+      <div class="site-slogan">United States Environmental Protection Agency</div>
+    </hgroup>
+    <form class="epa-search" method="get" action="https://search.epa.gov/epasearch/epasearch">
+      <label class="element-hidden" for="search-box">Search</label>
+      <input class="form-text" placeholder="Search EPA.gov" name="querytext" id="search-box" value=""/>
+      <button class="epa-search-button" id="search-button" type="submit" title="Search">Search</button>
+      <input type="hidden" name="areaname" value="" />
+      <input type="hidden" name="areacontacts" value="" />
+      <input type="hidden" name="areasearchurl" value="" />
+      <input type="hidden" name="typeofsearch" value="epa" />
+      <input type="hidden" name="result_template" value="2col.ftl" />
+    </form>
+  </header>
+  <section id="main-content" class="main-content clearfix" role="main">
+    <div class="region-preface clearfix">
+      <div id="block-pane-epa-web-area-connect" class="block block-pane contextual-links-region">
+        <ul class="menu utility-menu">
+          <li class="menu-item"><a href="{CONTACT URL}" class="menu-link contact-us">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-column clearfix">
+<!--googleon: all-->
+      <h1 class="page-title">Tools & Model Inventory</h1>
+      <div class="panel-pane pane-node-content" >
+        <div class="pane-content">
+          <div class="node node-page clearfix view-mode-full">
+            <h2 id="page-description-title" class="title">Description</h2>
+            <p>The Environmental Protection Agency’s Sustainable and Healthy Communities Research Program (SHCRP) has identified and evaluated an inventory of decision support tools designed to guide non-experts and professionals who seek sustainable solutions to community level development needs.</p>
+            <p>This web-based inventory provides a searchable resource for building owners, developers, municipal planners, architects, engineers, and other interested community stakeholders. The tools in the inventory provide data, model scenarios, and narratives that guide the user through the decision-making process and promote sustainability at the community level.</p>
+            <p>The tools in the inventory occupy the following four decision sectors:</p>
+            <div align="center">
+              <table cellpadding="0" cellspacing="0" width="100%">
+                <tbody>
+                  <tr>
+                    <th width="35%">Buildings and Related Infrastructure</th>
+                    <th width="20%">Land Use</th>
+                    <th width="20%">Transportation</th>
+                    <th width="20%">Waste Disposal</th>
+                  </tr>
+                  <tr>
+                    <td> Decisions around buildings, like green building, or infrastructure, like stormwater management designs or extension of sewer </td>
+                    <td> Decisions around zoning, development, parks, etc </td>
+                    <td> Decisions around roads, transit, bike/pedestrian infrastructure, etc </td>
+                    <td> Decisions around waste management, and options to avoid landfilling waste, like recycling, composting or programs to divert wasted food or “ugly produce” </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Users may search by using keywords or browse the available tools.
+            </p>
+            <h2 id="disclaimer-title">Disclaimer</h2>
+            <p id="disclaimer-text">The tools listed below are for informational purposes only.
+            The EPA and its employees do not endorse any product, services, or organizations listed below.
+            </p>
+            <div id="tabs">
+              <ul class="tabs" id="tabsnav" role="tablist">
+                <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Simple Search</a></li>
+                <li><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" name="tab1" role="tab">Detailed Search</a></li>
+                <li><a aria-controls="browse-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#browse-tools-panel" id="browse-tools-tab" name="tab1" role="tab" onclick="loadModels2()">Browse Tools</a></li>
+                <li><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#results-panel" id="results-tab" name="tab1" role="tab">Results</a></li>
+                <li><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
+                <li><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Tools</a></li>
+              </ul>
+              <div aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" aria-hidden="false" style="border: 1px solid #aaa;">
+                <table width="100%" cellpadding="0" cellspacing="0" class="noborder">
+                  <tbody>
+                    <tr>
+                      <td style="width:67%;">
+                        Search
+                        <br>
+                        <input id="simpleSearchText" title="Search for tools by entering specific keywords" type="text" style="width:100%" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()" class="ui-autocomplete-input" autocomplete="off">
+                      </td>
+                      <td style="width:33%;">
+                        Decision Sector
+                        <br>
+                        <select id="simpleDecisionSelect" style="width:100%">
+                          <option value="" selected="selected">All</option>
+                          <option value="Building Infrastructure">Building and Infrastructure</option>
+                          <option value="Land Use">Land Use</option>
+                          <option value="Transportation">Transportation</option>
+                          <option value="Waste Management">Waste Management</option>
+                        </select>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <button id="simpleSearchBtn" onclick="simpleSearchClk3()">Search</button>
+                <p id="simpleFeedback">No results were returned: no acronyms or titles contained the query.</p>
+              </div>
+              <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" aria-hidden="true">
+                <table width="100%" cellpadding="0" cellspacing="0" class="noborder">
+                  <tbody>
+                    <tr>
+                      <td style="width:50%;">
+                        Search
+                        <br>
+                        <input id="detailSearchText" title="Search for tools by entering specific keywords" type="text" style="width:100%" onkeydown="if (event.keyCode == 13) document.getElementById('detailSearchBtn').click()" class="ui-autocomplete-input" autocomplete="off">
+                      </td>
+                      <td style="width:30%;">
+                        Decision Sector
+                        <br>
+                        <select id="detailDecisionSelect" style="width:100%">
+                          <option value="" selected="selected">All</option>
+                          <option value="Building Infrastructure">Building and Infrastructure</option>
+                          <option value="Land Use">Land Use</option>
+                          <option value="Transportation">Transportation</option>
+                          <option value="Waste Management">Waste Management</option>
+                        </select>
+                      </td>
+                      <td style="width:20%;" align="middle">
+                        <br>
+                        <br>
+                        <button id="detailClearForm" onclick="detailClearForm()">Reset Form</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                Operating Environment (choose all that apply)
+                <br>
+                <table cellpadding="0" cellspacing="0" class="noborder" title="Choose the operating environment the tool needs run in.">
+                  <tbody>
+                    <tr>
+                      <td>
+                          <input type="checkbox" name="RadioEnvironment" value="desktop" id="RadioEnvironment_desktop">
+                          <label for="RadioEnvironment_desktop">Desktop</label>
+                      </td>
+                      <td>
+                          <input type="checkbox" name="RadioEnvironment" value="browser" id="RadioEnvironment_browser">
+                          <label for="RadioEnvironment_browser">Browser</label>
+                      </td>
+                      <td>
+                          <input type="checkbox" name="RadioEnvironment" value="mobile" id="RadioEnvironment_mobile">
+                          <label for="RadioEnvironment_mobile">Mobile</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                Base Cost (choose all that apply)
+                <br>
+                <table cellpadding="0" cellspacing="0" class="noborder">
+                  <tbody>
+                    <tr>
+                      <td>
+                          <input type="checkbox" name="CheckBase" value="1" id="CheckBaseFree">
+                          <label for="CheckBaseFree">Free</label>
+                      </td>
+                      <td>
+                          <input type="checkbox" name="CheckBase" value="2" id="CheckBase1">
+                          <label for="CheckBase1">$1-$499</label>
+                      </td>
+                      <td>
+                          <input type="checkbox" name="CheckBase" value="3" id="CheckBase500">
+                          <label for="CheckBase500">$500-$1499</label>
+                      </td>
+                      <td>
+                          <input type="checkbox" name="CheckBase" value="4" id="CheckBase1500">
+                          <label for="CheckBase1500">$1500-$3999</label>
+                      </td>
+                      <td>
+                          <input type="checkbox" name="CheckBase" value="5" id="CheckBase4000">
+                          <label for="CheckBase4000">&gt;$4000</label>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div width="25%">Spatial Extent of Model
+                  <br>
+                  <select multiple="" id="selectExtent" title="What geographical areas would the tool be used for?" width="25%">
+                    <option value="building">Building</option>
+                    <option value="site">Site</option>
+                    <option value="neighborhood">Neighborhood</option>
+                    <option value="city">City</option>
+                    <option value="county">County</option>
+                    <option value="state">State</option>
+                    <option value="nation">Nation</option>
+                    <option value="continent">Continent</option>
+                    <option value="globe">Globe</option>
+                  </select>
+                </div>
+                <br>
+                <button id="detailSearchBtn" onclick="detailSearchClk2()">Search</button>
+              </div>
+              <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" aria-hidden="true">
+                Browse the tools by Decision Sector:
+                <br>
+                <div class="accordion" id="accordion">
+                  <h3 class="accordion-title"><a>Building and Infrastructure</a></h3>
+                  <div class="accordion-pane" id="browseBuildingInfrastructure" style="display: none;">
+                    <button class="button" onclick="saveAllRecords('tableBuilding')">Save All</button>
+                    <table class="revision-table" id="tableBuilding" width="100%" hidden="hidden">
+                      <tbody>
+                        <tr>
+                          <th>Acronym</th>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Base Cost</th>
+                          <th>Spatial Extent</th>
+                          <th>Tool Inputs</th>
+                          <th>Tool Outputs</th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <h3 class="accordion-title"><a>Land Use</a></h3>
+                  <div class="accordion-pane" id="browseLand" style="display: none;">
+                    <button class="button" onclick="saveAllRecords('tableLand')">Save All</button>
+                    <table class="revision-table" id="tableLand" width="100%" hidden="hidden">
+                      <tbody>
+                        <tr>
+                          <th>Acronym</th>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Base Cost</th>
+                          <th>Spatial Extent</th>
+                          <th>Tool Inputs</th>
+                          <th>Tool Outputs</th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <h3 class="accordion-title"><a>Transportation</a></h3>
+                  <div class="accordion-pane" id="browseTransportation" style="display: none;">
+                    <button class="button" onclick="saveAllRecords('tableTransportation')">Save All</button>
+                    <table class="revision-table" id="tableTransportation" width="100%" hidden="hidden">
+                      <tbody>
+                        <tr>
+                          <th>Acronym</th>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Base Cost</th>
+                          <th>Spatial Extent</th>
+                          <th>Tool Inputs</th>
+                          <th>Tool Outputs</th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <h3 class="accordion-title"><a>Waste Management</a></h3>
+                  <div class="accordion-pane" id="browseWasteManagement" style="display: none;">
+                    <button class="button" onclick="saveAllRecords('tableWaste')">Save All</button>
+                    <table class="revision-table" id="tableWaste" width="100%" hidden="hidden">
+                      <tbody>
+                        <tr>
+                          <th>Acronym</th>
+                          <th>Title</th>
+                          <th>Description</th>
+                          <th>Base Cost</th>
+                          <th>Spatial Extent</th>
+                          <th>Tool Inputs</th>
+                          <th>Tool Outputs</th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
+                <p>Your search results:</p>
+                <button class="button" onclick="saveAllRecords('resultsTable')">Save All</button>
+                <table class="revision-table" id="resultsTable" width="100%">
+                  <tbody>
+                    <tr>
+                      <th>Acronym</th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Base Cost</th>
+                      <th>Spatial Extent</th>
+                      <th>Tool Inputs</th>
+                      <th>Tool Outputs</th>
+                    </tr>
+                  </tbody>
+                </table>
+                <div align="right">
+                  <button class="button" onclick="exportCSV('resultsTable')">Export CSV</button>
+                </div>
+              </div>
+              <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
+                <div align="right">
+                  <button class="button" onclick="saveRecord()">Save Record</button>
+                </div>
+                <div id="selectedAccordion" class=""></div>
+              </div>
+              <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
+                <p>Your saved tools:</p>
+                <div align="right">
+                  <button class="button" onclick="clearSaved()">Clear Saved</button>
+                </div>
+                <p></p>
+                <table class="revision-table" id="savedTable" width="100%">
+                  <tbody>
+                    <tr>
+                      <th>Acronym</th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Base Cost</th>
+                      <th>Spatial Extent</th>
+                      <th>Tool Inputs</th>
+                      <th>Tool Outputs</th>
+                    </tr>
+                  </tbody>
+                </table>
+                <div align="right">
+                  <button class="button" onclick="exportCSV('savedTable')">Export CSV</button>
+                </div>
+              </div>
+            </div>
+            <div id="search-results"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="block-epa-og-footer" class="block block-epa-og">
+        <p></p>
+      </div>
+<!--googleoff: all-->
+  </section>
+  <nav class="nav simple-nav simple-main-nav" role="navigation">
+    <div class="nav__inner">
+      <h2 class="element-invisible">Main menu</h2>
+      <ul class="menu" role="menu">
+        <li class="menu-item" id="menu-learn" role="presentation"><a href="https://www.epa.gov/environmental-topics" title="Learn about Environmental Topics that EPA covers." class="menu-link" role="menuitem">Environmental Topics</a></li>
+        <li class="menu-item" id="menu-lawsregs" role="presentation"><a href="https://www.epa.gov/laws-regulations" title="Laws written by Congress provide the authority for EPA to write regulations. Regulations explain the technical, operational, and legal details necessary to implement laws." class="menu-link" role="menuitem">Laws &amp; Regulations</a></li>
+        <li class="menu-item" id="menu-about" role="presentation"><a href="https://www.epa.gov/aboutepa" title="Learn more about: our mission and what we do, how we are organized, and our history." class="menu-link" role="menuitem">About EPA</a></li>
+      </ul>
+    </div>
+  </nav>
+  <footer class="main-footer clearfix" role="contentinfo">
+    <div class="main-footer__inner">
+      <div class="region-footer">
+        <div class="block block-pane block-pane-epa-global-footer">
+          <div class="row cols-3">
+            <div class="col size-1of3">
+              <div class="col__title">Discover.</div>
+              <ul class="menu">
+                <li><a href="https://www.epa.gov/accessibility">Accessibility</a></li>
+                <li><a href="https://www.epa.gov/aboutepa/administrator-gina-mccarthy">EPA Administrator</a></li>
+                <li><a href="https://www.epa.gov/planandbudget">Budget &amp; Performance</a></li>
+                <li><a href="https://www.epa.gov/contracts">Contracting</a></li>
+                <li><a href="https://www.epa.gov/home/grants-and-other-funding-opportunities">Grants</a></li>
+                <li><a href="https://www.epa.gov/ocr/whistleblower-protections-epa-and-how-they-relate-non-disclosure-agreements-signed-epa-employees">No FEAR Act Data</a></li>
+                <li><a href="https://www.epa.gov/home/privacy-and-security-notice">Privacy and Security</a></li>
+              </ul>
+            </div>
+            <div class="col size-1of3">
+              <div class="col__title">Connect.</div>
+              <ul class="menu">
+                <li><a href="https://www.data.gov/">Data.gov</a></li>
+                <li><a href="https://www.epa.gov/office-inspector-general/about-epas-office-inspector-general">Inspector General</a></li>
+                <li><a href="https://www.epa.gov/careers">Jobs</a></li>
+                <li><a href="https://www.epa.gov/newsroom">Newsroom</a></li>
+                <li><a href="https://www.whitehouse.gov/open">Open Government</a></li>
+                <li><a href="http://www.regulations.gov/">Regulations.gov</a></li>
+                <li><a href="https://www.epa.gov/newsroom/email-subscriptions">Subscribe</a></li>
+                <li><a href="https://www.usa.gov/">USA.gov</a></li>
+                <li><a href="https://www.whitehouse.gov/">White House</a></li>
+              </ul>
+            </div>
+            <div class="col size-1of3">
+              <div class="col__title">Ask.</div>
+              <ul class="menu">
+                <li><a href="https://www.epa.gov/home/forms/contact-us">Contact Us</a></li>
+                <li><a href="https://www.epa.gov/home/epa-hotlines">Hotlines</a></li>
+                <li><a href="https://www.epa.gov/foia">FOIA Requests</a></li>
+                <li><a href="https://www.epa.gov/home/frequent-questions-specific-epa-programstopics">Frequent Questions</a></li>
+              </ul>
+              <div class="col__title">Follow.</div>
+              <ul class="social-menu">
+                <li><a class="menu-link social-facebook" href="https://www.facebook.com/EPA">Facebook</a></li>
+                <li><a class="menu-link social-twitter" href="https://twitter.com/epa">Twitter</a></li>
+                <li><a class="menu-link social-youtube" href="https://www.youtube.com/user/USEPAgov">YouTube</a></li>
+                <li><a class="menu-link social-flickr" href="https://www.flickr.com/photos/usepagov">Flickr</a></li>
+                <li><a class="menu-link social-instagram" href="https://instagram.com/epagov">Instagram</a></li>
+              </ul>
+              <p class="last-updated">LAST UPDATED ON JANUARY 19, 2017</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://www.epa.gov/sites/all/libraries/template2/jquery.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/template2/js.js"></script>
+  <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
+  <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
+<script>
+$ = jQuery;// ensure jquery gets where it's expected
+var resourceSearchURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceSearch";
+var resourceAdvancedSearchURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch";
+var resourceDetailURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail";
+
+// do fn on document's ready
+$(function() { // jquery's shorthand awaits readiness of document
+  initializeTabs();// initialize tabs and their listeners
+});
+
+// DOCUMENT
+var initializeTabs = function() {
+  $('#tabs > div').hide(); // hide all tab-panels
+  $('#tabs div:first').show(); // show first tab-panel
+  $('#tabsnav li:first').addClass('active'); // class tabs active for styling
+  $('.menu-internal').click(function(){ // add listener to tabbing elements
+    $('#tabsnav li').removeClass('active'); // remove active styling from all tabs
+    var currentTab = $(this).attr('href'); // get name of clicked tab
+    $('#tabsnav li a[href="'+currentTab+'"]').parent().addClass('active'); // activate the clicked tab
+    $('#tabs > div').hide(); // hide all panels
+    $(currentTab).show(); // show clicked tab's panel
+    return false;// return false for success; conventionially return truthy description of failure
+  });
+};
+
+//Clear Results
+function clearResults() {
+    var result_table = document.getElementById('resultsTable');
+    while (result_table.rows.length != 1) {
+      try {
+        result_table.deleteRow(1);
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  }
+  //Detailed Search
+  //Note this needs to be refactored!!!
+function detailSearchClk2() {
+  clearResults();
+  var os_select = checkBoxValue(document.getElementsByName('RadioEnvironment'));
+  var cost_select = checkBoxValue(document.getElementsByName('CheckBase'));
+  var extent_select = multiSelectValue(document.getElementById('selectExtent'));
+  var query_string = $('#detailSearchText')[0].value.toLowerCase();
+  var decision_select = document.getElementById('detailDecisionSelect').value;
+  if ((os_select.length != 0) && (cost_select.length != 0) && (extent_select.length != 0)) {
+    for (ios = 0; ios < os_select.length; ios++) {
+      for (ics = 0; ics < cost_select.length; ics++) {
+        var previousIDExtent = 9999;
+        for (ies = 0; ies < extent_select.length; ies++) {
+          if (os_select.length != 0) {
+            var osSelect = os_select[ios];
+          } else {
+            var osSelect;
+          }
+          if (cost_select.length != 0) {
+            var costSelect = cost_select[ics];
+          } else {
+            var costSelect;
+          }
+          if (extent_select.length != 0) {
+            var extentSelect = extent_select[ies];
+          } else {
+            var extentSelect;
+          }
+          $.ajax({
+            type: 'GET',
+            url: resourceAdvancedSearchURL,
+            data: {
+              Name: query_string,
+              OperatingEnvironment: osSelect,
+              BaseCostOfSoftware: costSelect,
+              SpatialExtent: extentSelect,
+              DecisionSector: decision_select,
+              Format: 'JSON'
+            },
+            dataType: 'json',
+            success: function(data) {
+              for (i = 0; i < data.length; i++) {
+                if (data[i].ResourceId != previousIDExtent) {
+                  simpleSearchClk5(data[i].ResourceId);
+                }
+              }
+            }
+          });
+          previousIDExtent = data[i].ResourceId;
+        }
+      }
+    }
+  }
+  if ((os_select.length == 0) && ( cost_select.length != 0) && (extent_select.length != 0)) {
+    for (ics = 0; ics < cost_select.length; ics++) {
+      var previousIDExtent = 9999;
+      for (ies = 0; ies < extent_select.length; ies++) {
+        if (os_select.length != 0) {
+          var osSelect = os_select[ios];
+        } else {
+          var osSelect;
+        }
+        if (cost_select.length != 0) {
+          var costSelect = cost_select[ics];
+        } else {
+          var costSelect;
+        }
+        if (extent_select.length != 0) {
+          var extentSelect = extent_select[ies];
+        } else {
+          var extentSelect;
+        }
+        $.ajax({
+          type: 'GET',
+          url: resourceAdvancedSearchURL,
+          data: {
+            Name: query_string,
+            OperatingEnvironment: osSelect,
+            BaseCostOfSoftware: costSelect,
+            SpatialExtent: extentSelect,
+            DecisionSector: decision_select,
+            Format: 'JSON'
+          },
+          dataType: 'json',
+          success: function(
+            data) {
+            for (i = 0; i < data.length; i++) {
+              if (data[i].ResourceId != previousIDExtent) {
+                simpleSearchClk5(data[i].ResourceId);
+              }
+            }
+          }
+        });
+        previousIDExtent = data[i].ResourceId;
+      }
+    }
+  }
+  if ((os_select.length == 0) && (cost_select.length == 0) && (extent_select.length != 0)) {
+    var previousIDExtent = 9999;
+    for (ies = 0; ies < extent_select.length; ies++) {
+      if (os_select.length != 0) {
+        var osSelect = os_select[ios];
+      } else {
+        var osSelect;
+      }
+      if (cost_select.length != 0) {
+        var costSelect = cost_select[ics];
+      } else {
+        var costSelect;
+      }
+      if (extent_select.length != 0) {
+        var extentSelect = extent_select[ies];
+      } else {
+        var extentSelect;
+      }
+      $.ajax({
+        type: 'GET',
+        url: resourceAdvancedSearchURL,
+        data: {
+          Name: query_string,
+          OperatingEnvironment: osSelect,
+          BaseCostOfSoftware: costSelect,
+          SpatialExtent: extentSelect,
+          DecisionSector: decision_select,
+          Format: 'JSON'
+        },
+        dataType: 'json',
+        success: function(
+          data) {
+          for (i = 0; i < data.length; i++) {
+            if (data[i].ResourceId != previousIDExtent) {
+              simpleSearchClk5(data[i].ResourceId);
+            }
+          }
+        }
+      });
+      previousIDExtent = data[i].ResourceId;
+    }
+  }
+  if ((os_select.length == 0) && (cost_select.length == 0) && (extent_select.length == 0)) {
+    if (os_select.length != 0) {
+      var osSelect = os_select[ios];
+    } else {
+      var osSelect;
+    }
+    if (cost_select.length != 0) {
+      var costSelect = cost_select[ics];
+    } else {
+      var costSelect;
+    }
+    if (extent_select.length != 0) {
+      var extentSelect = extent_select[ies];
+    } else {
+      var extentSelect;
+    }
+    $.ajax({
+      type: 'GET',
+      url: resourceAdvancedSearchURL,
+      data: {
+        Name: query_string,
+        OperatingEnvironment: osSelect,
+        BaseCostOfSoftware: costSelect,
+        SpatialExtent: extentSelect,
+        DecisionSector: decision_select,
+        Format: 'JSON'
+      },
+      dataType: 'json',
+      success: function(data) {
+        for (i = 0; i < data.length; i++) {
+          if (data[i].ResourceId != previousIDExtent) {
+            simpleSearchClk5(data[i].ResourceId);
+          }
+        }
+      }
+    });
+  }
+  if ((os_select.length != 0) && (cost_select.length == 0) && (extent_select.length != 0)) {
+    for (ios = 0; ios < os_select.length; ios++) {
+      var previousIDExtent = 9999;
+      for (ies = 0; ies < extent_select.length; ies++) {
+        if (os_select.length != 0) {
+          var osSelect = os_select[ios];
+        } else {
+          var osSelect;
+        }
+        if (cost_select.length != 0) {
+          var costSelect = cost_select[ics];
+        } else {
+          var costSelect;
+        }
+        if (extent_select.length != 0) {
+          var extentSelect = extent_select[ies];
+        } else {
+          var extentSelect;
+        }
+        $.ajax({
+          type: 'GET',
+          url: resourceAdvancedSearchURL,
+          data: {
+            Name: query_string,
+            OperatingEnvironment: osSelect,
+            BaseCostOfSoftware: costSelect,
+            SpatialExtent: extentSelect,
+            DecisionSector: decision_select,
+            Format: 'JSON'
+          },
+          dataType: 'json',
+          success: function(
+            data) {
+            for (i = 0; i < data.length; i++) {
+              if (data[i].ResourceId != previousIDExtent
+              ) {
+                simpleSearchClk5(data[i].ResourceId);
+              }
+            }
+          }
+        });
+        previousIDExtent = data[i].ResourceId;
+      }
+    }
+  }
+  if ((os_select.length != 0) && (cost_select.length == 0) && (extent_select.length == 0)) {
+    for (ios = 0; ios < os_select.length; ios++) {
+      if (os_select.length != 0) {
+        var osSelect = os_select[ios];
+      } else {
+        var osSelect;
+      }
+      if (cost_select.length != 0) {
+        var costSelect = cost_select[ics];
+      } else {
+        var costSelect;
+      }
+      if (extent_select.length != 0) {
+        var extentSelect = extent_select[ies];
+      } else {
+        var extentSelect;
+      }
+      $.ajax({
+        type: 'GET',
+        url: resourceAdvancedSearchURL,
+        data: {
+          Name: query_string,
+          OperatingEnvironment: osSelect,
+          BaseCostOfSoftware: costSelect,
+          SpatialExtent: extentSelect,
+          DecisionSector: decision_select,
+          Format: 'JSON'
+        },
+        dataType: 'json',
+        success: function(data) {
+          for (i = 0; i < data.length; i++) {
+            if (data[i].ResourceId != previousIDExtent) {
+              simpleSearchClk5(data[i].ResourceId);
+            }
+          }
+        }
+      });
+    }
+  }
+  if ((os_select.length != 0) && (cost_select.length != 0) && (extent_select.length == 0)) {
+    for (ios = 0; ios < os_select.length; ios++) {
+      for (ics = 0; ics < cost_select.length; ics++) {
+        if (os_select.length != 0) {
+          var osSelect = os_select[ios];
+        } else {
+          var osSelect;
+        }
+        if (cost_select.length != 0) {
+          var costSelect = cost_select[ics];
+        } else {
+          var costSelect;
+        }
+        if (extent_select.length != 0) {
+          var extentSelect = extent_select[ies];
+        } else {
+          var extentSelect;
+        }
+        $.ajax({
+          type: 'GET',
+          url: resourceAdvancedSearchURL,
+          data: {
+            Name: query_string,
+            OperatingEnvironment: osSelect,
+            BaseCostOfSoftware: costSelect,
+            SpatialExtent: extentSelect,
+            DecisionSector: decision_select,
+            Format: 'JSON'
+          },
+          dataType: 'json',
+          success: function(
+            data) {
+            for (i = 0; i < data.length; i++) {
+              if (data[i].ResourceId != previousIDExtent) {
+                simpleSearchClk5(data[i].ResourceId);
+              }
+            }
+          }
+        });
+      }
+    }
+  } // else {alert("Please enter a search term!")}
+}
+
+var executeSearch = function(url, data){
+  return $.ajax({
+    type: 'GET',
+    url: url,
+    data: data
+  });
+};
+
+var parseResultsArray = function(arr, a) {
+  var resultLength = a.length;
+  for (var i = 0; i < resultLength; i++) {
+    if(arr.indexOf(a[i].ResourceId) === -1) {
+      arr.push(a[i].ResourceId);
+      simpleSearchClk4(a[i].ResourceId);
+    }
+  }
+  return arr;
+};
+
+simpleSearchClk3 = function() {
+  clearResults();
+  var queryString = $('#simpleSearchText').val().trim().toLowerCase();
+  var decisionSectors = [$('#simpleDecisionSelect').val()];
+  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
+  var $feedbackDiv = $('#simpleFeedback');
+  var results = [];
+  var requests = [];
+  var arr = [];
+  var data = {};
+  if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
+    decisionSectors = [
+      "Land Use",
+      "Waste Management",
+      "Building Infrastructure",
+      "Transportation"
+    ];
+  }
+  if (queryString) { // makes sure search string is not empty
+    for (var i=0;i<queryTypes.length;i++){
+      data[queryTypes[i]] = queryString;
+      for (var j=0;j<decisionSectors.length;j++){
+        data.DecisionSector = decisionSectors[j];
+        requests.push(executeSearch(resourceAdvancedSearchURL, data));
+      }
+      data = {};
+    }
+    $.when.apply(null, requests).done(function () {
+      for (var i=0; i<arguments.length; i++){
+        results = results.concat(arguments[i][0]);
+      }
+      arr = parseResultsArray(arr, results);
+      if (0 === arr.length) {
+        $feedbackDiv.css('display', 'block');
+      }//else {$("#results-tab").click();}
+    });
+  } else {
+    $feedbackDiv.css('display', 'block');
+  }
+};
+
+// DOCUMENT
+simpleSearchClk4 = function(resourceID) {
+  $.ajax({
+    type: 'GET',
+    url: resourceDetailURL,
+    data: {
+    ResourceId: resourceID,
+    Format: 'JSON'
+    },
+    //data: { Name: name_query, ShortDescriptionForReports: decision_query, Format: 'JSON' },
+    dataType: 'json',
+    success: function(data) {
+      var response = parseResults(data, "#resultsTable");
+      console.log(data);
+      displayResult(data, 'search-results')
+    }
+  });
+};
+
+simpleSearchClk5 = function(resourceID) {
+  $.ajax({
+    type: "GET",
+    url: resourceDetailURL,
+    data: {
+      ResourceId: resourceID,
+      Format: "JSON"
+    },
+    dataType: "json",
+    success: function(data) {
+      var response = parseResults(data, "#resultsTable");
+      if (response == "No Results Found") {
+        $("#popup-message")[0].style.fontSize = "x-small";
+        $("#popup-message")[0].innerHTML = "Your search for resource ID '" + resourceID + "' returned no results. Please try again.";
+        $("#dialog-message").dialog("open");
+      }
+    }
+  });
+};
+
+function parseResults(str, table_reference) {
+  try {
+    var row_template = {
+      "Acronym": 0,
+      "ShortTitleText": 1,
+      "ShortDescription": 2,
+      "BaseCostOfSoftware": 3,
+      "SpatialExtent": 4,
+      "ModelInputs": 5,
+      "ModelOutputTypes": 6
+    };
+    result = str;
+    var result_table = $(table_reference)[0];
+    var row = result_table.insertRow(1);
+    jQuery.data(row, "record", result);
+    for (var key in row_template) {
+      var cell = row.insertCell(row_template[key]);
+      var columnnumber = row_template[key];
+      cell.style.fontSize = 'x-small';
+      var this_result;
+      switch (columnnumber) {
+        case 0: //Acronym
+          var AcronymData = str
+            .READExportDetail
+            .InfoResourceDetail
+            .GeneralDetail
+            .Acronym;
+          this_result = AcronymData;
+          break;
+        case 1: //ShortTitleText
+          //Needs brought in from data; name is missing.
+          var ShortTitleTextData = str
+            .READExportDetail
+            .InfoResourceDetail
+            .GeneralDetail
+            .ShortTitleText;
+          this_result = ShortTitleTextData;
+          break;
+        case 2: //ShortDescription
+          var ShortDescriptionData = str
+            .READExportDetail
+            .InfoResourceDetail
+            .GeneralDetail
+            .ShortDescription;
+          this_result = ShortDescriptionData;
+          break;
+        case 3: //DetailsBaseSoftwareCost
+          var DetailsBaseSoftwareCostData = str
+            .READExportDetail
+            .InfoResourceDetail
+            .ModelDetailsDetail
+            .DetailsBaseSoftwareCost;
+          this_result = DetailsBaseSoftwareCostData;
+          switch (DetailsBaseSoftwareCostData) {
+            case 1:
+              this_result = "Free";
+              break;
+            case 2:
+              this_result = "$1-$499";
+              break;
+            case 3:
+              this_result = "$500-$1499";
+              break;
+            case 4:
+              this_result = "$1500-$3999";
+              break;
+            case 5:
+              this_result = ">$4000";
+              break;
+            default:
+              this_result = "No Data Available"
+          }
+          break;
+        case 4: //SpatialExtent
+          var spatialextentstring = "";
+          var SpatialExtentData = str
+            .READExportDetail
+            .InfoResourceDetail
+            .ModelScopeDetail
+            .ModelScopeSpatialExtentDetail;
+          if (SpatialExtentData) {
+            for (i = 0; i < SpatialExtentData.length; i++) {
+              if (i < SpatialExtentData .length - 1) {
+                spatialextentstring +=
+                  SpatialExtentData[i].SpatialExtentName + ", ";
+              } else {
+                spatialextentstring +=
+                  SpatialExtentData[i].SpatialExtentName;
+              }
+            }
+          }
+          if (spatialextentstring != "") {
+            this_result = spatialextentstring;
+          } else {
+            this_result = "No Data Available";
+          }
+          break;
+        case 5: //Model Inputs
+          var ModelOutputsTextAreaData = str
+            .READExportDetail
+            .InfoResourceDetail
+            .ModelInputsDetail
+            .ModelInputsTextArea;
+          if (ModelOutputsTextAreaData) {
+            this_result = ModelOutputsTextAreaData;
+          } else {
+            this_result = "No Data Available";
+          }
+          break;
+        case 6: //ModelOutputs
+          var ModelOutputsTextAreaData = str
+            .READExportDetail
+            .InfoResourceDetail
+            .ModelOutputsDetail
+            .ModelOutputsModelVariablesTextArea;
+          if (ModelOutputsTextAreaData) {
+            this_result = ModelOutputsTextAreaData;
+          } else {
+            this_result = "No Data Available";
+          }
+          break;
+        default:
+          this_result = "No Data Available";
+      }
+      if (this_result.length > 140) {
+        this_result = this_result.substr(0, 140) + '...';
+      }
+      cell.innerHTML = this_result;
+    }
+    $(table_reference + " tr").click(function() {
+      showDetails($(this).data());
+    });
+    if (table_reference == "#resultsTable") {
+      $("#results-tab").prop('disabled',false);
+      $("#results-tab").click();
+    } else if (table_reference == "#savedTable") {
+      $("#saved-tools-tab").prop('disabled',false);
+      $("#saved-tools-tab").click();
+    } else {
+      $(table_reference).show();
+    }
+    return 'FOUND RESULTS!'
+  } catch (err) {
+    console.log(err);
+    $(table_reference+' tr:last').remove();
+    return 'No results found'
+  }
+}
+
+//START TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
+/**
+ * pass details of id to displayResult
+ */
+var getResourceDetail = function(id, div) {
+  $.get(resourceDetailURL,{ ResourceId: id }).done(function(data) {displayResult(data, div);});
+};
+
+/**
+ * display a result; save result's data to the containing element
+ * @arg data{object} READ Web Services detail object
+ */
+var displayResult = function(data, containerId, fields) {
+  var parsedResult = parseResult(data);
+  fields = ['title', 'description', 'url'];
+  if (isNewResult(containerId, parsedResult)) {
+    addDiv(parsedResult, containerId);
+  }
+};
+
+/**
+ * true if tool is not already in results
+ * @arg containerId is the id of container for results
+ * @arg parsedResult is the result whose details are returned from parseResults
+ */
+var isNewResult = function(containerId, parsedResult) {
+  if (typeof($('#'+containerId).data('ids')) == 'undefined') {
+    $('#'+containerId).data('ids', []);
+  }
+  var cachedIds = $('#'+containerId).data('ids');
+  if (cachedIds.indexOf(parsedResult.READResourceIdentifier) == -1) {
+    cachedIds.push(parsedResult.READResourceIdentifier);
+    $('#'+containerId).data(String(parsedResult.READResourceIdentifier), parsedResult);
+    return true;
+  }
+  return false;
+};
+
+/**
+ * display details of parsedResult in container with containerId
+ * dev aspiration: dynamically append spans and dynamically apply
+ *                 .left class or .right class to each in order
+ *                 to balance columns
+ */
+function addDiv(parsedResult, containerId) {
+  // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
+  var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
+  var container = $('#'+containerId);
+  $(container).append(
+    $('<div />')
+      .attr('id', containerId+'-'+parsedResult.READResourceIdentifier)
+      .append(
+        $('<div />')
+          .click(function() {
+            $("#additional-details-"+parsedResult.READResourceIdentifier).toggle();
+            $(this).find('.accordian-result').toggleClass('collapsible');
+          })
+          .addClass('row')
+          .attr('role','button')// baseline accessibility for details
+          .attr('tabindex','0')// ensure inclusion in tab-order based on position in document(default order)
+          .append(
+            $('<div />')
+              .html('<input class="result-checkbox" type="checkbox" id="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" value="'+parsedResult.READResourceIdentifier+'"/><label for="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" class="result-label"></label><strong>'+parsedResult.LongTitleText+' ('+parsedResult.Acronym+')</strong>: '+parsedResult.LongDescription)
+              .addClass('col size-95of100'))
+          .append(
+            $('<div />')
+              .addClass('col')
+              .addClass('accordian-result')))
+      .append(
+        $('<div />')
+          .css('display', 'none')
+          .attr('id', 'additional-details-'+parsedResult.READResourceIdentifier)
+          .addClass('row')
+        .append(
+          $('<div />')    
+            .addClass('col size-1of2')
+            .append($('<span />').html('<strong>Contact Name</strong>: '+parsedResult.UserSupportName+'<br />'))
+            .append($('<span />').html('<strong>Contact Email</strong>: '+parsedResult.UserSupportEmail+'<br />'))
+            .append($('<span />').html('<strong>URL</strong>: <a href="'+parsedResult.URLText+'" target="_blank" onclick="stopPropagation(event)">'+parsedResult.URLText+'</a><br />'))
+            .append($('<span />').html('<strong>Internet Help Desk Phone</strong>: '+parsedResult.HelpDeskPhoneNumber+'<br />'))
+            .append($('<span />').html('<strong>Internet Help Desk Email</strong>: '+parsedResult.HelpDeskEmailAddressText+'<br />'))
+            .append($('<span />').html('<strong>Lifecycle Phase</strong>: '+parsedResult.CurrentLifeCyclePhase+'<br />'))
+            .append($('<span />').html('<strong>Last Modified</strong>: '+parsedResult.LastModifiedDateTimeText+'<br />'))
+            .append($('<span />').html('<strong>Last Modified By</strong>: '+parsedResult.LastModifiedPersonName+'<br />'))
+            .append($('<span />').html('<strong>Operating Environment</strong>: '+parsedResult.OperatingEnvironmentName+'<br />'))
+            .append($('<span />').html('<strong>Operating System</strong>: '+parsedResult.OSName+'<br />'))
+            .append($('<span />').html('<strong>Other Technical Requirements</strong>: '+parsedResult.OtherReqName+'<br />'))
+            .append($('<span />').html('<strong>Model Inputs</strong>: '+parsedResult.ModelInputsTextArea+'<br />'))
+            .append($('<span />').html('<strong>Model Outputs</strong>: '+parsedResult.ModelOutputsModelVariablesTextArea+'<br />'))
+            .append($('<span />').html('<strong>External Details</strong>: <a href="'+prefixForExternalDetails+parsedResult.READResourceIdentifier+'" target="_blank">View Details Externally</a><br />'))
+          )
+        .append(
+          $('<div />')
+            .addClass('col size-1of2')
+            .append($('<span />').html('<strong>Keywords</strong>: '+parsedResult.KeywordText+'<br />'))
+            .append($('<span />').html('<strong>Tags</strong>: '+parsedResult.InfoResourceStewardTagText+'<br />'))
+            .append($('<span />').html('<strong>Alternative Names</strong>: '+parsedResult.DetailsOtherCostConsiderations+'<br />'))
+            .append($('<span />').html('<strong>Intranet Address</strong>: '+parsedResult.intranetUrl+'<br />'))
+            .append($('<span />').html('<strong>Intranet Help Desk Phone</strong>: '+parsedResult.intranetHelpDeskPhone+'<br />'))
+            .append($('<span />').html('<strong>Intranet Help Desk Email</strong>: '+parsedResult.intranetHelpDeskEmail+'<br />'))
+            .append($('<span />').html('<strong>Revision Control</strong>: '+parsedResult.RCSResourcess+'<br />'))
+            .append($('<span />').html('<strong>Ownership</strong>: '+parsedResult.OwnershipTypeNameName+'<br />'))
+            .append($('<span />').html('<strong>Software Cost</strong>: '+parsedResult.DetailsBaseSoftwareCost+'<br />'))
+            .append($('<span />').html('<strong>Other Cost</strong>: '+parsedResult.DetailsOtherCostConsiderations+'<br />'))
+            .append($('<span />').html('<strong>Open Source</strong>: '+parsedResult.DetailsOpenSource+'<br />'))
+            .append($('<span />').html('<strong>Decision Sector</strong>: '+parsedResult.ModelScopeDecisionSector+'<br />'))
+            .append($('<span />').html('<strong>Support Materials</strong>: '+parsedResult.UserSupportSourceOfSupportMaterials+'<br />'))
+            .append($('<span />').html('<strong>Model Evaluation</strong>: '+parsedResult.ModelEvaluationTextArea+'<br />'))
+            .append($('<span />').html('<strong>Model Time Scale</strong>: '+parsedResult.ModelScopeTimeScaleDetail+'<br />'))
+            .append($('<span />').html('<strong>Spatial Extent</strong>: '+parsedResult.ModelScopeSpatialExtentDetail+'<br />'))
+            .append($('<span />').html('<strong>Data Requirements</strong>: '+parsedResult.ModelInputsDataRequirements+'<br />'))
+          )
+        )
+  );
+}
+
+/**
+ * map details of a result into accessible locations
+ */
+var parseResult = function(result) {
+  if(typeof(result)=='undefined') {return;}// catch bad input
+  var openSourceMap = {// map integral data-standard to text
+    1:'Yes',
+    2:'No',
+    3:'Partial'
+  };
+  var dataRequirementsMap = {// map integral data-standard to text
+    1:'All data is provided.',
+    2:'Data is publicly available.',
+    3:'Data is not publicly available but routinely available.',
+    4:'New data must be created.'
+  };
+  var softwareCostMap = {// map integral data-standard to text
+    1:'Free',
+    2:'$1-$499',
+    3:'$500-$1499',
+    4:'$1500-$3999',
+    5:'>$4000'
+  };
+  var parsedResult = {};
+  parsedResult.READResourceIdentifier = readSafe(result,['READExportDetail','InfoResourceDetail','READResourceIdentifier']);
+  parsedResult.LongTitleText = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongTitleText']);
+  parsedResult.Acronym = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','Acronym']);
+  parsedResult.LongDescription = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongDescription']);
+  parsedResult.UserSupportName = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportName']);
+  parsedResult.UserSupportEmail = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportEmail']);
+  parsedResult.UserSupportPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportPhoneNumber']);
+  parsedResult.KeywordText = readSafe(result,['READExportDetail','InfoResourceDetail','KeywordDetail','KeywordText']);
+  parsedResult.InfoResourceStewardTagText = readSafe(result,['READExportDetail','InfoResourceDetail','TagDetail','InfoResourceStewardTagText']);
+  parsedResult.URLText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','URLText']);
+  parsedResult.HelpDeskEmailAddressText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskEmailAddressText']);
+  parsedResult.HelpDeskPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);
+  parsedResult.RCSResources = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
+  parsedResult.OwnershipTypeName = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
+  parsedResult.DetailsBaseSoftwareCost = mapAll(readSafe(result,['READE)portDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']),undefined,softwareCostMap);
+  parsedResult.DetailsOtherCostConsiderations = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
+  parsedResult.DetailsOpenSource = parseOpenSource(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']));
+  parsedResult.DetailsLastKnownSoftwareUpdate = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsLastKnownSoftwareUpdate']);
+  parsedResult.ModelScopeDecisionSector = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeDecisionSector']);
+  parsedResult.UserSupportSourceOfSupportMaterials = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportSourceOfSupportMaterials']);
+  parsedResult.CurrentLifeCyclePhase = readSafe(result,['READExportDetail','InfoResourceDetail','LifeCycleDetail','CurrentLifeCyclePhase']);
+  parsedResult.LastModifiedDateTimeText = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedDateTimeText']);
+  parsedResult.LastModifiedPersonName = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedPersonName']);
+  parsedResult.OperatingEnvironmentName = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqOperatingEnvironmentDetail','OperatingEnvironmentName']);
+  parsedResult.OSName = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqCompatibleOSDetail','OSName']);
+  parsedResult.OtherReqName = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqOtherReqDetail','OtherReqName']);
+  parsedResult.ModelInputsTextArea = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsTextArea']);
+  parsedResult.ModelOutputsModelVariablesTextArea = readSafe(result,['READExportDetail','InfoResourceDetail','ModelOutputsDetail','ModelOutputsModelVariablesTextArea']);
+  parsedResult.ModelEvaluationTextArea = readSafe(result,['READExportDetail','InfoResourceDetail','ModelEvaluationDetail','ModelEvaluationTextArea']);
+  parsedResult.ModelScopeTimeScaleDetail = parseTimeScale(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeTimeScaleDetail']));
+  parsedResult.ModelScopeSpatialExtentDetail = parseSpatialExtent(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']));
+  parsedResult.ModelInputsDataRequirements = parseDataRequirements(readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']));
+
+  /**
+   * return decoded value(s) accumulated into a string
+   * @arg field{object} contains either object[propertyName] or object[0][propertyName]
+   * @arg propertyName{string} name of the property that holds the desired value
+   * @arg map{object} decode values with map[object[propertyName]] or map[object[0][propertyName]]
+   * READ Web Services return one value if only one value exists. If several values then they're in an array.
+   * There are various data-standards used in READ, like storing integers in place of strings for options.
+  */
+  function mapAll(field, propertyName, map) {//
+    if (typeof propertyName != 'undefined') {// arg propertyName passed?
+      if (field[propertyName]) {return map[field[propertyName]];}// money-shot!
+      if (field.length) {
+        var accumulatedString = '';// append accumulated values here
+        for (var i = 0; i < field.length - 1; i++) {
+          if (typeof map === 'undefined') {// no arg map passed...
+            accumulatedString += field[i][propertyName] + ', ';// ...accumulate ith value
+          } else {// arg map was passed...
+            accumulatedString += map[field[i]][propertyName] + ', ';// ...accumulate ith value
+          }
+        }
+        if (typeof map === 'undefined') {// no arg map passed...
+          accumulatedString += 'and ' + field[field.length - 1][propertyName];// ...accumulate final value
+        } else {// arg map was passed...
+          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
+        }
+        return accumulatedString;
+      }
+    } else {// no arg propertyName
+      if (field) {return field;}
+      if (field.length) {
+        var accumulatedString = '';// append accumulated values here
+        for (var i = 0; i < field.length - 1; i++) {
+          if (typeof map === 'undefined') {// no arg map passed...
+            accumulatedString += field[i] + ', ';// ...accumulate ith value
+          } else {// arg map was passed...
+            accumulatedString += map[field[i]] + ', ';// ...accumulate ith value
+          }
+        }
+        if (typeof map === 'undefined') {// no arg map passed...
+          accumulatedString += 'and ' + field[field.length - 1][propertyName];// ...accumulate final value
+        } else {// arg map was passed...
+          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
+        }
+        return accumulatedString;
+      }
+    }
+  }
+
+  // DOCUMENT
+  function parseSoftwareCost(cost) {
+    if (typeof(cost) !== 'string') {
+      if (cost.length) {
+        var str = '';
+        for (var i=0;i<cost.length-1;i++) {
+          str += parseSoftwareCost(cost[i]) + ', ';
+        }
+        str += parseSoftwareCost(cost[cost.length-1]);
+      }
+    }
+    switch (cost) {
+      case 1:
+        return "Free";
+      case 2:
+        return "$1-$499";
+      case 3:
+        return "$500-$1499";
+      case 4:
+        return "$1500-$3999";
+      case 5:
+        return ">$4000";
+      default:
+        return cost;// return some unexpected value instead of squelching any hint to the cause of the issue
+    }
+  }
+
+  // DOCUMENT
+  function parseSpatialExtent(extent) {// possibly joins strings in an array
+    if (extent.ModelScopeSpatialExtentDetailName) {return extent.ModelScopeSpatialExtentDetailName;}// return desired value if it is a property of extent
+    if (extent.length) {// is array?(this means several values instead of just one)
+      if (typeof extent === 'string') {return extent;}
+      var str = '';// create string for appending each spatial extent to while looping through array
+      for (var i = 0; i < extent.length - 1; i++) {// loop through all elements except last...
+        str += parseSpatialExtent(extent[i]) + ", ";//...append ith value and a delimiter
+      }
+      str += 'and ' + parseSpatialExtent(extent[extent.length - 1]);//append final value
+      return str; // return accumulated values in a string
+    }
+  }
+
+  // DOCUMENT
+  function parseOpenSource(openSource) {
+    return openSourceMap[openSource];
+  }// requires decoding a data-standard; will be mapped in parseResult.DetailsOpenSourceMap[INTEGER]
+
+  // DOCUMENT
+  function parseDataRequirements(dataRequirements) {// requires decoding a data-standard
+    return dataRequirementsMap[dataRequirements];// do work
+  }
+
+  // DOCUMENT
+  function parseTimeScale(timeScale) {//all that apply
+    if (timeScale.TimeScaleName) {return timeScale.TimeScaleName;}// return value if possible
+    if (timeScale.length) {
+      if (typeof timeScale === 'string') {return timeScale;}// if it's a string then return it
+      var timeStr = '';
+      for (var i=0;i<timeScale.length-1;i++) {// loop through all elements except last...
+        timeStr += timeScale[i].TimeScaleName;//...append ith value and a delimiter
+        if (timeScale.length > 2) {timeStr += ',';}// append comma when appropriate
+        timeStr += ' ';
+      }
+      if (timeScale.length > 2) {timeStr += 'and ';}// append 'and ' when appropriate
+      timeStr += timeScale[i].TimeScaleName;//append final value from array
+      return timeStr; // return accumulated values in string
+    }
+  }
+  return parsedResult;
+};
+
+/**
+ * check existence of each prop_i in obj.prop_1...prop_n
+ * @arg object{object} test the properties of object
+ * @arg propertyArray{array} [prop_1,...,prop_n] s.t.
+ *      object[prop_1][...][prop_n] is the desired value
+ * E.G.: readSafe(obj,['foo','bar','baz'])
+ * safely returns obj.foo.bar.baz value if all properties exist
+*/
+function readSafe(object, propertyArray) {
+  if(object[propertyArray[0]]) {// is first element of propertyArray a property of this object?
+    var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
+    if(Object.keys(propertyArray).length==1) {// is this the last property in the array?
+      if (value.length) {
+        if (typeof value != 'string') {
+          console.log('readSafe is returning an array from object',object,'at property',propertyArray[0]);
+        }
+      }
+      return value;// return contents of property
+    }else{// there are multiple elements remaining in propertyArray that we need to descend into
+      try{
+        // recursion with obj[prop_1] as obj for next iteration
+        return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
+      }catch(e) {
+        console.log('error: ',e);// dev
+        return 'no data'; // return 'no data'
+      }
+    }
+  }else{//fail: element zero of propertyArray isn't a property of this object
+    return 'no data'; // fail safely: return 'no data'
+  }
+}
+
+/**
+ * clear results and their cached ids
+ */
+var clearResultData = function(div) {
+  var container = $('#'+div);
+  var ids = container.data('ids');
+  if (typeof(ids) != 'undefined') {
+    for (var i=0;i<ids.length;i++) {
+      var id = ids[i];
+      container.removeData(id);
+    }
+    ids.length = 0;
+  }
+};
+
+/**
+ * check if object represents xsi:nil or unsanitized absence of data
+ */
+var isNil = function(obj) {
+  return Boolean(
+      typeof(obj)==='undefined'||
+      obj.hasOwnProperty('xsi:nil')||
+      obj===null||
+      obj===''||
+      obj==='no data'
+  );
+};
+
+/**
+ * return 'no data' if obj is invalid data
+ * return obj otherwise
+ */
+var validata = function(obj) {
+  try{
+    if(isNil(obj)) {
+      return 'no data';
+    }else{
+      return obj;
+    }
+  }catch(e) {
+    console.log('caught this error while parsing: ',e);
+    return 'no data';
+  }
+};
+//END TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
+
+//Load Models
+function loadModels() {
+  $("[href='#tabsBrowse']").show();
+}
+var tabsBrowserClicked = false;
+
+function loadModels2() {
+  if (tabsBrowserClicked == false) {
+    $(".accordion-pane").each(function() {
+        var table_name = this.children[1].id;
+        var this_sector = table_name.replace("table", "").toLowerCase();
+        switch (this_sector) {
+          case "building":
+            decision_query = "Building Infrastructure";
+            break;
+          case "land":
+            decision_query = "Land Use";
+            break;
+          case "transportation":
+            decision_query = "Transportation";
+            break;
+          case "waste":
+            decision_query = "Waste Management";
+            break;
+          default:
+            detail_obj[this_key] = "No Data Available";
+        }
+        $.ajax({
+          type: 'GET',
+          url: resourceAdvancedSearchURL,
+          data: {
+            DecisionSector: decision_query,
+            Format: 'JSON'
+          },
+          dataType: 'json',
+          success: function(data) {
+            for (i = 0; i < data.length; i++) {
+              $.ajax({
+                type: 'GET',
+                url: resourceDetailURL,
+                data: {
+                  ResourceId: data[i].ResourceId,
+                  Format: 'JSON'
+                },
+                dataType: 'json',
+                success: function(data) {
+                  parseResults(data, '#' + table_name);
+                }
+              });
+            }
+          }
+        });
+        //$("#Tabs1").tabs("option", {"enable"
+      });
+  }
+  tabsBrowserClicked = true;
+}
+/******* TAKEN FROM MOCKUP.HTML ****************/
+//$("#simple-search-tab").focus();
+/** listener:select only "clicked" tab and show only this tab's corresponding panel 
+$('[role="tab"]').click(function(){
+    var $this = $(this)
+    var tab = $this.attr('name');
+    $('[name="'+tab+'"]').attr('aria-selected', 'false');// deselect all tabs
+    $this.attr('aria-selected', 'true');// select clicked tab
+    var tabpanid= $this.attr('aria-controls');// get the id of the panel controlled by the clicked tab
+    var tabpan= $('#'+tabpanid);// get panel's document-element from its id
+    $('[name="'+tab+'panel"]').attr('aria-hidden','true');// hide all panels
+    tabpan.attr('aria-hidden','false');// show the clicked tab's panel
+    $(this).focus();
+});
+*/
+</script>
+<script src="js/jquery-ui.min.js"></script>
+<script language="javascript" src="js/read.js"></script>
+</body>
+</html>
