@@ -936,7 +936,6 @@ simpleSearchClk4 = function(resourceID) {
     dataType: 'json',
     success: function(data) {
       var response = parseResults(data, "#resultsTable");
-      console.log(data);
       displayResult(data, 'search-results')
     }
   });
@@ -953,11 +952,6 @@ simpleSearchClk5 = function(resourceID) {
     dataType: "json",
     success: function(data) {
       var response = parseResults(data, "#resultsTable");
-      if (response == "No Results Found") {
-        $("#popup-message")[0].style.fontSize = "x-small";
-        $("#popup-message")[0].innerHTML = "Your search for resource ID '" + resourceID + "' returned no results. Please try again.";
-        $("#dialog-message").dialog("open");
-      }
     }
   });
 };

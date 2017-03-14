@@ -103,6 +103,31 @@ backlog to track work to be done and by whom
 
 - Fix table describing the decision-sectors
   - kyle: done
+
+- add tab order to new results tab div
+	- seth: done
+
+- Merge tags from seth's tagging with kyle's tagging
+	- seth: done
+
+- Add query to create view for read_ids and nodes for csv export
+	- seth: done
+
+- Update parser to work correctly with new query in access
+- seth: done
+
+- Update readIDsByConcept with merged data
+- seth: done
+
+- Update wording on tabs
+- seth: done
+
+- Update wording of intro text per feedback from Melissa McCullough
+- seth: done
+
+- Fix parseSpatialExtent to properly return spatial extent
+- seth: done
+
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
