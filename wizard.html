@@ -190,59 +190,69 @@
                 <li aria-hidden="true"><a aria-controls="saved-results-panel" aria-selected="false" class="menu-internal" href="#tabsnav" id="saved-results-tab" role="tab">Saved Tools</a></li>
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
-                <p>Who will use the tools? Select roles and proceed to the Subrole tab.</p><hr />
+                <p>Select any relevant Roles and proceed to the Subrole tab.</p><hr />
                 <button onclick="selectAll('role')">Select All Roles</button>
                 <button onclick="deselectAll('role')">Deselect All Roles</button>
+                <h3>Roles</h3>
                 <div id="role"></div>
                 <p class="pagetop"><a href="#tabs">Return to top</a></p>
                 <button class="next enabled-by-subrole" disabled onclick="activateNextTab($('#subrole-tab'))">Next</button>
               </div>
               <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
-                <p>Provide some more information about your roles, and then proceed to the Objective tab.</p><hr />
+                <p>Select some Subroles, and proceed to the Fundamental Objective tab.</p><hr />
                 <button onclick="selectAll('subrole')">Select All Subroles</button>
                 <button onclick="deselectAll('subrole')">Deselect All Subroles</button>
+                <h3>Subroles</h3>
                 <div id="subrole"></div>
                 <p class="pagetop"><a href="#tabs">Return to top</a></p>
                 <button class="next enabled-by-fundamental-objective" disabled onclick="activateNextTab($('#fundamental-objective-tab'))">Next</button>
               </div>
               <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
-                <p>Choose fundamental objectives and proceed to the next tab.</p><hr />
+                <p>Choose Fundamental Objectives and proceed to the Objective tab.</p><hr />
                 <button onclick="selectAll('fundamental-objective')">Select All Fundamental Objectives</button>
                 <button onclick="deselectAll('fundamental-objective')">Deselect All Fundamental Objectives</button>
+                <h3>Fundamental Objectives</h3>
                 <div id="fundamental-objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top</a></p>
                 <button class="next enabled-by-objective" disabled onclick="activateNextTab($('#objective-tab'))">Next</button>
               </div>
               <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
-                <p>What are the user's goals? Select objectives for the desired tools and move to the next tab.</p><hr />
+                <p>Select Objectives and proceed to the Concept tab.</p><hr />
                 <button onclick="selectAll('objective')">Select All Objectives</button>
                 <button onclick="deselectAll('objective')">Deselect All Objectives</button>
+                <br>
                 <button onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show fewer objectives</button>
                 <button onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show more objectives</button>
                 <br />
                 <input id="objective-relevance" type="hidden" value="1" />
+                <h3>Objectives</h3>
                 <div id="objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top</a></p>
                 <button class="next enabled-by-concept" disabled onclick="activateNextTab($('#concept-tab'))">Next</button>
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
-                <p>Select all concepts that apply to the intended use of the tool. Click Find Tools to display a list of tools or click Add Additional Concepts to choose from more concepts.</p><hr />
+                <p>Select Concepts and click <strong>Find Tools by Concept</strong> or <strong>Find Tools by Keyword</strong> to display a list of tools.</p><p>Clicking <strong>Add Additional Concepts</strong> will use your selected Concepts to add any related Concepts we can find.</p><hr />
                 <button onclick="selectAll('concept')">Select All Concepts</button>
                 <button onclick="deselectAll('concept')">Deselect All Concepts</button>
+                <br>
                 <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <br>
                 <button id="keyword-search-button" onclick="keywordSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Keyword</button>
                 <button id="concept-search-button" onclick="conceptSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
                 <div id="results-notification"></div>
+                <h3>Concepts</h3>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top</a></p>
               </div>
               <div aria-labelledby="saved-results-tab" id="saved-results-panel" role="tabpanel" aria-hidden="true">
                 <h3>Saved Tools</h3>
-                <p>Select the tools you would like to export.</p><hr />
+                <p>These are the tools you chose to save.</p>
+                <p>Select the tools you would like to export to a downloadable CSV file.</p><hr />
                 <button onclick="selectAll('saved-results')">Select All</button>
                 <button onclick="deselectAll('saved-results')">Deselect All</button>
+                <br>
                 <button onclick="removeSelected('saved-results')">Remove Selected Tools</button>
+                <br>
                 <button onclick="exportCSV('saved-results')">Export Selected Tools to CSV</button>
                 <div id="saved-results"></div>
                 <p class="pagetop"><a href="#tabs">Return to top</a></p>
@@ -250,9 +260,11 @@
             </div>
             <div id="results-container" hidden aria-hidden="true">
               <h2 id="tools">Tools</h2>
+              <p>Select any tools you like and save them by clicking <strong>Save Selected Tools.</strong> You can export saved tools to a CSV. These tools will stay saved if you run another search.</p>
               <button onclick="selectAll('search-results')">Select All</button>
               <button onclick="deselectAll('search-results')">Deselect All</button>
               <button onclick="removeSelected('search-results')">Remove Selected Tools</button>
+              <br>
               <button onclick="saveSelectedRecords('saved-results')">Save Selected Tools</button>
               <div id="search-results"></div>
               <p class="pagetop"><a href="#tabs">Return to top</a></p>
