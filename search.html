@@ -1361,12 +1361,16 @@ var parseResult = function(result) {
 
   // DOCUMENT
   function parseSpatialExtent(extent) {// possibly joins strings in an array
-    if (extent.ModelScopeSpatialExtentDetailName) {return extent.ModelScopeSpatialExtentDetailName;}// return desired value if it is a property of extent
+    if (extent.SpatialExtentName) {return extent.SpatialExtentName;}// return desired value if it is a property of extent
     if (extent.length) {// is array?(this means several values instead of just one)
       if (typeof extent === 'string') {return extent;}
       var str = '';// create string for appending each spatial extent to while looping through array
       for (var i = 0; i < extent.length - 1; i++) {// loop through all elements except last...
-        str += parseSpatialExtent(extent[i]) + ", ";//...append ith value and a delimiter
+        if(extent.length > 2){
+          str += parseSpatialExtent(extent[i]) + ", ";//...append ith value and a delimiter. comma if more than 2 in list
+        } else {
+          str += parseSpatialExtent(extent[i]) + " ";//...append ith value and a delimiter just a space if only 2 in list
+        }
       }
       str += 'and ' + parseSpatialExtent(extent[extent.length - 1]);//append final value
       return str; // return accumulated values in a string
