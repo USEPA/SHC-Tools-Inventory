@@ -50,6 +50,7 @@
     cursor: pointer;
     cursor: hand;
   }
+  #detailFeedback { display:none; }
   /************* ADDED FROM MOCKUP.HTML ************/
   div[aria-hidden='true'] {
     display: none;
@@ -317,7 +318,8 @@
                   </select>
                 </div>
                 <br>
-                <button id="detailSearchBtn" onclick="detailSearchClk2()">Search</button>
+                <button id="detailSearchBtn" onclick="detailedSearch()">Search</button>
+                <div id="detailFeedback">No results were found.</div>
               </div>
               <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" aria-hidden="true">
                 Browse the tools by Decision Sector:
@@ -549,17 +551,103 @@ var initializeTabs = function() {
 
 //Clear Results
 function clearResults() {
-    var result_table = document.getElementById('resultsTable');
-    while (result_table.rows.length != 1) {
-      try {
-        result_table.deleteRow(1);
-      } catch (err) {
-        console.log(err)
-      }
+  var result_table = document.getElementById('resultsTable');
+  while (result_table.rows.length != 1) {
+    try {
+      result_table.deleteRow(1);
+    } catch (err) {
+      console.log(err)
     }
   }
-  //Detailed Search
-  //Note this needs to be refactored!!!
+}
+
+/**
+ * Expand an array of data-objects to add a member of name
+ * fieldName for each value from fieldValues.
+ * This allows expansion of an array of data-objects for
+ * each selected value from fieldValues.
+ * EXAMPLE:
+ * dataList = addMembers(dataList, 'Operating Environment', os_select);
+ * this example creates an element of dataArray for each (i, j) where
+ * i = someCurrentDataObject, j = someFieldValue) 
+ */
+function addMembers(dataList, fieldName, fieldValues) {
+  console.log('addMembers() called with',dataList,fieldName,fieldValues)
+  if (fieldValues.length > 0) {// are any values selected?
+    var tmpDataList = [];// create a temp copy of dataList
+    for (iFieldValue=0;iFieldValue<fieldValues.length;iFieldValue++) {// loop through os-selections
+      for (iDatum in dataList) {// loop through current data-objects
+        // expand the temp object to be num_osSelections * num_previousDataObjects
+        tmpDataList[fieldValues.length * iDatum + iFieldValue] = dataList[iDatum];
+        // add member for value of fieldValues
+        tmpDataList[fieldValues.length * iDatum + iFieldValue][fieldName] = fieldValues[iFieldValue];
+        if (typeof tmpDataList !== 'undefined') {
+          console.log('addMembers is returning',tmpDataList);
+          return tmpDataList;
+        } else {
+          console.log('addMembers() pooped');
+        }
+      }
+    }
+  } else {
+    return dataList;
+  }
+}
+
+var detailedSearch = function() {
+  clearResults();
+  var queryString = $('#detailSearchText').val().trim().toLowerCase();
+  var decisionSectors = [$('#detailDecisionSelect').val()];
+  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
+  var $feedbackDiv = $('#detailFeedback');
+  var os_select = checkBoxValue(document.getElementsByName('RadioEnvironment'));
+  var cost_select = checkBoxValue(document.getElementsByName('CheckBase'));
+  var extent_select = multiSelectValue(document.getElementById('selectExtent'));
+  var results = [];
+  var requests = [];
+  var arr = [];
+  var data = {};
+  $feedbackDiv.css('display','none');
+  if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
+    decisionSectors = [
+      "Land Use",
+      "Waste Management",
+      "Building Infrastructure",
+      "Transportation"
+    ];
+  }
+  if (queryString) { // makes sure search string is not empty
+    for (var i=0;i<queryTypes.length;i++){
+      data[queryTypes[i]] = queryString;
+      for (var j=0;j<decisionSectors.length;j++){
+        data.DecisionSector = decisionSectors[j];
+        dataList = [data];// create an initial array of query-data
+        dataList = addMembers(dataList, 'OperatingEnvironment', os_select);// create a data object for each selection of OperatingEnvironment
+        dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select);// create a data object for each selection of BaseCostOfSoftware
+        dataList = addMembers(dataList, 'SpatialExtent', extent_select);// create a data object for each selection of SpatialExtent
+        for (iDatum in dataList) {
+          console.log(dataList[iDatum]);
+          requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
+        }
+      }
+      data = {};
+    }
+    $.when.apply(null, requests).done(function () {
+      for (var i=0; i<arguments.length; i++){
+        results = results.concat(arguments[i][0]);
+      }
+      arr = parseResultsArray(arr, results);
+      if (0 === arr.length) {
+        $feedbackDiv.css('display', 'block');
+      }//else {$("#results-tab").click();}
+    });
+  } else {
+    $feedbackDiv.css('display', 'block');
+  }
+};
+
+//Detailed Search
+//Note this needs to be refactored!!!
 function detailSearchClk2() {
   clearResults();
   var os_select = checkBoxValue(document.getElementsByName('RadioEnvironment'));

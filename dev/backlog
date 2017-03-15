@@ -128,6 +128,13 @@ backlog to track work to be done and by whom
 - Fix parseSpatialExtent to properly return spatial extent
 - seth: done
 
+- create landing page were user can navigate to search or wizard tools
+	- kyle: done
+
+- rewrite detailedSearch() to function completely
+  - make extensible function addMembers() to create new data objects
+    that include arbitrary selections
+  - kyle: done
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -166,7 +173,7 @@ backlog to track work to be done and by whom
 
 - display related concepts, tools, and other labels
 
-- stub developer documentation
+- stub developer-documentation
   - html coding style,
   - css coding style,
   - javascript coding style,
@@ -183,15 +190,13 @@ backlog to track work to be done and by whom
   - documentation style,
   - kyle: WIP
 
-- create landing page were user can navigate to search or wizard tools
-	- kyle: WIP
-
 - provide better description of how Save Tools works
 
 - reformat the tabs 
 	- hide until clickable?
 		- done
 	- disabled?
+    - kyle: opted for hiding instead
 	- arrows to show directionality
 
-- Record pathway data and/or saved tools
+- Record pathway data(role,subrole,...) and/or saved tools
