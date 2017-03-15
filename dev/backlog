@@ -114,19 +114,19 @@ backlog to track work to be done and by whom
 	- seth: done
 
 - Update parser to work correctly with new query in access
-- seth: done
+	- seth: done
 
 - Update readIDsByConcept with merged data
-- seth: done
+	- seth: done
 
 - Update wording on tabs
-- seth: done
+	- seth: done
 
 - Update wording of intro text per feedback from Melissa McCullough
-- seth: done
+	- seth: done
 
 - Fix parseSpatialExtent to properly return spatial extent
-- seth: done
+	- seth: done
 
 - create landing page were user can navigate to search or wizard tools
 	- kyle: done
@@ -135,6 +135,25 @@ backlog to track work to be done and by whom
   - make extensible function addMembers() to create new data objects
     that include arbitrary selections
   - kyle: done
+
+- Remove outdated code for popup-message and dialog-message
+	- seth: done
+
+- Clear results from new results div
+	- seth: done
+
+- Hide 'no results' message when there are results
+	- seth: done
+
+- Add 'of Section' to 'Return to top' links
+	- seth: done
+
+- Correct capitalization of Show more/fewer objectives buttons
+	- seth: done
+
+- Add >> to tabs to show directionality of interface
+	- seth: done
+
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -200,3 +219,9 @@ backlog to track work to be done and by whom
 	- arrows to show directionality
 
 - Record pathway data(role,subrole,...) and/or saved tools
+
+- #BUG #SEARCH Detailed Search only returns results with the leftmost checked Base Cost checkbox
+	- query string "water" with "Free" and "$1-$499" selected should include WinSLAMM as a result 
+
+- #BUG #BOTH Operating Environment not showing for tools with multiple OEs
+ - Envision Tomorrow and eSight should have OE "Browser, Desktop" instead have "no data" or blank entries
