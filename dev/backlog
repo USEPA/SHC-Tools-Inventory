@@ -154,6 +154,12 @@ backlog to track work to be done and by whom
 - Add >> to tabs to show directionality of interface
 	- seth: done
 
+- #wizard select all selects disabled items
+  - kyle: decidedly left as dev-feature because disabled items not expected to be shown in production
+  - kyle: done
+
+- reword the description of how Save Tools works
+  - kyle: done
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -209,8 +215,6 @@ backlog to track work to be done and by whom
   - documentation style,
   - kyle: WIP
 
-- provide better description of how Save Tools works
-
 - reformat the tabs 
 	- hide until clickable?
 		- done
@@ -225,3 +229,5 @@ backlog to track work to be done and by whom
 
 - #BUG #BOTH Operating Environment not showing for tools with multiple OEs
  - Envision Tomorrow and eSight should have OE "Browser, Desktop" instead have "no data" or blank entries
+
+- #feature perhaps allow user to switch between tabular and div-ised view of results
