@@ -68,8 +68,12 @@
       margin: 1em 0 0 0;
       padding: .5em;
     }
-    #search-results > :hover, #saved-results > :hover{
+    .expand:hover{
       background-color: #e7f4e4;
+      cursor: pointer;
+    }
+    .expand{
+      margin: 0;
     }
     #search-results > div, #saved-results > div{
       background-color: #f1f1f1;
@@ -793,14 +797,16 @@ function addDiv(parsedResult, containerId) {
               .addClass('col size-95of100')))
       .append(
         $('<div />')
-          .addClass('row')
+          .addClass('row expand')
           .attr('tabindex','0')// ensure inclusion in tab-order based on position in document(default order)
           .click(function() {
-            $("#additional-details-"+parsedResult.READResourceIdentifier).toggle();
+            $("#additional-details-"+containerId+'-'+parsedResult.READResourceIdentifier).toggle();
+            $("#additional-details-"+containerId+'-'+parsedResult.READResourceIdentifier).is(":visible") ? $('#expand-message'+containerId+'-'+parsedResult.READResourceIdentifier).html('Hide tool details...') : $('#expand-message'+containerId+'-'+parsedResult.READResourceIdentifier).html('Show tool details...');
             $(this).find('.accordian-result').toggleClass('collapsible');
           })
           .append(
             $('<span />')
+              .attr('id', 'expand-message'+containerId+'-'+parsedResult.READResourceIdentifier)
               .html('Show tool details...')
               .addClass('col bold'))
           .append(
@@ -811,7 +817,7 @@ function addDiv(parsedResult, containerId) {
       .append(
         $('<div />')
           .css('display', 'none')
-          .attr('id', 'additional-details-'+parsedResult.READResourceIdentifier)
+          .attr('id', 'additional-details-'+containerId+'-'+parsedResult.READResourceIdentifier)
           .addClass('row')
           .append(
             $('<div />')    
