@@ -212,9 +212,10 @@
                 <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Simple Search</a></li>
                 <li><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" name="tab1" role="tab">Detailed Search</a></li>
                 <li><a aria-controls="browse-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#browse-tools-panel" id="browse-tools-tab" name="tab1" role="tab" onclick="loadModels2()">Browse Tools</a></li>
-                <li><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#results-panel" id="results-tab" name="tab1" role="tab">Results</a></li>
-                <li><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
-                <li><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Tools</a></li>
+                <li><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#results-panel" id="results-tab" name="tab1" role="tab">Results Table</a></li>
+                <li><a aria-controls="results-panel-divs" aria-selected="false" class="menu-internal" data-tab-number="5" href="#results-panel-divs" id="results-tab-divs" name="tab1" role="tab">Results</a></li>
+                <li><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
+                <li><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="7" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Tools</a></li>
               </ul>
               <div aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" aria-hidden="false" style="border: 1px solid #aaa;">
                 <table width="100%" cellpadding="0" cellspacing="0" class="noborder">
@@ -430,6 +431,9 @@
                   <button class="button" onclick="exportCSV('resultsTable')">Export CSV</button>
                 </div>
               </div>
+               <div aria-labelledby="results-tab-divs" id="results-panel-divs" role="tabpanel" aria-hidden="true">
+                 <div id="search-results"></div>
+               </div>             
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
                 <div align="right">
                   <button class="button" onclick="saveRecord()">Save Record</button>
@@ -460,7 +464,6 @@
                 </div>
               </div>
             </div>
-            <div id="search-results"></div>
             </div>
           </div>
         </div>
@@ -1648,6 +1651,51 @@ function loadModels2() {
       });
   }
   tabsBrowserClicked = true;
+}
+
+/**
+ * Save all selected tools to the Saved Tools tab
+*/
+function saveSelectedRecords(resultsDiv) {
+  var recordsToSave = $('#search-results input:checked');
+  recordsToSave.each(function() {
+    var record = $('#search-results').data($(this).val()+'');
+    if (isNewResult(resultsDiv, record)) {
+      addDiv(record, resultsDiv);
+    }
+  });
+  if ($('#'+resultsDiv).data('ids').length > 0) {
+    $('#saved-results-tab').parent().attr("aria-hidden", "false");
+    document.getElementById("saved-results-tab").click();
+  }
+}
+
+/**
+ * Check all the checkboxes in the specified location
+*/
+function selectAll(divID) {
+  var $selected = $('#'+divID +' input');
+  var count = $selected.length;
+  $selected.each(function(){
+    $(this).prop("checked", true);
+    if (--count === 0){
+      $(this).change();
+    }
+  });
+}
+
+/**
+ * Uncheck all the checkboxes in the specified location
+*/
+function deselectAll(divID) {
+  var $selected = $('#'+divID +' input');
+  var count = $selected.length;
+  $selected.each(function(){
+    $(this).prop("checked", false);
+    if (--count === 0){
+      $(this).change();
+    }
+  });
 }
 /******* TAKEN FROM MOCKUP.HTML ****************/
 //$("#simple-search-tab").focus();
