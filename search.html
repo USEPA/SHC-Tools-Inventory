@@ -221,12 +221,12 @@
                 <table width="100%" cellpadding="0" cellspacing="0" class="noborder">
                   <tbody>
                     <tr>
-                      <td style="width:67%;">
+                      <td style="width:100%;">
                         Search
                         <br>
                         <input id="simpleSearchText" title="Search for tools by entering specific keywords" type="text" style="width:100%" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()" class="ui-autocomplete-input" autocomplete="off">
                       </td>
-                      <td style="width:33%;">
+                      <!-- <td style="width:33%;">
                         Decision Sector
                         <br>
                         <select id="simpleDecisionSelect" style="width:100%">
@@ -236,7 +236,7 @@
                           <option value="Transportation">Transportation</option>
                           <option value="Waste Management">Waste Management</option>
                         </select>
-                      </td>
+                      </td> -->
                     </tr>
                   </tbody>
                 </table>
@@ -993,21 +993,27 @@ simpleSearchClk3 = function() {
   $('#search-results *').remove(); //clears for new results
   clearResultData('search-results'); //clears for new results
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
-  var decisionSectors = [$('#simpleDecisionSelect').val()];
+  //var decisionSectors = [$('#simpleDecisionSelect').val()];
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
   var $feedbackDiv = $('#simpleFeedback');
   var results = [];
   var requests = [];
   var arr = [];
   var data = {};
-  if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
+  /*if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
     decisionSectors = [
       "Land Use",
       "Waste Management",
       "Building Infrastructure",
       "Transportation"
     ];
-  }
+  }*/
+  var decisionSectors = [
+      "Land Use",
+      "Waste Management",
+      "Building Infrastructure",
+      "Transportation"
+    ];
   if (queryString) { // makes sure search string is not empty
     for (var i=0;i<queryTypes.length;i++){
       data[queryTypes[i]] = queryString;
