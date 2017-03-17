@@ -668,11 +668,21 @@ var executeSearch = function(url, data){
 };
 
 var parseResultsArray = function(arr, a) {
-  var resultLength = a.length;
-  for (var i = 0; i < resultLength; i++) {
+  var tableDisplay = function(data) {
+    addRow(data, "#resultsTable");
+  };
+  var divDisplay = function(parsedResult) {
+    if (isNewResult("search-results", parsedResult)) {
+      addDiv(parsedResult, "search-results");
+    }
+  };
+  for (var i = 0; i < a.length; i++) {
     if(arr.indexOf(a[i].ResourceId) === -1) {
       arr.push(a[i].ResourceId);
-      simpleSearchClk4(a[i].ResourceId);
+      //populate divs
+      toolCache.handleParsedData(a[i].ResourceId, divDisplay);
+      //populate table
+      toolCache.handleParsedData(a[i].ResourceId, tableDisplay);
     }
   }
   return arr;
@@ -727,40 +737,7 @@ simpleSearch = function() {
   }
 };
 
-// DOCUMENT
-simpleSearchClk4 = function(resourceID) {
-  $.ajax({
-    type: 'GET',
-    url: resourceDetailURL,
-    data: {
-    ResourceId: resourceID,
-    Format: 'JSON'
-    },
-    //data: { Name: name_query, ShortDescriptionForReports: decision_query, Format: 'JSON' },
-    dataType: 'json',
-    success: function(data) {
-      var response = parseResults(data, "#resultsTable");
-      displayResult(data, 'search-results')
-    }
-  });
-};
-
-simpleSearchClk5 = function(resourceID) {
-  $.ajax({
-    type: "GET",
-    url: resourceDetailURL,
-    data: {
-      ResourceId: resourceID,
-      Format: "JSON"
-    },
-    dataType: "json",
-    success: function(data) {
-      var response = parseResults(data, "#resultsTable");
-    }
-  });
-};
-
-function parseResults(str, table_reference) {
+function addRow(str, table_reference) {
   try {
     var row_template = {
       "Acronym": 0,
@@ -774,7 +751,6 @@ function parseResults(str, table_reference) {
     result = str;
     var result_table = $(table_reference)[0];
     var row = result_table.insertRow(1);
-    jQuery.data(row, "record", result);
     for (var key in row_template) {
       var cell = row.insertCell(row_template[key]);
       var columnnumber = row_template[key];
@@ -783,103 +759,38 @@ function parseResults(str, table_reference) {
       switch (columnnumber) {
         case 0: //Acronym
           var AcronymData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .GeneralDetail
             .Acronym;
           this_result = AcronymData;
           break;
         case 1: //ShortTitleText
-          //Needs brought in from data; name is missing.
           var ShortTitleTextData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .GeneralDetail
-            .ShortTitleText;
+            .LongTitleText;
           this_result = ShortTitleTextData;
           break;
         case 2: //ShortDescription
           var ShortDescriptionData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .GeneralDetail
-            .ShortDescription;
+            .LongDescription;
           this_result = ShortDescriptionData;
           break;
         case 3: //DetailsBaseSoftwareCost
           var DetailsBaseSoftwareCostData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .ModelDetailsDetail
             .DetailsBaseSoftwareCost;
           this_result = DetailsBaseSoftwareCostData;
-          switch (DetailsBaseSoftwareCostData) {
-            case 1:
-              this_result = "Free";
-              break;
-            case 2:
-              this_result = "$1-$499";
-              break;
-            case 3:
-              this_result = "$500-$1499";
-              break;
-            case 4:
-              this_result = "$1500-$3999";
-              break;
-            case 5:
-              this_result = ">$4000";
-              break;
-            default:
-          }
           break;
         case 4: //SpatialExtent
-          var spatialextentstring = "";
           var SpatialExtentData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .ModelScopeDetail
             .ModelScopeSpatialExtentDetail;
-          if (SpatialExtentData) {
-            for (i = 0; i < SpatialExtentData.length; i++) {
-              if (i < SpatialExtentData .length - 1) {
-                spatialextentstring +=
-                  SpatialExtentData[i].SpatialExtentName + ", ";
-              } else {
-                spatialextentstring +=
-                  SpatialExtentData[i].SpatialExtentName;
-              }
-            }
-          }
-          if (spatialextentstring !== "") {
-            this_result = spatialextentstring;
-          } else {
-            this_result = "No Data Available";
-          }
+          this_result = SpatialExtentData;
           break;
         case 5: //Model Inputs
           var ModelOutputsTextAreaData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .ModelInputsDetail
             .ModelInputsTextArea;
-          if (ModelOutputsTextAreaData) {
-            this_result = ModelOutputsTextAreaData;
-          } else {
-            this_result = "No Data Available";
-          }
+          this_result = ModelOutputsTextAreaData;
           break;
         case 6: //ModelOutputs
           var ModelOutputsTextAreaData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .ModelOutputsDetail
             .ModelOutputsModelVariablesTextArea;
-          if (ModelOutputsTextAreaData) {
-            this_result = ModelOutputsTextAreaData;
-          } else {
-            this_result = "No Data Available";
-          }
-          break;
+          this_result = ModelOutputsTextAreaData;
         default:
           this_result = "No Data Available";
       }
@@ -904,28 +815,9 @@ function parseResults(str, table_reference) {
   } catch (err) {
     console.log(err);
     $(table_reference+' tr:last').remove();
+    return 'No results found';
   }
 }
-
-//START TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
-/**
- * pass details of id to displayResult
- */
-var getResourceDetail = function(id, div) {
-  $.get(resourceDetailURL,{ ResourceId: id }).done(function(data) {displayResult(data, div);});
-};
-
-/**
- * display a result; save result's data to the containing element
- * @arg data{object} READ Web Services detail object
- */
-var displayResult = function(data, containerId, fields) {
-  var parsedResult = parseResult(data);
-  fields = ['title', 'description', 'url'];
-  if (isNewResult(containerId, parsedResult)) {
-    addDiv(parsedResult, containerId);
-  }
-};
 
 /**
  * true if tool is not already in results
@@ -939,7 +831,6 @@ var isNewResult = function(containerId, parsedResult) {
   var cachedIds = $('#'+containerId).data('ids');
   if (cachedIds.indexOf(parsedResult.READResourceIdentifier) == -1) {
     cachedIds.push(parsedResult.READResourceIdentifier);
-    $('#'+containerId).data(String(parsedResult.READResourceIdentifier), parsedResult);
     return true;
   }
   return false;
@@ -1369,6 +1260,47 @@ function deselectAll(divID) {
     }
   });
 }
+
+var toolCache = (function() {
+  var cache = {};
+
+  function _setData(id, data){
+    //console.log("adding data to cache");
+    cache[id] = data;
+  }
+
+  function _getData(id){
+    //console.log("getting data from cache");
+    if (cache.hasOwnProperty(id)) {
+      return cache[id];
+    }
+  }
+
+  return { // public interface
+    handleParsedData: function(id, callback){
+      if (cache.hasOwnProperty(id)) {
+        callback(_getData(id));
+      } else {
+        $.get(resourceDetailURL,{ResourceId:id}).done(function(data) {
+          _setData(id, parseResult(data));
+          callback(_getData(id));
+        });
+      }
+    },
+    getParsedData: function(id){
+      if (cache.hasOwnProperty(id)) {
+        //console.log("in cache, returning");
+        return _getData(id);
+      } else {
+        //console.log("not in cache");
+        return null;
+      }
+    },
+    getCache : function(){
+      return cache;
+    }
+  };
+})();
 </script>
 <script src="js/jquery-ui.min.js"></script>
 <script language="javascript" src="js/read.js"></script>
