@@ -680,6 +680,14 @@ var keywordSearch = function(div, input) {
  * search for the READ IDs from the selected Concepts from input and display results in div
  */
 var conceptSearch = function(div, input) {
+  var tableDisplay = function(data) {
+    addRow(data, "#resultsTable");
+  };
+  var divDisplay = function(parsedResult) {
+    if (isNewResult("search-results", parsedResult)) {
+      addDiv(parsedResult, "search-results");
+    }
+  };
   $('#'+div+' *').remove();
   clearResultData(div);
   var concepts = getConcepts(input);
@@ -696,7 +704,11 @@ var conceptSearch = function(div, input) {
         if (tools.hasOwnProperty(readIDsByConcept[concepts[i]][j])) {
           tools[readIDsByConcept[concepts[i]][j]]++;
         } else {
-          getResourceDetail(readIDsByConcept[concepts[i]][j], div);
+          //populate divs
+          toolCache.handleParsedData(readIDsByConcept[concepts[i]][j], divDisplay);
+          /** NOT IMPLEMENTED YET **/
+          //populate table
+          //toolCache.handleParsedData(readIDsByConcept[concepts[i]][j], tableDisplay);
           tools[readIDsByConcept[concepts[i]][j]] = 1;
           tools.length++;
         }
@@ -753,26 +765,6 @@ var getKeywords = function(input) {
 };
 
 //START TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
-/**
- * pass details of id into displayResult
- */
-var getResourceDetail = function(id, div) {
-  $.get(resourceDetailURL,{ ResourceId: id }).done(function(data) {
-    displayResult(data, div);
-  });
-};
-
-/**
- * display a result; save result's data to the containing element
- * @arg data{object} READ Web Services detail object
- */
-var displayResult = function(data, div) {
-  var parsedResult = parseResult(data);
-  if (isNewResult(div, parsedResult)) {
-    addDiv(parsedResult, div);
-  }
-};
-
 /**
  * display details of parsedResult in container with containerId
  * dev aspiration: dynamically append spans and dynamically apply
@@ -1035,7 +1027,7 @@ function readSafe(object, propertyArray) {
     if(Object.keys(propertyArray).length==1) {// is this the last property in the array?
       if (value.length) {
         if (typeof value != 'string') {
-          console.log('readSafe is returning an array from object',object,'at property',propertyArray[0]);
+          //console.log('readSafe is returning an array from object',object,'at property',propertyArray[0]);
         }
         if (typeof value === 'string') {
           // scrape value for URLs with regex
@@ -1131,7 +1123,6 @@ var isNewResult = function(containerId, parsedResult) {
   var cachedIds = $('#'+containerId).data('ids');
   if (cachedIds.indexOf(parsedResult.READResourceIdentifier) == -1) {
     cachedIds.push(parsedResult.READResourceIdentifier);
-    $('#'+containerId).data(String(parsedResult.READResourceIdentifier), parsedResult);
     return true;
   }
   return false;
@@ -1341,10 +1332,7 @@ var activateNextTab = function($nextTab) {
 function saveSelectedRecords(resultsDiv) {
   var recordsToSave = $('#search-results input:checked');
   recordsToSave.each(function() {
-    var record = $('#search-results').data($(this).val()+'');
-    if (isNewResult(resultsDiv, record)) {
-      addDiv(record, resultsDiv);
-    }
+    toolCache.displayParsedData($(this).val(), resultsDiv);
   });
   if ($('#'+resultsDiv).data('ids').length > 0) {
     $('#saved-results-tab').parent().attr("aria-hidden", "false");
@@ -1387,7 +1375,6 @@ function removeSelected(divID) {
   var ids = [];
   $('#'+divID +' input').each(function(){
     if ($(this).prop("checked")) {
-      $('#'+divID).removeData($(this).val());
       $('#'+divID + ' > #' + divID + '-' + $(this).val()).remove();
     } else {
       ids.push(parseInt($(this).val()));
@@ -1407,7 +1394,7 @@ function exportCSV(savedResultsDiv) {
     var values;
     records.each(function(){
       values = [];
-      var record = $('#'+savedResultsDiv).data($(this).val()+'');
+      var record = toolCache.getParsedData($(this).val());
       if (record) {
         if (names.length === 0) {
           for (var prop in record) {
@@ -1464,6 +1451,47 @@ var getDetailsFromId = function(id) {
     console.log(data.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym,': ',data.READExportDetail.InfoResourceDetail);
   });
 };
+
+var toolCache = (function() {
+  var cache = {};
+
+  function _setData(id, data){
+    //console.log("adding data to cache");
+    cache[id] = data;
+  }
+
+  function _getData(id){
+    //console.log("getting data from cache");
+    if (cache.hasOwnProperty(id)) {
+      return cache[id];
+    }
+  }
+
+  return { // public interface
+    handleParsedData: function(id, callback){
+      if (cache.hasOwnProperty(id)) {
+        callback(_getData(id));
+      } else {
+        $.get(resourceDetailURL,{ResourceId:id}).done(function(data) {
+          _setData(id, parseResult(data));
+          callback(_getData(id));
+        });
+      }
+    },
+    getParsedData: function(id){
+      if (cache.hasOwnProperty(id)) {
+        //console.log("in cache, returning");
+        return _getData(id);
+      } else {
+        //console.log("not in cache");
+        return null;
+      }
+    },
+    getCache : function(){
+      return cache;
+    }
+  };
+})();
 
 var developer = false;
 function devMode(bool){
