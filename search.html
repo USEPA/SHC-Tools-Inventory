@@ -190,10 +190,9 @@
                 <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Simple Search</a></li>
                 <li><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" name="tab1" role="tab">Detailed Search</a></li>
                 <li><a aria-controls="browse-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#browse-tools-panel" id="browse-tools-tab" name="tab1" role="tab" onclick="loadModels2()">Browse Tools</a></li>
-                <li><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#results-panel" id="results-tab" name="tab1" role="tab">Results Table</a></li>
-                <li><a aria-controls="results-panel-divs" aria-selected="false" class="menu-internal" data-tab-number="5" href="#results-panel-divs" id="results-tab-divs" name="tab1" role="tab">Results</a></li>
-                <li><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
-                <li><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="7" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Tools</a></li>
+                <li><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#results-panel" id="results-tab" name="tab1" role="tab">Results</a></li>
+                <li><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
+                <li><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Tools</a></li>
               </ul>
               <div aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" aria-hidden="false" style="border: 1px solid #aaa;">
                 <table width="100%" cellpadding="0" cellspacing="0" class="noborder">
@@ -401,55 +400,58 @@
                 </div>
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
-                <p>Your search results:</p>
-                <button class="button" onclick="saveAllRecords('resultsTable')">Save All</button>
-                <table class="revision-table" id="resultsTable" width="100%">
-                  <tbody>
-                    <tr>
-                      <th>Acronym</th>
-                      <th>Title</th>
-                      <th>Description</th>
-                      <th>Base Cost</th>
-                      <th>Spatial Extent</th>
-                      <th>Tool Inputs</th>
-                      <th>Tool Outputs</th>
-                    </tr>
-                  </tbody>
-                </table>
-                <div align="right">
-                  <button class="button" onclick="exportCSV('resultsTable')">Export CSV</button>
+                <span>Choose a display type:</span>
+                <input id="text-radio" type="radio" name="display-type" value="text" checked><label for="text-radio">Text</label>
+                <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table</label>
+                <div id="search-results"></div>
+                <div id="search-table">
+                  <p>Your search results:</p>
+                  <button class="button" onclick="saveAllRecords('resultsTable')">Save All</button>
+                  <table class="revision-table" id="resultsTable" width="100%">
+                    <tbody>
+                      <tr>
+                        <th>Acronym</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Base Cost</th>
+                        <th>Spatial Extent</th>
+                        <th>Tool Inputs</th>
+                        <th>Tool Outputs</th>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div align="right">
+                    <button class="button" onclick="exportCSV('resultsTable')">Export CSV</button>
+                  </div>
                 </div>
-              </div>
-               <div aria-labelledby="results-tab-divs" id="results-panel-divs" role="tabpanel" aria-hidden="true">
-                 <div id="search-results"></div>
-               </div>             
-              <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
-                <div align="right">
-                  <button class="button" onclick="saveRecord()">Save Record</button>
+                <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
+                  <div align="right">
+                    <button class="button" onclick="saveRecord()">Save Record</button>
+                  </div>
+                  <div id="selectedAccordion" class=""></div>
                 </div>
-                <div id="selectedAccordion" class=""></div>
-              </div>
-              <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
-                <p>Your saved tools:</p>
-                <div align="right">
-                  <button class="button" onclick="clearSaved()">Clear Saved</button>
-                </div>
-                <p></p>
-                <table class="revision-table" id="savedTable" width="100%">
-                  <tbody>
-                    <tr>
-                      <th>Acronym</th>
-                      <th>Title</th>
-                      <th>Description</th>
-                      <th>Base Cost</th>
-                      <th>Spatial Extent</th>
-                      <th>Tool Inputs</th>
-                      <th>Tool Outputs</th>
-                    </tr>
-                  </tbody>
-                </table>
-                <div align="right">
-                  <button class="button" onclick="exportCSV('savedTable')">Export CSV</button>
+                <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
+                  <p>Your saved tools:</p>
+                  <div align="right">
+                    <button class="button" onclick="clearSaved()">Clear Saved</button>
+                  </div>
+                  <p></p>
+                  <table class="revision-table" id="savedTable" width="100%">
+                    <tbody>
+                      <tr>
+                        <th>Acronym</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Base Cost</th>
+                        <th>Spatial Extent</th>
+                        <th>Tool Inputs</th>
+                        <th>Tool Outputs</th>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div align="right">
+                    <button class="button" onclick="exportCSV('savedTable')">Export CSV</button>
+                  </div>
                 </div>
               </div>
             </div>
