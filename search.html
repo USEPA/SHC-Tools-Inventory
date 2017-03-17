@@ -1068,7 +1068,7 @@ var parseResult = function(result) {
   parsedResult.HelpDeskPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);
   parsedResult.RCSResources = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
   parsedResult.OwnershipTypeName = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
-  parsedResult.DetailsBaseSoftwareCost = mapAll(readSafe(result,['READE)portDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']),undefined,softwareCostMap);
+  parsedResult.DetailsBaseSoftwareCost = parseSoftwareCost(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']));
   parsedResult.DetailsOtherCostConsiderations = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
   parsedResult.DetailsOpenSource = parseOpenSource(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']));
   parsedResult.DetailsLastKnownSoftwareUpdate = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsLastKnownSoftwareUpdate']);
@@ -1136,33 +1136,6 @@ var parseResult = function(result) {
   }
 
   // DOCUMENT
-  function parseSoftwareCost(cost) {
-    if (typeof(cost) !== 'string') {
-      if (cost.length) {
-        var str = '';
-        for (var i=0;i<cost.length-1;i++) {
-          str += parseSoftwareCost(cost[i]) + ', ';
-        }
-        str += parseSoftwareCost(cost[cost.length-1]);
-      }
-    }
-    switch (cost) {
-      case 1:
-        return "Free";
-      case 2:
-        return "$1-$499";
-      case 3:
-        return "$500-$1499";
-      case 4:
-        return "$1500-$3999";
-      case 5:
-        return ">$4000";
-      default:
-        return cost;// return some unexpected value instead of squelching any hint to the cause of the issue
-    }
-  }
-
-  // DOCUMENT
   function parseSpatialExtent(extent) {// possibly joins strings in an array
     if (extent.SpatialExtentName) {return extent.SpatialExtentName;}// return desired value if it is a property of extent
     if (extent.length) {// is array?(this means several values instead of just one)
@@ -1188,6 +1161,15 @@ var parseResult = function(result) {
   // DOCUMENT
   function parseDataRequirements(dataRequirements) {// requires decoding a data-standard
     return dataRequirementsMap[dataRequirements];// do work
+  }
+
+  // DOCUMENT
+  function parseSoftwareCost(softwareCost) {// requires decoding a data-standard
+    if (softwareCostMap.hasOwnProperty(softwareCost)){
+      return softwareCostMap[softwareCost];// do work
+    } else {
+      return "No Data";
+    }
   }
 
   // DOCUMENT
