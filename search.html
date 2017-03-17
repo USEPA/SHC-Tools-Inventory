@@ -589,9 +589,9 @@ function addMembers(dataList, fieldName, fieldValues) {
         // add member for value of fieldValues
         tmpDataList[fieldValues.length * iDatum + iFieldValue][fieldName] = fieldValues[iFieldValue];
       }
-    }
     console.log('addMembers() is returning',tmpDataList);
     return tmpDataList;
+    }
   } else {
     return dataList;
   }
