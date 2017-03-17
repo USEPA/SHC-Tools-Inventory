@@ -241,7 +241,6 @@
                 <br>
                 <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <br>
-                <button id="keyword-search-button" onclick="keywordSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Keyword</button>
                 <button id="concept-search-button" onclick="conceptSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
                 <div id="results-notification"></div>
                 <h3>Concepts</h3>
@@ -429,7 +428,7 @@ var updateInterface = function(list, $container, onChange){
   var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
   // toggle next
   toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
-}
+};
 
 /**
  * populate list into specified $container;
