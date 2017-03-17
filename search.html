@@ -231,15 +231,20 @@
                         <input id="detailSearchText" title="Search for tools by entering specific keywords" type="text" style="width:100%" onkeydown="if (event.keyCode == 13) document.getElementById('detailSearchBtn').click()" class="ui-autocomplete-input" autocomplete="off">
                       </td>
                       <td style="width:30%;">
-                        Decision Sector
-                        <br>
-                        <select id="detailDecisionSelect" style="width:100%">
-                          <option value="" selected="selected">All</option>
-                          <option value="Building Infrastructure">Building and Infrastructure</option>
-                          <option value="Land Use">Land Use</option>
-                          <option value="Transportation">Transportation</option>
-                          <option value="Waste Management">Waste Management</option>
-                        </select>
+                        <div aria-labelledby="detail-decision-sector-label" id="detail-decision-checkbox" class="form-item form-type-checkbox">
+                          <legend id="detail-decision-sector-label">Choose decision-sectors to search only for tools in those decision-sectors.</legend>
+                          <input class="form-checkbox" id="detail-decision-sector-building" type="checkbox" value="Building Infrastructure">
+                          <label class="option" for="detail-decision-sector-building">Building and Infrastructure</label>
+                          <br />
+                          <input class="form-checkbox" id="detail-decision-sector-land" type="checkbox" value="Land Use">
+                          <label class="option" for="detail-decision-sector-land">Land Use</label>
+                          <br />
+                          <input class="form-checkbox" id="detail-decision-sector-transportation" type="checkbox" value="Transportation">
+                          <label class="option" for="detail-decision-sector-transportation">Transportation</label>
+                          <br />
+                          <input class="form-checkbox" id="detail-decision-sector-waste" type="checkbox" value="Waste Management">
+                          <label class="option" for="detail-decision-sector-waste">Waste Management</label>
+                        </div>
                       </td>
                       <td style="width:20%;" align="middle">
                         <br>
@@ -297,21 +302,27 @@
                     </tr>
                   </tbody>
                 </table>
-                <div width="25%">Spatial Extent of Model
-                  <br>
-                  <select multiple="" id="selectExtent" title="What geographical areas would the tool be used for?" width="25%">
-                    <option value="building">Building</option>
-                    <option value="site">Site</option>
-                    <option value="neighborhood">Neighborhood</option>
-                    <option value="city">City</option>
-                    <option value="county">County</option>
-                    <option value="state">State</option>
-                    <option value="nation">Nation</option>
-                    <option value="continent">Continent</option>
-                    <option value="globe">Globe</option>
-                  </select>
+                <div aria-labelledby="detail-extent-label" id="detail-extent-checkbox" class="form-item form-type-checkbox" role="group">
+                  <legend>Choose spatial extents to search only for tools labelled with at least one chosen spatial extent.</legend>
+                  <input class="form-checkbox" id="detail-extent-building" type="checkbox" value="building">
+                  <label class="option" for="detail-extent-building">Building</label>
+                  <input class="form-checkbox" id="detail-extent-site" type="checkbox" value="site">
+                  <label class="option" for="detail-extent-site">Site</label>
+                  <input class="form-checkbox" id="detail-extent-neighborhood" type="checkbox" value="neighborhood">
+                  <label class="option" for="detail-extent-neighborhood">Neighborhood</label>
+                  <input class="form-checkbox" id="detail-extent-city" type="checkbox" value="city">
+                  <label class="option" for="detail-extent-city">City</label>
+                  <input class="form-checkbox" id="detail-extent-county" type="checkbox" value="county">
+                  <label class="option" for="detail-extent-county">County</label>
+                  <input class="form-checkbox" id="detail-extent-state" type="checkbox" value="state">
+                  <label class="option" for="detail-extent-state">State</label>
+                  <input class="form-checkbox" id="detail-extent-nation" type="checkbox" value="nation">
+                  <label class="option" for="detail-extent-nation">Nation</label>
+                  <input class="form-checkbox" id="detail-extent-continent" type="checkbox" value="continent">
+                  <label class="option" for="detail-extent-continent">Continent</label>
+                  <input class="form-checkbox" id="detail-extent-globe" type="checkbox" value="globe">
+                  <label class="option" for="detail-extent-globe">Globe</label>
                 </div>
-                <br>
                 <button id="detailSearchBtn" onclick="detailedSearch()">Search</button>
                 <div id="detailFeedback">No results were found.</div>
               </div>
@@ -577,28 +588,27 @@ function addMembers(dataList, fieldName, fieldValues) {
         tmpDataList[fieldValues.length * iDatum + iFieldValue] = dataList[iDatum];
         // add member for value of fieldValues
         tmpDataList[fieldValues.length * iDatum + iFieldValue][fieldName] = fieldValues[iFieldValue];
-        if (typeof tmpDataList !== 'undefined') {
-          console.log('addMembers is returning',tmpDataList);
-          return tmpDataList;
-        } else {
-          console.log('addMembers() pooped');
-        }
       }
     }
+    console.log('addMembers() is returning',tmpDataList);
+    return tmpDataList;
   } else {
     return dataList;
   }
 }
 
+/**
+ * Search for text and choose other criteria for tools.
+*/
 var detailedSearch = function() {
   clearResults();
   var queryString = $('#detailSearchText').val().trim().toLowerCase();
-  var decisionSectors = [$('#detailDecisionSelect').val()];
+  var decisionSectors = $('#detail-decision-checkbox :checkbox:checked').map(function(){return $(this).val()});
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
   var $feedbackDiv = $('#detailFeedback');
   var os_select = checkBoxValue(document.getElementsByName('RadioEnvironment'));
   var cost_select = checkBoxValue(document.getElementsByName('CheckBase'));
-  var extent_select = multiSelectValue(document.getElementById('selectExtent'));
+  var extent_select = $('#detail-extent-checkbox :checkbox:checked').map(function(){return $(this).val()});
   var results = [];
   var requests = [];
   var arr = [];
@@ -656,7 +666,7 @@ function detailSearchClk2() {
   var cost_select = checkBoxValue(document.getElementsByName('CheckBase'));
   var extent_select = multiSelectValue(document.getElementById('selectExtent'));
   var query_string = $('#detailSearchText')[0].value.toLowerCase();
-  var decision_select = document.getElementById('detailDecisionSelect').value;
+  var decision_select = document.getElementById('detail-decision-checkbox').value;
   if ((os_select.length != 0) && (cost_select.length != 0) && (extent_select.length != 0)) {
     for (ios = 0; ios < os_select.length; ios++) {
       for (ics = 0; ics < cost_select.length; ics++) {

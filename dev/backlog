@@ -168,6 +168,12 @@ backlog to track work to be done and by whom
   - ensure allen has not requested a table
   - kyle: done
 
+- change decision-sector dropdown to checkboxes
+  - kyle: done
+
+- change spatial extent multiselect to checkboxes
+  - kyle: done
+
 - reformat the tabs 
 	- hide until clickable?
 		- done
