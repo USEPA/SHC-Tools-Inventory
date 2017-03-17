@@ -163,6 +163,19 @@ backlog to track work to be done and by whom
 
 - move description from search to index
   - kyle: done
+
+- change decision-sector-table to something else
+  - ensure allen has not requested a table
+  - kyle: done
+
+- reformat the tabs 
+	- hide until clickable?
+		- done
+	- disabled?
+    - kyle: opted for hiding instead
+	- arrows to show directionality
+    - kyle: seth implemented as ">>" following tab's text
+  - kyle: done
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -217,13 +230,6 @@ backlog to track work to be done and by whom
       - explain fields when useful
   - documentation style,
   - kyle: WIP
-
-- reformat the tabs 
-	- hide until clickable?
-		- done
-	- disabled?
-    - kyle: opted for hiding instead
-	- arrows to show directionality
 
 - Record pathway data(role,subrole,...) and/or saved tools
 
