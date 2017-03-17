@@ -1321,32 +1321,6 @@ var broadenConcepts = function() {
 
   // iterate through checkedConcepts
   for (var k=0;k<checkedConcepts.length;k++) {
-    //find child nodes of selected concept
-    if (dplLinks[checkedConcepts[k]]) {
-      for (var i=0;i<dplLinks[checkedConcepts[k]].length;i++) {
-        if (readIDsByConcept[dplLinks[checkedConcepts[k]][i]]) {
-          //console.log(dplLinks[checkedConcepts[k]][i]);
-          if (associatedConcepts.indexOf(dplLinks[checkedConcepts[k]][i]) === -1 && dplLinks[checkedConcepts[k]][i].length > 1 && allConcepts.indexOf(dplLinks[checkedConcepts[k]][i]) === -1) {
-            associatedConcepts.push(dplLinks[checkedConcepts[k]][i]);
-          }
-        }
-      }
-    }
-
-    //find parent nodes of selected concept
-    for (var concept in dplLinks) {
-      if (dplLinks.hasOwnProperty(concept)) {
-        if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
-           if (readIDsByConcept[concept]) {
-            //console.log(concept);
-            if (associatedConcepts.indexOf(concept) === -1 && concept.length > 1 && allConcepts.indexOf(concept) === -1) {
-              associatedConcepts.push(concept);
-            }
-          }
-        }
-      }
-    }
-
     // find objectives that have this concepts, and thus associated concepts
     for (var objective in conceptsByObjective){
       if (conceptsByObjective.hasOwnProperty(objective)){
