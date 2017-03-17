@@ -1330,9 +1330,14 @@ var activateNextTab = function($nextTab) {
  * Save all selected tools to the Saved Tools tab
 */
 function saveSelectedRecords(resultsDiv) {
+  var divDisplay = function(parsedResult) {
+    if (isNewResult(resultsDiv, parsedResult)) {
+      addDiv(parsedResult, resultsDiv);
+    }
+  };
   var recordsToSave = $('#search-results input:checked');
   recordsToSave.each(function() {
-    toolCache.displayParsedData($(this).val(), resultsDiv);
+    toolCache.handleParsedData($(this).val(), divDisplay);
   });
   if ($('#'+resultsDiv).data('ids').length > 0) {
     $('#saved-results-tab').parent().attr("aria-hidden", "false");
