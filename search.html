@@ -563,7 +563,7 @@ function clearResults() {
     try {
       result_table.deleteRow(1);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   }
 }
@@ -583,7 +583,7 @@ function addMembers(dataList, fieldName, fieldValues) {
   if (fieldValues.length > 0) {// are any values selected?
     var tmpDataList = [];// create a temp copy of dataList
     for (iFieldValue=0;iFieldValue<fieldValues.length;iFieldValue++) {// loop through os-selections
-      for (iDatum in dataList) {// loop through current data-objects
+      for (var iDatum in dataList) {// loop through current data-objects
         // expand the temp object to be num_osSelections * num_previousDataObjects
         tmpDataList[fieldValues.length * iDatum + iFieldValue] = dataList[iDatum];
         // add member for value of fieldValues
@@ -603,12 +603,12 @@ function addMembers(dataList, fieldName, fieldValues) {
 var detailedSearch = function() {
   clearResults();
   var queryString = $('#detailSearchText').val().trim().toLowerCase();
-  var decisionSectors = $('#detail-decision-checkbox :checkbox:checked').map(function(){return $(this).val()});
+  var decisionSectors = $('#detail-decision-checkbox :checkbox:checked').map(function(){return $(this).val();});
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
   var $feedbackDiv = $('#detailFeedback');
   var os_select = checkBoxValue(document.getElementsByName('RadioEnvironment'));
   var cost_select = checkBoxValue(document.getElementsByName('CheckBase'));
-  var extent_select = $('#detail-extent-checkbox :checkbox:checked').map(function(){return $(this).val()});
+  var extent_select = $('#detail-extent-checkbox :checkbox:checked').map(function(){return $(this).val();});
   var results = [];
   var requests = [];
   var arr = [];
@@ -631,7 +631,7 @@ var detailedSearch = function() {
         dataList = addMembers(dataList, 'OperatingEnvironment', os_select);// create a data object for each selection of OperatingEnvironment
         dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select);// create a data object for each selection of BaseCostOfSoftware
         dataList = addMembers(dataList, 'SpatialExtent', extent_select);// create a data object for each selection of SpatialExtent
-        for (iDatum in dataList) {
+        for (var iDatum in dataList) {
           requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
         }
       }
@@ -1133,7 +1133,6 @@ function parseResults(str, table_reference) {
               this_result = ">$4000";
               break;
             default:
-              this_result = "No Data Available"
           }
           break;
         case 4: //SpatialExtent
@@ -1154,7 +1153,7 @@ function parseResults(str, table_reference) {
               }
             }
           }
-          if (spatialextentstring != "") {
+          if (spatialextentstring !== "") {
             this_result = spatialextentstring;
           } else {
             this_result = "No Data Available";
@@ -1204,11 +1203,10 @@ function parseResults(str, table_reference) {
     } else {
       $(table_reference).show();
     }
-    return 'FOUND RESULTS!'
+    return 'FOUND RESULTS!';
   } catch (err) {
     console.log(err);
     $(table_reference+' tr:last').remove();
-    return 'No results found'
   }
 }
 
@@ -1601,7 +1599,7 @@ function loadModels() {
 var tabsBrowserClicked = false;
 
 function loadModels2() {
-  if (tabsBrowserClicked == false) {
+  if (tabsBrowserClicked === false) {
     $(".accordion-pane").each(function() {
         var table_name = this.children[1].id;
         var this_sector = table_name.replace("table", "").toLowerCase();
