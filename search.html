@@ -218,7 +218,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <button id="simpleSearchBtn" onclick="simpleSearchClk3()">Search</button>
+                <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
                 <p id="simpleFeedback">No results were returned: no acronyms or titles contained the query.</p>
               </div>
               <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" aria-hidden="true">
@@ -981,7 +981,7 @@ var parseResultsArray = function(arr, a) {
   return arr;
 };
 
-simpleSearchClk3 = function() {
+simpleSearch = function() {
   clearResults();
   $('#search-results *').remove(); //clears for new results
   clearResultData('search-results'); //clears for new results
