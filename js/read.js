@@ -59,8 +59,6 @@ function radiovalue(radios) {
     if (radios[i].checked) {
       // do whatever you want with the checked radio
       return radios[i].value;
-      // only one radio can be logically checked, don't check the rest
-      break;
     }
   }
 }
@@ -91,7 +89,7 @@ function clearSaved() {
     try {
       result_table.deleteRow(1);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   }
 }
@@ -108,17 +106,17 @@ function getDetails(id) {
     var raw_response = xmlhttp.responseText;
     var response = raw_response.replace(/^"/, '').replace(/"$/, '').replace(/\\/g, '');
     var json_obj = JSON.parse(response);
-    return json_obj[0]
-  };
+    return json_obj[0];
+  }
 }
 
 function showDetails(id) {
-  var detail_obj = id['record'];
+  var detail_obj = id.record;
   var tab = $("#selectedAccordion");
   try {
     tab.empty();
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
   var columns = [
     'Name',
@@ -156,7 +154,7 @@ function showDetails(id) {
     var name = columns[i].replace(/_/g, ' ');
     var this_name = $("<h3>");
     this_name.text(name + ':');
-    if (detail_obj[this_key] != '') {
+    if (detail_obj[this_key] !== '') {
 
       //Name
       if (this_key == "Name") {
@@ -219,7 +217,7 @@ function showDetails(id) {
               detail_obj[this_key] = ">$4000";
               break;
             default:
-              detail_obj[this_key] = "No Data Available"
+              detail_obj[this_key] = "No Data Available";
           }
         } catch (err) {
           detail_obj[this_key] = "No Data";
@@ -485,7 +483,7 @@ function showDetails(id) {
       if (this_key == "Time_Scale") {
         try {
           var TimeScaleData = id.record.READExportDetail.InfoResourceDetail.ModelScopeDetail.ModelScopeTimeScaleDetail;
-          if (TimeScaleData.length != 0) {
+          if (TimeScaleData.length !== 0) {
             detail_obj[this_key] = "";
             for (i = 0; i < TimeScaleData.length; i++) {
               if (i < TimeScaleData.length - 1) {
@@ -507,7 +505,7 @@ function showDetails(id) {
       if (this_key == "Spatial_Extent") {
         try {
           var SpatialExtentData = id.record.READExportDetail.InfoResourceDetail.ModelScopeDetail.ModelScopeSpatialExtentDetail;
-          if (SpatialExtentData.length != 0) {
+          if (SpatialExtentData.length !== 0) {
             detail_obj[this_key] = "";
             for (i = 0; i < SpatialExtentData.length; i++) {
               if (i < SpatialExtentData.length - 1) {
@@ -712,8 +710,8 @@ function exportCSV(tablereference) {
   for (i in columns) {
     var name = columns[i].replace(/_/, ' ');
     names.push(name);
-  };
-  csvContent = names.join() + '\n'
+  }
+  csvContent = names.join() + '\n';
   
   records.each(function(){
   	var record = jQuery.data($(this)[0], "record");
@@ -721,8 +719,8 @@ function exportCSV(tablereference) {
 	  	var values = [];
 	    for (var j=0; j<columns.length; j++) {
 	      values.push('"' + record[columns[j]] + '"');
-	    };
-	    csvContent = csvContent + values.join() + '\n'
+	    }
+	    csvContent = csvContent + values.join() + '\n';
 	  }
   });
 
