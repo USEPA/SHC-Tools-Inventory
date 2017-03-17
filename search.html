@@ -579,7 +579,7 @@ function clearResults() {
  * i = someCurrentDataObject, j = someFieldValue) 
  */
 function addMembers(dataList, fieldName, fieldValues) {
-  console.log('addMembers() called with',dataList,fieldName,fieldValues)
+  console.log('addMembers() called with',dataList, fieldName, fieldValues);
   if (fieldValues.length > 0) {// are any values selected?
     var tmpDataList = [];// create a temp copy of dataList
     for (iFieldValue=0;iFieldValue<fieldValues.length;iFieldValue++) {// loop through os-selections
@@ -589,9 +589,9 @@ function addMembers(dataList, fieldName, fieldValues) {
         // add member for value of fieldValues
         tmpDataList[fieldValues.length * iDatum + iFieldValue][fieldName] = fieldValues[iFieldValue];
       }
+    }
     console.log('addMembers() is returning',tmpDataList);
     return tmpDataList;
-    }
   } else {
     return dataList;
   }
@@ -632,7 +632,6 @@ var detailedSearch = function() {
         dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select);// create a data object for each selection of BaseCostOfSoftware
         dataList = addMembers(dataList, 'SpatialExtent', extent_select);// create a data object for each selection of SpatialExtent
         for (iDatum in dataList) {
-          console.log(dataList[iDatum]);
           requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
         }
       }

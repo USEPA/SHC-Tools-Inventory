@@ -174,6 +174,11 @@ backlog to track work to be done and by whom
 - change spatial extent multiselect to checkboxes
   - kyle: done
 
+- #BUG #SEARCH Detailed Search only returns results with the leftmost checked Base Cost checkbox
+	- query string "water" with "Free" and "$1-$499" selected should include WinSLAMM as a result 
+  - kyle: fixed addMembers() to account for all selections
+  - kyle: done
+
 - reformat the tabs 
 	- hide until clickable?
 		- done
@@ -238,9 +243,6 @@ backlog to track work to be done and by whom
   - kyle: WIP
 
 - Record pathway data(role,subrole,...) and/or saved tools
-
-- #BUG #SEARCH Detailed Search only returns results with the leftmost checked Base Cost checkbox
-	- query string "water" with "Free" and "$1-$499" selected should include WinSLAMM as a result 
 
 - #BUG #BOTH Operating Environment not showing for tools with multiple OEs
  - Envision Tomorrow and eSight should have OE "Browser, Desktop" instead have "no data" or blank entries
