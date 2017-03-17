@@ -1371,21 +1371,6 @@ function deselectAll(divID) {
     }
   });
 }
-/******* TAKEN FROM MOCKUP.HTML ****************/
-//$("#simple-search-tab").focus();
-/** listener:select only "clicked" tab and show only this tab's corresponding panel 
-$('[role="tab"]').click(function(){
-    var $this = $(this)
-    var tab = $this.attr('name');
-    $('[name="'+tab+'"]').attr('aria-selected', 'false');// deselect all tabs
-    $this.attr('aria-selected', 'true');// select clicked tab
-    var tabpanid= $this.attr('aria-controls');// get the id of the panel controlled by the clicked tab
-    var tabpan= $('#'+tabpanid);// get panel's document-element from its id
-    $('[name="'+tab+'panel"]').attr('aria-hidden','true');// hide all panels
-    tabpan.attr('aria-hidden','false');// show the clicked tab's panel
-    $(this).focus();
-});
-*/
 </script>
 <script src="js/jquery-ui.min.js"></script>
 <script language="javascript" src="js/read.js"></script>
