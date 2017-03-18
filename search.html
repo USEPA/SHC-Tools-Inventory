@@ -190,15 +190,14 @@
                 <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Simple Search</a></li>
                 <li><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" name="tab1" role="tab">Detailed Search</a></li>
                 <li><a aria-controls="browse-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#browse-tools-panel" id="browse-tools-tab" name="tab1" role="tab" onclick="loadModels2()">Browse Tools</a></li>
-                <li><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#results-panel" id="results-tab" name="tab1" role="tab">Results Table</a></li>
-                <li><a aria-controls="results-panel-divs" aria-selected="false" class="menu-internal" data-tab-number="5" href="#results-panel-divs" id="results-tab-divs" name="tab1" role="tab">Results</a></li>
-                <li><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
-                <li><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="7" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Tools</a></li>
+                <li><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#results-panel" id="results-tab" name="tab1" role="tab">Results</a></li>
+                <li><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
+                <li><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Tools</a></li>
               </ul>
               <div aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" aria-hidden="false" style="border: 1px solid #aaa;">
                 <h3>Search</h3>
                 <input id="simpleSearchText" title="Search for tools by entering specific keywords" type="text" style="width:100%" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()" class="ui-autocomplete-input" autocomplete="off">
-                <button id="simpleSearchBtn" onclick="simpleSearchClk3()">Search</button>
+                <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
                 <p id="simpleFeedback">No results were returned: no acronyms or titles contained the query.</p>
               </div>
               <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" aria-hidden="true">
@@ -339,55 +338,58 @@
                 </div>
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
-                <p>Your search results:</p>
-                <button class="button" onclick="saveAllRecords('resultsTable')">Save All</button>
-                <table class="revision-table" id="resultsTable" width="100%">
-                  <tbody>
-                    <tr>
-                      <th>Acronym</th>
-                      <th>Title</th>
-                      <th>Description</th>
-                      <th>Base Cost</th>
-                      <th>Spatial Extent</th>
-                      <th>Tool Inputs</th>
-                      <th>Tool Outputs</th>
-                    </tr>
-                  </tbody>
-                </table>
-                <div align="right">
-                  <button class="button" onclick="exportCSV('resultsTable')">Export CSV</button>
+                <span>Choose a display type:</span>
+                <input id="text-radio" type="radio" name="display-type" value="text" checked><label for="text-radio">Text</label>
+                <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table</label>
+                <div id="search-results"></div>
+                <div id="search-table">
+                  <p>Your search results:</p>
+                  <button class="button" onclick="saveAllRecords('resultsTable')">Save All</button>
+                  <table class="revision-table" id="resultsTable" width="100%">
+                    <tbody>
+                      <tr>
+                        <th>Acronym</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Base Cost</th>
+                        <th>Spatial Extent</th>
+                        <th>Tool Inputs</th>
+                        <th>Tool Outputs</th>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div align="right">
+                    <button class="button" onclick="exportCSV('resultsTable')">Export CSV</button>
+                  </div>
                 </div>
-              </div>
-               <div aria-labelledby="results-tab-divs" id="results-panel-divs" role="tabpanel" aria-hidden="true">
-                 <div id="search-results"></div>
-               </div>             
-              <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
-                <div align="right">
-                  <button class="button" onclick="saveRecord()">Save Record</button>
+                <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
+                  <div align="right">
+                    <button class="button" onclick="saveRecord()">Save Record</button>
+                  </div>
+                  <div id="selectedAccordion" class=""></div>
                 </div>
-                <div id="selectedAccordion" class=""></div>
-              </div>
-              <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
-                <p>Your saved tools:</p>
-                <div align="right">
-                  <button class="button" onclick="clearSaved()">Clear Saved</button>
-                </div>
-                <p></p>
-                <table class="revision-table" id="savedTable" width="100%">
-                  <tbody>
-                    <tr>
-                      <th>Acronym</th>
-                      <th>Title</th>
-                      <th>Description</th>
-                      <th>Base Cost</th>
-                      <th>Spatial Extent</th>
-                      <th>Tool Inputs</th>
-                      <th>Tool Outputs</th>
-                    </tr>
-                  </tbody>
-                </table>
-                <div align="right">
-                  <button class="button" onclick="exportCSV('savedTable')">Export CSV</button>
+                <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
+                  <p>Your saved tools:</p>
+                  <div align="right">
+                    <button class="button" onclick="clearSaved()">Clear Saved</button>
+                  </div>
+                  <p></p>
+                  <table class="revision-table" id="savedTable" width="100%">
+                    <tbody>
+                      <tr>
+                        <th>Acronym</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Base Cost</th>
+                        <th>Spatial Extent</th>
+                        <th>Tool Inputs</th>
+                        <th>Tool Outputs</th>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div align="right">
+                    <button class="button" onclick="exportCSV('savedTable')">Export CSV</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -501,7 +503,7 @@ function clearResults() {
     try {
       result_table.deleteRow(1);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   }
 }
@@ -521,7 +523,7 @@ function addMembers(dataList, fieldName, fieldValues) {
   if (fieldValues.length > 0) {// are any values selected?
     var tmpDataList = [];// create a temp copy of dataList
     for (iFieldValue=0;iFieldValue<fieldValues.length;iFieldValue++) {// loop through os-selections
-      for (iDatum in dataList) {// loop through current data-objects
+      for (var iDatum in dataList) {// loop through current data-objects
         // expand the temp object to be num_osSelections * num_previousDataObjects
         tmpDataList[fieldValues.length * iDatum + iFieldValue] = dataList[iDatum];
         // add member for value of fieldValues
@@ -547,6 +549,7 @@ var detailedSearch = function() {
   var os_select = checkBoxValue(document.getElementsByName('RadioEnvironment'));
   var cost_select = checkBoxValue(document.getElementsByName('CheckBase'));
   var extent_select = $('#extent-select :checkbox:checked').map(function(){return $(this).val()});
+  var extent_select = $('#detail-extent-checkbox :checkbox:checked').map(function(){return $(this).val()});
   var results = [];
   var requests = [];
   var arr = [];
@@ -569,7 +572,7 @@ var detailedSearch = function() {
         dataList = addMembers(dataList, 'OperatingEnvironment', os_select);// create a data object for each selection of OperatingEnvironment
         dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select);// create a data object for each selection of BaseCostOfSoftware
         dataList = addMembers(dataList, 'SpatialExtent', extent_select);// create a data object for each selection of SpatialExtent
-        for (iDatum in dataList) {
+        for (var iDatum in dataList) {
           requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
         }
       }
@@ -595,311 +598,6 @@ var detailedSearch = function() {
   }
 };
 
-//Detailed Search
-//Note this needs to be refactored!!!
-function detailSearchClk2() {
-  clearResults();
-  var os_select = checkBoxValue(document.getElementsByName('RadioEnvironment'));
-  var cost_select = checkBoxValue(document.getElementsByName('CheckBase'));
-  var extent_select = multiSelectValue(document.getElementById('selectExtent'));
-  var query_string = $('#detailed-search-text')[0].value.toLowerCase();
-  var decision_select = document.getElementById('decision-select').value;
-  if ((os_select.length != 0) && (cost_select.length != 0) && (extent_select.length != 0)) {
-    for (ios = 0; ios < os_select.length; ios++) {
-      for (ics = 0; ics < cost_select.length; ics++) {
-        var previousIDExtent = 9999;
-        for (ies = 0; ies < extent_select.length; ies++) {
-          if (os_select.length != 0) {
-            var osSelect = os_select[ios];
-          } else {
-            var osSelect;
-          }
-          if (cost_select.length != 0) {
-            var costSelect = cost_select[ics];
-          } else {
-            var costSelect;
-          }
-          if (extent_select.length != 0) {
-            var extentSelect = extent_select[ies];
-          } else {
-            var extentSelect;
-          }
-          $.ajax({
-            type: 'GET',
-            url: resourceAdvancedSearchURL,
-            data: {
-              Name: query_string,
-              OperatingEnvironment: osSelect,
-              BaseCostOfSoftware: costSelect,
-              SpatialExtent: extentSelect,
-              DecisionSector: decision_select,
-              Format: 'JSON'
-            },
-            dataType: 'json',
-            success: function(data) {
-              for (i = 0; i < data.length; i++) {
-                if (data[i].ResourceId != previousIDExtent) {
-                  simpleSearchClk5(data[i].ResourceId);
-                }
-              }
-            }
-          });
-          previousIDExtent = data[i].ResourceId;
-        }
-      }
-    }
-  }
-  if ((os_select.length == 0) && ( cost_select.length != 0) && (extent_select.length != 0)) {
-    for (ics = 0; ics < cost_select.length; ics++) {
-      var previousIDExtent = 9999;
-      for (ies = 0; ies < extent_select.length; ies++) {
-        if (os_select.length != 0) {
-          var osSelect = os_select[ios];
-        } else {
-          var osSelect;
-        }
-        if (cost_select.length != 0) {
-          var costSelect = cost_select[ics];
-        } else {
-          var costSelect;
-        }
-        if (extent_select.length != 0) {
-          var extentSelect = extent_select[ies];
-        } else {
-          var extentSelect;
-        }
-        $.ajax({
-          type: 'GET',
-          url: resourceAdvancedSearchURL,
-          data: {
-            Name: query_string,
-            OperatingEnvironment: osSelect,
-            BaseCostOfSoftware: costSelect,
-            SpatialExtent: extentSelect,
-            DecisionSector: decision_select,
-            Format: 'JSON'
-          },
-          dataType: 'json',
-          success: function(
-            data) {
-            for (i = 0; i < data.length; i++) {
-              if (data[i].ResourceId != previousIDExtent) {
-                simpleSearchClk5(data[i].ResourceId);
-              }
-            }
-          }
-        });
-        previousIDExtent = data[i].ResourceId;
-      }
-    }
-  }
-  if ((os_select.length == 0) && (cost_select.length == 0) && (extent_select.length != 0)) {
-    var previousIDExtent = 9999;
-    for (ies = 0; ies < extent_select.length; ies++) {
-      if (os_select.length != 0) {
-        var osSelect = os_select[ios];
-      } else {
-        var osSelect;
-      }
-      if (cost_select.length != 0) {
-        var costSelect = cost_select[ics];
-      } else {
-        var costSelect;
-      }
-      if (extent_select.length != 0) {
-        var extentSelect = extent_select[ies];
-      } else {
-        var extentSelect;
-      }
-      $.ajax({
-        type: 'GET',
-        url: resourceAdvancedSearchURL,
-        data: {
-          Name: query_string,
-          OperatingEnvironment: osSelect,
-          BaseCostOfSoftware: costSelect,
-          SpatialExtent: extentSelect,
-          DecisionSector: decision_select,
-          Format: 'JSON'
-        },
-        dataType: 'json',
-        success: function(
-          data) {
-          for (i = 0; i < data.length; i++) {
-            if (data[i].ResourceId != previousIDExtent) {
-              simpleSearchClk5(data[i].ResourceId);
-            }
-          }
-        }
-      });
-      previousIDExtent = data[i].ResourceId;
-    }
-  }
-  if ((os_select.length == 0) && (cost_select.length == 0) && (extent_select.length == 0)) {
-    if (os_select.length != 0) {
-      var osSelect = os_select[ios];
-    } else {
-      var osSelect;
-    }
-    if (cost_select.length != 0) {
-      var costSelect = cost_select[ics];
-    } else {
-      var costSelect;
-    }
-    if (extent_select.length != 0) {
-      var extentSelect = extent_select[ies];
-    } else {
-      var extentSelect;
-    }
-    $.ajax({
-      type: 'GET',
-      url: resourceAdvancedSearchURL,
-      data: {
-        Name: query_string,
-        OperatingEnvironment: osSelect,
-        BaseCostOfSoftware: costSelect,
-        SpatialExtent: extentSelect,
-        DecisionSector: decision_select,
-        Format: 'JSON'
-      },
-      dataType: 'json',
-      success: function(data) {
-        for (i = 0; i < data.length; i++) {
-          if (data[i].ResourceId != previousIDExtent) {
-            simpleSearchClk5(data[i].ResourceId);
-          }
-        }
-      }
-    });
-  }
-  if ((os_select.length != 0) && (cost_select.length == 0) && (extent_select.length != 0)) {
-    for (ios = 0; ios < os_select.length; ios++) {
-      var previousIDExtent = 9999;
-      for (ies = 0; ies < extent_select.length; ies++) {
-        if (os_select.length != 0) {
-          var osSelect = os_select[ios];
-        } else {
-          var osSelect;
-        }
-        if (cost_select.length != 0) {
-          var costSelect = cost_select[ics];
-        } else {
-          var costSelect;
-        }
-        if (extent_select.length != 0) {
-          var extentSelect = extent_select[ies];
-        } else {
-          var extentSelect;
-        }
-        $.ajax({
-          type: 'GET',
-          url: resourceAdvancedSearchURL,
-          data: {
-            Name: query_string,
-            OperatingEnvironment: osSelect,
-            BaseCostOfSoftware: costSelect,
-            SpatialExtent: extentSelect,
-            DecisionSector: decision_select,
-            Format: 'JSON'
-          },
-          dataType: 'json',
-          success: function(
-            data) {
-            for (i = 0; i < data.length; i++) {
-              if (data[i].ResourceId != previousIDExtent
-              ) {
-                simpleSearchClk5(data[i].ResourceId);
-              }
-            }
-          }
-        });
-        previousIDExtent = data[i].ResourceId;
-      }
-    }
-  }
-  if ((os_select.length != 0) && (cost_select.length == 0) && (extent_select.length == 0)) {
-    for (ios = 0; ios < os_select.length; ios++) {
-      if (os_select.length != 0) {
-        var osSelect = os_select[ios];
-      } else {
-        var osSelect;
-      }
-      if (cost_select.length != 0) {
-        var costSelect = cost_select[ics];
-      } else {
-        var costSelect;
-      }
-      if (extent_select.length != 0) {
-        var extentSelect = extent_select[ies];
-      } else {
-        var extentSelect;
-      }
-      $.ajax({
-        type: 'GET',
-        url: resourceAdvancedSearchURL,
-        data: {
-          Name: query_string,
-          OperatingEnvironment: osSelect,
-          BaseCostOfSoftware: costSelect,
-          SpatialExtent: extentSelect,
-          DecisionSector: decision_select,
-          Format: 'JSON'
-        },
-        dataType: 'json',
-        success: function(data) {
-          for (i = 0; i < data.length; i++) {
-            if (data[i].ResourceId != previousIDExtent) {
-              simpleSearchClk5(data[i].ResourceId);
-            }
-          }
-        }
-      });
-    }
-  }
-  if ((os_select.length != 0) && (cost_select.length != 0) && (extent_select.length == 0)) {
-    for (ios = 0; ios < os_select.length; ios++) {
-      for (ics = 0; ics < cost_select.length; ics++) {
-        if (os_select.length != 0) {
-          var osSelect = os_select[ios];
-        } else {
-          var osSelect;
-        }
-        if (cost_select.length != 0) {
-          var costSelect = cost_select[ics];
-        } else {
-          var costSelect;
-        }
-        if (extent_select.length != 0) {
-          var extentSelect = extent_select[ies];
-        } else {
-          var extentSelect;
-        }
-        $.ajax({
-          type: 'GET',
-          url: resourceAdvancedSearchURL,
-          data: {
-            Name: query_string,
-            OperatingEnvironment: osSelect,
-            BaseCostOfSoftware: costSelect,
-            SpatialExtent: extentSelect,
-            DecisionSector: decision_select,
-            Format: 'JSON'
-          },
-          dataType: 'json',
-          success: function(
-            data) {
-            for (i = 0; i < data.length; i++) {
-              if (data[i].ResourceId != previousIDExtent) {
-                simpleSearchClk5(data[i].ResourceId);
-              }
-            }
-          }
-        });
-      }
-    }
-  } // else {alert("Please enter a search term!")}
-}
-
 var executeSearch = function(url, data){
   return $.ajax({
     type: 'GET',
@@ -909,17 +607,27 @@ var executeSearch = function(url, data){
 };
 
 var parseResultsArray = function(arr, a) {
-  var resultLength = a.length;
-  for (var i = 0; i < resultLength; i++) {
+  var tableDisplay = function(data) {
+    addRow(data, "#resultsTable");
+  };
+  var divDisplay = function(parsedResult) {
+    if (isNewResult("search-results", parsedResult)) {
+      addDiv(parsedResult, "search-results");
+    }
+  };
+  for (var i = 0; i < a.length; i++) {
     if(arr.indexOf(a[i].ResourceId) === -1) {
       arr.push(a[i].ResourceId);
-      simpleSearchClk4(a[i].ResourceId);
+      //populate divs
+      toolCache.handleParsedData(a[i].ResourceId, divDisplay);
+      //populate table
+      toolCache.handleParsedData(a[i].ResourceId, tableDisplay);
     }
   }
   return arr;
 };
 
-simpleSearchClk3 = function() {
+simpleSearch = function() {
   clearResults();
   $('#search-results *').remove(); //clears for new results
   clearResultData('search-results'); //clears for new results
@@ -968,40 +676,7 @@ simpleSearchClk3 = function() {
   }
 };
 
-// DOCUMENT
-simpleSearchClk4 = function(resourceID) {
-  $.ajax({
-    type: 'GET',
-    url: resourceDetailURL,
-    data: {
-    ResourceId: resourceID,
-    Format: 'JSON'
-    },
-    //data: { Name: name_query, ShortDescriptionForReports: decision_query, Format: 'JSON' },
-    dataType: 'json',
-    success: function(data) {
-      var response = parseResults(data, "#resultsTable");
-      displayResult(data, 'search-results')
-    }
-  });
-};
-
-simpleSearchClk5 = function(resourceID) {
-  $.ajax({
-    type: "GET",
-    url: resourceDetailURL,
-    data: {
-      ResourceId: resourceID,
-      Format: "JSON"
-    },
-    dataType: "json",
-    success: function(data) {
-      var response = parseResults(data, "#resultsTable");
-    }
-  });
-};
-
-function parseResults(str, table_reference) {
+function addRow(str, table_reference) {
   try {
     var row_template = {
       "Acronym": 0,
@@ -1015,7 +690,6 @@ function parseResults(str, table_reference) {
     result = str;
     var result_table = $(table_reference)[0];
     var row = result_table.insertRow(1);
-    jQuery.data(row, "record", result);
     for (var key in row_template) {
       var cell = row.insertCell(row_template[key]);
       var columnnumber = row_template[key];
@@ -1024,104 +698,38 @@ function parseResults(str, table_reference) {
       switch (columnnumber) {
         case 0: //Acronym
           var AcronymData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .GeneralDetail
             .Acronym;
           this_result = AcronymData;
           break;
         case 1: //ShortTitleText
-          //Needs brought in from data; name is missing.
           var ShortTitleTextData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .GeneralDetail
-            .ShortTitleText;
+            .LongTitleText;
           this_result = ShortTitleTextData;
           break;
         case 2: //ShortDescription
           var ShortDescriptionData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .GeneralDetail
-            .ShortDescription;
+            .LongDescription;
           this_result = ShortDescriptionData;
           break;
         case 3: //DetailsBaseSoftwareCost
           var DetailsBaseSoftwareCostData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .ModelDetailsDetail
             .DetailsBaseSoftwareCost;
           this_result = DetailsBaseSoftwareCostData;
-          switch (DetailsBaseSoftwareCostData) {
-            case 1:
-              this_result = "Free";
-              break;
-            case 2:
-              this_result = "$1-$499";
-              break;
-            case 3:
-              this_result = "$500-$1499";
-              break;
-            case 4:
-              this_result = "$1500-$3999";
-              break;
-            case 5:
-              this_result = ">$4000";
-              break;
-            default:
-              this_result = "No Data Available"
-          }
           break;
         case 4: //SpatialExtent
-          var spatialextentstring = "";
           var SpatialExtentData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .ModelScopeDetail
             .ModelScopeSpatialExtentDetail;
-          if (SpatialExtentData) {
-            for (i = 0; i < SpatialExtentData.length; i++) {
-              if (i < SpatialExtentData .length - 1) {
-                spatialextentstring +=
-                  SpatialExtentData[i].SpatialExtentName + ", ";
-              } else {
-                spatialextentstring +=
-                  SpatialExtentData[i].SpatialExtentName;
-              }
-            }
-          }
-          if (spatialextentstring != "") {
-            this_result = spatialextentstring;
-          } else {
-            this_result = "No Data Available";
-          }
+          this_result = SpatialExtentData;
           break;
         case 5: //Model Inputs
           var ModelOutputsTextAreaData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .ModelInputsDetail
             .ModelInputsTextArea;
-          if (ModelOutputsTextAreaData) {
-            this_result = ModelOutputsTextAreaData;
-          } else {
-            this_result = "No Data Available";
-          }
+          this_result = ModelOutputsTextAreaData;
           break;
         case 6: //ModelOutputs
           var ModelOutputsTextAreaData = str
-            .READExportDetail
-            .InfoResourceDetail
-            .ModelOutputsDetail
             .ModelOutputsModelVariablesTextArea;
-          if (ModelOutputsTextAreaData) {
-            this_result = ModelOutputsTextAreaData;
-          } else {
-            this_result = "No Data Available";
-          }
-          break;
+          this_result = ModelOutputsTextAreaData;
         default:
           this_result = "No Data Available";
       }
@@ -1142,33 +750,13 @@ function parseResults(str, table_reference) {
     } else {
       $(table_reference).show();
     }
-    return 'FOUND RESULTS!'
+    return 'FOUND RESULTS!';
   } catch (err) {
     console.log(err);
     $(table_reference+' tr:last').remove();
-    return 'No results found'
+    return 'No results found';
   }
 }
-
-//START TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
-/**
- * pass details of id to displayResult
- */
-var getResourceDetail = function(id, div) {
-  $.get(resourceDetailURL,{ ResourceId: id }).done(function(data) {displayResult(data, div);});
-};
-
-/**
- * display a result; save result's data to the containing element
- * @arg data{object} READ Web Services detail object
- */
-var displayResult = function(data, containerId, fields) {
-  var parsedResult = parseResult(data);
-  fields = ['title', 'description', 'url'];
-  if (isNewResult(containerId, parsedResult)) {
-    addDiv(parsedResult, containerId);
-  }
-};
 
 /**
  * true if tool is not already in results
@@ -1182,7 +770,6 @@ var isNewResult = function(containerId, parsedResult) {
   var cachedIds = $('#'+containerId).data('ids');
   if (cachedIds.indexOf(parsedResult.READResourceIdentifier) == -1) {
     cachedIds.push(parsedResult.READResourceIdentifier);
-    $('#'+containerId).data(String(parsedResult.READResourceIdentifier), parsedResult);
     return true;
   }
   return false;
@@ -1313,7 +900,7 @@ var parseResult = function(result) {
   parsedResult.HelpDeskPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);
   parsedResult.RCSResources = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
   parsedResult.OwnershipTypeName = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
-  parsedResult.DetailsBaseSoftwareCost = mapAll(readSafe(result,['READE)portDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']),undefined,softwareCostMap);
+  parsedResult.DetailsBaseSoftwareCost = parseSoftwareCost(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']));
   parsedResult.DetailsOtherCostConsiderations = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
   parsedResult.DetailsOpenSource = parseOpenSource(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']));
   parsedResult.DetailsLastKnownSoftwareUpdate = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsLastKnownSoftwareUpdate']);
@@ -1381,33 +968,6 @@ var parseResult = function(result) {
   }
 
   // DOCUMENT
-  function parseSoftwareCost(cost) {
-    if (typeof(cost) !== 'string') {
-      if (cost.length) {
-        var str = '';
-        for (var i=0;i<cost.length-1;i++) {
-          str += parseSoftwareCost(cost[i]) + ', ';
-        }
-        str += parseSoftwareCost(cost[cost.length-1]);
-      }
-    }
-    switch (cost) {
-      case 1:
-        return "Free";
-      case 2:
-        return "$1-$499";
-      case 3:
-        return "$500-$1499";
-      case 4:
-        return "$1500-$3999";
-      case 5:
-        return ">$4000";
-      default:
-        return cost;// return some unexpected value instead of squelching any hint to the cause of the issue
-    }
-  }
-
-  // DOCUMENT
   function parseSpatialExtent(extent) {// possibly joins strings in an array
     if (extent.SpatialExtentName) {return extent.SpatialExtentName;}// return desired value if it is a property of extent
     if (extent.length) {// is array?(this means several values instead of just one)
@@ -1433,6 +993,15 @@ var parseResult = function(result) {
   // DOCUMENT
   function parseDataRequirements(dataRequirements) {// requires decoding a data-standard
     return dataRequirementsMap[dataRequirements];// do work
+  }
+
+  // DOCUMENT
+  function parseSoftwareCost(softwareCost) {// requires decoding a data-standard
+    if (softwareCostMap.hasOwnProperty(softwareCost)){
+      return softwareCostMap[softwareCost];// do work
+    } else {
+      return "No Data";
+    }
   }
 
   // DOCUMENT
@@ -1533,13 +1102,10 @@ var validata = function(obj) {
 //END TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
 
 //Load Models
-function loadModels() {
-  $("[href='#tabsBrowse']").show();
-}
 var tabsBrowserClicked = false;
 
 function loadModels2() {
-  if (tabsBrowserClicked == false) {
+  if (tabsBrowserClicked === false) {
     $(".accordion-pane").each(function() {
         var table_name = this.children[1].id;
         var this_sector = table_name.replace("table", "").toLowerCase();
@@ -1584,7 +1150,6 @@ function loadModels2() {
             }
           }
         });
-        //$("#Tabs1").tabs("option", {"enable"
       });
   }
   tabsBrowserClicked = true;
@@ -1634,21 +1199,47 @@ function deselectAll(divID) {
     }
   });
 }
-/******* TAKEN FROM MOCKUP.HTML ****************/
-//$("#simple-search-tab").focus();
-/** listener:select only "clicked" tab and show only this tab's corresponding panel 
-$('[role="tab"]').click(function(){
-    var $this = $(this)
-    var tab = $this.attr('name');
-    $('[name="'+tab+'"]').attr('aria-selected', 'false');// deselect all tabs
-    $this.attr('aria-selected', 'true');// select clicked tab
-    var tabpanid= $this.attr('aria-controls');// get the id of the panel controlled by the clicked tab
-    var tabpan= $('#'+tabpanid);// get panel's document-element from its id
-    $('[name="'+tab+'panel"]').attr('aria-hidden','true');// hide all panels
-    tabpan.attr('aria-hidden','false');// show the clicked tab's panel
-    $(this).focus();
-});
-*/
+
+var toolCache = (function() {
+  var cache = {};
+
+  function _setData(id, data){
+    //console.log("adding data to cache");
+    cache[id] = data;
+  }
+
+  function _getData(id){
+    //console.log("getting data from cache");
+    if (cache.hasOwnProperty(id)) {
+      return cache[id];
+    }
+  }
+
+  return { // public interface
+    handleParsedData: function(id, callback){
+      if (cache.hasOwnProperty(id)) {
+        callback(_getData(id));
+      } else {
+        $.get(resourceDetailURL,{ResourceId:id}).done(function(data) {
+          _setData(id, parseResult(data));
+          callback(_getData(id));
+        });
+      }
+    },
+    getParsedData: function(id){
+      if (cache.hasOwnProperty(id)) {
+        //console.log("in cache, returning");
+        return _getData(id);
+      } else {
+        //console.log("not in cache");
+        return null;
+      }
+    },
+    getCache : function(){
+      return cache;
+    }
+  };
+})();
 </script>
 <script src="js/jquery-ui.min.js"></script>
 <script language="javascript" src="js/read.js"></script>

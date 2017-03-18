@@ -241,7 +241,6 @@
                 <br>
                 <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <br>
-                <button id="keyword-search-button" onclick="keywordSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Keyword</button>
                 <button id="concept-search-button" onclick="conceptSearch('search-results', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
                 <div id="results-notification"></div>
                 <h3>Concepts</h3>
@@ -429,7 +428,7 @@ var updateInterface = function(list, $container, onChange){
   var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
   // toggle next
   toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
-}
+};
 
 /**
  * populate list into specified $container;
@@ -643,7 +642,7 @@ function addCheckboxes(list, container, onChange, count) {
   var html = '';
   //Allows disabling of checkboxes for premature leaf nodes
   for (var i=0;i<list.length;i++) {
-    if (leafNodes.indexOf(list[i]) !== -1) {
+    if (leafNodes.indexOf(list[i]) !== -1 && developer) {
       disabled = ' disabled';
     } else {
       disabled = '';
@@ -681,6 +680,14 @@ var keywordSearch = function(div, input) {
  * search for the READ IDs from the selected Concepts from input and display results in div
  */
 var conceptSearch = function(div, input) {
+  var tableDisplay = function(data) {
+    addRow(data, "#resultsTable");
+  };
+  var divDisplay = function(parsedResult) {
+    if (isNewResult("search-results", parsedResult)) {
+      addDiv(parsedResult, "search-results");
+    }
+  };
   $('#'+div+' *').remove();
   clearResultData(div);
   var concepts = getConcepts(input);
@@ -697,7 +704,11 @@ var conceptSearch = function(div, input) {
         if (tools.hasOwnProperty(readIDsByConcept[concepts[i]][j])) {
           tools[readIDsByConcept[concepts[i]][j]]++;
         } else {
-          getResourceDetail(readIDsByConcept[concepts[i]][j], div);
+          //populate divs
+          toolCache.handleParsedData(readIDsByConcept[concepts[i]][j], divDisplay);
+          /** NOT IMPLEMENTED YET **/
+          //populate table
+          //toolCache.handleParsedData(readIDsByConcept[concepts[i]][j], tableDisplay);
           tools[readIDsByConcept[concepts[i]][j]] = 1;
           tools.length++;
         }
@@ -754,26 +765,6 @@ var getKeywords = function(input) {
 };
 
 //START TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
-/**
- * pass details of id into displayResult
- */
-var getResourceDetail = function(id, div) {
-  $.get(resourceDetailURL,{ ResourceId: id }).done(function(data) {
-    displayResult(data, div);
-  });
-};
-
-/**
- * display a result; save result's data to the containing element
- * @arg data{object} READ Web Services detail object
- */
-var displayResult = function(data, div) {
-  var parsedResult = parseResult(data);
-  if (isNewResult(div, parsedResult)) {
-    addDiv(parsedResult, div);
-  }
-};
-
 /**
  * display details of parsedResult in container with containerId
  * dev aspiration: dynamically append spans and dynamically apply
@@ -899,7 +890,7 @@ var parseResult = function(result) {
   parsedResult.HelpDeskPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);
   parsedResult.RCSResources = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
   parsedResult.OwnershipTypeName = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
-  parsedResult.DetailsBaseSoftwareCost = mapAll(readSafe(result,['READE)portDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']),undefined,softwareCostMap);
+  parsedResult.DetailsBaseSoftwareCost = parseSoftwareCost(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']));
   parsedResult.DetailsOtherCostConsiderations = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
   parsedResult.DetailsOpenSource = parseOpenSource(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']));
   parsedResult.DetailsLastKnownSoftwareUpdate = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsLastKnownSoftwareUpdate']);
@@ -967,33 +958,6 @@ var parseResult = function(result) {
   }
 
   // DOCUMENT
-  function parseSoftwareCost(cost) {
-    if (typeof(cost) !== 'string') {
-      if (cost.length) {
-        var str = '';
-        for (var i=0;i<cost.length-1;i++) {
-          str += parseSoftwareCost(cost[i]) + ', ';
-        }
-        str += parseSoftwareCost(cost[cost.length-1]);
-      }
-    }
-    switch (cost) {
-      case 1:
-        return "Free";
-      case 2:
-        return "$1-$499";
-      case 3:
-        return "$500-$1499";
-      case 4:
-        return "$1500-$3999";
-      case 5:
-        return ">$4000";
-      default:
-        return cost;// return some unexpected value instead of squelching any hint to the cause of the issue
-    }
-  }
-
-  // DOCUMENT
   function parseSpatialExtent(extent) {// possibly joins strings in an array
     if (extent.SpatialExtentName) {return extent.SpatialExtentName;}// return desired value if it is a property of extent
     if (extent.length) {// is array?(this means several values instead of just one)
@@ -1019,6 +983,15 @@ var parseResult = function(result) {
   // DOCUMENT
   function parseDataRequirements(dataRequirements) {// requires decoding a data-standard
     return dataRequirementsMap[dataRequirements];// do work
+  }
+
+  // DOCUMENT
+  function parseSoftwareCost(softwareCost) {// requires decoding a data-standard
+    if (softwareCostMap.hasOwnProperty(softwareCost)){
+      return softwareCostMap[softwareCost];// do work
+    } else {
+      return "No Data";
+    }
   }
 
   // DOCUMENT
@@ -1054,7 +1027,7 @@ function readSafe(object, propertyArray) {
     if(Object.keys(propertyArray).length==1) {// is this the last property in the array?
       if (value.length) {
         if (typeof value != 'string') {
-          console.log('readSafe is returning an array from object',object,'at property',propertyArray[0]);
+          //console.log('readSafe is returning an array from object',object,'at property',propertyArray[0]);
         }
         if (typeof value === 'string') {
           // scrape value for URLs with regex
@@ -1150,7 +1123,6 @@ var isNewResult = function(containerId, parsedResult) {
   var cachedIds = $('#'+containerId).data('ids');
   if (cachedIds.indexOf(parsedResult.READResourceIdentifier) == -1) {
     cachedIds.push(parsedResult.READResourceIdentifier);
-    $('#'+containerId).data(String(parsedResult.READResourceIdentifier), parsedResult);
     return true;
   }
   return false;
@@ -1322,32 +1294,6 @@ var broadenConcepts = function() {
 
   // iterate through checkedConcepts
   for (var k=0;k<checkedConcepts.length;k++) {
-    //find child nodes of selected concept
-    if (dplLinks[checkedConcepts[k]]) {
-      for (var i=0;i<dplLinks[checkedConcepts[k]].length;i++) {
-        if (readIDsByConcept[dplLinks[checkedConcepts[k]][i]]) {
-          //console.log(dplLinks[checkedConcepts[k]][i]);
-          if (associatedConcepts.indexOf(dplLinks[checkedConcepts[k]][i]) === -1 && dplLinks[checkedConcepts[k]][i].length > 1 && allConcepts.indexOf(dplLinks[checkedConcepts[k]][i]) === -1) {
-            associatedConcepts.push(dplLinks[checkedConcepts[k]][i]);
-          }
-        }
-      }
-    }
-
-    //find parent nodes of selected concept
-    for (var concept in dplLinks) {
-      if (dplLinks.hasOwnProperty(concept)) {
-        if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
-           if (readIDsByConcept[concept]) {
-            //console.log(concept);
-            if (associatedConcepts.indexOf(concept) === -1 && concept.length > 1 && allConcepts.indexOf(concept) === -1) {
-              associatedConcepts.push(concept);
-            }
-          }
-        }
-      }
-    }
-
     // find objectives that have this concepts, and thus associated concepts
     for (var objective in conceptsByObjective){
       if (conceptsByObjective.hasOwnProperty(objective)){
@@ -1384,12 +1330,14 @@ var activateNextTab = function($nextTab) {
  * Save all selected tools to the Saved Tools tab
 */
 function saveSelectedRecords(resultsDiv) {
+  var divDisplay = function(parsedResult) {
+    if (isNewResult(resultsDiv, parsedResult)) {
+      addDiv(parsedResult, resultsDiv);
+    }
+  };
   var recordsToSave = $('#search-results input:checked');
   recordsToSave.each(function() {
-    var record = $('#search-results').data($(this).val()+'');
-    if (isNewResult(resultsDiv, record)) {
-      addDiv(record, resultsDiv);
-    }
+    toolCache.handleParsedData($(this).val(), divDisplay);
   });
   if ($('#'+resultsDiv).data('ids').length > 0) {
     $('#saved-results-tab').parent().attr("aria-hidden", "false");
@@ -1432,7 +1380,6 @@ function removeSelected(divID) {
   var ids = [];
   $('#'+divID +' input').each(function(){
     if ($(this).prop("checked")) {
-      $('#'+divID).removeData($(this).val());
       $('#'+divID + ' > #' + divID + '-' + $(this).val()).remove();
     } else {
       ids.push(parseInt($(this).val()));
@@ -1452,7 +1399,7 @@ function exportCSV(savedResultsDiv) {
     var values;
     records.each(function(){
       values = [];
-      var record = $('#'+savedResultsDiv).data($(this).val()+'');
+      var record = toolCache.getParsedData($(this).val());
       if (record) {
         if (names.length === 0) {
           for (var prop in record) {
@@ -1509,6 +1456,52 @@ var getDetailsFromId = function(id) {
     console.log(data.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym,': ',data.READExportDetail.InfoResourceDetail);
   });
 };
+
+var toolCache = (function() {
+  var cache = {};
+
+  function _setData(id, data){
+    //console.log("adding data to cache");
+    cache[id] = data;
+  }
+
+  function _getData(id){
+    //console.log("getting data from cache");
+    if (cache.hasOwnProperty(id)) {
+      return cache[id];
+    }
+  }
+
+  return { // public interface
+    handleParsedData: function(id, callback){
+      if (cache.hasOwnProperty(id)) {
+        callback(_getData(id));
+      } else {
+        $.get(resourceDetailURL,{ResourceId:id}).done(function(data) {
+          _setData(id, parseResult(data));
+          callback(_getData(id));
+        });
+      }
+    },
+    getParsedData: function(id){
+      if (cache.hasOwnProperty(id)) {
+        //console.log("in cache, returning");
+        return _getData(id);
+      } else {
+        //console.log("not in cache");
+        return null;
+      }
+    },
+    getCache : function(){
+      return cache;
+    }
+  };
+})();
+
+var developer = false;
+function devMode(bool){
+  developer = bool;
+}
 
 // stopwords to use in testing
 var stopWords = ["&","a","about","above","across","after","afterwards","again","against","all","almost","alone","along","already","also","although","always","am","among","amongst","amoungst","amount","an","and","another","any","anyhow","anyone","anything","anyway","anywhere","are","around","as","at","back","be","became","because","become","becomes","becoming","been","before","beforehand","behind","being","below","beside","besides","between","beyond","bill","both","bottom","but","by","call","can","cannot","cant","co","computer","con","could","couldnt","cry","de","describe","detail","do","done","down","due","during","each","eg","eight","either","eleven","else","elsewhere","empty","enough","etc","even","ever","every","everyone","everything","everywhere","except","few","fifteen","fify","fill","find","fire","first","five","for","former","formerly","forty","found","four","from","front","full","further","get","give","go","had","has","hasnt","have","he","hence","her","here","hereafter","hereby","herein","hereupon","hers","herself","him","himself","his","how","however","hundred","i","ie","if","in","inc","indeed","interest","into","is","it","its","itself","keep","last","latter","latterly","least","less","ltd","made","many","may","me","meanwhile","might","mill","mine","more","moreover","most","mostly","move","much","must","my","myself","name","namely","neither","never","nevertheless","next","nine","no","nobody","none","noone","nor","not","nothing","now","nowhere","of","off","often","on","once","one","only","onto","or","other","others","otherwise","our","ours","ourselves","out","over","own","part","per","perhaps","please","put","rather","re","same","see","seem","seemed","seeming","seems","serious","several","she","should","show","side","since","sincere","six","sixty","so","some","somehow","someone","something","sometime","sometimes","somewhere","still","such","system","take","ten","than","that","the","their","them","themselves","then","thence","there","thereafter","thereby","therefore","therein","thereupon","these","they","thick","thin","third","this","those","though","three","through","throughout","thru","thus","to","together","too","top","toward","towards","twelve","twenty","two","un","under","until","up","upon","us","very","via","was","we","well","were","what","whatever","when","whence","whenever","where","whereafter","whereas","whereby","wherein","whereupon","wherever","whether","which","while","whither","who","whoever","whole","whom","whose","why","will","with","within","without","would","yet","you","your","yours","yourself","yourselves"];
