@@ -38,7 +38,7 @@
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
   <style>
-  #tabsnav{padding:0}
+  #tabs-nav{padding:0}
   /* don't initially display "no results returned from search" */
   #simpleFeedback {
     display: none;
@@ -49,7 +49,7 @@
     background-color: #e7f4e4;
     cursor: pointer;
   }
-  #detailFeedback { display:none; }
+  #detailed-search-feedback { display:none; }
   /************* ADDED FROM MOCKUP.HTML ************/
   button:disabled { 
     background-color: #aeb0b5;
@@ -177,11 +177,9 @@
             <h2 id="page-description-title" class="title">Description</h2>
             <p>Users may search for text or browse the available tools.</p>
             <h2 id="disclaimer-title">Disclaimer</h2>
-            <p id="disclaimer-text">The tools listed below are for informational purposes only.
-            The EPA and its employees do not endorse any product, services, or organizations listed below.
-            </p>
+            <p id="disclaimer-text">The tools listed below are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed below.</p>
             <div id="tabs">
-              <ul class="tabs" id="tabsnav" role="tablist">
+              <ul class="tabs" id="tabs-nav" role="tablist">
                 <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Simple Search</a></li>
                 <li ><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" name="tab1" role="tab">Detailed Search</a></li>
                 <li><a aria-controls="browse-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#browse-tools-panel" id="browse-tools-tab" name="tab1" role="tab" onclick="loadModels2()">Browse Tools</a></li>
@@ -190,144 +188,82 @@
                 <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Tools</a></li>
               </ul>
               <div aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" aria-hidden="false" style="border: 1px solid #aaa;">
-                <table width="100%" cellpadding="0" cellspacing="0" class="noborder">
-                  <tbody>
-                    <tr>
-                      <td style="width:100%;">
-                        Search
-                        <br>
-                        <input id="simpleSearchText" title="Search for tools by entering specific keywords" type="text" style="width:100%" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()" class="ui-autocomplete-input" autocomplete="off">
-                      </td>
-                      <!-- <td style="width:33%;">
-                        Decision Sector
-                        <br>
-                        <select id="simpleDecisionSelect" style="width:100%">
-                          <option value="" selected="selected">All</option>
-                          <option value="Building Infrastructure">Building and Infrastructure</option>
-                          <option value="Land Use">Land Use</option>
-                          <option value="Transportation">Transportation</option>
-                          <option value="Waste Management">Waste Management</option>
-                        </select>
-                      </td> -->
-                    </tr>
-                  </tbody>
-                </table>
+                <h3>Search</h3>
+                <input id="simpleSearchText" title="Search for tools by entering specific keywords" type="text" style="width:100%" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()" class="ui-autocomplete-input" autocomplete="off">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
                 <p id="simpleFeedback">No results were returned: no acronyms or titles contained the query.</p>
               </div>
               <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" aria-hidden="true">
-                <table width="100%" cellpadding="0" cellspacing="0" class="noborder">
-                  <tbody>
-                    <tr>
-                      <td style="width:50%;">
-                        Search
-                        <br>
-                        <input id="detailSearchText" title="Search for tools by entering specific keywords" type="text" style="width:100%" onkeydown="if (event.keyCode == 13) document.getElementById('detailSearchBtn').click()" class="ui-autocomplete-input" autocomplete="off">
-                      </td>
-                      <td style="width:30%;">
-                        <div aria-labelledby="detail-decision-sector-label" id="detail-decision-checkbox" class="form-item form-type-checkbox">
-                          <legend id="detail-decision-sector-label">Choose decision-sectors to search only for tools in those decision-sectors.</legend>
-                          <input class="form-checkbox" id="detail-decision-sector-building" type="checkbox" value="Building Infrastructure">
-                          <label class="option" for="detail-decision-sector-building">Building and Infrastructure</label>
-                          <br />
-                          <input class="form-checkbox" id="detail-decision-sector-land" type="checkbox" value="Land Use">
-                          <label class="option" for="detail-decision-sector-land">Land Use</label>
-                          <br />
-                          <input class="form-checkbox" id="detail-decision-sector-transportation" type="checkbox" value="Transportation">
-                          <label class="option" for="detail-decision-sector-transportation">Transportation</label>
-                          <br />
-                          <input class="form-checkbox" id="detail-decision-sector-waste" type="checkbox" value="Waste Management">
-                          <label class="option" for="detail-decision-sector-waste">Waste Management</label>
-                        </div>
-                      </td>
-                      <td style="width:20%;" align="middle">
-                        <br>
-                        <br>
-                        <button id="detailClearForm" onclick="detailClearForm()">Reset Form</button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                Operating Environment (choose all that apply)
-                <br>
-                <table cellpadding="0" cellspacing="0" class="noborder" title="Choose the operating environment the tool needs run in.">
-                  <tbody>
-                    <tr>
-                      <td>
-                          <input type="checkbox" name="RadioEnvironment" value="desktop" id="RadioEnvironment_desktop">
-                          <label for="RadioEnvironment_desktop">Desktop</label>
-                      </td>
-                      <td>
-                          <input type="checkbox" name="RadioEnvironment" value="browser" id="RadioEnvironment_browser">
-                          <label for="RadioEnvironment_browser">Browser</label>
-                      </td>
-                      <td>
-                          <input type="checkbox" name="RadioEnvironment" value="mobile" id="RadioEnvironment_mobile">
-                          <label for="RadioEnvironment_mobile">Mobile</label>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                Base Cost (choose all that apply)
-                <br>
-                <table cellpadding="0" cellspacing="0" class="noborder">
-                  <tbody>
-                    <tr>
-                      <td>
-                          <input type="checkbox" name="CheckBase" value="1" id="CheckBaseFree">
-                          <label for="CheckBaseFree">Free</label>
-                      </td>
-                      <td>
-                          <input type="checkbox" name="CheckBase" value="2" id="CheckBase1">
-                          <label for="CheckBase1">$1-$499</label>
-                      </td>
-                      <td>
-                          <input type="checkbox" name="CheckBase" value="3" id="CheckBase500">
-                          <label for="CheckBase500">$500-$1499</label>
-                      </td>
-                      <td>
-                          <input type="checkbox" name="CheckBase" value="4" id="CheckBase1500">
-                          <label for="CheckBase1500">$1500-$3999</label>
-                      </td>
-                      <td>
-                          <input type="checkbox" name="CheckBase" value="5" id="CheckBase4000">
-                          <label for="CheckBase4000">&gt;$4000</label>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div aria-labelledby="detail-extent-label" id="detail-extent-checkbox" class="form-item form-type-checkbox" role="group">
-                  <legend>Choose spatial extents to search only for tools labelled with at least one chosen spatial extent.</legend>
-                  <input class="form-checkbox" id="detail-extent-building" type="checkbox" value="building">
-                  <label class="option" for="detail-extent-building">Building</label>
-                  <input class="form-checkbox" id="detail-extent-site" type="checkbox" value="site">
-                  <label class="option" for="detail-extent-site">Site</label>
-                  <input class="form-checkbox" id="detail-extent-neighborhood" type="checkbox" value="neighborhood">
-                  <label class="option" for="detail-extent-neighborhood">Neighborhood</label>
-                  <input class="form-checkbox" id="detail-extent-city" type="checkbox" value="city">
-                  <label class="option" for="detail-extent-city">City</label>
-                  <input class="form-checkbox" id="detail-extent-county" type="checkbox" value="county">
-                  <label class="option" for="detail-extent-county">County</label>
-                  <input class="form-checkbox" id="detail-extent-state" type="checkbox" value="state">
-                  <label class="option" for="detail-extent-state">State</label>
-                  <input class="form-checkbox" id="detail-extent-nation" type="checkbox" value="nation">
-                  <label class="option" for="detail-extent-nation">Nation</label>
-                  <input class="form-checkbox" id="detail-extent-continent" type="checkbox" value="continent">
-                  <label class="option" for="detail-extent-continent">Continent</label>
-                  <input class="form-checkbox" id="detail-extent-globe" type="checkbox" value="globe">
-                  <label class="option" for="detail-extent-globe">Globe</label>
-                </div>
-                <button id="detailSearchBtn" onclick="detailedSearch()">Search</button>
-                <div id="detailFeedback">No results were found.</div>
+                <h3>Detailed Search</h3>
+                <form>
+                  <div aria-labelledby="decision-sector-label" class="form-item form-type-checkbox" id="decision-select" role="group">
+                    <h4 id="decision-sector-label">Choose decision-sectors to search only for tools in those decision-sectors.</h4>
+                    <input class="form-checkbox" id="decision-sector-building" type="checkbox" value="building infrastructure" />
+                    <label class="option" for="decision-sector-building">building and infrastructure</label>
+                    <input class="form-checkbox" id="decision-sector-land" type="checkbox" value="land use" />
+                    <label class="option" for="decision-sector-land">land use</label>
+                    <input class="form-checkbox" id="decision-sector-transportation" type="checkbox" value="transportation" />
+                    <label class="option" for="decision-sector-transportation">transportation</label>
+                    <input class="form-checkbox" id="decision-sector-waste" type="checkbox" value="waste management" />
+                    <label class="option" for="decision-sector-waste">waste management</label>
+                  </div>
+                  <div aria-labelledby="operating-environment-label" class="form-item form-type-checkbox" id="operating-environment-select" role="group">
+                    <h4 id="operating-environment-label">Choose operating environments to search only for tools labelled with one of those operating environments.</h4>
+                    <input class="form-checkbox" id="radioenvironment_desktop" name="radioenvironment" type="checkbox" value="desktop" />
+                    <label class="option" for="radioenvironment_desktop">desktop</label>
+                    <input class="form-checkbox" id="radioenvironment_browser" name="radioenvironment" type="checkbox" value="browser" />
+                    <label class="option" for="radioenvironment_browser">browser</label>
+                    <input class="form-checkbox" type="checkbox" name="radioenvironment" id="radioenvironment_mobile" value="mobile" />
+                    <label class="option" for="radioenvironment_mobile">mobile</label>
+                  </div>
+                  <div aria-labelledby="cost-label" class="form-item form-type-checkbox" id="cost-select" class="group">
+                    <h4 id="cost-label">Choose cost-ranges to search only for tools labelled with one of those cost-ranges.</h4>
+                    <input class="form-checkbox" id="checkbasefree" name="checkbase" type="checkbox" value="1" />
+                    <label class="option" for="checkbasefree">free</label>
+                    <input id="checkbasefree"id="checkbase1" name="checkbase" type="checkbox" value="2" />
+                    <label class="option" for="checkbase1">$1-$499</label>
+                    <input id="checkbase1"id="checkbase500" name="checkbase" type="checkbox" value="3" />
+                    <label class="option" for="checkbase500">$500-$1499</label>
+                    <input id="checkbase500"id="checkbase1500" name="checkbase" type="checkbox" value="4" />
+                    <label class="option" for="checkbase1500">$1500-$3999</label>
+                    <input id="checkbase1500"id="checkbase4000" name="checkbase" type="checkbox" value="5" />
+                    <label class="option" for="checkbase4000">&gt;$4000</label>
+                  </div>
+                  <div aria-labelledby="extent-label" id="extent-select" class="form-item form-type-checkbox" class="group">
+                    <h4 id="extent-label" >choose spatial extents to search only for tools labelled with at least one chosen spatial extents.</h4>
+                    <input class="form-checkbox" id="extent-building" type="checkbox" value="building">
+                    <label class="option" for="extent-building">building</label>
+                    <input class="form-checkbox" id="extent-site" type="checkbox" value="site">
+                    <label class="option" for="extent-site">site</label>
+                    <input class="form-checkbox" id="extent-neighborhood" type="checkbox" value="neighborhood">
+                    <label class="option" for="extent-neighborhood">neighborhood</label>
+                    <input class="form-checkbox" id="extent-city" type="checkbox" value="city">
+                    <label class="option" for="extent-city">city</label>
+                    <input class="form-checkbox" id="extent-county" type="checkbox" value="county">
+                    <label class="option" for="extent-county">county</label>
+                    <input class="form-checkbox" id="extent-state" type="checkbox" value="state">
+                    <label class="option" for="extent-state">state</label>
+                    <input class="form-checkbox" id="extent-nation" type="checkbox" value="nation">
+                    <label class="option" for="extent-nation">nation</label>
+                    <input class="form-checkbox" id="extent-continent" type="checkbox" value="continent">
+                    <label class="option" for="extent-continent">continent</label>
+                    <input class="form-checkbox" id="extent-globe" type="checkbox" value="globe">
+                    <label class="option" for="extent-globe">globe</label>
+                  </div>
+                  <div id="detailed-search-feedback">no results were found.</div>
+                  <button id="detailed-reset" type="reset">reset form</button>
+                </form>
+                  <input id="detailed-search-text" title="search for tools by matching words" type="text" onkeydown="if (event.keycode == 13) document.getelementbyid('detailed-search-button').click()" class="ui-autocomplete-input" autocomplete="off">
+                  <button id="detailed-search-button" onclick="detailedSearch()" type="">search</button>
               </div>
               <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" aria-hidden="true">
-                Browse the tools by Decision Sector:
+                <h3>Browse the Tools by Decision Sector</h3>
                 <br>
                 <span>Choose a display type:</span>
                 <input id="browse-list-radio" type="radio" name="browse-display-type" value="text" checked><label for="browse-list-radio">Text</label>
                 <input id="browse-table-radio" type="radio" name="browse-display-type" value="table"><label for="browse-table-radio">Table</label>
                 <div class="accordion" id="accordion">
-                  <h3 class="accordion-title"><a>Building and Infrastructure</a></h3>
+                  <h4 class="accordion-title"><a>Building and Infrastructure</a></h4>
                   <div class="accordion-pane" id="browseBuildingInfrastructure" style="display: none;">
                     <div class="browse-table-div" aria-hidden="true">
                       <button class="button" onclick="saveAllRecords('building-infrastructure-table')">Save All</button>
@@ -348,12 +284,11 @@
                     <div class="browse-list-div">
                       <button onclick="selectAll('land-use-list')">Select All</button>
                       <button onclick="deselectAll('land-use-list')">Deselect All</button>
-                      <br>
                       <button onclick="saveSelectedRecords('land-use-list')">Save Selected Tools</button>
                       <div id="land-use-list"></div>
                     </div>
                   </div>
-                  <h3 class="accordion-title"><a>Land Use</a></h3>
+                  <h4 class="accordion-title"><a>Land Use</a></h4>
                   <div class="accordion-pane" id="browseLand" style="display: none;">
                     <div class="browse-table-div" aria-hidden="true">
                       <button class="button" onclick="saveAllRecords('land-use-table')">Save All</button>
@@ -374,13 +309,11 @@
                     <div class="browse-list-div">
                       <button onclick="selectAll('transportation-list')">Select All</button>
                       <button onclick="deselectAll('transportation-list')">Deselect All</button>
-                      <br>
                       <button onclick="saveSelectedRecords('transportation-list')">Save Selected Tools</button>
                       <div id="transportation-list"></div>
                     </div>
                   </div>
-                  <h3 class="accordion-title"><a>Transportation</a></h3>
-                  
+                  <h4 class="accordion-title"><a>Transportation</a></h4>
                   <div class="accordion-pane" id="browseTransportation" style="display: none;">
                     <div class="browse-table-div" aria-hidden="true">
                       <button class="button" onclick="saveAllRecords('transportation-table')">Save All</button>
@@ -401,14 +334,11 @@
                     <div class="browse-list-div">
                       <button onclick="selectAll('waste-management-list')">Select All</button>
                       <button onclick="deselectAll('waste-management-list')">Deselect All</button>
-                      <br>
                       <button onclick="saveSelectedRecords('waste-management-list')">Save Selected Tools</button>
                       <div id="waste-management-list"></div>
                     </div>
                   </div>
-                  
-                  <h3 class="accordion-title"><a>Waste Management</a></h3>
-                  
+                  <h4 class="accordion-title"><a>Waste Management</a></h4>
                   <div class="accordion-pane" id="browseWasteManagement" style="display: none;">
                     <div class="browse-table-div" aria-hidden="true">
                       <button class="button" onclick="saveAllRecords('waste-management-table')">Save All</button>
@@ -429,7 +359,6 @@
                     <div class="browse-list-div">
                       <button onclick="selectAll('waste-management-list')">Select All</button>
                       <button onclick="deselectAll('waste-management-list')">Deselect All</button>
-                      <br>
                       <button onclick="saveSelectedRecords('waste-management-list')">Save Selected Tools</button>
                       <div id="waste-management-list"></div>
                     </div>
@@ -444,7 +373,6 @@
                 <div id="results-list-div">  
                   <button onclick="selectAll('results-list')">Select All</button>
                   <button onclick="deselectAll('results-list')">Deselect All</button>
-                  <br>
                   <button onclick="saveSelectedRecords('saved-list')">Save Selected Tools</button>
                   <div id="results-list"></div>
                 </div>
@@ -481,16 +409,13 @@
                 <div id="saved-list-div">
                   <button onclick="selectAll('saved-list')">Select All</button>
                   <button onclick="deselectAll('saved-list')">Deselect All</button>
-                  <br>
                   <button onclick="removeSelected('saved-list')">Remove Selected Tools</button>
-                  <br>
                   <button onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
                   <div id="saved-list"></div>
                 </div>
                 <div aria-hidden="true" id="saved-table-div">
                   <p>Your saved results:</p>
                   <button class="button" onclick="clearSaved('saved-list')">Clear Saved</button>
-                  <br>
                   <button class="button" onclick="exportAllCSV('saved-list')">Export CSV</button>
                   <table class="revision-table" id="saved-table" width="100%">
                     <tbody>
@@ -601,11 +526,11 @@ $(function() { // jquery's shorthand awaits readiness of document
 var initializeTabs = function() {
   $('#tabs > div').hide(); // hide all tab-panels
   $('#tabs div:first').show(); // show first tab-panel
-  $('#tabsnav li:first').addClass('active'); // class tabs active for styling
+  $('#tabs-nav li:first').addClass('active'); // class tabs active for styling
   $('.menu-internal').click(function(){ // add listener to tabbing elements
-    $('#tabsnav li').removeClass('active'); // remove active styling from all tabs
+    $('#tabs-nav li').removeClass('active'); // remove active styling from all tabs
     var currentTab = $(this).attr('href'); // get name of clicked tab
-    $('#tabsnav li a[href="'+currentTab+'"]').parent().addClass('active'); // activate the clicked tab
+    $('#tabs-nav li a[href="'+currentTab+'"]').parent().addClass('active'); // activate the clicked tab
     $('#tabs > div').hide(); // hide all panels
     $(currentTab).show(); // show clicked tab's panel
     return false;// return false for success; conventionially return truthy description of failure
@@ -661,13 +586,14 @@ var detailedSearch = function() {
   $('#results-list *').remove(); //clears for new results
   //clear result set
   resultSet.reset();
-  var queryString = $('#detailSearchText').val().trim().toLowerCase();
-  var decisionSectors = $('#detail-decision-checkbox :checkbox:checked').map(function(){return $(this).val();});
+  var queryString = $('#detailed-search-text').val().trim().toLowerCase();
+  var decisionSectors = $('#decision-select :checkbox:checked').map(function(){return $(this).val();});
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
-  var $feedbackDiv = $('#detailFeedback');
+  var $feedbackDiv = $('#detailed-search-feedback');
   var os_select = checkBoxValue(document.getElementsByName('RadioEnvironment'));
   var cost_select = checkBoxValue(document.getElementsByName('CheckBase'));
-  var extent_select = $('#detail-extent-checkbox :checkbox:checked').map(function(){return $(this).val();});
+  var extent_select = $('#extent-select :checkbox:checked').map(function(){return $(this).val()});
+  var extent_select = $('#detail-extent-checkbox :checkbox:checked').map(function(){return $(this).val()});
   var results = [];
   var requests = [];
   var data = {};

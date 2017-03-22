@@ -186,8 +186,12 @@
     </div>
     <div class="main-column clearfix">
     <!--googleon: all-->
-      <h1 class="page-title">SHC Tool Finder</h1>
-      <div class="panel-pane pane-node-content" >
+      <h1 class="page-title">Find Useful Resources by Answering Questions</h1>
+      <h2 id="page-description-title" class="title">Description</h2>
+      <p>Answer questions to find resources that help produce results while preserving resources.</p>
+      <h2 id="disclaimer-title">Disclaimer</h2>
+      <p id="disclaimer-text">The tools listed below are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
+      <div class="panel-pane pane-node-content">
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
             <div id="tabs">
@@ -201,56 +205,57 @@
                 <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" href="#tabsnav" id="saved-tools-tab" role="tab">Saved Tools</a></li>
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
-                <p>Select any relevant Roles and proceed to the Subrole tab.</p><hr />
+                <h3>Roles</h3>
+                <p>Select relevant roles and proceed to the subrole tab.</p>
+                <hr />
                 <button onclick="selectAll('role')">Select All Roles</button>
                 <button onclick="deselectAll('role')">Deselect All Roles</button>
-                <h3>Roles</h3>
                 <div id="role"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
                 <button class="next enabled-by-subrole" disabled onclick="activateNextTab($('#subrole-tab'))">Next</button>
               </div>
               <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
-                <p>Select some Subroles, and proceed to the Fundamental Objective tab.</p><hr />
+                <h3>Subroles</h3>
+                <p>Choose subroles and proceed to the fundamental objective tab.</p>
+                <hr />
                 <button onclick="selectAll('subrole')">Select All Subroles</button>
                 <button onclick="deselectAll('subrole')">Deselect All Subroles</button>
-                <h3>Subroles</h3>
                 <div id="subrole"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
                 <button class="next enabled-by-fundamental-objective" disabled onclick="activateNextTab($('#fundamental-objective-tab'))">Next</button>
               </div>
               <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
-                <p>Choose Fundamental Objectives and proceed to the Objective tab.</p><hr />
+                <h3>Fundamental Objectives</h3>
+                <p>Choose fundamental objectives and proceed to the objective tab.</p>
+                <hr />
                 <button onclick="selectAll('fundamental-objective')">Select All Fundamental Objectives</button>
                 <button onclick="deselectAll('fundamental-objective')">Deselect All Fundamental Objectives</button>
-                <h3>Fundamental Objectives</h3>
                 <div id="fundamental-objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
                 <button class="next enabled-by-objective" disabled onclick="activateNextTab($('#objective-tab'))">Next</button>
               </div>
               <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
-                <p>Select Objectives and proceed to the Concept tab.</p><hr />
+                <h3>Objectives</h3>
+                <p>Select objectives and proceed to the concept tab.</p>
+                <hr />
+                <input id="objective-relevance" type="hidden" value="1" />
                 <button onclick="selectAll('objective')">Select All Objectives</button>
                 <button onclick="deselectAll('objective')">Deselect All Objectives</button>
-                <br>
                 <button onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show Fewer Objectives</button>
                 <button onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show More Objectives</button>
-                <br />
-                <input id="objective-relevance" type="hidden" value="1" />
-                <h3>Objectives</h3>
                 <div id="objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
                 <button class="next enabled-by-concept" disabled onclick="activateNextTab($('#concept-tab'))">Next</button>
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
-                <p>Select Concepts and click <strong>Find Tools by Concept</strong> or <strong>Find Tools by Keyword</strong> to display a list of tools.</p><p>Clicking <strong>Add Additional Concepts</strong> will use your selected Concepts to add any related Concepts we can find.</p><hr />
+                <h3>Concepts</h3>
+                <p>Select concepts and click <strong>Find Tools by Concept</strong> to display a list of tools. Clicking <strong>Add Additional Concepts</strong> will use selected concepts to add related concepts.</p>
+                <hr />
                 <button onclick="selectAll('concept')">Select All Concepts</button>
                 <button onclick="deselectAll('concept')">Deselect All Concepts</button>
-                <br>
                 <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
-                <br>
                 <button id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
                 <div id="results-notification"></div>
-                <h3>Concepts</h3>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
@@ -260,24 +265,21 @@
               </div>
               <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
                 <h3>Saved Tools</h3>
-                <p>These are the tools you chose to save.</p>
-                <p>Select the tools you would like to export to a downloadable CSV file.</p><hr />
+                <p>Select saved tools to review details or download details in a comma-separated values(CSV)-file.</p>
+                <hr />
                 <span>Choose a display type:</span>
                 <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text</label>
                 <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table</label>
                 <div id="saved-list-div">
                   <button onclick="selectAll('saved-list')">Select All</button>
                   <button onclick="deselectAll('saved-list')">Deselect All</button>
-                  <br>
                   <button onclick="removeSelected('saved-list')">Remove Selected Tools</button>
-                  <br>
                   <button onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
                   <div id="saved-list"></div>
                 </div>
                 <div aria-hidden="true" id="saved-table-div">
                 <p>Your saved results:</p>
                 <button class="button" onclick="clearSaved('saved-list')">Clear Saved</button>
-                <br>
                 <button class="button" onclick="exportAllCSV('saved-list')">Export CSV</button>
                 <table class="revision-table" id="saved-table" width="100%">
                   <tbody>
@@ -298,23 +300,19 @@
             </div>
             <div id="results-container" aria-hidden="true">
               <h2 id="tools">Tools</h2>
-              <p>Select tools and save them by using the button labeled <strong>Save Selected Tools</strong>. All details of all saved tools can be reviewed or saved to a file as comma-separated values(CSV). Saving tools allows tools to be collected throughout several searches. These saved tools may then be <ul><li>opened in a text editor,</li><li>opened as a spreadsheet, or</li><li>printed.</li></ul></p>
+              <p>Select tools and save them by using the button labeled <strong>Save Selected Tools</strong>. All details of all saved tools can be reviewed or saved to a file as comma-separated values(CSV). Saving tools allows tools to be collected throughout several searches. These saved tools may then be <ul><li>reviewed in a browser,</li><li>copied to the clipboard,</li><li>opened in a text-editor,</li><li>opened as a spreadsheet, or</li><li>printed.</li></ul></p>
               <span>Choose a display type:</span>
                 <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text</label>
                 <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table</label>
               <div id="results-list-div">  
                 <button onclick="selectAll('results-list')">Select All Tools</button>
                 <button onclick="deselectAll('results-list')">Deselect All Tools</button>
-                <br>
                 <button onclick="saveSelectedRecords('saved-list')">Save Selected Tools</button>
-                <br>
-                <button onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                 <div id="results-list"></div>
               </div>
               <div aria-hidden="true" id="results-table-div">
                 <p>Your search results:</p>
                 <button class="button" onclick="saveAllRecords('results-table')">Save All</button>
-                <button class="button" onclick="exportAllCSV('results-list')">Export CSV</button>
                 <table class="revision-table" id="results-table" width="100%">
                   <tbody>
                     <tr>
