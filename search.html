@@ -1094,7 +1094,7 @@ function loadModels2() {
  * Save all selected tools to the Saved Tools tab
 */
 function saveSelectedRecords(resultsDiv) {
-  var recordsToSave = $('#results-list input:checked');
+  var recordsToSave = $('#'+resultsDiv+' input:checked');
   recordsToSave.each(function() {
     if(!savedTools.contains($(this).val())) {
       savedTools.addTool($(this).val());
