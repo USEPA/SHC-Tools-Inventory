@@ -187,6 +187,16 @@ backlog to track work to be done and by whom
 	- arrows to show directionality
     - kyle: seth implemented as ">>" following tab's text
   - kyle: done
+
+ - #feature perhaps allow user to switch between tabular and div-ised view of results
+	- seth: done
+
+- fix browse tools on search.html
+	- seth: done	
+
+- add toolset, toolcache, and tooldisplay objects
+	- seth: done
+
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -247,4 +257,10 @@ backlog to track work to be done and by whom
 - #BUG #BOTH Operating Environment not showing for tools with multiple OEs
  - Envision Tomorrow and eSight should have OE "Browser, Desktop" instead have "no data" or blank entries
 
-- #feature perhaps allow user to switch between tabular and div-ised view of results
+- Possibly rework the autocomplete functionality
+
+- Sorting/filtering result table (EPA Style guide has a link to a DataTable jquery library we like, you can see it in action here: https://www.epa.gov/superfund/search-superfund-sites-where-you-live) 
+
+- Clickable URLs on detail page
+
+- Additional fields, Boolean operations in detailed search

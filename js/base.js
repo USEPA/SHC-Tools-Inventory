@@ -140,6 +140,46 @@ var buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table
 var landUseTable = new ToolDisplay('land-use-table', 'land-use-list');
 var wasteManagementTable = new ToolDisplay('waste-management-table', 'waste-management-list');
 var transportationTable = new ToolDisplay('transportation-table', 'transportation-list');
+
+/**
+ * Toggle result table or list display styles
+*/
+$('[name="display-type"]').change(function(){
+  if($(this).attr('id') === 'table-radio'){ // show table;
+    $('#results-list-div').attr('aria-hidden', true);
+    $('#results-table-div').attr('aria-hidden', false);
+  } else if ($(this).attr('id') === 'list-radio') { // show list
+    $('#results-table-div').attr('aria-hidden', true);
+    $('#results-list-div').attr('aria-hidden', false);
+  }
+});
+
+/**
+ * Toggle saved table or list display styles
+*/
+$('[name="saved-display-type"]').change(function(){
+  if ($(this).attr('id') === 'saved-table-radio'){
+    $('#saved-list-div').attr('aria-hidden', true);
+    $('#saved-table-div').attr('aria-hidden', false);
+  } else if ($(this).attr('id') === 'saved-list-radio') { // show list
+    $('#saved-table-div').attr('aria-hidden', true);
+    $('#saved-list-div').attr('aria-hidden', false);
+  }
+});
+
+/**
+ * Toggle browse table or list display styles
+*/
+$('[name="browse-display-type"]').change(function(){
+  if ($(this).attr('id') === 'browse-table-radio'){
+    $('.browse-list-div').attr('aria-hidden', true);
+    $('.browse-table-div').attr('aria-hidden', false);
+  } else if ($(this).attr('id') === 'browse-list-radio') { // show list
+    $('.browse-table-div').attr('aria-hidden', true);
+    $('.browse-list-div').attr('aria-hidden', false);
+  }
+});
+
 /**
  * Adapted parseResults function from search.html to add a row to a table
 */
@@ -216,6 +256,8 @@ function addRow(str, table_reference) {
     console.log(err);
     $(table_reference+' tr:last').remove();
   }
+}
+
 /**
  * Remove the selected tools from the saved tools list
 */
