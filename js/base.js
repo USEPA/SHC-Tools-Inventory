@@ -217,6 +217,17 @@ function addRow(str, table_reference) {
     $(table_reference+' tr:last').remove();
   }
 /**
+ * Removes all tools from saved tools
+*/
+function clearSaved(divID) {
+  $('#'+divID +' input').each(function(){
+    savedTools.removeTool($(this).val());
+    $('#'+divID + ' > #' + divID + '-' + $(this).val()).remove();
+    $('#saved-table-' + $(this).val()).remove();
+  });
+}
+
+/**
  * Refactored code to display the selected tool data
 */
 function showDetails(id) {
@@ -266,4 +277,55 @@ function showDetails(id) {
   }
 }
 
+/**
+ * Export all Saved tools from the saved tools table to a downloaded CSV
+*/
+function exportAllCSV(savedResultsDiv) {
+  var records = $('#'+savedResultsDiv+' input');
+  if (records.length > 0) {
+    var csvContent = '';
+    var names = [];
+    var values;
+    records.each(function(){
+      values = [];
+      var record = toolCache.getParsedData($(this).val());
+      if (record) {
+        if (names.length === 0) {
+          for (var prop in record) {
+            if (record.hasOwnProperty(prop)) {
+              var name = prop;
+              names.push(name);
+            }
+          }
+          csvContent = names.join() + '\n';
+        }
+        for (var property in record) {
+          if (record.hasOwnProperty(property)) {
+            values.push('"' + record[property] + '"');
+          }
+        }
+        csvContent += values.join() + '\n';
+      }
+    });
+    var link = document.createElement("a");
+    link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
+    link.setAttribute("download", "my_data.csv");
+    link.click();
+  }
+}
+/**
+ * Saved tools from the the selected tool panel
+*/
+function saveRecord() {
+  var recordIdToSave = $('#selected-tool-div').attr('data-read-id');
+  if(!savedTools.contains(recordIdToSave)) {
+    savedTools.addTool(recordIdToSave);
+    //populate divs
+    toolCache.handleParsedData(recordIdToSave, savedTable.displayTool.bind(savedTable));
+  }
+  if (savedTools.getLength() > 0) {
+    $('#saved-tools-tab').parent().attr("aria-hidden", false);
+    document.getElementById("saved-tools-tab").click();
+    $('#saved-tools-panel').attr("aria-hidden", false);
+  }
 }

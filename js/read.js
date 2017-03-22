@@ -81,19 +81,6 @@ function checkBoxValue(multiselect) {
   return selected;
 }
 
-function clearSaved() {
-  var result_table = document.getElementById('savedTable');
-  $("#saved-tools-tab").prop('disabled', true);
-  $("#simple-search-tab").click();
-  while (result_table.rows.length != 1) {
-    try {
-      result_table.deleteRow(1);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-}
-
 function getDetails(id) {
   if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
     xmlhttp = new XMLHttpRequest();
@@ -145,69 +132,4 @@ function detailClearForm() {
   multiselectClear(document.getElementById('selectExtent'));
   //multiselectClear(document.getElementById('selectOutput'));
   //radioClear(document.getElementsByName('RadioSoftware'));
-}
-
-function exportCSV(tablereference) {
-  var records = $('#'+tablereference+' > tbody  > tr');
-  var csvContent = '';
-  var columns = [
-    'Name',
-    'Acronym',
-    'Short_Description_for_Reports',
-    'Ownership_Type',
-    'Base_Cost_of_Software',
-    'Other_Cost_Considerations',
-    'Open_Source',
-    'Alternative_Names',
-    'Sustainability_Sector',
-    'Constrained_Keywords',
-    'Keywords',
-    'Organization',
-    'Contact_Person',
-    'Phone_Number',
-    'Email',
-    'Internet',
-    'Life_Cycle',
-    'Last_Known_Software_Update',
-    'READ_Info_Updated',
-    'Operating_Environment',
-    'Compatible_Operating_Systems',
-    'Other_proprietary_software_requirements_if_any',
-    'Model_Inputs',
-    'Data_requirements',
-    'Model_Output_Types',
-    'Output_Variables',
-    'Source_of_Support_Materials',
-    'Types_of_Support_Materials',
-    'Model_Evaluation',
-    'Model_Structure',
-    'Time_Scale',
-    'Spatial_Extent',
-    'Technical_skills_needed_to_apply_model',
-    'Interfaces_to_other_Resources',
-    'Notes'
-  ];
-  var names = [];
-  for (i in columns) {
-    var name = columns[i].replace(/_/, ' ');
-    names.push(name);
-  }
-  csvContent = names.join() + '\n';
-  
-  records.each(function(){
-  	var record = jQuery.data($(this)[0], "record");
-  	if (record) {
-	  	var values = [];
-	    for (var j=0; j<columns.length; j++) {
-	      values.push('"' + record[columns[j]] + '"');
-	    }
-	    csvContent = csvContent + values.join() + '\n';
-	  }
-  });
-
-  var encodedUri = encodeURI(csvContent);
-  var link = document.createElement("a");
-  link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
-  link.setAttribute("download", "my_data.csv");
-  link.click();
 }
