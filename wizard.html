@@ -682,16 +682,14 @@ var keywordSearch = function(div, input) {
  * search for the READ IDs from the selected Concepts from input and display results in div
  */
 var conceptSearch = function(div, input) {
-  var tableDisplay = function(data) {
-    addRow(data, "#resultsTable");
-  };
-  var divDisplay = function(parsedResult) {
-    if (isNewResult("search-results", parsedResult)) {
-      addDiv(parsedResult, "search-results");
-    }
-  };
+  //clear display div and table
   $('#'+div+' *').remove();
-  clearResultData(div);
+  $("#results-table").find("tr:gt(0)").remove();
+  //clear display data
+  resultTable.getToolSet().reset();
+  //clear result data
+  resultSet.reset();
+  //get new concepts
   var concepts = getConcepts(input);
   if (concepts.length < 1) {
     $('#results-notification').html('<strong>Please select a concept.</strong>').removeClass().addClass('warning');
@@ -699,26 +697,18 @@ var conceptSearch = function(div, input) {
     $('#results-container').attr('aria-hidden', 'true');
     return;
   }
-  var tools = {length:0};
   for (var i=0; i<concepts.length; i++) {
     if(readIDsByConcept[concepts[i]]) {
       for (var j=0;j<readIDsByConcept[concepts[i]].length;j++) {
-        if (tools.hasOwnProperty(readIDsByConcept[concepts[i]][j])) {
-          tools[readIDsByConcept[concepts[i]][j]]++;
-        } else {
-          //populate divs
-          toolCache.handleParsedData(readIDsByConcept[concepts[i]][j], divDisplay);
-          /** NOT IMPLEMENTED YET **/
-          //populate table
-          //toolCache.handleParsedData(readIDsByConcept[concepts[i]][j], tableDisplay);
-          tools[readIDsByConcept[concepts[i]][j]] = 1;
-          tools.length++;
+        if(!resultSet.contains(readIDsByConcept[concepts[i]][j])) {
+          resultSet.addTool(readIDsByConcept[concepts[i]][j]);
+          toolCache.handleParsedData(readIDsByConcept[concepts[i]][j], resultTable.displayTool.bind(resultTable));
         }
       }
     }
   }
-  if (tools.length > 0) {
-    $('#results-notification').html('<strong>Found '+tools.length+' results. <a href="#tools">Take me to them!</a></strong>').removeClass().addClass('success');
+  if (resultSet.getLength() > 0) {
+    $('#results-notification').html('<strong>Found '+resultSet.getLength()+' results. <a href="#tools">Take me to them!</a></strong>').removeClass().addClass('success');
     $('#results-container').show();
     $('#results-container').attr('aria-hidden', 'false');
   } else {
@@ -1069,21 +1059,6 @@ function readSafe(object, propertyArray) {
 }
 
 /**
- * clear results and their cached ids
- */
-var clearResultData = function(div) {
-  var container = $('#'+div);
-  var ids = container.data('ids');
-  if (typeof(ids) != 'undefined') {
-    for (var i=0;i<ids.length;i++) {
-      var id = ids[i];
-      container.removeData(id);
-    }
-    ids.length = 0;
-  }
-};
-
-/**
  * check if object represents xsi:nil or unsanitized absence of data
  */
 var isNil = function(obj) {
@@ -1113,23 +1088,6 @@ var validata = function(obj) {
   }
 };
 //END TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
-
-/**
- * true if tool is not already in results
- * @arg containerId is the id of container for results
- * @arg parsedResult is the result whose details are returned from parseResults
- */
-var isNewResult = function(containerId, parsedResult) {
-  if (typeof($('#'+containerId).data('ids')) == 'undefined') {
-    $('#'+containerId).data('ids', []);
-  }
-  var cachedIds = $('#'+containerId).data('ids');
-  if (cachedIds.indexOf(parsedResult.READResourceIdentifier) == -1) {
-    cachedIds.push(parsedResult.READResourceIdentifier);
-    return true;
-  }
-  return false;
-};
 
 /**
  * Use links table to find related concepts

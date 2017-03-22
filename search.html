@@ -599,7 +599,12 @@ function addMembers(dataList, fieldName, fieldValues) {
  * Search for text and choose other criteria for tools.
 */
 var detailedSearch = function() {
+  //clear result table
   clearResults();
+  //clear result div
+  $('#results-list *').remove(); //clears for new results
+  //clear result set
+  resultSet.reset();
   var queryString = $('#detailSearchText').val().trim().toLowerCase();
   var decisionSectors = $('#detail-decision-checkbox :checkbox:checked').map(function(){return $(this).val();});
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
@@ -609,7 +614,6 @@ var detailedSearch = function() {
   var extent_select = $('#detail-extent-checkbox :checkbox:checked').map(function(){return $(this).val();});
   var results = [];
   var requests = [];
-  var arr = [];
   var data = {};
   $feedbackDiv.css('display','none');
   if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
@@ -645,10 +649,15 @@ var detailedSearch = function() {
       for (var i=0; i<arguments.length; i++){
         results = results.concat(arguments[i][0]);
       }
-      arr = parseResultsArray(arr, results);
-      if (0 === arr.length) {
+      var numberOfResults = parseResultsArray(results);
+      if (0 === numberOfResults) {
         $feedbackDiv.css('display', 'block');
-      }//else {$("#results-tab").click();}
+        $('#results-tab').parent().attr('aria-hidden',true);
+      }else {
+        $feedbackDiv.css('display', 'none');
+        $('#results-tab').parent().attr('aria-hidden',false);
+        $("#results-tab").click();
+      }
     });
   } else {
     $feedbackDiv.css('display', 'block');
@@ -663,38 +672,31 @@ var executeSearch = function(url, data){
   });
 };
 
-var parseResultsArray = function(arr, a) {
-  var tableDisplay = function(data) {
-    addRow(data, "#resultsTable");
-  };
-  var divDisplay = function(parsedResult) {
-    if (isNewResult("search-results", parsedResult)) {
-      addDiv(parsedResult, "search-results");
-    }
-  };
-  for (var i = 0; i < a.length; i++) {
-    if(arr.indexOf(a[i].ResourceId) === -1) {
-      arr.push(a[i].ResourceId);
+var parseResultsArray = function(results) {
+  for (var i = 0; i < results.length; i++) {
+    //turn into function in base?
+    if(!resultSet.contains(results[i].ResourceId)) {
+      resultSet.addTool(results[i].ResourceId);
       //populate divs
-      toolCache.handleParsedData(a[i].ResourceId, divDisplay);
-      //populate table
-      toolCache.handleParsedData(a[i].ResourceId, tableDisplay);
+      toolCache.handleParsedData(results[i].ResourceId, resultTable.displayTool.bind(resultTable));
     }
   }
-  return arr;
+  return resultSet.getLength();
 };
 
 simpleSearch = function() {
+  //clear result table
   clearResults();
-  $('#search-results *').remove(); //clears for new results
-  clearResultData('search-results'); //clears for new results
+  //clear result list
+  $('#results-list *').remove(); //clears for new results
+  //clear result data
+  resultSet.reset();
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
   //var decisionSectors = [$('#simpleDecisionSelect').val()];
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
   var $feedbackDiv = $('#simpleFeedback');
   var results = [];
   var requests = [];
-  var arr = [];
   var data = {};
   /*if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
     decisionSectors = [
@@ -723,10 +725,15 @@ simpleSearch = function() {
       for (var i=0; i<arguments.length; i++){
         results = results.concat(arguments[i][0]);
       }
-      arr = parseResultsArray(arr, results);
-      if (0 === arr.length) {
+      var numberOfResults = parseResultsArray(results);
+      if (0 === numberOfResults) {
         $feedbackDiv.css('display', 'block');
-      }else {$feedbackDiv.css('display', 'none');}
+        $('#results-tab').parent().attr('aria-hidden',true);
+      }else {
+        $feedbackDiv.css('display', 'none');
+        $('#results-tab').parent().attr('aria-hidden',false);
+        $("#results-tab").click();
+      }
     });
   } else {
     $feedbackDiv.css('display', 'block');
