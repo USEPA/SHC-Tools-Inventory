@@ -216,4 +216,54 @@ function addRow(str, table_reference) {
     console.log(err);
     $(table_reference+' tr:last').remove();
   }
+/**
+ * Refactored code to display the selected tool data
+*/
+function showDetails(id) {
+  var parsedData = toolCache.getParsedData(id);
+  var html = '<div id="selected-tool-div" data-read-id="'+parsedData.READResourceIdentifier+'">'; 
+  var $tab = $("#selected-tool");
+  try {
+    $tab.empty();
+  } catch (error) {
+    console.log(error);
+  }
+  if (parsedData){
+    html+= "<span class='bold'>Title</span>: "+parsedData.LongTitleText+"<br>";
+    html+= "<span class='bold'>Acronym</span>: "+parsedData.Acronym+"<br>";
+    html+= "<span class='bold'>Description</span>: "+parsedData.LongDescription+"<br>";
+    html+= "<span class='bold'>Ownership Type</span>: "+parsedData.OwnershipTypeName+"<br>";
+    html+= "<span class='bold'>Cost Details</span>: "+parsedData.DetailsBaseSoftwareCost+"<br>";
+    html+= "<span class='bold'>Other Costs</span>: "+parsedData.DetailsOtherCostConsiderations+"<br>";
+    html+= "<span class='bold'>Open Source</span>: "+parsedData.DetailsOpenSource+"<br>";
+    html+= "<span class='bold'>Decision Sector</span>: "+parsedData.ModelScopeDecisionSector+"<br>";
+    html+= "<span class='bold'>Keywords</span>: "+parsedData.KeywordText+"<br>";
+    html+= "<span class='bold'>User Support Name</span>: "+parsedData.UserSupportName+"<br>";
+    html+= "<span class='bold'>User Support Phone</span>: "+parsedData.UserSupportPhoneNumber+"<br>";
+    html+= "<span class='bold'>User Support Email</span>: "+parsedData.UserSupportEmail+"<br>";
+    html+= "<span class='bold'>User Support Material</span>: "+parsedData.UserSupportSourceOfSupportMaterials+"<br>";
+    html+= "<span class='bold'>URL</span>: "+parsedData.URLText+"<br>";
+    html+= "<span class='bold'>Current Phase</span>: "+parsedData.CurrentLifeCyclePhase+"<br>";
+    html+= "<span class='bold'>Last Modified</span>: "+parsedData.LastModifiedDateTimeText+"<br>";
+    html+= "<span class='bold'>Operating Environment</span>: "+parsedData.OperatingEnvironmentName+"<br>";
+    html+= "<span class='bold'>Operating System</span>: "+parsedData.OSName+"<br>";
+    html+= "<span class='bold'>Model Inputs</span>: "+parsedData.ModelInputsTextArea+"<br>";
+    html+= "<span class='bold'>Model Output Variables</span>: "+parsedData.ModelOutputsModelVariablesTextArea+"<br>";
+    html+= "<span class='bold'>Model Evaluation</span>: "+"<span class='bold'></span>: "+parsedData.ModelEvaluationTextArea+"<br>";
+    html+= "<span class='bold'>Scope and Time Scale</span>: "+parsedData.ModelScopeTimeScaleDetail+"<br>";
+    html+= "<span class='bold'>Spatial Extent</span>: "+parsedData.ModelScopeSpatialExtentDetail+"<br>";
+    html+= "<span class='bold'>Inputs Data Requirements</span>: "+parsedData.ModelInputsDataRequirements+"<br>";
+    html+= "</div>";
+    $tab.append(html);
+    $('#selected-tool-tab').parent().attr('aria-hidden',false);
+    $('#selected-tool-panel').attr('aria-hidden',false);
+    $("#selected-tool-tab").click();
+    $("#selected-tool-tab").focus();
+  } else {
+    $tab.append(html);
+    $('#selected-tool-tab').parent().attr('aria-hidden',true);
+    $('#selected-tool-panel').attr('aria-hidden',true);
+  }
+}
+
 }
