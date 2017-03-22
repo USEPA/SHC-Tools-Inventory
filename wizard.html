@@ -348,7 +348,8 @@
   <script src="https://www.epa.gov/sites/all/libraries/template2/js.js"></script>
   <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
-<script src="js/porter-stemmer.js"></script>
+  <script src="js/porter-stemmer.js"></script>
+  <script src="js/base.js"></script>
 <script>
 var $ = jQuery;// ensure jquery gets where it's expected
 // URLs are provided without a query (data following ?) to build requests with; details at READ web services' docs-page
@@ -1458,47 +1459,6 @@ var getDetailsFromId = function(id) {
     console.log(data.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym,': ',data.READExportDetail.InfoResourceDetail);
   });
 };
-
-var toolCache = (function() {
-  var cache = {};
-
-  function _setData(id, data){
-    //console.log("adding data to cache");
-    cache[id] = data;
-  }
-
-  function _getData(id){
-    //console.log("getting data from cache");
-    if (cache.hasOwnProperty(id)) {
-      return cache[id];
-    }
-  }
-
-  return { // public interface
-    handleParsedData: function(id, callback){
-      if (cache.hasOwnProperty(id)) {
-        callback(_getData(id));
-      } else {
-        $.get(resourceDetailURL,{ResourceId:id}).done(function(data) {
-          _setData(id, parseResult(data));
-          callback(_getData(id));
-        });
-      }
-    },
-    getParsedData: function(id){
-      if (cache.hasOwnProperty(id)) {
-        //console.log("in cache, returning");
-        return _getData(id);
-      } else {
-        //console.log("not in cache");
-        return null;
-      }
-    },
-    getCache : function(){
-      return cache;
-    }
-  };
-})();
 
 var developer = false;
 function devMode(bool){
