@@ -644,11 +644,12 @@ function addCheckboxes(list, container, onChange, count) {
   for (var i=0;i<list.length;i++) {
     if (leafNodes.indexOf(list[i]) !== -1 && developer) {
       disabled = ' disabled';
-    } else {
-      disabled = '';
-    }
-    html += '<input class="tool-label" type="checkbox" id="cb-'+containerName+'-'+count+'-'+id+'" value="'+list[i]+'" name="'+containerName+'-checkbox" onchange="'+onChange+'"'+disabled+' </input><label for="cb-'+containerName+'-'+count+'-'+id+'" class="unselectable">'+list[i]+'</label>';
-    id++;
+      html += '<input class="tool-label" type="checkbox" id="cb-'+containerName+'-'+count+'-'+id+'" value="'+list[i]+'" name="'+containerName+'-checkbox" onchange="'+onChange+'"'+disabled+' </input><label for="cb-'+containerName+'-'+count+'-'+id+'" class="unselectable">'+list[i]+'</label>';
+      id++;
+    } else if (leafNodes.indexOf(list[i]) === -1) {
+      html += '<input class="tool-label" type="checkbox" id="cb-'+containerName+'-'+count+'-'+id+'" value="'+list[i]+'" name="'+containerName+'-checkbox" onchange="'+onChange+'" </input><label for="cb-'+containerName+'-'+count+'-'+id+'" class="unselectable">'+list[i]+'</label>';
+      id++;
+    } 
   }
   return html;
 }
