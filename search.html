@@ -51,14 +51,9 @@
   }
   #detailFeedback { display:none; }
   /************* ADDED FROM MOCKUP.HTML ************/
-  div[aria-hidden='true'] {
-    display: none;
-  }
   button:disabled { 
     background-color: #aeb0b5;
   }
-  </style>
-  <style>
     @media screen and (min-width: 45em), print and (min-width: 45em) {
       .row > .size-95of100.col {
         width: 95%;
@@ -71,7 +66,7 @@
     .expand{
       margin: 0;
     }
-    #search-results > div{
+    .list-div{
       background-color: #f1f1f1;
       margin-top: .5em;
       border-radius: 5px;
@@ -83,13 +78,13 @@
       border-bottom-right-radius:0;
     }
     [role=tabpanel]{
-      padding: 1px;
+      padding: .5em;
       border: 2px solid #d6d7d9;
       border-radius: 5px;
       border-top-left-radius:0;
       border-top-right-radius:0;
     }
-    [aria-hidden='true']{
+    [aria-hidden="true"]{
       display: none;
     }
     .result-label{
@@ -849,6 +844,7 @@ function addDiv(parsedResult, containerId) {
   $(container).append(
     $('<div />')
       .attr('id', containerId+'-'+parsedResult.READResourceIdentifier)
+      .addClass('list-div')
       .append(
         $('<div />')
           .addClass('row')
