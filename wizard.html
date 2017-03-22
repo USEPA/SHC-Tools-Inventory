@@ -1335,58 +1335,6 @@ function deselectAll(divID) {
 }
 
 /**
- * Remove the selected tools from the saved tools list
-*/
-function removeSelected(divID) {
-  var ids = [];
-  $('#'+divID +' input').each(function(){
-    if ($(this).prop("checked")) {
-      $('#'+divID + ' > #' + divID + '-' + $(this).val()).remove();
-    } else {
-      ids.push(parseInt($(this).val()));
-    }
-  });
-  $('#'+divID).data('ids', ids);
-}
-
-/**
- * Export the selected Saved tools from the saved tools list to a downloaded CSV
-*/
-function exportCSV(savedResultsDiv) {
-  var records = $('#'+savedResultsDiv+' input:checked');
-  if (records.length > 0) {
-    var csvContent = '';
-    var names = [];
-    var values;
-    records.each(function(){
-      values = [];
-      var record = toolCache.getParsedData($(this).val());
-      if (record) {
-        if (names.length === 0) {
-          for (var prop in record) {
-            if (record.hasOwnProperty(prop)) {
-              var name = prop;
-              names.push(name);
-            }
-          }
-          csvContent = names.join() + '\n';
-        }
-        for (var property in record) {
-          if (record.hasOwnProperty(property)) {
-            values.push('"' + record[property] + '"');
-          }
-        }
-        csvContent += values.join() + '\n';
-      }
-    });
-    var link = document.createElement("a");
-    link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
-    link.setAttribute("download", "my_data.csv");
-    link.click();
-  }
-}
-
-/**
  * Stop the event from propagating
 */
 var stopPropagation = function(e) {

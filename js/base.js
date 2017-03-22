@@ -217,6 +217,19 @@ function addRow(str, table_reference) {
     $(table_reference+' tr:last').remove();
   }
 /**
+ * Remove the selected tools from the saved tools list
+*/
+function removeSelected(divID) {
+  $('#'+divID +' input').each(function(){
+    if ($(this).prop("checked")) {
+      savedTools.removeTool($(this).val());
+      $('#'+divID + ' > #' + divID + '-' + $(this).val()).remove();
+      $('#saved-table-' + $(this).val()).remove();
+    }
+  });
+}
+
+/**
  * Removes all tools from saved tools
 */
 function clearSaved(divID) {
@@ -278,6 +291,43 @@ function showDetails(id) {
 }
 
 /**
+ * Export the selected Saved tools from the saved tools list to a downloaded CSV
+*/
+function exportCSV(savedResultsDiv) {
+  var records = $('#'+savedResultsDiv+' input:checked');
+  if (records.length > 0) {
+    var csvContent = '';
+    var names = [];
+    var values;
+    records.each(function(){
+      values = [];
+      var record = toolCache.getParsedData($(this).val());
+      if (record) {
+        if (names.length === 0) {
+          for (var prop in record) {
+            if (record.hasOwnProperty(prop)) {
+              var name = prop;
+              names.push(name);
+            }
+          }
+          csvContent = names.join() + '\n';
+        }
+        for (var property in record) {
+          if (record.hasOwnProperty(property)) {
+            values.push('"' + record[property] + '"');
+          }
+        }
+        csvContent += values.join() + '\n';
+      }
+    });
+    var link = document.createElement("a");
+    link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
+    link.setAttribute("download", "my_data.csv");
+    link.click();
+  }
+}
+
+/**
  * Export all Saved tools from the saved tools table to a downloaded CSV
 */
 function exportAllCSV(savedResultsDiv) {
@@ -313,6 +363,26 @@ function exportAllCSV(savedResultsDiv) {
     link.click();
   }
 }
+
+/**
+ * Saved all tools from the the tools table
+*/
+function saveAllRecords(table_reference) {
+  var recordsToSave = $('#'+table_reference+' > tbody  > tr');
+  recordsToSave.each(function() {
+    if(!savedTools.contains($(this).attr('data-read-id'))) {
+      savedTools.addTool($(this).attr('data-read-id'));
+      //populate divs
+      toolCache.handleParsedData($(this).attr('data-read-id'), savedTable.displayTool.bind(savedTable));
+    }
+  });
+  if (savedTools.getLength() > 0) {
+    $('#saved-tools-panel').attr("aria-hidden", false);
+    $('#saved-tools-tab').parent().attr("aria-hidden", false);
+    document.getElementById("saved-tools-tab").click();
+  }
+}
+
 /**
  * Saved tools from the the selected tool panel
 */
