@@ -75,7 +75,7 @@
     .expand{
       margin: 0;
     }
-    #search-results > div, #saved-results > div{
+    .list-div{
       background-color: #f1f1f1;
       margin-top: .5em;
       border-radius: 5px;
@@ -778,6 +778,7 @@ function addDiv(parsedResult, containerId) {
   $(container).append(
     $('<div />')
       .attr('id', containerId+'-'+parsedResult.READResourceIdentifier)
+      .addClass('list-div')
       .append(
         $('<div />')
           .addClass('row')
