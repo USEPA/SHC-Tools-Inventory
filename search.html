@@ -516,7 +516,7 @@
                 <li><a class="menu-link social-flickr" href="https://www.flickr.com/photos/usepagov">Flickr</a></li>
                 <li><a class="menu-link social-instagram" href="https://instagram.com/epagov">Instagram</a></li>
               </ul>
-              <p class="last-updated">LAST UPDATED ON JANUARY 19, 2017</p>
+              <p class="last-updated">LAST UPDATED ON MARCH 21, 2017</p>
             </div>
           </div>
         </div>
@@ -577,7 +577,6 @@ function clearResults() {
  * i = someCurrentDataObject, j = someFieldValue) 
  */
 function addMembers(dataList, fieldName, fieldValues) {
-  console.log('addMembers() called with',dataList, fieldName, fieldValues);
   if (fieldValues.length > 0) {// are any values selected?
     var tmpDataList = [];// create a temp copy of dataList
     for (iFieldValue=0;iFieldValue<fieldValues.length;iFieldValue++) {// loop through os-selections
@@ -588,7 +587,6 @@ function addMembers(dataList, fieldName, fieldValues) {
         tmpDataList[fieldValues.length * iDatum + iFieldValue][fieldName] = fieldValues[iFieldValue];
       }
     }
-    console.log('addMembers() is returning',tmpDataList);
     return tmpDataList;
   } else {
     return dataList;
@@ -1100,11 +1098,6 @@ function readSafe(object, propertyArray) {
   if(object[propertyArray[0]]) {// is first element of propertyArray a property of this object?
     var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
     if(Object.keys(propertyArray).length==1) {// is this the last property in the array?
-      if (value.length) {
-        if (typeof value != 'string') {
-          console.log('readSafe is returning an array from object',object,'at property',propertyArray[0]);
-        }
-      }
       return value;// return contents of property
     }else{// there are multiple elements remaining in propertyArray that we need to descend into
       try{
@@ -1264,49 +1257,8 @@ function deselectAll(divID) {
     }
   });
 }
-
-var toolCache = (function() {
-  var cache = {};
-
-  function _setData(id, data){
-    //console.log("adding data to cache");
-    cache[id] = data;
-  }
-
-  function _getData(id){
-    //console.log("getting data from cache");
-    if (cache.hasOwnProperty(id)) {
-      return cache[id];
-    }
-  }
-
-  return { // public interface
-    handleParsedData: function(id, callback){
-      if (cache.hasOwnProperty(id)) {
-        callback(_getData(id));
-      } else {
-        $.get(resourceDetailURL,{ResourceId:id}).done(function(data) {
-          _setData(id, parseResult(data));
-          callback(_getData(id));
-        });
-      }
-    },
-    getParsedData: function(id){
-      if (cache.hasOwnProperty(id)) {
-        //console.log("in cache, returning");
-        return _getData(id);
-      } else {
-        //console.log("not in cache");
-        return null;
-      }
-    },
-    getCache : function(){
-      return cache;
-    }
-  };
-})();
 </script>
 <script src="js/jquery-ui.min.js"></script>
-<script language="javascript" src="js/read.js"></script>
+<script src="js/read.js"></script>
 </body>
 </html>
