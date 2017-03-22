@@ -140,3 +140,80 @@ var buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table
 var landUseTable = new ToolDisplay('land-use-table', 'land-use-list');
 var wasteManagementTable = new ToolDisplay('waste-management-table', 'waste-management-list');
 var transportationTable = new ToolDisplay('transportation-table', 'transportation-list');
+/**
+ * Adapted parseResults function from search.html to add a row to a table
+*/
+function addRow(str, table_reference) {
+  try {
+    var row_template = {
+      "Acronym": 0,
+      "ShortTitleText": 1,
+      "ShortDescription": 2,
+      "BaseCostOfSoftware": 3,
+      "SpatialExtent": 4,
+      "ModelInputs": 5,
+      "ModelOutputTypes": 6
+    };
+    var id = table_reference+'-'+str.READResourceIdentifier;
+    table_reference = '#'+table_reference;
+    result = str;
+    var result_table = $(table_reference)[0];
+    var row = result_table.insertRow(1);
+    row.id = id;
+    row.setAttribute("data-read-id", str.READResourceIdentifier);
+    for (var key in row_template) {
+      var cell = row.insertCell(row_template[key]);
+      var columnnumber = row_template[key];
+      cell.style.fontSize = 'x-small';
+      var this_result;
+      switch (columnnumber) {
+        case 0: //Acronym
+          var AcronymData = str
+            .Acronym;
+          this_result = AcronymData;
+          break;
+        case 1: //ShortTitleText
+          var ShortTitleTextData = str
+            .LongTitleText;
+          this_result = ShortTitleTextData;
+          break;
+        case 2: //ShortDescription
+          var ShortDescriptionData = str
+            .LongDescription;
+          this_result = ShortDescriptionData;
+          break;
+        case 3: //DetailsBaseSoftwareCost
+          var DetailsBaseSoftwareCostData = str
+            .DetailsBaseSoftwareCost;
+          this_result = DetailsBaseSoftwareCostData;
+          break;
+        case 4: //SpatialExtent
+          var SpatialExtentData = str
+            .ModelScopeSpatialExtentDetail;
+          this_result = SpatialExtentData;
+          break;
+        case 5: //Model Inputs
+          var ModelOutputsTextAreaData = str
+            .ModelInputsTextArea;
+          this_result = ModelOutputsTextAreaData;
+          break;
+        case 6: //ModelOutputs
+          var ModelOutputsTextAreaData = str
+            .ModelOutputsModelVariablesTextArea;
+          this_result = ModelOutputsTextAreaData;
+        default:
+          this_result = "No Data Available";
+      }
+      if (this_result.length > 140) {
+        this_result = this_result.substr(0, 140) + '...';
+      }
+      cell.innerHTML = this_result;
+    }
+    $(table_reference + " tr").click(function() {
+      showDetails(str.READResourceIdentifier);
+    });
+  } catch (err) {
+    console.log(err);
+    $(table_reference+' tr:last').remove();
+  }
+}
