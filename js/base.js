@@ -227,7 +227,7 @@ function removeSelected(divID) {
     if ($(this).prop("checked")) {
       savedTools.removeTool($(this).val());
       $('#'+divID + ' > #' + divID + '-' + $(this).val()).remove();
-      $('#saved-table').DataTable().row($('#saved-table-'+$(this).val()).remove());
+      $('#saved-table').DataTable().row('#saved-table-'+$(this).val()).remove().draw();
     }
   });
 }
