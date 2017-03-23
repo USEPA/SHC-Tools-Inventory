@@ -405,3 +405,21 @@ function saveRecord() {
     $('#saved-tools-panel').attr("aria-hidden", false);
   }
 }
+/**
+ * Save all selected tools to the Saved Tools tab
+*/
+function saveSelectedRecords(resultsDiv) {
+  var recordsToSave = $('#'+resultsDiv+' input:checked');
+  recordsToSave.each(function() {
+    if(!savedTools.contains($(this).val())) {
+      savedTools.addTool($(this).val());
+      //populate divs
+      toolCache.handleParsedData($(this).val(), savedTable.displayTool.bind(savedTable));
+    }
+  });
+  if (savedTools.getLength() > 0) {
+    $('#saved-tools-tab').parent().attr("aria-hidden", false);
+    $('#saved-tools-panel').attr("aria-hidden", false);
+    document.getElementById("saved-tools-tab").click();
+  }
+}
