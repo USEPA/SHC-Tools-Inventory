@@ -208,7 +208,7 @@ function addRow(parsedResult, tableId) {
       .row.add(rowData)
       .draw()
       .nodes().to$()
-      .addClass('row')
+      .addClass('result-row')
       .attr('data-read-id',parsedResult.READResourceIdentifier)
       .attr("id", 'saved-table-' + parsedResult.READResourceIdentifier)
       .click(function() {
