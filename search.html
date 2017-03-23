@@ -170,14 +170,14 @@
     </div>
     <div class="main-column clearfix">
 <!--googleon: all-->
-      <h1 class="page-title">Search The Inventory of Tools & Models</h1>
+      <h1 class="page-title">Search The Inventory of Tools</h1>
       <div class="panel-pane pane-node-content" >
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
             <h2 id="page-description-title" class="title">Description</h2>
-            <p>Users may search for text or browse the available tools.</p>
+            <p>Explore tools that help produce results while preserving resources. Exploration can be searching for text in tools' descriptions or browsing all tools.</p>
             <h2 id="disclaimer-title">Disclaimer</h2>
-            <p id="disclaimer-text">The tools listed below are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed below.</p>
+            <p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
             <div id="tabs">
               <ul class="tabs" id="tabs-nav" role="tablist">
                 <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Simple Search</a></li>
@@ -187,17 +187,22 @@
                 <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
                 <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Tools</a></li>
               </ul>
-              <div aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" aria-hidden="false" style="border: 1px solid #aaa;">
+              <div aria-hidden="false" aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" style="border: 1px solid #aaa;">
                 <h3>Search</h3>
-                <input id="simpleSearchText" title="Search for tools by entering specific keywords" type="text" style="width:100%" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()" class="ui-autocomplete-input" autocomplete="off">
+                <p>Find tools by entering words to search for then using the <strong>Search</strong>-button. The search returns each tool whose title, acronym, or description contains all of these words. Results are displayed when found. A notification is displayed when no results are found.</p>
+                <hr />
+                <label for="simple-search-text" id="simple-search-text-label">Enter words to search for.</label>
+                <input autocomplete="off" class="ui-autocomplete-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
-                <p id="simpleFeedback">No results were returned: no acronyms or titles contained the query.</p>
+                <p id="simpleFeedback">No tools were found.</p>
               </div>
-              <div aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel" aria-hidden="true">
+              <div aria-hidden="true" aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">
                 <h3>Detailed Search</h3>
+                <p>Specify requirements of tools while searching for words contained in the tools' titles, acronyms, or descriptions.</p>
+                <hr />
                 <form>
                   <div aria-labelledby="decision-sector-label" class="form-item form-type-checkbox" id="decision-select" role="group">
-                    <h4 id="decision-sector-label">Choose decision-sectors to search only for tools in those decision-sectors.</h4>
+                    <h4 id="decision-sector-label">Choose decision-sectors to find only tools in those decision-sectors.</h4>
                     <input class="form-checkbox" id="decision-sector-building" type="checkbox" value="building infrastructure" />
                     <label class="option" for="decision-sector-building">building and infrastructure</label>
                     <input class="form-checkbox" id="decision-sector-land" type="checkbox" value="land use" />
@@ -217,7 +222,7 @@
                     <label class="option" for="radioenvironment_mobile">mobile</label>
                   </div>
                   <div aria-labelledby="cost-label" class="form-item form-type-checkbox" id="cost-select" class="group">
-                    <h4 id="cost-label">Choose cost-ranges to search only for tools labelled with one of those cost-ranges.</h4>
+                    <h4 id="cost-label">Choose cost-ranges to find only tools labelled with one of those cost-ranges.</h4>
                     <input class="form-checkbox" id="checkbasefree" name="checkbase" type="checkbox" value="1" />
                     <label class="option" for="checkbasefree">free</label>
                     <input id="checkbasefree"id="checkbase1" name="checkbase" type="checkbox" value="2" />
@@ -230,7 +235,7 @@
                     <label class="option" for="checkbase4000">&gt;$4000</label>
                   </div>
                   <div aria-labelledby="extent-label" id="extent-select" class="form-item form-type-checkbox" class="group">
-                    <h4 id="extent-label" >choose spatial extents to search only for tools labelled with at least one chosen spatial extents.</h4>
+                    <h4 id="extent-label" >Choose spatial extents to find only tools labelled with at least one chosen spatial extent.</h4>
                     <input class="form-checkbox" id="extent-building" type="checkbox" value="building">
                     <label class="option" for="extent-building">building</label>
                     <input class="form-checkbox" id="extent-site" type="checkbox" value="site">
@@ -251,14 +256,16 @@
                     <label class="option" for="extent-globe">globe</label>
                   </div>
                   <div id="detailed-search-feedback">no results were found.</div>
-                  <button id="detailed-reset" type="reset">reset form</button>
+                  <button id="detailed-reset" type="reset">Reset Selected Requirements</button>
                 </form>
-                  <input id="detailed-search-text" title="search for tools by matching words" type="text" onkeydown="if (event.keycode == 13) document.getelementbyid('detailed-search-button').click()" class="ui-autocomplete-input" autocomplete="off">
-                  <button id="detailed-search-button" onclick="detailedSearch()" type="">search</button>
+                <label for="detailed-search-text">
+                <input autocomplete="off" class="ui-autocomplete-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="search for tools by matching words" type="text">
+                <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
               </div>
               <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" aria-hidden="true">
                 <h3>Browse the Tools by Decision Sector</h3>
-                <br>
+                <p>Each tool is in a single decision-sector. Expand a decision-sector below to browse its tools.</p>
+                <hr />
                 <span>Choose a display type:</span>
                 <input id="browse-list-radio" type="radio" name="browse-display-type" value="text" checked><label for="browse-list-radio">Text</label>
                 <input id="browse-table-radio" type="radio" name="browse-display-type" value="table"><label for="browse-table-radio">Table</label>
@@ -500,7 +507,7 @@
                 <li><a class="menu-link social-flickr" href="https://www.flickr.com/photos/usepagov">Flickr</a></li>
                 <li><a class="menu-link social-instagram" href="https://instagram.com/epagov">Instagram</a></li>
               </ul>
-              <p class="last-updated">LAST UPDATED ON MARCH 21, 2017</p>
+              <p class="last-updated">This page was last updated on 2017.03.22.</p>
             </div>
           </div>
         </div>
