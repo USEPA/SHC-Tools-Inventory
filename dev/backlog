@@ -282,6 +282,7 @@ backlog to track work to be done and by whom
 
 - create accessible notification system?
   - accessibility requires all info can be found by all users
+  - informing assistive technologies is described here https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions#Live_Region_State
   - possible steps in escalation of aggressiveness:
     1. aria-live="off"
     2. aria-live="polite"
