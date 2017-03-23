@@ -181,80 +181,41 @@ $('[name="browse-display-type"]').change(function(){
 });
 
 /**
- * Adapted parseResults function from search.html to add a row to a table
+ * Add a row to a data table
 */
-function addRow(str, table_reference) {
-  try {
-    var row_template = {
-      "Acronym": 0,
-      "ShortTitleText": 1,
-      "ShortDescription": 2,
-      "BaseCostOfSoftware": 3,
-      "SpatialExtent": 4,
-      "ModelInputs": 5,
-      "ModelOutputTypes": 6
-    };
-    var id = table_reference+'-'+str.READResourceIdentifier;
-    table_reference = '#'+table_reference;
-    result = str;
-    var result_table = $(table_reference)[0];
-    var row = result_table.insertRow(1);
-    row.id = id;
-    row.setAttribute("data-read-id", str.READResourceIdentifier);
-    for (var key in row_template) {
-      var cell = row.insertCell(row_template[key]);
-      var columnnumber = row_template[key];
-      cell.style.fontSize = 'x-small';
-      var this_result;
-      switch (columnnumber) {
-        case 0: //Acronym
-          var AcronymData = str
-            .Acronym;
-          this_result = AcronymData;
-          break;
-        case 1: //ShortTitleText
-          var ShortTitleTextData = str
-            .LongTitleText;
-          this_result = ShortTitleTextData;
-          break;
-        case 2: //ShortDescription
-          var ShortDescriptionData = str
-            .LongDescription;
-          this_result = ShortDescriptionData;
-          break;
-        case 3: //DetailsBaseSoftwareCost
-          var DetailsBaseSoftwareCostData = str
-            .DetailsBaseSoftwareCost;
-          this_result = DetailsBaseSoftwareCostData;
-          break;
-        case 4: //SpatialExtent
-          var SpatialExtentData = str
-            .ModelScopeSpatialExtentDetail;
-          this_result = SpatialExtentData;
-          break;
-        case 5: //Model Inputs
-          var ModelOutputsTextAreaData = str
-            .ModelInputsTextArea;
-          this_result = ModelOutputsTextAreaData;
-          break;
-        case 6: //ModelOutputs
-          var ModelOutputsTextAreaData = str
-            .ModelOutputsModelVariablesTextArea;
-          this_result = ModelOutputsTextAreaData;
-        default:
-          this_result = "No Data Available";
+function addRow(parsedResult, tableId) {
+  try {  
+    //Create row
+    var rowData = [
+      parsedResult.Acronym,
+      parsedResult.LongTitleText,
+      parsedResult.LongDescription,
+      parsedResult.LongDescription,
+      parsedResult.DetailsBaseSoftwareCost,
+      parsedResult.DetailsBaseSoftwareCost,
+      parsedResult.ModelScopeSpatialExtentDetail,
+      parsedResult.ModelInputsTextArea,
+      parsedResult.ModelOutputsModelVariablesTextArea
+    ];
+    //limit to 140 characters
+    for (var i=0;i<rowData.length;i++){
+       if (rowData[i].length > 140) {
+        rowData[i] = rowData[i].substr(0, 140) + '...';
       }
-      if (this_result.length > 140) {
-        this_result = this_result.substr(0, 140) + '...';
-      }
-      cell.innerHTML = this_result;
     }
-    $(table_reference + " tr").click(function() {
-      showDetails(str.READResourceIdentifier);
-    });
-  } catch (err) {
-    console.log(err);
-    $(table_reference+' tr:last').remove();
+    //add row
+    $('#'+tableId).DataTable()
+      .row.add(rowData)
+      .draw()
+      .nodes().to$()
+      .addClass('row')
+      .attr('data-read-id',parsedResult.READResourceIdentifier)
+      .attr("id", 'saved-table-' + parsedResult.READResourceIdentifier)
+      .click(function() {
+        showDetails(parsedResult.READResourceIdentifier);
+      });
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -266,7 +227,7 @@ function removeSelected(divID) {
     if ($(this).prop("checked")) {
       savedTools.removeTool($(this).val());
       $('#'+divID + ' > #' + divID + '-' + $(this).val()).remove();
-      $('#saved-table-' + $(this).val()).remove();
+      $('#saved-table').DataTable().row($('#saved-table-'+$(this).val()).remove());
     }
   });
 }
@@ -278,8 +239,11 @@ function clearSaved(divID) {
   $('#'+divID +' input').each(function(){
     savedTools.removeTool($(this).val());
     $('#'+divID + ' > #' + divID + '-' + $(this).val()).remove();
-    $('#saved-table-' + $(this).val()).remove();
   });
+  var table = $('#saved-table').DataTable(); 
+  table
+    .clear()
+    .draw();
 }
 
 /**

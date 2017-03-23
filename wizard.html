@@ -188,7 +188,7 @@
     }
 
     /* Copied from search.html */
-  .revision-table tr ~ tr:hover {
+  .row:hover {
     background-color: #e7f4e4;
     cursor: pointer;
   }
@@ -328,7 +328,7 @@
                 <button class="button" onclick="clearSaved('saved-list')">Clear Saved</button>
                 <button class="button" onclick="exportAllCSV('saved-list')">Export CSV</button>
                 <table class="revision-table" id="saved-table" width="100%">
-                  <tbody>
+                  <thead>
                     <tr>
                       <th>Acronym</th>
                       <th>Title</th>
@@ -338,7 +338,8 @@
                       <th>Tool Inputs</th>
                       <th>Tool Outputs</th>
                     </tr>
-                  </tbody>
+                  </thead>
+                  <tbody id="saved-table-body"></tbody>
                 </table>
               </div>
               <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
@@ -357,10 +358,9 @@
                 <div id="results-list"></div>
               </div>
               <div aria-hidden="true" id="results-table-div">
-                <p>Your search results:</p>
                 <button class="button" onclick="saveAllRecords('results-table')">Save All</button>
                 <table class="revision-table" id="results-table" width="100%">
-                  <tbody>
+                  <thead>
                     <tr>
                       <th>Acronym</th>
                       <th>Title</th>
@@ -370,7 +370,8 @@
                       <th>Tool Inputs</th>
                       <th>Tool Outputs</th>
                     </tr>
-                  </tbody>
+                  </thead>
+                  <tbody id="results-table-body"></tbody>
                 </table>
               </div>
               <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
@@ -450,6 +451,9 @@
   <script src="https://www.epa.gov/sites/all/libraries/template2/jquery.js"></script>
   <script src="https://www.epa.gov/sites/all/libraries/template2/js.js"></script>
   <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables/media/css/jquery.dataTables.min.css">
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables/media/js/jquery.dataTables.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables/extras/Responsive/js/dataTables.responsive.min.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/porter-stemmer.js"></script>
   <script src="js/base.js"></script>
@@ -471,6 +475,31 @@ $(function() { // jquery's shorthand awaits readiness of document
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
   // initialize tabs and their listeners
   initializeTabs();
+  $("#results-table").DataTable({
+    responsive: true,
+    "paging": false
+  });
+  $("#saved-table").DataTable({
+    responsive: true,
+    "paging": false
+  });
+
+  $("#building-infrastructure-table").DataTable({
+    responsive: true,
+    "paging": false
+  });
+  $("#land-use-table").DataTable({
+    responsive: true,
+    "paging": false
+  });
+  $("#waste-management-table").DataTable({
+    responsive: true,
+    "paging": false
+  });
+  $("#transportation-table").DataTable({
+    responsive: true,
+    "paging": false
+  });
 });
 
 /**

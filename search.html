@@ -45,7 +45,7 @@
     background-color: rgb(221, 206, 204);
   }
   /* make results responsive */
-  .revision-table tr ~ tr:hover {
+  .row:hover {
     background-color: #e7f4e4;
     cursor: pointer;
   }
@@ -275,7 +275,7 @@
                     <div class="browse-table-div" aria-hidden="true">
                       <button class="button" onclick="saveAllRecords('building-infrastructure-table')">Save All</button>
                       <table class="revision-table" id="building-infrastructure-table" width="100%">
-                        <tbody>
+                        <thead>
                           <tr>
                             <th>Acronym</th>
                             <th>Title</th>
@@ -285,7 +285,8 @@
                             <th>Tool Inputs</th>
                             <th>Tool Outputs</th>
                           </tr>
-                        </tbody>
+                        </thead>
+                        <tbody></tbody>
                       </table>
                     </div>
                     <div class="browse-list-div">
@@ -300,7 +301,7 @@
                     <div class="browse-table-div" aria-hidden="true">
                       <button class="button" onclick="saveAllRecords('land-use-table')">Save All</button>
                       <table class="revision-table" id="land-use-table" width="100%">
-                        <tbody>
+                        <thead>
                           <tr>
                             <th>Acronym</th>
                             <th>Title</th>
@@ -310,7 +311,8 @@
                             <th>Tool Inputs</th>
                             <th>Tool Outputs</th>
                           </tr>
-                        </tbody>
+                        </thead>
+                        <tbody></tbody>
                       </table>
                     </div>
                     <div class="browse-list-div">
@@ -325,7 +327,7 @@
                     <div class="browse-table-div" aria-hidden="true">
                       <button class="button" onclick="saveAllRecords('transportation-table')">Save All</button>
                       <table class="revision-table" id="transportation-table" width="100%">
-                        <tbody>
+                        <thead>
                           <tr>
                             <th>Acronym</th>
                             <th>Title</th>
@@ -335,7 +337,8 @@
                             <th>Tool Inputs</th>
                             <th>Tool Outputs</th>
                           </tr>
-                        </tbody>
+                        </thead>
+                       <tbody></tbody>
                       </table>
                     </div>
                     <div class="browse-list-div">
@@ -350,7 +353,7 @@
                     <div class="browse-table-div" aria-hidden="true">
                       <button class="button" onclick="saveAllRecords('waste-management-table')">Save All</button>
                       <table class="revision-table" id="waste-management-table" width="100%">
-                        <tbody>
+                        <thead>
                           <tr>
                             <th>Acronym</th>
                             <th>Title</th>
@@ -360,7 +363,8 @@
                             <th>Tool Inputs</th>
                             <th>Tool Outputs</th>
                           </tr>
-                        </tbody>
+                        </thead>
+                       <tbody></tbody>
                       </table>
                     </div>
                     <div class="browse-list-div">
@@ -388,7 +392,7 @@
                   <button class="button" onclick="saveAllRecords('results-table')">Save All</button>
                   <button class="button" onclick="exportAllCSV('results-list')">Export CSV</button>
                   <table class="revision-table" id="results-table" width="100%">
-                    <tbody>
+                    <thead>
                       <tr>
                         <th>Acronym</th>
                         <th>Title</th>
@@ -398,7 +402,8 @@
                         <th>Tool Inputs</th>
                         <th>Tool Outputs</th>
                       </tr>
-                    </tbody>
+                    </thead>
+                       <tbody></tbody>
                   </table>
                 </div>
               </div>
@@ -425,7 +430,7 @@
                   <button class="button" onclick="clearSaved('saved-list')">Clear Saved</button>
                   <button class="button" onclick="exportAllCSV('saved-list')">Export CSV</button>
                   <table class="revision-table" id="saved-table" width="100%">
-                    <tbody>
+                    <thead>
                       <tr>
                         <th>Acronym</th>
                         <th>Title</th>
@@ -435,7 +440,8 @@
                         <th>Tool Inputs</th>
                         <th>Tool Outputs</th>
                       </tr>
-                    </tbody>
+                    </thead>
+                       <tbody></tbody>
                   </table>
                 </div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
@@ -517,6 +523,9 @@
   <script src="https://www.epa.gov/sites/all/libraries/template2/jquery.js"></script>
   <script src="https://www.epa.gov/sites/all/libraries/template2/js.js"></script>
   <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables/media/css/jquery.dataTables.min.css">
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables/media/js/jquery.dataTables.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables/extras/Responsive/js/dataTables.responsive.min.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/base.js"></script>
 <script>
@@ -527,6 +536,14 @@ var resourceDetailURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceDetai
 // do fn on document's ready
 $(function() { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
+  $("#results-table").DataTable({
+    responsive: true,
+    "paging": false
+  });
+  $("#saved-table").DataTable({
+    responsive: true,
+    "paging": false
+  });
 });
 
 // DOCUMENT
