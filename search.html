@@ -561,18 +561,6 @@ var initializeTabs = function() {
   });
 };
 
-//Clear Results
-function clearResults() {
-  var result_table = document.getElementById('results-table');
-  while (result_table.rows.length != 1) {
-    try {
-      result_table.deleteRow(1);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-}
-
 /**
  * Expand an array of data-objects to add a member of name
  * fieldName for each value from fieldValues.
@@ -605,7 +593,7 @@ function addMembers(dataList, fieldName, fieldValues) {
 */
 var detailedSearch = function() {
   //clear result table
-  clearResults();
+  $('#results-table').DataTable().clear().draw();
   //clear result div
   $('#results-list *').remove(); //clears for new results
   //clear result set
@@ -692,7 +680,7 @@ var parseResultsArray = function(results) {
 
 simpleSearch = function() {
   //clear result table
-  clearResults();
+  $('#results-table').DataTable().clear().draw();
   //clear result list
   $('#results-list *').remove(); //clears for new results
   //clear result data
