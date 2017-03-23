@@ -42,11 +42,12 @@
       }
     }
     .next{
+      /* hide until useful */
+      display: none;
       position: fixed;
-      bottom: 1ex;
-      right: 1em;
+      bottom: .5em;
+      right: 50%;
       margin: 0 auto;
-      border: 2vh solid green;
     }
     label{
       border-radius: .5em;
@@ -258,6 +259,7 @@
                 <div id="results-notification"></div>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+                <button class="next enabled-by-concept" disabled onclick="$('#concept-search-button').click()">Find Tools</button>
               </div>
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
                 <button class="button" onclick="saveRecord()">Save Record</button>
@@ -546,8 +548,10 @@ var toggleNext = function(list, nextButtonClassSubstring) {
   var nextButtonSelector = '.enabled-by-'+nextButtonClassSubstring; // identify next button by who enables it
   if (list.length > 0 || Object.keys(list).length > 0) {
     $(nextButtonSelector).prop('disabled',false);
+    $(nextButtonSelector).css('display','inline');
   }else{
     $(nextButtonSelector).prop('disabled',true);
+    $(nextButtonSelector).css('display','none');
   }
 };
 

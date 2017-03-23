@@ -197,6 +197,9 @@ backlog to track work to be done and by whom
 - add toolset, toolcache, and tooldisplay objects
 	- seth: done
 
+- hide .next until usable
+  -kyle: done
+
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -272,3 +275,16 @@ backlog to track work to be done and by whom
 - combine simple search and detailed search?
 
 - eliminate tabs on pages other than wizard?
+
+- create fixed menu with links to top, bottom, next button, and toasting messages?
+
+- toasts to show features in optional walkthrough?
+
+- create accessible notification system?
+  - accessibility requires all info can be found by all users
+  - possible steps in escalation of aggressiveness:
+    1. aria-live="off"
+    2. aria-live="polite"
+    3. aria-live="assertive"
+    4. role="alert"
+      - raises elements to OS's assistive technologies
