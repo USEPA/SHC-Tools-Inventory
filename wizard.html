@@ -50,9 +50,8 @@
       margin: 0 auto;
     }
 
-    /* toast example copied from w3schools.com: */
     /* The toast - position it at the bottom and in the middle of the screen */
-    #toast {
+    #toast, #notice {
         visibility: hidden; /* Hidden by default. Visible on click */
         min-width: 250px; /* Set a default minimum width */
         margin-left: -125px; /* Divide value of min-width by 2 */
@@ -66,13 +65,13 @@
         left: 50%; /* Center the toast */
         bottom: 30px; /* 30px from the bottom */
     }
-    /* Show the toast when clicking on a button (class added with JavaScript) */
-    #toast.show {
+    /* Show the toast. Show and animate with addition of class. */
+    #toast.show, #notice.show {
         visibility: visible; /* Show the toast */
     /* Add animation: Take 0.5 seconds to fade in and out the toast. 
-    However, delay the fade out process for 2.5 seconds */
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    However, delay the fade out process for 5 seconds */
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 5s;
+        animation: fadein 0.5s, fadeout 0.5s 5s;
     }
     /* Animations to fade the toast in and out */
     @-webkit-keyframes fadein {
@@ -238,7 +237,7 @@
       <div class="panel-pane pane-node-content">
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
-            <div aria-live="assertive" id="toast">Notice the new button at the bottom of the screen to proceed to new next tab.</div>
+            <div aria-live="polite" id="toast">Notice the new button at the bottom of the screen to proceed to new next tab.</div>
             <div id="tabs">
               <ul class="tabs" id="tabsnav" role="tablist">
                 <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal" href="#tabsnav" id="role-tab" role="tab">Role >></a></li>
@@ -492,16 +491,47 @@ $(function() { // jquery's shorthand awaits readiness of document
 });
 
 /**
- * toast example copied from w3shools.com
- * alert with toast
+ * accessibly notify users of information
+ *
+ * @param {object} parameters:
+ *   - parameters.css - contains arbitrary css for this notice
+ *                      as parameters.css[<key>] = <value>
+ *   - parameters.text - text to notify with possibly embedded html
+ *   - parameters.priority - sets priority metadata for assistive technology
+ *                         - can be 'polite' or 'interrupt'
 */
-var toast = function() {
-    // Get the toast DIV
-    var toast = document.getElementById('toast')
-    // Add the "show" class to DIV
-    toast.className = "show";
-    // After 3 seconds, remove the show class from DIV
-    setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+var toast = function(parameters) {
+  // parametrize common literals up top like a best-practice-adherent coder
+  noticeID = 'toast';
+  $notice = $('#'+noticeID);
+  // grab parameters
+  if (typeof parameters != 'undefined') {// does parameters object exist?
+    for (parameter in parameters) {
+      // set css rules
+      if (parameter === 'css') {
+        for (property in parameters[parameter]) {
+          $notice.css(property, parameters[parameter][property]);
+        }
+      }
+      if (parameter === 'text') {
+        $notice.innerHTML(parameters[parameter]);
+      }
+      if (parameter === 'priority') {
+        if (parameters[parameter] === 'polite') {
+          $notice.attr('aria-live', 'polite');
+        }
+        if (parameters[parameter] === 'interrupt') {
+          $notice.attr('aria-live', 'assertive');
+        }
+      }
+    }
+  }
+  // Get the toast DIV
+  var notice = document.getElementById(noticeID)
+  // Add the "show" class to notice
+  notice.className = 'show';
+  // remove the show class from notice after 5 seconds
+  setTimeout(function(){ notice.className = notice.className.replace("show", ""); }, 5000);
 }
 
 /**
