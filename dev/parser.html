@@ -33,12 +33,12 @@
 <script src="papaparse.js"></script>
 <script>
 
-/** requires papaparse.js loaded */
 function getData(){
   var data = document.getElementById('input').value;
   return data;
 }
 
+/** requires papaparse.js loaded */
 function parseData(gottenData=getData()){
   // use header
   // correct newline for ms xl
@@ -160,6 +160,7 @@ function copyToClipboard(elementId) {
   document.execCommand("copy");
   document.body.removeChild(hiddenInput);
 }
+
 </script>
 </body>
 <html>
