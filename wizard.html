@@ -760,7 +760,7 @@ var scrapeDictionaryToObject = function(selectedOptions, dictionary) {
  * add checkboxes with text of name to container with containerId
  */
 function addCheckboxes(list, container, onChange, count) {
-  onChange = (typeof onChange !== 'undefined') ? onChange : "";
+  onChange = (typeof onChange !== 'undefined') ? 'onchange="'+onChange+'"' : "";
   count = (typeof count !== 'undefined') ? count : "0";
   var containerName = container.attr('id');
   var inputs = container.children('input');
@@ -770,10 +770,10 @@ function addCheckboxes(list, container, onChange, count) {
   for (var i=0;i<list.length;i++) {
     if (leafNodes.indexOf(list[i]) !== -1 && developer) {
       disabled = ' disabled';
-      html += '<input class="tool-label" type="checkbox" id="cb-'+containerName+'-'+count+'-'+id+'" value="'+list[i]+'" name="'+containerName+'-checkbox" onchange="'+onChange+'"'+disabled+' </input><label for="cb-'+containerName+'-'+count+'-'+id+'" class="unselectable">'+list[i]+'</label>';
+      html += '<input class="tool-label" type="checkbox" id="cb-'+containerName+'-'+count+'-'+id+'" value="'+list[i]+'" name="'+containerName+'-checkbox" '+onChange+disabled+' /><label for="cb-'+containerName+'-'+count+'-'+id+'" class="unselectable">'+list[i]+'</label>';
       id++;
     } else if (leafNodes.indexOf(list[i]) === -1) {
-      html += '<input class="tool-label" type="checkbox" id="cb-'+containerName+'-'+count+'-'+id+'" value="'+list[i]+'" name="'+containerName+'-checkbox" onchange="'+onChange+'" </input><label for="cb-'+containerName+'-'+count+'-'+id+'" class="unselectable">'+list[i]+'</label>';
+      html +=     '<input class="tool-label" type="checkbox" id="cb-'+containerName+'-'+count+'-'+id+'" value="'+list[i]+'" name="'+containerName+'-checkbox" '+onChange+' /><label for="cb-'+containerName+'-'+count+'-'+id+'" class="unselectable">'+list[i]+'</label>';
       id++;
     } 
   }
