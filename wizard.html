@@ -1420,13 +1420,6 @@ var broadenConcepts = function() {
  * @arg $tabContainer the container for the tabs
  */
 var activateNextTab = function($nextTab) {
-  $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected','false');// deactivate active tab
-  $nextTab.attr('aria-selected','true');// list this tab as active
-  $nextTab.prop('disabled',false);// enable tab
-  $nextTab.click();// activate tab
-  $nextTab.focus();// focus tab
-  //location.hash = '#explore-role-tab';// not working...
-  $nextTab[0].scrollIntoView();
   if ($nextTab.parent().attr('aria-hidden') === 'true') {
   } else {
     $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected','false');// deactivate active tab
