@@ -200,6 +200,13 @@ backlog to track work to be done and by whom
 - hide .next until usable
   -kyle: done
 
+- fix next button
+  - kyle: done
+
+- notify to proceed using toast()
+  - give button to disable proceed-notifications
+  - kyle:done
+
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -296,4 +303,3 @@ backlog to track work to be done and by whom
     - text
     - color
 
-- fix next button

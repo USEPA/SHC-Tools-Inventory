@@ -50,7 +50,7 @@
       margin: 0 auto;
     }
 
-    /* The toast - position it at the bottom and in the middle of the screen */
+    /* position at the middle-top of the screen */
     #toast, #notice {
         visibility: hidden; /* Hidden by default. Visible on click */
         min-width: 250px; /* Set a default minimum width */
@@ -62,33 +62,33 @@
         padding: 16px; /* Padding */
         position: fixed; /* Sit on top of the screen */
         z-index: 1; /* Add a z-index if needed */
-        left: 50%; /* Center the toast */
-        bottom: 30px; /* 30px from the bottom */
+        left: 50%; /* Center the notification */
+        top: .5em; /* 30px from the top */
     }
-    /* Show the toast. Show and animate with addition of class. */
+    /* Show the notification. Show and animate with addition of class. */
     #toast.show, #notice.show {
-        visibility: visible; /* Show the toast */
-    /* Add animation: Take 0.5 seconds to fade in and out the toast. 
+        visibility: visible; /* Show the notification */
+    /* Add animation: Take 0.5 seconds to fade in and out the notification. 
     However, delay the fade out process for 5 seconds */
         -webkit-animation: fadein 0.5s, fadeout 0.5s 5s;
         animation: fadein 0.5s, fadeout 0.5s 5s;
     }
-    /* Animations to fade the toast in and out */
+    /* Animations to fade notification in and out */
     @-webkit-keyframes fadein {
-        from {bottom: 0; opacity: 0;} 
-        to {bottom: 30px; opacity: 1;}
+        from {top: 0; opacity: 0;} 
+        to {top: 30px; opacity: 1;}
     }
     @keyframes fadein {
-        from {bottom: 0; opacity: 0;}
-        to {bottom: 30px; opacity: 1;}
+        from {top: 0; opacity: 0;}
+        to {top: 30px; opacity: 1;}
     }
     @-webkit-keyframes fadeout {
-        from {bottom: 30px; opacity: 1;} 
-        to {bottom: 0; opacity: 0;}
+        from {top: 30px; opacity: 1;} 
+        to {top: 0; opacity: 0;}
     }
     @keyframes fadeout {
-        from {bottom: 30px; opacity: 1;}
-        to {bottom: 0; opacity: 0;}
+        from {top: 30px; opacity: 1;}
+        to {top: 0; opacity: 0;}
     }
 
     label{
@@ -237,7 +237,7 @@
       <div class="panel-pane pane-node-content">
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
-            <div aria-live="polite" id="toast">Notice the button at the bottom of the screen that proceeds to next tab.</div>
+            <div aria-live="polite" id="toast">ORIGINAL TEXT</div>
             <div id="tabs">
               <ul class="tabs" id="tabsnav" role="tablist">
                 <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal" href="#tabsnav" id="role-tab" role="tab">Role >></a></li>
@@ -468,6 +468,7 @@ var resourceDetailURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceDetai
 var advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","OwnershipType","OtherCostConsiderations","OpenSource","AlternativeNames","Keywords","Organization","ContactPerson","Email","Internet","LifeCycle","OperatingEnvironment","CompatibleOperatingSystems","OtherPropSoftwareReqs","ModelInputs","DataRequirements","ModelOutputTypes","OutputVariables","SourceOfSupportMaterials","TypesOfSupportMaterials","ModelEvaluation","ModelStructure","TimeScale","SpatialExtent","TechSkills","BaseCostOfSoftware","StewardDefinedTags","DecisionSector","Format"];
 // details at READ web services' docs-page
 var decisionSectors = ['land use','transportation','building infrastructure','waste management'];
+var showToast = true;
 
 $(function() { // jquery's shorthand awaits readiness of document
   // populate the roles into #role div
@@ -501,9 +502,12 @@ $(function() { // jquery's shorthand awaits readiness of document
  * @param {object} parameters:
  *   - parameters.css - contains arbitrary css for this notice
  *                      as parameters.css[<key>] = <value>
- *   - parameters.text - text to notify with possibly embedded html
+ *                    - is JSON-object
+ *   - parameters.html - html for notifier
  *   - parameters.priority - sets priority metadata for assistive technology
- *                         - can be 'polite' or 'interrupt'
+ *                         - can be 'polite' or 'assertive'
+ *                         - assertive interrupts user
+ *   - parameters.container - ID of container to use for alert
 */
 var toast = function(parameters) {
   // parametrize common literals up top like a best-practice-adherent coder
@@ -511,6 +515,10 @@ var toast = function(parameters) {
   $notice = $('#'+noticeID);
   // grab parameters
   if (typeof parameters != 'undefined') {// does parameters object exist?
+    if (typeof parameters['container'] != 'undefined') {
+      noticeID = parameters['container'];
+      $notice = $('#'+noticeID);
+    }
     for (parameter in parameters) {
       // set css rules
       if (parameter === 'css') {
@@ -518,26 +526,26 @@ var toast = function(parameters) {
           $notice.css(property, parameters[parameter][property]);
         }
       }
-      if (parameter === 'text') {
-        $notice.innerHTML(parameters[parameter]);
+      if (parameter === 'html') {
+        $notice.html(parameters[parameter]);
       }
       if (parameter === 'priority') {
         if (parameters[parameter] === 'polite') {
           $notice.attr('aria-live', 'polite');
         }
-        if (parameters[parameter] === 'interrupt') {
+        if (parameters[parameter] === 'assertive') {
           $notice.attr('aria-live', 'assertive');
         }
       }
     }
   }
-  // Get the toast DIV
+  // Get the notification element
   var notice = document.getElementById(noticeID)
   // Add the "show" class to notice
   notice.className = 'show';
   // remove the show class from notice after 5 seconds
   setTimeout(function(){ notice.className = notice.className.replace("show", ""); }, 5000);
-}
+};
 
 /**
  * initialize tabs; create listener for swithing tabs
@@ -597,10 +605,6 @@ var updateInterface = function(list, $container, onChange){
   var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
   // toggle next
   toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
-  // toast!(fire only if a role is selected so that no fire on initialize)
-  if ($('#role :checked').length >= 1) {
-    toast();
-  }
 };
 
 /**
@@ -661,11 +665,16 @@ var populateWithHeader = function(list, $container, onChange) {
 var toggleNext = function(list, nextButtonClassSubstring) {
   var nextButtonSelector = '.enabled-by-'+nextButtonClassSubstring; // identify next button by who enables it
   if (list.length > 0 || Object.keys(list).length > 0) {
-    $(nextButtonSelector).prop('disabled',false);
-    $(nextButtonSelector).css('display','inline');
+    $(nextButtonSelector)
+      .prop('disabled',false)
+      .css('display','inline');
+    if ($('#role :checked').length > 0 && showToast == true) {
+      toast({'html':'Click either the button at the bottom of the screen or the next tab to proceed when ready.<button onclick="showToast = false">Disable these messages</button>'});
+    }
   }else{
-    $(nextButtonSelector).prop('disabled',true);
-    $(nextButtonSelector).css('display','none');
+    $(nextButtonSelector)
+      .prop('disabled',true)
+      .css('display','none');
   }
 };
 
