@@ -200,6 +200,13 @@ backlog to track work to be done and by whom
 - hide .next until usable
   -kyle: done
 
+- fix next button
+  - kyle: done
+
+- notify to proceed using toast()
+  - give button to disable proceed-notifications
+  - kyle:done
+
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -289,3 +296,10 @@ backlog to track work to be done and by whom
     3. aria-live="assertive"
     4. role="alert"
       - raises elements to OS's assistive technologies
+
+- make toast-notification into function
+  - parameters:
+    - priority
+    - text
+    - color
+
