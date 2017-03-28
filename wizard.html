@@ -491,8 +491,17 @@ $(function() { // jquery's shorthand awaits readiness of document
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
   // initialize tabs and their listeners
   initializeTabs();
-  $("#results-table").DataTable({
+  // [Violation] 'DOMContentLoaded' handler took 261ms
+  var table = $("#results-table").DataTable({
     responsive: true
+  });
+  $('#results-table tbody').on( 'click', 'tr', function () {
+    if ($(this).hasClass('selected')) {
+      $(this).removeClass('selected');
+    }
+    else {
+      $(this).addClass('selected');
+    }
   });
 });
 
