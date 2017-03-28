@@ -192,6 +192,51 @@
     background-color: #e7f4e4;
     cursor: pointer;
   }
+  .button-aqua{
+    background-color: #02bfe7;
+    color:#000;
+  }
+  .button-aqua:hover,.button-aqua:focus{
+    background-color: #00a6d2;
+  }
+  .button-aqua:active{
+    background-color: #046b99;
+    color:#fff;
+  }
+  .button-red{
+    background-color: #e31c3d;
+  }
+  .button-red:hover,.button-red:focus{
+    background-color: #cd2026;
+  }
+  .button-red:active{
+    background-color: #981b1e;
+  }
+  .button-grey{
+    background-color: #5b616b;
+    color:#fff;
+  }
+  .button-grey:hover,.button-grey:focus{
+    background-color: #323a45;
+    color:#fff;
+  }
+  .button-grey:active{
+    background-color: #212121;
+    color:#fff;
+  }
+  .button-white{
+    background-color: #fff;
+    box-shadow: inset 0 0 0 2px #0071bc;
+    color: #0071bc;
+  }
+  .button-white:hover,.button-white:focus{
+    background-color: #fff;
+    box-shadow: inset 0 0 0 2px #205493;
+    color: #205493;
+  }
+  .button-white:active{
+    background-color: #fff;
+    box-shadow: inset 0 0 0 2px #112e51;
   </style>
 </head>
 <!-- NOTE, figure out body classes! -->
@@ -255,8 +300,8 @@
                 <h3>Roles</h3>
                 <p>Select relevant roles and proceed to the subrole-tab.</p>
                 <hr />
-                <button onclick="selectAll('role')">Select All Roles</button>
-                <button onclick="deselectAll('role')">Deselect All Roles</button>
+                <button class="button-grey" onclick="selectAll('role')">Select All Roles</button>
+                <button class="button-grey" onclick="deselectAll('role')">Deselect All Roles</button>
                 <div id="role"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
@@ -264,8 +309,8 @@
                 <h3>Subroles</h3>
                 <p>Select subroles and proceed to the fundamental objective-tab.</p>
                 <hr />
-                <button onclick="selectAll('subrole')">Select All Subroles</button>
-                <button onclick="deselectAll('subrole')">Deselect All Subroles</button>
+                <button class="button-grey" onclick="selectAll('subrole')">Select All Subroles</button>
+                <button class="button-grey" onclick="deselectAll('subrole')">Deselect All Subroles</button>
                 <div id="subrole"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
@@ -273,8 +318,8 @@
                 <h3>Fundamental Objectives</h3>
                 <p>Select fundamental objectives and proceed to the objective-tab.</p>
                 <hr />
-                <button onclick="selectAll('fundamental-objective')">Select All Fundamental Objectives</button>
-                <button onclick="deselectAll('fundamental-objective')">Deselect All Fundamental Objectives</button>
+                <button class="button-grey" onclick="selectAll('fundamental-objective')">Select All Fundamental Objectives</button>
+                <button class="button-grey" onclick="deselectAll('fundamental-objective')">Deselect All Fundamental Objectives</button>
                 <div id="fundamental-objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
@@ -283,27 +328,27 @@
                 <p>Select objectives and proceed to the concept-tab.</p>
                 <hr />
                 <input id="objective-relevance" type="hidden" value="1" />
-                <button onclick="selectAll('objective')">Select All Objectives</button>
-                <button onclick="deselectAll('objective')">Deselect All Objectives</button>
-                <button onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show Fewer Objectives</button>
-                <button onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show More Objectives</button>
+                <button class="button-grey" onclick="selectAll('objective')">Select All Objectives</button>
+                <button class="button-grey" onclick="deselectAll('objective')">Deselect All Objectives</button>
+                <button class="button-white" onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show Fewer Objectives</button>
+                <button class="button-white" onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show More Objectives</button>
                 <div id="objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
                 <h3>Concepts</h3>
                 <p>Select concepts and use the <strong>Find Tools by Concept</strong>-tab to display a list of tools. Using the <strong>Add Additional Concepts</strong>-button will add concepts related to selected concepts.</p>
-                <hr />
-                <button onclick="selectAll('concept')">Select All Concepts</button>
-                <button onclick="deselectAll('concept')">Deselect All Concepts</button>
-                <button id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
-                <button id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
+                <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
                 <div id="results-notification"></div>
+                <hr />
+                <button class="button-grey" onclick="selectAll('concept')">Select All Concepts</button>
+                <button class="button-grey" onclick="deselectAll('concept')">Deselect All Concepts</button>
+                <button class="button-white" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
-                <button class="button" onclick="saveRecord()">Save Record</button>
+                <button class="button-aqua" class="button" onclick="saveRecord()">Save Record</button>
                 <div id="selected-tool"></div>
               </div>
               <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
