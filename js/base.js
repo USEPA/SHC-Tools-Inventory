@@ -195,8 +195,6 @@ function createRow(parsedResult) {
     parsedResult.Acronym,
     parsedResult.LongTitleText,
     parsedResult.LongDescription,
-    parsedResult.LongDescription,
-    parsedResult.DetailsBaseSoftwareCost,
     parsedResult.DetailsBaseSoftwareCost,
     parsedResult.ModelScopeSpatialExtentDetail,
     parsedResult.ModelInputsTextArea,
