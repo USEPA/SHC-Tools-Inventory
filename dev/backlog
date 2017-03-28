@@ -207,6 +207,27 @@ backlog to track work to be done and by whom
   - give button to disable proceed-notifications
   - kyle:done
 
+- create accessible notification system?
+  - accessibility requires all info can be found by all users
+  - informing assistive technologies is described here https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions#Live_Region_State
+  - possible steps in escalation of aggressiveness:
+    1. aria-live="off"
+    2. aria-live="polite"
+    3. aria-live="assertive"
+    4. role="alert"
+      - raises elements to OS's assistive technologies
+  - kyle: done
+
+- make toast-notification into function
+  - parameters:
+    - priority
+    - html
+    - css
+    - container
+  - kyle: done
+
+- create getSelectedConceptsAssociatedWithTool(toolID)
+  - kyle: done
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -267,8 +288,6 @@ backlog to track work to be done and by whom
 - #BUG #BOTH Operating Environment not showing for tools with multiple OEs
  - Envision Tomorrow and eSight should have OE "Browser, Desktop" instead have "no data" or blank entries
 
-- Possibly rework the autocomplete functionality
-
 - Sorting/filtering result table (EPA Style guide has a link to a DataTable jquery library we like, you can see it in action here: https://www.epa.gov/superfund/search-superfund-sites-where-you-live) 
 
 - Clickable URLs on detail page
@@ -287,19 +306,9 @@ backlog to track work to be done and by whom
 
 - toasts to show features in optional walkthrough?
 
-- create accessible notification system?
-  - accessibility requires all info can be found by all users
-  - informing assistive technologies is described here https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions#Live_Region_State
-  - possible steps in escalation of aggressiveness:
-    1. aria-live="off"
-    2. aria-live="polite"
-    3. aria-live="assertive"
-    4. role="alert"
-      - raises elements to OS's assistive technologies
+- bridle rogue next button for paginated table
 
-- make toast-notification into function
-  - parameters:
-    - priority
-    - text
-    - color
+- table double-prints columns description and base-cost
 
+- Possibly rework the autocomplete functionality
+  - kyle: WIP

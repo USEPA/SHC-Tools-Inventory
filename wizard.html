@@ -954,15 +954,15 @@ var getKeywords = function(input) {
 //START TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
 /**
  * display details of parsedResult in container with containerId
- * dev aspiration: dynamically append spans and dynamically apply
- *                 .left class or .right class to each in order
- *                 to balance columns
+ *
+ * @param parsedResult {object} single tool with keys naming details
+ * @param containerID {positive int} ID of containing element
  */
 function addDiv(parsedResult, containerId) {
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
   var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
-  var container = $('#'+containerId);
-  $(container).append(
+  var $container = $('#'+containerId);
+  $($container).append(
     $('<div />')
       .attr('id', containerId+'-'+parsedResult.READResourceIdentifier)
       .addClass('list-div')
@@ -1014,6 +1014,7 @@ function addDiv(parsedResult, containerId) {
               .append($('<span />').html('<span class="bold">Other Technical Requirements</span>: '+parsedResult.OtherReqName+'<br />'))
               .append($('<span />').html('<span class="bold">Model Inputs</span>: '+parsedResult.ModelInputsTextArea+'<br />'))
               .append($('<span />').html('<span class="bold">Model Outputs</span>: '+parsedResult.ModelOutputsModelVariablesTextArea+'<br />'))
+              .append($('<span />').html('<span class="bold">Selected Concepts</span>: '+getSelectedConceptsAssociatedWithTool(parsedResult.READResourceIdentifier)+'<br />'))
               .append($('<span />').html('<span class="bold">External Details</span>: <a href="'+prefixForExternalDetails+parsedResult.READResourceIdentifier+'" target="_blank">View Details Externally</a><br />')))
           .append(
             $('<div />')
@@ -1038,7 +1039,26 @@ function addDiv(parsedResult, containerId) {
           )
       )
   );
-}
+};
+
+/**
+ * return selected concepts associated with given toolID
+ */
+var getSelectedConceptsAssociatedWithTool = function(toolID) {
+  var selectedConceptsAssociatedWithTool = [];
+  var selectedConcepts = $('input[name="concept-checkbox"]:checked');
+  var toolConcepts = getToolConcepts(toolID);
+  // build array of tool's associated concepts that are selected
+  for (var i in selectedConcepts) {
+    for (var j in toolConcepts) {
+      if (selectedConcepts[i].value === toolConcepts[j]) {
+        selectedConceptsAssociatedWithTool.push(selectedConcepts[i].value);
+      }
+    }
+  }
+  // return array of selected concepts associated with tool
+  return selectedConceptsAssociatedWithTool
+};
 
 /**
  * map details of a result into accessible locations
@@ -1104,7 +1124,7 @@ var parseResult = function(result) {
    * @arg map{object} decode values with map[object[propertyName]] or map[object[0][propertyName]]
    * READ Web Services return one value if only one value exists. If several values then they're in an array.
    * There are various data-standards used in READ, like storing integers in place of strings for options.
-  */
+   */
   function mapAll(field, propertyName, map) {//
     if (typeof propertyName != 'undefined') {// arg propertyName passed?
       if (field[propertyName]) {return map[field[propertyName]];}// money-shot!
@@ -1203,8 +1223,8 @@ var parseResult = function(result) {
 
 /**
  * check existence of each prop_i in obj.prop_1...prop_n
- * @arg object{object} test the properties of object
- * @arg propertyArray{array} [prop_1,...,prop_n] s.t.
+ * @param object{object} test the properties of object
+ * @param propertyArray{array} [prop_1,...,prop_n] s.t.
  *      object[prop_1][...][prop_n] is the desired value
  * E.G.: readSafe(obj,['foo','bar','baz'])
  * safely returns obj.foo.bar.baz value if all properties exist
@@ -1262,7 +1282,7 @@ var isNil = function(obj) {
       obj.hasOwnProperty('xsi:nil')||
       obj===null||
       obj===''||
-      obj==='no data'
+      String(obj).toLowerCase()==='no data'
   );
 };
 
@@ -1273,13 +1293,13 @@ var isNil = function(obj) {
 var validata = function(obj) {
   try{
     if(isNil(obj)) {
-      return 'no data';
+      return 'No Data';
     }else{
       return obj;
     }
   }catch(e) {
-    console.log('caught this error while parsing: ',e);
-    return 'no data';
+    console.log('caught this error while validating: ',e);
+    return 'No Data';
   }
 };
 //END TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
@@ -1321,6 +1341,9 @@ function conceptDplLinks(){
   }
 }
 
+/**
+ * collect all concepts related to toolId in readIDsByConept
+ */
 function getToolConcepts(toolId){
   var concepts = [];
   for (var concept in readIDsByConcept) {
