@@ -123,7 +123,13 @@ ToolDisplay.prototype.isDisplayed = function() {
 
 ToolDisplay.prototype.displayTool = function(data) {
   this.getToolSet().addTool(data.READResourceIdentifier);
-  addRow(data, this.getTableId());
+  addRow(data, this.getTableId(), createRow(data));
+  addDiv(data, this.getListId());
+};
+
+ToolDisplay.prototype.displayToolSet = function(data) {
+  this.getToolSet().addTool(data.READResourceIdentifier);
+  addRow(data, this.getTableId(), createRow(data));
   addDiv(data, this.getListId());
 };
 /**
@@ -181,42 +187,45 @@ $('[name="browse-display-type"]').change(function(){
 });
 
 /**
+ * Create a DataTable row
+*/
+function createRow(parsedResult) {
+  //Create row
+  var rowData = [
+    parsedResult.Acronym,
+    parsedResult.LongTitleText,
+    parsedResult.LongDescription,
+    parsedResult.LongDescription,
+    parsedResult.DetailsBaseSoftwareCost,
+    parsedResult.DetailsBaseSoftwareCost,
+    parsedResult.ModelScopeSpatialExtentDetail,
+    parsedResult.ModelInputsTextArea,
+    parsedResult.ModelOutputsModelVariablesTextArea
+  ];
+  //limit to 140 characters
+  for (var i=0;i<rowData.length;i++){
+     if (rowData[i].length > 140) {
+      rowData[i] = rowData[i].substr(0, 140) + '...';
+    }
+  }
+  return rowData;
+}
+/**
  * Add a row to a data table
 */
-function addRow(parsedResult, tableId) {
-  try {  
-    //Create row
-    var rowData = [
-      parsedResult.Acronym,
-      parsedResult.LongTitleText,
-      parsedResult.LongDescription,
-      parsedResult.LongDescription,
-      parsedResult.DetailsBaseSoftwareCost,
-      parsedResult.DetailsBaseSoftwareCost,
-      parsedResult.ModelScopeSpatialExtentDetail,
-      parsedResult.ModelInputsTextArea,
-      parsedResult.ModelOutputsModelVariablesTextArea
-    ];
-    //limit to 140 characters
-    for (var i=0;i<rowData.length;i++){
-       if (rowData[i].length > 140) {
-        rowData[i] = rowData[i].substr(0, 140) + '...';
-      }
-    }
-    //add row
-    $('#'+tableId).DataTable()
-      .row.add(rowData)
-      .draw()
-      .nodes().to$()
-      .addClass('result-row')
-      .attr('data-read-id',parsedResult.READResourceIdentifier)
-      .attr("id", 'saved-table-' + parsedResult.READResourceIdentifier)
-      .click(function() {
-        showDetails(parsedResult.READResourceIdentifier);
-      });
-  } catch (e) {
-    console.log(e);
-  }
+function addRow(parsedResult, tableId, rowData) {
+  //add row
+  $('#'+tableId).DataTable()
+    .row.add(rowData)
+    .draw()
+    .nodes().to$()
+    .addClass('result-row')
+    .attr('data-read-id',parsedResult.READResourceIdentifier)
+    .attr("id", 'saved-table-' + parsedResult.READResourceIdentifier)
+    /*.click(function() {
+      showDetails(parsedResult.READResourceIdentifier);
+    })*/
+    ;
 }
 
 /**
