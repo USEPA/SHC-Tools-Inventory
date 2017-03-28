@@ -41,7 +41,7 @@
         width: 95%;
       }
     }
-    .next{
+    .next-button{
       /* hide until useful */
       display: none;
       position: fixed;
@@ -306,7 +306,7 @@
                 <button class="button-grey" onclick="deselectAll('role')">Deselect All Roles</button>
                 <div id="role"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-                <button class="next enabled-by-subrole" disabled onclick="activateNextTab($('#subrole-tab'))">Proceed to Subrole</button>
+                <button class="next-button enabled-by-subrole" disabled onclick="activateNextTab($('#subrole-tab'))">Proceed to Subrole</button>
               </div>
               <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
                 <h3>Subroles</h3>
@@ -317,7 +317,7 @@
                 <button class="button-grey" onclick="deselectAll('subrole')">Deselect All Subroles</button>
                 <div id="subrole"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-                <button class="next enabled-by-fundamental-objective" disabled onclick="activateNextTab($('#fundamental-objective-tab'))">Proceed to Fundamental Objective</button>
+                <button class="next-button enabled-by-fundamental-objective" disabled onclick="activateNextTab($('#fundamental-objective-tab'))">Proceed to Fundamental Objective</button>
               </div>
               <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
                 <h3>Fundamental Objectives</h3>
@@ -328,7 +328,7 @@
                 <button class="button-grey" onclick="deselectAll('fundamental-objective')">Deselect All Fundamental Objectives</button>
                 <div id="fundamental-objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-                <button class="next enabled-by-objective" disabled onclick="activateNextTab($('#objective-tab'))">Proceed to Objectives</button>
+                <button class="next-button enabled-by-objective" disabled onclick="activateNextTab($('#objective-tab'))">Proceed to Objectives</button>
               </div>
               <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
                 <h3>Objectives</h3>
@@ -342,7 +342,7 @@
                 <button class="button-white" onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show More Objectives</button>
                 <div id="objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-                <button class="next enabled-by-concept" disabled onclick="activateNextTab($('#concept-tab'))">Proceed to Concepts</button>
+                <button class="next-button enabled-by-concept" disabled onclick="activateNextTab($('#concept-tab'))">Proceed to Concepts</button>
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
                 <h3>Concepts</h3>
@@ -355,7 +355,7 @@
                 <button class="button-white" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-                <button class="next enabled-by-concept" disabled onclick="$('#concept-search-button').click()">Find Tools</button>
+                <button class="next-button enabled-by-concept" disabled onclick="$('#concept-search-button').click()">Find Tools</button>
               </div>
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
                 <button class="button-aqua" class="button" onclick="saveRecord()">Save Record</button>
