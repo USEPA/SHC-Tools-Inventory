@@ -300,7 +300,7 @@
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
                 <h3>Roles</h3>
                 <p>Select relevant roles and proceed to the subrole-tab.</p>
-                <button class="enabled-by-subrole" onclick="activateNextTab($('#subrole-tab'))">Proceed to Subrole</button>
+                <button class="enabled-by-subrole persist" onclick="activateNextTab($('#subrole-tab'))">Proceed to Subrole</button>
                 <hr />
                 <button class="button-grey" onclick="selectAll('role')">Select All Roles</button>
                 <button class="button-grey" onclick="deselectAll('role')">Deselect All Roles</button>
@@ -311,7 +311,7 @@
               <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
                 <h3>Subroles</h3>
                 <p>Select subroles and proceed to the fundamental objective-tab.</p>
-                <button class="enabled-by-fundamental-objective" onclick="activateNextTab($('#fundamental-objective-tab'))">Proceed to Fundamental Objective</button>
+                <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'))">Proceed to Fundamental Objective</button>
                 <hr />
                 <button class="button-grey" onclick="selectAll('subrole')">Select All Subroles</button>
                 <button class="button-grey" onclick="deselectAll('subrole')">Deselect All Subroles</button>
@@ -322,7 +322,7 @@
               <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
                 <h3>Fundamental Objectives</h3>
                 <p>Select fundamental objectives and proceed to the objective-tab.</p>
-                <button class="enabled-by-objective" onclick="activateNextTab($('#objective-tab'))">Proceed to Objectives</button>
+                <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'))">Proceed to Objectives</button>
                 <hr />
                 <button class="button-grey" onclick="selectAll('fundamental-objective')">Select All Fundamental Objectives</button>
                 <button class="button-grey" onclick="deselectAll('fundamental-objective')">Deselect All Fundamental Objectives</button>
@@ -333,7 +333,7 @@
               <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
                 <h3>Objectives</h3>
                 <p>Select objectives and proceed to the concept-tab.</p>
-                <button class="enabled-by-concept" onclick="activateNextTab($('#concept-tab'))">Proceed to Concepts</button>
+                <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'))">Proceed to Concepts</button>
                 <hr />
                 <input id="objective-relevance" type="hidden" value="1" />
                 <button class="button-grey" onclick="selectAll('objective')">Select All Objectives</button>
@@ -679,14 +679,14 @@ var populateWithHeader = function(list, $container, onChange) {
 var toggleNext = function(list, nextButtonClassSubstring) {
   var nextButtonSelector = '.enabled-by-'+nextButtonClassSubstring; // identify next button by who enables it
   if (list.length > 0 || Object.keys(list).length > 0) {
-    $(nextButtonSelector)
+    $(nextButtonSelector+':not(.persist)')
       .prop('disabled',false)
       .css('display','inline');
     if ($('#role :checked').length > 0 && showToast == true) {
       toast({'html':'Click either the button at the bottom of the screen or the next tab to proceed when ready.<button onclick="showToast = false">Disable these messages</button>'});
     }
   }else{
-    $(nextButtonSelector)
+    $(nextButtonSelector+':not(.persist)')
       .prop('disabled',true)
       .css('display','none');
   }
