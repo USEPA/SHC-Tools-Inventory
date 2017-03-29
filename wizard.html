@@ -1200,7 +1200,11 @@ var parseResult = function(result) {
 
   // DOCUMENT
   function parseOpenSource(openSource) {
-    return openSourceMap[openSource];
+    if(openSourceMap.hasOwnProperty(openSource)){
+      return openSourceMap[openSource];
+    } else{
+      return openSource;
+    }
   }// requires decoding a data-standard; will be mapped in parseResult.DetailsOpenSourceMap[INTEGER]
 
   // DOCUMENT
