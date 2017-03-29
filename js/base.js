@@ -219,7 +219,7 @@ function addRow(parsedResult, tableId, rowData) {
     .nodes().to$()
     .addClass('result-row')
     .attr('data-read-id',parsedResult.READResourceIdentifier)
-    .attr("id", 'saved-table-' + parsedResult.READResourceIdentifier)
+    .attr("id", tableId + '-' + parsedResult.READResourceIdentifier)
     /*.click(function() {
       showDetails(parsedResult.READResourceIdentifier);
     })*/
