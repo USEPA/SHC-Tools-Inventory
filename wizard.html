@@ -361,12 +361,11 @@
                 <button class="button-aqua" class="button" onclick="saveRecord()">Save Record</button>
                 <div id="selected-tool"></div>
               </div>
-
-
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
                 <h2 id="tools">Tools</h2>
-                <p>Selected tools will remain in your results as you perform additonal searches. Any unselected tools will be removed.</p>
-                <p>You can export your selected tools to a file your selected tools by using the <strong>Export Selected Tools to CSV</strong> button.</p>
+                <p>Select a tool using the checkbox, and it will persist as you perform additonal searches. Any unselected tools will be removed if you perform another search.</p>
+                <p>You can export your selected tools to a file by using the <strong>Export Selected Tools to CSV</strong> button.</p>
+                <p>There are two available views: Table and Text. The Text view allows all the details of a tool to be viewed. The Table view allows for searching, filtering, and sorting columns.</p>
                 <span>Choose a display type:</span>
                   <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text</label>
                   <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table</label>
