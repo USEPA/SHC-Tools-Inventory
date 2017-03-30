@@ -716,21 +716,6 @@ simpleSearch = function () {
   }
 };
 
-/**
- * clear results and their cached ids
- */
-var clearResultData = function(div) {
-  var container = $('#' + div);
-  var ids = container.data('ids');
-  if (typeof(ids) !== 'undefined') {
-    for (var i = 0; i < ids.length; i++) {
-      var id = ids[i];
-      container.removeData(id);
-    }
-    ids.length = 0;
-  }
-};
-
 var tabsBrowserClicked = false;
 function loadModels2() {
   if (tabsBrowserClicked === false) {
