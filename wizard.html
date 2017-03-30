@@ -471,10 +471,13 @@
   <script src="https://www.epa.gov/sites/all/libraries/template2/jquery.js"></script>
   <script src="https://www.epa.gov/sites/all/libraries/template2/js.js"></script>
   <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
-  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables/media/css/jquery.dataTables.min.css">
   <script src="https://www.epa.gov/sites/all/libraries/js/datatables/media/js/jquery.dataTables.min.js"></script>
   <script src="https://www.epa.gov/sites/all/libraries/js/datatables/extras/Responsive/js/dataTables.responsive.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables/extras/Select/js/dataTables.select.min.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables/media/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables/extras/Select/css/select.dataTables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables/extras/Responsive/css/responsive.dataTables.min.css">
   <script src="js/porter-stemmer.js"></script>
   <script src="js/base.js"></script>
 <script>
@@ -498,14 +501,39 @@ $(function() { // jquery's shorthand awaits readiness of document
   initializeTabs();
   // [Violation] 'DOMContentLoaded' handler took 261ms
   var table = $("#results-table").DataTable({
-    responsive: true
+    responsive: true,
+    select: true
   });
-  $('#results-table tbody').on( 'click', 'tr', function () {
+  $('#results-table tbody').on('click', 'tr', function() {
     if ($(this).hasClass('selected')) {
+      // remove selected class
       $(this).removeClass('selected');
+      // uncheck checkbox
+      $('#results-list-cb-'+$(this).attr('data-read-id')).prop('checked',false);
+      // remove from saved tools
+      savedTools.removeTool($(this).attr('data-read-id'));
     }
     else {
+      // add selected class
       $(this).addClass('selected');
+      // check check box
+      $('#results-list-cb-'+$(this).attr('data-read-id')).prop('checked',true);
+      // add to saved tools
+      savedTools.addTool($(this).attr('data-read-id'));
+    }
+  });
+
+  $("#results-list").on("change", "input:checkbox", function() {
+    if ($(this).prop('checked')) {
+      // add selected class
+      $('#results-table').DataTable().row('#results-table-'+$(this).val()).select();
+      // add to saved tools
+      savedTools.addTool($(this).val());
+    } else {
+      // remove selected class
+      $('#results-table').DataTable().row('#results-table-'+$(this).val()).deselect();
+      // add to saved tools
+      savedTools.removeTool($(this).val());
     }
   });
 });
@@ -878,13 +906,21 @@ var keywordSearch = function(div, input) {
  * search for the READ IDs from the selected Concepts from input and display results in div
  */
 var conceptSearch = function(div, input) {
-  //clear display div and table
-  $('#'+div+' *').remove();
-  $('#results-table').DataTable().clear().draw();
-  //clear display data
-  resultTable.getToolSet().reset();
-  //clear result data
-  resultSet.reset();
+  //iterate over checkboxes and remove the unchecked values from the display and the resultSet
+  $('.result-checkbox').each(function(){
+    if ($(this).prop('checked') !== true){
+      //remove from list
+      $('#results-list-'+$(this).val()).remove();
+
+      //remove from resultSet
+      resultSet.removeTool($(this).val());
+      //clear display data
+      resultTable.getToolSet().removeTool($(this).val());
+    }
+  });
+  //clear table of values not makred selected
+  $('#results-table').DataTable().rows( '.result-row:not(.selected)').remove().draw();
+
   //get new concepts
   var concepts = getConcepts(input);
   if (concepts.length < 1) {
@@ -904,7 +940,7 @@ var conceptSearch = function(div, input) {
     }
   }
   if (resultSet.getLength() > 0) {
-    //toolCache.handleParsedData(resultSet, resultTable.displayToolSet.bind(resultTable));
+    //toolCache.handleToolSet(resultSet, resultTable.displayToolSet.bind(resultTable));
     $('#results-notification').html('<p><strong>Found '+resultSet.getLength()+' results.</strong></p> <button onclick="activateNextTab($(\'#results-tab\'))">Proceed to Tools</button>').removeClass().addClass('success');
     $('#results-tab').parent().attr('aria-hidden', 'false');
   } else {

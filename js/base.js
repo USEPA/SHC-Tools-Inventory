@@ -195,8 +195,6 @@ function createRow(parsedResult) {
     parsedResult.Acronym,
     parsedResult.LongTitleText,
     parsedResult.LongDescription,
-    parsedResult.LongDescription,
-    parsedResult.DetailsBaseSoftwareCost,
     parsedResult.DetailsBaseSoftwareCost,
     parsedResult.ModelScopeSpatialExtentDetail,
     parsedResult.ModelInputsTextArea,
@@ -221,7 +219,7 @@ function addRow(parsedResult, tableId, rowData) {
     .nodes().to$()
     .addClass('result-row')
     .attr('data-read-id',parsedResult.READResourceIdentifier)
-    .attr("id", 'saved-table-' + parsedResult.READResourceIdentifier)
+    .attr("id", tableId + '-' + parsedResult.READResourceIdentifier)
     /*.click(function() {
       showDetails(parsedResult.READResourceIdentifier);
     })*/
