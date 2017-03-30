@@ -1,4 +1,7 @@
-$ = jQuery;// ensure jquery gets where it's expected
+var $ = jQuery;// ensure jquery gets where it's expected
+var resourceSearchURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceSearch"; // URLs are provided without a query (data following ?) to build requests with; details at READ web services' docs-page
+var resourceAdvancedSearchURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch"; // details at READ web services' docs-page
+var resourceDetailURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail";
 
 /**
  * toolCache Object
