@@ -302,8 +302,8 @@
                 <p>Select relevant roles and proceed to the subrole-tab.</p>
                 <button class="enabled-by-subrole persist" onclick="activateNextTab($('#subrole-tab'))">Proceed to Subrole</button>
                 <hr />
-                <button class="button-grey" onclick="selectAll('role')">Select All Roles</button>
-                <button class="button-grey" onclick="deselectAll('role')">Deselect All Roles</button>
+                <button class="button-grey" onclick="selectAll('role', roleSelect)">Select All Roles</button>
+                <button class="button-grey" onclick="deselectAll('role', roleSelect)">Deselect All Roles</button>
                 <div id="role"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
                 <button class="next-button enabled-by-subrole" disabled onclick="activateNextTab($('#subrole-tab'))">Proceed to Subrole</button>
@@ -313,8 +313,8 @@
                 <p>Select subroles and proceed to the fundamental objective-tab.</p>
                 <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'))">Proceed to Fundamental Objective</button>
                 <hr />
-                <button class="button-grey" onclick="selectAll('subrole')">Select All Subroles</button>
-                <button class="button-grey" onclick="deselectAll('subrole')">Deselect All Subroles</button>
+                <button class="button-grey" onclick="selectAll('subrole', subroleSelect)">Select All Subroles</button>
+                <button class="button-grey" onclick="deselectAll('subrole', subroleSelect)">Deselect All Subroles</button>
                 <div id="subrole"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
                 <button class="next-button enabled-by-fundamental-objective" disabled onclick="activateNextTab($('#fundamental-objective-tab'))">Proceed to Fundamental Objective</button>
@@ -324,8 +324,8 @@
                 <p>Select fundamental objectives and proceed to the objective-tab.</p>
                 <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'))">Proceed to Objectives</button>
                 <hr />
-                <button class="button-grey" onclick="selectAll('fundamental-objective')">Select All Fundamental Objectives</button>
-                <button class="button-grey" onclick="deselectAll('fundamental-objective')">Deselect All Fundamental Objectives</button>
+                <button class="button-grey" onclick="selectAll('fundamental-objective', fundamentalObjectiveSelect)">Select All Fundamental Objectives</button>
+                <button class="button-grey" onclick="deselectAll('fundamental-objective', fundamentalObjectiveSelect)">Deselect All Fundamental Objectives</button>
                 <div id="fundamental-objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
                 <button class="next-button enabled-by-objective" disabled onclick="activateNextTab($('#objective-tab'))">Proceed to Objectives</button>
@@ -336,8 +336,8 @@
                 <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'))">Proceed to Concepts</button>
                 <hr />
                 <input id="objective-relevance" type="hidden" value="1" />
-                <button class="button-grey" onclick="selectAll('objective')">Select All Objectives</button>
-                <button class="button-grey" onclick="deselectAll('objective')">Deselect All Objectives</button>
+                <button class="button-grey" onclick="selectAll('objective', objectiveSelect)">Select All Objectives</button>
+                <button class="button-grey" onclick="deselectAll('objective', objectiveSelect)">Deselect All Objectives</button>
                 <button class="button-white" onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show Fewer Objectives</button>
                 <button class="button-white" onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show More Objectives</button>
                 <div id="objective"></div>
@@ -370,8 +370,8 @@
                   <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text</label>
                   <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table</label>
                 <div id="results-list-div">  
-                  <button class="button-grey" onclick="selectAll('results-list')">Select All Tools</button>
-                  <button class="button-grey" onclick="deselectAll('results-list')">Deselect All Tools</button>
+                  <button class="button-grey" onclick="selectAll('results-list');$('#results-table').DataTable().rows().select();">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAll('results-list');$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
                   <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                   <div id="results-list"></div>
                 </div>

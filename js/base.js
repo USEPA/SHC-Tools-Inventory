@@ -790,21 +790,25 @@ var validata = function(obj) {
 /**
  * Check all the checkboxes in the specified location
 */
-function selectAll(divID) {
-  $('#' + divID + ' input:checkbox').prop('checked', true)
+function selectAll(divId, callback) {
+  $('#' + divId + ' input:checkbox').prop('checked', true)
     .promise()
     .done(function () {
-      roleSelect();
+      if(callback) {
+        callback();
+      }
     });
 }
 
 /**
  * Uncheck all the checkboxes in the specified location
 */
-function deselectAll(divID) {
-  $('#' + divID + ' input:checkbox').prop('checked', false)
+function deselectAll(divId, callback) {
+  $('#' + divId + ' input:checkbox').prop('checked', false)
     .promise()
     .done(function () {
-      roleSelect();
+      if(callback) {
+        callback();
+      }
     });
 }
