@@ -717,33 +717,6 @@ simpleSearch = function () {
 };
 
 /**
- * check existence of each prop_i in obj.prop_1...prop_n
- * @arg object{object} test the properties of object
- * @arg propertyArray{array} [prop_1,...,prop_n] s.t.
- *      object[prop_1][...][prop_n] is the desired value
- * E.G.: readSafe(obj,['foo','bar','baz'])
- * safely returns obj.foo.bar.baz value if all properties exist
-*/
-function readSafe(object, propertyArray) {
-  if(object[propertyArray[0]]) {// is first element of propertyArray a property of this object?
-    var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
-    if(Object.keys(propertyArray).length==1) {// is this the last property in the array?
-      return value;// return contents of property
-    }else{// there are multiple elements remaining in propertyArray that we need to descend into
-      try{
-        // recursion with obj[prop_1] as obj for next iteration
-        return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
-      }catch(e) {
-        console.log('error: ',e);// dev
-        return 'no data'; // return 'no data'
-      }
-    }
-  }else{//fail: element zero of propertyArray isn't a property of this object
-    return 'no data'; // fail safely: return 'no data'
-  }
-}
-
-/**
  * clear results and their cached ids
  */
 var clearResultData = function(div) {

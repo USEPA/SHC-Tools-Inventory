@@ -978,58 +978,6 @@ var getKeywords = function (input) {
 };
 
 /**
- * check existence of each prop_i in obj.prop_1...prop_n
- * @arg object{object} test the properties of object
- * @arg propertyArray{array} [prop_1,...,prop_n] s.t.
- *      object[prop_1][...][prop_n] is the desired value
- * E.G.: readSafe(obj,['foo','bar','baz'])
- * safely returns obj.foo.bar.baz value if all properties exist
-*/
-function readSafe(object, propertyArray) {
-  if(object[propertyArray[0]]) {// is first element of propertyArray a property of this object?
-    var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
-    if(Object.keys(propertyArray).length==1) {// is this the last property in the array?
-      if (value.length) {
-        if (typeof value != 'string') {
-          //console.log('readSafe is returning an array from object',object,'at property',propertyArray[0]);
-        }
-        if (typeof value === 'string') {
-          // scrape value for URLs with regex
-          // create a simply rad regex to find URLs
-          var urlRegExp = /((http|ftp|https):\/\/[^ @"]+|[^@]\b[^ @"]+\.(com|gov|edu|org|net|info|io)[^ @"]*)/ig;
-          // create a template of how to format the URL into a descriptive anchor
-          var linkTemplate = '<a href="$1" target="_blank">$1<a>';
-          // insert exit notification if an external link
-          if (value.indexOf('epa.gov') === -1) {
-            exitNotification = '<a class="exit-disclaimer" href="https://www.epa.gov/home/exit-epa" title="EPA\'s External Link Disclaimer">Exit</a>';
-            linkTemplate += exitNotification;
-          }
-          // replace all matched URLs with formatted anchors
-          value = value.replace(urlRegExp, linkTemplate).toString();
-          // create a sadly buggy regex to find emails
-          var emailRegExp = /(\S+@\S+\.(gov|edu|com|org|net|info))/ig;
-          // create a template of a mailto link
-          var mailtoTemplate = '<a href="mailto:$1">$1</a>';
-          // replace all email addresses in text with mailto links
-          value = value.replace(emailRegExp, mailtoTemplate);
-        }
-      }
-      return value;// return possibly formatted contents of property
-    }else{// there are multiple elements remaining in propertyArray that we need to descend into
-      try{
-        // recursion with obj[prop_1] as obj for next iteration
-        return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
-      }catch(e) {
-        console.log('error: ',e);// dev
-        return 'no data'; // return 'no data'
-      }
-    }
-  }else{//fail: element zero of propertyArray isn't a property of this object
-    return 'no data'; // fail safely: return 'no data'
-  }
-}
-
-/**
  * check if object represents xsi:nil or unsanitized absence of data
  */
 var isNil = function(obj) {
