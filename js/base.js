@@ -757,3 +757,30 @@ function readSafe(object, propertyArray) {
   }
 }
 
+/**
+ * Check all the checkboxes in the specified location
+*/
+function selectAll(divID) {
+  var $selected = $('#' + divID + ' input');
+  var count = $selected.length;
+  $selected.each(function () {
+    $(this).prop("checked", true);
+    if (--count === 0) {
+      $(this).change();
+    }
+  });
+}
+
+/**
+ * Uncheck all the checkboxes in the specified location
+*/
+function deselectAll(divID) {
+  var $selected = $('#' + divID + ' input');
+  var count = $selected.length;
+  $selected.each(function () {
+    $(this).prop("checked", false);
+    if (--count === 0) {
+      $(this).change();
+    }
+  });
+}

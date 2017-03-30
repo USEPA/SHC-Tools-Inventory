@@ -806,34 +806,6 @@ function loadModels2() {
   }
   tabsBrowserClicked = true;
 }
-
-/**
- * Check all the checkboxes in the specified location
-*/
-function selectAll(divID) {
-  var $selected = $('#' + divID + ' input');
-  var count = $selected.length;
-  $selected.each(function () {
-    $(this).prop("checked", true);
-    if (--count === 0){
-      $(this).change();
-    }
-  });
-}
-
-/**
- * Uncheck all the checkboxes in the specified location
-*/
-function deselectAll(divID) {
-  var $selected = $('#' + divID + ' input');
-  var count = $selected.length;
-  $selected.each(function () {
-    $(this).prop("checked", false);
-    if (--count === 0){
-      $(this).change();
-    }
-  });
-}
 </script>
 <script src="js/jquery-ui.min.js"></script>
 <script src="js/read.js"></script>
