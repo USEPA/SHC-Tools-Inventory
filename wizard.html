@@ -376,7 +376,6 @@
                   <div id="results-list"></div>
                 </div>
                 <div aria-hidden="true" id="results-table-div">
-                  <button class="button-white" onclick="exportAllCSV('results-list')">Export to CSV</button>
                   <table class="revision-table" id="results-table" width="100%">
                     <thead>
                       <tr>
@@ -387,6 +386,11 @@
                         <th>Spatial Extent</th>
                         <th>Tool Inputs</th>
                         <th>Tool Outputs</th>
+                        <th>Operating Environment</th>
+                        <th>Operating System</th>
+                        <th>Keywords</th>
+                        <th>Decision Sector</th>
+                        <th>Open Source</th>
                       </tr>
                     </thead>
                     <tbody id="results-table-body"></tbody>
@@ -493,7 +497,7 @@ var advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","Owner
 var decisionSectors = ['land use','transportation','building infrastructure','waste management'];
 var showToast = true;
 
-$(function() { // jquery's shorthand awaits readiness of document
+$(function () { // jquery's shorthand awaits readiness of document
   // populate the roles into #role div
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
   // initialize tabs and their listeners
@@ -503,12 +507,12 @@ $(function() { // jquery's shorthand awaits readiness of document
     responsive: true,
     select: true
   });
-  $('#results-table tbody').on('click', 'tr', function() {
+  $('#results-table tbody').on('click', 'tr', function () {
     if ($(this).hasClass('selected')) {
       // remove selected class
       $(this).removeClass('selected');
       // uncheck checkbox
-      $('#results-list-cb-'+$(this).attr('data-read-id')).prop('checked',false);
+      $('#results-list-cb-' + $(this).attr('data-read-id')).prop('checked', false);
       // remove from saved tools
       savedTools.removeTool($(this).attr('data-read-id'));
     }
@@ -516,7 +520,7 @@ $(function() { // jquery's shorthand awaits readiness of document
       // add selected class
       $(this).addClass('selected');
       // check check box
-      $('#results-list-cb-'+$(this).attr('data-read-id')).prop('checked',true);
+      $('#results-list-cb-' + $(this).attr('data-read-id')).prop('checked', true);
       // add to saved tools
       savedTools.addTool($(this).attr('data-read-id'));
     }
@@ -595,7 +599,7 @@ var initializeTabs = function() {
   $('#tabs > div').hide(); // hide all tab-panels
   $('#tabs div:first').show(); // show first tab-panel
   $('#tabsnav li:first').addClass('active'); // class tabs active for styling
-  $('.menu-internal').click(function(){ // add listener to tabbing elements
+  $('.menu-internal').click(function () { // add listener to tabbing elements
     if (!$(this).is('[aria-disabled]')) {// tab doesn't have an aria-disabled attribute...
       $('#tabsnav li').removeClass('active'); // remove active styling from all tabs
       var currentPanel = '#'+$(this).attr('aria-controls');// make a jquery object selecting the panel associated with the clicked tab
@@ -672,18 +676,20 @@ var populate = function(list, $container, onChange) {
  * populate list with header values;
  * maintain selections when possible
  */
-var populateWithHeader = function(list, $container, onChange) {
-  if (typeof list === 'undefined') {list = {length:0};}// ensure list is defined
+var populateWithHeader = function (list, $container, onChange) {
+  if (typeof list === 'undefined') {
+    list = {length:0}; // ensure list is defined
+  }
   var currentlySelected = [];
-  $container.find(':checked').each(function(i,v) {// create an array for currently selected values
+  $container.find(':checked').each(function (i, v) {// create an array for currently selected values
       currentlySelected.push(v.value);
   });
   $container.html('');// clear items out of container
-  var html='';
+  var html = '';
   var count = 0;
   for (var i in list) {
     if (list.hasOwnProperty(i)) {
-      html += '<h5 class="highlighted">'+i+'</h5><div id="'+$container.attr('id')+'-'+count+'">';
+      html += '<h5 class="highlighted">' + i + '</h5><div id="' + $container.attr('id') + '-' + count + '">';
       html += addCheckboxes(list[i].sort(), $container, onChange, count);
       html += '</div>';
       count++;
@@ -693,9 +699,9 @@ var populateWithHeader = function(list, $container, onChange) {
   toggleTab(list, $container);// enable next tab iff list not empty
   var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
   toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
-  $container.find('input[type=checkbox]').each(function(i,v) {// look through each element in $container
-    if(currentlySelected.indexOf(v.value)!=-1) {// check if item was currentlySelected
-      $($(v)[0]).prop('checked',true);// select item
+  $container.find('input[type=checkbox]').each(function (i, v) {// look through each element in $container
+    if(currentlySelected.indexOf(v.value) !== -1) {// check if item was currentlySelected
+      $($(v)[0]).prop('checked', true);// select item
     }
   });
 };
@@ -743,7 +749,7 @@ var toggleTab = function(list, $container) {
  * populate #subrole-select with subrole options for the
  * selected roles
  */
-var roleSelect = function() {
+var roleSelect = function () {
   var selectedElements = scrapeDictionaryToObject($("input[name='role-checkbox']:checked"), subrolesByRole);
   populateWithHeader(selectedElements, $('#subrole'), "subroleSelect()");
   subroleSelect();
@@ -753,19 +759,19 @@ var roleSelect = function() {
  * populate #objective with objective options for
  * the selected subroles
  */
-var subroleSelect = function() {
+var subroleSelect = function () {
   var relevance = $('#objective-relevance').val();
   var objectivesFromSubroles = [];
   var objectivesFromSubrolesRelevance = [];
-  for (var i=0;i<=relevance;i++) {
+  for (var i = 0; i <= relevance; i++) {
     objectivesFromSubrolesRelevance = scrapeDictionary($("input[name='subrole-checkbox']:checked"), objectivesBySubroleRelevance[i]);
-    for (var j=0;j<objectivesFromSubrolesRelevance.length;j++) {
+    for (var j = 0; j < objectivesFromSubrolesRelevance.length; j++) {
       if (objectivesFromSubroles.indexOf(objectivesFromSubrolesRelevance[j]) === -1) {
         objectivesFromSubroles.push(objectivesFromSubrolesRelevance[j]);
       }
     }
   }
-  var list =[];
+  var list = [];
   if (objectivesFromSubroles.length > 0) {
     list = Object.keys(objectivesByFundamentalObjective);
   }
@@ -776,7 +782,7 @@ var subroleSelect = function() {
 /**
  * populate #objective with objectives determined by selected subroles and fundamental objectives
  */
-var fundamentalObjectiveSelect = function() {
+var fundamentalObjectiveSelect = function () {
   var relevance = $('#objective-relevance').val();
   var objectivesFromSubroles = [];
   var objectivesFromSubrolesRelevance = [];
@@ -804,7 +810,7 @@ var fundamentalObjectiveSelect = function() {
 /**
  * populate #concept with concept-options for selected objectives
  */
-var objectiveSelect = function() {
+var objectiveSelect = function () {
   var selectedElements = scrapeDictionary($("input[name='objective-checkbox']:checked"), conceptsByObjective);
   updateInterface(selectedElements, $('#concept'));
 };
@@ -812,7 +818,7 @@ var objectiveSelect = function() {
 /**
  * get elements of arrays in dictionary without repeats
  */
-var scrapeDictionary = function(selectedOptions, dictionary) {
+var scrapeDictionary = function (selectedOptions, dictionary) {
   var selectedElement = '';
   var selectedElements = [];
   var allSelectedElements = [];
@@ -822,7 +828,7 @@ var scrapeDictionary = function(selectedOptions, dictionary) {
     if (typeof selectedElements === 'undefined') {
       selectedElements = [];
     }
-    for (var j=0;j<selectedElements.length;j++) {
+    for (var j = 0; j < selectedElements.length; j++) {
       if(allSelectedElements.indexOf(selectedElements[j]) === -1) {
         allSelectedElements.push(selectedElements[j]);
       }
@@ -834,7 +840,7 @@ var scrapeDictionary = function(selectedOptions, dictionary) {
 /**
  * get elements in dictionary with key values retained for use in headers
  */
-var scrapeDictionaryToObject = function(selectedOptions, dictionary) {
+var scrapeDictionaryToObject = function (selectedOptions, dictionary) {
   var selectedElement = '';
   var selectedElements = [];
   var allSelectedElements = [];
@@ -846,7 +852,7 @@ var scrapeDictionaryToObject = function(selectedOptions, dictionary) {
     if (typeof selectedElements === 'undefined') {
       selectedElements = [];
     }
-    for (var j=0;j<selectedElements.length;j++) {
+    for (var j = 0; j < selectedElements.length; j++) {
       if(allSelectedElements.indexOf(selectedElements[j]) === -1) {
         allSelectedElements.push(selectedElements[j]);
       }
@@ -859,20 +865,20 @@ var scrapeDictionaryToObject = function(selectedOptions, dictionary) {
  * add checkboxes with text of name to container with containerId
  */
 function addCheckboxes(list, container, onChange, count) {
-  onChange = (typeof onChange !== 'undefined') ? 'onchange="'+onChange+'"' : "";
+  onChange = (typeof onChange !== 'undefined') ? 'onchange="' + onChange + '"' : "";
   count = (typeof count !== 'undefined') ? count : "0";
   var containerName = container.attr('id');
   var inputs = container.children('input');
-  var id = inputs.length+1;
+  var id = inputs.length + 1;
   var html = '';
   //Allows disabling of checkboxes for premature leaf nodes
-  for (var i=0;i<list.length;i++) {
+  for (var i = 0; i < list.length; i++) {
     if (leafNodes.indexOf(list[i]) !== -1 && developer) {
       disabled = ' disabled';
-      html += '<input class="tool-label" type="checkbox" id="cb-'+containerName+'-'+count+'-'+id+'" value="'+list[i]+'" name="'+containerName+'-checkbox" '+onChange+disabled+' /><label for="cb-'+containerName+'-'+count+'-'+id+'" class="unselectable">'+list[i]+'</label>';
+      html += '<input class="tool-label" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + list[i] + '" name="' + containerName + '-checkbox" ' + onChange + disabled + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="unselectable">' + list[i] + '</label>';
       id++;
     } else if (leafNodes.indexOf(list[i]) === -1) {
-      html +=     '<input class="tool-label" type="checkbox" id="cb-'+containerName+'-'+count+'-'+id+'" value="'+list[i]+'" name="'+containerName+'-checkbox" '+onChange+' /><label for="cb-'+containerName+'-'+count+'-'+id+'" class="unselectable">'+list[i]+'</label>';
+      html += '<input class="tool-label" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + list[i] + '" name="' + containerName + '-checkbox" ' + onChange + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="unselectable">' + list[i] + '</label>';
       id++;
     } 
   }
@@ -882,18 +888,18 @@ function addCheckboxes(list, container, onChange, count) {
 /**
  * search in descriptions for each word in query string from input and display results in div
  */
-var keywordSearch = function(div, input) {
-  $('#'+div+' *').remove();
+var keywordSearch = function (div, input) {
+  $('#' + div + ' *').remove();
   var keywords = getKeywords(input);
-  for (var i=0; i<keywords.length; i++) {
-    for (var j=0; j<decisionSectors.length; j++) {
+  for (var i = 0; i < keywords.length; i++) {
+    for (var j = 0; j < decisionSectors.length; j++) {
       $.get('https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch',
         {
           ShortDescriptionForReports: keywords[i],
           DecisionSector: decisionSectors[j]
         }
-      ).done(function(data) {
-        for (var i=0; i<data.length; i++) {
+      ).done(function (data) {
+        for (var i = 0; i < data.length; i++) {
           getResourceDetail(data[i].ResourceId, div);
         }
       });
@@ -904,33 +910,26 @@ var keywordSearch = function(div, input) {
 /**
  * search for the READ IDs from the selected Concepts from input and display results in div
  */
-var conceptSearch = function(div, input) {
-  //iterate over checkboxes and remove the unchecked values from the display and the resultSet
-  $('.result-checkbox').each(function(){
-    if ($(this).prop('checked') !== true){
-      //remove from list
-      $('#results-list-'+$(this).val()).remove();
-
-      //remove from resultSet
-      resultSet.removeTool($(this).val());
-      //clear display data
-      resultTable.getToolSet().removeTool($(this).val());
+var conceptSearch = function (div, input) {
+  $('.result-checkbox').each(function () { //iterate over checkboxes and remove the unchecked values from the display and the resultSet
+    if ($(this).prop('checked') !== true) {
+      $('#results-list-'+$(this).val()).remove(); //remove from list
+      resultSet.removeTool($(this).val()); //remove from resultSet
+      resultTable.getToolSet().removeTool($(this).val()); //clear display data
     }
   });
-  //clear table of values not makred selected
-  $('#results-table').DataTable().rows( '.result-row:not(.selected)').remove().draw();
+  $('#results-table').DataTable().rows( '.result-row:not(.selected)').remove().draw(); //clear table of values not makred selected
 
-  //get new concepts
-  var concepts = getConcepts(input);
+  var concepts = getConcepts(input); //get new concepts
   if (concepts.length < 1) {
     $('#results-notification').html('<strong>Please select a concept.</strong>').removeClass().addClass('warning');
     $('#results-container').hide();
     $('#results-container').attr('aria-hidden', 'true');
     return;
   }
-  for (var i=0; i<concepts.length; i++) {
+  for (var i = 0; i < concepts.length; i++) {
     if(readIDsByConcept[concepts[i]]) {
-      for (var j=0;j<readIDsByConcept[concepts[i]].length;j++) {
+      for (var j = 0; j < readIDsByConcept[concepts[i]].length; j++) {
         if(!resultSet.contains(readIDsByConcept[concepts[i]][j])) {
           resultSet.addTool(readIDsByConcept[concepts[i]][j]);
           toolCache.handleParsedData(readIDsByConcept[concepts[i]][j], resultTable.displayTool.bind(resultTable));
@@ -940,7 +939,7 @@ var conceptSearch = function(div, input) {
   }
   if (resultSet.getLength() > 0) {
     //toolCache.handleToolSet(resultSet, resultTable.displayToolSet.bind(resultTable));
-    $('#results-notification').html('<p><strong>Found '+resultSet.getLength()+' results.</strong></p> <button onclick="activateNextTab($(\'#results-tab\'))">Proceed to Tools</button>').removeClass().addClass('success');
+    $('#results-notification').html('<p><strong>Found ' + resultSet.getLength() + ' results.</strong></p> <button onclick="activateNextTab($(\'#results-tab\'))">Proceed to Tools</button>').removeClass().addClass('success');
     $('#results-tab').parent().attr('aria-hidden', 'false');
   } else {
     $('#results-notification').html('<strong>No results found.</strong>').removeClass().addClass('warning');
@@ -951,10 +950,10 @@ var conceptSearch = function(div, input) {
 /**
  * get concepts from input as a list
  */
-var getConcepts = function(input) {
+var getConcepts = function (input) {
   var concept = '';
   var concepts = [];
-  $(input).each(function() {
+  $(input).each(function () {
     concept = $(this).val();
     if (concept.length > 1) {
       concepts.push(concept);
@@ -966,16 +965,16 @@ var getConcepts = function(input) {
 /**
  * get keywords from input as a list
  */
-var getKeywords = function(input) {
+var getKeywords = function (input) {
   var concept = '';
   var concepts = [];
   var keyword = '';
   var keywords = [];
-  $(input).each(function() {
+  $(input).each(function () {
     concept = $(this).val();
     if (concept.length > 1) {
       keywords = concept.split(' ');
-      for (var i=0; i<keywords.length; i++) {
+      for (var i = 0; i < keywords.length; i++) {
         keyword = keywords[i];
         if ((concepts.indexOf(keyword) === -1) && (keyword.length > 3)) {
           concepts.push(keyword);
@@ -1326,33 +1325,31 @@ var validata = function(obj) {
 /**
  * Use links table to find related concepts
  */
-function conceptDplLinks(){
+function conceptDplLinks() {
   var allConcepts = [];
   var checkedConcepts = [];
   var associatedConcepts = [];
-  $("input[name='concept-checkbox']").each(function() {
+  $("input[name='concept-checkbox']").each(function () {
     if ($(this).prop("checked")) {
       checkedConcepts.push($(this).val());
     }
     allConcepts.push($(this).val());
   });
 
-  for (var k=0;k<checkedConcepts.length;k++) {
-    //find child nodes of selected concept
-    if (dplLinks[checkedConcepts[k]]) {
-      for (var i=0;i<dplLinks[checkedConcepts[k]].length;i++) {
+  for (var k = 0; k < checkedConcepts.length; k++) { //find child nodes of selected concept
+    if (dplLinks[checkedConcepts[k]]) { 
+      for (var i = 0; i < dplLinks[checkedConcepts[k]].length; i++) {
         if (readIDsByConcept[dplLinks[checkedConcepts[k]][i]]) {
-          console.log(checkedConcepts[k]+" > "+ dplLinks[checkedConcepts[k]][i] + " > " + readIDsByConcept[dplLinks[checkedConcepts[k]][i]]);
+          console.log(checkedConcepts[k] + " > " + dplLinks[checkedConcepts[k]][i] + " > " + readIDsByConcept[dplLinks[checkedConcepts[k]][i]]);
         }
       }
     }
 
-    //find parent nodes of selected concept
-    for (var concept in dplLinks) {
+    for (var concept in dplLinks) { //find parent nodes of selected concept
       if (dplLinks.hasOwnProperty(concept)) {
         if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
            if (readIDsByConcept[concept]) {
-            console.log(concept + " < " + checkedConcepts[k]+": "+readIDsByConcept[concept]);
+            console.log(concept + " < " + checkedConcepts[k] + ": " + readIDsByConcept[concept]);
           }
         }
       }
@@ -1360,11 +1357,11 @@ function conceptDplLinks(){
   }
 }
 
-function getToolConcepts(toolId){
+function getToolConcepts(toolId) {
   var concepts = [];
   for (var concept in readIDsByConcept) {
     if (readIDsByConcept.hasOwnProperty(concept)) {
-      if (readIDsByConcept[concept].indexOf(toolId+'') !== -1) {
+      if (readIDsByConcept[concept].indexOf(toolId + '') !== -1) {
         concepts.push(concept);
       }
     }
@@ -1372,26 +1369,23 @@ function getToolConcepts(toolId){
   return concepts;
 }
 
-function findChildConcepts(){
-  // exit if no concepts are selected
+function findChildConcepts() {
   if ($('input[name="concept-checkbox"]:checked').length === 0) {
     return;
   }
   var allConcepts = [];
   var checkedConcepts = [];
   var associatedConcepts = [];
-  $("input[name='concept-checkbox']").each(function() {
+  $("input[name='concept-checkbox']").each(function () {
     if ($(this).prop("checked")) {
       checkedConcepts.push($(this).val());
     }
     allConcepts.push($(this).val());
   });
-  for (var k=0;k<checkedConcepts.length;k++) {
-    //find child nodes of selected concept
-    if (dplLinks[checkedConcepts[k]]) {
-      for (var i=0;i<dplLinks[checkedConcepts[k]].length;i++) {
+  for (var k = 0; k < checkedConcepts.length; k++) {
+    if (dplLinks[checkedConcepts[k]]) { //find child nodes of selected concept
+      for (var i = 0; i < dplLinks[checkedConcepts[k]].length; i++) {
         if (readIDsByConcept[dplLinks[checkedConcepts[k]][i]]) {
-          //console.log(dplLinks[checkedConcepts[k]][i]);
           if (associatedConcepts.indexOf(dplLinks[checkedConcepts[k]][i]) === -1 && dplLinks[checkedConcepts[k]][i].length > 1 && allConcepts.indexOf(dplLinks[checkedConcepts[k]][i]) === -1) {
             associatedConcepts.push(dplLinks[checkedConcepts[k]][i]);
           }
@@ -1399,31 +1393,28 @@ function findChildConcepts(){
       }
     }
   }
-  console.log("Children: "+ associatedConcepts);
+  console.log("Children: " + associatedConcepts);
 }
 
 function findParentConcepts(){
-// exit if no concepts are selected
   if ($('input[name="concept-checkbox"]:checked').length === 0) {
     return;
   }
   var allConcepts = [];
   var checkedConcepts = [];
   var associatedConcepts = [];
-  $("input[name='concept-checkbox']").each(function() {
+  $("input[name='concept-checkbox']").each(function () {
     if ($(this).prop("checked")) {
       checkedConcepts.push($(this).val());
     }
     allConcepts.push($(this).val());
   });
 
-  for (var k=0;k<checkedConcepts.length;k++) {
-    //find parent nodes of selected concept
-    for (var concept in dplLinks) {
+  for (var k = 0; k < checkedConcepts.length; k++) {
+    for (var concept in dplLinks) { //find parent nodes of selected concept
       if (dplLinks.hasOwnProperty(concept)) {
         if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
            if (readIDsByConcept[concept]) {
-            //console.log(concept);
             if (associatedConcepts.indexOf(concept) === -1 && concept.length > 1 && allConcepts.indexOf(concept) === -1) {
               associatedConcepts.push(concept);
             }
@@ -1436,28 +1427,26 @@ function findParentConcepts(){
 }
 
 function findSiblingConcepts(){
-// exit if no concepts are selected
   if ($('input[name="concept-checkbox"]:checked').length === 0) {
     return;
   }
   var allConcepts = [];
   var checkedConcepts = [];
   var associatedConcepts = [];
-  $("input[name='concept-checkbox']").each(function() {
+  $("input[name='concept-checkbox']").each(function () {
     if ($(this).prop("checked")) {
       checkedConcepts.push($(this).val());
     }
     allConcepts.push($(this).val());
   });
 
-  for (var k=0;k<checkedConcepts.length;k++) {
-    //find parent nodes of selected concept
-    for (var concept in dplLinks) {
+  for (var k = 0; k < checkedConcepts.length; k++) {
+    for (var concept in dplLinks) { //find parent nodes of selected concept
       if (dplLinks.hasOwnProperty(concept)) {
         if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
            if (readIDsByConcept[concept]) {
-            console.log("Parent: "+concept);
-            console.log("Siblings: "+dplLinks[concept]);
+            console.log("Parent: " + concept);
+            console.log("Siblings: " + dplLinks[concept]);
             //if (associatedConcepts.indexOf(concept) === -1 && concept.length > 1 && allConcepts.indexOf(concept) === -1) {
               //associatedConcepts.push(concept);
             //}
@@ -1472,28 +1461,25 @@ function findSiblingConcepts(){
 /**
  * find all concepts associated with selected concepts by being grouped in same objective
  */
-var broadenConcepts = function() {
-  // exit if no concepts are selected
+var broadenConcepts = function () {
   if ($('input[name="concept-checkbox"]:checked').length === 0) {
     return;
   }
   var allConcepts = [];
   var checkedConcepts = [];
   var associatedConcepts = [];
-  $("input[name='concept-checkbox']").each(function() {
+  $("input[name='concept-checkbox']").each(function () {
     if ($(this).prop("checked")) {
       checkedConcepts.push($(this).val());
     }
     allConcepts.push($(this).val());
   });
 
-  // iterate through checkedConcepts
-  for (var k=0;k<checkedConcepts.length;k++) {
-    // find objectives that have this concepts, and thus associated concepts
-    for (var objective in conceptsByObjective){
-      if (conceptsByObjective.hasOwnProperty(objective)){
-        if (conceptsByObjective[objective].indexOf(checkedConcepts[k]) !== -1){
-          for (var j=0;j<conceptsByObjective[objective].length;j++) {
+  for (var k = 0; k < checkedConcepts.length; k++) { // iterate through checkedConcepts
+    for (var objective in conceptsByObjective) { // find objectives that have this concepts, and thus associated concepts
+      if (conceptsByObjective.hasOwnProperty(objective)) {
+        if (conceptsByObjective[objective].indexOf(checkedConcepts[k]) !== -1) {
+          for (var j = 0; j < conceptsByObjective[objective].length; j++) {
             if (associatedConcepts.indexOf(conceptsByObjective[objective][j]) === -1 && conceptsByObjective[objective][j].length > 1 && allConcepts.indexOf(conceptsByObjective[objective][j]) === -1) {
               associatedConcepts.push(conceptsByObjective[objective][j]);
             }
@@ -1502,7 +1488,6 @@ var broadenConcepts = function() {
       }
     }
   }
-  // let user select from among these concepts
   var html = addCheckboxes(associatedConcepts, $('#concept'));
   $('#concept').append(html);
 };
@@ -1518,7 +1503,7 @@ var activateNextTab = function($nextTab) {
     $nextTab.attr('aria-selected','true');// list this tab as active
     $nextTab.prop('disabled',false);// enable tab
     $nextTab.click();// activate tab
-    location.hash = '#explore-role-tab';// not working...
+    //location.hash = '#explore-role-tab';// not working...
   }
 };
 
@@ -1526,11 +1511,11 @@ var activateNextTab = function($nextTab) {
  * Check all the checkboxes in the specified location
 */
 function selectAll(divID) {
-  var $selected = $('#'+divID +' input');
+  var $selected = $('#' + divID + ' input');
   var count = $selected.length;
-  $selected.each(function(){
+  $selected.each(function () {
     $(this).prop("checked", true);
-    if (--count === 0){
+    if (--count === 0) {
       $(this).change();
     }
   });
@@ -1540,11 +1525,11 @@ function selectAll(divID) {
  * Uncheck all the checkboxes in the specified location
 */
 function deselectAll(divID) {
-  var $selected = $('#'+divID +' input');
+  var $selected = $('#' + divID + ' input');
   var count = $selected.length;
-  $selected.each(function(){
+  $selected.each(function () {
     $(this).prop("checked", false);
-    if (--count === 0){
+    if (--count === 0) {
       $(this).change();
     }
   });
@@ -1553,7 +1538,7 @@ function deselectAll(divID) {
 /**
  * Stop the event from propagating
 */
-var stopPropagation = function(e) {
+var stopPropagation = function (e) {
   e.stopPropagation();
 };
 
@@ -1583,7 +1568,7 @@ var getDetailsFromId = function(id) {
 };
 
 var developer = false;
-function devMode(bool){
+function devMode(bool) {
   developer = bool;
 }
 
@@ -1636,9 +1621,9 @@ function markBlanks(markThis, byThis) {
   var numberOfMatches = 0;
   for (var prop in markThis) {
     if(markThis.hasOwnProperty(prop)) {
-      for (var i=0;i<markThis[prop].length;i++) {
+      for (var i = 0; i < markThis[prop].length; i++) {
         match = false;
-        for (var j=0;j<Object.keys(byThis).length;j++) {
+        for (var j = 0; j < Object.keys(byThis).length; j++) {
           if (markThis[prop][i] === Object.keys(byThis)[j]) {
             match = true;
             numberOfMatches++;
@@ -1655,8 +1640,8 @@ function markBlanks(markThis, byThis) {
       }
     }
   }
-  numberOfMatches+=numberOfBlanks;
-  console.log(numberOfBlanks+"/"+numberOfMatches);
+  numberOfMatches += numberOfBlanks;
+  console.log(numberOfBlanks + "/" + numberOfMatches);
 }
 
 /**
@@ -1664,7 +1649,7 @@ function markBlanks(markThis, byThis) {
 */
 function printLeafNodeArray() {
   var str = '[';
-  for (var i=0;i<leafNodes.length;i++){
+  for (var i = 0; i < leafNodes.length; i++){
     str += '"' + leafNodes[i] + '", ';
   }
 

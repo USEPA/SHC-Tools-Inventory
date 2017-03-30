@@ -15,49 +15,9 @@ try {
   console.log(err);
 }
 
-var database_columns = [
-  'Date',
-  'User',
-  'Information_Resource_Identifier',
-  'Information_Resource_Title',
-  'Information_Resource_Short_Title',
-  'Name',
-  'Acronym',
-  'Short_Description_for_Reports',
-  'Ownership_Type',
-  'Information_Resource_Type',
-  'Base_Cost_of_Software',
-  'Other_Cost_Considerations',
-  'Open_Source',
-  'Alternative_Names',
-  'Sustainability_Sector',
-  'Constrained_Keywords',
-  'Keywords',
-  'Organization',
-  'Contact_Person',
-  'Phone_Number',
-  'Email',
-  'Internet',
-  'Life_Cycle',
-  'Last_Known_Software_Update',
-  'READ_Info_Updated',
-  'Operating_Environment',
-  'Compatible_Operating_Systems',
-  'Model_Inputs',
-  'Data_requirements',
-  'Model_Output_Types',
-  'Output_Variables',
-  'Source_of_Support_Materials',
-  'Model_Evaluation',
-  'Model_Structure',
-  'Time_Scale',
-  'Spatial_Extent'
-];
-
 function radiovalue(radios) {
   for (var i = 0, length = radios.length; i < length; i++) {
     if (radios[i].checked) {
-      // do whatever you want with the checked radio
       return radios[i].value;
     }
   }
@@ -66,22 +26,25 @@ function radiovalue(radios) {
 function multiSelectValue(multiselect) {
   var selected = [];
   for (var i = 0; i < multiselect.length; i++) {
-    if (multiselect.options[i].selected) selected.push(multiselect.options[i].value);
+    if (multiselect.options[i].selected) {
+    	selected.push(multiselect.options[i].value);
+    }
   }
-  //return JSON.stringify(selected);
   return selected;
 }
 
 function checkBoxValue(multiselect) {
   var selected = [];
   for (var i = 0, length = multiselect.length; i < length; i++) {
-    if (multiselect[i].checked) selected.push(multiselect[i].value);
+    if (multiselect[i].checked) {
+    	selected.push(multiselect[i].value);
+    }
   }
-  //return JSON.stringify(selected);
   return selected;
 }
 
 function getDetails(id) {
+	var xmlhttp;
   if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
     xmlhttp = new XMLHttpRequest();
   } else { // code for IE6, IE5
@@ -89,7 +52,7 @@ function getDetails(id) {
   }
   xmlhttp.open("GET", endpoint + "record?id=" + id, false);
   xmlhttp.send();
-  if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+  if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
     var raw_response = xmlhttp.responseText;
     var response = raw_response.replace(/^"/, '').replace(/"$/, '').replace(/\\/g, '');
     var json_obj = JSON.parse(response);

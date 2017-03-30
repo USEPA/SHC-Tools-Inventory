@@ -656,7 +656,7 @@ var detailedSearch = function() {
   }
 };
 
-var executeSearch = function(url, data){
+var executeSearch = function(url, data) {
   return $.ajax({
     type: 'GET',
     url: url,
@@ -676,28 +676,16 @@ var parseResultsArray = function(results) {
   return resultSet.getLength();
 };
 
-simpleSearch = function() {
-  //clear result table
-  $('#results-table').DataTable().clear().draw();
-  //clear result list
-  $('#results-list *').remove(); //clears for new results
-  //clear result data
-  resultSet.reset();
+simpleSearch = function () {
+  $('#results-table').DataTable().clear().draw(); //clear result table
+  $('#results-list *').remove(); //clear result list
+  resultSet.reset(); //clear result data
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
-  //var decisionSectors = [$('#simpleDecisionSelect').val()];
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
   var $feedbackDiv = $('#simpleFeedback');
   var results = [];
   var requests = [];
   var data = {};
-  /*if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
-    decisionSectors = [
-      "Land Use",
-      "Waste Management",
-      "Building Infrastructure",
-      "Transportation"
-    ];
-  }*/
   var decisionSectors = [
       "Land Use",
       "Waste Management",
@@ -705,16 +693,16 @@ simpleSearch = function() {
       "Transportation"
     ];
   if (queryString) { // makes sure search string is not empty
-    for (var i=0;i<queryTypes.length;i++){
+    for (var i = 0; i < queryTypes.length; i++){
       data[queryTypes[i]] = queryString;
-      for (var j=0;j<decisionSectors.length;j++){
+      for (var j = 0; j < decisionSectors.length; j++){
         data.DecisionSector = decisionSectors[j];
         requests.push(executeSearch(resourceAdvancedSearchURL, data));
       }
       data = {};
     }
     $.when.apply(null, requests).done(function () {
-      for (var i=0; i<arguments.length; i++){
+      for (var i = 0; i < arguments.length; i++){
         results = results.concat(arguments[i][0]);
       }
       var numberOfResults = parseResultsArray(results);
@@ -1012,10 +1000,10 @@ function readSafe(object, propertyArray) {
  * clear results and their cached ids
  */
 var clearResultData = function(div) {
-  var container = $('#'+div);
+  var container = $('#' + div);
   var ids = container.data('ids');
-  if (typeof(ids) != 'undefined') {
-    for (var i=0;i<ids.length;i++) {
+  if (typeof(ids) !== 'undefined') {
+    for (var i = 0; i < ids.length; i++) {
       var id = ids[i];
       container.removeData(id);
     }
@@ -1054,48 +1042,47 @@ var validata = function(obj) {
 };
 //END TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
 
-//Load Models
 var tabsBrowserClicked = false;
 function loadModels2() {
   if (tabsBrowserClicked === false) {
-    $(".accordion-pane").each(function() {
-        var table;
-        var table_name = this.children[0].children[1].id;
-        switch (table_name) {
-          case "building-infrastructure-table":
-            decision_query = "Building Infrastructure";
-            table = buildingInfrastructureTable;
-            break;
-          case "land-use-table":
-            decision_query = "Land Use";
-            table = landUseTable;
-            break;
-          case "transportation-table":
-            decision_query = "Transportation";
-            table = transportationTable;
-            break;
-          case "waste-management-table":
-            decision_query = "Waste Management";
-            table = wasteManagementTable;
-            break;
-          default:
-            return;
-        }
-        $.ajax({
-          type: 'GET',
-          url: resourceAdvancedSearchURL,
-          data: {
-            DecisionSector: decision_query,
-            Format: 'JSON'
-          },
-          dataType: 'json',
-          success: function(data) {
-            for (i = 0; i < data.length; i++) {
-              toolCache.handleParsedData(data[i].ResourceId, table.displayTool.bind(table));
-            }
+    $(".accordion-pane").each(function () {
+      var table;
+      var table_name = this.children[0].children[1].id;
+      switch (table_name) {
+      case "building-infrastructure-table":
+        decision_query = "Building Infrastructure";
+        table = buildingInfrastructureTable;
+        break;
+      case "land-use-table":
+        decision_query = "Land Use";
+        table = landUseTable;
+        break;
+      case "transportation-table":
+        decision_query = "Transportation";
+        table = transportationTable;
+        break;
+      case "waste-management-table":
+        decision_query = "Waste Management";
+        table = wasteManagementTable;
+        break;
+      default:
+        return;
+      }
+      $.ajax({
+        type: 'GET',
+        url: resourceAdvancedSearchURL,
+        data: {
+          DecisionSector: decision_query,
+          Format: 'JSON'
+        },
+        dataType: 'json',
+        success: function (data) {
+          for (i = 0; i < data.length; i++) {
+            toolCache.handleParsedData(data[i].ResourceId, table.displayTool.bind(table));
           }
-        });
+        }
       });
+    });
   }
   tabsBrowserClicked = true;
 }
@@ -1104,9 +1091,9 @@ function loadModels2() {
  * Check all the checkboxes in the specified location
 */
 function selectAll(divID) {
-  var $selected = $('#'+divID +' input');
+  var $selected = $('#' + divID + ' input');
   var count = $selected.length;
-  $selected.each(function(){
+  $selected.each(function () {
     $(this).prop("checked", true);
     if (--count === 0){
       $(this).change();
@@ -1118,9 +1105,9 @@ function selectAll(divID) {
  * Uncheck all the checkboxes in the specified location
 */
 function deselectAll(divID) {
-  var $selected = $('#'+divID +' input');
+  var $selected = $('#' + divID + ' input');
   var count = $selected.length;
-  $selected.each(function(){
+  $selected.each(function () {
     $(this).prop("checked", false);
     if (--count === 0){
       $(this).change();

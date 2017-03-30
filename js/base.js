@@ -1,142 +1,160 @@
 $ = jQuery;// ensure jquery gets where it's expected
+
 /**
  * toolCache Object
 */
-var toolCache = (function() {
+var toolCache = (function () {
   var cache = {};
 
-  function _setData(id, data){
-    //console.log("adding data to cache");
+  function setData(id, data) {
     cache[id] = data;
   }
 
-  function _getData(id){
-    //console.log("getting data from cache");
+  function getData(id) {
     if (cache.hasOwnProperty(id)) {
       return cache[id];
     }
   }
 
   return { // public interface
-    handleParsedData: function(id, callback){
+    handleParsedData: function (id, callback) {
       if (cache.hasOwnProperty(id)) {
-        callback(_getData(id));
+        callback(getData(id));
       } else {
-        $.get(resourceDetailURL,{ResourceId:id}).done(function(data) {
-          _setData(id, parseResult(data));
-          callback(_getData(id));
+        $.get(resourceDetailURL, {ResourceId:id}).done(function (data) {
+          setData(id, parseResult(data));
+          callback(getData(id));
         });
       }
     },
-    getParsedData: function(id){
+    /**
+     * WIP 
+    */
+    handleToolSet: function (toolSet, callback) {
+      var readIds = Object.keys(toolSet.getToolSet());
+      for (var i = 0; i < readIds.length; i++) {
+        if (cache.hasOwnProperty(readIds[i])) {
+          callback(getData(readIds[i]));
+        } else {
+          $.get(resourceDetailURL, {ResourceId:readIds[i]}).done(function (data) {
+            setData(readIds[i], parseResult(data));
+            callback(getData(readIds[i]));
+          });
+        }
+      }
+    },
+    getParsedData: function (id) {
       if (cache.hasOwnProperty(id)) {
-        //console.log("in cache, returning");
-        return _getData(id);
+        return getData(id);
       } else {
-        //console.log("not in cache");
         return null;
       }
     },
-    getCache : function(){
+    getCache : function () {
       return cache;
     }
   };
 })();
+
 /**
  * ToolSet Object
 */
-function ToolSet(){
+function ToolSet() {
   this.toolSet = {};
   this.length = 0;
-  this.getToolSet = function(){
+  this.getToolSet = function () {
     return this.toolSet;
   };
-  this.getLength = function(){
+  this.getLength = function () {
     return this.length;
   };
-  this.addTool = function(toolId){
-    if (!this.getToolSet().hasOwnProperty(toolId)){
+  this.addTool = function (toolId) {
+    if (!this.getToolSet().hasOwnProperty(toolId)) {
       this.toolSet[toolId] = true;
       this.length++;
     }
   };
-  this.removeTool = function(toolId){
-    if (this.getToolSet().hasOwnProperty(toolId)){
+  this.removeTool = function (toolId) {
+    if (this.getToolSet().hasOwnProperty(toolId)) {
       delete this.toolSet[toolId];
       this.length--;
     }
   };
-  this.contains = function(toolId){
-    if (this.getToolSet().hasOwnProperty(toolId)){
+  this.contains = function (toolId) {
+    if (this.getToolSet().hasOwnProperty(toolId)) {
       return true;
     } else {
       return false;
     }
   };
-  this.isEqual = function(toolSet){
-    for (var toolId in this.toolSet){
-      if (this.toolSet.hasOwnProperty(toolId)){
-        if (!toolSet.hasOwnProperty(toolId)){
+  this.isEqual = function (toolSet) {
+    for (var toolId1 in this.toolSet) {
+      if (this.toolSet.hasOwnProperty(toolId1)) {
+        if (!toolSet.hasOwnProperty(toolId1)) {
           return false;
         }   
       }
     }
-    for (var toolId in toolSet){
-      if (toolSet.hasOwnProperty(toolId)){
-        if (!this.toolSet.hasOwnProperty(toolId)){
+    for (var toolId2 in toolSet) {
+      if (toolSet.hasOwnProperty(toolId2)) {
+        if (!this.toolSet.hasOwnProperty(toolId2)) {
           return false;
         }   
       }
     }
     return true;
   };
-  this.reset = function(){
+  this.reset = function () {
     this.toolSet = {};
     this.length = 0;
     this.displayed = false;
   };
-} 
+}
+
 /**
  * ToolDisplay Object
 */
-var ToolDisplay = function(tableId, listId) {
+var ToolDisplay = function (tableId, listId) {
   this.toolSet = new ToolSet();
   this.tableId = tableId;
   this.listId = listId;
 };
 
-ToolDisplay.prototype.getToolSet = function() {
+ToolDisplay.prototype.getToolSet = function () {
   return this.toolSet;
 };
 
-ToolDisplay.prototype.getTableId = function() {
+ToolDisplay.prototype.getTableId = function () {
   return this.tableId;
 };
 
-ToolDisplay.prototype.getListId = function() {
+ToolDisplay.prototype.getListId = function () {
   return this.listId;
 };
 
-ToolDisplay.prototype.isDisplayed = function() {
+ToolDisplay.prototype.isDisplayed = function () {
   return this.displayed;
 };
 
-ToolDisplay.prototype.displayTool = function(data) {
+ToolDisplay.prototype.displayTool = function (data) {
   this.getToolSet().addTool(data.READResourceIdentifier);
   addRow(data, this.getTableId(), createRow(data));
   addDiv(data, this.getListId());
 };
 
-ToolDisplay.prototype.displayToolSet = function(data) {
-  this.getToolSet().addTool(data.READResourceIdentifier);
-  addRow(data, this.getTableId(), createRow(data));
-  addDiv(data, this.getListId());
+ToolDisplay.prototype.displayToolSet = function (toolSet) {
+  console.log("this.toolSet");
+  console.log(this.toolSet);
+  console.log("toolSet");
+  console.log(toolSet);
 };
+
 /**
  * Create result and saved tool sets
 */
 var resultSet = new ToolSet();
 var savedTools = new ToolSet();
+
 /**
  * Create ToolDisplay Objects we need 
 */
@@ -150,21 +168,22 @@ var transportationTable = new ToolDisplay('transportation-table', 'transportatio
 /**
  * Toggle result table or list display styles
 */
-$('[name="display-type"]').change(function(){
-  if($(this).attr('id') === 'table-radio'){ // show table;
+$('[name="display-type"]').change(function () {
+  if($(this).attr('id') === 'table-radio') {
     $('#results-list-div').attr('aria-hidden', true);
     $('#results-table-div').attr('aria-hidden', false);
-  } else if ($(this).attr('id') === 'list-radio') { // show list
+    $('#results-table').DataTable().columns.adjust().draw(); // adjust table cols to the width of the container
+  } else if ($(this).attr('id') === 'list-radio') {
     $('#results-table-div').attr('aria-hidden', true);
     $('#results-list-div').attr('aria-hidden', false);
   }
 });
 
-/**
+/** DEPRECATED if no longer using Saved Tools tab
  * Toggle saved table or list display styles
 */
-$('[name="saved-display-type"]').change(function(){
-  if ($(this).attr('id') === 'saved-table-radio'){
+$('[name="saved-display-type"]').change(function () {
+  if ($(this).attr('id') === 'saved-table-radio') {
     $('#saved-list-div').attr('aria-hidden', true);
     $('#saved-table-div').attr('aria-hidden', false);
   } else if ($(this).attr('id') === 'saved-list-radio') { // show list
@@ -176,8 +195,8 @@ $('[name="saved-display-type"]').change(function(){
 /**
  * Toggle browse table or list display styles
 */
-$('[name="browse-display-type"]').change(function(){
-  if ($(this).attr('id') === 'browse-table-radio'){
+$('[name="browse-display-type"]').change(function () {
+  if ($(this).attr('id') === 'browse-table-radio') {
     $('.browse-list-div').attr('aria-hidden', true);
     $('.browse-table-div').attr('aria-hidden', false);
   } else if ($(this).attr('id') === 'browse-list-radio') { // show list
@@ -190,129 +209,130 @@ $('[name="browse-display-type"]').change(function(){
  * Create a DataTable row
 */
 function createRow(parsedResult) {
-  //Create row
-  var rowData = [
+  var rowData = [ //Create row
     parsedResult.Acronym,
     parsedResult.LongTitleText,
     parsedResult.LongDescription,
     parsedResult.DetailsBaseSoftwareCost,
     parsedResult.ModelScopeSpatialExtentDetail,
     parsedResult.ModelInputsTextArea,
-    parsedResult.ModelOutputsModelVariablesTextArea
+    parsedResult.ModelOutputsModelVariablesTextArea,
+    parsedResult.OperatingEnvironmentName,
+    parsedResult.OSName,
+    parsedResult.KeywordText,
+    parsedResult.ModelScopeDecisionSector,
+    parsedResult.DetailsOpenSource
   ];
-  //limit to 140 characters
-  for (var i=0;i<rowData.length;i++){
+  for (var i = 0; i < rowData.length; i++) { //limit to 140 characters
      if (rowData[i].length > 140) {
       rowData[i] = rowData[i].substr(0, 140) + '...';
     }
   }
   return rowData;
 }
+
 /**
  * Add a row to a data table
 */
 function addRow(parsedResult, tableId, rowData) {
-  //add row
-  $('#'+tableId).DataTable()
+  $('#' + tableId).DataTable() //add row
     .row.add(rowData)
     .draw()
     .nodes().to$()
     .addClass('result-row')
-    .attr('data-read-id',parsedResult.READResourceIdentifier)
+    .attr('data-read-id', parsedResult.READResourceIdentifier)
     .attr("id", tableId + '-' + parsedResult.READResourceIdentifier)
-    /*.click(function() {
+    /*.click(function () {
       showDetails(parsedResult.READResourceIdentifier);
     })*/
     ;
 }
 
-/**
+/** DEPRECATED if no longer using Saved Tools tab
  * Remove the selected tools from the saved tools list
 */
 function removeSelected(divID) {
-  $('#'+divID +' input').each(function(){
+  $('#' + divID + ' input').each(function () {
     if ($(this).prop("checked")) {
       savedTools.removeTool($(this).val());
-      $('#'+divID + ' > #' + divID + '-' + $(this).val()).remove();
-      $('#saved-table').DataTable().row('#saved-table-'+$(this).val()).remove().draw();
+      $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
+      $('#saved-table').DataTable().row('#saved-table-' + $(this).val()).remove().draw();
     }
   });
 }
 
-/**
+/** DEPRECATED if no longer using Saved Tools tab
  * Removes all tools from saved tools
 */
 function clearSaved(divID) {
-  $('#'+divID +' input').each(function(){
+  $('#' + divID + ' input').each(function () {
     savedTools.removeTool($(this).val());
-    $('#'+divID + ' > #' + divID + '-' + $(this).val()).remove();
+    $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
   });
   var table = $('#saved-table').DataTable(); 
-  table
-    .clear()
-    .draw();
+  table.clear().draw();
 }
 
-/**
+/** DEPRECATED if no longer using Selected Tools tab
  * Refactored code to display the selected tool data
 */
 function showDetails(id) {
   var parsedData = toolCache.getParsedData(id);
-  var html = '<div id="selected-tool-div" data-read-id="'+parsedData.READResourceIdentifier+'">'; 
+  var html = '<div id="selected-tool-div" data-read-id="' + parsedData.READResourceIdentifier + '">'; 
   var $tab = $("#selected-tool");
   try {
     $tab.empty();
   } catch (error) {
     console.log(error);
   }
-  if (parsedData){
-    html+= "<span class='bold'>Title</span>: "+parsedData.LongTitleText+"<br>";
-    html+= "<span class='bold'>Acronym</span>: "+parsedData.Acronym+"<br>";
-    html+= "<span class='bold'>Description</span>: "+parsedData.LongDescription+"<br>";
-    html+= "<span class='bold'>Ownership Type</span>: "+parsedData.OwnershipTypeName+"<br>";
-    html+= "<span class='bold'>Cost Details</span>: "+parsedData.DetailsBaseSoftwareCost+"<br>";
-    html+= "<span class='bold'>Other Costs</span>: "+parsedData.DetailsOtherCostConsiderations+"<br>";
-    html+= "<span class='bold'>Open Source</span>: "+parsedData.DetailsOpenSource+"<br>";
-    html+= "<span class='bold'>Decision Sector</span>: "+parsedData.ModelScopeDecisionSector+"<br>";
-    html+= "<span class='bold'>Keywords</span>: "+parsedData.KeywordText+"<br>";
-    html+= "<span class='bold'>User Support Name</span>: "+parsedData.UserSupportName+"<br>";
-    html+= "<span class='bold'>User Support Phone</span>: "+parsedData.UserSupportPhoneNumber+"<br>";
-    html+= "<span class='bold'>User Support Email</span>: "+parsedData.UserSupportEmail+"<br>";
-    html+= "<span class='bold'>User Support Material</span>: "+parsedData.UserSupportSourceOfSupportMaterials+"<br>";
-    html+= "<span class='bold'>URL</span>: "+parsedData.URLText+"<br>";
-    html+= "<span class='bold'>Current Phase</span>: "+parsedData.CurrentLifeCyclePhase+"<br>";
-    html+= "<span class='bold'>Last Modified</span>: "+parsedData.LastModifiedDateTimeText+"<br>";
-    html+= "<span class='bold'>Operating Environment</span>: "+parsedData.OperatingEnvironmentName+"<br>";
-    html+= "<span class='bold'>Operating System</span>: "+parsedData.OSName+"<br>";
-    html+= "<span class='bold'>Model Inputs</span>: "+parsedData.ModelInputsTextArea+"<br>";
-    html+= "<span class='bold'>Model Output Variables</span>: "+parsedData.ModelOutputsModelVariablesTextArea+"<br>";
-    html+= "<span class='bold'>Model Evaluation</span>: "+"<span class='bold'></span>: "+parsedData.ModelEvaluationTextArea+"<br>";
-    html+= "<span class='bold'>Scope and Time Scale</span>: "+parsedData.ModelScopeTimeScaleDetail+"<br>";
-    html+= "<span class='bold'>Spatial Extent</span>: "+parsedData.ModelScopeSpatialExtentDetail+"<br>";
-    html+= "<span class='bold'>Inputs Data Requirements</span>: "+parsedData.ModelInputsDataRequirements+"<br>";
-    html+= "</div>";
+  if (parsedData) {
+    html += "<span class='bold'>Title</span>: " + parsedData.LongTitleText + "<br>";
+    html += "<span class='bold'>Acronym</span>: " + parsedData.Acronym + "<br>";
+    html += "<span class='bold'>Description</span>: " + parsedData.LongDescription + "<br>";
+    html += "<span class='bold'>Ownership Type</span>: " + parsedData.OwnershipTypeName + "<br>";
+    html += "<span class='bold'>Cost Details</span>: " + parsedData.DetailsBaseSoftwareCost + "<br>";
+    html += "<span class='bold'>Other Costs</span>: " + parsedData.DetailsOtherCostConsiderations + "<br>";
+    html += "<span class='bold'>Open Source</span>: " + parsedData.DetailsOpenSource + "<br>";
+    html += "<span class='bold'>Decision Sector</span>: " + parsedData.ModelScopeDecisionSector + "<br>";
+    html += "<span class='bold'>Keywords</span>: " + parsedData.KeywordText + "<br>";
+    html += "<span class='bold'>User Support Name</span>: " + parsedData.UserSupportName + "<br>";
+    html += "<span class='bold'>User Support Phone</span>: " + parsedData.UserSupportPhoneNumber + "<br>";
+    html += "<span class='bold'>User Support Email</span>: " + parsedData.UserSupportEmail + "<br>";
+    html += "<span class='bold'>User Support Material</span>: " + parsedData.UserSupportSourceOfSupportMaterials + "<br>";
+    html += "<span class='bold'>URL</span>: " + parsedData.URLText + "<br>";
+    html += "<span class='bold'>Current Phase</span>: " + parsedData.CurrentLifeCyclePhase + "<br>";
+    html += "<span class='bold'>Last Modified</span>: " + parsedData.LastModifiedDateTimeText + "<br>";
+    html += "<span class='bold'>Operating Environment</span>: " + parsedData.OperatingEnvironmentName + "<br>";
+    html += "<span class='bold'>Operating System</span>: " + parsedData.OSName + "<br>";
+    html += "<span class='bold'>Model Inputs</span>: " + parsedData.ModelInputsTextArea + "<br>";
+    html += "<span class='bold'>Model Output Variables</span>: " + parsedData.ModelOutputsModelVariablesTextArea + "<br>";
+    html += "<span class='bold'>Model Evaluation</span>: " + "<span class='bold'></span>: "+parsedData.ModelEvaluationTextArea + "<br>";
+    html += "<span class='bold'>Scope and Time Scale</span>: " + parsedData.ModelScopeTimeScaleDetail + "<br>";
+    html += "<span class='bold'>Spatial Extent</span>: " + parsedData.ModelScopeSpatialExtentDetail + "<br>";
+    html += "<span class='bold'>Inputs Data Requirements</span>: " + parsedData.ModelInputsDataRequirements + "<br>";
+    html += "</div>";
     $tab.append(html);
-    $('#selected-tool-tab').parent().attr('aria-hidden',false);
-    $('#selected-tool-panel').attr('aria-hidden',false);
+    $('#selected-tool-tab').parent().attr('aria-hidden', false);
+    $('#selected-tool-panel').attr('aria-hidden', false);
     $("#selected-tool-tab").click();
     $("#selected-tool-tab").focus();
   } else {
     $tab.append(html);
-    $('#selected-tool-tab').parent().attr('aria-hidden',true);
-    $('#selected-tool-panel').attr('aria-hidden',true);
+    $('#selected-tool-tab').parent().attr('aria-hidden', true);
+    $('#selected-tool-panel').attr('aria-hidden', true);
   }
 }
 
 /**
- * Export the selected Saved tools from the saved tools list to a downloaded CSV
+ * Export the selected (check marked) tools from the tools list to a downloaded CSV
 */
-function exportCSV(savedResultsDiv) {
-  var records = $('#'+savedResultsDiv+' input:checked');
+function exportCSV(resultsDiv) {
+  var records = $('#' + resultsDiv + ' input:checked');
   if (records.length > 0) {
     var csvContent = '';
     var names = [];
     var values;
-    records.each(function(){
+    records.each(function () {
       values = [];
       var record = toolCache.getParsedData($(this).val());
       if (record) {
@@ -340,16 +360,16 @@ function exportCSV(savedResultsDiv) {
   }
 }
 
-/**
- * Export all Saved tools from the saved tools table to a downloaded CSV
+/** DEPRECATED if no longer exporting all instead of just the selected tools
+ * Export all tools from the tools table to a downloaded CSV
 */
-function exportAllCSV(savedResultsDiv) {
-  var records = $('#'+savedResultsDiv+' input');
+function exportAllCSV(resultsDiv) {
+  var records = $('#' + resultsDiv + ' input');
   if (records.length > 0) {
     var csvContent = '';
     var names = [];
     var values;
-    records.each(function(){
+    records.each(function () {
       values = [];
       var record = toolCache.getParsedData($(this).val());
       if (record) {
@@ -377,16 +397,15 @@ function exportAllCSV(savedResultsDiv) {
   }
 }
 
-/**
+/** DEPRECATED if no longer using Saved Tools tab
  * Saved all tools from the the tools table
 */
 function saveAllRecords(table_reference) {
-  var recordsToSave = $('#'+table_reference+' > tbody  > tr');
-  recordsToSave.each(function() {
+  var recordsToSave = $('#' + table_reference + ' > tbody  > tr');
+  recordsToSave.each(function () {
     if(!savedTools.contains($(this).attr('data-read-id'))) {
       savedTools.addTool($(this).attr('data-read-id'));
-      //populate divs
-      toolCache.handleParsedData($(this).attr('data-read-id'), savedTable.displayTool.bind(savedTable));
+      toolCache.handleParsedData($(this).attr('data-read-id'), savedTable.displayTool.bind(savedTable)); // populate divs
     }
   });
   if (savedTools.getLength() > 0) {
@@ -396,15 +415,14 @@ function saveAllRecords(table_reference) {
   }
 }
 
-/**
+/** DEPRECATED if no longer using Saved Tools tab
  * Saved tools from the the selected tool panel
 */
 function saveRecord() {
   var recordIdToSave = $('#selected-tool-div').attr('data-read-id');
   if(!savedTools.contains(recordIdToSave)) {
     savedTools.addTool(recordIdToSave);
-    //populate divs
-    toolCache.handleParsedData(recordIdToSave, savedTable.displayTool.bind(savedTable));
+    toolCache.handleParsedData(recordIdToSave, savedTable.displayTool.bind(savedTable)); // populate divs
   }
   if (savedTools.getLength() > 0) {
     $('#saved-tools-tab').parent().attr("aria-hidden", false);
@@ -412,16 +430,16 @@ function saveRecord() {
     $('#saved-tools-panel').attr("aria-hidden", false);
   }
 }
-/**
+
+/** DEPRECATED if no longer using Saved Tools tab
  * Save all selected tools to the Saved Tools tab
 */
 function saveSelectedRecords(resultsDiv) {
-  var recordsToSave = $('#'+resultsDiv+' input:checked');
-  recordsToSave.each(function() {
+  var recordsToSave = $('#' + resultsDiv + ' input:checked');
+  recordsToSave.each(function () {
     if(!savedTools.contains($(this).val())) {
-      savedTools.addTool($(this).val());
-      //populate divs
-      toolCache.handleParsedData($(this).val(), savedTable.displayTool.bind(savedTable));
+      savedTools.addTool($(this).val()); 
+      toolCache.handleParsedData($(this).val(), savedTable.displayTool.bind(savedTable)); // populate divs
     }
   });
   if (savedTools.getLength() > 0) {
