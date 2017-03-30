@@ -536,3 +536,168 @@ function addDiv(parsedResult, containerId) {
       )
   );
 }
+
+/**
+ * map details of a result into accessible locations
+ */
+var parseResult = function(result) {
+  if(typeof(result)=='undefined') {return;}// catch bad input
+  var openSourceMap = {// map integral data-standard to text
+    1:'Yes',
+    2:'No',
+    3:'Partial'
+  };
+  var dataRequirementsMap = {// map integral data-standard to text
+    1:'All data is provided.',
+    2:'Data is publicly available.',
+    3:'Data is not publicly available but routinely available.',
+    4:'New data must be created.'
+  };
+  var softwareCostMap = {// map integral data-standard to text
+    1:'Free',
+    2:'$1-$499',
+    3:'$500-$1499',
+    4:'$1500-$3999',
+    5:'>$4000'
+  };
+  var parsedResult = {};
+  parsedResult.READResourceIdentifier = readSafe(result,['READExportDetail','InfoResourceDetail','READResourceIdentifier']);
+  parsedResult.LongTitleText = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongTitleText']);
+  parsedResult.Acronym = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','Acronym']);
+  parsedResult.LongDescription = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','LongDescription']);
+  parsedResult.UserSupportName = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportName']);
+  parsedResult.UserSupportEmail = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportEmail']);
+  parsedResult.UserSupportPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportPhoneNumber']);
+  parsedResult.KeywordText = readSafe(result,['READExportDetail','InfoResourceDetail','KeywordDetail','KeywordText']);
+  parsedResult.InfoResourceStewardTagText = readSafe(result,['READExportDetail','InfoResourceDetail','TagDetail','InfoResourceStewardTagText']);
+  parsedResult.URLText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','URLText']);
+  parsedResult.HelpDeskEmailAddressText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskEmailAddressText']);
+  parsedResult.HelpDeskPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);
+  parsedResult.RCSResources = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
+  parsedResult.OwnershipTypeName = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
+  parsedResult.DetailsBaseSoftwareCost = parseSoftwareCost(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']));
+  parsedResult.DetailsOtherCostConsiderations = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOtherCostConsiderations']);
+  parsedResult.DetailsOpenSource = parseOpenSource(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsOpenSource']));
+  parsedResult.DetailsLastKnownSoftwareUpdate = readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsLastKnownSoftwareUpdate']);
+  parsedResult.ModelScopeDecisionSector = readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeDecisionSector']);
+  parsedResult.UserSupportSourceOfSupportMaterials = readSafe(result,['READExportDetail','InfoResourceDetail','UserSupportDetail','UserSupportSourceOfSupportMaterials']);
+  parsedResult.CurrentLifeCyclePhase = readSafe(result,['READExportDetail','InfoResourceDetail','LifeCycleDetail','CurrentLifeCyclePhase']);
+  parsedResult.LastModifiedDateTimeText = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedDateTimeText']);
+  parsedResult.LastModifiedPersonName = readSafe(result,['READExportDetail','InfoResourceDetail','LastModifiedPersonName']);
+  parsedResult.OperatingEnvironmentName = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqOperatingEnvironmentDetail','OperatingEnvironmentName']);
+  parsedResult.OSName = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqCompatibleOSDetail','OSName']);
+  parsedResult.OtherReqName = readSafe(result,['READExportDetail','InfoResourceDetail','TechRequirementsDetail','TechReqOtherReqDetail','OtherReqName']);
+  parsedResult.ModelInputsTextArea = readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsTextArea']);
+  parsedResult.ModelOutputsModelVariablesTextArea = readSafe(result,['READExportDetail','InfoResourceDetail','ModelOutputsDetail','ModelOutputsModelVariablesTextArea']);
+  parsedResult.ModelEvaluationTextArea = readSafe(result,['READExportDetail','InfoResourceDetail','ModelEvaluationDetail','ModelEvaluationTextArea']);
+  parsedResult.ModelScopeTimeScaleDetail = parseTimeScale(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeTimeScaleDetail']));
+  parsedResult.ModelScopeSpatialExtentDetail = parseSpatialExtent(readSafe(result,['READExportDetail','InfoResourceDetail','ModelScopeDetail','ModelScopeSpatialExtentDetail']));
+  parsedResult.ModelInputsDataRequirements = parseDataRequirements(readSafe(result,['READExportDetail','InfoResourceDetail','ModelInputsDetail','ModelInputsDataRequirements']));
+
+  /**
+   * return decoded value(s) accumulated into a string
+   * @arg field{object} contains either object[propertyName] or object[0][propertyName]
+   * @arg propertyName{string} name of the property that holds the desired value
+   * @arg map{object} decode values with map[object[propertyName]] or map[object[0][propertyName]]
+   * READ Web Services return one value if only one value exists. If several values then they're in an array.
+   * There are various data-standards used in READ, like storing integers in place of strings for options.
+  */
+  function mapAll(field, propertyName, map) {//
+    if (typeof propertyName != 'undefined') {// arg propertyName passed?
+      if (field[propertyName]) {return map[field[propertyName]];}// money-shot!
+      if (field.length) {
+        var accumulatedString = '';// append accumulated values here
+        for (var i = 0; i < field.length - 1; i++) {
+          if (typeof map === 'undefined') {// no arg map passed...
+            accumulatedString += field[i][propertyName] + ', ';// ...accumulate ith value
+          } else {// arg map was passed...
+            accumulatedString += map[field[i]][propertyName] + ', ';// ...accumulate ith value
+          }
+        }
+        if (typeof map === 'undefined') {// no arg map passed...
+          accumulatedString += 'and ' + field[field.length - 1][propertyName];// ...accumulate final value
+        } else {// arg map was passed...
+          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
+        }
+        return accumulatedString;
+      }
+    } else {// no arg propertyName
+      if (field) {return field;}
+      if (field.length) {
+        var accumulatedString = '';// append accumulated values here
+        for (var i = 0; i < field.length - 1; i++) {
+          if (typeof map === 'undefined') {// no arg map passed...
+            accumulatedString += field[i] + ', ';// ...accumulate ith value
+          } else {// arg map was passed...
+            accumulatedString += map[field[i]] + ', ';// ...accumulate ith value
+          }
+        }
+        if (typeof map === 'undefined') {// no arg map passed...
+          accumulatedString += 'and ' + field[field.length - 1][propertyName];// ...accumulate final value
+        } else {// arg map was passed...
+          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
+        }
+        return accumulatedString;
+      }
+    }
+  }
+
+  // DOCUMENT
+  function parseSpatialExtent(extent) {// possibly joins strings in an array
+    if (extent.SpatialExtentName) {return extent.SpatialExtentName;}// return desired value if it is a property of extent
+    if (extent.length) {// is array?(this means several values instead of just one)
+      if (typeof extent === 'string') {return extent;}
+      var str = '';// create string for appending each spatial extent to while looping through array
+      for (var i = 0; i < extent.length - 1; i++) {// loop through all elements except last...
+        if(extent.length > 2){
+          str += parseSpatialExtent(extent[i]) + ", ";//...append ith value and a delimiter. comma if more than 2 in list
+        } else {
+          str += parseSpatialExtent(extent[i]) + " ";//...append ith value and a delimiter just a space if only 2 in list
+        }
+      }
+      str += 'and ' + parseSpatialExtent(extent[extent.length - 1]);//append final value
+      return str; // return accumulated values in a string
+    }
+  }
+
+  // DOCUMENT
+  function parseOpenSource(openSource) {
+    if(openSourceMap.hasOwnProperty(openSource)){
+      return openSourceMap[openSource];
+    } else{
+      return openSource;
+    }
+  }// requires decoding a data-standard; will be mapped in parseResult.DetailsOpenSourceMap[INTEGER]
+
+  // DOCUMENT
+  function parseDataRequirements(dataRequirements) {// requires decoding a data-standard
+    return dataRequirementsMap[dataRequirements];// do work
+  }
+
+  // DOCUMENT
+  function parseSoftwareCost(softwareCost) {// requires decoding a data-standard
+    if (softwareCostMap.hasOwnProperty(softwareCost)){
+      return softwareCostMap[softwareCost];// do work
+    } else {
+      return "No Data";
+    }
+  }
+
+  // DOCUMENT
+  function parseTimeScale(timeScale) {//all that apply
+    if (timeScale.TimeScaleName) {return timeScale.TimeScaleName;}// return value if possible
+    if (timeScale.length) {
+      if (typeof timeScale === 'string') {return timeScale;}// if it's a string then return it
+      var timeStr = '';
+      for (var i=0;i<timeScale.length-1;i++) {// loop through all elements except last...
+        timeStr += timeScale[i].TimeScaleName;//...append ith value and a delimiter
+        if (timeScale.length > 2) {timeStr += ',';}// append comma when appropriate
+        timeStr += ' ';
+      }
+      if (timeScale.length > 2) {timeStr += 'and ';}// append 'and ' when appropriate
+      timeStr += timeScale[i].TimeScaleName;//append final value from array
+      return timeStr; // return accumulated values in string
+    }
+  }
+  return parsedResult;
+};
