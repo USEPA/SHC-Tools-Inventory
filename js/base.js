@@ -758,6 +758,36 @@ function readSafe(object, propertyArray) {
 }
 
 /**
+ * check if object represents xsi:nil or unsanitized absence of data
+ */
+var isNil = function(obj) {
+  return Boolean(
+      typeof(obj)==='undefined'||
+      obj.hasOwnProperty('xsi:nil')||
+      obj===null||
+      obj===''||
+      obj==='no data'
+  );
+};
+
+/**
+ * return 'no data' if obj is invalid data
+ * return obj otherwise
+ */
+var validata = function(obj) {
+  try{
+    if(isNil(obj)) {
+      return 'no data';
+    }else{
+      return obj;
+    }
+  }catch(e) {
+    console.log('caught this error while parsing: ',e);
+    return 'no data';
+  }
+};
+
+/**
  * Check all the checkboxes in the specified location
 */
 function selectAll(divID) {
