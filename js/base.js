@@ -1,7 +1,8 @@
 $ = jQuery;// ensure jquery gets where it's expected
+
 /**
  * toolCache Object
-*/
+ */
 var toolCache = (function() {
   var cache = {};
 
@@ -22,10 +23,12 @@ var toolCache = (function() {
       if (cache.hasOwnProperty(id)) {
         callback(_getData(id));
       } else {
-        $.get(resourceDetailURL,{ResourceId:id}).done(function(data) {
-          _setData(id, parseResult(data));
-          callback(_getData(id));
-        });
+        $.get(resourceDetailURL, {ResourceId:id}).done(
+            function(data) {
+              _setData(id, parseResult(data));
+              callback(_getData(id));
+            }
+          );
       }
     },
     getParsedData: function(id){
@@ -42,9 +45,10 @@ var toolCache = (function() {
     }
   };
 })();
+
 /**
  * ToolSet Object
-*/
+ */
 function ToolSet(){
   this.toolSet = {};
   this.length = 0;
@@ -96,9 +100,10 @@ function ToolSet(){
     this.displayed = false;
   };
 } 
+
 /**
  * ToolDisplay Object
-*/
+ */
 var ToolDisplay = function(tableId, listId) {
   this.toolSet = new ToolSet();
   this.tableId = tableId;
@@ -126,20 +131,15 @@ ToolDisplay.prototype.displayTool = function(data) {
   addRow(data, this.getTableId(), createRow(data));
   addDiv(data, this.getListId());
 };
-
 ToolDisplay.prototype.displayToolSet = function(data) {
   this.getToolSet().addTool(data.READResourceIdentifier);
   addRow(data, this.getTableId(), createRow(data));
   addDiv(data, this.getListId());
 };
-/**
- * Create result and saved tool sets
-*/
+// Create result and saved tool sets
 var resultSet = new ToolSet();
 var savedTools = new ToolSet();
-/**
- * Create ToolDisplay Objects we need 
-*/
+// Create ToolDisplay Objects we need 
 var resultTable = new ToolDisplay('results-table', 'results-list');
 var savedTable = new ToolDisplay('saved-table', 'saved-list');
 var buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table', 'building-infrastructure-list');
@@ -149,7 +149,7 @@ var transportationTable = new ToolDisplay('transportation-table', 'transportatio
 
 /**
  * Toggle result table or list display styles
-*/
+ */
 $('[name="display-type"]').change(function(){
   if($(this).attr('id') === 'table-radio'){ // show table;
     $('#results-list-div').attr('aria-hidden', true);
@@ -162,7 +162,7 @@ $('[name="display-type"]').change(function(){
 
 /**
  * Toggle saved table or list display styles
-*/
+ */
 $('[name="saved-display-type"]').change(function(){
   if ($(this).attr('id') === 'saved-table-radio'){
     $('#saved-list-div').attr('aria-hidden', true);
@@ -175,7 +175,7 @@ $('[name="saved-display-type"]').change(function(){
 
 /**
  * Toggle browse table or list display styles
-*/
+ */
 $('[name="browse-display-type"]').change(function(){
   if ($(this).attr('id') === 'browse-table-radio'){
     $('.browse-list-div').attr('aria-hidden', true);
@@ -188,7 +188,7 @@ $('[name="browse-display-type"]').change(function(){
 
 /**
  * Create a DataTable row
-*/
+ */
 function createRow(parsedResult) {
   //Create row
   var rowData = [
@@ -208,9 +208,10 @@ function createRow(parsedResult) {
   }
   return rowData;
 }
+
 /**
- * Add a row to a data table
-*/
+ * Add a row to a DataTable
+ */
 function addRow(parsedResult, tableId, rowData) {
   //add row
   $('#'+tableId).DataTable()
@@ -228,7 +229,7 @@ function addRow(parsedResult, tableId, rowData) {
 
 /**
  * Remove the selected tools from the saved tools list
-*/
+ */
 function removeSelected(divID) {
   $('#'+divID +' input').each(function(){
     if ($(this).prop("checked")) {
@@ -241,7 +242,7 @@ function removeSelected(divID) {
 
 /**
  * Removes all tools from saved tools
-*/
+ */
 function clearSaved(divID) {
   $('#'+divID +' input').each(function(){
     savedTools.removeTool($(this).val());
@@ -255,7 +256,7 @@ function clearSaved(divID) {
 
 /**
  * Refactored code to display the selected tool data
-*/
+ */
 function showDetails(id) {
   var parsedData = toolCache.getParsedData(id);
   var html = '<div id="selected-tool-div" data-read-id="'+parsedData.READResourceIdentifier+'">'; 
@@ -305,7 +306,7 @@ function showDetails(id) {
 
 /**
  * Export the selected Saved tools from the saved tools list to a downloaded CSV
-*/
+ */
 function exportCSV(savedResultsDiv) {
   var records = $('#'+savedResultsDiv+' input:checked');
   if (records.length > 0) {
@@ -342,7 +343,7 @@ function exportCSV(savedResultsDiv) {
 
 /**
  * Export all Saved tools from the saved tools table to a downloaded CSV
-*/
+ */
 function exportAllCSV(savedResultsDiv) {
   var records = $('#'+savedResultsDiv+' input');
   if (records.length > 0) {
@@ -378,8 +379,8 @@ function exportAllCSV(savedResultsDiv) {
 }
 
 /**
- * Saved all tools from the the tools table
-*/
+ * Save all tools from the the tools table
+ */
 function saveAllRecords(table_reference) {
   var recordsToSave = $('#'+table_reference+' > tbody  > tr');
   recordsToSave.each(function() {
@@ -397,8 +398,8 @@ function saveAllRecords(table_reference) {
 }
 
 /**
- * Saved tools from the the selected tool panel
-*/
+ * Save tools from the the selected tool panel
+ */
 function saveRecord() {
   var recordIdToSave = $('#selected-tool-div').attr('data-read-id');
   if(!savedTools.contains(recordIdToSave)) {
@@ -412,9 +413,10 @@ function saveRecord() {
     $('#saved-tools-panel').attr("aria-hidden", false);
   }
 }
+
 /**
  * Save all selected tools to the Saved Tools tab
-*/
+ */
 function saveSelectedRecords(resultsDiv) {
   var recordsToSave = $('#'+resultsDiv+' input:checked');
   recordsToSave.each(function() {

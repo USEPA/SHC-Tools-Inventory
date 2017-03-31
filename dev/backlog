@@ -228,6 +228,10 @@ backlog to track work to be done and by whom
 
 - create getSelectedConceptsAssociatedWithTool(toolID)
   - kyle: done
+
+- #BUG #BOTH Operating Environment not showing for tools with multiple OEs
+  - Envision Tomorrow and eSight should have OE "Browser, Desktop" instead have "no data" or blank entries
+  - kyle: done
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -285,9 +289,6 @@ backlog to track work to be done and by whom
 
 - Record pathway data(role,subrole,...) and/or saved tools
 
-- #BUG #BOTH Operating Environment not showing for tools with multiple OEs
- - Envision Tomorrow and eSight should have OE "Browser, Desktop" instead have "no data" or blank entries
-
 - Sorting/filtering result table (EPA Style guide has a link to a DataTable jquery library we like, you can see it in action here: https://www.epa.gov/superfund/search-superfund-sites-where-you-live) 
 
 - Clickable URLs on detail page
@@ -306,9 +307,8 @@ backlog to track work to be done and by whom
 
 - toasts to show features in optional walkthrough?
 
-- bridle rogue next button for paginated table
-
-- table double-prints columns description and base-cost
-
 - Possibly rework the autocomplete functionality
+  - kyle: WIP
+
+- hide concepts with no associated objectives in conceptsByObjective
   - kyle: WIP

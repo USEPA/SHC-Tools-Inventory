@@ -346,7 +346,7 @@
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
                 <h3>Concepts</h3>
-                <p>Select concepts and use the <strong>Find Tools by Concept</strong>-tab to display a list of tools. Using the <strong>Add Additional Concepts</strong>-button will add concepts related to selected concepts.</p>
+                <p>Select concepts and use the <strong>Find Tools by Concept</strong>-button to display a list of tools. Using the <strong>Add Additional Concepts</strong>-button will add concepts related to the selected concepts.</p>
                 <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
                 <div id="results-notification"></div>
                 <hr />
@@ -366,8 +366,8 @@
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
                 <h2 id="tools">Tools</h2>
                 <p>Selected tools will remain in your results as you perform additonal searches. Any unselected tools will be removed.</p>
-                <p>You can export your selected tools to a file your selected tools by using the <strong>Export Selected Tools to CSV</strong> button.</p>
-                <span>Choose a display type:</span>
+                <p>You can export your selected tools to a file by using the <strong>Export Selected Tools to CSV</strong>-button.</p>
+                <span>Choose a display:</span>
                   <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text</label>
                   <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table</label>
                 <div id="results-list-div">  
@@ -494,6 +494,10 @@ var advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","Owner
 var decisionSectors = ['land use','transportation','building infrastructure','waste management'];
 var showToast = true;
 
+/* Create listeners and execute procedures which need done
+   at the document's convenience in order to avoid a
+   noticeable delay in displaying the page.
+*/
 $(function() { // jquery's shorthand awaits readiness of document
   // populate the roles into #role div
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
@@ -1131,7 +1135,7 @@ var parseResult = function(result) {
   parsedResult.InfoResourceStewardTagText = readSafe(result,['READExportDetail','InfoResourceDetail','TagDetail','InfoResourceStewardTagText']);
   parsedResult.URLText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','URLText']);
   parsedResult.HelpDeskEmailAddressText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskEmailAddressText']);
-  parsedResult.HelpDeskPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);
+  parsedResult.HelpDeskPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskTelephoneNumber']);
   parsedResult.RCSResources = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
   parsedResult.OwnershipTypeName = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
   parsedResult.DetailsBaseSoftwareCost = parseSoftwareCost(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']));
@@ -1155,9 +1159,9 @@ var parseResult = function(result) {
 
   /**
    * return decoded value(s) accumulated into a string
-   * @arg field{object} contains either object[propertyName] or object[0][propertyName]
-   * @arg propertyName{string} name of the property that holds the desired value
-   * @arg map{object} decode values with map[object[propertyName]] or map[object[0][propertyName]]
+   * @param field{object} contains either object[propertyName] or object[0][propertyName]
+   * @param propertyName{string} name of the property that holds the desired value
+   * @param map{object} decode values with map[object[propertyName]] or map[object[0][propertyName]]
    * READ Web Services return one value if only one value exists. If several values then they're in an array.
    * There are various data-standards used in READ, like storing integers in place of strings for options.
    */
@@ -1265,17 +1269,13 @@ var parseResult = function(result) {
  * E.G.: readSafe(obj,['foo','bar','baz'])
  * safely returns obj.foo.bar.baz value if all properties exist
 */
-function readSafe(object, propertyArray) {
+var readSafe = function(object, propertyArray) {
   if(object[propertyArray[0]]) {// is first element of propertyArray a property of this object?
     var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
-    if(Object.keys(propertyArray).length==1) {// is this the last property in the array?
+    if (Object.keys(propertyArray).length==1) {// is this the last property in the array?
       if (value.length) {
-        if (typeof value != 'string') {
-          //console.log('readSafe is returning an array from object',object,'at property',propertyArray[0]);
-        }
         if (typeof value === 'string') {
           // scrape value for URLs with regex
-          // create a simply rad regex to find URLs
           var urlRegExp = /((http|ftp|https):\/\/[^ @"]+|[^@]\b[^ @"]+\.(com|gov|edu|org|net|info|io)[^ @"]*)/ig;
           // create a template of how to format the URL into a descriptive anchor
           var linkTemplate = '<a href="$1" target="_blank">$1<a>';
@@ -1292,6 +1292,23 @@ function readSafe(object, propertyArray) {
           var mailtoTemplate = '<a href="mailto:$1">$1</a>';
           // replace all email addresses in text with mailto links
           value = value.replace(emailRegExp, mailtoTemplate);
+        }else{// has length and isn't a string? Let's access it as an array!
+          try{// try accumulating a string from all elements
+            accumulatedString = '';
+            //console.log(value);
+            for (i in value) {
+              iValue = value[i][propertyArray[0].replace('Detail','Name').replace('ModelScope','')];
+              if (i > 0 && value.length > 2) {accumulatedString += ', '}
+              if (value.length == 2) {accumulatedString += ' '}
+              if (i == value.length - 1) {accumulatedString += 'and '}
+              accumulatedString += iValue;
+              //console.log('value['+i+'],iValue,accumulatedString:',value[i],iValue,accumulatedString);
+            }
+            return accumulatedString
+          }catch(error){// if fail by err then warn about possible need of extension
+            console.log('readSafe() erred and might need extended. Logging object, propertyArray, value:',object,propertyArray,value);
+          }finally{
+          }
         }
       }
       return value;// return possibly formatted contents of property
@@ -1304,8 +1321,29 @@ function readSafe(object, propertyArray) {
         return 'no data'; // return 'no data'
       }
     }
-  }else{//fail: element zero of propertyArray isn't a property of this object
-    return 'no data'; // fail safely: return 'no data'
+  }else{// first element propertyArray isn't a property of this object
+    var accumulatedString = '';
+    if (object.length && typeof(object).toLowerCase != 'string') {
+      for (i in object) {
+        accumulatedString += object[i][propertyArray[0]];
+        if (object.length - i > 1) {
+          if (object.length > 2) {
+            accumulatedString += ', ';
+          }
+          if (object.length == 2) {
+            accumulatedString += ' ';
+          }
+          if (object.length - i == 2) {
+            accumulatedString += 'and ';
+          }
+        }
+      }
+    //console.log('An element of propertyArray is missing from the indices of object. Logging object, propertyArray, accumulatedString:',object,propertyArray,accumulatedString);
+    return accumulatedString;
+    }else{
+      //console.log('readSafe() fell into an edge-case and might need extended if there is useful data in the JSON object named "object" at a location specified by the array "propertyArray." Logging object, propertyArray:',object,propertyArray,'Returning "no data."');
+      return 'no data'; // fail safely: return 'no data'
+    }
   }
 }
 
@@ -1329,13 +1367,14 @@ var isNil = function(obj) {
 var validata = function(obj) {
   try{
     if(isNil(obj)) {
-      return 'No Data';
+      //console.log('validata() discarded data from',obj);
+      return 'no data on file';
     }else{
       return obj;
     }
   }catch(e) {
-    console.log('caught this error while validating: ',e);
-    return 'No Data';
+    console.log('ERROR: validata() returned "no data" for',obj,'because it threw error',e);
+    return 'no data';
   }
 };
 //END TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
@@ -1529,7 +1568,7 @@ var broadenConcepts = function() {
 
 /**
  * select next tab when next button is activated
- * @arg $tabContainer the container for the tabs
+ * @param $tabContainer the container for the tabs
  */
 var activateNextTab = function($nextTab) {
   if ($nextTab.parent().attr('aria-hidden') === 'true') {
