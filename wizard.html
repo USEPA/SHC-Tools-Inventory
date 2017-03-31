@@ -471,16 +471,19 @@
       </div>
     </div>
   </footer>
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/css/select.dataTables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/css/buttons.dataTables.min.css">
   <script src="https://www.epa.gov/sites/all/libraries/template2/jquery.js"></script>
   <script src="https://www.epa.gov/sites/all/libraries/template2/js.js"></script>
   <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
-  <script src="https://www.epa.gov/sites/all/libraries/js/datatables/media/js/jquery.dataTables.min.js"></script>
-  <script src="https://www.epa.gov/sites/all/libraries/js/datatables/extras/Responsive/js/dataTables.responsive.min.js"></script>
-  <script src="https://www.epa.gov/sites/all/libraries/js/datatables/extras/Select/js/dataTables.select.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/js/dataTables.responsive.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/js/dataTables.select.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/dataTables.buttons.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/buttons.html5.min.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
-  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables/media/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables/extras/Select/css/select.dataTables.min.css">
-  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables/extras/Responsive/css/responsive.dataTables.min.css">
   <script src="js/porter-stemmer.js"></script>
   <script src="js/base.js"></script>
 <script>
@@ -490,45 +493,64 @@ var decisionSectors = ['land use','transportation','building infrastructure','wa
 var showToast = true;
 
 $(function () { // jquery's shorthand awaits readiness of document
-  // populate the roles into #role div
-  updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
-  // initialize tabs and their listeners
-  initializeTabs();
-  // [Violation] 'DOMContentLoaded' handler took 261ms
-  var table = $("#results-table").DataTable({
-    responsive: true,
-    select: true
+  updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate the roles into #role div
+  initializeTabs(); // initialize tabs and their listeners
+  var table = $("#results-table").DataTable({ // [Violation] 'DOMContentLoaded' handler took 261ms
+    dom: 'Bfrtip',
+    processing: true,
+    responsive: {
+      details: {
+        type: 'column'
+      }
+    },
+    select: true,
+    buttons: [
+      {
+        text: 'Select All Tools',
+        action: function () {
+          table.rows().select();
+          selectAll('results-list');
+        }
+      },
+      {
+        text: 'Deselect All Tools',
+        action: function () {
+          table.rows().deselect();
+          deselectAll('results-list');
+        }
+      },
+      { 
+        extend: 'csv', 
+        text: 'Export Selected Tools to CSV',
+        exportOptions: {
+          rows: {
+            selected: true
+          }
+        }
+      }
+    ]
   });
+
   $('#results-table tbody').on('click', 'tr', function () {
-    if ($(this).hasClass('selected')) {
-      // remove selected class
+    if ($(this).hasClass('selected')) { // remove selected class
       $(this).removeClass('selected');
-      // uncheck checkbox
       $('#results-list-cb-' + $(this).attr('data-read-id')).prop('checked', false);
-      // remove from saved tools
-      savedTools.removeTool($(this).attr('data-read-id'));
+      savedTools.removeTool($(this).attr('data-read-id')); // remove from saved tools
     }
     else {
-      // add selected class
-      $(this).addClass('selected');
-      // check check box
+      $(this).addClass('selected'); // add selected class
       $('#results-list-cb-' + $(this).attr('data-read-id')).prop('checked', true);
-      // add to saved tools
-      savedTools.addTool($(this).attr('data-read-id'));
+      savedTools.addTool($(this).attr('data-read-id')); // add to saved tools
     }
   });
 
   $("#results-list").on("change", "input:checkbox", function() {
-    if ($(this).prop('checked')) {
-      // add selected class
+    if ($(this).prop('checked')) { // add selected class
       $('#results-table').DataTable().row('#results-table-'+$(this).val()).select();
-      // add to saved tools
-      savedTools.addTool($(this).val());
+      savedTools.addTool($(this).val()); // add to saved tools
     } else {
-      // remove selected class
-      $('#results-table').DataTable().row('#results-table-'+$(this).val()).deselect();
-      // add to saved tools
-      savedTools.removeTool($(this).val());
+      $('#results-table').DataTable().row('#results-table-'+$(this).val()).deselect(); // remove selected class
+      savedTools.removeTool($(this).val()); // add to saved tools
     }
   });
 });
