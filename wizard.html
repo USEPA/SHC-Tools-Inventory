@@ -346,7 +346,7 @@
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
                 <h3>Concepts</h3>
-                <p>Select concepts and use the <strong>Find Tools by Concept</strong>-tab to display a list of tools. Using the <strong>Add Additional Concepts</strong>-button will add concepts related to selected concepts.</p>
+                <p>Select concepts and use the <strong>Find Tools by Concept</strong>-button to display a list of tools. Using the <strong>Add Additional Concepts</strong>-button will add concepts related to the selected concepts.</p>
                 <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
                 <div id="results-notification"></div>
                 <hr />
@@ -363,10 +363,9 @@
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
                 <h2 id="tools">Tools</h2>
-                <p>Select a tool using the checkbox, and it will persist as you perform additonal searches. Any unselected tools will be removed if you perform another search.</p>
+                <p>Selected tools will remain in your results as you perform additonal searches. Any unselected tools will be removed.</p>
                 <p>You can export your selected tools to a file by using the <strong>Export Selected Tools to CSV</strong> button.</p>
-                <p>There are two available views: Table and Text. The Text view allows all the details of a tool to be viewed. The Table view allows for searching, filtering, and sorting columns.</p>
-                <span>Choose a display type:</span>
+                <span>Choose a display:</span>
                   <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text</label>
                   <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table</label>
                 <div id="results-list-div">  
@@ -492,6 +491,10 @@ var advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","Owner
 var decisionSectors = ['land use','transportation','building infrastructure','waste management'];
 var showToast = true;
 
+/* Create listeners and execute procedures which need done
+   at the document's convenience in order to avoid a
+   noticeable delay in displaying the page.
+*/
 $(function () { // jquery's shorthand awaits readiness of document
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate the roles into #role div
   initializeTabs(); // initialize tabs and their listeners
@@ -998,7 +1001,6 @@ var getKeywords = function (input) {
   });
   return concepts;
 };
-//END TAG EXTRACT READ-INTERFACE INTO EXTERNAL FILE TO AVOID CODE-DUPLICATION AND SERVER-LOAD
 
 /**
  * Use links table to find related concepts
@@ -1033,18 +1035,6 @@ function conceptDplLinks() {
       }
     }
   }
-}
-
-function getToolConcepts(toolId) {
-  var concepts = [];
-  for (var concept in readIDsByConcept) {
-    if (readIDsByConcept.hasOwnProperty(concept)) {
-      if (readIDsByConcept[concept].indexOf(toolId + '') !== -1) {
-        concepts.push(concept);
-      }
-    }
-  }
-  return concepts;
 }
 
 function findChildConcepts() {
@@ -1172,7 +1162,7 @@ var broadenConcepts = function () {
 
 /**
  * select next tab when next button is activated
- * @arg $tabContainer the container for the tabs
+ * @param $tabContainer the container for the tabs
  */
 var activateNextTab = function($nextTab) {
   if ($nextTab.parent().attr('aria-hidden') === 'true') {

@@ -24,10 +24,12 @@ var toolCache = (function () {
       if (cache.hasOwnProperty(id)) {
         callback(getData(id));
       } else {
-        $.get(resourceDetailURL, {ResourceId:id}).done(function (data) {
-          setData(id, parseResult(data));
-          callback(getData(id));
-        });
+        $.get(resourceDetailURL, {ResourceId:id}).done(
+          function (data) {
+            setData(id, parseResult(data));
+            callback(getData(id));
+          }
+        );
       }
     },
     /**
@@ -61,7 +63,7 @@ var toolCache = (function () {
 
 /**
  * ToolSet Object
-*/
+ */
 function ToolSet() {
   this.toolSet = {};
   this.length = 0;
@@ -116,7 +118,7 @@ function ToolSet() {
 
 /**
  * ToolDisplay Object
-*/
+ */
 var ToolDisplay = function (tableId, listId) {
   this.toolSet = new ToolSet();
   this.tableId = tableId;
@@ -152,16 +154,10 @@ ToolDisplay.prototype.displayToolSet = function (toolSet) {
   console.log(toolSet);
 };
 
-/**
- * Create result and saved tool sets
-*/
-var resultSet = new ToolSet();
+var resultSet = new ToolSet(); // Create result and saved tool sets
 var savedTools = new ToolSet();
 
-/**
- * Create ToolDisplay Objects we need 
-*/
-var resultTable = new ToolDisplay('results-table', 'results-list');
+var resultTable = new ToolDisplay('results-table', 'results-list'); // Create ToolDisplay Objects we need 
 var savedTable = new ToolDisplay('saved-table', 'saved-list');
 var buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table', 'building-infrastructure-list');
 var landUseTable = new ToolDisplay('land-use-table', 'land-use-list');
@@ -170,7 +166,7 @@ var transportationTable = new ToolDisplay('transportation-table', 'transportatio
 
 /**
  * Toggle result table or list display styles
-*/
+ */
 $('[name="display-type"]').change(function () {
   if($(this).attr('id') === 'table-radio') {
     $('#results-list-div').attr('aria-hidden', true);
@@ -184,7 +180,7 @@ $('[name="display-type"]').change(function () {
 
 /** DEPRECATED if no longer using Saved Tools tab
  * Toggle saved table or list display styles
-*/
+ */
 $('[name="saved-display-type"]').change(function () {
   if ($(this).attr('id') === 'saved-table-radio') {
     $('#saved-list-div').attr('aria-hidden', true);
@@ -197,7 +193,7 @@ $('[name="saved-display-type"]').change(function () {
 
 /**
  * Toggle browse table or list display styles
-*/
+ */
 $('[name="browse-display-type"]').change(function () {
   if ($(this).attr('id') === 'browse-table-radio') {
     $('.browse-list-div').attr('aria-hidden', true);
@@ -210,7 +206,7 @@ $('[name="browse-display-type"]').change(function () {
 
 /**
  * Create a DataTable row
-*/
+ */
 function createRow(parsedResult) {
   var rowData = [ //Create row
     parsedResult.Acronym,
@@ -235,8 +231,8 @@ function createRow(parsedResult) {
 }
 
 /**
- * Add a row to a data table
-*/
+ * Add a row to a DataTable
+ */
 function addRow(parsedResult, tableId, rowData) {
   $('#' + tableId).DataTable() //add row
     .row.add(rowData)
@@ -253,7 +249,7 @@ function addRow(parsedResult, tableId, rowData) {
 
 /** DEPRECATED if no longer using Saved Tools tab
  * Remove the selected tools from the saved tools list
-*/
+ */
 function removeSelected(divID) {
   $('#' + divID + ' input').each(function () {
     if ($(this).prop("checked")) {
@@ -266,7 +262,7 @@ function removeSelected(divID) {
 
 /** DEPRECATED if no longer using Saved Tools tab
  * Removes all tools from saved tools
-*/
+ */
 function clearSaved(divID) {
   $('#' + divID + ' input').each(function () {
     savedTools.removeTool($(this).val());
@@ -278,7 +274,7 @@ function clearSaved(divID) {
 
 /** DEPRECATED if no longer using Selected Tools tab
  * Refactored code to display the selected tool data
-*/
+ */
 function showDetails(id) {
   var parsedData = toolCache.getParsedData(id);
   var html = '<div id="selected-tool-div" data-read-id="' + parsedData.READResourceIdentifier + '">'; 
@@ -328,7 +324,7 @@ function showDetails(id) {
 
 /**
  * Export the selected (check marked) tools from the tools list to a downloaded CSV
-*/
+ */
 function exportCSV(resultsDiv) {
   var records = $('#' + resultsDiv + ' input:checked');
   if (records.length > 0) {
@@ -365,7 +361,7 @@ function exportCSV(resultsDiv) {
 
 /** DEPRECATED if no longer exporting all instead of just the selected tools
  * Export all tools from the tools table to a downloaded CSV
-*/
+ */
 function exportAllCSV(resultsDiv) {
   var records = $('#' + resultsDiv + ' input');
   if (records.length > 0) {
@@ -401,8 +397,8 @@ function exportAllCSV(resultsDiv) {
 }
 
 /** DEPRECATED if no longer using Saved Tools tab
- * Saved all tools from the the tools table
-*/
+ * Save all tools from the the tools table
+ */
 function saveAllRecords(table_reference) {
   var recordsToSave = $('#' + table_reference + ' > tbody  > tr');
   recordsToSave.each(function () {
@@ -419,8 +415,8 @@ function saveAllRecords(table_reference) {
 }
 
 /** DEPRECATED if no longer using Saved Tools tab
- * Saved tools from the the selected tool panel
-*/
+ * Save tools from the the selected tool panel
+ */
 function saveRecord() {
   var recordIdToSave = $('#selected-tool-div').attr('data-read-id');
   if(!savedTools.contains(recordIdToSave)) {
@@ -436,7 +432,7 @@ function saveRecord() {
 
 /** DEPRECATED if no longer using Saved Tools tab
  * Save all selected tools to the Saved Tools tab
-*/
+ */
 function saveSelectedRecords(resultsDiv) {
   var recordsToSave = $('#' + resultsDiv + ' input:checked');
   recordsToSave.each(function () {
@@ -461,8 +457,8 @@ function saveSelectedRecords(resultsDiv) {
 function addDiv(parsedResult, containerId) {
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
   var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
-  var container = $('#'+containerId);
-  $(container).append(
+  var $container = $('#'+containerId);
+  $($container).append(
     $('<div />')
       .attr('id', containerId+'-'+parsedResult.READResourceIdentifier)
       .addClass('list-div')
@@ -514,6 +510,7 @@ function addDiv(parsedResult, containerId) {
               .append($('<span />').html('<span class="bold">Other Technical Requirements</span>: '+parsedResult.OtherReqName+'<br />'))
               .append($('<span />').html('<span class="bold">Model Inputs</span>: '+parsedResult.ModelInputsTextArea+'<br />'))
               .append($('<span />').html('<span class="bold">Model Outputs</span>: '+parsedResult.ModelOutputsModelVariablesTextArea+'<br />'))
+              .append($('<span />').html('<span class="bold">Selected Concepts</span>: '+getSelectedConceptsAssociatedWithTool(parsedResult.READResourceIdentifier)+'<br />'))
               .append($('<span />').html('<span class="bold">External Details</span>: <a href="'+prefixForExternalDetails+parsedResult.READResourceIdentifier+'" target="_blank">View Details Externally</a><br />')))
           .append(
             $('<div />')
@@ -538,7 +535,7 @@ function addDiv(parsedResult, containerId) {
           )
       )
   );
-}
+};
 
 /**
  * map details of a result into accessible locations
@@ -575,7 +572,7 @@ var parseResult = function(result) {
   parsedResult.InfoResourceStewardTagText = readSafe(result,['READExportDetail','InfoResourceDetail','TagDetail','InfoResourceStewardTagText']);
   parsedResult.URLText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','URLText']);
   parsedResult.HelpDeskEmailAddressText = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskEmailAddressText']);
-  parsedResult.HelpDeskPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskPhoneNumber']);
+  parsedResult.HelpDeskPhoneNumber = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','InternetDetail','HelpDeskTelephoneNumber']);
   parsedResult.RCSResources = readSafe(result,['READExportDetail','InfoResourceDetail','AccessDetail','RCSDetail','RCSResources']);
   parsedResult.OwnershipTypeName = readSafe(result,['READExportDetail','InfoResourceDetail','GeneralDetail','OwnershipTypeName']);
   parsedResult.DetailsBaseSoftwareCost = parseSoftwareCost(readSafe(result,['READExportDetail','InfoResourceDetail','ModelDetailsDetail','DetailsBaseSoftwareCost']));
@@ -599,12 +596,12 @@ var parseResult = function(result) {
 
   /**
    * return decoded value(s) accumulated into a string
-   * @arg field{object} contains either object[propertyName] or object[0][propertyName]
-   * @arg propertyName{string} name of the property that holds the desired value
-   * @arg map{object} decode values with map[object[propertyName]] or map[object[0][propertyName]]
+   * @param field{object} contains either object[propertyName] or object[0][propertyName]
+   * @param propertyName{string} name of the property that holds the desired value
+   * @param map{object} decode values with map[object[propertyName]] or map[object[0][propertyName]]
    * READ Web Services return one value if only one value exists. If several values then they're in an array.
    * There are various data-standards used in READ, like storing integers in place of strings for options.
-  */
+   */
   function mapAll(field, propertyName, map) {//
     if (typeof propertyName != 'undefined') {// arg propertyName passed?
       if (field[propertyName]) {return map[field[propertyName]];}// money-shot!
@@ -706,24 +703,58 @@ var parseResult = function(result) {
 };
 
 /**
+ * return selected concepts associated with given toolID
+ */
+var getSelectedConceptsAssociatedWithTool = function(toolID) {
+  if (typeof readIDsByConcept !== 'undefined') {
+    var selectedConceptsAssociatedWithTool = [];
+    var selectedConcepts = $('input[name="concept-checkbox"]:checked');
+    var toolConcepts = getToolConcepts(toolID);
+    // build array of tool's associated concepts that are selected
+    for (var i in selectedConcepts) {
+      for (var j in toolConcepts) {
+        if (selectedConcepts[i].value === toolConcepts[j]) {
+          selectedConceptsAssociatedWithTool.push(selectedConcepts[i].value);
+        }
+      }
+    }
+    // return array of selected concepts associated with tool
+    return selectedConceptsAssociatedWithTool;
+  } else {
+    return "none";
+  }
+};
+
+/**
+ * collect all concepts related to toolId in readIDsByConept
+ */
+function getToolConcepts(toolId) {
+  var concepts = [];
+  for (var concept in readIDsByConcept) {
+    if (readIDsByConcept.hasOwnProperty(concept)) {
+      if (readIDsByConcept[concept].indexOf(toolId + '') !== -1) {
+        concepts.push(concept);
+      }
+    }
+  }
+  return concepts;
+}
+
+/**
  * check existence of each prop_i in obj.prop_1...prop_n
- * @arg object{object} test the properties of object
- * @arg propertyArray{array} [prop_1,...,prop_n] s.t.
+ * @param object{object} test the properties of object
+ * @param propertyArray{array} [prop_1,...,prop_n] s.t.
  *      object[prop_1][...][prop_n] is the desired value
  * E.G.: readSafe(obj,['foo','bar','baz'])
  * safely returns obj.foo.bar.baz value if all properties exist
 */
-function readSafe(object, propertyArray) {
+var readSafe = function(object, propertyArray) {
   if(object[propertyArray[0]]) {// is first element of propertyArray a property of this object?
     var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
-    if(Object.keys(propertyArray).length==1) {// is this the last property in the array?
+    if (Object.keys(propertyArray).length==1) {// is this the last property in the array?
       if (value.length) {
-        if (typeof value != 'string') {
-          //console.log('readSafe is returning an array from object',object,'at property',propertyArray[0]);
-        }
         if (typeof value === 'string') {
           // scrape value for URLs with regex
-          // create a simply rad regex to find URLs
           var urlRegExp = /((http|ftp|https):\/\/[^ @"]+|[^@]\b[^ @"]+\.(com|gov|edu|org|net|info|io)[^ @"]*)/ig;
           // create a template of how to format the URL into a descriptive anchor
           var linkTemplate = '<a href="$1" target="_blank">$1<a>';
@@ -740,6 +771,23 @@ function readSafe(object, propertyArray) {
           var mailtoTemplate = '<a href="mailto:$1">$1</a>';
           // replace all email addresses in text with mailto links
           value = value.replace(emailRegExp, mailtoTemplate);
+        }else{// has length and isn't a string? Let's access it as an array!
+          try{// try accumulating a string from all elements
+            accumulatedString = '';
+            //console.log(value);
+            for (i in value) {
+              iValue = value[i][propertyArray[0].replace('Detail','Name').replace('ModelScope','')];
+              if (i > 0 && value.length > 2) {accumulatedString += ', '}
+              if (value.length == 2) {accumulatedString += ' '}
+              if (i == value.length - 1) {accumulatedString += 'and '}
+              accumulatedString += iValue;
+              //console.log('value['+i+'],iValue,accumulatedString:',value[i],iValue,accumulatedString);
+            }
+            return accumulatedString
+          }catch(error){// if fail by err then warn about possible need of extension
+            console.log('readSafe() erred and might need extended. Logging object, propertyArray, value:',object,propertyArray,value);
+          }finally{
+          }
         }
       }
       return value;// return possibly formatted contents of property
@@ -752,8 +800,29 @@ function readSafe(object, propertyArray) {
         return 'no data'; // return 'no data'
       }
     }
-  }else{//fail: element zero of propertyArray isn't a property of this object
-    return 'no data'; // fail safely: return 'no data'
+  }else{// first element propertyArray isn't a property of this object
+    var accumulatedString = '';
+    if (object.length && typeof(object).toLowerCase != 'string') {
+      for (i in object) {
+        accumulatedString += object[i][propertyArray[0]];
+        if (object.length - i > 1) {
+          if (object.length > 2) {
+            accumulatedString += ', ';
+          }
+          if (object.length == 2) {
+            accumulatedString += ' ';
+          }
+          if (object.length - i == 2) {
+            accumulatedString += 'and ';
+          }
+        }
+      }
+    //console.log('An element of propertyArray is missing from the indices of object. Logging object, propertyArray, accumulatedString:',object,propertyArray,accumulatedString);
+    return accumulatedString;
+    }else{
+      //console.log('readSafe() fell into an edge-case and might need extended if there is useful data in the JSON object named "object" at a location specified by the array "propertyArray." Logging object, propertyArray:',object,propertyArray,'Returning "no data."');
+      return 'no data'; // fail safely: return 'no data'
+    }
   }
 }
 
@@ -766,7 +835,7 @@ var isNil = function(obj) {
       obj.hasOwnProperty('xsi:nil')||
       obj===null||
       obj===''||
-      obj==='no data'
+      String(obj).toLowerCase()==='no data'
   );
 };
 
@@ -777,12 +846,13 @@ var isNil = function(obj) {
 var validata = function(obj) {
   try{
     if(isNil(obj)) {
-      return 'no data';
+      //console.log('validata() discarded data from',obj);
+      return 'no data on file';
     }else{
       return obj;
     }
   }catch(e) {
-    console.log('caught this error while parsing: ',e);
+    console.log('ERROR: validata() returned "no data" for',obj,'because it threw error',e);
     return 'no data';
   }
 };
