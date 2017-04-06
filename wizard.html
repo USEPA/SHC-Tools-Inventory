@@ -649,9 +649,6 @@ var populate = function (list, $container, onChange) {
   if (typeof list === 'undefined') {
     list = [];
   }// ensure list is defined
-  if (list.length === 0) {
-    return;
-  }
   var currentlySelected = []; // create container for current selections
   $container.find(':checked').each(function (i, v) {
     currentlySelected.push(v.value); // store current selections in container
