@@ -206,12 +206,12 @@
             <p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
             <div id="tabs">
               <ul class="tabs" id="tabs-nav" role="tablist">
-                <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Simple Search</a></li>
-                <li ><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" name="tab1" role="tab">Detailed Search</a></li>
+                <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Search</a></li>
+                <li><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" name="tab1" role="tab">Advanced Search</a></li>
                 <li><a aria-controls="browse-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#browse-tools-panel" id="browse-tools-tab" name="tab1" role="tab" onclick="loadModels2()">Browse Tools</a></li>
                 <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#results-panel" id="results-tab" name="tab1" role="tab">Results</a></li>
-                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
-                <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Tools</a></li>
+                <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Results</a></li>
+                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
               </ul>
               <div aria-hidden="false" aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" style="border: 1px solid #aaa;">
                 <h3>Search</h3>
@@ -222,7 +222,7 @@
                 <p id="simpleFeedback">No tools were found.</p>
               </div>
               <div aria-hidden="true" aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">
-                <h3>Detailed Search</h3>
+                <h3>Advanced Search</h3>
                 <p>Specify requirements of tools while searching for words contained in the tools' titles, acronyms, or descriptions.</p>
                 <hr />
                 <label for="detailed-search-text">
@@ -448,7 +448,7 @@
                 <div id="selected-tool"></div>
               </div>
               <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
-                <h3>Saved Tools</h3>
+                <h3>Saved Results</h3>
                 <p>These are the tools you chose to save.</p>
                 <p>Select the tools you would like to export to a downloadable CSV file.</p><hr />
                 <span>Choose a display type:</span>
@@ -575,7 +575,7 @@ const buildingInfrastructureTable = new ToolDisplay('building-infrastructure-tab
 const landUseTable = new ToolDisplay('land-use-table', 'land-use-list', 13);
 const wasteManagementTable = new ToolDisplay('waste-management-table', 'waste-management-list', 13);
 const transportationTable = new ToolDisplay('transportation-table', 'transportation-list', 13);
-// do fn on document's ready
+
 $(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
   
