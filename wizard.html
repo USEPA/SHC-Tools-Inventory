@@ -301,7 +301,7 @@
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
                 <h3>Concepts</h3>
                 <p>Select concepts and use the <strong>Find Tools by Concept</strong>-button to display a list of tools. Using the <strong>Add Additional Concepts</strong>-button will add concepts related to the selected concepts.</p>
-                <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
+                <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Tools by Concept</button>
                 <div id="results-notification"></div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('concept')">Select All Concepts</button>
@@ -332,6 +332,8 @@
                   <table class="revision-table" id="results-table" width="100%">
                     <thead>
                       <tr>
+                        <th></th>
+                        <th></th>
                         <th>Acronym</th>
                         <th>Title</th>
                         <th>Description</th>
@@ -441,6 +443,11 @@ const advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","Own
 const decisionSectors = ['land use','transportation','building infrastructure','waste management'];
 var showToast = true;
 
+const resultSet = new ToolSet(); // Create result and saved tool sets
+const savedTools = new ToolSet();
+
+const resultTable = new ToolDisplay('results-table', 'results-list', 14); // Create ToolDisplay Objects we need 
+
 /* Create listeners and execute procedures which need done
    at the document's convenience in order to avoid a
    noticeable delay in displaying the page.
@@ -448,6 +455,7 @@ var showToast = true;
 $(function () { // jquery's shorthand awaits readiness of document
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate the roles into #role div
   initializeTabs(); // initialize tabs and their listeners
+  
   var table = $("#results-table").DataTable({ // [Violation] 'DOMContentLoaded' handler took 261ms
     dom: 'Bfrtip',
     processing: true,
@@ -456,21 +464,37 @@ $(function () { // jquery's shorthand awaits readiness of document
         type: 'column'
       }
     },
-    select: true,
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [1]
+    },
+    {
+      orderable: false,
+      className: 'control',
+      targets: [0]
+    }],
+    select: {
+      style: 'os',
+      selector: 'td:nth-child(2)'
+    },
+    order: [[2, 'asc']],
     buttons: [
       {
         text: 'Select All Tools',
         action: function () {
           table.rows().select();
           selectAll('results-list');
-        }
+        },
+        className: 'button button-grey'
       },
       {
         text: 'Deselect All Tools',
         action: function () {
           table.rows().deselect();
           deselectAll('results-list');
-        }
+        },
+        className: 'button button-grey'
       },
       { 
         extend: 'csv', 
@@ -479,21 +503,22 @@ $(function () { // jquery's shorthand awaits readiness of document
           rows: {
             selected: true
           }
-        }
+        },
+        className: 'button button-white'
       }
     ]
   });
 
-  $('#results-table tbody').on('click', 'tr', function () {
-    if ($(this).hasClass('selected')) { // remove selected class
-      $(this).removeClass('selected');
-      $('#results-list-cb-' + $(this).attr('data-read-id')).prop('checked', false);
-      savedTools.removeTool($(this).attr('data-read-id')); // remove from saved tools
+  $('#results-table tbody').on('click', 'td:nth-child(2)', function () {
+    if ($(this).parent().hasClass('selected')) { // remove selected class
+      $(this).parent().removeClass('selected');
+      $('#results-list-cb-' + $(this).parent().attr('data-read-id')).prop('checked', false);
+      savedTools.removeTool($(this).parent().attr('data-read-id')); // remove from saved tools
     }
     else {
-      $(this).addClass('selected'); // add selected class
-      $('#results-list-cb-' + $(this).attr('data-read-id')).prop('checked', true);
-      savedTools.addTool($(this).attr('data-read-id')); // add to saved tools
+      $(this).parent().addClass('selected'); // add selected class
+      $('#results-list-cb-' + $(this).parent().attr('data-read-id')).prop('checked', true);
+      savedTools.addTool($(this).parent().attr('data-read-id')); // add to saved tools
     }
   });
 
@@ -506,6 +531,8 @@ $(function () { // jquery's shorthand awaits readiness of document
       savedTools.removeTool($(this).val()); // add to saved tools
     }
   });
+
+  $('.dt-button').removeClass('dt-button');
 });
 
 /**
@@ -654,6 +681,9 @@ var populate = function (list, $container, onChange) {
 var populateWithHeader = function (list, $container, onChange) {
   if (typeof list === 'undefined') {
     list = {length:0}; // ensure list is defined
+  }
+  if (list.length === 0) {
+    return;
   }
   var currentlySelected = [];
   $container.find(':checked').each(function (i, v) { // create an array for currently selected values
@@ -886,14 +916,14 @@ var keywordSearch = function (div, input) {
  * search for the READ IDs from the selected Concepts from input and display results in div
  */
 var conceptSearch = function (div, input) {
-  $('.result-checkbox').each(function () { //iterate over checkboxes and remove the unchecked values from the display and the resultSet
+  $('.results-checkbox').each(function () { //iterate over checkboxes and remove the unchecked values from the display and the resultSet
     if ($(this).prop('checked') !== true) {
       $('#results-list-' + $(this).val()).remove(); //remove from list
       resultSet.removeTool($(this).val()); //remove from resultSet
       resultTable.getToolSet().removeTool($(this).val()); //clear display data
     }
   });
-  $('#results-table').DataTable().rows( '.result-row:not(.selected)').remove().draw(); //clear table of values not makred selected
+  $('#results-table').DataTable().rows( '.results-row:not(.selected)').remove().draw(); //clear table of values not makred selected
 
   var concepts = getConcepts(input); //get new concepts
   if (concepts.length < 1) {

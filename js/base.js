@@ -121,10 +121,11 @@ function ToolSet() {
 /**
  * ToolDisplay Object
  */
-var ToolDisplay = function (tableId, listId) {
+var ToolDisplay = function (tableId, listId, columns) {
   this.toolSet = new ToolSet();
   this.tableId = tableId;
   this.listId = listId;
+  this.columns = columns; // Not an optimal solution
 };
 
 ToolDisplay.prototype.getToolSet = function () {
@@ -139,13 +140,18 @@ ToolDisplay.prototype.getListId = function () {
   return this.listId;
 };
 
+ToolDisplay.prototype.getColumns = function () { // Not an optimal solution
+  return this.columns;
+};
+
+
 ToolDisplay.prototype.isDisplayed = function () {
   return this.displayed;
 };
 
 ToolDisplay.prototype.displayTool = function (data) {
   this.getToolSet().addTool(data.READResourceIdentifier);
-  addRow(data, this.getTableId(), createRow(data));
+  addRow(data, this.getTableId(), createRow(data, this.getColumns()), this.getColumns());
   addDiv(data, this.getListId());
 };
 
@@ -155,16 +161,6 @@ ToolDisplay.prototype.displayToolSet = function (toolSet) {
   console.log("toolSet");
   console.log(toolSet);
 };
-
-var resultSet = new ToolSet(); // Create result and saved tool sets
-var savedTools = new ToolSet();
-
-var resultTable = new ToolDisplay('results-table', 'results-list'); // Create ToolDisplay Objects we need 
-var savedTable = new ToolDisplay('saved-table', 'saved-list');
-var buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table', 'building-infrastructure-list');
-var landUseTable = new ToolDisplay('land-use-table', 'land-use-list');
-var wasteManagementTable = new ToolDisplay('waste-management-table', 'waste-management-list');
-var transportationTable = new ToolDisplay('transportation-table', 'transportation-list');
 
 /**
  * Toggle result table or list display styles
@@ -209,21 +205,44 @@ $('[name="browse-display-type"]').change(function () {
 /**
  * Create a DataTable row
  */
-function createRow(parsedResult) {
-  var rowData = [ //Create row
-    parsedResult.Acronym,
-    parsedResult.LongTitleText,
-    parsedResult.LongDescription,
-    parsedResult.DetailsBaseSoftwareCost,
-    parsedResult.ModelScopeSpatialExtentDetail,
-    parsedResult.ModelInputsTextArea,
-    parsedResult.ModelOutputsModelVariablesTextArea,
-    parsedResult.OperatingEnvironmentName,
-    parsedResult.OSName,
-    parsedResult.KeywordText,
-    parsedResult.ModelScopeDecisionSector,
-    parsedResult.DetailsOpenSource
-  ];
+function createRow(parsedResult, columns) { 
+  var rowData;
+  if (columns === 14) { // Not an optimal solution
+    rowData = [ //Create row
+      "",
+      "",
+      parsedResult.Acronym,
+      parsedResult.LongTitleText,
+      parsedResult.LongDescription,
+      parsedResult.DetailsBaseSoftwareCost,
+      parsedResult.ModelScopeSpatialExtentDetail,
+      parsedResult.ModelInputsTextArea,
+      parsedResult.ModelOutputsModelVariablesTextArea,
+      parsedResult.OperatingEnvironmentName,
+      parsedResult.OSName,
+      parsedResult.KeywordText,
+      parsedResult.ModelScopeDecisionSector,
+      parsedResult.DetailsOpenSource
+    ];
+  } else {
+    rowData = [ //Create row
+      "",
+      parsedResult.Acronym,
+      parsedResult.LongTitleText,
+      parsedResult.LongDescription,
+      //parsedResult.DetailsBaseSoftwareCost,
+      parsedResult.ModelScopeSpatialExtentDetail,
+
+      parsedResult.ModelScopeSpatialExtentDetail,
+      parsedResult.ModelInputsTextArea,
+      parsedResult.ModelOutputsModelVariablesTextArea,
+      parsedResult.OperatingEnvironmentName,
+      parsedResult.OSName,
+      parsedResult.KeywordText,
+      parsedResult.ModelScopeDecisionSector,
+      parsedResult.DetailsOpenSource
+    ];
+  }
   for (var i = 0; i < rowData.length; i++) { //limit to 140 characters
      if (rowData[i].length > 140) {
       rowData[i] = rowData[i].substr(0, 140) + '...';
@@ -235,18 +254,19 @@ function createRow(parsedResult) {
 /**
  * Add a row to a DataTable
  */
-function addRow(parsedResult, tableId, rowData) {
-  $('#' + tableId).DataTable() //add row
+function addRow(parsedResult, tableId, rowData, columns) {
+  var $row = $('#' + tableId).DataTable() //add row
     .row.add(rowData)
     .draw()
-    .nodes().to$()
-    .addClass('result-row')
+    .nodes().to$();
+  $row.addClass('results-row')
     .attr('data-read-id', parsedResult.READResourceIdentifier)
-    .attr("id", tableId + '-' + parsedResult.READResourceIdentifier)
-    /*.click(function () {
+    .attr("id", tableId + '-' + parsedResult.READResourceIdentifier);
+  if (columns === 13) { // Not an optimal solution
+    $row.children().not(':first').click(function () {
       showDetails(parsedResult.READResourceIdentifier);
-    })*/
-    ;
+    });
+  }  
 }
 
 /** DEPRECATED if no longer using Saved Tools tab
@@ -470,7 +490,7 @@ function addDiv(parsedResult, containerId) {
           .attr('role','button')// baseline accessibility for details
           .append(
             $('<div />')
-              .html('<input class="result-checkbox" type="checkbox" id="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" value="'+parsedResult.READResourceIdentifier+'"/><label for="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" class="result-label"></label><span class="bold">'+parsedResult.LongTitleText+' ('+parsedResult.Acronym+')</span>: '+parsedResult.LongDescription)
+              .html('<input class="results-checkbox" type="checkbox" id="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" value="'+parsedResult.READResourceIdentifier+'"/><label for="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" class="results-label"></label><span class="bold">'+parsedResult.LongTitleText+' ('+parsedResult.Acronym+')</span>: '+parsedResult.LongDescription)
               .addClass('col size-95of100')))
       .append(
         $('<div />')

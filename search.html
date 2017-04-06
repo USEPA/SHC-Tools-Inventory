@@ -291,6 +291,7 @@
                       <table class="revision-table" id="building-infrastructure-table" width="100%">
                         <thead>
                           <tr>
+                            <th></th>
                             <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
@@ -317,6 +318,7 @@
                       <table class="revision-table" id="land-use-table" width="100%">
                         <thead>
                           <tr>
+                            <th></th>
                             <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
@@ -343,6 +345,7 @@
                       <table class="revision-table" id="transportation-table" width="100%">
                         <thead>
                           <tr>
+                            <th></th>
                             <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
@@ -369,6 +372,7 @@
                       <table class="revision-table" id="waste-management-table" width="100%">
                         <thead>
                           <tr>
+                            <th></th>
                             <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
@@ -408,6 +412,7 @@
                   <table class="revision-table" id="results-table" width="100%">
                     <thead>
                       <tr>
+                        <th></th>
                         <th>Acronym</th>
                         <th>Title</th>
                         <th>Description</th>
@@ -446,6 +451,7 @@
                   <table class="revision-table" id="saved-table" width="100%">
                     <thead>
                       <tr>
+                        <th></th>
                         <th>Acronym</th>
                         <th>Title</th>
                         <th>Description</th>
@@ -547,15 +553,323 @@
 <script>
 const resultSet = new ToolSet(); // Create result and saved tool sets
 const savedTools = new ToolSet();
+
+const resultTable = new ToolDisplay('results-table', 'results-list', 13); // Create ToolDisplay Objects we need 
+const savedTable = new ToolDisplay('saved-table', 'saved-list', 13);
+const buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table', 'building-infrastructure-list' , 13);
+const landUseTable = new ToolDisplay('land-use-table', 'land-use-list', 13);
+const wasteManagementTable = new ToolDisplay('waste-management-table', 'waste-management-list', 13);
+const transportationTable = new ToolDisplay('transportation-table', 'transportation-list', 13);
 // do fn on document's ready
-$(function() { // jquery's shorthand awaits readiness of document
+$(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
-  $("#results-table").DataTable({
-    responsive: true
+  
+  var table = $("#results-table").DataTable({
+    dom: 'Bfrtip',
+    processing: true,
+    responsive: {
+      details: false
+    },
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [0]
+    },
+    { 
+      width: "5%",
+      targets: 0 
+    }],
+    select: {
+      style: 'multi',
+      selector: 'td:first-child'
+    },
+    order: [[1, 'asc']],
+    buttons: [{
+        text: 'Select All Tools',
+        action: function () {
+          table.rows().select();
+          selectAll('results-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Deselect All Tools',
+        action: function () {
+          table.rows().deselect();
+          deselectAll('results-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Save Selected Tools',
+        action: function () {
+          saveSelectedRecords('results-list')
+        },
+        className: 'button button-white'
+      }]
   });
-  $("#saved-table").DataTable({
-    responsive: true
+
+  var saveTable = $("#saved-table").DataTable({ // [Violation] 'DOMContentLoaded' handler took 261ms
+    dom: 'Bfrtip',
+    processing: true,
+    responsive: {
+      details: false
+    },
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [0]
+    },
+    { 
+      width: "5%",
+      targets: 0 
+    }],
+    select: {
+      style: 'os',
+      selector: 'td:nth-child(2)'
+    },
+    order: [[2, 'asc']],
+    buttons: [{
+        text: 'Select All Tools',
+        action: function () {
+          saveTable.rows().select();
+          selectAll('saved-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Deselect All Tools',
+        action: function () {
+          saveTable.rows().deselect();
+          deselectAll('saved-list');
+        },
+        className: 'button button-grey'
+      },
+      { 
+        text: 'Remove Selected Tools',
+        action: function () {
+          removeSelected('saved-list');
+        },
+        className: 'button button-white'
+      },
+      { 
+        extend: 'csv', 
+        text: 'Export Selected Tools to CSV',
+        exportOptions: {
+          rows: {
+            selected: true
+          }
+        },
+        className: 'button button-white'
+      }]
   });
+
+  var buildInfraTable = $("#building-infrastructure-table").DataTable({
+    dom: 'Bfrtip',
+    processing: true,
+    responsive: {
+      details: false
+    },
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [0]
+    },
+    { 
+      width: "5%",
+      targets: 0 
+    }],
+    select: {
+      style: 'os',
+      selector: 'td:first-child'
+    },
+    order: [[1, 'asc']],
+    buttons: [{
+        text: 'Select All Tools',
+        action: function () {
+          buildInfraTable.rows().select();
+          selectAll('building-infrastructure-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Deselect All Tools',
+        action: function () {
+          buildInfraTable.rows().deselect();
+          deselectAll('building-infrastructure-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Save Selected Tools',
+        action: function () {
+          saveSelectedRecords('building-infrastructure-list')
+        },
+        className: 'button button-white'
+      }]
+  });
+
+  var landUseTable = $("#land-use-table").DataTable({
+    dom: 'Bfrtip',
+    processing: true,
+    responsive: {
+      details: false
+    },
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [0]
+    },
+    { 
+      width: "5%",
+      targets: 0 
+    }],
+    select: {
+      style: 'os',
+      selector: 'td:first-child'
+    },
+    order: [[1, 'asc']],
+    buttons: [{
+        text: 'Select All Tools',
+        action: function () {
+          landUseTable.rows().select();
+          selectAll('land-use-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Deselect All Tools',
+        action: function () {
+          landUseTable.rows().deselect();
+          deselectAll('land-use-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Save Selected Tools',
+        action: function () {
+          saveSelectedRecords('land-use-list')
+        },
+        className: 'button button-white'
+      }]
+  });
+
+  var wasteManage = $("#waste-management-table").DataTable({
+    dom: 'Bfrtip',
+    processing: true,
+    responsive: {
+      details: false
+    },
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [0]
+    },
+    { 
+      width: "5%",
+      targets: 0 
+    }],
+    select: {
+      style: 'os',
+      selector: 'td:first-child'
+    },
+    order: [[1, 'asc']],
+    buttons: [{
+        text: 'Select All Tools',
+        action: function () {
+          wasteManage.rows().select();
+          selectAll('waste-management-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Deselect All Tools',
+        action: function () {
+          wasteManage.rows().deselect();
+          deselectAll('waste-management-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Save Selected Tools',
+        action: function () {
+          saveSelectedRecords('waste-management-list')
+        },
+        className: 'button button-white'
+      }]
+  });
+
+  var transportTable = $("#transportation-table").DataTable({
+    dom: 'Bfrtip',
+    processing: true,
+    responsive: {
+      details: false
+    },
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [0]
+    },
+    { 
+      width: "5%",
+      targets: 0 
+    }],
+    select: {
+      style: 'os',
+      selector: 'td:first-child'
+    },
+    order: [[1, 'asc']],
+    buttons: [{
+        text: 'Select All Tools',
+        action: function () {
+          transportTable.rows().select();
+          selectAll('transportation-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Deselect All Tools',
+        action: function () {
+          transportTable.rows().deselect();
+          deselectAll('transportation-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Save Selected Tools',
+        action: function () {
+          saveSelectedRecords('transportation-list')
+        },
+        className: 'button button-white'
+      }]
+  });
+
+  $('tbody').on('click', 'td:first-child', function () {
+    console.log("First child Clicked");
+    var $parent = $(this).parent();
+    console.log($parent.attr('class'));
+    console.log($parent.hasClass('selected'));
+    if ($parent.hasClass('selected')) { // remove selected class
+      $('#results-list-cb-' + $parent.attr('data-read-id')).prop('checked', false);
+      savedTools.removeTool($parent.attr('data-read-id')); // remove from saved tools
+    }
+    else {
+      $('#results-list-cb-' + $parent.attr('data-read-id')).prop('checked', true);
+      savedTools.addTool($parent.attr('data-read-id')); // add to saved tools
+    }
+  });
+
+  $(".list").on("change", "input:checkbox", function () {
+    var list = $(this).attr('class').replace('-checkbox', '');
+    if ($(this).prop('checked')) { // add selected class
+      $('#' + list + '-table').DataTable().row('#' + list + '-table-' + $(this).val()).select();
+    } else {
+      $('#' + list + '-table').DataTable().row('#' + list + '-table-' + $(this).val()).deselect(); // remove selected class
+    }
+  });
+
+  $('.dt-button').removeClass('dt-button');
+
 });
 
 // DOCUMENT
