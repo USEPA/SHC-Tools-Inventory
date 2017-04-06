@@ -479,10 +479,10 @@ function saveSelectedRecords(resultsDiv) {
 function addDiv(parsedResult, containerId) {
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
   var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
-  var $container = $('#'+containerId);
+  var $container = $('#' + containerId);
   $($container).append(
     $('<div />')
-      .attr('id', containerId+'-'+parsedResult.READResourceIdentifier)
+      .attr('id', containerId + '-' + parsedResult.READResourceIdentifier)
       .addClass('list-div')
       .append(
         $('<div />')
@@ -490,20 +490,20 @@ function addDiv(parsedResult, containerId) {
           .attr('role','button')// baseline accessibility for details
           .append(
             $('<div />')
-              .html('<input class="results-checkbox" type="checkbox" id="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" value="'+parsedResult.READResourceIdentifier+'"/><label for="'+containerId+'-cb-'+parsedResult.READResourceIdentifier+'" class="results-label"></label><span class="bold">'+parsedResult.LongTitleText+' ('+parsedResult.Acronym+')</span>: '+parsedResult.LongDescription)
+              .html('<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult.READResourceIdentifier + '" value="' + parsedResult.READResourceIdentifier + '"/><label for="' + containerId + '-cb-' + parsedResult.READResourceIdentifier + '" class="results-label"></label><span class="bold">' + parsedResult.LongTitleText + ' (' + parsedResult.Acronym + ')</span>: ' + parsedResult.LongDescription)
               .addClass('col size-95of100')))
       .append(
         $('<div />')
           .addClass('row expand')
           .attr('tabindex','0')// ensure inclusion in tab-order based on position in document(default order)
           .click(function () {
-            $("#additional-details-"+containerId+'-'+parsedResult.READResourceIdentifier).toggle();
-            $("#additional-details-"+containerId+'-'+parsedResult.READResourceIdentifier).is(":visible") ? $('#expand-message'+containerId+'-'+parsedResult.READResourceIdentifier).html('Hide tool details...') : $('#expand-message'+containerId+'-'+parsedResult.READResourceIdentifier).html('Show tool details...');
+            $("#additional-details-" + containerId + '-' + parsedResult.READResourceIdentifier).toggle();
+            $("#additional-details-" + containerId + '-' + parsedResult.READResourceIdentifier).is(":visible") ? $('#expand-message' + containerId + '-' + parsedResult.READResourceIdentifier).html('Hide tool details...') : $('#expand-message' + containerId + '-' + parsedResult.READResourceIdentifier).html('Show tool details...');
             $(this).find('.accordian-result').toggleClass('collapsible');
           })
           .append(
             $('<span />')
-              .attr('id', 'expand-message'+containerId+'-'+parsedResult.READResourceIdentifier)
+              .attr('id', 'expand-message' + containerId + '-' + parsedResult.READResourceIdentifier)
               .html('Show tool details...')
               .addClass('col bold'))
           .append(
@@ -514,46 +514,46 @@ function addDiv(parsedResult, containerId) {
       .append(
         $('<div />')
           .css('display', 'none')
-          .attr('id', 'additional-details-'+containerId+'-'+parsedResult.READResourceIdentifier)
+          .attr('id', 'additional-details-' + containerId + '-' + parsedResult.READResourceIdentifier)
           .addClass('row')
           .append(
             $('<div />')    
               .addClass('col size-1of2')
-              .append($('<span />').html('<span class="bold">Contact Name</span>: '+parsedResult.UserSupportName+'<br />'))
-              .append($('<span />').html('<span class="bold">Contact Email</span>: '+parsedResult.UserSupportEmail+'<br />'))
-              .append($('<span />').html('<span class="bold">URL</span>: '+parsedResult.URLText+'<br />'))
-              .append($('<span />').html('<span class="bold">Internet Help Desk Phone</span>: '+parsedResult.HelpDeskPhoneNumber+'<br />'))
-              .append($('<span />').html('<span class="bold">Internet Help Desk Email</span>: '+parsedResult.HelpDeskEmailAddressText+'<br />'))
-              .append($('<span />').html('<span class="bold">Lifecycle Phase</span>: '+parsedResult.CurrentLifeCyclePhase+'<br />'))
-              .append($('<span />').html('<span class="bold">Last Modified</span>: '+parsedResult.LastModifiedDateTimeText+'<br />'))
-              .append($('<span />').html('<span class="bold">Last Modified By</span>: '+parsedResult.LastModifiedPersonName+'<br />'))
-              .append($('<span />').html('<span class="bold">Operating Environment</span>: '+parsedResult.OperatingEnvironmentName+'<br />'))
-              .append($('<span />').html('<span class="bold">Operating System</span>: '+parsedResult.OSName+'<br />'))
-              .append($('<span />').html('<span class="bold">Other Technical Requirements</span>: '+parsedResult.OtherReqName+'<br />'))
-              .append($('<span />').html('<span class="bold">Model Inputs</span>: '+parsedResult.ModelInputsTextArea+'<br />'))
-              .append($('<span />').html('<span class="bold">Model Outputs</span>: '+parsedResult.ModelOutputsModelVariablesTextArea+'<br />'))
-              .append($('<span />').html('<span class="bold">Selected Concepts</span>: '+getSelectedConceptsAssociatedWithTool(parsedResult.READResourceIdentifier)+'<br />'))
-              .append($('<span />').html('<span class="bold">External Details</span>: <a href="'+prefixForExternalDetails+parsedResult.READResourceIdentifier+'" target="_blank">View Details Externally</a><br />')))
+              .append($('<span />').html('<span class="bold">Contact Name</span>: ' + parsedResult.UserSupportName + '<br />'))
+              .append($('<span />').html('<span class="bold">Contact Email</span>: ' + parsedResult.UserSupportEmail + '<br />'))
+              .append($('<span />').html('<span class="bold">URL</span>: ' + parsedResult.URLText + '<br />'))
+              .append($('<span />').html('<span class="bold">Internet Help Desk Phone</span>: ' + parsedResult.HelpDeskPhoneNumber + '<br />'))
+              .append($('<span />').html('<span class="bold">Internet Help Desk Email</span>: ' + parsedResult.HelpDeskEmailAddressText + '<br />'))
+              .append($('<span />').html('<span class="bold">Lifecycle Phase</span>: ' + parsedResult.CurrentLifeCyclePhase + '<br />'))
+              .append($('<span />').html('<span class="bold">Last Modified</span>: ' + parsedResult.LastModifiedDateTimeText + '<br />'))
+              .append($('<span />').html('<span class="bold">Last Modified By</span>: ' + parsedResult.LastModifiedPersonName + '<br />'))
+              .append($('<span />').html('<span class="bold">Operating Environment</span>: ' + parsedResult.OperatingEnvironmentName + '<br />'))
+              .append($('<span />').html('<span class="bold">Operating System</span>: ' + parsedResult.OSName + '<br />'))
+              .append($('<span />').html('<span class="bold">Other Technical Requirements</span>: ' + parsedResult.OtherReqName + '<br />'))
+              .append($('<span />').html('<span class="bold">Model Inputs</span>: ' + parsedResult.ModelInputsTextArea + '<br />'))
+              .append($('<span />').html('<span class="bold">Model Outputs</span>: ' + parsedResult.ModelOutputsModelVariablesTextArea + '<br />'))
+              .append($('<span />').html('<span class="bold">Selected Concepts</span>: ' +  getSelectedConceptsAssociatedWithTool(parsedResult.READResourceIdentifier) + '<br />'))
+              .append($('<span />').html('<span class="bold">External Details</span>: <a href="' + prefixForExternalDetails + parsedResult.READResourceIdentifier + '" target="_blank">View Details Externally</a><br />')))
           .append(
             $('<div />')
               .addClass('col size-1of2')
-              .append($('<span />').html('<span class="bold">Keywords</span>: '+parsedResult.KeywordText+'<br />'))
-              .append($('<span />').html('<span class="bold">Tags</span>: '+parsedResult.InfoResourceStewardTagText+'<br />'))
-              .append($('<span />').html('<span class="bold">Alternative Names</span>: '+parsedResult.DetailsOtherCostConsiderations+'<br />'))
-              .append($('<span />').html('<span class="bold">Intranet Address</span>: '+parsedResult.intranetUrl+'<br />'))
-              .append($('<span />').html('<span class="bold">Intranet Help Desk Phone</span>: '+parsedResult.intranetHelpDeskPhone+'<br />'))
-              .append($('<span />').html('<span class="bold">Intranet Help Desk Email</span>: '+parsedResult.intranetHelpDeskEmail+'<br />'))
-              .append($('<span />').html('<span class="bold">Revision Control</span>: '+parsedResult.RCSResourcess+'<br />'))
-              .append($('<span />').html('<span class="bold">Ownership</span>: '+parsedResult.OwnershipTypeName+'<br />'))
-              .append($('<span />').html('<span class="bold">Software Cost</span>: '+parsedResult.DetailsBaseSoftwareCost+'<br />'))
-              .append($('<span />').html('<span class="bold">Other Cost</span>: '+parsedResult.DetailsOtherCostConsiderations+'<br />'))
-              .append($('<span />').html('<span class="bold">Open Source</span>: '+parsedResult.DetailsOpenSource+'<br />'))
-              .append($('<span />').html('<span class="bold">Decision Sector</span>: '+parsedResult.ModelScopeDecisionSector+'<br />'))
-              .append($('<span />').html('<span class="bold">Support Materials</span>: '+parsedResult.UserSupportSourceOfSupportMaterials+'<br />'))
-              .append($('<span />').html('<span class="bold">Model Evaluation</span>: '+parsedResult.ModelEvaluationTextArea+'<br />'))
-              .append($('<span />').html('<span class="bold">Model Time Scale</span>: '+parsedResult.ModelScopeTimeScaleDetail+'<br />'))
-              .append($('<span />').html('<span class="bold">Spatial Extent</span>: '+parsedResult.ModelScopeSpatialExtentDetail+'<br />'))
-              .append($('<span />').html('<span class="bold">Data Requirements</span>: '+parsedResult.ModelInputsDataRequirements+'<br />'))
+              .append($('<span />').html('<span class="bold">Keywords</span>: ' + parsedResult.KeywordText + '<br />'))
+              .append($('<span />').html('<span class="bold">Tags</span>: ' + parsedResult.InfoResourceStewardTagText + '<br />'))
+              .append($('<span />').html('<span class="bold">Alternative Names</span>: ' + parsedResult.DetailsOtherCostConsiderations + '<br />'))
+              .append($('<span />').html('<span class="bold">Intranet Address</span>: ' + parsedResult.intranetUrl + '<br />'))
+              .append($('<span />').html('<span class="bold">Intranet Help Desk Phone</span>: ' + parsedResult.intranetHelpDeskPhone + '<br />'))
+              .append($('<span />').html('<span class="bold">Intranet Help Desk Email</span>: ' + parsedResult.intranetHelpDeskEmail + '<br />'))
+              .append($('<span />').html('<span class="bold">Revision Control</span>: ' + parsedResult.RCSResourcess + '<br />'))
+              .append($('<span />').html('<span class="bold">Ownership</span>: ' + parsedResult.OwnershipTypeName + '<br />'))
+              .append($('<span />').html('<span class="bold">Software Cost</span>: ' + parsedResult.DetailsBaseSoftwareCost + '<br />'))
+              .append($('<span />').html('<span class="bold">Other Cost</span>: ' + parsedResult.DetailsOtherCostConsiderations + '<br />'))
+              .append($('<span />').html('<span class="bold">Open Source</span>: ' + parsedResult.DetailsOpenSource + '<br />'))
+              .append($('<span />').html('<span class="bold">Decision Sector</span>: ' + parsedResult.ModelScopeDecisionSector + '<br />'))
+              .append($('<span />').html('<span class="bold">Support Materials</span>: ' + parsedResult.UserSupportSourceOfSupportMaterials + '<br />'))
+              .append($('<span />').html('<span class="bold">Model Evaluation</span>: ' + parsedResult.ModelEvaluationTextArea + '<br />'))
+              .append($('<span />').html('<span class="bold">Model Time Scale</span>: ' + parsedResult.ModelScopeTimeScaleDetail + '<br />'))
+              .append($('<span />').html('<span class="bold">Spatial Extent</span>: ' + parsedResult.ModelScopeSpatialExtentDetail + '<br />'))
+              .append($('<span />').html('<span class="bold">Data Requirements</span>: ' + parsedResult.ModelInputsDataRequirements + '<br />'))
           )
       )
   );
