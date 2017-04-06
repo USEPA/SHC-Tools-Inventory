@@ -436,9 +436,9 @@
   <script src="js/porter-stemmer.js"></script>
   <script src="js/base.js"></script>
 <script>
-var advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","OwnershipType","OtherCostConsiderations","OpenSource","AlternativeNames","Keywords","Organization","ContactPerson","Email","Internet","LifeCycle","OperatingEnvironment","CompatibleOperatingSystems","OtherPropSoftwareReqs","ModelInputs","DataRequirements","ModelOutputTypes","OutputVariables","SourceOfSupportMaterials","TypesOfSupportMaterials","ModelEvaluation","ModelStructure","TimeScale","SpatialExtent","TechSkills","BaseCostOfSoftware","StewardDefinedTags","DecisionSector","Format"];
+const advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","OwnershipType","OtherCostConsiderations","OpenSource","AlternativeNames","Keywords","Organization","ContactPerson","Email","Internet","LifeCycle","OperatingEnvironment","CompatibleOperatingSystems","OtherPropSoftwareReqs","ModelInputs","DataRequirements","ModelOutputTypes","OutputVariables","SourceOfSupportMaterials","TypesOfSupportMaterials","ModelEvaluation","ModelStructure","TimeScale","SpatialExtent","TechSkills","BaseCostOfSoftware","StewardDefinedTags","DecisionSector","Format"];
 // details at READ web services' docs-page
-var decisionSectors = ['land use','transportation','building infrastructure','waste management'];
+const decisionSectors = ['land use','transportation','building infrastructure','waste management'];
 var showToast = true;
 
 /* Create listeners and execute procedures which need done
@@ -497,12 +497,12 @@ $(function () { // jquery's shorthand awaits readiness of document
     }
   });
 
-  $("#results-list").on("change", "input:checkbox", function() {
+  $("#results-list").on("change", "input:checkbox", function () {
     if ($(this).prop('checked')) { // add selected class
-      $('#results-table').DataTable().row('#results-table-'+$(this).val()).select();
+      $('#results-table').DataTable().row('#results-table-' + $(this).val()).select();
       savedTools.addTool($(this).val()); // add to saved tools
     } else {
-      $('#results-table').DataTable().row('#results-table-'+$(this).val()).deselect(); // remove selected class
+      $('#results-table').DataTable().row('#results-table-' + $(this).val()).deselect(); // remove selected class
       savedTools.removeTool($(this).val()); // add to saved tools
     }
   });
@@ -521,15 +521,15 @@ $(function () { // jquery's shorthand awaits readiness of document
  *                         - assertive interrupts user
  *   - parameters.container - ID of container to use for alert
 */
-var toast = function(parameters) {
+var toast = function (parameters) {
   // parametrize common literals up top like a best-practice-adherent coder
   noticeID = 'toast';
-  $notice = $('#'+noticeID);
+  $notice = $('#' + noticeID);
   // grab parameters
-  if (typeof parameters != 'undefined') {// does parameters object exist?
-    if (typeof parameters['container'] != 'undefined') {
+  if (typeof parameters !== 'undefined') {// does parameters object exist?
+    if (typeof parameters['container'] !== 'undefined') {
       noticeID = parameters['container'];
-      $notice = $('#'+noticeID);
+      $notice = $('#' + noticeID);
     }
     for (parameter in parameters) {
       // set css rules
@@ -556,33 +556,34 @@ var toast = function(parameters) {
   // Add the "show" class to notice
   notice.className = 'show';
   // remove the show class from notice after 5 seconds
-  setTimeout(function(){ notice.className = notice.className.replace("show", ""); }, 5000);
+  setTimeout(function () { 
+    notice.className = notice.className.replace("show", ""); 
+  }, 5000);
 };
 
 /**
  * initialize tabs; create listener for swithing tabs
 */
-var initializeTabs = function() {
+var initializeTabs = function () {
   $('#tabs > div').hide(); // hide all tab-panels
   $('#tabs div:first').show(); // show first tab-panel
   $('#tabsnav li:first').addClass('active'); // class tabs active for styling
   $('.menu-internal').click(function () { // add listener to tabbing elements
-    if (!$(this).is('[aria-disabled]')) {// tab doesn't have an aria-disabled attribute...
+    if (!$(this).is('[aria-disabled]')) { // tab doesn't have an aria-disabled attribute...
       $('#tabsnav li').removeClass('active'); // remove active styling from all tabs
-      var currentPanel = '#'+$(this).attr('aria-controls');// make a jquery object selecting the panel associated with the clicked tab
+      var currentPanel = '#' + $(this).attr('aria-controls');// make a jquery object selecting the panel associated with the clicked tab
       $(this).parent().addClass('active'); // activate the clicked tab
       $('#tabs > div').hide(); // hide all panels
       $(currentPanel).show(); // show clicked tab's panel
-      if (currentPanel === "#saved-tools-panel"){// is currentPanel saved-tools-panel?
-        $('#results-container').hide();// hide results
-        $('#results-container').attr('aria-hidden', 'true');// make disabled for assistive technologies
-      } else if ($('#results-list').has('div').length){// 
-        $('#results-container').show();// show results
+      if (currentPanel === "#saved-tools-panel") { // is currentPanel saved-tools-panel?
+        $('#results-container').hide(); // hide results
+        $('#results-container').attr('aria-hidden', 'true'); // make disabled for assistive technologies
+      } else if ($('#results-list').has('div').length) {// 
+        $('#results-container').show(); // show results
         $('#results-container').attr('aria-hidden', 'false');
       }
-    }else{// tab has attribute aria-disabled...
+    }else { // tab has attribute aria-disabled...
       console.log('The user has clicked a disabled tab. Consider implementing some means of making the interface reactive. Consider informing a user why this tab is disabled.');
-      // ...return
       return;
     }
   });
@@ -591,12 +592,12 @@ var initializeTabs = function() {
 /**
  * show more or less objectives
  */
-var objectiveDisplay = function(adjust) {
+var objectiveDisplay = function (adjust) {
   $('#objective-relevance').val(parseInt($('#objective-relevance').val()) + parseInt(adjust));
   var val = $('#objective-relevance').val();
-  if (val<=0) {
+  if (val <= 0) {
     $('#objective-relevance-decrease').prop('disabled', true);
-  }else if (val>=2) {
+  }else if (val >= 2) {
     $('#objective-relevance-increase').prop('disabled', true);
   }else{
     $('#objective-relevance-decrease').prop('disabled', false);
@@ -608,9 +609,11 @@ var objectiveDisplay = function(adjust) {
 /**
  * make interface react
 */
-var updateInterface = function(list, $container, onChange){
-  // populate next selectables
-  populate(list, $container, onChange);// populate list into $container
+var updateInterface = function (list, $container, onChange) {
+  if (list.length) {
+    // populate next selectables
+    populate(list, $container, onChange);// populate list into $container
+  }
   // toggle tab
   toggleTab(list, $container);// enable next tab iff list not empty
   // build selector for next button
@@ -623,18 +626,23 @@ var updateInterface = function(list, $container, onChange){
  * populate list into specified $container;
  * maintain selections when possible
  */
-var populate = function(list, $container, onChange) {
-  if (typeof list === 'undefined') {list = [];}// ensure list is defined
-  var currentlySelected = [];// create container for current selections
-  $container.find(':checked').each(function(i,v) {
-    currentlySelected.push(v.value);// store current selections in container
+var populate = function (list, $container, onChange) {
+  if (typeof list === 'undefined') {
+    list = [];
+  }// ensure list is defined
+  if (list.length === 0) {
+    return;
+  }
+  var currentlySelected = []; // create container for current selections
+  $container.find(':checked').each(function (i, v) {
+    currentlySelected.push(v.value); // store current selections in container
   });
-  $container.html('');// clear items out of container
-  var html = addCheckboxes(list.sort(), $container, onChange);// repopulate new selectables
-  $container.html(html);// create contents of $container
-  $container.find('input[type=checkbox]').each(function(i,v) {// look through each element in $container
-      if(currentlySelected.indexOf(v.value)!=-1) {// check if item was selected
-        $($(v)[0]).prop('checked',true);// select item
+  $container.html(''); // clear items out of container
+  var html = addCheckboxes(list.sort(), $container, onChange); // repopulate new selectables
+  $container.html(html); // create contents of $container
+  $container.find('input[type=checkbox]').each(function (i, v) { // look through each element in $container
+      if(currentlySelected.indexOf(v.value) !== -1) { // check if item was selected
+        $($(v)[0]).prop('checked', true); // select item
       }
   });
 };
@@ -648,10 +656,10 @@ var populateWithHeader = function (list, $container, onChange) {
     list = {length:0}; // ensure list is defined
   }
   var currentlySelected = [];
-  $container.find(':checked').each(function (i, v) {// create an array for currently selected values
+  $container.find(':checked').each(function (i, v) { // create an array for currently selected values
       currentlySelected.push(v.value);
   });
-  $container.html('');// clear items out of container
+  $container.html(''); // clear items out of container
   var html = '';
   var count = 0;
   for (var i in list) {
@@ -663,12 +671,12 @@ var populateWithHeader = function (list, $container, onChange) {
     }
   }
   $container.html(html);
-  toggleTab(list, $container);// enable next tab iff list not empty
-  var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
-  toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
-  $container.find('input[type=checkbox]').each(function (i, v) {// look through each element in $container
-    if(currentlySelected.indexOf(v.value) !== -1) {// check if item was currentlySelected
-      $($(v)[0]).prop('checked', true);// select item
+  toggleTab(list, $container); // enable next tab iff list not empty
+  var nextButtonClassSubstring = $container.attr("id"); // identify next button by who enables it
+  toggleNext(list, nextButtonClassSubstring); // enable next button iff list not empty 
+  $container.find('input[type=checkbox]').each(function (i, v) { // look through each element in $container
+    if(currentlySelected.indexOf(v.value) !== -1) { // check if item was currentlySelected
+      $($(v)[0]).prop('checked', true); // select item
     }
   });
 };
@@ -676,13 +684,13 @@ var populateWithHeader = function (list, $container, onChange) {
 /**
  * toggle disabled state of a next button
  */
-var toggleNext = function(list, nextButtonClassSubstring) {
-  var nextButtonSelector = '.enabled-by-'+nextButtonClassSubstring; // identify next button by who enables it
+var toggleNext = function (list, nextButtonClassSubstring) {
+  var nextButtonSelector = '.enabled-by-' + nextButtonClassSubstring; // identify next button by who enables it
   if (list.length > 0 || Object.keys(list).length > 0) {
-    $(nextButtonSelector+':not(.persist)')
-      .prop('disabled',false)
-      .css('display','inline');
-    if ($('#role :checked').length > 0 && showToast == true) {
+    $(nextButtonSelector + ':not(.persist)')
+      .prop('disabled', false)
+      .css('display', 'inline');
+    if ($('#role :checked').length > 0 && showToast === true) {
       toast({'html':'Click either the button at the bottom of the screen or the next tab to proceed when ready.<button onclick="showToast = false">Disable these messages</button>'});
     }
   }else{
@@ -695,20 +703,20 @@ var toggleNext = function(list, nextButtonClassSubstring) {
 /**
  * show tab iff usable
  */
-var toggleTab = function(list, $container) {
-  tabAnchor = '#'+$container.parent().attr('aria-labelledby');
+var toggleTab = function (list, $container) {
+  tabAnchor = '#' + $container.parent().attr('aria-labelledby');
   if (list.length > 0 || Object.keys(list).length > 0) {// items in list...
     // ...enable tabs
     $(tabAnchor).removeAttr('aria-disabled');
-    $(tabAnchor).attr('href',$(tabAnchor).attr('data-href'));
+    $(tabAnchor).attr('href', $(tabAnchor).attr('data-href'));
     $(tabAnchor).parent().removeAttr('aria-hidden');
     $(tabAnchor).removeAttr('aria-hidden');
     $(tabAnchor).show();
   }else{// no items in list...
     // ...disable tabs
-    $(tabAnchor).attr('aria-disabled','true').removeAttr('href');
+    $(tabAnchor).attr('aria-disabled', 'true').removeAttr('href');
     $(tabAnchor).hide();
-    $(tabAnchor).parent().attr('aria-hidden','true');
+    $(tabAnchor).parent().attr('aria-hidden', 'true');
   }
 };
 
@@ -753,9 +761,9 @@ var fundamentalObjectiveSelect = function () {
   var relevance = $('#objective-relevance').val();
   var objectivesFromSubroles = [];
   var objectivesFromSubrolesRelevance = [];
-  for (var i=0;i<=relevance;i++) {
+  for (var i = 0; i <= relevance; i++) {
     objectivesFromSubrolesRelevance = scrapeDictionary($("input[name='subrole-checkbox']:checked"), objectivesBySubroleRelevance[i]);
-    for (var j=0;j<objectivesFromSubrolesRelevance.length;j++) {
+    for (var j = 0; j < objectivesFromSubrolesRelevance.length; j++) {
       if (objectivesFromSubroles.indexOf(objectivesFromSubrolesRelevance[j]) === -1) {
         objectivesFromSubroles.push(objectivesFromSubrolesRelevance[j]);
       }
@@ -765,8 +773,8 @@ var fundamentalObjectiveSelect = function () {
   var objectivesFromFundamentalObjectives = scrapeDictionary($("input[name='fundamental-objective-checkbox']:checked"), objectivesByFundamentalObjective);
   // get objectives specified by both subroles and fundamental objectives
   var objectives = [];
-  for (i=0;i<objectivesFromSubroles.length;i++){
-    if (objectivesFromFundamentalObjectives.indexOf(objectivesFromSubroles[i]) !== -1){
+  for (i = 0; i < objectivesFromSubroles.length; i++) {
+    if (objectivesFromFundamentalObjectives.indexOf(objectivesFromSubroles[i]) !== -1) {
       objectives.push(objectivesFromSubroles[i]);
     }
   }  
@@ -880,7 +888,7 @@ var keywordSearch = function (div, input) {
 var conceptSearch = function (div, input) {
   $('.result-checkbox').each(function () { //iterate over checkboxes and remove the unchecked values from the display and the resultSet
     if ($(this).prop('checked') !== true) {
-      $('#results-list-'+$(this).val()).remove(); //remove from list
+      $('#results-list-' + $(this).val()).remove(); //remove from list
       resultSet.removeTool($(this).val()); //remove from resultSet
       resultTable.getToolSet().removeTool($(this).val()); //clear display data
     }
@@ -1014,7 +1022,7 @@ function findChildConcepts() {
   console.log("Children: " + associatedConcepts);
 }
 
-function findParentConcepts(){
+function findParentConcepts() {
   if ($('input[name="concept-checkbox"]:checked').length === 0) {
     return;
   }
@@ -1044,7 +1052,7 @@ function findParentConcepts(){
   console.log("Parents: "+ associatedConcepts);
 }
 
-function findSiblingConcepts(){
+function findSiblingConcepts() {
   if ($('input[name="concept-checkbox"]:checked').length === 0) {
     return;
   }
@@ -1114,12 +1122,12 @@ var broadenConcepts = function () {
  * select next tab when next button is activated
  * @param $tabContainer the container for the tabs
  */
-var activateNextTab = function($nextTab) {
+var activateNextTab = function ($nextTab) {
   if ($nextTab.parent().attr('aria-hidden') === 'true') {
   } else {
-    $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected','false');// deactivate active tab
-    $nextTab.attr('aria-selected','true');// list this tab as active
-    $nextTab.prop('disabled',false);// enable tab
+    $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected', 'false');// deactivate active tab
+    $nextTab.attr('aria-selected', 'true');// list this tab as active
+    $nextTab.prop('disabled', false);// enable tab
     $nextTab.click();// activate tab
     //location.hash = '#explore-role-tab';// not working...
   }
@@ -1128,25 +1136,25 @@ var activateNextTab = function($nextTab) {
 /**
  * return an object containing all SHC-tools indexed by decision-sector
 */
-var allTools = function() {
-  var tools={};
-  tools.transportation={};
-  $.get(resourceAdvancedSearchURL,{DecisionSector:'Transportation'}).done(function(data) {$.each(data,function(i) {tools.transportation[data[i].ResourceId]=data[i].ResourceAcronym;});});
-  tools.wasteManagement={};
-  $.get(resourceAdvancedSearchURL,{DecisionSector:'Waste Management'}).done(function(data) {$.each(data,function(i) {tools.wasteManagement[data[i].ResourceId]=data[i].ResourceAcronym;});});
-  tools.buildingInfrastructure={};
-  $.get(resourceAdvancedSearchURL,{DecisionSector:'Building Infrastructure'}).done(function(data) {$.each(data,function(i) {tools.buildingInfrastructure[data[i].ResourceId]=data[i].ResourceAcronym;});});
-  tools.landUse={};
-  $.get(resourceAdvancedSearchURL,{DecisionSector:'Land Use'}).done(function(data) {$.each(data,function(i) {tools.landUse[data[i].ResourceId]=data[i].ResourceAcronym;});});
+var allTools = function () {
+  var tools = {};
+  tools.transportation = {};
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Transportation'}).done(function (data) {$.each(data, function (i) {tools.transportation[data[i].ResourceId] = data[i].ResourceAcronym;});});
+  tools.wasteManagement = {};
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Waste Management'}).done(function (data) {$.each(data, function (i) {tools.wasteManagement[data[i].ResourceId] = data[i].ResourceAcronym;});});
+  tools.buildingInfrastructure = {};
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Building Infrastructure'}).done(function (data) {$.each(data, function (i) {tools.buildingInfrastructure[data[i].ResourceId] = data[i].ResourceAcronym;});});
+  tools.landUse = {};
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Land Use'}).done(function (data) {$.each(data, function (i) {tools.landUse[data[i].ResourceId] = data[i].ResourceAcronym;});});
   return tools;
 };
 
 /**
  * print details for a given READ ID in the console
 */
-var getDetailsFromId = function(id) {
-  $.get(resourceDetailURL,{ResourceId:id}).done(function(data) {
-    console.log(data.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym,': ',data.READExportDetail.InfoResourceDetail);
+var getDetailsFromId = function (id) {
+  $.get(resourceDetailURL, {ResourceId:id}).done(function (data) {
+    console.log(data.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym + ': ' + data.READExportDetail.InfoResourceDetail);
   });
 };
 
@@ -1211,7 +1219,7 @@ function markBlanks(markThis, byThis) {
 */
 function printLeafNodeArray() {
   var str = '[';
-  for (var i = 0; i < leafNodes.length; i++){
+  for (var i = 0; i < leafNodes.length; i++) {
     str += '"' + leafNodes[i] + '", ';
   }
 
