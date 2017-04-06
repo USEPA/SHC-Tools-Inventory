@@ -229,6 +229,15 @@
                 <input autocomplete="off" class="ui-autocomplete-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text">
                 <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
                 <form>
+                  <div aria-labelledby="search-field-label" class="form-item form-type-checkbox" id="search-field" role="group">
+                    <h4 id="search-field-label">Choose additional Search Fields:</h4>
+                    <input class="form-checkbox" id="model-input" type="checkbox" value="ModelInputs" />
+                    <label class="option" for="model-input">Model Inputs</label>
+                    <input class="form-checkbox" id="output-variables" type="checkbox" value="OutputVariables" />
+                    <label class="option" for="output-variables">Output Variables</label>
+                    <input class="form-checkbox" id="model-evaluation" type="checkbox" value="ModelEvaluation" />
+                    <label class="option" for="model-evaluation">Model Evaluation</label>
+                  </div>
                   <div aria-labelledby="decision-sector-label" class="form-item form-type-checkbox" id="decision-select" role="group">
                     <h4 id="decision-sector-label">Choose Decision Sectors to find only tools in these Decision Sectors.</h4>
                     <input class="form-checkbox" id="decision-sector-building" type="checkbox" value="building infrastructure" />
@@ -456,16 +465,14 @@
                 <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text</label>
                 <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table</label>
                 <div id="saved-list-div">
-                  <button onclick="selectAll('saved-list')">Select All</button>
-                  <button onclick="deselectAll('saved-list')">Deselect All</button>
-                  <button onclick="removeSelected('saved-list')">Remove Selected Tools</button>
-                  <button onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
-                  <div id="saved-list"></div>
+                  <button class="button-grey" onclick="selectAll('saved-list');$('#saved-table').DataTable().rows().select();">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAll('saved-list');$('#saved-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                  <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
+                  <button class="button-white" onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
+                  <hr />
+                  <div id="saved-list" class="list"></div>
                 </div>
                 <div aria-hidden="true" id="saved-table-div">
-                  <p>Your saved results:</p>
-                  <button class="button" onclick="clearSaved('saved-list')">Clear Saved</button>
-                  <button class="button" onclick="exportAllCSV('saved-list')">Export CSV</button>
                   <table class="revision-table" id="saved-table" width="100%">
                     <thead>
                       <tr>
@@ -935,21 +942,17 @@ function addMembers(dataList, fieldName, fieldValues) {
 /**
  * Search for text and choose other criteria for tools.
  */
-var detailedSearch = function() {
-  //clear result table
-  $('#results-table').DataTable().clear().draw();
-  //clear result div
-  $('#results-list *').remove(); //clears for new results
-  //clear result set
-  resultSet.reset();
+var detailedSearch = function () {
+  $('#results-table').DataTable().clear().draw(); // clear result table
+  $('#results-list *').remove(); // clear result div
+  resultSet.reset(); // clear result set
+  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"].concat($("#search-field input:checkbox:checked").map(function(){return $(this).val()}).get());
   var queryString = $('#detailed-search-text').val().trim().toLowerCase();
-  var decisionSectors = $('#decision-select :checkbox:checked').map(function(){return $(this).val();});
-  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
+  var decisionSectors = $('#decision-select :checkbox:checked').map(function () {return $(this).val();});
   var $feedbackDiv = $('#detailed-search-feedback');
-  var os_select = checkBoxValue(document.getElementsByName('RadioEnvironment'));
-  var cost_select = checkBoxValue(document.getElementsByName('CheckBase'));
-  var extent_select = $('#extent-select :checkbox:checked').map(function(){return $(this).val()});
-  var extent_select = $('#detail-extent-checkbox :checkbox:checked').map(function(){return $(this).val()});
+  var os_select = checkBoxValue(document.getElementsByName('radioenvironment'));
+  var cost_select = checkBoxValue(document.getElementsByName('checkbase'));
+  var extent_select = $('#extent-select :checkbox:checked').map(function () {return $(this).val()});
   var results = [];
   var requests = [];
   var data = {};
@@ -1002,6 +1005,7 @@ var detailedSearch = function() {
   }
 };
 
+var executeSearch = function (url, data) {
   return $.ajax({
     type: 'GET',
     url: url,
@@ -1024,7 +1028,7 @@ simpleSearch = function () {
   $('#results-list *').remove(); //clear result list
   resultSet.reset(); //clear result data
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
-  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
+  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"];
   var $feedbackDiv = $('#simpleFeedback');
   var results = [];
   var requests = [];
@@ -1068,7 +1072,7 @@ function loadModels2() {
   if (tabsBrowserClicked === false) {
     $(".accordion-pane").each(function () {
       var table;
-      var table_name = this.children[0].children[1].id;
+      var table_name = $(this).find('table').attr('id');
       switch (table_name) {
       case "building-infrastructure-table":
         decision_query = "Building Infrastructure";
