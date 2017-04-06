@@ -299,9 +299,6 @@
                   <div id="detailed-search-feedback">No results were found.</div>
                   <button id="detailed-reset" type="reset">Reset Selected Requirements</button>
                 </form>
-                <label for="detailed-search-text">
-                <input autocomplete="off" class="ui-autocomplete-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="search for tools by matching words" type="text">
-                <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
               </div>
               <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" aria-hidden="true">
                 <h3>Browse the Tools by Decision Sector</h3>
@@ -314,7 +311,6 @@
                   <h4 class="accordion-title"><a>Building and Infrastructure</a></h4>
                   <div class="accordion-pane" id="browseBuildingInfrastructure" style="display: none;">
                     <div class="browse-table-div" aria-hidden="true">
-                      <button class="button" onclick="saveAllRecords('building-infrastructure-table')">Save All</button>
                       <table class="revision-table" id="building-infrastructure-table" width="100%">
                         <thead>
                           <tr>
@@ -332,16 +328,15 @@
                       </table>
                     </div>
                     <div class="browse-list-div">
-                      <button onclick="selectAll('land-use-list')">Select All</button>
-                      <button onclick="deselectAll('land-use-list')">Deselect All</button>
-                      <button onclick="saveSelectedRecords('land-use-list')">Save Selected Tools</button>
-                      <div id="land-use-list"></div>
+                      <button class="button-grey" onclick="selectAll('building-infrastructure-list');$('#building-infrastructure-table').DataTable().rows().select();">Select All Tools</button>
+                      <button class="button-grey" onclick="deselectAll('building-infrastructure-list');$('#building-infrastructure-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                      <button class="button-white" onclick="saveSelectedRecords('building-infrastructure-list')">Save Selected Tools</button>
+                      <div id="building-infrastructure-list" class="list"></div>
                     </div>
                   </div>
                   <h4 class="accordion-title"><a>Land Use</a></h4>
                   <div class="accordion-pane" id="browseLand" style="display: none;">
                     <div class="browse-table-div" aria-hidden="true">
-                      <button class="button" onclick="saveAllRecords('land-use-table')">Save All</button>
                       <table class="revision-table" id="land-use-table" width="100%">
                         <thead>
                           <tr>
@@ -359,16 +354,15 @@
                       </table>
                     </div>
                     <div class="browse-list-div">
-                      <button onclick="selectAll('transportation-list')">Select All</button>
-                      <button onclick="deselectAll('transportation-list')">Deselect All</button>
-                      <button onclick="saveSelectedRecords('transportation-list')">Save Selected Tools</button>
-                      <div id="transportation-list"></div>
+                      <button class="button-grey" onclick="selectAll('land-use-list');$('#land-use-table').DataTable().rows().select();">Select All Tools</button>
+                      <button class="button-grey" onclick="deselectAll('land-use-list');$('#land-use-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                      <button class="button-white" onclick="saveSelectedRecords('land-use-list')">Save Selected Tools</button>
+                      <div id="land-use-list" class="list"></div>
                     </div>
                   </div>
                   <h4 class="accordion-title"><a>Transportation</a></h4>
                   <div class="accordion-pane" id="browseTransportation" style="display: none;">
                     <div class="browse-table-div" aria-hidden="true">
-                      <button class="button" onclick="saveAllRecords('transportation-table')">Save All</button>
                       <table class="revision-table" id="transportation-table" width="100%">
                         <thead>
                           <tr>
@@ -386,16 +380,15 @@
                       </table>
                     </div>
                     <div class="browse-list-div">
-                      <button onclick="selectAll('waste-management-list')">Select All</button>
-                      <button onclick="deselectAll('waste-management-list')">Deselect All</button>
-                      <button onclick="saveSelectedRecords('waste-management-list')">Save Selected Tools</button>
-                      <div id="waste-management-list"></div>
+                      <button class="button-grey" onclick="selectAll('transportation-list');$('#transportation-table').DataTable().rows().select();">Select All Tools</button>
+                      <button class="button-grey" onclick="deselectAll('transportation-list');$('#transportation-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                      <button class="button-white" onclick="saveSelectedRecords('transportation-list')">Save Selected Tools</button>
+                      <div id="transportation-list"></div>
                     </div>
                   </div>
                   <h4 class="accordion-title"><a>Waste Management</a></h4>
                   <div class="accordion-pane" id="browseWasteManagement" style="display: none;">
                     <div class="browse-table-div" aria-hidden="true">
-                      <button class="button" onclick="saveAllRecords('waste-management-table')">Save All</button>
                       <table class="revision-table" id="waste-management-table" width="100%">
                         <thead>
                           <tr>
@@ -413,13 +406,12 @@
                       </table>
                     </div>
                     <div class="browse-list-div">
-                      <button onclick="selectAll('waste-management-list')">Select All</button>
-                      <button onclick="deselectAll('waste-management-list')">Deselect All</button>
-                      <button onclick="saveSelectedRecords('waste-management-list')">Save Selected Tools</button>
-                      <div id="waste-management-list"></div>
+                      <button class="button-grey" onclick="selectAll('waste-management-list');$('#waste-management-table').DataTable().rows().select();">Select All Tools</button>
+                      <button class="button-grey" onclick="deselectAll('waste-management-list');$('#waste-management-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                      <button class="button-white" onclick="saveSelectedRecords('waste-management-list')">Save Selected Tools</button>
+                      <div id="waste-management-list" class="list"></div>
                     </div>
                   </div>
-                
                 </div>
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
@@ -427,15 +419,13 @@
                 <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text</label>
                 <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table</label>
                 <div id="results-list-div">  
-                  <button onclick="selectAll('results-list')">Select All</button>
-                  <button onclick="deselectAll('results-list')">Deselect All</button>
-                  <button onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
-                  <div id="results-list"></div>
+                  <button class="button-grey" onclick="selectAll('results-list');$('#results-table').DataTable().rows().select();">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAll('results-list');$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                  <button class="button-white" onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
+                  <hr />
+                  <div id="results-list" class="list"></div>
                 </div>
                 <div aria-hidden="true" id="results-table-div">
-                  <p>Your search results:</p>
-                  <button class="button" onclick="saveAllRecords('results-table')">Save All</button>
-                  <button class="button" onclick="exportAllCSV('results-list')">Export CSV</button>
                   <table class="revision-table" id="results-table" width="100%">
                     <thead>
                       <tr>
@@ -454,7 +444,7 @@
                 </div>
               </div>
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
-                <button class="button" onclick="saveRecord()">Save Record</button>
+                <button class="button button-white" onclick="saveRecord()">Save Record</button>
                 <div id="selected-tool"></div>
               </div>
               <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
