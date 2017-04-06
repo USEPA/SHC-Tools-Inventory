@@ -549,19 +549,16 @@ $(function () { // jquery's shorthand awaits readiness of document
  *   - parameters.container - ID of container to use for alert
 */
 var toast = function (parameters) {
-  // parametrize common literals up top like a best-practice-adherent coder
-  noticeID = 'toast';
-  $notice = $('#' + noticeID);
-  // grab parameters
-  if (typeof parameters !== 'undefined') {// does parameters object exist?
+  var noticeID = 'toast';
+  var $notice = $('#' + noticeID);
+  if (typeof parameters !== 'undefined') { // does parameters object exist?
     if (typeof parameters['container'] !== 'undefined') {
       noticeID = parameters['container'];
       $notice = $('#' + noticeID);
     }
-    for (parameter in parameters) {
-      // set css rules
-      if (parameter === 'css') {
-        for (property in parameters[parameter]) {
+    for (var parameter in parameters) {
+      if (parameter === 'css') { // set css rules
+        for (var property in parameters[parameter]) {
           $notice.css(property, parameters[parameter][property]);
         }
       }
@@ -578,12 +575,9 @@ var toast = function (parameters) {
       }
     }
   }
-  // Get the notification element
-  var notice = document.getElementById(noticeID)
-  // Add the "show" class to notice
-  notice.className = 'show';
-  // remove the show class from notice after 5 seconds
-  setTimeout(function () { 
+  var notice = document.getElementById(noticeID); // Get the notification element
+  notice.className = 'show'; // Add the "show" class to notice
+  setTimeout(function () { // remove the show class from notice after 5 seconds
     notice.className = notice.className.replace("show", ""); 
   }, 5000);
 };
@@ -637,10 +631,8 @@ var objectiveDisplay = function (adjust) {
  * make interface react
 */
 var updateInterface = function (list, $container, onChange) {
-  if (list.length) {
-    // populate next selectables
-    populate(list, $container, onChange);// populate list into $container
-  }
+  // populate next selectables
+  populate(list, $container, onChange);// populate list into $container
   // toggle tab
   toggleTab(list, $container);// enable next tab iff list not empty
   // build selector for next button
