@@ -860,17 +860,13 @@ $(function () { // jquery's shorthand awaits readiness of document
   });
 
   $('tbody').on('click', 'td:first-child', function () {
-    console.log("First child Clicked");
     var $parent = $(this).parent();
-    console.log($parent.attr('class'));
-    console.log($parent.hasClass('selected'));
-    if ($parent.hasClass('selected')) { // remove selected class
-      $('#results-list-cb-' + $parent.attr('data-read-id')).prop('checked', false);
-      savedTools.removeTool($parent.attr('data-read-id')); // remove from saved tools
+    var id = $parent.attr('data-table-id').slice(0, -6); // remove -table from id
+    if (!$parent.hasClass('selected')) { // remove selected class
+      $('#' + id + '-list-cb-' + $parent.attr('data-read-id')).prop('checked', false);
     }
     else {
-      $('#results-list-cb-' + $parent.attr('data-read-id')).prop('checked', true);
-      savedTools.addTool($parent.attr('data-read-id')); // add to saved tools
+      $('#' + id + '-list-cb-' + $parent.attr('data-read-id')).prop('checked', true);
     }
   });
 
@@ -883,7 +879,7 @@ $(function () { // jquery's shorthand awaits readiness of document
     }
   });
 
-  $('.dt-button').removeClass('dt-button');
+  $('.dt-button').removeClass('dt-button'); // remove default DataTable styles from buttons
 
 });
 

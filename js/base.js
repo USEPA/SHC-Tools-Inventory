@@ -261,6 +261,7 @@ function addRow(parsedResult, tableId, rowData, columns) {
     .nodes().to$();
   $row.addClass('results-row')
     .attr('data-read-id', parsedResult.READResourceIdentifier)
+    .attr('data-table-id', tableId)
     .attr("id", tableId + '-' + parsedResult.READResourceIdentifier);
   if (columns === 13) { // Not an optimal solution
     $row.children().not(':first').click(function () {
