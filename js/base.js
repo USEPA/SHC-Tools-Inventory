@@ -755,7 +755,7 @@ var getSelectedConceptsAssociatedWithTool = function (toolID) {
       }
     }
     // return array of selected concepts associated with tool
-    return selectedConceptsAssociatedWithTool;
+    return selectedConceptsAssociatedWithTool.join(', ');
   } else {
     return "none";
   }
