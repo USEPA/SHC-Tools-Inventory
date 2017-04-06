@@ -377,7 +377,8 @@ function exportCSV(resultsDiv) {
     });
     var link = document.createElement("a");
     link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
-    link.setAttribute("download", "my_data.csv");
+    link.setAttribute("download", "Sustainable Community Tools.csv");
+    document.body.appendChild(link);
     link.click();
   }
 }
