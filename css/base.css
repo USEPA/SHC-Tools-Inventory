@@ -49,6 +49,12 @@
   box-shadow: inset 0 0 0 2px #112e51;
   color: #112e51;
 }
+.button-white:disabled {
+  background-color: #aeb0b5;
+  color: #fff;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 0;
+}
 /* Adjustment for DataTables buttons */
 a.button {
   margin-right: 3px;
