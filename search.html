@@ -545,6 +545,8 @@
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/base.js"></script>
 <script>
+const resultSet = new ToolSet(); // Create result and saved tool sets
+const savedTools = new ToolSet();
 // do fn on document's ready
 $(function() { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
@@ -557,14 +559,14 @@ $(function() { // jquery's shorthand awaits readiness of document
 });
 
 // DOCUMENT
-var initializeTabs = function() {
+var initializeTabs = function () {
   $('#tabs > div').hide(); // hide all tab-panels
   $('#tabs div:first').show(); // show first tab-panel
   $('#tabs-nav li:first').addClass('active'); // class tabs active for styling
-  $('.menu-internal').click(function(){ // add listener to tabbing elements
+  $('.menu-internal').click(function () { // add listener to tabbing elements
     $('#tabs-nav li').removeClass('active'); // remove active styling from all tabs
     var currentTab = $(this).attr('href'); // get name of clicked tab
-    $('#tabs-nav li a[href="'+currentTab+'"]').parent().addClass('active'); // activate the clicked tab
+    $('#tabs-nav li a[href="' + currentTab + '"]').parent().addClass('active'); // activate the clicked tab
     $('#tabs > div').hide(); // hide all panels
     $(currentTab).show(); // show clicked tab's panel
     return false;// return false for success; conventionially return truthy description of failure
@@ -584,7 +586,7 @@ var initializeTabs = function() {
 function addMembers(dataList, fieldName, fieldValues) {
   if (fieldValues.length > 0) {// are any values selected?
     var tmpDataList = [];// create a temp copy of dataList
-    for (iFieldValue=0;iFieldValue<fieldValues.length;iFieldValue++) {// loop through os-selections
+    for (iFieldValue = 0; iFieldValue < fieldValues.length; iFieldValue++) {// loop through os-selections
       for (var iDatum in dataList) {// loop through current data-objects
         // expand the temp object to be num_osSelections * num_previousDataObjects
         tmpDataList[fieldValues.length * iDatum + iFieldValue] = dataList[iDatum];
@@ -619,7 +621,7 @@ var detailedSearch = function() {
   var results = [];
   var requests = [];
   var data = {};
-  $feedbackDiv.css('display','none');
+  $feedbackDiv.css('display', 'none');
   if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
     decisionSectors = [
       "Land Use",
@@ -629,9 +631,9 @@ var detailedSearch = function() {
     ];
   }
   if (queryString) { // ensure search string is not empty
-    for (var i = 0; i < queryTypes.length; i++){
+    for (var i = 0; i < queryTypes.length; i++) {
       data[queryTypes[i]] = queryString;
-      for (var j = 0; j < decisionSectors.length; j++){
+      for (var j = 0; j < decisionSectors.length; j++) {
         data.DecisionSector = decisionSectors[j];
         dataList = [data]; // create an initial array of query-data
         dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
@@ -650,16 +652,16 @@ var detailedSearch = function() {
       arguments allows for the variable number of arguments to be accessed
     */
     $.when.apply(null, requests).done(function () {
-      for (var i = 0; i < arguments.length; i++){
+      for (var i = 0; i < arguments.length; i++) {
         results = results.concat(arguments[i][0]);
       }
       var numberOfResults = parseResultsArray(results);
       if (0 === numberOfResults) {
         $feedbackDiv.css('display', 'block');
-        $('#results-tab').parent().attr('aria-hidden',true);
+        $('#results-tab').parent().attr('aria-hidden', true);
       } else {
         $feedbackDiv.css('display', 'none');
-        $('#results-tab').parent().attr('aria-hidden',false);
+        $('#results-tab').parent().attr('aria-hidden', false);
         $("#results-tab").click();
       }
     });
@@ -668,7 +670,6 @@ var detailedSearch = function() {
   }
 };
 
-var executeSearch = function(url, data) {
   return $.ajax({
     type: 'GET',
     url: url,
@@ -676,12 +677,10 @@ var executeSearch = function(url, data) {
   });
 };
 
-var parseResultsArray = function(results) {
+var parseResultsArray = function (results) {
   for (var i = 0; i < results.length; i++) {
-    //turn into function in base?
     if(!resultSet.contains(results[i].ResourceId)) {
       resultSet.addTool(results[i].ResourceId);
-      //populate divs
       toolCache.handleParsedData(results[i].ResourceId, resultTable.displayTool.bind(resultTable));
     }
   }
@@ -705,16 +704,16 @@ simpleSearch = function () {
       "Transportation"
     ];
   if (queryString) { // ensure search-string is not empty
-    for (var i = 0; i < queryTypes.length; i++){
+    for (var i = 0; i < queryTypes.length; i++) {
       data[queryTypes[i]] = queryString;
-      for (var j = 0; j < decisionSectors.length; j++){
+      for (var j = 0; j < decisionSectors.length; j++) {
         data.DecisionSector = decisionSectors[j];
         requests.push(executeSearch(resourceAdvancedSearchURL, data));
       }
       data = {};
     }
     $.when.apply(null, requests).done(function () {
-      for (var i = 0; i < arguments.length; i++){
+      for (var i = 0; i < arguments.length; i++) {
         results = results.concat(arguments[i][0]);
       }
       var numberOfResults = parseResultsArray(results);
