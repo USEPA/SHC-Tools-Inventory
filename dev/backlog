@@ -312,3 +312,6 @@ backlog to track work to be done and by whom
 
 - hide concepts with no associated objectives in conceptsByObjective
   - kyle: WIP
+
+- Decide which fields should be exported to CSV
+  - Assign proper header names for each field
