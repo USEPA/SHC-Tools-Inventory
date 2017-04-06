@@ -184,12 +184,24 @@
     </div>
     <div class="main-column clearfix">
 <!--googleon: all-->
-      <h1 class="page-title">Search The Inventory of Tools</h1>
+      <h1 class="page-title">Tools & Model Inventory</h1>
       <div class="panel-pane pane-node-content" >
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
             <h2 id="page-description-title" class="title">Description</h2>
-            <p>Explore tools that help produce results while preserving resources. Exploration can be searching for text in tools' descriptions or browsing all tools.</p>
+            <p>The Environmental Protection Agency’s Sustainable and Healthy Communities Research Program (SHCRP) has identified and evaluated an inventory of decision support tools designed to guide non-experts and professionals who seek solutions to community level development needs that will sustain human wellbeing and ecological functions.</p>
+            <p>This web-based inventory provides a searchable resource for building owners, developers, municipal planners, architects, engineers, and other interested community stakeholders. The tools in the inventory provide data, model scenarios, and narratives that guide the user through the decision-making process and promote sustainability at the community level.</p>
+            <p>The tools in the inventory occupy the following four decision sectors:</p>
+            <dl>
+              <dt class="bold">Buildings and Related Infrastructure</dt>
+              <dd> Decisions around buildings, like green building, or infrastructure, like stormwater management designs or extension of sewer </dd>
+              <dt class="bold">Land Use</dt>
+              <dd> Decisions around zoning, development, parks, etc </dd>
+              <dt class="bold">Transportation</dt>
+              <dd> Decisions around roads, transit, bike/pedestrian infrastructure, etc </dd>
+              <dt class="bold">Waste Disposal</dt>
+              <dd> Decisions around waste management, and options to avoid landfilling waste, like recycling, composting or programs to divert wasted food or “ugly produce” </dd>
+            </dl>
             <h2 id="disclaimer-title">Disclaimer</h2>
             <p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
             <div id="tabs">
@@ -203,9 +215,8 @@
               </ul>
               <div aria-hidden="false" aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" style="border: 1px solid #aaa;">
                 <h3>Search</h3>
-                <p>Find tools by entering words to search for then using the <strong>Search</strong>-button. The search returns each tool whose title, acronym, or description contains all of these words. Results are displayed when found. A notification is displayed when no results are found.</p>
+                <label for="simple-search-text" id="simple-search-text-label">Enter keywords to seach for and press the Search button.</label>
                 <hr />
-                <label for="simple-search-text" id="simple-search-text-label">Enter words to search for.</label>
                 <input autocomplete="off" class="ui-autocomplete-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
                 <p id="simpleFeedback">No tools were found.</p>
