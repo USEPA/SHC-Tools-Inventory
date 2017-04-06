@@ -39,79 +39,85 @@
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
   <style>
-  #tabs-nav{padding:0}
-  /* don't initially display "no results returned from search" */
-  #simpleFeedback {
-    display: none;
-    background-color: rgb(221, 206, 204);
-  }
-  /* make results responsive */
-  .result-row:hover {
-    background-color: #e7f4e4;
-    cursor: pointer;
-  }
-  #detailed-search-feedback { display:none; }
-  /************* ADDED FROM MOCKUP.HTML ************/
-  button:disabled { 
-    background-color: #aeb0b5;
-  }
+    #tabs-nav {
+      padding:0
+    }
+    /* don't initially display "no results returned from search" */
+    #simpleFeedback {
+      display: none;
+      background-color: rgb(221, 206, 204);
+    }
+    /* make results responsive */
+    .results-row:hover {
+      background-color: #e7f4e4;
+      cursor: pointer;
+    }
+    #detailed-search-feedback { 
+      display:none; 
+    }
+    /************* ADDED FROM MOCKUP.HTML ************/
+    button:disabled { 
+      background-color: #aeb0b5;
+    }
     @media screen and (min-width: 45em), print and (min-width: 45em) {
       .row > .size-95of100.col {
         width: 95%;
       }
     }
-    .expand:hover{
+    .expand:hover {
       background-color: #e7f4e4;
       cursor: pointer;
     }
-    .expand{
+    .expand {
       margin: 0;
     }
-    .list-div{
+    .list-div {
       background-color: #f1f1f1;
       margin-top: .5em;
       border-radius: 5px;
       padding: 2px;
     }
-    [role=tab]{
+    [role=tab] {
       margin: 1px 0 0;
       border-bottom-left-radius:0;
       border-bottom-right-radius:0;
     }
-    [role=tabpanel]{
+    [role=tabpanel] {
       padding: .5em;
       border: 2px solid #d6d7d9;
       border-radius: 5px;
       border-top-left-radius:0;
       border-top-right-radius:0;
     }
-    [aria-hidden="true"]{
+    [aria-hidden="true"] {
       display: none;
     }
-    .result-label{
+    .results-label {
       display: inline;
       background-color:transparent;
     }
-    .tool-label:focus + label{
+    .tool-label:focus + label {
       background-color:#e1f3f8;
     }
-    .tool-label:checked + label{
+    .tool-label:checked + label {
       background-color:#d6d7d9;
     }
     /* Makes text in an element unselectable */
-    .unselectable{
+    .unselectable {
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
       -o-user-select: none;
       user-select: none;
     }
-    button:disabled{background-color:#aeb0b5}
-    *{
+    button:disabled {
+      background-color:#aeb0b5
+    }
+    * {
       -ms-transition: none;
       transition: none;
     }
-    .accordian-result{
+    .accordion-result {
     background-image: url(https://www.epa.gov/sites/all/themes/epa/img/arrow-alt-down.png);
     background-repeat: no-repeat;
     float: right;
@@ -119,10 +125,10 @@
     margin: 5px;
     width: 13px;
     }
-    .collapsible{
+    .collapsible {
       transform: rotateX(180deg);
     }
-    .tabs, .tabs > li{
+    .tabs, .tabs > li {
       margin-bottom: 0;
       border: none;
     }
@@ -133,6 +139,9 @@
     }
     .bold {
       font-weight: bold;
+    }
+    .option {
+      margin-right: 1.4rem;
     }
   </style>
 </head>
