@@ -253,8 +253,8 @@
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
                 <h3>Roles</h3>
-                <p>Select relevant roles and proceed to the subrole-tab.</p>
-                <button class="enabled-by-subrole persist" onclick="activateNextTab($('#subrole-tab'))">Proceed to Subrole</button>
+                <p>Select one or more Roles and proceed to the Subrole tab or select Next.</p>
+                <button class="enabled-by-subrole persist" onclick="activateNextTab($('#subrole-tab'))">Next</button>
                 <hr />
                 <button class="button-grey" onclick="selectAll('role', roleSelect)">Select All Roles</button>
                 <button class="button-grey" onclick="deselectAll('role', roleSelect)">Deselect All Roles</button>
@@ -264,8 +264,8 @@
               </div>
               <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
                 <h3>Subroles</h3>
-                <p>Select subroles and proceed to the fundamental objective-tab.</p>
-                <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'))">Proceed to Fundamental Objective</button>
+                <p>Select one or more Subroles and proceed to the Fundamental Objective tab or select Next.</p>
+                <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'))">Next</button>
                 <hr />
                 <button class="button-grey" onclick="selectAll('subrole', subroleSelect)">Select All Subroles</button>
                 <button class="button-grey" onclick="deselectAll('subrole', subroleSelect)">Deselect All Subroles</button>
@@ -275,8 +275,8 @@
               </div>
               <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
                 <h3>Fundamental Objectives</h3>
-                <p>Select fundamental objectives and proceed to the objective-tab.</p>
-                <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'))">Proceed to Objectives</button>
+                <p>Select one or more Fundamental Objectives and proceed to the Objective tab or select Next.</p>
+                <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'))">Next</button>
                 <hr />
                 <button class="button-grey" onclick="selectAll('fundamental-objective', fundamentalObjectiveSelect)">Select All Fundamental Objectives</button>
                 <button class="button-grey" onclick="deselectAll('fundamental-objective', fundamentalObjectiveSelect)">Deselect All Fundamental Objectives</button>
@@ -286,8 +286,8 @@
               </div>
               <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
                 <h3>Objectives</h3>
-                <p>Select objectives and proceed to the concept-tab.</p>
-                <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'))">Proceed to Concepts</button>
+                <p>Select one or more Objectives and proceed to the Concept tab or select Next.</p>
+                <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'))">Next</button>
                 <hr />
                 <input id="objective-relevance" type="hidden" value="1" />
                 <button class="button-grey" onclick="selectAll('objective', objectiveSelect)">Select All Objectives</button>
@@ -300,8 +300,8 @@
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
                 <h3>Concepts</h3>
-                <p>Select concepts and use the <strong>Find Tools by Concept</strong>-button to display a list of tools. Using the <strong>Add Additional Concepts</strong>-button will add concepts related to the selected concepts.</p>
-                <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Tools by Concept</button>
+                <p>Select one or more Concepts and then use the <strong>Find Tools</strong> button to display a list of tools. If you have selected one or more Concepts and you would like to expand your selection to include additional related Concepts, click <strong>Add Additional Concepts</strong>.</p>
+                <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Tools</button>
                 <div id="results-notification"></div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('concept')">Select All Concepts</button>
@@ -317,15 +317,15 @@
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
                 <h2 id="tools">Tools</h2>
-                <p>Selected tools will remain in your results as you perform additonal searches. Any unselected tools will be removed.</p>
-                <p>You can export your selected tools to a file by using the <strong>Export Selected Tools to CSV</strong> button.</p>
+                <p>Select one or more Tools and they will persist as you run additional searches. Any unselected tools will be removed. You can export your selected tools to a CSV file by using the <strong>Export</strong> button.</p>
                 <span>Choose a display:</span>
-                  <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text</label>
-                  <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table</label>
+                  <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: Recommended for those on smaller screens.</label>
+                  <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: Allows filtering and column sorting.</label>
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAll('results-list');$('#results-table').DataTable().rows().select();">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAll('results-list');$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
-                  <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
+                  <button class="button-white" onclick="exportCSV('results-list')">Export</button>
+                  <hr />
                   <div id="results-list"></div>
                 </div>
                 <div aria-hidden="true" id="results-table-div">
@@ -944,7 +944,7 @@ var conceptSearch = function (div, input) {
   }
   if (resultSet.getLength() > 0) {
     //toolCache.handleToolSet(resultSet, resultTable.displayToolSet.bind(resultTable));
-    $('#results-notification').html('<p><strong>Found ' + resultSet.getLength() + ' results.</strong></p> <button onclick="activateNextTab($(\'#results-tab\'))">Proceed to Tools</button>').removeClass().addClass('success');
+    $('#results-notification').html('<p><strong>Found ' + resultSet.getLength() + ' results.</strong></p> <button onclick="activateNextTab($(\'#results-tab\'))">Next</button>').removeClass().addClass('success');
     $('#results-tab').parent().attr('aria-hidden', 'false');
   } else {
     $('#results-notification').html('<strong>No results found.</strong>').removeClass().addClass('warning');
