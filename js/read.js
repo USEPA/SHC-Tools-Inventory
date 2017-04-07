@@ -16,7 +16,7 @@ try {
 }
 
 function radiovalue(radios) {
-  for (var i = 0, length = radios.length; i < length; i++) {
+  for (var i = 0; i < radios.length; i++) {
     if (radios[i].checked) {
       return radios[i].value;
     }
@@ -35,7 +35,7 @@ function multiSelectValue(multiselect) {
 
 function checkBoxValue(multiselect) {
   var selected = [];
-  for (var i = 0, length = multiselect.length; i < length; i++) {
+  for (var i = 0; i < multiselect.length; i++) {
     if (multiselect[i].checked) {
     	selected.push(multiselect[i].value);
     }

@@ -30,87 +30,98 @@
   <meta name="DC.date.modified" content="" />
 <!--googleoff: all-->
   <link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/template2/s.css" media="all" />
-  <link href="css/read.css" rel="stylesheet" type="text/css">
-  <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
   <!--[if lt IE 9]><link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/themes/epa/css/ie.css" media="all" /><![endif]-->
+  <link type="text/css" rel="stylesheet" href="css/base.css" media="all" />
+  <link href="css/read.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/css/select.dataTables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/css/buttons.dataTables.min.css">
+  <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
   <link rel="alternate" type="application/atom+xml" title="EPA.gov All Press Releases" href="https://www.epa.gov/newsreleases/search/rss" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters" />
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
   <style>
-  #tabs-nav{padding:0}
-  /* don't initially display "no results returned from search" */
-  #simpleFeedback {
-    display: none;
-    background-color: rgb(221, 206, 204);
-  }
-  /* make results responsive */
-  .result-row:hover {
-    background-color: #e7f4e4;
-    cursor: pointer;
-  }
-  #detailed-search-feedback { display:none; }
-  /************* ADDED FROM MOCKUP.HTML ************/
-  button:disabled { 
-    background-color: #aeb0b5;
-  }
+    #tabs-nav {
+      padding:0
+    }
+    /* don't initially display "no results returned from search" */
+    #simpleFeedback {
+      display: none;
+      background-color: rgb(221, 206, 204);
+    }
+    /* make results responsive */
+    .results-row:hover {
+      background-color: #e7f4e4;
+      cursor: pointer;
+    }
+    #detailed-search-feedback { 
+      display:none; 
+    }
+    /************* ADDED FROM MOCKUP.HTML ************/
+    button:disabled { 
+      background-color: #aeb0b5;
+    }
     @media screen and (min-width: 45em), print and (min-width: 45em) {
       .row > .size-95of100.col {
         width: 95%;
       }
     }
-    .expand:hover{
+    .expand:hover {
       background-color: #e7f4e4;
       cursor: pointer;
     }
-    .expand{
+    .expand {
       margin: 0;
     }
-    .list-div{
+    .list-div {
       background-color: #f1f1f1;
       margin-top: .5em;
       border-radius: 5px;
       padding: 2px;
     }
-    [role=tab]{
+    [role=tab] {
       margin: 1px 0 0;
       border-bottom-left-radius:0;
       border-bottom-right-radius:0;
     }
-    [role=tabpanel]{
+    [role=tabpanel] {
       padding: .5em;
       border: 2px solid #d6d7d9;
       border-radius: 5px;
       border-top-left-radius:0;
       border-top-right-radius:0;
     }
-    [aria-hidden="true"]{
+    [aria-hidden="true"] {
       display: none;
     }
-    .result-label{
+    .results-label {
       display: inline;
       background-color:transparent;
     }
-    .tool-label:focus + label{
+    .tool-label:focus + label {
       background-color:#e1f3f8;
     }
-    .tool-label:checked + label{
+    .tool-label:checked + label {
       background-color:#d6d7d9;
     }
     /* Makes text in an element unselectable */
-    .unselectable{
+    .unselectable {
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
       -o-user-select: none;
       user-select: none;
     }
-    button:disabled{background-color:#aeb0b5}
-    *{
+    button:disabled {
+      background-color:#aeb0b5
+    }
+    * {
       -ms-transition: none;
       transition: none;
     }
-    .accordian-result{
+    .accordion-result {
     background-image: url(https://www.epa.gov/sites/all/themes/epa/img/arrow-alt-down.png);
     background-repeat: no-repeat;
     float: right;
@@ -118,10 +129,10 @@
     margin: 5px;
     width: 13px;
     }
-    .collapsible{
+    .collapsible {
       transform: rotateX(180deg);
     }
-    .tabs, .tabs > li{
+    .tabs, .tabs > li {
       margin-bottom: 0;
       border: none;
     }
@@ -132,6 +143,9 @@
     }
     .bold {
       font-weight: bold;
+    }
+    .option {
+      margin-right: 1.4rem;
     }
   </style>
 </head>
@@ -170,97 +184,121 @@
     </div>
     <div class="main-column clearfix">
 <!--googleon: all-->
-      <h1 class="page-title">Search The Inventory of Tools</h1>
+      <h1 class="page-title">Tools & Model Inventory</h1>
       <div class="panel-pane pane-node-content" >
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
             <h2 id="page-description-title" class="title">Description</h2>
-            <p>Explore tools that help produce results while preserving resources. Exploration can be searching for text in tools' descriptions or browsing all tools.</p>
+            <p>The Environmental Protection Agency’s Sustainable and Healthy Communities Research Program (SHCRP) has identified and evaluated an inventory of decision support tools designed to guide non-experts and professionals who seek solutions to community level development needs that will sustain human wellbeing and ecological functions.</p>
+            <p>This web-based inventory provides a searchable resource for building owners, developers, municipal planners, architects, engineers, and other interested community stakeholders. The tools in the inventory provide data, model scenarios, and narratives that guide the user through the decision-making process and promote sustainability at the community level.</p>
+            <p>The tools in the inventory occupy the following four decision sectors:</p>
+            <dl>
+              <dt class="bold">Buildings and Related Infrastructure</dt>
+              <dd> Decisions around buildings, like green building, or infrastructure, like stormwater management designs or extension of sewer </dd>
+              <dt class="bold">Land Use</dt>
+              <dd> Decisions around zoning, development, parks, etc </dd>
+              <dt class="bold">Transportation</dt>
+              <dd> Decisions around roads, transit, bike/pedestrian infrastructure, etc </dd>
+              <dt class="bold">Waste Disposal</dt>
+              <dd> Decisions around waste management, and options to avoid landfilling waste, like recycling, composting or programs to divert wasted food or “ugly produce” </dd>
+            </dl>
             <h2 id="disclaimer-title">Disclaimer</h2>
             <p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
             <div id="tabs">
               <ul class="tabs" id="tabs-nav" role="tablist">
-                <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Simple Search</a></li>
-                <li ><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" name="tab1" role="tab">Detailed Search</a></li>
+                <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Search</a></li>
+                <li><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" name="tab1" role="tab">Advanced Search</a></li>
                 <li><a aria-controls="browse-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#browse-tools-panel" id="browse-tools-tab" name="tab1" role="tab" onclick="loadModels2()">Browse Tools</a></li>
                 <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#results-panel" id="results-tab" name="tab1" role="tab">Results</a></li>
-                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
-                <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Tools</a></li>
+                <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Results</a></li>
+                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
               </ul>
               <div aria-hidden="false" aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" style="border: 1px solid #aaa;">
                 <h3>Search</h3>
-                <p>Find tools by entering words to search for then using the <strong>Search</strong>-button. The search returns each tool whose title, acronym, or description contains all of these words. Results are displayed when found. A notification is displayed when no results are found.</p>
+                <label for="simple-search-text" id="simple-search-text-label">Enter keywords to seach for and press the Search button.</label>
                 <hr />
-                <label for="simple-search-text" id="simple-search-text-label">Enter words to search for.</label>
                 <input autocomplete="off" class="ui-autocomplete-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
                 <p id="simpleFeedback">No tools were found.</p>
               </div>
               <div aria-hidden="true" aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">
-                <h3>Detailed Search</h3>
+                <h3>Advanced Search</h3>
                 <p>Specify requirements of tools while searching for words contained in the tools' titles, acronyms, or descriptions.</p>
                 <hr />
+                <label for="detailed-search-text">
+                <input autocomplete="off" class="ui-autocomplete-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text">
+                <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
                 <form>
+                  <div aria-labelledby="search-field-label" class="form-item form-type-checkbox" id="search-field" role="group">
+                    <h4 id="search-field-label">Choose additional Search Fields:</h4>
+                    <input class="form-checkbox" id="model-input" type="checkbox" value="ModelInputs" />
+                    <label class="option" for="model-input">Model Inputs</label>
+                    <input class="form-checkbox" id="output-variables" type="checkbox" value="OutputVariables" />
+                    <label class="option" for="output-variables">Output Variables</label>
+                    <input class="form-checkbox" id="model-evaluation" type="checkbox" value="ModelEvaluation" />
+                    <label class="option" for="model-evaluation">Model Evaluation</label>
+                  </div>
                   <div aria-labelledby="decision-sector-label" class="form-item form-type-checkbox" id="decision-select" role="group">
-                    <h4 id="decision-sector-label">Choose decision-sectors to find only tools in those decision-sectors.</h4>
+                    <h4 id="decision-sector-label">Choose Decision Sectors to find only tools in these Decision Sectors.</h4>
                     <input class="form-checkbox" id="decision-sector-building" type="checkbox" value="building infrastructure" />
-                    <label class="option" for="decision-sector-building">building and infrastructure</label>
+                    <label class="option" for="decision-sector-building">Building and Infrastructure</label>
                     <input class="form-checkbox" id="decision-sector-land" type="checkbox" value="land use" />
-                    <label class="option" for="decision-sector-land">land use</label>
+                    <label class="option" for="decision-sector-land">Land Use</label>
                     <input class="form-checkbox" id="decision-sector-transportation" type="checkbox" value="transportation" />
-                    <label class="option" for="decision-sector-transportation">transportation</label>
+                    <label class="option" for="decision-sector-transportation">Transportation</label>
                     <input class="form-checkbox" id="decision-sector-waste" type="checkbox" value="waste management" />
-                    <label class="option" for="decision-sector-waste">waste management</label>
+                    <label class="option" for="decision-sector-waste">Waste Management</label>
                   </div>
                   <div aria-labelledby="operating-environment-label" class="form-item form-type-checkbox" id="operating-environment-select" role="group">
-                    <h4 id="operating-environment-label">Choose operating environments to search only for tools labelled with one of those operating environments.</h4>
+                    <h4 id="operating-environment-label">Choose Operating Environments to search only for tools labeled with one of these Operating Environments.</h4>
                     <input class="form-checkbox" id="radioenvironment_desktop" name="radioenvironment" type="checkbox" value="desktop" />
-                    <label class="option" for="radioenvironment_desktop">desktop</label>
+                    <label class="option" for="radioenvironment_desktop">Desktop</label>
                     <input class="form-checkbox" id="radioenvironment_browser" name="radioenvironment" type="checkbox" value="browser" />
-                    <label class="option" for="radioenvironment_browser">browser</label>
+                    <label class="option" for="radioenvironment_browser">Browser</label>
                     <input class="form-checkbox" type="checkbox" name="radioenvironment" id="radioenvironment_mobile" value="mobile" />
-                    <label class="option" for="radioenvironment_mobile">mobile</label>
+                    <label class="option" for="radioenvironment_mobile">Mobile</label>
                   </div>
                   <div aria-labelledby="cost-label" class="form-item form-type-checkbox" id="cost-select" class="group">
-                    <h4 id="cost-label">Choose cost-ranges to find only tools labelled with one of those cost-ranges.</h4>
+                    <h4 id="cost-label">Choose Cost Ranges to find only tools labeled with one of these Cost Ranges.</h4>
                     <input class="form-checkbox" id="checkbasefree" name="checkbase" type="checkbox" value="1" />
-                    <label class="option" for="checkbasefree">free</label>
-                    <input id="checkbasefree"id="checkbase1" name="checkbase" type="checkbox" value="2" />
+                    <label class="option" for="checkbasefree">Free</label>
+                    
+                    <input class="form-checkbox" id="checkbase1" name="checkbase" type="checkbox" value="2" />
                     <label class="option" for="checkbase1">$1-$499</label>
-                    <input id="checkbase1"id="checkbase500" name="checkbase" type="checkbox" value="3" />
+                    
+                    <input class="form-checkbox" id="checkbase500" name="checkbase" type="checkbox" value="3" />
                     <label class="option" for="checkbase500">$500-$1499</label>
-                    <input id="checkbase500"id="checkbase1500" name="checkbase" type="checkbox" value="4" />
+                    
+                    <input class="form-checkbox" id="checkbase1500" name="checkbase" type="checkbox" value="4" />
                     <label class="option" for="checkbase1500">$1500-$3999</label>
-                    <input id="checkbase1500"id="checkbase4000" name="checkbase" type="checkbox" value="5" />
+                    
+                    <input class="form-checkbox" id="checkbase4000" name="checkbase" type="checkbox" value="5" />
                     <label class="option" for="checkbase4000">&gt;$4000</label>
                   </div>
                   <div aria-labelledby="extent-label" id="extent-select" class="form-item form-type-checkbox" class="group">
-                    <h4 id="extent-label" >Choose spatial extents to find only tools labelled with at least one chosen spatial extent.</h4>
+                    <h4 id="extent-label" >Choose Spatial Extents to find only tools labeled with at least one chosen Spatial Extents.</h4>
                     <input class="form-checkbox" id="extent-building" type="checkbox" value="building">
-                    <label class="option" for="extent-building">building</label>
+                    <label class="option" for="extent-building">Building</label>
                     <input class="form-checkbox" id="extent-site" type="checkbox" value="site">
-                    <label class="option" for="extent-site">site</label>
+                    <label class="option" for="extent-site">Site</label>
                     <input class="form-checkbox" id="extent-neighborhood" type="checkbox" value="neighborhood">
-                    <label class="option" for="extent-neighborhood">neighborhood</label>
+                    <label class="option" for="extent-neighborhood">Neighborhood</label>
                     <input class="form-checkbox" id="extent-city" type="checkbox" value="city">
-                    <label class="option" for="extent-city">city</label>
+                    <label class="option" for="extent-city">City</label>
                     <input class="form-checkbox" id="extent-county" type="checkbox" value="county">
-                    <label class="option" for="extent-county">county</label>
+                    <label class="option" for="extent-county">County</label>
                     <input class="form-checkbox" id="extent-state" type="checkbox" value="state">
-                    <label class="option" for="extent-state">state</label>
+                    <label class="option" for="extent-state">State</label>
                     <input class="form-checkbox" id="extent-nation" type="checkbox" value="nation">
-                    <label class="option" for="extent-nation">nation</label>
+                    <label class="option" for="extent-nation">Nation</label>
                     <input class="form-checkbox" id="extent-continent" type="checkbox" value="continent">
-                    <label class="option" for="extent-continent">continent</label>
+                    <label class="option" for="extent-continent">Continent</label>
                     <input class="form-checkbox" id="extent-globe" type="checkbox" value="globe">
-                    <label class="option" for="extent-globe">globe</label>
+                    <label class="option" for="extent-globe">Globe</label>
                   </div>
-                  <div id="detailed-search-feedback">no results were found.</div>
+                  <div id="detailed-search-feedback">No results were found.</div>
                   <button id="detailed-reset" type="reset">Reset Selected Requirements</button>
                 </form>
-                <label for="detailed-search-text">
-                <input autocomplete="off" class="ui-autocomplete-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="search for tools by matching words" type="text">
-                <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
               </div>
               <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" aria-hidden="true">
                 <h3>Browse the Tools by Decision Sector</h3>
@@ -273,10 +311,10 @@
                   <h4 class="accordion-title"><a>Building and Infrastructure</a></h4>
                   <div class="accordion-pane" id="browseBuildingInfrastructure" style="display: none;">
                     <div class="browse-table-div" aria-hidden="true">
-                      <button class="button" onclick="saveAllRecords('building-infrastructure-table')">Save All</button>
                       <table class="revision-table" id="building-infrastructure-table" width="100%">
                         <thead>
                           <tr>
+                            <th></th>
                             <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
@@ -290,19 +328,19 @@
                       </table>
                     </div>
                     <div class="browse-list-div">
-                      <button onclick="selectAll('land-use-list')">Select All</button>
-                      <button onclick="deselectAll('land-use-list')">Deselect All</button>
-                      <button onclick="saveSelectedRecords('land-use-list')">Save Selected Tools</button>
-                      <div id="land-use-list"></div>
+                      <button class="button-grey" onclick="selectAll('building-infrastructure-list');$('#building-infrastructure-table').DataTable().rows().select();">Select All Tools</button>
+                      <button class="button-grey" onclick="deselectAll('building-infrastructure-list');$('#building-infrastructure-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                      <button class="button-white" onclick="saveSelectedRecords('building-infrastructure-list')">Save Selected Tools</button>
+                      <div id="building-infrastructure-list" class="list"></div>
                     </div>
                   </div>
                   <h4 class="accordion-title"><a>Land Use</a></h4>
                   <div class="accordion-pane" id="browseLand" style="display: none;">
                     <div class="browse-table-div" aria-hidden="true">
-                      <button class="button" onclick="saveAllRecords('land-use-table')">Save All</button>
                       <table class="revision-table" id="land-use-table" width="100%">
                         <thead>
                           <tr>
+                            <th></th>
                             <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
@@ -316,19 +354,19 @@
                       </table>
                     </div>
                     <div class="browse-list-div">
-                      <button onclick="selectAll('transportation-list')">Select All</button>
-                      <button onclick="deselectAll('transportation-list')">Deselect All</button>
-                      <button onclick="saveSelectedRecords('transportation-list')">Save Selected Tools</button>
-                      <div id="transportation-list"></div>
+                      <button class="button-grey" onclick="selectAll('land-use-list');$('#land-use-table').DataTable().rows().select();">Select All Tools</button>
+                      <button class="button-grey" onclick="deselectAll('land-use-list');$('#land-use-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                      <button class="button-white" onclick="saveSelectedRecords('land-use-list')">Save Selected Tools</button>
+                      <div id="land-use-list" class="list"></div>
                     </div>
                   </div>
                   <h4 class="accordion-title"><a>Transportation</a></h4>
                   <div class="accordion-pane" id="browseTransportation" style="display: none;">
                     <div class="browse-table-div" aria-hidden="true">
-                      <button class="button" onclick="saveAllRecords('transportation-table')">Save All</button>
                       <table class="revision-table" id="transportation-table" width="100%">
                         <thead>
                           <tr>
+                            <th></th>
                             <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
@@ -342,19 +380,19 @@
                       </table>
                     </div>
                     <div class="browse-list-div">
-                      <button onclick="selectAll('waste-management-list')">Select All</button>
-                      <button onclick="deselectAll('waste-management-list')">Deselect All</button>
-                      <button onclick="saveSelectedRecords('waste-management-list')">Save Selected Tools</button>
-                      <div id="waste-management-list"></div>
+                      <button class="button-grey" onclick="selectAll('transportation-list');$('#transportation-table').DataTable().rows().select();">Select All Tools</button>
+                      <button class="button-grey" onclick="deselectAll('transportation-list');$('#transportation-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                      <button class="button-white" onclick="saveSelectedRecords('transportation-list')">Save Selected Tools</button>
+                      <div id="transportation-list"></div>
                     </div>
                   </div>
                   <h4 class="accordion-title"><a>Waste Management</a></h4>
                   <div class="accordion-pane" id="browseWasteManagement" style="display: none;">
                     <div class="browse-table-div" aria-hidden="true">
-                      <button class="button" onclick="saveAllRecords('waste-management-table')">Save All</button>
                       <table class="revision-table" id="waste-management-table" width="100%">
                         <thead>
                           <tr>
+                            <th></th>
                             <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
@@ -368,13 +406,12 @@
                       </table>
                     </div>
                     <div class="browse-list-div">
-                      <button onclick="selectAll('waste-management-list')">Select All</button>
-                      <button onclick="deselectAll('waste-management-list')">Deselect All</button>
-                      <button onclick="saveSelectedRecords('waste-management-list')">Save Selected Tools</button>
-                      <div id="waste-management-list"></div>
+                      <button class="button-grey" onclick="selectAll('waste-management-list');$('#waste-management-table').DataTable().rows().select();">Select All Tools</button>
+                      <button class="button-grey" onclick="deselectAll('waste-management-list');$('#waste-management-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                      <button class="button-white" onclick="saveSelectedRecords('waste-management-list')">Save Selected Tools</button>
+                      <div id="waste-management-list" class="list"></div>
                     </div>
                   </div>
-                
                 </div>
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
@@ -382,18 +419,17 @@
                 <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text</label>
                 <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table</label>
                 <div id="results-list-div">  
-                  <button onclick="selectAll('results-list')">Select All</button>
-                  <button onclick="deselectAll('results-list')">Deselect All</button>
-                  <button onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
-                  <div id="results-list"></div>
+                  <button class="button-grey" onclick="selectAll('results-list');$('#results-table').DataTable().rows().select();">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAll('results-list');$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                  <button class="button-white" onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
+                  <hr />
+                  <div id="results-list" class="list"></div>
                 </div>
                 <div aria-hidden="true" id="results-table-div">
-                  <p>Your search results:</p>
-                  <button class="button" onclick="saveAllRecords('results-table')">Save All</button>
-                  <button class="button" onclick="exportAllCSV('results-list')">Export CSV</button>
                   <table class="revision-table" id="results-table" width="100%">
                     <thead>
                       <tr>
+                        <th></th>
                         <th>Acronym</th>
                         <th>Title</th>
                         <th>Description</th>
@@ -408,30 +444,29 @@
                 </div>
               </div>
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
-                <button class="button" onclick="saveRecord()">Save Record</button>
+                <button class="button button-white" onclick="saveRecord()">Save Record</button>
                 <div id="selected-tool"></div>
               </div>
               <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
-                <h3>Saved Tools</h3>
+                <h3>Saved Results</h3>
                 <p>These are the tools you chose to save.</p>
                 <p>Select the tools you would like to export to a downloadable CSV file.</p><hr />
                 <span>Choose a display type:</span>
                 <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text</label>
                 <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table</label>
                 <div id="saved-list-div">
-                  <button onclick="selectAll('saved-list')">Select All</button>
-                  <button onclick="deselectAll('saved-list')">Deselect All</button>
-                  <button onclick="removeSelected('saved-list')">Remove Selected Tools</button>
-                  <button onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
-                  <div id="saved-list"></div>
+                  <button class="button-grey" onclick="selectAll('saved-list');$('#saved-table').DataTable().rows().select();">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAll('saved-list');$('#saved-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                  <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
+                  <button class="button-white" onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
+                  <hr />
+                  <div id="saved-list" class="list"></div>
                 </div>
                 <div aria-hidden="true" id="saved-table-div">
-                  <p>Your saved results:</p>
-                  <button class="button" onclick="clearSaved('saved-list')">Clear Saved</button>
-                  <button class="button" onclick="exportAllCSV('saved-list')">Export CSV</button>
                   <table class="revision-table" id="saved-table" width="100%">
                     <thead>
                       <tr>
+                        <th></th>
                         <th>Acronym</th>
                         <th>Title</th>
                         <th>Description</th>
@@ -523,32 +558,340 @@
   <script src="https://www.epa.gov/sites/all/libraries/template2/jquery.js"></script>
   <script src="https://www.epa.gov/sites/all/libraries/template2/js.js"></script>
   <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
-  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables/media/css/jquery.dataTables.min.css">
-  <script src="https://www.epa.gov/sites/all/libraries/js/datatables/media/js/jquery.dataTables.min.js"></script>
-  <script src="https://www.epa.gov/sites/all/libraries/js/datatables/extras/Responsive/js/dataTables.responsive.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/js/dataTables.responsive.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/js/dataTables.select.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/dataTables.buttons.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/buttons.html5.min.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/base.js"></script>
 <script>
-// do fn on document's ready
-$(function() { // jquery's shorthand awaits readiness of document
+const resultSet = new ToolSet(); // Create result and saved tool sets
+const savedTools = new ToolSet();
+
+const resultTable = new ToolDisplay('results-table', 'results-list', 13); // Create ToolDisplay Objects we need 
+const savedTable = new ToolDisplay('saved-table', 'saved-list', 13);
+const buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table', 'building-infrastructure-list' , 13);
+const landUseTable = new ToolDisplay('land-use-table', 'land-use-list', 13);
+const wasteManagementTable = new ToolDisplay('waste-management-table', 'waste-management-list', 13);
+const transportationTable = new ToolDisplay('transportation-table', 'transportation-list', 13);
+
+$(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
-  $("#results-table").DataTable({
-    responsive: true
+  
+  var table = $("#results-table").DataTable({
+    dom: 'Bfrtip',
+    processing: true,
+    responsive: {
+      details: false
+    },
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [0]
+    },
+    { 
+      width: "5%",
+      targets: 0 
+    }],
+    select: {
+      style: 'multi',
+      selector: 'td:first-child'
+    },
+    order: [[1, 'asc']],
+    buttons: [{
+        text: 'Select All Tools',
+        action: function () {
+          table.rows().select();
+          selectAll('results-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Deselect All Tools',
+        action: function () {
+          table.rows().deselect();
+          deselectAll('results-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Save Selected Tools',
+        action: function () {
+          saveSelectedRecords('results-list')
+        },
+        className: 'button button-white'
+      }]
   });
-  $("#saved-table").DataTable({
-    responsive: true
+
+  var saveTable = $("#saved-table").DataTable({ // [Violation] 'DOMContentLoaded' handler took 261ms
+    dom: 'Bfrtip',
+    processing: true,
+    responsive: {
+      details: false
+    },
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [0]
+    },
+    { 
+      width: "5%",
+      targets: 0 
+    }],
+    select: {
+      style: 'os',
+      selector: 'td:nth-child(2)'
+    },
+    order: [[2, 'asc']],
+    buttons: [{
+        text: 'Select All Tools',
+        action: function () {
+          saveTable.rows().select();
+          selectAll('saved-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Deselect All Tools',
+        action: function () {
+          saveTable.rows().deselect();
+          deselectAll('saved-list');
+        },
+        className: 'button button-grey'
+      },
+      { 
+        text: 'Remove Selected Tools',
+        action: function () {
+          removeSelected('saved-list');
+        },
+        className: 'button button-white'
+      },
+      { 
+        extend: 'csv', 
+        text: 'Export Selected Tools to CSV',
+        exportOptions: {
+          rows: {
+            selected: true
+          }
+        },
+        className: 'button button-white'
+      }]
   });
+
+  var buildInfraTable = $("#building-infrastructure-table").DataTable({
+    dom: 'Bfrtip',
+    processing: true,
+    responsive: {
+      details: false
+    },
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [0]
+    },
+    { 
+      width: "5%",
+      targets: 0 
+    }],
+    select: {
+      style: 'os',
+      selector: 'td:first-child'
+    },
+    order: [[1, 'asc']],
+    buttons: [{
+        text: 'Select All Tools',
+        action: function () {
+          buildInfraTable.rows().select();
+          selectAll('building-infrastructure-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Deselect All Tools',
+        action: function () {
+          buildInfraTable.rows().deselect();
+          deselectAll('building-infrastructure-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Save Selected Tools',
+        action: function () {
+          saveSelectedRecords('building-infrastructure-list')
+        },
+        className: 'button button-white'
+      }]
+  });
+
+  var landUseTable = $("#land-use-table").DataTable({
+    dom: 'Bfrtip',
+    processing: true,
+    responsive: {
+      details: false
+    },
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [0]
+    },
+    { 
+      width: "5%",
+      targets: 0 
+    }],
+    select: {
+      style: 'os',
+      selector: 'td:first-child'
+    },
+    order: [[1, 'asc']],
+    buttons: [{
+        text: 'Select All Tools',
+        action: function () {
+          landUseTable.rows().select();
+          selectAll('land-use-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Deselect All Tools',
+        action: function () {
+          landUseTable.rows().deselect();
+          deselectAll('land-use-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Save Selected Tools',
+        action: function () {
+          saveSelectedRecords('land-use-list')
+        },
+        className: 'button button-white'
+      }]
+  });
+
+  var wasteManage = $("#waste-management-table").DataTable({
+    dom: 'Bfrtip',
+    processing: true,
+    responsive: {
+      details: false
+    },
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [0]
+    },
+    { 
+      width: "5%",
+      targets: 0 
+    }],
+    select: {
+      style: 'os',
+      selector: 'td:first-child'
+    },
+    order: [[1, 'asc']],
+    buttons: [{
+        text: 'Select All Tools',
+        action: function () {
+          wasteManage.rows().select();
+          selectAll('waste-management-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Deselect All Tools',
+        action: function () {
+          wasteManage.rows().deselect();
+          deselectAll('waste-management-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Save Selected Tools',
+        action: function () {
+          saveSelectedRecords('waste-management-list')
+        },
+        className: 'button button-white'
+      }]
+  });
+
+  var transportTable = $("#transportation-table").DataTable({
+    dom: 'Bfrtip',
+    processing: true,
+    responsive: {
+      details: false
+    },
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [0]
+    },
+    { 
+      width: "5%",
+      targets: 0 
+    }],
+    select: {
+      style: 'os',
+      selector: 'td:first-child'
+    },
+    order: [[1, 'asc']],
+    buttons: [{
+        text: 'Select All Tools',
+        action: function () {
+          transportTable.rows().select();
+          selectAll('transportation-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Deselect All Tools',
+        action: function () {
+          transportTable.rows().deselect();
+          deselectAll('transportation-list');
+        },
+        className: 'button button-grey'
+      },
+      {
+        text: 'Save Selected Tools',
+        action: function () {
+          saveSelectedRecords('transportation-list')
+        },
+        className: 'button button-white'
+      }]
+  });
+
+  $('tbody').on('click', 'td:first-child', function () {
+    var $parent = $(this).parent();
+    var id = $parent.attr('data-table-id').slice(0, -6); // remove -table from id
+    if (!$parent.hasClass('selected')) { // remove selected class
+      $('#' + id + '-list-cb-' + $parent.attr('data-read-id')).prop('checked', false);
+    }
+    else {
+      $('#' + id + '-list-cb-' + $parent.attr('data-read-id')).prop('checked', true);
+    }
+  });
+
+  $(".list").on("change", "input:checkbox", function () {
+    var list = $(this).attr('class').replace('-checkbox', '');
+    if ($(this).prop('checked')) { // add selected class
+      $('#' + list + '-table').DataTable().row('#' + list + '-table-' + $(this).val()).select();
+    } else {
+      $('#' + list + '-table').DataTable().row('#' + list + '-table-' + $(this).val()).deselect(); // remove selected class
+    }
+  });
+
+  $('.dt-button').removeClass('dt-button'); // remove default DataTable styles from buttons
+
 });
 
 // DOCUMENT
-var initializeTabs = function() {
+var initializeTabs = function () {
   $('#tabs > div').hide(); // hide all tab-panels
   $('#tabs div:first').show(); // show first tab-panel
   $('#tabs-nav li:first').addClass('active'); // class tabs active for styling
-  $('.menu-internal').click(function(){ // add listener to tabbing elements
+  $('.menu-internal').click(function () { // add listener to tabbing elements
     $('#tabs-nav li').removeClass('active'); // remove active styling from all tabs
     var currentTab = $(this).attr('href'); // get name of clicked tab
-    $('#tabs-nav li a[href="'+currentTab+'"]').parent().addClass('active'); // activate the clicked tab
+    $('#tabs-nav li a[href="' + currentTab + '"]').parent().addClass('active'); // activate the clicked tab
     $('#tabs > div').hide(); // hide all panels
     $(currentTab).show(); // show clicked tab's panel
     return false;// return false for success; conventionially return truthy description of failure
@@ -568,7 +911,7 @@ var initializeTabs = function() {
 function addMembers(dataList, fieldName, fieldValues) {
   if (fieldValues.length > 0) {// are any values selected?
     var tmpDataList = [];// create a temp copy of dataList
-    for (iFieldValue=0;iFieldValue<fieldValues.length;iFieldValue++) {// loop through os-selections
+    for (iFieldValue = 0; iFieldValue < fieldValues.length; iFieldValue++) {// loop through os-selections
       for (var iDatum in dataList) {// loop through current data-objects
         // expand the temp object to be num_osSelections * num_previousDataObjects
         tmpDataList[fieldValues.length * iDatum + iFieldValue] = dataList[iDatum];
@@ -585,25 +928,21 @@ function addMembers(dataList, fieldName, fieldValues) {
 /**
  * Search for text and choose other criteria for tools.
  */
-var detailedSearch = function() {
-  //clear result table
-  $('#results-table').DataTable().clear().draw();
-  //clear result div
-  $('#results-list *').remove(); //clears for new results
-  //clear result set
-  resultSet.reset();
+var detailedSearch = function () {
+  $('#results-table').DataTable().clear().draw(); // clear result table
+  $('#results-list *').remove(); // clear result div
+  resultSet.reset(); // clear result set
+  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"].concat($("#search-field input:checkbox:checked").map(function(){return $(this).val()}).get());
   var queryString = $('#detailed-search-text').val().trim().toLowerCase();
-  var decisionSectors = $('#decision-select :checkbox:checked').map(function(){return $(this).val();});
-  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
+  var decisionSectors = $('#decision-select :checkbox:checked').map(function () {return $(this).val();});
   var $feedbackDiv = $('#detailed-search-feedback');
-  var os_select = checkBoxValue(document.getElementsByName('RadioEnvironment'));
-  var cost_select = checkBoxValue(document.getElementsByName('CheckBase'));
-  var extent_select = $('#extent-select :checkbox:checked').map(function(){return $(this).val()});
-  var extent_select = $('#detail-extent-checkbox :checkbox:checked').map(function(){return $(this).val()});
+  var os_select = checkBoxValue(document.getElementsByName('radioenvironment'));
+  var cost_select = checkBoxValue(document.getElementsByName('checkbase'));
+  var extent_select = $('#extent-select :checkbox:checked').map(function () {return $(this).val()});
   var results = [];
   var requests = [];
   var data = {};
-  $feedbackDiv.css('display','none');
+  $feedbackDiv.css('display', 'none');
   if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
     decisionSectors = [
       "Land Use",
@@ -613,9 +952,9 @@ var detailedSearch = function() {
     ];
   }
   if (queryString) { // ensure search string is not empty
-    for (var i = 0; i < queryTypes.length; i++){
+    for (var i = 0; i < queryTypes.length; i++) {
       data[queryTypes[i]] = queryString;
-      for (var j = 0; j < decisionSectors.length; j++){
+      for (var j = 0; j < decisionSectors.length; j++) {
         data.DecisionSector = decisionSectors[j];
         dataList = [data]; // create an initial array of query-data
         dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
@@ -634,16 +973,16 @@ var detailedSearch = function() {
       arguments allows for the variable number of arguments to be accessed
     */
     $.when.apply(null, requests).done(function () {
-      for (var i = 0; i < arguments.length; i++){
+      for (var i = 0; i < arguments.length; i++) {
         results = results.concat(arguments[i][0]);
       }
       var numberOfResults = parseResultsArray(results);
       if (0 === numberOfResults) {
         $feedbackDiv.css('display', 'block');
-        $('#results-tab').parent().attr('aria-hidden',true);
+        $('#results-tab').parent().attr('aria-hidden', true);
       } else {
         $feedbackDiv.css('display', 'none');
-        $('#results-tab').parent().attr('aria-hidden',false);
+        $('#results-tab').parent().attr('aria-hidden', false);
         $("#results-tab").click();
       }
     });
@@ -652,7 +991,7 @@ var detailedSearch = function() {
   }
 };
 
-var executeSearch = function(url, data) {
+var executeSearch = function (url, data) {
   return $.ajax({
     type: 'GET',
     url: url,
@@ -660,12 +999,10 @@ var executeSearch = function(url, data) {
   });
 };
 
-var parseResultsArray = function(results) {
+var parseResultsArray = function (results) {
   for (var i = 0; i < results.length; i++) {
-    //turn into function in base?
     if(!resultSet.contains(results[i].ResourceId)) {
       resultSet.addTool(results[i].ResourceId);
-      //populate divs
       toolCache.handleParsedData(results[i].ResourceId, resultTable.displayTool.bind(resultTable));
     }
   }
@@ -677,7 +1014,7 @@ simpleSearch = function () {
   $('#results-list *').remove(); //clear result list
   resultSet.reset(); //clear result data
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
-  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports"];
+  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"];
   var $feedbackDiv = $('#simpleFeedback');
   var results = [];
   var requests = [];
@@ -689,16 +1026,16 @@ simpleSearch = function () {
       "Transportation"
     ];
   if (queryString) { // ensure search-string is not empty
-    for (var i = 0; i < queryTypes.length; i++){
+    for (var i = 0; i < queryTypes.length; i++) {
       data[queryTypes[i]] = queryString;
-      for (var j = 0; j < decisionSectors.length; j++){
+      for (var j = 0; j < decisionSectors.length; j++) {
         data.DecisionSector = decisionSectors[j];
         requests.push(executeSearch(resourceAdvancedSearchURL, data));
       }
       data = {};
     }
     $.when.apply(null, requests).done(function () {
-      for (var i = 0; i < arguments.length; i++){
+      for (var i = 0; i < arguments.length; i++) {
         results = results.concat(arguments[i][0]);
       }
       var numberOfResults = parseResultsArray(results);
@@ -721,7 +1058,7 @@ function loadModels2() {
   if (tabsBrowserClicked === false) {
     $(".accordion-pane").each(function () {
       var table;
-      var table_name = this.children[0].children[1].id;
+      var table_name = $(this).find('table').attr('id');
       switch (table_name) {
       case "building-infrastructure-table":
         decision_query = "Building Infrastructure";

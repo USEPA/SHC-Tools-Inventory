@@ -31,6 +31,11 @@
 <!--googleoff: all-->
   <link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/template2/s.css" media="all" />
   <!--[if lt IE 9]><link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/themes/epa/css/ie.css" media="all" /><![endif]-->
+  <link type="text/css" rel="stylesheet" href="css/base.css" media="all" />
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/css/select.dataTables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/css/buttons.dataTables.min.css">
   <link rel="alternate" type="application/atom+xml" title="EPA.gov All Press Releases" href="https://www.epa.gov/newsreleases/search/rss" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters" />
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
@@ -94,86 +99,88 @@
     label{
       border-radius: .5em;
     }
-    .success{
+    .success {
       border: .5em solid #e7f4e4;
       border-radius: .5em;
       background-color: #e7f4e4;
       margin-bottom: 1.5em;
     }
-    .warning{
+    .warning {
       border: .5em solid #fff1d2;
       border-radius: .5em;
       background-color: #fff1d2;
       margin-bottom: 1.5em;
     }
-    #results-container{
+    #results-container {
       border: 2px solid #d6d7d9;
       margin: 1em 0 0 0;
       padding: .5em;
     }
-    .expand:hover{
+    .expand:hover {
       background-color: #e7f4e4;
       cursor: pointer;
     }
-    .expand{
+    .expand {
       margin: 0;
     }
-    .list-div{
+    .list-div {
       background-color: #f1f1f1;
       margin-top: .5em;
       border-radius: 5px;
       padding: 2px;
     }
-    [role=tab]{
+    [role=tab] {
       margin: 1px 0 0;
       border-bottom-left-radius:0;
       border-bottom-right-radius:0;
     }
-    [role=tabpanel]{
+    [role=tabpanel] {
       padding: .5em;
       border: 2px solid #d6d7d9;
       border-radius: 5px;
       border-top-left-radius:0;
       border-top-right-radius:0;
     }
-    [aria-hidden="true"]{
+    [aria-hidden="true"] {
       display: none;
     }
-    .result-label{
+    .results-label {
       display: inline;
       background-color:transparent;
     }
-    .tool-label:focus + label{
+    .tool-label:focus + label {
       background-color:#e1f3f8;
     }
-    .tool-label:checked + label{
+    .tool-label:checked + label {
       background-color:#d6d7d9;
     }
     /* Makes text in an element unselectable */
-    .unselectable{
+    .unselectable {
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
       -o-user-select: none;
       user-select: none;
     }
-    button:disabled{background-color:#aeb0b5}
-    *{
+    button:disabled {
+      background-color:#aeb0b5
+    }
+    * {
       -ms-transition: none;
       transition: none;
     }
-    .accordian-result{
-    background-image: url(https://www.epa.gov/sites/all/themes/epa/img/arrow-alt-down.png);
-    background-repeat: no-repeat;
-    float: right;
-    height: 13px;
-    margin: 5px;
-    width: 13px;
+    .accordian-result {
+      background-image: url(https://www.epa.gov/sites/all/themes/epa/img/arrow-alt-down.png);
+      background-repeat: no-repeat;
+      float: right;
+      height: 13px;
+      margin: 5px;
+      width: 13px;
     }
-    .collapsible{
+    .collapsible {
       transform: rotateX(180deg);
     }
-    .tabs, .tabs > li{
+    .tabs, .tabs > li {
       margin-bottom: 0;
       border: none;
     }
@@ -185,59 +192,6 @@
     .bold {
       font-weight: bold;
     }
-
-    /* Copied from search.html */
-  .result-row:hover {
-    background-color: #e7f4e4;
-    cursor: pointer;
-  }
-  .button-aqua{
-    background-color: #02bfe7;
-    color:#000;
-  }
-  .button-aqua:hover,.button-aqua:focus{
-    background-color: #00a6d2;
-  }
-  .button-aqua:active{
-    background-color: #046b99;
-    color:#fff;
-  }
-  .button-red{
-    background-color: #e31c3d;
-  }
-  .button-red:hover,.button-red:focus{
-    background-color: #cd2026;
-  }
-  .button-red:active{
-    background-color: #981b1e;
-  }
-  .button-grey{
-    background-color: #5b616b;
-    color:#fff;
-  }
-  .button-grey:hover,.button-grey:focus{
-    background-color: #323a45;
-    color:#fff;
-  }
-  .button-grey:active{
-    background-color: #212121;
-    color:#fff;
-  }
-  .button-white{
-    background-color: #fff;
-    box-shadow: inset 0 0 0 2px #0071bc;
-    color: #0071bc;
-  }
-  .button-white:hover,.button-white:focus{
-    background-color: #fff;
-    box-shadow: inset 0 0 0 2px #205493;
-    color: #205493;
-  }
-  .button-white:active{
-    background-color: #fff;
-    box-shadow: inset 0 0 0 2px #112e51;
-    color: #112e51;
-  }
   </style>
 </head>
 <!-- NOTE, figure out body classes! -->
@@ -299,8 +253,8 @@
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
                 <h3>Roles</h3>
-                <p>Select relevant roles and proceed to the subrole-tab.</p>
-                <button class="enabled-by-subrole persist" onclick="activateNextTab($('#subrole-tab'))">Proceed to Subrole</button>
+                <p>Select one or more Roles and proceed to the Subrole tab or select Next.</p>
+                <button class="enabled-by-subrole persist" onclick="activateNextTab($('#subrole-tab'))">Next</button>
                 <hr />
                 <button class="button-grey" onclick="selectAll('role', roleSelect)">Select All Roles</button>
                 <button class="button-grey" onclick="deselectAll('role', roleSelect)">Deselect All Roles</button>
@@ -310,8 +264,8 @@
               </div>
               <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
                 <h3>Subroles</h3>
-                <p>Select subroles and proceed to the fundamental objective-tab.</p>
-                <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'))">Proceed to Fundamental Objective</button>
+                <p>Select one or more Subroles and proceed to the Fundamental Objective tab or select Next.</p>
+                <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'))">Next</button>
                 <hr />
                 <button class="button-grey" onclick="selectAll('subrole', subroleSelect)">Select All Subroles</button>
                 <button class="button-grey" onclick="deselectAll('subrole', subroleSelect)">Deselect All Subroles</button>
@@ -321,8 +275,8 @@
               </div>
               <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
                 <h3>Fundamental Objectives</h3>
-                <p>Select fundamental objectives and proceed to the objective-tab.</p>
-                <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'))">Proceed to Objectives</button>
+                <p>Select one or more Fundamental Objectives and proceed to the Objective tab or select Next.</p>
+                <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'))">Next</button>
                 <hr />
                 <button class="button-grey" onclick="selectAll('fundamental-objective', fundamentalObjectiveSelect)">Select All Fundamental Objectives</button>
                 <button class="button-grey" onclick="deselectAll('fundamental-objective', fundamentalObjectiveSelect)">Deselect All Fundamental Objectives</button>
@@ -332,8 +286,8 @@
               </div>
               <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
                 <h3>Objectives</h3>
-                <p>Select objectives and proceed to the concept-tab.</p>
-                <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'))">Proceed to Concepts</button>
+                <p>Select one or more Objectives and proceed to the Concept tab or select Next.</p>
+                <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'))">Next</button>
                 <hr />
                 <input id="objective-relevance" type="hidden" value="1" />
                 <button class="button-grey" onclick="selectAll('objective', objectiveSelect)">Select All Objectives</button>
@@ -346,8 +300,8 @@
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
                 <h3>Concepts</h3>
-                <p>Select concepts and use the <strong>Find Tools by Concept</strong>-button to display a list of tools. Using the <strong>Add Additional Concepts</strong>-button will add concepts related to the selected concepts.</p>
-                <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'))">Find Tools by Concept</button>
+                <p>Select one or more Concepts and then use the <strong>Find Tools</strong> button to display a list of tools. If you have selected one or more Concepts and you would like to expand your selection to include additional related Concepts, click <strong>Add Additional Concepts</strong>.</p>
+                <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Tools</button>
                 <div id="results-notification"></div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('concept')">Select All Concepts</button>
@@ -363,21 +317,23 @@
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
                 <h2 id="tools">Tools</h2>
-                <p>Selected tools will remain in your results as you perform additonal searches. Any unselected tools will be removed.</p>
-                <p>You can export your selected tools to a file by using the <strong>Export Selected Tools to CSV</strong> button.</p>
+                <p>Select one or more Tools and they will persist as you run additional searches. Any unselected tools will be removed. You can export your selected tools to a CSV file by using the <strong>Export</strong> button.</p>
                 <span>Choose a display:</span>
-                  <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text</label>
-                  <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table</label>
+                  <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: Recommended for those on smaller screens.</label>
+                  <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: Allows filtering and column sorting.</label>
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAll('results-list');$('#results-table').DataTable().rows().select();">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAll('results-list');$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
-                  <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
+                  <button class="button-white" onclick="exportCSV('results-list')">Export</button>
+                  <hr />
                   <div id="results-list"></div>
                 </div>
                 <div aria-hidden="true" id="results-table-div">
                   <table class="revision-table" id="results-table" width="100%">
                     <thead>
                       <tr>
+                        <th></th>
+                        <th></th>
                         <th>Acronym</th>
                         <th>Title</th>
                         <th>Description</th>
@@ -470,10 +426,6 @@
       </div>
     </div>
   </footer>
-  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.css">
-  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/css/select.dataTables.min.css">
-  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/css/responsive.dataTables.min.css">
-  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/css/buttons.dataTables.min.css">
   <script src="https://www.epa.gov/sites/all/libraries/template2/jquery.js"></script>
   <script src="https://www.epa.gov/sites/all/libraries/template2/js.js"></script>
   <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
@@ -486,10 +438,15 @@
   <script src="js/porter-stemmer.js"></script>
   <script src="js/base.js"></script>
 <script>
-var advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","OwnershipType","OtherCostConsiderations","OpenSource","AlternativeNames","Keywords","Organization","ContactPerson","Email","Internet","LifeCycle","OperatingEnvironment","CompatibleOperatingSystems","OtherPropSoftwareReqs","ModelInputs","DataRequirements","ModelOutputTypes","OutputVariables","SourceOfSupportMaterials","TypesOfSupportMaterials","ModelEvaluation","ModelStructure","TimeScale","SpatialExtent","TechSkills","BaseCostOfSoftware","StewardDefinedTags","DecisionSector","Format"];
+const advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","OwnershipType","OtherCostConsiderations","OpenSource","AlternativeNames","Keywords","Organization","ContactPerson","Email","Internet","LifeCycle","OperatingEnvironment","CompatibleOperatingSystems","OtherPropSoftwareReqs","ModelInputs","DataRequirements","ModelOutputTypes","OutputVariables","SourceOfSupportMaterials","TypesOfSupportMaterials","ModelEvaluation","ModelStructure","TimeScale","SpatialExtent","TechSkills","BaseCostOfSoftware","StewardDefinedTags","DecisionSector","Format"];
 // details at READ web services' docs-page
-var decisionSectors = ['land use','transportation','building infrastructure','waste management'];
+const decisionSectors = ['land use','transportation','building infrastructure','waste management'];
 var showToast = true;
+
+const resultSet = new ToolSet(); // Create result and saved tool sets
+const savedTools = new ToolSet();
+
+const resultTable = new ToolDisplay('results-table', 'results-list', 14); // Create ToolDisplay Objects we need 
 
 /* Create listeners and execute procedures which need done
    at the document's convenience in order to avoid a
@@ -498,6 +455,7 @@ var showToast = true;
 $(function () { // jquery's shorthand awaits readiness of document
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate the roles into #role div
   initializeTabs(); // initialize tabs and their listeners
+  
   var table = $("#results-table").DataTable({ // [Violation] 'DOMContentLoaded' handler took 261ms
     dom: 'Bfrtip',
     processing: true,
@@ -506,21 +464,37 @@ $(function () { // jquery's shorthand awaits readiness of document
         type: 'column'
       }
     },
-    select: true,
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: [1]
+    },
+    {
+      orderable: false,
+      className: 'control',
+      targets: [0]
+    }],
+    select: {
+      style: 'os',
+      selector: 'td:nth-child(2)'
+    },
+    order: [[2, 'asc']],
     buttons: [
       {
         text: 'Select All Tools',
         action: function () {
           table.rows().select();
           selectAll('results-list');
-        }
+        },
+        className: 'button button-grey'
       },
       {
         text: 'Deselect All Tools',
         action: function () {
           table.rows().deselect();
           deselectAll('results-list');
-        }
+        },
+        className: 'button button-grey'
       },
       { 
         extend: 'csv', 
@@ -529,33 +503,36 @@ $(function () { // jquery's shorthand awaits readiness of document
           rows: {
             selected: true
           }
-        }
+        },
+        className: 'button button-white'
       }
     ]
   });
 
-  $('#results-table tbody').on('click', 'tr', function () {
-    if ($(this).hasClass('selected')) { // remove selected class
-      $(this).removeClass('selected');
-      $('#results-list-cb-' + $(this).attr('data-read-id')).prop('checked', false);
-      savedTools.removeTool($(this).attr('data-read-id')); // remove from saved tools
+  $('#results-table tbody').on('click', 'td:nth-child(2)', function () {
+    if ($(this).parent().hasClass('selected')) { // remove selected class
+      $(this).parent().removeClass('selected');
+      $('#results-list-cb-' + $(this).parent().attr('data-read-id')).prop('checked', false);
+      savedTools.removeTool($(this).parent().attr('data-read-id')); // remove from saved tools
     }
     else {
-      $(this).addClass('selected'); // add selected class
-      $('#results-list-cb-' + $(this).attr('data-read-id')).prop('checked', true);
-      savedTools.addTool($(this).attr('data-read-id')); // add to saved tools
+      $(this).parent().addClass('selected'); // add selected class
+      $('#results-list-cb-' + $(this).parent().attr('data-read-id')).prop('checked', true);
+      savedTools.addTool($(this).parent().attr('data-read-id')); // add to saved tools
     }
   });
 
-  $("#results-list").on("change", "input:checkbox", function() {
+  $("#results-list").on("change", "input:checkbox", function () {
     if ($(this).prop('checked')) { // add selected class
-      $('#results-table').DataTable().row('#results-table-'+$(this).val()).select();
+      $('#results-table').DataTable().row('#results-table-' + $(this).val()).select();
       savedTools.addTool($(this).val()); // add to saved tools
     } else {
-      $('#results-table').DataTable().row('#results-table-'+$(this).val()).deselect(); // remove selected class
+      $('#results-table').DataTable().row('#results-table-' + $(this).val()).deselect(); // remove selected class
       savedTools.removeTool($(this).val()); // add to saved tools
     }
   });
+
+  $('.dt-button').removeClass('dt-button');
 });
 
 /**
@@ -571,20 +548,17 @@ $(function () { // jquery's shorthand awaits readiness of document
  *                         - assertive interrupts user
  *   - parameters.container - ID of container to use for alert
 */
-var toast = function(parameters) {
-  // parametrize common literals up top like a best-practice-adherent coder
-  noticeID = 'toast';
-  $notice = $('#'+noticeID);
-  // grab parameters
-  if (typeof parameters != 'undefined') {// does parameters object exist?
-    if (typeof parameters['container'] != 'undefined') {
+var toast = function (parameters) {
+  var noticeID = 'toast';
+  var $notice = $('#' + noticeID);
+  if (typeof parameters !== 'undefined') { // does parameters object exist?
+    if (typeof parameters['container'] !== 'undefined') {
       noticeID = parameters['container'];
-      $notice = $('#'+noticeID);
+      $notice = $('#' + noticeID);
     }
-    for (parameter in parameters) {
-      // set css rules
-      if (parameter === 'css') {
-        for (property in parameters[parameter]) {
+    for (var parameter in parameters) {
+      if (parameter === 'css') { // set css rules
+        for (var property in parameters[parameter]) {
           $notice.css(property, parameters[parameter][property]);
         }
       }
@@ -601,38 +575,36 @@ var toast = function(parameters) {
       }
     }
   }
-  // Get the notification element
-  var notice = document.getElementById(noticeID)
-  // Add the "show" class to notice
-  notice.className = 'show';
-  // remove the show class from notice after 5 seconds
-  setTimeout(function(){ notice.className = notice.className.replace("show", ""); }, 5000);
+  var notice = document.getElementById(noticeID); // Get the notification element
+  notice.className = 'show'; // Add the "show" class to notice
+  setTimeout(function () { // remove the show class from notice after 5 seconds
+    notice.className = notice.className.replace("show", ""); 
+  }, 5000);
 };
 
 /**
  * initialize tabs; create listener for swithing tabs
 */
-var initializeTabs = function() {
+var initializeTabs = function () {
   $('#tabs > div').hide(); // hide all tab-panels
   $('#tabs div:first').show(); // show first tab-panel
   $('#tabsnav li:first').addClass('active'); // class tabs active for styling
   $('.menu-internal').click(function () { // add listener to tabbing elements
-    if (!$(this).is('[aria-disabled]')) {// tab doesn't have an aria-disabled attribute...
+    if (!$(this).is('[aria-disabled]')) { // tab doesn't have an aria-disabled attribute...
       $('#tabsnav li').removeClass('active'); // remove active styling from all tabs
-      var currentPanel = '#'+$(this).attr('aria-controls');// make a jquery object selecting the panel associated with the clicked tab
+      var currentPanel = '#' + $(this).attr('aria-controls');// make a jquery object selecting the panel associated with the clicked tab
       $(this).parent().addClass('active'); // activate the clicked tab
       $('#tabs > div').hide(); // hide all panels
       $(currentPanel).show(); // show clicked tab's panel
-      if (currentPanel === "#saved-tools-panel"){// is currentPanel saved-tools-panel?
-        $('#results-container').hide();// hide results
-        $('#results-container').attr('aria-hidden', 'true');// make disabled for assistive technologies
-      } else if ($('#results-list').has('div').length){// 
-        $('#results-container').show();// show results
+      if (currentPanel === "#saved-tools-panel") { // is currentPanel saved-tools-panel?
+        $('#results-container').hide(); // hide results
+        $('#results-container').attr('aria-hidden', 'true'); // make disabled for assistive technologies
+      } else if ($('#results-list').has('div').length) {// 
+        $('#results-container').show(); // show results
         $('#results-container').attr('aria-hidden', 'false');
       }
-    }else{// tab has attribute aria-disabled...
+    }else { // tab has attribute aria-disabled...
       console.log('The user has clicked a disabled tab. Consider implementing some means of making the interface reactive. Consider informing a user why this tab is disabled.');
-      // ...return
       return;
     }
   });
@@ -641,12 +613,12 @@ var initializeTabs = function() {
 /**
  * show more or less objectives
  */
-var objectiveDisplay = function(adjust) {
+var objectiveDisplay = function (adjust) {
   $('#objective-relevance').val(parseInt($('#objective-relevance').val()) + parseInt(adjust));
   var val = $('#objective-relevance').val();
-  if (val<=0) {
+  if (val <= 0) {
     $('#objective-relevance-decrease').prop('disabled', true);
-  }else if (val>=2) {
+  }else if (val >= 2) {
     $('#objective-relevance-increase').prop('disabled', true);
   }else{
     $('#objective-relevance-decrease').prop('disabled', false);
@@ -658,7 +630,7 @@ var objectiveDisplay = function(adjust) {
 /**
  * make interface react
 */
-var updateInterface = function(list, $container, onChange){
+var updateInterface = function (list, $container, onChange) {
   // populate next selectables
   populate(list, $container, onChange);// populate list into $container
   // toggle tab
@@ -673,18 +645,20 @@ var updateInterface = function(list, $container, onChange){
  * populate list into specified $container;
  * maintain selections when possible
  */
-var populate = function(list, $container, onChange) {
-  if (typeof list === 'undefined') {list = [];}// ensure list is defined
-  var currentlySelected = [];// create container for current selections
-  $container.find(':checked').each(function(i,v) {
-    currentlySelected.push(v.value);// store current selections in container
+var populate = function (list, $container, onChange) {
+  if (typeof list === 'undefined') {
+    list = [];
+  }// ensure list is defined
+  var currentlySelected = []; // create container for current selections
+  $container.find(':checked').each(function (i, v) {
+    currentlySelected.push(v.value); // store current selections in container
   });
-  $container.html('');// clear items out of container
-  var html = addCheckboxes(list.sort(), $container, onChange);// repopulate new selectables
-  $container.html(html);// create contents of $container
-  $container.find('input[type=checkbox]').each(function(i,v) {// look through each element in $container
-      if(currentlySelected.indexOf(v.value)!=-1) {// check if item was selected
-        $($(v)[0]).prop('checked',true);// select item
+  $container.html(''); // clear items out of container
+  var html = addCheckboxes(list.sort(), $container, onChange); // repopulate new selectables
+  $container.html(html); // create contents of $container
+  $container.find('input[type=checkbox]').each(function (i, v) { // look through each element in $container
+      if(currentlySelected.indexOf(v.value) !== -1) { // check if item was selected
+        $($(v)[0]).prop('checked', true); // select item
       }
   });
 };
@@ -697,11 +671,14 @@ var populateWithHeader = function (list, $container, onChange) {
   if (typeof list === 'undefined') {
     list = {length:0}; // ensure list is defined
   }
+  if (list.length === 0) {
+    return;
+  }
   var currentlySelected = [];
-  $container.find(':checked').each(function (i, v) {// create an array for currently selected values
+  $container.find(':checked').each(function (i, v) { // create an array for currently selected values
       currentlySelected.push(v.value);
   });
-  $container.html('');// clear items out of container
+  $container.html(''); // clear items out of container
   var html = '';
   var count = 0;
   for (var i in list) {
@@ -713,12 +690,12 @@ var populateWithHeader = function (list, $container, onChange) {
     }
   }
   $container.html(html);
-  toggleTab(list, $container);// enable next tab iff list not empty
-  var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
-  toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
-  $container.find('input[type=checkbox]').each(function (i, v) {// look through each element in $container
-    if(currentlySelected.indexOf(v.value) !== -1) {// check if item was currentlySelected
-      $($(v)[0]).prop('checked', true);// select item
+  toggleTab(list, $container); // enable next tab iff list not empty
+  var nextButtonClassSubstring = $container.attr("id"); // identify next button by who enables it
+  toggleNext(list, nextButtonClassSubstring); // enable next button iff list not empty 
+  $container.find('input[type=checkbox]').each(function (i, v) { // look through each element in $container
+    if(currentlySelected.indexOf(v.value) !== -1) { // check if item was currentlySelected
+      $($(v)[0]).prop('checked', true); // select item
     }
   });
 };
@@ -726,13 +703,13 @@ var populateWithHeader = function (list, $container, onChange) {
 /**
  * toggle disabled state of a next button
  */
-var toggleNext = function(list, nextButtonClassSubstring) {
-  var nextButtonSelector = '.enabled-by-'+nextButtonClassSubstring; // identify next button by who enables it
+var toggleNext = function (list, nextButtonClassSubstring) {
+  var nextButtonSelector = '.enabled-by-' + nextButtonClassSubstring; // identify next button by who enables it
   if (list.length > 0 || Object.keys(list).length > 0) {
-    $(nextButtonSelector+':not(.persist)')
-      .prop('disabled',false)
-      .css('display','inline');
-    if ($('#role :checked').length > 0 && showToast == true) {
+    $(nextButtonSelector + ':not(.persist)')
+      .prop('disabled', false)
+      .css('display', 'inline');
+    if ($('#role :checked').length > 0 && showToast === true) {
       toast({'html':'Click either the button at the bottom of the screen or the next tab to proceed when ready.<button onclick="showToast = false">Disable these messages</button>'});
     }
   }else{
@@ -745,20 +722,20 @@ var toggleNext = function(list, nextButtonClassSubstring) {
 /**
  * show tab iff usable
  */
-var toggleTab = function(list, $container) {
-  tabAnchor = '#'+$container.parent().attr('aria-labelledby');
+var toggleTab = function (list, $container) {
+  tabAnchor = '#' + $container.parent().attr('aria-labelledby');
   if (list.length > 0 || Object.keys(list).length > 0) {// items in list...
     // ...enable tabs
     $(tabAnchor).removeAttr('aria-disabled');
-    $(tabAnchor).attr('href',$(tabAnchor).attr('data-href'));
+    $(tabAnchor).attr('href', $(tabAnchor).attr('data-href'));
     $(tabAnchor).parent().removeAttr('aria-hidden');
     $(tabAnchor).removeAttr('aria-hidden');
     $(tabAnchor).show();
   }else{// no items in list...
     // ...disable tabs
-    $(tabAnchor).attr('aria-disabled','true').removeAttr('href');
+    $(tabAnchor).attr('aria-disabled', 'true').removeAttr('href');
     $(tabAnchor).hide();
-    $(tabAnchor).parent().attr('aria-hidden','true');
+    $(tabAnchor).parent().attr('aria-hidden', 'true');
   }
 };
 
@@ -803,9 +780,9 @@ var fundamentalObjectiveSelect = function () {
   var relevance = $('#objective-relevance').val();
   var objectivesFromSubroles = [];
   var objectivesFromSubrolesRelevance = [];
-  for (var i=0;i<=relevance;i++) {
+  for (var i = 0; i <= relevance; i++) {
     objectivesFromSubrolesRelevance = scrapeDictionary($("input[name='subrole-checkbox']:checked"), objectivesBySubroleRelevance[i]);
-    for (var j=0;j<objectivesFromSubrolesRelevance.length;j++) {
+    for (var j = 0; j < objectivesFromSubrolesRelevance.length; j++) {
       if (objectivesFromSubroles.indexOf(objectivesFromSubrolesRelevance[j]) === -1) {
         objectivesFromSubroles.push(objectivesFromSubrolesRelevance[j]);
       }
@@ -815,8 +792,8 @@ var fundamentalObjectiveSelect = function () {
   var objectivesFromFundamentalObjectives = scrapeDictionary($("input[name='fundamental-objective-checkbox']:checked"), objectivesByFundamentalObjective);
   // get objectives specified by both subroles and fundamental objectives
   var objectives = [];
-  for (i=0;i<objectivesFromSubroles.length;i++){
-    if (objectivesFromFundamentalObjectives.indexOf(objectivesFromSubroles[i]) !== -1){
+  for (i = 0; i < objectivesFromSubroles.length; i++) {
+    if (objectivesFromFundamentalObjectives.indexOf(objectivesFromSubroles[i]) !== -1) {
       objectives.push(objectivesFromSubroles[i]);
     }
   }  
@@ -928,14 +905,14 @@ var keywordSearch = function (div, input) {
  * search for the READ IDs from the selected Concepts from input and display results in div
  */
 var conceptSearch = function (div, input) {
-  $('.result-checkbox').each(function () { //iterate over checkboxes and remove the unchecked values from the display and the resultSet
+  $('.results-checkbox').each(function () { //iterate over checkboxes and remove the unchecked values from the display and the resultSet
     if ($(this).prop('checked') !== true) {
-      $('#results-list-'+$(this).val()).remove(); //remove from list
+      $('#results-list-' + $(this).val()).remove(); //remove from list
       resultSet.removeTool($(this).val()); //remove from resultSet
       resultTable.getToolSet().removeTool($(this).val()); //clear display data
     }
   });
-  $('#results-table').DataTable().rows( '.result-row:not(.selected)').remove().draw(); //clear table of values not makred selected
+  $('#results-table').DataTable().rows( '.results-row:not(.selected)').remove().draw(); //clear table of values not makred selected
 
   var concepts = getConcepts(input); //get new concepts
   if (concepts.length < 1) {
@@ -956,7 +933,7 @@ var conceptSearch = function (div, input) {
   }
   if (resultSet.getLength() > 0) {
     //toolCache.handleToolSet(resultSet, resultTable.displayToolSet.bind(resultTable));
-    $('#results-notification').html('<p><strong>Found ' + resultSet.getLength() + ' results.</strong></p> <button onclick="activateNextTab($(\'#results-tab\'))">Proceed to Tools</button>').removeClass().addClass('success');
+    $('#results-notification').html('<p><strong>Found ' + resultSet.getLength() + ' results.</strong></p> <button onclick="activateNextTab($(\'#results-tab\'))">Next</button>').removeClass().addClass('success');
     $('#results-tab').parent().attr('aria-hidden', 'false');
   } else {
     $('#results-notification').html('<strong>No results found.</strong>').removeClass().addClass('warning');
@@ -1064,7 +1041,7 @@ function findChildConcepts() {
   console.log("Children: " + associatedConcepts);
 }
 
-function findParentConcepts(){
+function findParentConcepts() {
   if ($('input[name="concept-checkbox"]:checked').length === 0) {
     return;
   }
@@ -1094,7 +1071,7 @@ function findParentConcepts(){
   console.log("Parents: "+ associatedConcepts);
 }
 
-function findSiblingConcepts(){
+function findSiblingConcepts() {
   if ($('input[name="concept-checkbox"]:checked').length === 0) {
     return;
   }
@@ -1164,12 +1141,12 @@ var broadenConcepts = function () {
  * select next tab when next button is activated
  * @param $tabContainer the container for the tabs
  */
-var activateNextTab = function($nextTab) {
+var activateNextTab = function ($nextTab) {
   if ($nextTab.parent().attr('aria-hidden') === 'true') {
   } else {
-    $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected','false');// deactivate active tab
-    $nextTab.attr('aria-selected','true');// list this tab as active
-    $nextTab.prop('disabled',false);// enable tab
+    $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected', 'false');// deactivate active tab
+    $nextTab.attr('aria-selected', 'true');// list this tab as active
+    $nextTab.prop('disabled', false);// enable tab
     $nextTab.click();// activate tab
     //location.hash = '#explore-role-tab';// not working...
   }
@@ -1178,25 +1155,25 @@ var activateNextTab = function($nextTab) {
 /**
  * return an object containing all SHC-tools indexed by decision-sector
 */
-var allTools = function() {
-  var tools={};
-  tools.transportation={};
-  $.get(resourceAdvancedSearchURL,{DecisionSector:'Transportation'}).done(function(data) {$.each(data,function(i) {tools.transportation[data[i].ResourceId]=data[i].ResourceAcronym;});});
-  tools.wasteManagement={};
-  $.get(resourceAdvancedSearchURL,{DecisionSector:'Waste Management'}).done(function(data) {$.each(data,function(i) {tools.wasteManagement[data[i].ResourceId]=data[i].ResourceAcronym;});});
-  tools.buildingInfrastructure={};
-  $.get(resourceAdvancedSearchURL,{DecisionSector:'Building Infrastructure'}).done(function(data) {$.each(data,function(i) {tools.buildingInfrastructure[data[i].ResourceId]=data[i].ResourceAcronym;});});
-  tools.landUse={};
-  $.get(resourceAdvancedSearchURL,{DecisionSector:'Land Use'}).done(function(data) {$.each(data,function(i) {tools.landUse[data[i].ResourceId]=data[i].ResourceAcronym;});});
+var allTools = function () {
+  var tools = {};
+  tools.transportation = {};
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Transportation'}).done(function (data) {$.each(data, function (i) {tools.transportation[data[i].ResourceId] = data[i].ResourceAcronym;});});
+  tools.wasteManagement = {};
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Waste Management'}).done(function (data) {$.each(data, function (i) {tools.wasteManagement[data[i].ResourceId] = data[i].ResourceAcronym;});});
+  tools.buildingInfrastructure = {};
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Building Infrastructure'}).done(function (data) {$.each(data, function (i) {tools.buildingInfrastructure[data[i].ResourceId] = data[i].ResourceAcronym;});});
+  tools.landUse = {};
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Land Use'}).done(function (data) {$.each(data, function (i) {tools.landUse[data[i].ResourceId] = data[i].ResourceAcronym;});});
   return tools;
 };
 
 /**
  * print details for a given READ ID in the console
 */
-var getDetailsFromId = function(id) {
-  $.get(resourceDetailURL,{ResourceId:id}).done(function(data) {
-    console.log(data.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym,': ',data.READExportDetail.InfoResourceDetail);
+var getDetailsFromId = function (id) {
+  $.get(resourceDetailURL, {ResourceId:id}).done(function (data) {
+    console.log(data.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym + ': ' + data.READExportDetail.InfoResourceDetail);
   });
 };
 
@@ -1277,7 +1254,7 @@ function markBlanks(markThis, byThis) {
 */
 function printLeafNodeArray() {
   var str = '[';
-  for (var i = 0; i < leafNodes.length; i++){
+  for (var i = 0; i < leafNodes.length; i++) {
     str += '"' + leafNodes[i] + '", ';
   }
 
