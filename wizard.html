@@ -31,11 +31,12 @@
 <!--googleoff: all-->
   <link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/template2/s.css" media="all" />
   <!--[if lt IE 9]><link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/themes/epa/css/ie.css" media="all" /><![endif]-->
-  <link type="text/css" rel="stylesheet" href="css/base.css" media="all" />
+  
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.css">
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/css/select.dataTables.min.css">
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/css/responsive.dataTables.min.css">
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/css/buttons.dataTables.min.css">
+  <link type="text/css" rel="stylesheet" href="css/base.css" media="all" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov All Press Releases" href="https://www.epa.gov/newsreleases/search/rss" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters" />
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
@@ -77,6 +78,8 @@
         z-index: 1; /* Add a z-index if needed */
         left: 50%; /* Center the notification */
         top: .5em; /* 30px from the top */
+        opacity: 1;
+        transition: opacity 0.6s; /* 600ms to fade out */
     }
     /* Show the notification. Show and animate with addition of class. */
     #toast.show, #notice.show {
@@ -117,6 +120,7 @@
       border: .5em solid #fff1d2;
       border-radius: .5em;
       background-color: #fff1d2;
+      color: #000;
       margin-bottom: 1.5em;
     }
     #results-container {
@@ -200,6 +204,43 @@
     .bold {
       font-weight: bold;
     }
+    .toast-close-button {
+      position:relative;
+      right:-.3em;
+      top:-.3em;
+      float:right;
+      font-size:20px;
+      font-weight:700;
+      color:#fff;
+      -webkit-text-shadow:0 1px 0 #fff;
+      text-shadow:0 1px 0 #fff;
+      opacity:.8;
+      -ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+      filter:alpha(opacity=80)
+    }
+
+    .toast-close-button:focus, .toast-close-button:hover{
+      color:#000;
+      text-decoration:none;
+      cursor:pointer;
+      opacity:.4;
+      -ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
+      filter:alpha(opacity=40)
+    }
+
+    button.toast-close-button{
+      padding:0;
+      cursor:pointer;
+      background:0 0;
+      border:0;
+      -webkit-appearance:none
+      right:-.2em;
+      top:-.2em
+    }
+
+    #results-notification {
+      line-height: 2em;
+    }
   </style>
 </head>
 <!-- NOTE, figure out body classes! -->
@@ -252,10 +293,10 @@
             <div id="tabs">
               <ul class="tabs" id="tabsnav" role="tablist">
                 <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal" href="#tabsnav" id="role-tab" role="tab">Role >></a></li>
-                <li aria-hidden="true"><a aria-controls="subrole-panel" aria-disabled="true" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="subrole-tab" role="tab">Subrole >></a></li>
-                <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="fundamental-objective-tab" role="tab">Fundamental Objective >></a></li>
-                <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="objective-tab" role="tab">Objective >></a></li>
-                <li aria-hidden="true"><a aria-controls="concept-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-href="#tabsnav" id="concept-tab" role="tab">Concept >></a></li>
+                <li aria-hidden="true"><a aria-controls="subrole-panel" aria-disabled="true" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Role" data-href="#tabsnav" id="subrole-tab" role="tab">Subrole >></a></li>
+                <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Subrole" data-href="#tabsnav" id="fundamental-objective-tab" role="tab">Fundamental Objective >></a></li>
+                <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Fundamental Objective" data-href="#tabsnav" id="objective-tab" role="tab">Objective >></a></li>
+                <li aria-hidden="true"><a aria-controls="concept-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Objective" data-href="#tabsnav" id="concept-tab" role="tab">Concept >></a></li>
                 <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" href="#tabsnav" id="selected-tool-tab" role="tab">Selected Tool</a></li>
                 <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" href="#tabsnav" id="results-tab" role="tab">Results</a></li>
               </ul>
@@ -547,6 +588,8 @@ $(function () { // jquery's shorthand awaits readiness of document
   $('.dt-button').removeClass('dt-button');
 });
 
+const timeouts = {};
+
 /**
  * accessibly notify users of information
  *
@@ -577,6 +620,9 @@ var toast = function (parameters) {
       if (parameter === 'html') {
         $notice.html(parameters[parameter]);
       }
+      if (parameter === 'close') {
+        $notice.append('<button type="button" class="toast-close-button" role="button">×</button>');
+      }
       if (parameter === 'priority') {
         if (parameters[parameter] === 'polite') {
           $notice.attr('aria-live', 'polite');
@@ -589,10 +635,21 @@ var toast = function (parameters) {
   }
   var notice = document.getElementById(noticeID); // Get the notification element
   notice.className = 'show'; // Add the "show" class to notice
-  setTimeout(function () { // remove the show class from notice after 5 seconds
-    notice.className = notice.className.replace("show", ""); 
+  clearTimeout(timeouts['toast']);
+  timeouts["toast"] = setTimeout(function () { // remove the show class from notice after 5 seconds
+    notice.className = notice.className.replace("show", "");
   }, 5000);
 };
+
+$('#toast').on('click', 'button', function (){
+  var div = this.parentElement;
+  div.style.opacity = "0";
+  clearTimeout(timeouts['toast']);
+  setTimeout(function (){ 
+    div.className = div.className.replace("show", "");
+    div.style.opacity = "1";
+  }, 600);
+});
 
 /**
  * initialize tabs; create listener for swithing tabs
@@ -917,6 +974,7 @@ var keywordSearch = function (div, input) {
  * search for the READ IDs from the selected Concepts from input and display results in div
  */
 var conceptSearch = function (div, input) {
+  $('#results-notification').html('').removeClass();
   $('.results-checkbox').each(function () { //iterate over checkboxes and remove the unchecked values from the display and the resultSet
     if ($(this).prop('checked') !== true) {
       $('#results-list-' + $(this).val()).remove(); //remove from list
@@ -1161,6 +1219,7 @@ var broadenConcepts = function () {
  */
 var activateNextTab = function ($nextTab) {
   if ($nextTab.parent().attr('aria-hidden') === 'true') {
+    toast({html: 'You must select a ' + $nextTab.attr('data-name') + ' to proceed.', close: true});
   } else {
     $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected', 'false');// deactivate active tab
     $nextTab.attr('aria-selected', 'true');// list this tab as active
