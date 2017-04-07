@@ -232,6 +232,21 @@ backlog to track work to be done and by whom
 - #BUG #BOTH Operating Environment not showing for tools with multiple OEs
   - Envision Tomorrow and eSight should have OE "Browser, Desktop" instead have "no data" or blank entries
   - kyle: done
+
+- refactor autocomplete
+  - autocomplete needs a set of phrases for each field
+    - try a data-structure of an object with keys of fieldnames and values of the array of autocomplete
+    - data-structure: 
+      - {FIELDNAME:[PHRASE1,...,PHRASEN],...,OTHERFIELDNAME:[...]}
+      - this structure allows sets of autocompleted phrases to be selected to match which fields are being searched for
+  - work-outline
+    - for each field:
+      - scrape all phrases from tools into an array
+      - remove stopwords from phrases
+      - create an object with each phrase as a key
+    - combine all field-objects as properties of autocompletedPhrases keyed by respective fieldnames
+    - use autocompleted phrases as the data-structure that can autocomplete findable values for searching selected fields
+  - kyle: the base feature is done and easily extended later
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -306,9 +321,6 @@ backlog to track work to be done and by whom
 - create fixed menu with links to top, bottom, next button, and toasting messages?
 
 - toasts to show features in optional walkthrough?
-
-- Possibly rework the autocomplete functionality
-  - kyle: WIP
 
 - hide concepts with no associated objectives in conceptsByObjective
   - kyle: WIP
