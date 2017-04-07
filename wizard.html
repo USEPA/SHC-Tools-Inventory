@@ -51,7 +51,15 @@
       display: none;
       position: fixed;
       bottom: .5em;
-      right: 50%;
+      right: 51%;
+      margin: 0 auto;
+    }
+
+    #floating-show-results-button{
+      display: none;
+      position: fixed;
+      bottom: .5em;
+      left: 51%;
       margin: 0 auto;
     }
 
@@ -260,7 +268,7 @@
                 <button class="button-grey" onclick="deselectAll('role', roleSelect)">Deselect All Roles</button>
                 <div id="role"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-                <button class="next-button enabled-by-subrole" disabled onclick="activateNextTab($('#subrole-tab'))">Proceed to Subrole</button>
+                <button class="next-button enabled-by-subrole" disabled onclick="activateNextTab($('#subrole-tab'))">Next</button>
               </div>
               <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
                 <h3>Subroles</h3>
@@ -271,7 +279,7 @@
                 <button class="button-grey" onclick="deselectAll('subrole', subroleSelect)">Deselect All Subroles</button>
                 <div id="subrole"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-                <button class="next-button enabled-by-fundamental-objective" disabled onclick="activateNextTab($('#fundamental-objective-tab'))">Proceed to Fundamental Objective</button>
+                <button class="next-button enabled-by-fundamental-objective" disabled onclick="activateNextTab($('#fundamental-objective-tab'))">Next</button>
               </div>
               <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
                 <h3>Fundamental Objectives</h3>
@@ -282,7 +290,7 @@
                 <button class="button-grey" onclick="deselectAll('fundamental-objective', fundamentalObjectiveSelect)">Deselect All Fundamental Objectives</button>
                 <div id="fundamental-objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-                <button class="next-button enabled-by-objective" disabled onclick="activateNextTab($('#objective-tab'))">Proceed to Objectives</button>
+                <button class="next-button enabled-by-objective" disabled onclick="activateNextTab($('#objective-tab'))">Next</button>
               </div>
               <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
                 <h3>Objectives</h3>
@@ -296,20 +304,24 @@
                 <button class="button-white" onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show More Objectives</button>
                 <div id="objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-                <button class="next-button enabled-by-concept" disabled onclick="activateNextTab($('#concept-tab'))">Proceed to Concepts</button>
+                <button class="next-button enabled-by-concept" disabled onclick="activateNextTab($('#concept-tab'))">Next</button>
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
                 <h3>Concepts</h3>
-                <p>Select one or more Concepts and then use the <strong>Find Tools</strong> button to display a list of tools. If you have selected one or more Concepts and you would like to expand your selection to include additional related Concepts, click <strong>Add Additional Concepts</strong>.</p>
-                <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Tools</button>
-                <div id="results-notification"></div>
+                <p>Select one or more Concepts and then use the <strong>Calculate Results</strong> button to display a list of tools. Next, click the <strong>Display Results</strong> button to display the results. If you have selected one or more Concepts and you would like to expand your selection to include additional related Concepts, click <strong>Add Additional Concepts</strong>.</p>
+                <div class="row">
+                  <div class="col"><button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Calculate Results</button></div>
+                  <div class="col"><span id="results-notification"></span></div>
+                  <div class="col"><button aria-hidden="true" id="show-results-button" onclick="activateNextTab($('#results-tab'))">Display Results</button></div>
+                </div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('concept')">Select All Concepts</button>
                 <button class="button-grey" onclick="deselectAll('concept')">Deselect All Concepts</button>
                 <button class="button-white" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-                <button class="next-button enabled-by-concept" disabled onclick="$('#concept-search-button').click()">Find Tools</button>
+                <button class="next-button enabled-by-concept button-aqua" disabled onclick="$('#concept-search-button').click()">Calculate Results</button>
+                <button disabled id="floating-show-results-button" onclick="activateNextTab($('#results-tab'))">Display Results</button>
               </div>
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
                 <button class="button-aqua" class="button" onclick="saveRecord()">Save Record</button>
@@ -600,7 +612,7 @@ var initializeTabs = function () {
         $('#results-container').hide(); // hide results
         $('#results-container').attr('aria-hidden', 'true'); // make disabled for assistive technologies
       } else if ($('#results-list').has('div').length) {// 
-        $('#results-container').show(); // show results
+        $('#results-container').show(); // Display Results
         $('#results-container').attr('aria-hidden', 'false');
       }
     }else { // tab has attribute aria-disabled...
@@ -916,7 +928,7 @@ var conceptSearch = function (div, input) {
 
   var concepts = getConcepts(input); //get new concepts
   if (concepts.length < 1) {
-    $('#results-notification').html('<strong>Please select a concept.</strong>').removeClass().addClass('warning');
+    $('#results-notification').html('<strong class="warning">Please select a concept.</strong>').removeClass().addClass('warning');
     $('#results-container').hide();
     $('#results-container').attr('aria-hidden', 'true');
     return;
@@ -933,10 +945,16 @@ var conceptSearch = function (div, input) {
   }
   if (resultSet.getLength() > 0) {
     //toolCache.handleToolSet(resultSet, resultTable.displayToolSet.bind(resultTable));
-    $('#results-notification').html('<p><strong>Found ' + resultSet.getLength() + ' results.</strong></p> <button onclick="activateNextTab($(\'#results-tab\'))">Next</button>').removeClass().addClass('success');
+    $('#results-notification').html('<span class="success"><strong>Found ' + resultSet.getLength() + ' results.</strong></span>').removeClass();
+    $('#show-results-button').attr('aria-hidden', 'false');
+    $('#floating-show-results-button').prop('disabled', false);
+    $('#floating-show-results-button').css('display', 'inline');
     $('#results-tab').parent().attr('aria-hidden', 'false');
   } else {
     $('#results-notification').html('<strong>No results found.</strong>').removeClass().addClass('warning');
+    $('#show-results-button').attr('aria-hidden', 'true');
+    $('#floating-show-results-button').prop('disabled', true);
+    $('#floating-show-results-button').css('display', 'none');
     $('#results-tab').parent().attr('aria-hidden', 'true');
   }
 };
