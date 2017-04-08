@@ -1,0 +1,11 @@
+# Kyle's notes from the call
+=======================================================================
+- how long did the process take beta-tester?
+- were the results acceptable to beta-testers?
+- possibly inform whether a button will show more or less results
+- connect actions to outcomes of actions in instructions
+- longer explanations on index.html or a dedicated page
+- possibly attach toasts to triggering element
+- find tools should maybe show tools immediately
+  - at least reword the button to show tools for clarity of action
+- make obvious, maybe next to the next button, that a new set of tools has been found

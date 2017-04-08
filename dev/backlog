@@ -308,7 +308,7 @@ backlog to track work to be done and by whom
 
 - Clickable URLs on detail page
 
-- Additional fields, Boolean operations in detailed search
+- Boolean operations in detailed search
 
 - POST saved tools between pages?
 
@@ -327,3 +327,6 @@ backlog to track work to be done and by whom
 
 - Decide which fields should be exported to CSV
   - Assign proper header names for each field
+
+- Additional fields populate detailed-search's autocomplete-arrays
+  - additional fields' arrays autocomplete queries over those fields

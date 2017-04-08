@@ -24,15 +24,25 @@ var autocompleteUpdater = {// user may pass an iterable list of fieldNames to be
     'acronym': ['READExportDetail','InfoResourceDetail','GeneralDetail','Acronym'], 
     'description': ['READExportDetail','InfoResourceDetail','GeneralDetail','ShortDescription'], 
     'title': ['READExportDetail','InfoResourceDetail','GeneralDetail','LongTitleText'], 
+    'modelInput': ['READExportDetail', 'InfoResourceDetail', 'ModelInputsDetail', 'ModelInputsTextArea'],
+    'modelOutput': ['READExportDetail', 'InfoResourceDetail', 'ModelOutputsDetail', 'ModelOutputsModelVariablesTextArea'],
+    'modelEvaluation': ['READExportDetail', 'InfoResourceDetail', 'ModelEvaluationDetail', 'ModelEvaluationTextArea'],
   },
   autocompleteData: {},
   tools: {},
   idRequests: [],
+  relimitingRegularExpression: /\s*;+\s*/g,
   data: {},
-  descriptionText: '',
   acronym: [],
   title: [],
+  descriptionText: '',
   description: [],
+  modelInputText: [],
+  modelInput: [],
+  modelOutputText: [],
+  modelOutput: [],
+  modelEvaluationText: [],
+  modelEvaluation: [],
   allSet: new Set(),
   all: [],
 
@@ -53,34 +63,67 @@ var autocompleteUpdater = {// user may pass an iterable list of fieldNames to be
               autocompleteUpdater.descriptionText += ' ' + readSafe(detailData, autocompleteUpdater.fieldMap['description']);
               autocompleteUpdater.acronym.push(readSafe(detailData, autocompleteUpdater.fieldMap['acronym']));
               autocompleteUpdater.title.push(readSafe(detailData, autocompleteUpdater.fieldMap['title']));
+              if (readSafe(detailData, autocompleteUpdater.fieldMap['modelInput']) != 'no data on file') {
+                autocompleteUpdater.modelInputText += '; ' + readSafe(detailData, autocompleteUpdater.fieldMap['modelInput']);
+              }
+              if (readSafe(detailData, autocompleteUpdater.fieldMap['modelOutput']) != 'no data on file') {
+                autocompleteUpdater.modelOutputText += '; ' + readSafe(detailData, autocompleteUpdater.fieldMap['modelOutput']);
+              }
+              if (readSafe(detailData, autocompleteUpdater.fieldMap['modelEvaluation']) != 'no data on file') {
+                autocompleteUpdater.modelEvaluationText += '; ' + readSafe(detailData, autocompleteUpdater.fieldMap['modelEvaluation']);
+              }
             });
           }
         }
       }).bind(autocompleteUpdater)
     );
-    setTimeout(function(){this.description = this.parseOneOff(this.descriptionText);}.bind(autocompleteUpdater), 10000);
+    setTimeout(function(){
+          this.description = this.parseOneOff(this.descriptionText);
+          this.modulInput = this.parseOneOff(this.modelInputText, this.relimitingRegularExpression);
+          this.modulOutput = this.parseOneOff(this.modelOutputText, this.relimitingRegularExpression);
+          this.modulEvaluation = this.parseOneOff(this.modelEvaluationText, this.relimitingRegularExpression);
+    }.bind(autocompleteUpdater), 10000);
   },
 
   /**
-   * splits a given string into an array on a static regular expression
+   * splits a nondelimited string into an array on a regular expression
    */
-  parseOneOff: function(wordString) {
-    var i, j, regularExpressionToSplitOn, regularExpressionStringToSplitOn;
-    var arrayOfStringsToSplitOn = ['\s+',';',',',':'];
+  parseOneOff: function(wordString, optionalRegularExpressionToSplitOn) {
+    var i, j, regularExpressionToSplitOn;
     var wordArray = [];
     var words = new Set();
-    regularExpressionString = '(';
-    for (var i = 0; i < arrayOfStringsToSplitOn.length - 2; i++) {
-      regularExpressionStringToSplitOn += arrayOfStringsToSplitOn[i] + '|';
+    var regularExpressionToReplace = /(\.|\(|\))/;// replace matches
+    var regularExpressionToSplitOn = /(\s+|;|,|:|\.|\(|\))+/;
+    if (optionalRegularExpressionToSplitOn) {
+      regularExpressionToSplitOn = optionalRegularExpressionToSplitOn;
     }
-    regularExpressionString += arrayOfStringsToSplitOn[arrayOfStringsToSplitOn.length - 1] + ')';
-    regularExpressionToSplitOn = /(\s+|;|,|:)+/;//DEV: FINISH BY REPLACING LITERAL REGEX WITH RegExp(regularExpressionString);
+    //wordString = wordString.replace(regularExpressionToReplace, ' ');
+    console.log('wordString to be split:',wordString);
     wordArray = wordString.split(regularExpressionToSplitOn);
+    console.log('split wordArray:',wordArray);
     for (var i = 0; i < wordArray.length; i++) {
-      if (wordArray[i].match(regularExpressionToSplitOn) || wordArray[i].length < 2 && (stopWords.indexOf(wordArray[i]))) {
+      if (wordArray[i].match(regularExpressionToSplitOn) || wordArray[i].length < 2 && (stopWords.indexOf(wordArray[i]) != -1)) {
         continue;
       }
-      words.add(wordArray[i].replace(/(\.|\(|\))/g, ''));
+      words.add(wordArray[i].replace(regularExpressionToReplace, ' '));
+    }
+    return [...words];
+  },
+
+  /**
+   * splits a delimited string into an array on a regular expression
+   */
+  parseDelimitedStringIntoPhrases: function(wordString) {
+    var i, j, regularExpressionToSplitOn;
+    var wordArray = [];
+    var words = new Set();
+    var regularExpressionToSplitOn = /(;|,)+/;
+    wordArray = wordString.split(regularExpressionToSplitOn);
+    for (var i = 0; i < wordArray.length; i++) {
+      if (wordArray[i].match(regularExpressionToSplitOn) || wordArray[i].length < 2 && (stopWords.indexOf(wordArray[i]) == -1)) {
+        continue;
+      }
+      words.add(wordArray[i].replace(/(\.|\(|\))/g, ' '));
     }
     return [...words];
   },
@@ -99,10 +142,9 @@ var autocompleteUpdater = {// user may pass an iterable list of fieldNames to be
         temporarilyAll = temporarilyAll.concat(autocompleteUpdater[field]);
       }
     }
-    console.log('temporarilyAll:',temporarilyAll);
     for (var i = 0; i < temporarilyAll.length; i++) {
       if (autocompleteUpdater.all.indexOf(temporarilyAll[i]) == -1) {
-        console.log('adding word:', temporarilyAll[i]);
+        //console.log('adding word:', temporarilyAll[i]);
         autocompleteUpdater.all.push(temporarilyAll[i]);
       }
     }

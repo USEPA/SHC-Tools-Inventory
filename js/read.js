@@ -8,7 +8,7 @@ try {
   $("#simpleSearchText").autocomplete({
     source: huge_array.sort()
   });
-  $("#detailSearchText").autocomplete({
+  $("#detailed-search-text").autocomplete({
     source: huge_array.sort()
   });
 } catch (err) {
