@@ -58,6 +58,7 @@
     }
     #detailed-search-feedback { 
       display:none; 
+      background-color: rgb(221, 206, 204);
     }
     /************* ADDED FROM MOCKUP.HTML ************/
     button:disabled { 
@@ -228,14 +229,24 @@
                 <label for="detailed-search-text">
                 <input autocomplete="off" class="ui-autocomplete-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text">
                 <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
+                <button id="detailed-reset" type="reset">Reset Selected Requirements</button>
+                <div id="detailed-search-feedback">No results were found.</div>
                 <form>
                   <div aria-labelledby="search-field-label" class="form-item form-type-checkbox" id="search-field" role="group">
-                    <h4 id="search-field-label">Choose additional Search Fields:</h4>
-                    <input class="form-checkbox" id="model-input" type="checkbox" value="ModelInputs" />
+                    <h4 id="search-field-label">Choose Search Fields:</h4>
+                    <input class="form-checkbox" checked id="title" name="search-field" type="checkbox" value="Name" />
+                    <label class="option" for="title">Title</label>
+                    <input class="form-checkbox" checked id="acronym" name="search-field" type="checkbox" value="Acronym" />
+                    <label class="option" for="acronym">Acronym</label>
+                    <input class="form-checkbox" checked id="description" name="search-field" type="checkbox" value="ShortDescriptionForReports" />
+                    <label class="option" for="description">Description</label>
+                    <input class="form-checkbox" checked id="keywords" name="search-field" type="checkbox" value="Keywords" />
+                    <label class="option" for="keywords">Keywords</label>
+                    <input class="form-checkbox" id="model-input" name="search-field" type="checkbox" value="ModelInputs" />
                     <label class="option" for="model-input">Model Inputs</label>
-                    <input class="form-checkbox" id="output-variables" type="checkbox" value="OutputVariables" />
+                    <input class="form-checkbox" id="output-variables" name="search-field" type="checkbox" value="OutputVariables" />
                     <label class="option" for="output-variables">Output Variables</label>
-                    <input class="form-checkbox" id="model-evaluation" type="checkbox" value="ModelEvaluation" />
+                    <input class="form-checkbox" id="model-evaluation" name="search-field" type="checkbox" value="ModelEvaluation" />
                     <label class="option" for="model-evaluation">Model Evaluation</label>
                   </div>
                   <div aria-labelledby="decision-sector-label" class="form-item form-type-checkbox" id="decision-select" role="group">
@@ -296,8 +307,6 @@
                     <input class="form-checkbox" id="extent-globe" type="checkbox" value="globe">
                     <label class="option" for="extent-globe">Globe</label>
                   </div>
-                  <div id="detailed-search-feedback">No results were found.</div>
-                  <button id="detailed-reset" type="reset">Reset Selected Requirements</button>
                 </form>
               </div>
               <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" aria-hidden="true">
@@ -932,10 +941,14 @@ var detailedSearch = function () {
   $('#results-table').DataTable().clear().draw(); // clear result table
   $('#results-list *').remove(); // clear result div
   resultSet.reset(); // clear result set
-  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"].concat($("#search-field input:checkbox:checked").map(function(){return $(this).val()}).get());
+  var queryTypes = $("#search-field input:checkbox:checked").map(function(){return $(this).val()}).get();
+  if (!queryTypes.length) { // ensure queryType is selected
+    $feedbackDiv.html('You must select at least one Search Field.').css('display', 'block');
+    return;
+  }
   var queryString = $('#detailed-search-text').val().trim().toLowerCase();
   var decisionSectors = $('#decision-select :checkbox:checked').map(function () {return $(this).val();});
-  var $feedbackDiv = $('#detailed-search-feedback');
+  $feedbackDiv.css('display', 'none');
   var os_select = checkBoxValue(document.getElementsByName('radioenvironment'));
   var cost_select = checkBoxValue(document.getElementsByName('checkbase'));
   var extent_select = $('#extent-select :checkbox:checked').map(function () {return $(this).val()});
@@ -978,7 +991,7 @@ var detailedSearch = function () {
       }
       var numberOfResults = parseResultsArray(results);
       if (0 === numberOfResults) {
-        $feedbackDiv.css('display', 'block');
+        $feedbackDiv.html('No results were found.').css('display', 'block');
         $('#results-tab').parent().attr('aria-hidden', true);
       } else {
         $feedbackDiv.css('display', 'none');
@@ -987,7 +1000,6 @@ var detailedSearch = function () {
       }
     });
   } else {
-    $feedbackDiv.css('display', 'block');
   }
 };
 
@@ -1016,6 +1028,7 @@ simpleSearch = function () {
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"];
   var $feedbackDiv = $('#simpleFeedback');
+  $feedbackDiv.css('display', 'none');
   var results = [];
   var requests = [];
   var data = {};
@@ -1040,7 +1053,7 @@ simpleSearch = function () {
       }
       var numberOfResults = parseResultsArray(results);
       if (0 === numberOfResults) {
-        $feedbackDiv.css('display', 'block');
+        $feedbackDiv.html('No results were found.').css('display', 'block');
         $('#results-tab').parent().attr('aria-hidden',true);
       }else {
         $feedbackDiv.css('display', 'none');
@@ -1049,7 +1062,7 @@ simpleSearch = function () {
       }
     });
   } else {
-    $feedbackDiv.css('display', 'block');
+    $feedbackDiv.html('Please enter a search term.').css('display', 'block');
   }
 };
 
