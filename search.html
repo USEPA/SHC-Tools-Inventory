@@ -941,6 +941,7 @@ var detailedSearch = function () {
   $('#results-table').DataTable().clear().draw(); // clear result table
   $('#results-list *').remove(); // clear result div
   resultSet.reset(); // clear result set
+  var $feedbackDiv = $('#detailed-search-feedback');
   var queryTypes = $("#search-field input:checkbox:checked").map(function(){return $(this).val()}).get();
   if (!queryTypes.length) { // ensure queryType is selected
     $feedbackDiv.html('You must select at least one Search Field.').css('display', 'block');
@@ -1000,6 +1001,7 @@ var detailedSearch = function () {
       }
     });
   } else {
+    $feedbackDiv.html('Please enter a search term.').css('display', 'block');
   }
 };
 
