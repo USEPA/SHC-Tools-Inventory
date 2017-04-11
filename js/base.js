@@ -353,6 +353,7 @@ function showDetails(id) {
  * Export the selected (check marked) tools from the tools list to a downloaded CSV
  */
 function exportCSV(resultsDiv) {
+  var filename = 'sustainable_community_tools.csv';
   var records = $('#' + resultsDiv + ' input:checked');
   if (records.length > 0) {
     var csvContent = '';
@@ -379,11 +380,17 @@ function exportCSV(resultsDiv) {
         csvContent += values.join() + '\n';
       }
     });
-    var link = document.createElement("a");
-    link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
-    link.setAttribute("download", "Sustainable Community Tools.csv");
-    document.body.appendChild(link);
-    link.click();
+    if (window.navigator.msSaveOrOpenBlob) {
+        var blob = new Blob([decodeURIComponent(encodeURI(csvContent))], {
+          type: "text/csv;charset=utf-8;"
+        });
+        navigator.msSaveBlob(blob, filename);
+    } else {
+      var link = document.createElement("a");
+      link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
   }
 }
 
