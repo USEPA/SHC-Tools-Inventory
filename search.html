@@ -969,7 +969,15 @@ var detailedSearch = function () {
   }
   if (queryString) { // ensure search string is not empty
     for (var i = 0; i < queryTypes.length; i++) {
-      data[queryTypes[i]] = queryString;
+      if (queryTypes[i] === 'Acronym') {
+        data[queryTypes[i]] = queryString.substr(0, 15);
+      } else if (queryTypes[i] === 'Name') {
+        data[queryTypes[i]] = queryString.substr(0, 35);
+      } else if (queryTypes[i] === 'ShortDescriptionForReports') {
+        data[queryTypes[i]] = queryString.substr(0, 255);
+      } else {
+        data[queryTypes[i]] = queryString;
+      }
       for (var j = 0; j < decisionSectors.length; j++) {
         data.DecisionSector = decisionSectors[j];
         dataList = [data]; // create an initial array of query-data
@@ -1045,7 +1053,15 @@ simpleSearch = function () {
     ];
   if (queryString) { // ensure search-string is not empty
     for (var i = 0; i < queryTypes.length; i++) {
-      data[queryTypes[i]] = queryString;
+      if (queryTypes[i] === 'Acronym') {
+        data[queryTypes[i]] = queryString.substr(0, 15);
+      } else if (queryTypes[i] === 'Name') {
+        data[queryTypes[i]] = queryString.substr(0, 35);
+      } else if (queryTypes[i] === 'ShortDescriptionForReports') {
+        data[queryTypes[i]] = queryString.substr(0, 255);
+      } else {
+        data[queryTypes[i]] = queryString;
+      }
       for (var j = 0; j < decisionSectors.length; j++) {
         data.DecisionSector = decisionSectors[j];
         requests.push(executeSearch(resourceAdvancedSearchURL, data));
