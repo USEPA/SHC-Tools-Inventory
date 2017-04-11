@@ -380,10 +380,10 @@ function exportCSV(resultsDiv) {
       }
     });
     if (window.navigator.msSaveOrOpenBlob) {
-        var blob = new Blob([decodeURIComponent(encodeURI(csvContent))], {
-          type: "text/csv;charset=utf-8;"
-        });
-        navigator.msSaveBlob(blob, filename);
+      var blob = new Blob([csvContent], {
+        type: "text/csv;charset=utf-8;"
+      });
+      navigator.msSaveBlob(blob, filename);
     } else {
       var link = document.createElement("a");
       link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
@@ -410,15 +410,14 @@ function exportAllCSV(resultsDiv) {
       if (record) {
         if (names.length === 0) {
           for (var prop in record) {
-            if (record.hasOwnProperty(prop)) {
-              var name = prop;
-              names.push(name);
+            if (record.hasOwnProperty(prop) && record.hasOwnProperty(csvHeader)) {
+                names.push(prop.csvHeader);
             }
           }
           csvContent = names.join() + '\n';
         }
         for (var property in record) {
-          if (record.hasOwnProperty(property)) {
+          if (record.hasOwnProperty(property) && record.hasOwnProperty(csvHeader)) {
             values.push('"' + record[property] + '"');
           }
         }
