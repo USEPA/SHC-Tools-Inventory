@@ -808,7 +808,7 @@ var readSafe = function (object, propertyArray) {
           // scrape value for URLs with regex
           var urlRegExp = /((http|ftp|https):\/\/[^ @"]+|[^@]\b[^ @"]+\.(com|gov|edu|org|net|info|io)[^ @"]*)/ig;
           // create a template of how to format the URL into a descriptive anchor
-          var linkTemplate = '<a href="$1" target="_blank">$1<a>';
+          var linkTemplate = '<a href="$1" target="_blank">$1</a>';
           // insert exit notification if an external link
           if (value.indexOf('epa.gov') === -1) {
             exitNotification = '<a class="exit-disclaimer" href="https://www.epa.gov/home/exit-epa" title="EPA\'s External Link Disclaimer">Exit</a>';
