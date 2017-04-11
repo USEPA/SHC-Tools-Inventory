@@ -1103,7 +1103,7 @@ function loadModels2() {
         dataType: 'json',
         success: function (data) {
           for (i = 0; i < data.length; i++) {
-            toolCache.handleParsedData(data[i].ResourceId, table.displayTool.bind(table));
+            toolCache.handleParsedData(data[i]['ID'], table.displayTool.bind(table));
           }
         }
       });
