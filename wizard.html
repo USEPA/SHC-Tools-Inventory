@@ -491,15 +491,15 @@
   <!-- <script src="js/porter-stemmer.js"></script> -->
   <script src="js/base.js"></script>
 <script>
-const advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","OwnershipType","OtherCostConsiderations","OpenSource","AlternativeNames","Keywords","Organization","ContactPerson","Email","Internet","LifeCycle","OperatingEnvironment","CompatibleOperatingSystems","OtherPropSoftwareReqs","ModelInputs","DataRequirements","ModelOutputTypes","OutputVariables","SourceOfSupportMaterials","TypesOfSupportMaterials","ModelEvaluation","ModelStructure","TimeScale","SpatialExtent","TechSkills","BaseCostOfSoftware","StewardDefinedTags","DecisionSector","Format"];
+var advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","OwnershipType","OtherCostConsiderations","OpenSource","AlternativeNames","Keywords","Organization","ContactPerson","Email","Internet","LifeCycle","OperatingEnvironment","CompatibleOperatingSystems","OtherPropSoftwareReqs","ModelInputs","DataRequirements","ModelOutputTypes","OutputVariables","SourceOfSupportMaterials","TypesOfSupportMaterials","ModelEvaluation","ModelStructure","TimeScale","SpatialExtent","TechSkills","BaseCostOfSoftware","StewardDefinedTags","DecisionSector","Format"];
 // details at READ web services' docs-page
-const decisionSectors = ['land use','transportation','building infrastructure','waste management'];
+var decisionSectors = ['land use','transportation','building infrastructure','waste management'];
 var showToast = true;
 
-const resultSet = new ToolSet(); // Create result and saved tool sets
-const savedTools = new ToolSet();
+var resultSet = new ToolSet(); // Create result and saved tool sets
+var savedTools = new ToolSet();
 
-const resultTable = new ToolDisplay('results-table', 'results-list', 14); // Create ToolDisplay Objects we need 
+var resultTable = new ToolDisplay('results-table', 'results-list', 14); // Create ToolDisplay Objects we need 
 
 /* Create listeners and execute procedures which need done
    at the document's convenience in order to avoid a
@@ -588,7 +588,7 @@ $(function () { // jquery's shorthand awaits readiness of document
   $('.dt-button').removeClass('dt-button');
 });
 
-const timeouts = {};
+var timeouts = {};
 
 /**
  * accessibly notify users of information

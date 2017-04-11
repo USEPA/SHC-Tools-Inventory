@@ -573,15 +573,15 @@
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/base.js"></script>
 <script>
-const resultSet = new ToolSet(); // Create result and saved tool sets
-const savedTools = new ToolSet();
+var resultSet = new ToolSet(); // Create result and saved tool sets
+var savedTools = new ToolSet();
 
-const resultTable = new ToolDisplay('results-table', 'results-list', 13); // Create ToolDisplay Objects we need 
-const savedTable = new ToolDisplay('saved-table', 'saved-list', 13);
-const buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table', 'building-infrastructure-list' , 13);
-const landUseTable = new ToolDisplay('land-use-table', 'land-use-list', 13);
-const wasteManagementTable = new ToolDisplay('waste-management-table', 'waste-management-list', 13);
-const transportationTable = new ToolDisplay('transportation-table', 'transportation-list', 13);
+var resultTable = new ToolDisplay('results-table', 'results-list', 13); // Create ToolDisplay Objects we need 
+var savedTable = new ToolDisplay('saved-table', 'saved-list', 13);
+var buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table', 'building-infrastructure-list' , 13);
+var landUseTable = new ToolDisplay('land-use-table', 'land-use-list', 13);
+var wasteManagementTable = new ToolDisplay('waste-management-table', 'waste-management-list', 13);
+var transportationTable = new ToolDisplay('transportation-table', 'transportation-list', 13);
 
 $(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
