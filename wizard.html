@@ -550,12 +550,9 @@ $(function () { // jquery's shorthand awaits readiness of document
         className: 'button button-grey'
       },
       { 
-        extend: 'csv', 
         text: 'Export Selected Tools to CSV',
-        exportOptions: {
-          rows: {
-            selected: true
-          }
+        action: function () {
+          exportCSV('results-list');
         },
         className: 'button button-white'
       }
