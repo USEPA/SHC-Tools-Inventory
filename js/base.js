@@ -391,6 +391,8 @@ function exportCSV(resultsDiv) {
       link.setAttribute("download", filename);
       document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
+    }
   }
 }
 
