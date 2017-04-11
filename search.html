@@ -679,12 +679,9 @@ $(function () { // jquery's shorthand awaits readiness of document
         className: 'button button-white'
       },
       { 
-        extend: 'csv', 
         text: 'Export Selected Tools to CSV',
-        exportOptions: {
-          rows: {
-            selected: true
-          }
+        action: function () {
+          exportCSV('saved-list');
         },
         className: 'button button-white'
       }]
