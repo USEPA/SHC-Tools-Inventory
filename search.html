@@ -229,7 +229,7 @@
                 <label for="detailed-search-text">
                 <input autocomplete="off" class="ui-autocomplete-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text">
                 <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
-                <button id="detailed-reset" type="reset">Reset Selected Requirements</button>
+                <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Selected Requirements</button>
                 <div id="detailed-search-feedback">No results were found.</div>
                 <form>
                   <div aria-labelledby="search-field-label" class="form-item form-type-checkbox" id="search-field" role="group">
@@ -249,13 +249,13 @@
                   </div>
                   <div aria-labelledby="decision-sector-label" class="form-item form-type-checkbox" id="decision-select" role="group">
                     <h4 id="decision-sector-label">Choose Decision Sectors to find only tools in these Decision Sectors.</h4>
-                    <input class="form-checkbox" id="decision-sector-building" type="checkbox" value="building infrastructure" />
+                    <input class="form-checkbox" id="decision-sector-building" name="decision-sector-check" type="checkbox" value="building infrastructure" />
                     <label class="option" for="decision-sector-building">Building and Infrastructure</label>
-                    <input class="form-checkbox" id="decision-sector-land" type="checkbox" value="land use" />
+                    <input class="form-checkbox" id="decision-sector-land" name="decision-sector-check" type="checkbox" value="land use" />
                     <label class="option" for="decision-sector-land">Land Use</label>
-                    <input class="form-checkbox" id="decision-sector-transportation" type="checkbox" value="transportation" />
+                    <input class="form-checkbox" id="decision-sector-transportation" name="decision-sector-check" type="checkbox" value="transportation" />
                     <label class="option" for="decision-sector-transportation">Transportation</label>
-                    <input class="form-checkbox" id="decision-sector-waste" type="checkbox" value="waste management" />
+                    <input class="form-checkbox" id="decision-sector-waste" name="decision-sector-check" type="checkbox" value="waste management" />
                     <label class="option" for="decision-sector-waste">Waste Management</label>
                   </div>
                   <div aria-labelledby="operating-environment-label" class="form-item form-type-checkbox" id="operating-environment-select" role="group">
@@ -286,23 +286,23 @@
                   </div>
                   <div aria-labelledby="extent-label" id="extent-select" class="form-item form-type-checkbox" class="group">
                     <h4 id="extent-label" >Choose Spatial Extents to find only tools labeled with at least one chosen Spatial Extents.</h4>
-                    <input class="form-checkbox" id="extent-building" type="checkbox" value="building">
+                    <input class="form-checkbox" id="extent-building" name="extent-check" type="checkbox" value="building">
                     <label class="option" for="extent-building">Building</label>
-                    <input class="form-checkbox" id="extent-site" type="checkbox" value="site">
+                    <input class="form-checkbox" id="extent-site" name="extent-check" type="checkbox" value="site">
                     <label class="option" for="extent-site">Site</label>
-                    <input class="form-checkbox" id="extent-neighborhood" type="checkbox" value="neighborhood">
+                    <input class="form-checkbox" id="extent-neighborhood" name="extent-check" type="checkbox" value="neighborhood">
                     <label class="option" for="extent-neighborhood">Neighborhood</label>
-                    <input class="form-checkbox" id="extent-city" type="checkbox" value="city">
+                    <input class="form-checkbox" id="extent-city" name="extent-check" type="checkbox" value="city">
                     <label class="option" for="extent-city">City</label>
-                    <input class="form-checkbox" id="extent-county" type="checkbox" value="county">
+                    <input class="form-checkbox" id="extent-county" name="extent-check" type="checkbox" value="county">
                     <label class="option" for="extent-county">County</label>
-                    <input class="form-checkbox" id="extent-state" type="checkbox" value="state">
+                    <input class="form-checkbox" id="extent-state" name="extent-check" type="checkbox" value="state">
                     <label class="option" for="extent-state">State</label>
-                    <input class="form-checkbox" id="extent-nation" type="checkbox" value="nation">
+                    <input class="form-checkbox" id="extent-nation" name="extent-check" type="checkbox" value="nation">
                     <label class="option" for="extent-nation">Nation</label>
-                    <input class="form-checkbox" id="extent-continent" type="checkbox" value="continent">
+                    <input class="form-checkbox" id="extent-continent" name="extent-check" type="checkbox" value="continent">
                     <label class="option" for="extent-continent">Continent</label>
-                    <input class="form-checkbox" id="extent-globe" type="checkbox" value="globe">
+                    <input class="form-checkbox" id="extent-globe" name="extent-check" type="checkbox" value="globe">
                     <label class="option" for="extent-globe">Globe</label>
                   </div>
                 </form>

@@ -100,11 +100,15 @@ function multiselectClear(multiselect) {
 }
 
 function detailClearForm() {
-  $("#detailDecisionSelect")[0].value = "undefined";
-  $("#detailSearchText")[0].value = "";
-  checkboxClear(document.getElementsByName('RadioEnvironment'));
-  checkboxClear(document.getElementsByName('CheckBase'));
-  multiselectClear(document.getElementById('selectExtent'));
-  //multiselectClear(document.getElementById('selectOutput'));
-  //radioClear(document.getElementsByName('RadioSoftware'));
+  document.getElementById('detailed-search-text').value = "";
+  document.getElementById('title').checked = true;
+  document.getElementById('acronym').checked = true;
+  document.getElementById('description').checked = true;
+  document.getElementById('keywords').checked = true;
+  document.getElementById('model-input').checked = false;
+  document.getElementById('output-variables').checked = false;
+  checkboxClear(document.getElementsByName('decision-sector-check'));
+  checkboxClear(document.getElementsByName('radioenvironment'));
+  checkboxClear(document.getElementsByName('checkbase'));
+  checkboxClear(document.getElementsByName('extent-check'));
 }
