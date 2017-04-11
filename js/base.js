@@ -24,6 +24,7 @@ var toolCache = (function () {
       if (cache.hasOwnProperty(id)) {
         callback(getData(id));
       } else {
+        $.support.cors = true; // needed for < IE 10 versions
         $.get(resourceDetailURL, {ResourceId:id}).done(
           function (data) {
             setData(id, parseResult(data));

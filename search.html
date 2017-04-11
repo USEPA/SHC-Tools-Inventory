@@ -993,7 +993,7 @@ var detailedSearch = function () {
         $feedbackDiv.html('No results were found.').css('display', 'block');
         $('#results-tab').parent().attr('aria-hidden', true);
       } else {
-        $feedbackDiv.css('display', 'none');
+        $feedbackDiv.html('').css('display', 'none');
         $('#results-tab').parent().attr('aria-hidden', false);
         $("#results-tab").click();
       }
@@ -1004,6 +1004,7 @@ var detailedSearch = function () {
 };
 
 var executeSearch = function (url, data) {
+  $.support.cors = true; // needed for < IE 10 versions
   return $.ajax({
     type: 'GET',
     url: url,
@@ -1056,7 +1057,7 @@ simpleSearch = function () {
         $feedbackDiv.html('No results were found.').css('display', 'block');
         $('#results-tab').parent().attr('aria-hidden',true);
       }else {
-        $feedbackDiv.css('display', 'none');
+        $feedbackDiv.html('').css('display', 'none');
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
       }
