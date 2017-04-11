@@ -148,6 +148,9 @@
     .option {
       margin-right: 1.4rem;
     }
+    .search-input {
+      width: 20em;
+    }
   </style>
 </head>
 <body class="node-type-web-area microsite" >
@@ -218,7 +221,7 @@
                 <h3>Search</h3>
                 <label for="simple-search-text" id="simple-search-text-label">Enter keywords to seach for and press the Search button.</label>
                 <hr />
-                <input autocomplete="off" class="ui-autocomplete-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text">
+                <input autocomplete="off" class="ui-autocomplete-input search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
                 <p id="simpleFeedback">No tools were found.</p>
               </div>
@@ -227,7 +230,7 @@
                 <p>Specify requirements of tools while searching for words contained in the tools' titles, acronyms, or descriptions.</p>
                 <hr />
                 <label for="detailed-search-text">
-                <input autocomplete="off" class="ui-autocomplete-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text">
+                <input autocomplete="off" class="ui-autocomplete-input search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text">
                 <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
                 <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Selected Requirements</button>
                 <div id="detailed-search-feedback">No results were found.</div>
