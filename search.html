@@ -232,7 +232,7 @@
                 <label for="detailed-search-text">
                 <input autocomplete="off" class="ui-autocomplete-input search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text">
                 <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
-                <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Selected Requirements</button>
+                <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Form</button>
                 <div id="detailed-search-feedback">No results were found.</div>
                 <form>
                   <div aria-labelledby="search-field-label" class="form-item form-type-checkbox" id="search-field" role="group">
@@ -454,6 +454,7 @@
                 </div>
               </div>
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
+                <button class="button button-grey" onclick="$('#results-tab').click()">Return to Results</button>
                 <button class="button button-white" onclick="saveRecord()">Save Record</button>
                 <div id="selected-tool"></div>
               </div>
