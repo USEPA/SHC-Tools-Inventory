@@ -353,7 +353,7 @@
                 <div class="row">
                   <div class="col"><button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Calculate Results</button></div>
                   <div class="col"><span id="results-notification"></span></div>
-                  <div class="col"><button aria-hidden="true" id="show-results-button" onclick="activateNextTab($('#results-tab'))">Display Results</button></div>
+                  <div class="col"><button aria-hidden="true" id="show-results-button" onclick="displayResults()">Display Results</button></div>
                 </div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('concept')">Select All Concepts</button>
@@ -362,7 +362,7 @@
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
                 <button class="next-button enabled-by-concept button-aqua" disabled onclick="$('#concept-search-button').click()">Calculate Results</button>
-                <button disabled id="floating-show-results-button" onclick="activateNextTab($('#results-tab'))">Display Results</button>
+                <button disabled id="floating-show-results-button" onclick="displayResults()">Display Results</button>
               </div>
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
                 <button class="button-aqua" class="button" onclick="saveRecord()">Save Record</button>
@@ -719,7 +719,6 @@ var populate = function (list, $container, onChange) {
   $container.find(':checked').each(function (i, v) {
     currentlySelected.push(v.value); // store current selections in container
   });
-  $container.html(''); // clear items out of container
   var html = addCheckboxes(list.sort(), $container, onChange); // repopulate new selectables
   $container.html(html); // create contents of $container
   $container.find('input[type=checkbox]').each(function (i, v) { // look through each element in $container
@@ -737,14 +736,11 @@ var populateWithHeader = function (list, $container, onChange) {
   if (typeof list === 'undefined') {
     list = {length:0}; // ensure list is defined
   }
-  if (list.length === 0) {
-    return;
-  }
   var currentlySelected = [];
   $container.find(':checked').each(function (i, v) { // create an array for currently selected values
       currentlySelected.push(v.value);
   });
-  $container.html(''); // clear items out of container
+  //$container.html(''); // clear items out of container
   var html = '';
   var count = 0;
   for (var i in list) {
@@ -993,13 +989,12 @@ var conceptSearch = function (div, input) {
       for (var j = 0; j < readIDsByConcept[concepts[i]].length; j++) {
         if(!resultSet.contains(readIDsByConcept[concepts[i]][j])) {
           resultSet.addTool(readIDsByConcept[concepts[i]][j]);
-          toolCache.handleParsedData(readIDsByConcept[concepts[i]][j], resultTable.displayTool.bind(resultTable));
+          //toolCache.handleParsedData(readIDsByConcept[concepts[i]][j], resultTable.displayTool.bind(resultTable));
         }
       }
     }
   }
   if (resultSet.getLength() > 0) {
-    //toolCache.handleToolSet(resultSet, resultTable.displayToolSet.bind(resultTable));
     $('#results-notification').html('<span class="success"><strong>Found ' + resultSet.getLength() + ' results.</strong></span>').removeClass();
     $('#show-results-button').attr('aria-hidden', 'false');
     $('#floating-show-results-button').prop('disabled', false);
@@ -1013,6 +1008,13 @@ var conceptSearch = function (div, input) {
     $('#results-tab').parent().attr('aria-hidden', 'true');
   }
 };
+
+var displayResults = function () {
+  activateNextTab($('#results-tab'));
+  var url = window.location.href;
+  $('#results-list').html('<img style="display: block; margin-left: auto; margin-right: auto;" src="' + url.substring(0, url.lastIndexOf('/')) + '/img/loader.gif">');
+  toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
+}
 
 /**
  * get concepts from input as a list

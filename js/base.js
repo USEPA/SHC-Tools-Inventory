@@ -38,18 +38,19 @@ var toolCache = (function () {
     */
     handleToolSet: function (toolSet, callback) {
       var readIds = Object.keys(toolSet.getToolSet());
+      var requests = [];
       for (var i = 0; i < readIds.length; i++) {
-        if (cache.hasOwnProperty(readIds[i])) {
-          callback(getData(readIds[i]));
-        } else {
-          $.get(resourceDetailURL, {ResourceId:readIds[i]}).done(
-            function (data) {
-              setData(readIds[i], parseResult(data));
-              callback(getData(readIds[i]));
-            } 
-          );
+        if (!cache.hasOwnProperty(readIds[i])) {
+          requests.push(executeSearch(resourceDetailURL, {ResourceId:readIds[i]}));
         }
       }
+      $.when.apply(null, requests).done(function () {
+        for (var i = 0; i < arguments.length; i++) {
+          var result = parseResult(arguments[i][0]);
+          setData(result['ID'], result);
+        }
+        callback(toolSet);
+      });
     },
     getParsedData: function (id) {
       if (cache.hasOwnProperty(id)) {
@@ -96,7 +97,7 @@ function ToolSet() {
     }
   };
   this.isEqual = function (toolSet) {
-    if (toolSet.getLength != this.toolSet.getLength) {
+    if (toolSet.getLength !== this.toolSet.getLength) {
       return false;
     }
     for (var toolId1 in this.toolSet) {
@@ -160,10 +161,15 @@ ToolDisplay.prototype.displayTool = function (data) {
 };
 
 ToolDisplay.prototype.displayTools = function (toolSet) {
-  console.log("this.toolSet");
-  console.log(this.toolSet);
-  console.log("toolSet");
-  console.log(toolSet);
+  this.toolSet = toolSet;
+  var html = '';
+  var rows = [];
+  for (var toolId in toolSet.getToolSet()) {
+    html += createDiv(toolCache.getParsedData(toolId), this.getListId());
+    rows.push(createRow(toolCache.getParsedData(toolId), this.getColumns()));
+  }
+  $("#" + this.getListId()).html(html);
+  $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
 };
 
 /**
@@ -504,7 +510,7 @@ function addDiv(parsedResult, containerId) {
     + '</div>'
     + '<div class="row expand" data-container="' + containerId + '"  data-id="' + parsedResult['ID'] + '" tabindex="0">'
       + '<span class="col bold">Click to Show Tool Details</span>'
-      + '<div class="col accordian-result" style="float:right;"></div>'
+      + '<div class="col accordion-result"></div>'
     + '</div>'
     + '<div class="row" id="additional-details-' + containerId + '-' + parsedResult['ID'] + '" style="display:none;">'
       + '<div class="col size-1of2">'
@@ -541,6 +547,60 @@ function addDiv(parsedResult, containerId) {
   + '</div>';
 
   $container.append(html);
+}
+
+function createDiv(parsedResult, containerId) {
+  // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
+  var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
+  var $container = $('#' + containerId);
+
+  var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">'
+    + '<div class="row" role="button">'
+      + '<div class="col size-95of100">'
+        + '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>'
+        + '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label"></label>'
+        + '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span>: ' + parsedResult['Description']
+      + '</div>'
+    + '</div>'
+    + '<div class="row expand" data-container="' + containerId + '"  data-id="' + parsedResult['ID'] + '" tabindex="0">'
+      + '<span class="col bold">Click to Show Tool Details</span>'
+      + '<div class="col accordion-result"></div>'
+    + '</div>'
+    + '<div class="row" id="additional-details-' + containerId + '-' + parsedResult['ID'] + '" style="display:none;">'
+      + '<div class="col size-1of2">'
+        + '<span class="bold">Contact Name</span>: ' + parsedResult['Support Name'] + '<br />'
+        + '<span class="bold">Contact Email</span>: ' + parsedResult['Support Email'] + '<br />'
+        + '<span class="bold">URL</span>: ' + parsedResult['URL'] + '<br />'
+        + '<span class="bold">Internet Help Desk Phone</span>: ' + parsedResult['Help Desk Phone'] + '<br />'
+        + '<span class="bold">Internet Help Desk Email</span>: ' + parsedResult['Help Desk Email'] + '<br />'
+        + '<span class="bold">Lifecycle Phase</span>: ' + parsedResult['Life Cycle Phase'] + '<br />'
+        + '<span class="bold">Last Modified</span>: ' + parsedResult['Last Modified'] + '<br />'
+        + '<span class="bold">Operating Environment</span>: ' + parsedResult['Operating Environment'] + '<br />'
+        + '<span class="bold">Operating System</span>: ' + parsedResult['Operating System'] + '<br />'
+        + '<span class="bold">Other Technical Requirements</span>: ' + parsedResult['Other Requirements'] + '<br />'
+        + '<span class="bold">Model Inputs</span>: ' + parsedResult['Model Inputs'] + '<br />'
+        + '<span class="bold">Model Output Variables</span>: ' + parsedResult['Output Variables'] + '<br />'
+        + '<span class="bold">Selected Concepts</span>: ' +  getSelectedConceptsAssociatedWithTool(parsedResult['ID']) + '<br />'
+        + '<span class="bold">External Details</span>: <a href="' + prefixForExternalDetails + parsedResult['ID'] + '" target="_blank">View Details Externally</a><br />'
+      + '</div>'
+      + '<div class="col size-1of2">'
+        + '<span class="bold">Keywords</span>: ' + parsedResult['Keywords'] + '<br />'
+        + '<span class="bold">Alternative Names</span>: ' + parsedResult['Other Costs'] + '<br />'
+        + '<span class="bold">Ownership</span>: ' + parsedResult['Ownership Type'] + '<br />'
+        + '<span class="bold">Software Cost</span>: ' + parsedResult['Cost'] + '<br />'
+        + '<span class="bold">Other Cost</span>: ' + parsedResult['Other Costs'] + '<br />'
+        + '<span class="bold">Open Source</span>: ' + parsedResult['Open Source'] + '<br />'
+        + '<span class="bold">Decision Sector</span>: ' + parsedResult['Decision Sector'] + '<br />'
+        + '<span class="bold">Support Materials</span>: ' + parsedResult['Support Materials'] + '<br />'
+        + '<span class="bold">Model Evaluation</span>: ' + parsedResult['Model Evaluation'] + '<br />'
+        + '<span class="bold">Model Time Scale</span>: ' + parsedResult['Time Scale'] + '<br />'
+        + '<span class="bold">Spatial Extent</span>: ' + parsedResult['Spatial Extent'] + '<br />'
+        + '<span class="bold">Data Requirements</span>: ' + parsedResult['Input Data Requirements'] + '<br />'
+      + '</div>'
+    + '</div>'
+  + '</div>';
+
+  return html;
 }
 
 /**
@@ -920,6 +980,18 @@ function deselectAll(divId, callback) {
       }
     });
 }
+
+/**
+ * Execute get request on specified url and data
+*/
+var executeSearch = function (url, data) {
+  $.support.cors = true; // needed for < IE 10 versions
+  return $.ajax({
+    type: 'GET',
+    url: url,
+    data: data
+  });
+};
 
 // stopwords to use in testing
 var stopWords = [
