@@ -219,7 +219,7 @@
               </ul>
               <div aria-hidden="false" aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" style="border: 1px solid #aaa;">
                 <h3>Search</h3>
-                <label for="simple-search-text" id="simple-search-text-label">Enter keywords to seach for and press the Search button.</label>
+                <label for="simple-search-text" id="simple-search-text-label">Enter text to search for and press the Search button.</label>
                 <hr />
                 <input autocomplete="off" class="ui-autocomplete-input search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
@@ -227,7 +227,7 @@
               </div>
               <div aria-hidden="true" aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">
                 <h3>Advanced Search</h3>
-                <p>Specify requirements of tools while searching for words contained in the tools' titles, acronyms, or descriptions.</p>
+                <p for="detailed-search-text">Specify requirements of tools while searching for text contained in the chosen fields.</p>
                 <hr />
                 <label for="detailed-search-text">
                 <input autocomplete="off" class="ui-autocomplete-input search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text">
@@ -236,7 +236,7 @@
                 <div id="detailed-search-feedback">No results were found.</div>
                 <form>
                   <div aria-labelledby="search-field-label" class="form-item form-type-checkbox" id="search-field" role="group">
-                    <h4 id="search-field-label">Choose Search Fields:</h4>
+                    <h4 id="search-field-label">Choose Fields to be Searched:</h4>
                     <input class="form-checkbox" checked id="title" name="search-field" type="checkbox" value="Name" />
                     <label class="option" for="title">Title</label>
                     <input class="form-checkbox" checked id="acronym" name="search-field" type="checkbox" value="Acronym" />
