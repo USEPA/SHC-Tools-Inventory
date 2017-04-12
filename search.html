@@ -149,7 +149,8 @@
       margin-right: 1.4rem;
     }
     .search-input {
-      width: 20em;
+      width: 40em;
+    }
     }
   </style>
 </head>
@@ -221,16 +222,16 @@
                 <h3>Search</h3>
                 <label for="simple-search-text" id="simple-search-text-label">Enter keywords to seach for and press the Search button.</label>
                 <hr />
-                <input autocomplete="off" class="ui-autocomplete-input search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text">
+                <input autocomplete="off" class="ui-autocomplete-input search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()" placeholder="Enter search terms" title="Search for tools by entering specific keywords" type="text">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
                 <p id="simpleFeedback">No tools were found.</p>
               </div>
               <div aria-hidden="true" aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">
                 <h3>Advanced Search</h3>
-                <p>Specify requirements of tools while searching for words contained in the tools' titles, acronyms, or descriptions.</p>
+                <p>Expand or refine your search by specifying tool details. Search for words contained in the tool Title, Acronym, Description, or Keyword fields.</p>
                 <hr />
                 <label for="detailed-search-text">
-                <input autocomplete="off" class="ui-autocomplete-input search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text">
+                <input autocomplete="off" class="ui-autocomplete-input search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" placeholder="Enter search terms" title="Enter a keyword to search for" type="text">
                 <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
                 <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Form</button>
                 <div id="detailed-search-feedback">No results were found.</div>
@@ -251,7 +252,7 @@
                     <label class="option" for="output-variables">Output Variables</label>
                   </div>
                   <div aria-labelledby="decision-sector-label" class="form-item form-type-checkbox" id="decision-select" role="group">
-                    <h4 id="decision-sector-label">Choose Decision Sectors to find only tools in these Decision Sectors.</h4>
+                    <h4 id="decision-sector-label">Choose Decision Sectors to find only tools in these Decision Sectors:</h4>
                     <input class="form-checkbox" id="decision-sector-building" name="decision-sector-check" type="checkbox" value="building infrastructure" />
                     <label class="option" for="decision-sector-building">Building and Infrastructure</label>
                     <input class="form-checkbox" id="decision-sector-land" name="decision-sector-check" type="checkbox" value="land use" />
@@ -262,7 +263,7 @@
                     <label class="option" for="decision-sector-waste">Waste Management</label>
                   </div>
                   <div aria-labelledby="operating-environment-label" class="form-item form-type-checkbox" id="operating-environment-select" role="group">
-                    <h4 id="operating-environment-label">Choose Operating Environments to search only for tools labeled with one of these Operating Environments.</h4>
+                    <h4 id="operating-environment-label">Choose Operating Environments to find only for tools labeled with one of these Operating Environments:</h4>
                     <input class="form-checkbox" id="radioenvironment_desktop" name="radioenvironment" type="checkbox" value="desktop" />
                     <label class="option" for="radioenvironment_desktop">Desktop</label>
                     <input class="form-checkbox" id="radioenvironment_browser" name="radioenvironment" type="checkbox" value="browser" />
@@ -271,7 +272,7 @@
                     <label class="option" for="radioenvironment_mobile">Mobile</label>
                   </div>
                   <div aria-labelledby="cost-label" class="form-item form-type-checkbox" id="cost-select" class="group">
-                    <h4 id="cost-label">Choose Cost Ranges to find only tools labeled with one of these Cost Ranges.</h4>
+                    <h4 id="cost-label">Choose Cost Ranges to find only tools labeled with one of these Cost Ranges:</h4>
                     <input class="form-checkbox" id="checkbasefree" name="checkbase" type="checkbox" value="1" />
                     <label class="option" for="checkbasefree">Free</label>
                     
@@ -288,7 +289,6 @@
                     <label class="option" for="checkbase4000">&gt;$4000</label>
                   </div>
                   <div aria-labelledby="extent-label" id="extent-select" class="form-item form-type-checkbox" class="group">
-                    <h4 id="extent-label" >Choose Spatial Extents to find only tools labeled with at least one chosen Spatial Extents.</h4>
                     <input class="form-checkbox" id="extent-building" name="extent-check" type="checkbox" value="building">
                     <label class="option" for="extent-building">Building</label>
                     <input class="form-checkbox" id="extent-site" name="extent-check" type="checkbox" value="site">
@@ -312,11 +312,11 @@
               </div>
               <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" aria-hidden="true">
                 <h3>Browse the Tools by Decision Sector</h3>
-                <p>Each tool is in a single decision-sector. Expand a decision-sector below to browse its tools.</p>
+                <p>Each tool is in a single Decision Sector. Expand a Decision Sector below to browse its tools.</p>
                 <hr />
-                <span>Choose a display type:</span>
-                <input id="browse-list-radio" type="radio" name="browse-display-type" value="text" checked><label for="browse-list-radio">Text</label>
-                <input id="browse-table-radio" type="radio" name="browse-display-type" value="table"><label for="browse-table-radio">Table</label>
+                <span>Choose a display:</span>
+                <input id="browse-list-radio" type="radio" name="browse-display-type" value="text" checked><label for="browse-list-radio">Text: Recommended for those on smaller screens.</label>
+                <input id="browse-table-radio" type="radio" name="browse-display-type" value="table"><label for="browse-table-radio">Table: Allows filtering and column sorting.</label>
                 <div class="accordion" id="accordion">
                   <h4 class="accordion-title"><a>Building and Infrastructure</a></h4>
                   <div class="accordion-pane" id="browseBuildingInfrastructure" style="display: none;">
@@ -425,9 +425,9 @@
                 </div>
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
-                <span>Choose a display type:</span>
-                <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text</label>
-                <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table</label>
+                <span>Choose a display:</span>
+                <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: Recommended for those on smaller screens.</label>
+                <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: Allows filtering and column sorting.</label>
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAll('results-list');$('#results-table').DataTable().rows().select();">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAll('results-list');$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
@@ -462,9 +462,9 @@
                 <h3>Saved Results</h3>
                 <p>These are the tools you chose to save.</p>
                 <p>Select the tools you would like to export to a downloadable CSV file.</p><hr />
-                <span>Choose a display type:</span>
-                <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text</label>
-                <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table</label>
+                <span>Choose a display:</span>
+                <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text: Recommended for those on smaller screens.</label>
+                <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table: Allows filtering and column sorting.</label>
                 <div id="saved-list-div">
                   <button class="button-grey" onclick="selectAll('saved-list');$('#saved-table').DataTable().rows().select();">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAll('saved-list');$('#saved-table').DataTable().rows().deselect();">Deselect All Tools</button>

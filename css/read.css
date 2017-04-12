@@ -11,7 +11,7 @@ table.noborder td
 
 .ui-autocomplete {
     max-height: 20em;
-    max-width: 20em;
+    max-width: 40em;
     overflow-y: auto;
     /* prevent horizontal scrollbar */
     overflow-x: auto;
