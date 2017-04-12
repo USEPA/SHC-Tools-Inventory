@@ -221,7 +221,7 @@
                 <h3>Search</h3>
                 <label for="simple-search-text" id="simple-search-text-label">Enter text to search for and press the Search button.</label>
                 <hr />
-                <input autocomplete="off" class="ui-autocomplete-input search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text">
+                <input autocomplete="off" class="ui-autocomplete-input search-input default-value" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text" value="Enter text here.">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
                 <p id="simpleFeedback">No tools were found.</p>
               </div>
@@ -229,8 +229,7 @@
                 <h3>Advanced Search</h3>
                 <p for="detailed-search-text">Specify requirements of tools while searching for text contained in the chosen fields.</p>
                 <hr />
-                <label for="detailed-search-text">
-                <input autocomplete="off" class="ui-autocomplete-input search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text">
+                <input autocomplete="off" class="ui-autocomplete-input search-input default-value" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text" value="Enter text here.">
                 <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
                 <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Form</button>
                 <div id="detailed-search-feedback">No results were found.</div>
@@ -634,6 +633,59 @@ $(function () { // jquery's shorthand awaits readiness of document
         className: 'button button-white'
       }]
   });
+
+  $('.default-value').each(function () {
+    var $t = $(this),
+      default_value = this.value;
+    $t.css('color', '#929292');
+    $t.focus(function () {
+      if (this.value == default_value) {
+        this.value = '';
+        $t.css('color', 'black');
+      }
+    });
+    $t.blur(function () {
+      if ($.trim(this.value) == '') {
+        $t.css('color', '#929292');
+        this.value = default_value;
+      }
+    });
+  });
+
+var availableTags = [
+    "ActionScript",
+    "AppleScript",
+    "Asp",
+    "BASIC",
+    "C",
+    "C++",
+    "Clojure",
+    "COBOL",
+    "ColdFusion",
+    "Erlang",
+    "Fortran",
+    "Groovy",
+    "Haskell",
+    "Java",
+    "JavaScript",
+    "Lisp",
+    "Perl",
+    "PHP",
+    "Python",
+    "Ruby",
+    "Scala",
+    "Scheme"];
+
+$("#tags").autocomplete({
+    source: availableTags,
+    select: function (event, ui) {
+        console.log(this);
+        //console.log(this,$(this).val());
+        $(this).val('').blur();
+        //console.log(this,$(this).val());
+        return false;
+    }
+});
 
   var saveTable = $("#saved-table").DataTable({ // [Violation] 'DOMContentLoaded' handler took 261ms
     dom: 'Bfrtip',
