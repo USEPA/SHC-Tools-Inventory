@@ -103,8 +103,8 @@ autocompleteUpdater = {// user may pass an iterable list of fieldNames to be upd
           if (item.length > 40) {
             innerArray = item.split(/\s*,\s*/g);
             for (var i in innerArray) {
-              if (innerArray[i].length > 40) {
-                console.log('ELEMENT IS > 40 CHARACTERS AFTER SPLITTING ON PARENS, COMMAS, AND SEMICOLONS:',innerArray[i]);
+              if (innerArray[i].length > 60) {
+                console.log('ELEMENT IS > 60 CHARACTERS AFTER SPLITTING ON PARENS, COMMAS, AND SEMICOLONS:',innerArray[i]);
               }
               set.add(innerArray[i].trim());
             }
