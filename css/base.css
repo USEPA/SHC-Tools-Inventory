@@ -59,3 +59,7 @@
 a.button {
   margin-right: 3px;
 }
+
+table.dataTable td.select-checkbox:before, table.dataTable td.select-checkbox:after {
+  top: initial;
+}

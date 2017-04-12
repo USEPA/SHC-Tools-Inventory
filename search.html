@@ -31,12 +31,12 @@
 <!--googleoff: all-->
   <link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/template2/s.css" media="all" />
   <!--[if lt IE 9]><link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/themes/epa/css/ie.css" media="all" /><![endif]-->
-  <link type="text/css" rel="stylesheet" href="css/base.css" media="all" />
   <link href="css/read.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.css">
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/css/select.dataTables.min.css">
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/css/responsive.dataTables.min.css">
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/css/buttons.dataTables.min.css">
+  <link type="text/css" rel="stylesheet" href="css/base.css" media="all" />
   <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
   <link rel="alternate" type="application/atom+xml" title="EPA.gov All Press Releases" href="https://www.epa.gov/newsreleases/search/rss" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters" />
@@ -58,6 +58,7 @@
     }
     #detailed-search-feedback { 
       display:none; 
+      background-color: rgb(221, 206, 204);
     }
     /************* ADDED FROM MOCKUP.HTML ************/
     button:disabled { 
@@ -147,6 +148,9 @@
     .option {
       margin-right: 1.4rem;
     }
+    .search-input {
+      width: 20em;
+    }
   </style>
 </head>
 <body class="node-type-web-area microsite" >
@@ -217,7 +221,7 @@
                 <h3>Search</h3>
                 <label for="simple-search-text" id="simple-search-text-label">Enter keywords to seach for and press the Search button.</label>
                 <hr />
-                <input autocomplete="off" class="ui-autocomplete-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text">
+                <input autocomplete="off" class="ui-autocomplete-input search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
                 <p id="simpleFeedback">No tools were found.</p>
               </div>
@@ -226,27 +230,35 @@
                 <p>Specify requirements of tools while searching for words contained in the tools' titles, acronyms, or descriptions.</p>
                 <hr />
                 <label for="detailed-search-text">
-                <input autocomplete="off" class="ui-autocomplete-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text">
+                <input autocomplete="off" class="ui-autocomplete-input search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text">
                 <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
+                <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Form</button>
+                <div id="detailed-search-feedback">No results were found.</div>
                 <form>
                   <div aria-labelledby="search-field-label" class="form-item form-type-checkbox" id="search-field" role="group">
-                    <h4 id="search-field-label">Choose additional Search Fields:</h4>
-                    <input class="form-checkbox" id="model-input" type="checkbox" value="ModelInputs" />
+                    <h4 id="search-field-label">Choose Search Fields:</h4>
+                    <input class="form-checkbox" checked id="title" name="search-field" type="checkbox" value="Name" />
+                    <label class="option" for="title">Title</label>
+                    <input class="form-checkbox" checked id="acronym" name="search-field" type="checkbox" value="Acronym" />
+                    <label class="option" for="acronym">Acronym</label>
+                    <input class="form-checkbox" checked id="description" name="search-field" type="checkbox" value="ShortDescriptionForReports" />
+                    <label class="option" for="description">Description</label>
+                    <input class="form-checkbox" checked id="keywords" name="search-field" type="checkbox" value="Keywords" />
+                    <label class="option" for="keywords">Keywords</label>
+                    <input class="form-checkbox" id="model-input" name="search-field" type="checkbox" value="ModelInputs" />
                     <label class="option" for="model-input">Model Inputs</label>
-                    <input class="form-checkbox" id="output-variables" type="checkbox" value="OutputVariables" />
+                    <input class="form-checkbox" id="output-variables" name="search-field" type="checkbox" value="OutputVariables" />
                     <label class="option" for="output-variables">Output Variables</label>
-                    <input class="form-checkbox" id="model-evaluation" type="checkbox" value="ModelEvaluation" />
-                    <label class="option" for="model-evaluation">Model Evaluation</label>
                   </div>
                   <div aria-labelledby="decision-sector-label" class="form-item form-type-checkbox" id="decision-select" role="group">
                     <h4 id="decision-sector-label">Choose Decision Sectors to find only tools in these Decision Sectors.</h4>
-                    <input class="form-checkbox" id="decision-sector-building" type="checkbox" value="building infrastructure" />
+                    <input class="form-checkbox" id="decision-sector-building" name="decision-sector-check" type="checkbox" value="building infrastructure" />
                     <label class="option" for="decision-sector-building">Building and Infrastructure</label>
-                    <input class="form-checkbox" id="decision-sector-land" type="checkbox" value="land use" />
+                    <input class="form-checkbox" id="decision-sector-land" name="decision-sector-check" type="checkbox" value="land use" />
                     <label class="option" for="decision-sector-land">Land Use</label>
-                    <input class="form-checkbox" id="decision-sector-transportation" type="checkbox" value="transportation" />
+                    <input class="form-checkbox" id="decision-sector-transportation" name="decision-sector-check" type="checkbox" value="transportation" />
                     <label class="option" for="decision-sector-transportation">Transportation</label>
-                    <input class="form-checkbox" id="decision-sector-waste" type="checkbox" value="waste management" />
+                    <input class="form-checkbox" id="decision-sector-waste" name="decision-sector-check" type="checkbox" value="waste management" />
                     <label class="option" for="decision-sector-waste">Waste Management</label>
                   </div>
                   <div aria-labelledby="operating-environment-label" class="form-item form-type-checkbox" id="operating-environment-select" role="group">
@@ -277,27 +289,25 @@
                   </div>
                   <div aria-labelledby="extent-label" id="extent-select" class="form-item form-type-checkbox" class="group">
                     <h4 id="extent-label" >Choose Spatial Extents to find only tools labeled with at least one chosen Spatial Extents.</h4>
-                    <input class="form-checkbox" id="extent-building" type="checkbox" value="building">
+                    <input class="form-checkbox" id="extent-building" name="extent-check" type="checkbox" value="building">
                     <label class="option" for="extent-building">Building</label>
-                    <input class="form-checkbox" id="extent-site" type="checkbox" value="site">
+                    <input class="form-checkbox" id="extent-site" name="extent-check" type="checkbox" value="site">
                     <label class="option" for="extent-site">Site</label>
-                    <input class="form-checkbox" id="extent-neighborhood" type="checkbox" value="neighborhood">
+                    <input class="form-checkbox" id="extent-neighborhood" name="extent-check" type="checkbox" value="neighborhood">
                     <label class="option" for="extent-neighborhood">Neighborhood</label>
-                    <input class="form-checkbox" id="extent-city" type="checkbox" value="city">
+                    <input class="form-checkbox" id="extent-city" name="extent-check" type="checkbox" value="city">
                     <label class="option" for="extent-city">City</label>
-                    <input class="form-checkbox" id="extent-county" type="checkbox" value="county">
+                    <input class="form-checkbox" id="extent-county" name="extent-check" type="checkbox" value="county">
                     <label class="option" for="extent-county">County</label>
-                    <input class="form-checkbox" id="extent-state" type="checkbox" value="state">
+                    <input class="form-checkbox" id="extent-state" name="extent-check" type="checkbox" value="state">
                     <label class="option" for="extent-state">State</label>
-                    <input class="form-checkbox" id="extent-nation" type="checkbox" value="nation">
+                    <input class="form-checkbox" id="extent-nation" name="extent-check" type="checkbox" value="nation">
                     <label class="option" for="extent-nation">Nation</label>
-                    <input class="form-checkbox" id="extent-continent" type="checkbox" value="continent">
+                    <input class="form-checkbox" id="extent-continent" name="extent-check" type="checkbox" value="continent">
                     <label class="option" for="extent-continent">Continent</label>
-                    <input class="form-checkbox" id="extent-globe" type="checkbox" value="globe">
+                    <input class="form-checkbox" id="extent-globe" name="extent-check" type="checkbox" value="globe">
                     <label class="option" for="extent-globe">Globe</label>
                   </div>
-                  <div id="detailed-search-feedback">No results were found.</div>
-                  <button id="detailed-reset" type="reset">Reset Selected Requirements</button>
                 </form>
               </div>
               <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" aria-hidden="true">
@@ -444,6 +454,7 @@
                 </div>
               </div>
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
+                <button class="button button-grey" onclick="$('#results-tab').click()">Return to Results</button>
                 <button class="button button-white" onclick="saveRecord()">Save Record</button>
                 <div id="selected-tool"></div>
               </div>
@@ -566,15 +577,15 @@
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/base.js"></script>
 <script>
-const resultSet = new ToolSet(); // Create result and saved tool sets
-const savedTools = new ToolSet();
+var resultSet = new ToolSet(); // Create result and saved tool sets
+var savedTools = new ToolSet();
 
-const resultTable = new ToolDisplay('results-table', 'results-list', 13); // Create ToolDisplay Objects we need 
-const savedTable = new ToolDisplay('saved-table', 'saved-list', 13);
-const buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table', 'building-infrastructure-list' , 13);
-const landUseTable = new ToolDisplay('land-use-table', 'land-use-list', 13);
-const wasteManagementTable = new ToolDisplay('waste-management-table', 'waste-management-list', 13);
-const transportationTable = new ToolDisplay('transportation-table', 'transportation-list', 13);
+var resultTable = new ToolDisplay('results-table', 'results-list', 13); // Create ToolDisplay Objects we need 
+var savedTable = new ToolDisplay('saved-table', 'saved-list', 13);
+var buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table', 'building-infrastructure-list' , 13);
+var landUseTable = new ToolDisplay('land-use-table', 'land-use-list', 13);
+var wasteManagementTable = new ToolDisplay('waste-management-table', 'waste-management-list', 13);
+var transportationTable = new ToolDisplay('transportation-table', 'transportation-list', 13);
 
 $(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
@@ -668,12 +679,9 @@ $(function () { // jquery's shorthand awaits readiness of document
         className: 'button button-white'
       },
       { 
-        extend: 'csv', 
         text: 'Export Selected Tools to CSV',
-        exportOptions: {
-          rows: {
-            selected: true
-          }
+        action: function () {
+          exportCSV('saved-list');
         },
         className: 'button button-white'
       }]
@@ -932,10 +940,15 @@ var detailedSearch = function () {
   $('#results-table').DataTable().clear().draw(); // clear result table
   $('#results-list *').remove(); // clear result div
   resultSet.reset(); // clear result set
-  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"].concat($("#search-field input:checkbox:checked").map(function(){return $(this).val()}).get());
+  var $feedbackDiv = $('#detailed-search-feedback');
+  var queryTypes = $("#search-field input:checkbox:checked").map(function(){return $(this).val()}).get();
+  if (!queryTypes.length) { // ensure queryType is selected
+    $feedbackDiv.html('You must select at least one Search Field.').css('display', 'block');
+    return;
+  }
   var queryString = $('#detailed-search-text').val().trim().toLowerCase();
   var decisionSectors = $('#decision-select :checkbox:checked').map(function () {return $(this).val();});
-  var $feedbackDiv = $('#detailed-search-feedback');
+  $feedbackDiv.css('display', 'none');
   var os_select = checkBoxValue(document.getElementsByName('radioenvironment'));
   var cost_select = checkBoxValue(document.getElementsByName('checkbase'));
   var extent_select = $('#extent-select :checkbox:checked').map(function () {return $(this).val()});
@@ -953,7 +966,15 @@ var detailedSearch = function () {
   }
   if (queryString) { // ensure search string is not empty
     for (var i = 0; i < queryTypes.length; i++) {
-      data[queryTypes[i]] = queryString;
+      if (queryTypes[i] === 'Acronym') {
+        data[queryTypes[i]] = queryString.substr(0, 15);
+      } else if (queryTypes[i] === 'Name') {
+        data[queryTypes[i]] = queryString.substr(0, 35);
+      } else if (queryTypes[i] === 'ShortDescriptionForReports') {
+        data[queryTypes[i]] = queryString.substr(0, 255);
+      } else {
+        data[queryTypes[i]] = queryString;
+      }
       for (var j = 0; j < decisionSectors.length; j++) {
         data.DecisionSector = decisionSectors[j];
         dataList = [data]; // create an initial array of query-data
@@ -978,20 +999,21 @@ var detailedSearch = function () {
       }
       var numberOfResults = parseResultsArray(results);
       if (0 === numberOfResults) {
-        $feedbackDiv.css('display', 'block');
+        $feedbackDiv.html('No results were found.').css('display', 'block');
         $('#results-tab').parent().attr('aria-hidden', true);
       } else {
-        $feedbackDiv.css('display', 'none');
+        $feedbackDiv.html('').css('display', 'none');
         $('#results-tab').parent().attr('aria-hidden', false);
         $("#results-tab").click();
       }
     });
   } else {
-    $feedbackDiv.css('display', 'block');
+    $feedbackDiv.html('Please enter a search term.').css('display', 'block');
   }
 };
 
 var executeSearch = function (url, data) {
+  $.support.cors = true; // needed for < IE 10 versions
   return $.ajax({
     type: 'GET',
     url: url,
@@ -1016,6 +1038,7 @@ simpleSearch = function () {
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"];
   var $feedbackDiv = $('#simpleFeedback');
+  $feedbackDiv.css('display', 'none');
   var results = [];
   var requests = [];
   var data = {};
@@ -1027,7 +1050,15 @@ simpleSearch = function () {
     ];
   if (queryString) { // ensure search-string is not empty
     for (var i = 0; i < queryTypes.length; i++) {
-      data[queryTypes[i]] = queryString;
+      if (queryTypes[i] === 'Acronym') {
+        data[queryTypes[i]] = queryString.substr(0, 15);
+      } else if (queryTypes[i] === 'Name') {
+        data[queryTypes[i]] = queryString.substr(0, 35);
+      } else if (queryTypes[i] === 'ShortDescriptionForReports') {
+        data[queryTypes[i]] = queryString.substr(0, 255);
+      } else {
+        data[queryTypes[i]] = queryString;
+      }
       for (var j = 0; j < decisionSectors.length; j++) {
         data.DecisionSector = decisionSectors[j];
         requests.push(executeSearch(resourceAdvancedSearchURL, data));
@@ -1040,16 +1071,16 @@ simpleSearch = function () {
       }
       var numberOfResults = parseResultsArray(results);
       if (0 === numberOfResults) {
-        $feedbackDiv.css('display', 'block');
+        $feedbackDiv.html('No results were found.').css('display', 'block');
         $('#results-tab').parent().attr('aria-hidden',true);
       }else {
-        $feedbackDiv.css('display', 'none');
+        $feedbackDiv.html('').css('display', 'none');
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
       }
     });
   } else {
-    $feedbackDiv.css('display', 'block');
+    $feedbackDiv.html('Please enter a search term.').css('display', 'block');
   }
 };
 
@@ -1089,7 +1120,7 @@ function loadModels2() {
         dataType: 'json',
         success: function (data) {
           for (i = 0; i < data.length; i++) {
-            toolCache.handleParsedData(data[i].ResourceId, table.displayTool.bind(table));
+            toolCache.handleParsedData(data[i]['ID'], table.displayTool.bind(table));
           }
         }
       });
