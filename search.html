@@ -151,6 +151,8 @@
     .search-input {
       width: 40em;
     }
+    .accordion-pane {
+      display: none;
     }
   </style>
 </head>
@@ -218,7 +220,7 @@
                 <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Results</a></li>
                 <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
               </ul>
-              <div aria-hidden="false" aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel" style="border: 1px solid #aaa;">
+              <div aria-hidden="false" aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel">
                 <h3>Search</h3>
                 <label for="simple-search-text" id="simple-search-text-label">Enter keywords to seach for and press the Search button.</label>
                 <hr />
@@ -289,6 +291,7 @@
                     <label class="option" for="checkbase4000">&gt;$4000</label>
                   </div>
                   <div aria-labelledby="extent-label" id="extent-select" class="form-item form-type-checkbox" class="group">
+                    <h4 id="extent-label" >Choose Spatial Extents to find only tools labeled with at least one chosen Spatial Extents:</h4>
                     <input class="form-checkbox" id="extent-building" name="extent-check" type="checkbox" value="building">
                     <label class="option" for="extent-building">Building</label>
                     <input class="form-checkbox" id="extent-site" name="extent-check" type="checkbox" value="site">
@@ -319,7 +322,7 @@
                 <input id="browse-table-radio" type="radio" name="browse-display-type" value="table"><label for="browse-table-radio">Table: Allows filtering and column sorting.</label>
                 <div class="accordion" id="accordion">
                   <h4 class="accordion-title"><a>Building and Infrastructure</a></h4>
-                  <div class="accordion-pane" id="browseBuildingInfrastructure" style="display: none;">
+                  <div class="accordion-pane" id="browseBuildingInfrastructure">
                     <div class="browse-table-div" aria-hidden="true">
                       <table class="revision-table" id="building-infrastructure-table" width="100%">
                         <thead>
@@ -345,7 +348,7 @@
                     </div>
                   </div>
                   <h4 class="accordion-title"><a>Land Use</a></h4>
-                  <div class="accordion-pane" id="browseLand" style="display: none;">
+                  <div class="accordion-pane" id="browseLand">
                     <div class="browse-table-div" aria-hidden="true">
                       <table class="revision-table" id="land-use-table" width="100%">
                         <thead>
@@ -371,7 +374,7 @@
                     </div>
                   </div>
                   <h4 class="accordion-title"><a>Transportation</a></h4>
-                  <div class="accordion-pane" id="browseTransportation" style="display: none;">
+                  <div class="accordion-pane" id="browseTransportation">
                     <div class="browse-table-div" aria-hidden="true">
                       <table class="revision-table" id="transportation-table" width="100%">
                         <thead>
@@ -397,7 +400,7 @@
                     </div>
                   </div>
                   <h4 class="accordion-title"><a>Waste Management</a></h4>
-                  <div class="accordion-pane" id="browseWasteManagement" style="display: none;">
+                  <div class="accordion-pane" id="browseWasteManagement">
                     <div class="browse-table-div" aria-hidden="true">
                       <table class="revision-table" id="waste-management-table" width="100%">
                         <thead>
