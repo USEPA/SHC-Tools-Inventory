@@ -395,7 +395,7 @@
                       <button class="button-grey" onclick="selectAll('transportation-list');$('#transportation-table').DataTable().rows().select();">Select All Tools</button>
                       <button class="button-grey" onclick="deselectAll('transportation-list');$('#transportation-table').DataTable().rows().deselect();">Deselect All Tools</button>
                       <button class="button-white" onclick="saveSelectedRecords('transportation-list')">Save Selected Tools</button>
-                      <div id="transportation-list"></div>
+                      <div id="transportation-list" class="list"></div>
                     </div>
                   </div>
                   <h4 class="accordion-title"><a>Waste Management</a></h4>
@@ -1086,6 +1086,7 @@ var tabsBrowserClicked = false;
 function loadModels2() {
   if (tabsBrowserClicked === false) {
     $(".accordion-pane").each(function () {
+      var browse = new ToolSet();
       var table;
       var table_name = $(this).find('table').attr('id');
       switch (table_name) {
@@ -1118,8 +1119,11 @@ function loadModels2() {
         dataType: 'json',
         success: function (data) {
           for (i = 0; i < data.length; i++) {
-            toolCache.handleParsedData(data[i].ResourceId, table.displayTool.bind(table));
+           if(!browse.contains(data[i].ResourceId)) {
+              browse.addTool(data[i].ResourceId);
+            } 
           }
+          toolCache.handleToolSet(browse, table.displayTools.bind(table));
         }
       });
     });
