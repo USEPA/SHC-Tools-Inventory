@@ -375,8 +375,8 @@
                   <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: Recommended for those on smaller screens.</label>
                   <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: Allows filtering and column sorting.</label>
                 <div id="results-list-div">  
-                  <button class="button-grey" onclick="selectAll('results-list');$('#results-table').DataTable().rows().select();">Select All Tools</button>
-                  <button class="button-grey" onclick="deselectAll('results-list');$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                  <button class="button-grey" onclick="selectAll('results-list', saveAll('results-list'));$('#results-table').DataTable().rows().select();">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAll('results-list', unsaveAll());$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
                   <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                   <hr />
                   <div id="results-list" class="list"></div>
@@ -968,14 +968,9 @@ var keywordSearch = function (div, input) {
  */
 var conceptSearch = function (div, input) {
   $('#results-notification').html('').removeClass();
-  $('.results-checkbox').each(function () { //iterate over checkboxes and remove the unchecked values from the display and the resultSet
-    if ($(this).prop('checked') !== true) {
-      $('#results-list-' + $(this).val()).remove(); //remove from list
-      resultSet.removeTool($(this).val()); //remove from resultSet
-      resultTable.getToolSet().removeTool($(this).val()); //clear display data
-    }
-  });
-  $('#results-table').DataTable().rows( '.results-row:not(.selected)').remove().draw(); //clear table of values not makred selected
+  resultSet.reset(); //remove from resultSet
+  resultTable.getToolSet().reset(); //clear display data
+  $('#results-table').DataTable().rows( 'tr:not(.selected)').remove().draw(); //clear table of values not makred selected
 
   var concepts = getConcepts(input); //get new concepts
   if (concepts.length < 1) {
@@ -989,7 +984,6 @@ var conceptSearch = function (div, input) {
       for (var j = 0; j < readIDsByConcept[concepts[i]].length; j++) {
         if(!resultSet.contains(readIDsByConcept[concepts[i]][j])) {
           resultSet.addTool(readIDsByConcept[concepts[i]][j]);
-          //toolCache.handleParsedData(readIDsByConcept[concepts[i]][j], resultTable.displayTool.bind(resultTable));
         }
       }
     }
