@@ -33,9 +33,6 @@ var toolCache = (function () {
         );
       }
     },
-    /**
-     * WIP 
-    */
     handleToolSet: function (toolSet, callback) {
       var readIds = Object.keys(toolSet.getToolSet());
       var requests = [];
@@ -45,9 +42,14 @@ var toolCache = (function () {
         }
       }
       $.when.apply(null, requests).done(function () {
-        for (var i = 0; i < arguments.length; i++) {
-          var result = parseResult(arguments[i][0]);
+        if (arguments[1] === 'success') {
+          var result = parseResult(arguments[0]);
           setData(result['ID'], result);
+        } else { 
+          for (var i = 0; i < arguments.length; i++) {
+            var result = parseResult(arguments[i][0]);
+            setData(result['ID'], result);
+          }
         }
         callback(toolSet);
       });
