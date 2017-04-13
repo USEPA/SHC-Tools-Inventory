@@ -551,6 +551,10 @@ function addDiv(parsedResult, containerId) {
   $container.append(html);
 }
 
+/**
+ * Creates the HTML to create a Display DIV and returns it
+ *
+ */
 function createDiv(parsedResult, containerId) {
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
   var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
@@ -560,8 +564,8 @@ function createDiv(parsedResult, containerId) {
     + '<div class="row" role="button">'
       + '<div class="col size-95of100">'
         + '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>'
-        + '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label"></label>'
-        + '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span>: ' + parsedResult['Description']
+        + '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label">'
+        + '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span></label>: ' + parsedResult['Description']
       + '</div>'
     + '</div>'
     + '<div class="row expand" data-container="' + containerId + '"  data-id="' + parsedResult['ID'] + '" tabindex="0">'
