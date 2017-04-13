@@ -349,9 +349,9 @@
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
                 <h3>Concepts</h3>
-                <p>Select one or more Concepts and then use the <strong>Calculate Results</strong> button to display a list of tools. Next, click the <strong>Display Results</strong> button to display the results. If you have selected one or more Concepts and you would like to expand your selection to include additional related Concepts, click <strong>Add Additional Concepts</strong>.</p>
+                <p>Select one or more Concepts and then use the <strong>Find Number of Results</strong> button to display a list of tools. Next, click the <strong>Display Results</strong> button to display the results. If you have selected one or more Concepts and you would like to expand your selection to include additional related Concepts, click <strong>Add Additional Concepts</strong>.</p>
                 <div class="row">
-                  <div class="col"><button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Calculate Results</button></div>
+                  <div class="col"><button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Number of Results</button></div>
                   <div class="col"><span id="results-notification"></span></div>
                   <div class="col"><button aria-hidden="true" id="show-results-button" onclick="displayResults()">Display Results</button></div>
                 </div>
@@ -361,7 +361,7 @@
                 <button class="button-white" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-                <button class="next-button enabled-by-concept button-aqua" disabled onclick="$('#concept-search-button').click()">Calculate Results</button>
+                <button class="next-button enabled-by-concept button-aqua" disabled onclick="$('#concept-search-button').click()">Find Number of Results</button>
                 <button disabled id="floating-show-results-button" onclick="displayResults()">Display Results</button>
               </div>
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
