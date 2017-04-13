@@ -511,7 +511,7 @@ function addDiv(parsedResult, containerId) {
       + '</div>'
     + '</div>'
     + '<div class="row expand" data-container="' + containerId + '"  data-id="' + parsedResult['ID'] + '" tabindex="0">'
-      + '<button class="col bold button-grey" id="expand-message' + containerId + '-' + parsedResult['ID'] + '">Click to Show Tool Details</button>'
+      + '<button class="col bold button-grey" id="expand-message-' + containerId + '-' + parsedResult['ID'] + '">Click to Show Tool Details</button>'
       + '<div class="col accordion-result"></div>'
     + '</div>'
     + '<div class="row" id="additional-details-' + containerId + '-' + parsedResult['ID'] + '" style="display:none;">'
@@ -569,7 +569,7 @@ function createDiv(parsedResult, containerId) {
       + '</div>'
     + '</div>'
     + '<div class="row expand" data-container="' + containerId + '"  data-id="' + parsedResult['ID'] + '" tabindex="0">'
-      + '<button class="col bold button-grey" id="expand-message' + containerId + '-' + parsedResult['ID'] + '">Click to Show Tool Details</button>'
+      + '<button class="col bold button-grey" id="expand-message-' + containerId + '-' + parsedResult['ID'] + '">Click to Show Tool Details</button>'
       + '<div class="col accordion-result"></div>'
     + '</div>'
     + '<div class="row" id="additional-details-' + containerId + '-' + parsedResult['ID'] + '" style="display:none;">'
@@ -617,7 +617,7 @@ $('.list').on('click', '.expand', function () {
   var $container = $this.attr('data-container');
   var $id = $this.attr('data-id');
   $("#additional-details-" + $container + '-' + $id).toggle();
-  $("#additional-details-" + $container + '-' + $id).is(":pressed") ? $('#expand-message' + $container + '-' + $id).html('Click to Hide Tool Details') : $('#expand-message' + $container + '-' + $id).html('Click to Show Tool Details');
+  $("#additional-details-" + $container + '-' + $id).css('display') == 'block' ? $('#expand-message-' + $container + '-' + $id).html('Click to Hide Tool Details') : $('#expand-message-' + $container + '-' + $id).html('Click to Show Tool Details');
   $this.find('.accordian-result').toggleClass('collapsible');
 })
 
