@@ -511,7 +511,7 @@ function addDiv(parsedResult, containerId) {
       + '</div>'
     + '</div>'
     + '<div class="row expand" data-container="' + containerId + '"  data-id="' + parsedResult['ID'] + '" tabindex="0">'
-      + '<span class="col bold">Click to Show Tool Details</span>'
+      + '<span class="col bold" id="expand-message' + containerId + '-' + parsedResult['ID'] + '">Click to Show Tool Details</span>'
       + '<div class="col accordion-result"></div>'
     + '</div>'
     + '<div class="row" id="additional-details-' + containerId + '-' + parsedResult['ID'] + '" style="display:none;">'
@@ -565,7 +565,7 @@ function createDiv(parsedResult, containerId) {
       + '</div>'
     + '</div>'
     + '<div class="row expand" data-container="' + containerId + '"  data-id="' + parsedResult['ID'] + '" tabindex="0">'
-      + '<span class="col bold">Click to Show Tool Details</span>'
+      + '<span class="col bold" id="expand-message' + containerId + '-' + parsedResult['ID'] + '">Click to Show Tool Details</span>'
       + '<div class="col accordion-result"></div>'
     + '</div>'
     + '<div class="row" id="additional-details-' + containerId + '-' + parsedResult['ID'] + '" style="display:none;">'
@@ -613,7 +613,7 @@ $('.list').on('click', '.expand', function () {
   var $container = $this.attr('data-container');
   var $id = $this.attr('data-id');
   $("#additional-details-" + $container + '-' + $id).toggle();
-  $("#additional-details-" + $container + '-' + $id).is(":visible") ? $('#expand-message' + $container + '-' + $id).html('Hide tool details...') : $('#expand-message' + $container + '-' + $id).html('Show tool details...');
+  $("#additional-details-" + $container + '-' + $id).is(":visible") ? $('#expand-message' + $container + '-' + $id).html('Click to Hide Tool Details') : $('#expand-message' + $container + '-' + $id).html('Click to Show Tool Details');
   $this.find('.accordian-result').toggleClass('collapsible');
 })
 
