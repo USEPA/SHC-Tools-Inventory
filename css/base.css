@@ -63,3 +63,15 @@ a.button {
 table.dataTable td.select-checkbox:before, table.dataTable td.select-checkbox:after {
   top: initial;
 }
+
+button {
+  width: 100%;
+}
+
+@media screen and (min-width: 481px) {
+    button,
+    [type=button],
+    [type=submit],
+    [type=reset],
+    [type=image] {
+      width: auto; } }
