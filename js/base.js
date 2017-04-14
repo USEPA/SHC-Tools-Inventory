@@ -987,6 +987,16 @@ function deselectAll(divId, callback) {
     });
 }
 
+function saveAll(divId) {
+  $('#' + divId + ' input:checkbox').each(function () {
+    savedTools.addTool($(this).val());
+  });
+}
+
+function unsaveAll() {
+  savedTools.reset();
+}
+
 /**
  * Execute get request on specified url and data
 */
