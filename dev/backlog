@@ -302,13 +302,13 @@ backlog to track work to be done and by whom
   - documentation style,
   - kyle: WIP
 
-- Record pathway data(role,subrole,...) and/or saved tools
+- Record pathway data(role,subrole,...) and/or saved tools for each use of the tool as use-information
 
 - Sorting/filtering result table (EPA Style guide has a link to a DataTable jquery library we like, you can see it in action here: https://www.epa.gov/superfund/search-superfund-sites-where-you-live) 
 
 - Clickable URLs on detail page
 
-- Boolean operations in detailed search
+- Boolean operators in detailed search?
 
 - POST saved tools between pages?
 
@@ -322,11 +322,10 @@ backlog to track work to be done and by whom
 
 - toasts to show features in optional walkthrough?
 
-- hide concepts with no associated objectives in conceptsByObjective
-  - kyle: WIP
-
 - Decide which fields should be exported to CSV
   - Assign proper header names for each field
 
 - Additional fields populate detailed-search's autocomplete-arrays
   - additional fields' arrays autocomplete queries over those fields
+
+- 

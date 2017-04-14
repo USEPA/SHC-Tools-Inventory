@@ -238,6 +238,10 @@
       top:-.2em
     }
 
+    #fixed-element span {
+      white-space: nowrap;
+    }
+
     #results-notification {
       line-height: 2em;
     }
@@ -349,20 +353,18 @@
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
                 <h3>Concepts</h3>
-                <p>Select one or more Concepts and then use the <strong>Find Number of Results</strong> button to display a list of tools. Next, click the <strong>Display Results</strong> button to display the results. If you have selected one or more Concepts and you would like to expand your selection to include additional related Concepts, click <strong>Add Additional Concepts</strong>.</p>
-                <div class="row">
-                  <div class="col"><button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Number of Results</button></div>
-                  <div class="col"><span id="results-notification"></span></div>
-                  <div class="col"><button aria-hidden="true" id="show-results-button" onclick="displayResults()">Display Results</button></div>
-                </div>
-                <hr />
+                <p>Select one or more Concepts and then use the <strong>Find Number of Results</strong> button to display a list of tools. Next, click the <strong>Display Results</strong> button to display the results. If you have selected one or more Concepts and you would like to expand your selection to include additional related Concepts, click <strong>Add Additional Concepts</strong><span>.</span></p>
+                <span class="fixed-element">
+                  <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Number of Results</button>
+                  <span id="results-notification"></span>
+                  <button aria-hidden="true" id="show-results-button" onclick="displayResults()">Display Results</button>
+                </span>
+                <hr class="park-mark" />
                 <button class="button-grey" onclick="selectAll('concept')">Select All Concepts</button>
                 <button class="button-grey" onclick="deselectAll('concept')">Deselect All Concepts</button>
                 <button class="button-white" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-                <button class="next-button enabled-by-concept button-aqua" disabled onclick="$('#concept-search-button').click()">Find Number of Results</button>
-                <button disabled id="floating-show-results-button" onclick="displayResults()">Display Results</button>
               </div>
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
                 <button class="button-aqua" class="button" onclick="saveRecord()">Save Record</button>
@@ -557,6 +559,18 @@ $(function () { // jquery's shorthand awaits readiness of document
         className: 'button button-white'
       }
     ]
+  });
+
+  /* Find tools, "found x results," and display results sticks to top of window when scrolling below their static positions. */
+  $(window).scroll(function(e){ 
+    var $el = $('.fixed-element'); 
+    var isPositionFixed = ($el.css('position') == 'fixed');
+    if ($(this).scrollTop() > $('.park-mark').position().top && !isPositionFixed) { 
+      $('.fixed-element').css({'position': 'fixed', 'top': '0px','margin-bottom': '.2em'}); 
+    }
+    if ($(this).scrollTop() < $('.park-mark').position().top && isPositionFixed) {
+      $('.fixed-element').css({'position': 'relative', 'top': '0px'}).children().css({'margin-bottom': '1.5em'});
+    }
   });
 
   $('#results-table tbody').on('click', 'td:nth-child(2)', function () {
@@ -1080,7 +1094,7 @@ function conceptDplLinks() {
     for (var concept in dplLinks) { //find parent nodes of selected concept
       if (dplLinks.hasOwnProperty(concept)) {
         if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
-           if (readIDsByConcept[concept]) {
+          if (readIDsByConcept[concept]) {
             console.log(concept + " < " + checkedConcepts[k] + ": " + readIDsByConcept[concept]);
           }
         }
@@ -1134,7 +1148,7 @@ function findParentConcepts() {
     for (var concept in dplLinks) { //find parent nodes of selected concept
       if (dplLinks.hasOwnProperty(concept)) {
         if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
-           if (readIDsByConcept[concept]) {
+          if (readIDsByConcept[concept]) {
             if (associatedConcepts.indexOf(concept) === -1 && concept.length > 1 && allConcepts.indexOf(concept) === -1) {
               associatedConcepts.push(concept);
             }
@@ -1164,12 +1178,9 @@ function findSiblingConcepts() {
     for (var concept in dplLinks) { //find parent nodes of selected concept
       if (dplLinks.hasOwnProperty(concept)) {
         if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
-           if (readIDsByConcept[concept]) {
+          if (readIDsByConcept[concept]) {
             console.log("Parent: " + concept);
             console.log("Siblings: " + dplLinks[concept]);
-            //if (associatedConcepts.indexOf(concept) === -1 && concept.length > 1 && allConcepts.indexOf(concept) === -1) {
-              //associatedConcepts.push(concept);
-            //}
           }
         }
       }
