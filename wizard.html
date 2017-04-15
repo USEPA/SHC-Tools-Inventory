@@ -233,17 +233,25 @@
       cursor:pointer;
       background:0 0;
       border:0;
-      -webkit-appearance:none
+      -webkit-appearance:none;
       right:-.2em;
-      top:-.2em
+      top:-.2em;
     }
 
-    #fixed-element span {
+    #fixed-element * {
+      display: inline;
+      height: 4em;
       white-space: nowrap;
+      margin-bottom: 1.5em;
+      font-weight: bold;
+      text-align: center;
     }
 
     #results-notification {
-      line-height: 2em;
+      width: 100%;
+      padding-top: .2em;
+      height: 2em;
+      border: .4em;
     }
 
     .icon-button, .icon-button:hover, .icon-button:focus {
@@ -390,11 +398,11 @@
                       <em>Need help?</em> <strong>CONCEPTS</strong> (e.g. “Health & Safety”) are distinct focal areas that you and other decision makers can address with directed tools. Ask yourself: “In what focal areas do I identify a need for a tool or resource?” Select the concept(s) that most specifically describes the focal area where a tool will be helpful to you. Expand your search for tools by selecting additional concepts.
                   </p>
                 </p>
-                <span class="fixed-element">
+                <div class="fixed-element">
                   <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Number of Results</button>
-                  <span id="results-notification"></span>
+                  <div id="results-notification"></div>
                   <button aria-hidden="true" id="show-results-button" onclick="displayResults()">Display Results</button>
-                </span>
+                </div>
                 <hr class="park-mark" />
                 <button class="button-grey" onclick="selectAll('concept')">Select All Concepts</button>
                 <button class="button-grey" onclick="deselectAll('concept')">Deselect All Concepts</button>
@@ -598,11 +606,11 @@ $(function () { // jquery's shorthand awaits readiness of document
   });
 
   /* Find tools, "found x results," and display results sticks to top of window when scrolling below their static positions. */
-  $(window).scroll(function(e){ 
+  $(window).scroll(function(e){
     var $el = $('.fixed-element'); 
     var isPositionFixed = ($el.css('position') == 'fixed');
-    if ($(this).scrollTop() > $('.park-mark').position().top && !isPositionFixed) { 
-      $('.fixed-element').css({'position': 'fixed', 'top': '0px','margin-bottom': '.2em'}); 
+    if ($(this).scrollTop() > $('.park-mark').position().top && !isPositionFixed) {
+      $('.fixed-element').css({'position': 'fixed', 'top': '0px'}).children().css({'margin-bottom': '.1em'}); 
     }
     if ($(this).scrollTop() < $('.park-mark').position().top && isPositionFixed) {
       $('.fixed-element').css({'position': 'relative', 'top': '0px'}).children().css({'margin-bottom': '1.5em'});
@@ -712,13 +720,8 @@ var initializeTabs = function () {
       $(this).parent().addClass('active'); // activate the clicked tab
       $('#tabs > div').hide(); // hide all panels
       $(currentPanel).show(); // show clicked tab's panel
-      if (currentPanel === "#saved-tools-panel") { // is currentPanel saved-tools-panel?
-        $('#results-container').hide(); // hide results
-        $('#results-container').attr('aria-hidden', 'true'); // make disabled for assistive technologies
-      } else if ($('#results-list').has('div').length) {// 
-        $('#results-container').show(); // Display Results
-        $('#results-container').attr('aria-hidden', 'false');
-      }
+      $('#results-container').show(); // Display Results
+      $('#results-container').attr('aria-hidden', 'false');
     }else { // tab has attribute aria-disabled...
       console.log('The user has clicked a disabled tab. Consider implementing some means of making the interface reactive. Consider informing a user why this tab is disabled.');
       return;
@@ -1024,7 +1027,7 @@ var conceptSearch = function (div, input) {
 
   var concepts = getConcepts(input); //get new concepts
   if (concepts.length < 1) {
-    $('#results-notification').html('<strong class="warning">Please select a concept.</strong>').removeClass().addClass('warning');
+    $('#results-notification').html('Please select a concept.').removeClass().addClass('warning');
     $('#results-container').hide();
     $('#results-container').attr('aria-hidden', 'true');
     $('#show-results-button').attr('aria-hidden', 'true');
@@ -1040,13 +1043,13 @@ var conceptSearch = function (div, input) {
     }
   }
   if (resultSet.getLength() > 0) {
-    $('#results-notification').html('<span class="success"><strong>Found ' + resultSet.getLength() + ' results.</strong></span>').removeClass();
+    $('#results-notification').html('Found ' + resultSet.getLength() + ' results.').removeClass().addClass('success');
     $('#show-results-button').attr('aria-hidden', 'false');
     $('#floating-show-results-button').prop('disabled', false);
     $('#floating-show-results-button').css('display', 'inline');
     $('#results-tab').parent().attr('aria-hidden', 'false');
   } else {
-    $('#results-notification').html('<strong>No results found.</strong>').removeClass().addClass('warning');
+    $('#results-notification').html('No results found.').removeClass().addClass('warning');
     $('#show-results-button').attr('aria-hidden', 'true');
     $('#floating-show-results-button').prop('disabled', true);
     $('#floating-show-results-button').css('display', 'none');
@@ -1266,7 +1269,6 @@ var activateNextTab = function ($nextTab) {
     $nextTab.attr('aria-selected', 'true');// list this tab as active
     $nextTab.prop('disabled', false);// enable tab
     $nextTab.click();// activate tab
-    //location.hash = '#explore-role-tab';// not working...
   }
 };
 
