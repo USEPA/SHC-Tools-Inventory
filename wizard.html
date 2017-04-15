@@ -1058,6 +1058,7 @@ var conceptSearch = function (div, input) {
 };
 
 var displayResults = function () {
+  $('#results-tab')[0].click();
   activateNextTab($('#results-tab'));
   var url = window.location.href;
   $('#results-list').html('<img style="display: block; margin-left: auto; margin-right: auto;" src="' + url.substring(0, url.lastIndexOf('/')) + '/img/loader.gif">');
