@@ -1021,6 +1021,9 @@ var conceptSearch = function (div, input) {
   resultSet.reset(); //remove from resultSet
   resultTable.getToolSet().reset(); //clear display data
   $('#results-table').DataTable().rows( 'tr:not(.selected)').remove().draw(); //clear table of values not makred selected
+  if (savedTools.getLength() === 0) {
+    $('#results-tab').parent().attr('aria-hidden', 'true');
+  }
 
   var concepts = getConcepts(input); //get new concepts
   if (concepts.length < 1) {
@@ -1044,17 +1047,18 @@ var conceptSearch = function (div, input) {
     $('#show-results-button').attr('aria-hidden', 'false');
     $('#floating-show-results-button').prop('disabled', false);
     $('#floating-show-results-button').css('display', 'inline');
-    $('#results-tab').parent().attr('aria-hidden', 'false');
+    //$('#results-tab').parent().attr('aria-hidden', 'false');
   } else {
     $('#results-notification').html('<strong>No results found.</strong>').removeClass().addClass('warning');
     $('#show-results-button').attr('aria-hidden', 'true');
     $('#floating-show-results-button').prop('disabled', true);
     $('#floating-show-results-button').css('display', 'none');
-    $('#results-tab').parent().attr('aria-hidden', 'true');
+    //$('#results-tab').parent().attr('aria-hidden', 'true');
   }
 };
 
 var displayResults = function () {
+  $('#results-tab').parent().attr('aria-hidden', 'false');
   activateNextTab($('#results-tab'));
   var url = window.location.href;
   $('#results-list').html('<img style="display: block; margin-left: auto; margin-right: auto;" src="' + url.substring(0, url.lastIndexOf('/')) + '/img/loader.gif">');
