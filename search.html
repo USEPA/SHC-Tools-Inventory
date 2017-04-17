@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/css/select.dataTables.min.css">
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/css/responsive.dataTables.min.css">
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/css/buttons.dataTables.min.css">
-  <link type="text/css" rel="stylesheet" href="css/base.css" media="all" />
   <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
+  <link type="text/css" rel="stylesheet" href="css/base.css" media="all" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov All Press Releases" href="https://www.epa.gov/newsreleases/search/rss" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters" />
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
@@ -52,7 +52,7 @@
       background-color: rgb(221, 206, 204);
     }
     /* make results responsive */
-    .results-row:hover {
+    tr:hover td:not(:first-child) {
       background-color: #e7f4e4;
       cursor: pointer;
     }
@@ -456,8 +456,6 @@
                 </div>
               </div>
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
-                <button class="button button-grey" onclick="$('#results-tab').click()">Return to Results</button>
-                <button class="button button-white" onclick="saveRecord()">Save Record</button>
                 <div id="selected-tool"></div>
               </div>
               <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
@@ -655,9 +653,13 @@ $(function () { // jquery's shorthand awaits readiness of document
     { 
       width: "5%",
       targets: 0 
+    },
+    { 
+      visible: false,
+      targets: 1 
     }],
     select: {
-      style: 'os',
+      style: 'multi',
       selector: 'td:nth-child(2)'
     },
     order: [[2, 'asc']],
@@ -707,9 +709,13 @@ $(function () { // jquery's shorthand awaits readiness of document
     { 
       width: "5%",
       targets: 0 
+    },
+    { 
+      visible: false,
+      targets: 1 
     }],
     select: {
-      style: 'os',
+      style: 'multi',
       selector: 'td:first-child'
     },
     order: [[1, 'asc']],
@@ -752,9 +758,13 @@ $(function () { // jquery's shorthand awaits readiness of document
     { 
       width: "5%",
       targets: 0 
+    },
+    { 
+      visible: false,
+      targets: 1 
     }],
     select: {
-      style: 'os',
+      style: 'multi',
       selector: 'td:first-child'
     },
     order: [[1, 'asc']],
@@ -797,9 +807,13 @@ $(function () { // jquery's shorthand awaits readiness of document
     { 
       width: "5%",
       targets: 0 
+    },
+    { 
+      visible: false,
+      targets: 1 
     }],
     select: {
-      style: 'os',
+      style: 'multi',
       selector: 'td:first-child'
     },
     order: [[1, 'asc']],
@@ -842,9 +856,13 @@ $(function () { // jquery's shorthand awaits readiness of document
     { 
       width: "5%",
       targets: 0 
+    },
+    { 
+      visible: false,
+      targets: 1 
     }],
     select: {
-      style: 'os',
+      style: 'multi',
       selector: 'td:first-child'
     },
     order: [[1, 'asc']],
@@ -875,7 +893,7 @@ $(function () { // jquery's shorthand awaits readiness of document
 
   $('tbody').on('click', 'td:first-child', function () {
     var $parent = $(this).parent();
-    var tableId = $(this).closest('table').attr('id').slice(0, 7);
+    var tableId = $(this).closest('table').attr('id').slice(0, -6);
     var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
     if (!$parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
@@ -887,17 +905,36 @@ $(function () { // jquery's shorthand awaits readiness of document
 
   $(".list").on("change", "input:checkbox", function () {
     var id = $(this).val();
+    var tableId = $(this).attr('id').slice(0, -14);
     if ($(this).prop('checked')) { // add selected class
-      var table = $("#results-table").DataTable();
+      var table = $("#" + tableId + "-table").DataTable();
       table.rows(function(idx, data, node){
           return data[1] == id ? true: false;
       }).nodes().to$().addClass("selected");
     } else {
-      var table = $("#results-table").DataTable();
+      var table = $("#" + tableId + "-table").DataTable();
       table.rows(function(idx, data, node){
           return data[1] == id ? true: false;
       }).nodes().to$().removeClass("selected");
     }
+  });
+
+  $('tbody').on('click', 'td:first-child', function () {
+    var $parent = $(this).parent();
+    var tableId = $(this).closest('table').attr('id').slice(0, -6);
+    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
+    if (!$parent.hasClass('selected')) { // remove selected class
+      $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
+    }
+    else {
+      $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
+    }
+  });
+
+  $('tbody').on('click', 'td:not(:first-child)', function () {
+    var tableId = $(this).closest('table').attr('id').slice(0, -6);
+    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
+    showDetails(readId, $(this).closest('[role="tabpanel"]').attr('aria-labelledby'));
   });
 
   $('.dt-button').removeClass('dt-button'); // remove default DataTable styles from buttons

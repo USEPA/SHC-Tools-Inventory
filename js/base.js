@@ -311,9 +311,9 @@ function clearSaved(divID) {
 /** DEPRECATED if no longer using Selected Tools tab
  * Refactored code to display the selected tool data
  */
-function showDetails(id) {
+function showDetails(id, origin) {
   var parsedData = toolCache.getParsedData(id);
-  var html = '<div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">'; 
+  var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').click()">Return to Tool List</button><button class="button button-white" onclick="saveRecord()">Save This Tool</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">'; 
   var $tab = $("#selected-tool");
   try {
     $tab.empty();
