@@ -568,6 +568,10 @@ $(function () { // jquery's shorthand awaits readiness of document
       orderable: false,
       className: 'control',
       targets: [0]
+    },
+    {
+      visible: false,
+      targets: [2]
     }],
     select: {
       style: 'os',
@@ -613,26 +617,30 @@ $(function () { // jquery's shorthand awaits readiness of document
     }
   });
 
-  $('#results-table tbody').on('click', 'td:nth-child(2)', function () {
-    if ($(this).parent().hasClass('selected')) { // remove selected class
-      $(this).parent().removeClass('selected');
-      $('#results-list-cb-' + $(this).parent().attr('data-read-id')).prop('checked', false);
-      savedTools.removeTool($(this).parent().attr('data-read-id')); // remove from saved tools
+  $('tbody').on('click', 'td:nth-child(2)', function () {
+    var $parent = $(this).parent();
+    var tableId = $(this).closest('table').attr('id').slice(0, 7);
+    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[2];  // get ID
+    if (!$parent.hasClass('selected')) { // remove selected class
+      $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
     }
     else {
-      $(this).parent().addClass('selected'); // add selected class
-      $('#results-list-cb-' + $(this).parent().attr('data-read-id')).prop('checked', true);
-      savedTools.addTool($(this).parent().attr('data-read-id')); // add to saved tools
+      $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
     }
   });
 
-  $("#results-list").on("change", "input:checkbox", function () {
+  $(".list").on("change", "input:checkbox", function () {
+    var id = $(this).val();
     if ($(this).prop('checked')) { // add selected class
-      $('#results-table').DataTable().row('#results-table-' + $(this).val()).select();
-      savedTools.addTool($(this).val()); // add to saved tools
+      var table = $("#results-table").DataTable();
+      table.rows(function(idx, data, node){
+          return data[2] == id ? true: false;
+      }).nodes().to$().addClass("selected");
     } else {
-      $('#results-table').DataTable().row('#results-table-' + $(this).val()).deselect(); // remove selected class
-      savedTools.removeTool($(this).val()); // add to saved tools
+      var table = $("#results-table").DataTable();
+      table.rows(function(idx, data, node){
+          return data[2] == id ? true: false;
+      }).nodes().to$().removeClass("selected");
     }
   });
 
@@ -1019,7 +1027,15 @@ var conceptSearch = function (div, input) {
   $('#results-notification').html('').removeClass();
   resultSet.reset(); //remove from resultSet
   resultTable.getToolSet().reset(); //clear display data
-  $('#results-table').DataTable().rows( 'tr:not(.selected)').remove().draw(); //clear table of values not makred selected
+  
+  $('#results-table').DataTable().rows('tr:not(.selected)').remove().draw(); //clear table of values not marked selected
+
+  $('#results-list .results-checkbox').each(function () { // clear results list of values not checked
+    if (!$(this).prop('checked')) {
+      $(this).parent().parent().parent().remove();
+    }
+  });
+  
   if (savedTools.getLength() === 0) {
     $('#results-tab').parent().attr('aria-hidden', 'true');
   }

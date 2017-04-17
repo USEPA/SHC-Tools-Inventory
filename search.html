@@ -606,12 +606,16 @@ $(function () { // jquery's shorthand awaits readiness of document
     { 
       width: "5%",
       targets: 0 
+    },
+    { 
+      visible: false,
+      targets: 1 
     }],
     select: {
       style: 'multi',
       selector: 'td:first-child'
     },
-    order: [[1, 'asc']],
+    order: [[2, 'asc']],
     buttons: [{
         text: 'Select All Tools',
         action: function () {
@@ -871,21 +875,28 @@ $(function () { // jquery's shorthand awaits readiness of document
 
   $('tbody').on('click', 'td:first-child', function () {
     var $parent = $(this).parent();
-    var id = $parent.attr('data-table-id').slice(0, -6); // remove -table from id
+    var tableId = $(this).closest('table').attr('id').slice(0, 7);
+    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
     if (!$parent.hasClass('selected')) { // remove selected class
-      $('#' + id + '-list-cb-' + $parent.attr('data-read-id')).prop('checked', false);
+      $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
     }
     else {
-      $('#' + id + '-list-cb-' + $parent.attr('data-read-id')).prop('checked', true);
+      $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
     }
   });
 
   $(".list").on("change", "input:checkbox", function () {
-    var list = $(this).attr('class').replace('-checkbox', '');
+    var id = $(this).val();
     if ($(this).prop('checked')) { // add selected class
-      $('#' + list + '-table').DataTable().row('#' + list + '-table-' + $(this).val()).select();
+      var table = $("#results-table").DataTable();
+      table.rows(function(idx, data, node){
+          return data[1] == id ? true: false;
+      }).nodes().to$().addClass("selected");
     } else {
-      $('#' + list + '-table').DataTable().row('#' + list + '-table-' + $(this).val()).deselect(); // remove selected class
+      var table = $("#results-table").DataTable();
+      table.rows(function(idx, data, node){
+          return data[1] == id ? true: false;
+      }).nodes().to$().removeClass("selected");
     }
   });
 

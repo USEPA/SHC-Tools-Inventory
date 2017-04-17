@@ -223,6 +223,7 @@ function createRow(parsedResult, columns) {
     rowData = [ //Create row
       "",
       "",
+      parsedResult['ID'],
       parsedResult['Acronym'],
       parsedResult['Title'],
       parsedResult['Description'],
@@ -239,6 +240,7 @@ function createRow(parsedResult, columns) {
   } else {
     rowData = [ //Create row
       "",
+      parsedResult['ID'],
       parsedResult['Acronym'],
       parsedResult['Title'],
       parsedResult['Description'],
