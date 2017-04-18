@@ -75,6 +75,7 @@ button {
     [type=reset],
     [type=image] {
       width: auto; } }#loader {
+#loader {
   display: block; 
   margin-left: auto; 
   margin-right: auto;
