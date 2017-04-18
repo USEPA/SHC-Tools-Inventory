@@ -69,12 +69,14 @@ button {
 }
 
 @media screen and (min-width: 481px) {
-    button,
-    [type=button],
-    [type=submit],
-    [type=reset],
-    [type=image] {
-      width: auto; } }#loader {
+  button,
+  [type=button],
+  [type=submit],
+  [type=reset],
+  [type=image] {
+      width: auto; } 
+}
+
 #loader {
   display: block; 
   margin-left: auto; 
