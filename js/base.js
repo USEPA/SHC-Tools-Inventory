@@ -163,15 +163,15 @@ ToolDisplay.prototype.displayTool = function (data) {
 };
 
 ToolDisplay.prototype.displayTools = function (toolSet) {
-  this.toolSet = toolSet;
+  this.toolSet = _.extend({}, toolSet); // do not create a reference to the toolSet object, copy it
   var html = '';
   var rows = [];
   for (var toolId in toolSet.getToolSet()) {
     html += createDiv(toolCache.getParsedData(toolId), this.getListId());
     rows.push(createRow(toolCache.getParsedData(toolId), this.getColumns()));
   }
-  $("#" + this.getListId()).html(html);
   $('#loader').attr('aria-hidden', 'true').hide();
+  $("#" + this.getListId()).append(html);
   $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
 };
 
@@ -221,7 +221,7 @@ $('[name="browse-display-type"]').change(function () {
 function createRow(parsedResult, columns) { 
   var rowData;
   if (columns === 14) { // Not an optimal solution
-    rowData = [ //Create row
+    rowData = [ // Create row
       "",
       "",
       parsedResult['ID'],
@@ -246,7 +246,6 @@ function createRow(parsedResult, columns) {
       parsedResult['Title'],
       parsedResult['Description'],
       parsedResult['Cost'],
-      //parsedResult['Spatial Extent'],
       parsedResult['Spatial Extent'],
       parsedResult['Model Inputs'],
       parsedResult['Output Variables'],
@@ -257,7 +256,7 @@ function createRow(parsedResult, columns) {
       parsedResult['Open Source']
     ];
   }
-  for (var i = 0; i < rowData.length; i++) { //limit to 140 characters
+  for (var i = 0; i < rowData.length; i++) { // limit to 140 characters
      if (rowData[i].length > 140) {
       rowData[i] = rowData[i].substr(0, 140) + '...';
     }
@@ -269,7 +268,7 @@ function createRow(parsedResult, columns) {
  * Add a row to a DataTable
  */
 function addRow(parsedResult, tableId, rowData, columns) {
-  var $row = $('#' + tableId).DataTable() //add row
+  var $row = $('#' + tableId).DataTable() // add row
     .row.add(rowData)
     .draw()
     .nodes().to$();
@@ -875,7 +874,6 @@ var readSafe = function (object, propertyArray) {
         }else{// has length and isn't a string? Let's access it as an array!
           try{// try accumulating a string from all elements
             accumulatedString = '';
-            //console.log(value);
             for (i in value) {
               iValue = value[i][propertyArray[0].replace('Detail', 'Name').replace('ModelScope','')];
               if (i > 0 && value.length > 2) {
@@ -888,7 +886,6 @@ var readSafe = function (object, propertyArray) {
                 accumulatedString += 'and ';
               }
               accumulatedString += iValue;
-              //console.log('value['+i+'],iValue,accumulatedString:',value[i],iValue,accumulatedString);
             }
             return accumulatedString;
           }catch(error) {// if fail by err then warn about possible need of extension
@@ -924,10 +921,8 @@ var readSafe = function (object, propertyArray) {
           }
         }
       }
-    //console.log('An element of propertyArray is missing from the indices of object. Logging object, propertyArray, accumulatedString:',object,propertyArray,accumulatedString);
     return accumulatedString;
     }else{
-      //console.log('readSafe() fell into an edge-case and might need extended if there is useful data in the JSON object named "object" at a location specified by the array "propertyArray." Logging object, propertyArray:',object,propertyArray,'Returning "no data."');
       return 'no data'; // fail safely: return 'no data'
     }
   }
@@ -953,7 +948,6 @@ var isNil = function (obj) {
 var validata = function (obj) {
   try{
     if(isNil(obj)) {
-      //console.log('validata() discarded data from',obj);
       return 'no data on file';
     }else{
       return obj;
