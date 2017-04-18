@@ -584,7 +584,7 @@ $(function () { // jquery's shorthand awaits readiness of document
         text: 'Select All Tools',
         action: function () {
           table.rows().select();
-          selectAll('results-list');
+          selectAll('results-list', saveAll('results-list'));
         },
         className: 'button button-grey'
       },
@@ -592,7 +592,7 @@ $(function () { // jquery's shorthand awaits readiness of document
         text: 'Deselect All Tools',
         action: function () {
           table.rows().deselect();
-          deselectAll('results-list');
+          deselectAll('results-list', unsaveAll());
         },
         className: 'button button-grey'
       },
@@ -620,28 +620,30 @@ $(function () { // jquery's shorthand awaits readiness of document
 
   $('tbody').on('click', 'td:nth-child(2)', function () {
     var $parent = $(this).parent();
-    var tableId = $(this).closest('table').attr('id').slice(0, 7);
+    var tableId = $(this).closest('table').attr('id').slice(0, -6);
     var readId = $('#' + tableId + '-table').DataTable().row(this).data()[2];  // get ID
     if (!$parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
+      savedTools.removeTool(readId);
     }
     else {
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
+      savedTools.addTool(readId);
     }
   });
 
   $(".list").on("change", "input:checkbox", function () {
     var id = $(this).val();
     if ($(this).prop('checked')) { // add selected class
-      var table = $("#results-table").DataTable();
-      table.rows(function(idx, data, node){
-          return data[2] == id ? true: false;
+      $("#results-table").DataTable().rows(function (idx, data, node) {
+        return data[2] == id ? true: false;
       }).nodes().to$().addClass("selected");
+      savedTools.addTool(id);
     } else {
-      var table = $("#results-table").DataTable();
-      table.rows(function(idx, data, node){
-          return data[2] == id ? true: false;
+      $("#results-table").DataTable().rows(function (idx, data, node) {
+        return data[2] == id ? true: false;
       }).nodes().to$().removeClass("selected");
+      savedTools.removeTool(id);
     }
   });
 
@@ -728,7 +730,6 @@ var initializeTabs = function () {
       $('#results-container').show(); // Display Results
       $('#results-container').attr('aria-hidden', 'false');
     }else { // tab has attribute aria-disabled...
-      console.log('The user has clicked a disabled tab. Consider implementing some means of making the interface reactive. Consider informing a user why this tab is disabled.');
       return;
     }
   });
