@@ -171,6 +171,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
     rows.push(createRow(toolCache.getParsedData(toolId), this.getColumns()));
   }
   $("#" + this.getListId()).html(html);
+  $('#loader').attr('aria-hidden', 'true').hide();
   $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
 };
 

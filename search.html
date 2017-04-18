@@ -435,6 +435,7 @@
                   <button class="button-grey" onclick="deselectAll('results-list');$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
                   <button class="button-white" onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
                   <hr />
+                  <img aria-hidden="true" id="loader" src="img/loader.gif">
                   <div id="results-list" class="list"></div>
                 </div>
                 <div aria-hidden="true" id="results-table-div">
@@ -1056,7 +1057,7 @@ var detailedSearch = function () {
         $('#results-tab').parent().attr('aria-hidden', false);
         $("#results-tab").click();
         var url = window.location.href;
-        $('#results-list').html('<img style="display: block; margin-left: auto; margin-right: auto;" src="' + url.substring(0, url.lastIndexOf('/')) + '/img/loader.gif">');
+        $('#loader').removeAttr('aria-hidden').show();
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     });
@@ -1120,8 +1121,7 @@ simpleSearch = function () {
         $feedbackDiv.html('').css('display', 'none');
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
-        var url = window.location.href;
-        $('#results-list').html('<img style="display: block; margin-left: auto; margin-right: auto;" src="' + url.substring(0, url.lastIndexOf('/')) + '/img/loader.gif">');
+        $('#loader').removeAttr('aria-hidden').show();
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     });
