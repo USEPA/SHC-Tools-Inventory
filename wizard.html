@@ -56,6 +56,26 @@
       margin: 0 auto;
     }
 
+     @media screen and (max-width: 480px) {
+     .navbar {
+        overflow: hidden;
+        background: rgb(50, 58, 69);
+        background: rgba(50, 58, 69, 0.75);
+        /*background-color: #323a45;*/
+        position: fixed;
+        bottom: 0;
+        left: 0px;
+        width: 100%;
+      }
+      .navbar button {
+        margin: .2em 0 .2em 0;
+      }
+      .navbar div {
+        margin: .2em 0 .2em 0;
+        border-radius: 0; 
+      }
+    }
+
     #floating-show-results-button{
       display: none;
       position: fixed;
@@ -330,7 +350,9 @@
                     <em>Need help?</em> Select the <strong>ROLE</strong>(s) (e.g. Developer) that broadly describes your occupation or position in order to begin narrowing your search for tools that address issues relevant to your role. Expand your search for tools by selecting additional roles.
                   </p>
                 </p>
-                <button class="enabled-by-subrole persist" onclick="activateNextTab($('#subrole-tab'))">Next</button>
+                <div class="navbar">
+                  <button class="enabled-by-subrole persist" onclick="activateNextTab($('#subrole-tab'))">Next</button>
+                </div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('role', roleSelect)">Select All Roles</button>
                 <button class="button-grey" onclick="deselectAll('role', roleSelect)">Deselect All Roles</button>
@@ -345,7 +367,9 @@
                       <em>Need help?</em> Under your broad role(s), indicate the <strong>SUBROLE</strong>(s) (e.g. Real Estate Developer) that most accurately describes the specific type of work you do in order to continue narrowing your search for tools that address issues relevant to your role. Expand your search for tools by selecting additional subroles.
                   </p>
                 </p>
-                <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'))">Next</button>
+                <div class="navbar">
+                  <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'))">Next</button>
+                </div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('subrole', subroleSelect)">Select All Subroles</button>
                 <button class="button-grey" onclick="deselectAll('subrole', subroleSelect)">Deselect All Subroles</button>
@@ -360,7 +384,9 @@
                       <em>Need help?</em> Ask yourself: “What general goals do I want to accomplish?” <strong>FUNDAMENTAL OBJECTIVES</strong> (e.g. “Maximize health and safety”) describe general goals. Your selection(s) will refine your search for targeted tools that can help you meet your objective(s). Expand your search for tools by selecting additional objectives.
                   </p>
                 </p>
-                <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'))">Next</button>
+                <div class="navbar">
+                  <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'))">Next</button>
+                </div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('fundamental-objective', fundamentalObjectiveSelect)">Select All Fundamental Objectives</button>
                 <button class="button-grey" onclick="deselectAll('fundamental-objective', fundamentalObjectiveSelect)">Deselect All Fundamental Objectives</button>
@@ -375,7 +401,9 @@
                       <em>Need help?</em> Ask yourself: “What specific goals can I set to accomplish my general objectives?” Select the <strong>OBJECTIVE</strong>(s) (e.g. “Maximize safety of buildings”) that best describe your explicit goals. Your selection(s) will refine your search for targeted tools that can help you meet your objective(s). Expand your search for tools by selecting additional objectives.
                   </p>
                 </p>
-                <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'))">Next</button>
+                <div class="navbar">
+                  <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'))">Next</button>
+                </div>
                 <hr />
                 <input id="objective-relevance" type="hidden" value="1" />
                 <button class="button-grey" onclick="selectAll('objective', objectiveSelect)">Select All Objectives</button>
@@ -394,9 +422,9 @@
                       <em>Need help?</em> <strong>CONCEPTS</strong> (e.g. “Health & Safety”) are distinct focal areas that you and other decision makers can address with directed tools. Ask yourself: “In what focal areas do I identify a need for a tool or resource?” Select the concept(s) that most specifically describes the focal area where a tool will be helpful to you. Expand your search for tools by selecting additional concepts.
                   </p>
                 </p>
-                <div class="fixed-element">
+                <div class="navbar">
                   <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Number of Results</button>
-                  <div id="results-notification"></div>
+                  <div aria-hidden="true" id="results-notification"></div>
                   <button aria-hidden="true" id="show-results-button" onclick="displayResults()">Display Results</button>
                 </div>
                 <hr class="park-mark" />
@@ -405,10 +433,6 @@
                 <button class="button-white" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-              </div>
-              <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
-                <button class="button-aqua" class="button" onclick="saveRecord()">Save Record</button>
-                <div id="selected-tool"></div>
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
                 <h2 id="tools">Tools</h2>
@@ -419,7 +443,9 @@
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAll('results-list', saveAll('results-list'));$('#results-table').DataTable().rows().select();">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAll('results-list', unsaveAll());$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
-                  <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
+                  <div class="navbar">
+                    <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
+                  </div>
                   <hr />
                   <img aria-hidden="true" id="loader" src="img/loader.gif">
                   <div id="results-list" class="list"></div>
@@ -1026,7 +1052,7 @@ var keywordSearch = function (div, input) {
  * search for the READ IDs from the selected Concepts from input and display results in div
  */
 var conceptSearch = function (div, input) {
-  $('#results-notification').html('').removeClass();
+  $('#results-notification').html('').removeClass().attr('aria-hidden', 'true');
   resultSet.reset(); // remove from resultSet
   $('#results-table').DataTable().rows('tr:not(.selected)').remove().draw(); // clear table of values not marked selected
   
@@ -1043,7 +1069,7 @@ var conceptSearch = function (div, input) {
 
   var concepts = getConcepts(input); //get new concepts
   if (concepts.length < 1) {
-    $('#results-notification').html('Please select a concept.').removeClass().addClass('warning');
+    $('#results-notification').html('Please select a concept.').removeClass().addClass('warning').removeAttr('aria-hidden');
     $('#results-container').hide();
     $('#results-container').attr('aria-hidden', 'true');
     $('#show-results-button').attr('aria-hidden', 'true');
@@ -1059,12 +1085,12 @@ var conceptSearch = function (div, input) {
     }
   }
   if (resultSet.getLength() > 0) {
-    $('#results-notification').html('Found ' + resultSet.getLength() + ' new results.').removeClass().addClass('success');
+    $('#results-notification').html('Found ' + resultSet.getLength() + ' new results.').removeClass().addClass('success').removeAttr('aria-hidden');
     $('#show-results-button').attr('aria-hidden', 'false');
     $('#floating-show-results-button').prop('disabled', false);
     $('#floating-show-results-button').css('display', 'inline');
   } else {
-    $('#results-notification').html('No results found.').removeClass().addClass('warning');
+    $('#results-notification').html('No results found.').removeClass().addClass('warning').removeAttr('aria-hidden');
     $('#show-results-button').attr('aria-hidden', 'true');
     $('#floating-show-results-button').prop('disabled', true);
     $('#floating-show-results-button').css('display', 'none');
