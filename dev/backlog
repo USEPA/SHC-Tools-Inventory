@@ -247,6 +247,11 @@ backlog to track work to be done and by whom
     - combine all field-objects as properties of autocompletedPhrases keyed by respective fieldnames
     - use autocompleted phrases as the data-structure that can autocomplete findable values for searching selected fields
   - kyle: the base feature is done and easily extended later
+
+- float .button-white, a.button-white to right until viewport-width < 480px
+  - expand dt-buttons to 100% to allow "buttons" within
+    to expand to width 100% when resolution < 480px, as do other buttons
+  - kyle: done
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -327,5 +332,3 @@ backlog to track work to be done and by whom
 
 - Additional fields populate detailed-search's autocomplete-arrays
   - additional fields' arrays autocomplete queries over those fields
-
-- 

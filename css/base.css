@@ -64,17 +64,34 @@ table.dataTable td.select-checkbox:before, table.dataTable td.select-checkbox:af
   top: initial;
 }
 
-button {
+hr, #role, #subrole, #fundamental-objective, #objective, #concept, #selected-tool {
+  clear: both;
+}
+
+.right {
+  float: right;
+}
+
+button, a.button, .dt-buttons {
   width: 100%;
+}
+
+.list button {
+	width: 100%;
+  padding: .5em;
+  margin: .5em .1em;
 }
 
 @media screen and (min-width: 481px) {
   button,
+  .dt-buttons,
+  a.button,
   [type=button],
   [type=submit],
   [type=reset],
   [type=image] {
-      width: auto; } 
+    width: auto;
+  } 
 }
 
 #loader {
