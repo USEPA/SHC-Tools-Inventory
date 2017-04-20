@@ -138,6 +138,149 @@
     .bold {
       font-weight: bold;
     }
+    .chevron {
+      position: relative;
+      /*top: 100px;*/
+      text-align: center;
+      padding: 1em;
+      margin: 0 0 2em 0;
+      height: 10em;
+      width: 12em;
+      -webkit-transform: rotate(270deg);
+      -moz-transform: rotate(270deg);
+      -ms-transform: rotate(270deg);
+      -o-transform: rotate(270deg);
+      transform: rotate(270deg);
+    }
+
+  .chevron:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 51%;
+    background: red;
+    -webkit-transform: skew(0deg, 36deg);
+    -moz-transform: skew(0deg, 36deg);
+    -ms-transform: skew(0deg, 36deg);
+    -o-transform: skew(0deg, 36deg);
+    transform: skew(0deg, 36deg);
+  }
+  .chevron:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 50%;
+    background: red;
+    -webkit-transform: skew(0deg, -36deg);
+    -moz-transform: skew(0deg, -36deg);
+    -ms-transform: skew(0deg, -36deg);
+    -o-transform: skew(0deg, -36deg);
+    transform: skew(0deg, -36deg);
+  }​
+
+  
+
+  /******************* */
+  #breadcrumb {
+    list-style: none;
+    display: inline-block;
+    list-style-type: none;
+  }
+  #breadcrumb .icon {
+    font-size: 13px;
+  }
+  #breadcrumb li {
+    float: left;
+    display: initial;
+  }
+  #breadcrumb li a {
+    color: #000;
+    display: block;
+    background: #02bfe7;
+    text-decoration: none;
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px 0 5px;
+    text-align: center;
+    margin-right: 23px;
+  }
+  #breadcrumb li:nth-child(even) a {
+    background-color: #0071bc;
+    color: #fff;
+  }
+  #breadcrumb li:nth-child(even) a:before {
+    border-color: #0071bc;
+    border-left-color: transparent;
+  }
+  #breadcrumb li:nth-child(even) a:after {
+    border-left-color: #0071bc;
+  }
+  #breadcrumb li:first-child a {
+    padding-left: 15px;
+    -moz-border-radius: 3px 0 0 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px 0 0 3px;
+  }
+  #breadcrumb li:first-child a:before {
+    border: none;
+  }
+  #breadcrumb li:last-child a {
+    padding-right: 15px;
+    -moz-border-radius: 0 3px 3px 0;
+    -webkit-border-radius: 0;
+    border-radius: 0 3px 3px 0;
+  }
+  #breadcrumb li:last-child a:after {
+    border: none;
+  }
+  #breadcrumb li a:before, #breadcrumb li a:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    border: 0 solid #02bfe7;
+    border-width: 20px 10px;
+    width: 0;
+    height: 0;
+    color: #000;
+  }
+  #breadcrumb li a:before {
+    left: -20px;
+    border-left-color: transparent;
+  }
+  #breadcrumb li a:after {
+    left: 100%;
+    border-color: transparent;
+    border-left-color: #02bfe7;
+    color: #000;
+  }
+  #breadcrumb li a:hover {
+    background-color: #205493;
+    color: #fff;
+  }
+  #breadcrumb li a:hover:before {
+    border-color: #205493;
+    border-left-color: transparent;
+  }
+  #breadcrumb li a:hover:after {
+    border-left-color: #205493;
+  }
+  #breadcrumb li a:active {
+    background-color: #112e51;
+    color: #fff;
+  }
+  #breadcrumb li a:active:before {
+    border-color: #112e51;
+    border-left-color: transparent;
+  }
+  #breadcrumb li a:active:after {
+    border-left-color: #112e51;
+  }
+  /****************************** */
   </style>
 </head>
 <!-- NOTE, figure out body classes! -->
@@ -176,24 +319,77 @@
     </div>
     <div class="main-column clearfix">
     <!--googleon: all-->
-    <h2 id="page-description-title" class="title">Description</h2>
+    <h1>Sustainable Community Tools</h1>
+    <div>On this page:</div>
+    <ul>
+      <li><a href="#intro-title">Introduction</a></li>
+      <li>
+        <a href="#finder-title">Interactive Wizard</a>
+        <ul>
+          <li><a href="#what-is-wizard">What is It?</a></li>
+          <li><a href="#why-need-wizard">Why do I need It?</a></li>
+          <li><a href="#how-wizard">How do I use It?</a></li>
+        </ul>
+      </li>
+      <li><a href="#search-title">Keyword Search</a></li>
+      <li><a href="#read-title">Information about READ</a></li>
+    </ul>
+    <hr />
+
+    <h2 id="intro-title" class="title">Introduction</h2>
+    <p>Search for tools designed to support sustainable and healthy communities. Two methods are provided for finding these tools.</p>
+    <p><a href="./wizard.html">Interactive Wizard</a> leads users to relevant tools after answering questions. Tool Finder is a guided exploration that allows users to find tools by answering questions. This method of finding tools might suggest tools that the user may not have considered searching for.</p>
+    <p><a href="./search.html">Keyword Search</a> allows users to search for text in titles and descriptions of tools. This textual search engine searches titles and descriptions for text a user enters. Any tools that match the text entered are shown. This method allows users to search in a specific way by entering specific text.</p>
+    <p class="pagetop"><a href="#top">Return to top of page</a></p>
+    <hr />
+
+    <h2 id="finder-title" class="title">Interactive Wizard</h2>
+    <h3 id="what-is-wizard" class="title">What is It?</h3>
+    <p>The Sustainable Communities Tool Finder is an interactive online search engine. It provides an intuitive way for users to search for relevant tools designed to support sustainable and healthy communities.</p>
+    <h3 id="why-need-wizard" class="title">Why do I need it?</h3>
+    <p>The READ database contains hundreds of tools designed for practitioners and decision makers. The Tool Finder guides users in locating directed tools based on their unique objectives and interests.</p>
+    <h3 id="how-wizard" class="title">How do I use it?</h3>
+    <p>Using a guided search engine, users narrow their search for tools by identifying their role within the community (Who are you?), specifying their objectives (What do you want to accomplish?), and selecting the relevant concepts that correspond to directed tools (Where do you want to direct your focus?).</p>
+
+    <!-- <div class="row cols-4">
+      <div class="col">Who are you?</div>
+      <div class="col">What do you want to accomplish?</div>
+      <div class="col">Where do you want to direct your focus?</div>
+      <div class="col">Find Tools</div>
+    </div> -->
+    <div class="row cols-1">
+      <div class="col"><img src="img/wizard.png"/></div>
+    </div>
+    <div class="row cols-1">
+      <div class="col"><p>This Tool Finder is not intended to prescribe solutions, but instead is meant to deliver a range of tools for decision makers.</p></div>
+    </div>
+    <p class="pagetop"><a href="#top">Return to top of page</a></p>
+    <hr />
+
+    <h2 id="search-title" class="title">Keyword Search</h2>
     <p>The Environmental Protection Agency’s Sustainable and Healthy Communities Research Program (SHCRP) has identified and evaluated an inventory of decision support tools designed to guide non-experts and professionals who seek solutions to community level development needs that will sustain human wellbeing and ecological functions.</p>
     <p>This web-based inventory provides a searchable resource for building owners, developers, municipal planners, architects, engineers, and other interested community stakeholders. The tools in the inventory provide data, model scenarios, and narratives that guide the user through the decision-making process and promote sustainability at the community level.</p>
     <p>The tools in the inventory occupy the following four decision sectors:</p>
     <dl>
-      <dt>Buildings and Related Infrastructure</dt>
+      <dt class="bold">Buildings and Related Infrastructure</dt>
       <dd> Decisions around buildings, like green building, or infrastructure, like stormwater management designs or extension of sewer </dd>
-      <dt>Land Use</dt>
+      <dt class="bold">Land Use</dt>
       <dd> Decisions around zoning, development, parks, etc </dd>
-      <dt>Transportation</dt>
+      <dt class="bold">Transportation</dt>
       <dd> Decisions around roads, transit, bike/pedestrian infrastructure, etc </dd>
-      <dt>Waste Disposal</dt>
+      <dt class="bold">Waste Disposal</dt>
       <dd> Decisions around waste management, and options to avoid landfilling waste, like recycling, composting or programs to divert wasted food or “ugly produce” </dd>
     </dl>
-    <h3>Find Tools</h3>
-    <p>Search for tools designed to support sustainable and healthy communities. Two methods are provided for finding these tools.</p>
-    <p><a href="./search.html">Search</a> allows users to search for text in titles and descriptions of tools. This textual search-engine searches titles and descriptions for text a user enters. Any tools that match the text entered are shown. This method allows users to search in a specific way by entering specific text.</p>
-    <p><a href="./wizard.html">Wizard</a> leads users to relevant tools after answering questions. Tool-Finder is a guided exploration that allows users to find tools by answering questions. This method of finding tools might suggest tools that the user may not have considered searching for.</p>
+    <p class="pagetop"><a href="#top">Return to top of page</a></p>
+    <hr />
+
+    <h2 id="read-title" class="title">Information about READ</h2>
+    <p>Placeholder text.</p>
+    <p class="pagetop"><a href="#top">Return to top of page</a></p>
+    <hr />
+    <h2 id="disclaimer-title" class="title">Disclaimer</h2>
+    <p>The tools listed here are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed within.</p>
+    <p class="pagetop"><a href="#top">Return to top of page</a></p>
     <!--googleoff: all-->
     </div>
   </section>
