@@ -47,7 +47,27 @@
         width: 95%;
       }
     }
-    .next-button{
+
+    #fixedgrandparent {
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #fixedparent {
+      position: relative;
+      z-index: 10;
+      background-color: #000000;
+      color: #ffffff;
+    }
+
+    #fixedparent * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .next-button {
       /* hide until useful */
       display: none;
       position: fixed;
@@ -86,45 +106,45 @@
 
     /* position at the middle-top of the screen */
     #toast, #notice {
-        visibility: hidden; /* Hidden by default. Visible on click */
-        min-width: 250px; /* Set a default minimum width */
-        margin-left: -125px; /* Divide value of min-width by 2 */
-        background-color: #333; /* Black background color */
-        color: #fff; /* White text color */
-        text-align: center; /* Centered text */
-        border-radius: 2px; /* Rounded borders */
-        padding: 16px; /* Padding */
-        position: fixed; /* Sit on top of the screen */
-        z-index: 1; /* Add a z-index if needed */
-        left: 50%; /* Center the notification */
-        top: .5em; /* 30px from the top */
-        opacity: 1;
-        transition: opacity 0.6s; /* 600ms to fade out */
+      visibility: hidden; /* Hidden by default. Visible on click */
+      min-width: 250px; /* Set a default minimum width */
+      margin-left: -125px; /* Divide value of min-width by 2 */
+      background-color: #333; /* Black background color */
+      color: #fff; /* White text color */
+      text-align: center; /* Centered text */
+      border-radius: 2px; /* Rounded borders */
+      padding: 16px; /* Padding */
+      position: fixed; /* Sit on top of the screen */
+      /* z-index: 1; Add a z-index if needed */
+      right: 0; /* Center the notification */
+      bottom: .5em; /* 30px from the top */
+      opacity: 1;
+      transition: opacity 0.6s; /* 600ms to fade out */
     }
     /* Show the notification. Show and animate with addition of class. */
     #toast.show, #notice.show {
-        visibility: visible; /* Show the notification */
-    /* Add animation: Take 0.5 seconds to fade in and out the notification. 
-    However, delay the fade out process for 5 seconds */
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 5s;
-        animation: fadein 0.5s, fadeout 0.5s 5s;
+      visibility: visible; /* Show the notification */
+  /* Add animation: Take 0.5 seconds to fade in and out the notification. 
+  However, delay the fade out process for 5 seconds */
+      -webkit-animation: fadein 0.5s, fadeout 0.5s 5s;
+      animation: fadein 0.5s/*, fadeout 0.5s 5s;*/
     }
     /* Animations to fade notification in and out */
     @-webkit-keyframes fadein {
-        from {top: 0; opacity: 0;} 
-        to {top: 30px; opacity: 1;}
+      from {top: 0; opacity: 0;} 
+      to {top: 30px; opacity: 1;}
     }
     @keyframes fadein {
-        from {top: 0; opacity: 0;}
-        to {top: 30px; opacity: 1;}
+      from {top: 0; opacity: 0;}
+      to {top: 30px; opacity: 1;}
     }
     @-webkit-keyframes fadeout {
-        from {top: 30px; opacity: 1;} 
-        to {top: 0; opacity: 0;}
+      from {top: 30px; opacity: 1;} 
+      to {top: 0; opacity: 0;}
     }
     @keyframes fadeout {
-        from {top: 30px; opacity: 1;}
-        to {top: 0; opacity: 0;}
+      from {top: 30px; opacity: 1;}
+      to {top: 0; opacity: 0;}
     }
 
     label{
@@ -331,7 +351,12 @@
       <div class="panel-pane pane-node-content">
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
-            <div aria-live="polite" id="toast">ORIGINAL TEXT</div>
+            <div id="fixedgrandparent">
+              <div id="fixedparent">
+                <div aria-live="polite" id="toast">ORIGINAL TEXT</div>
+                <p>TESTY TEST TEST TEST WITH A foo AND A bar</p>
+              </div>
+            </div>
             <div id="tabs">
               <ul class="tabs" id="tabsnav" role="tablist">
                 <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal" href="#tabsnav" id="role-tab" role="tab">Role >></a></li>
@@ -408,8 +433,10 @@
                 <input id="objective-relevance" type="hidden" value="1" />
                 <button class="button-grey" onclick="selectAll('objective', objectiveSelect)">Select All Objectives</button>
                 <button class="button-grey" onclick="deselectAll('objective', objectiveSelect)">Deselect All Objectives</button>
-                <button class="button-white" onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show Fewer Objectives</button>
-                <button class="button-white" onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show More Objectives</button>
+                <div class="right">
+                  <button class="button-white" onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show Fewer Objectives</button>
+                  <button class="button-white" onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show More Objectives</button>
+                </div>
                 <div id="objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
@@ -430,7 +457,7 @@
                 <hr class="park-mark" />
                 <button class="button-grey" onclick="selectAll('concept')">Select All Concepts</button>
                 <button class="button-grey" onclick="deselectAll('concept')">Deselect All Concepts</button>
-                <button class="button-white" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
+                <button class="button-white right" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
@@ -627,7 +654,7 @@ $(function () { // jquery's shorthand awaits readiness of document
         action: function () {
           exportCSV('results-list');
         },
-        className: 'button button-white'
+        className: 'button button-white right'
       }
     ]
   });
