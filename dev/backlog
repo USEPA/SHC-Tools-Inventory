@@ -332,3 +332,17 @@ backlog to track work to be done and by whom
 
 - Additional fields populate detailed-search's autocomplete-arrays
   - additional fields' arrays autocomplete queries over those fields
+
+- Develop test questions
+
+- Re-add close button to the Toast notifications
+
+- Extend time Toast is present (20s)
+
+- Fix the additional details display on the Table View
+
+- Spreadsheet of Tool name, descirption, URL and the concepts it is tagged with
+
+- Finish Portal page
+
+- Concepts added after clicking "Add Additional Concepts" are no checking properly

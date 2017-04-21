@@ -572,7 +572,6 @@ function createDiv(parsedResult, containerId) {
     + '</div>'
     + '<div class="row expand" data-container="' + containerId + '"  data-id="' + parsedResult['ID'] + '" tabindex="0">'
       + '<button class="col bold button-grey" id="expand-message-' + containerId + '-' + parsedResult['ID'] + '">Show Tool Details</button>'
-      + '<div class="col accordion-result"></div>'
     + '</div>'
     + '<div class="row" id="additional-details-' + containerId + '-' + parsedResult['ID'] + '" style="display:none;">'
       + '<div class="col size-1of2">'
