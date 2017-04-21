@@ -334,7 +334,7 @@
                     <div class="browse-list-div">
                       <button class="button-grey" onclick="selectAll('building-infrastructure-list');$('#building-infrastructure-table').DataTable().rows().select();">Select All Tools</button>
                       <button class="button-grey" onclick="deselectAll('building-infrastructure-list');$('#building-infrastructure-table').DataTable().rows().deselect();">Deselect All Tools</button>
-                      <button class="button-white" onclick="saveSelectedRecords('building-infrastructure-list')">Save Selected Tools</button>
+                      <button class="button-white right" onclick="saveSelectedRecords('building-infrastructure-list')">Save Selected Tools</button>
                       <div id="building-infrastructure-list" class="list"></div>
                     </div>
                   </div>
@@ -360,7 +360,7 @@
                     <div class="browse-list-div">
                       <button class="button-grey" onclick="selectAll('land-use-list');$('#land-use-table').DataTable().rows().select();">Select All Tools</button>
                       <button class="button-grey" onclick="deselectAll('land-use-list');$('#land-use-table').DataTable().rows().deselect();">Deselect All Tools</button>
-                      <button class="button-white" onclick="saveSelectedRecords('land-use-list')">Save Selected Tools</button>
+                      <button class="button-white right" onclick="saveSelectedRecords('land-use-list')">Save Selected Tools</button>
                       <div id="land-use-list" class="list"></div>
                     </div>
                   </div>
@@ -386,7 +386,7 @@
                     <div class="browse-list-div">
                       <button class="button-grey" onclick="selectAll('transportation-list');$('#transportation-table').DataTable().rows().select();">Select All Tools</button>
                       <button class="button-grey" onclick="deselectAll('transportation-list');$('#transportation-table').DataTable().rows().deselect();">Deselect All Tools</button>
-                      <button class="button-white" onclick="saveSelectedRecords('transportation-list')">Save Selected Tools</button>
+                      <button class="button-white right" onclick="saveSelectedRecords('transportation-list')">Save Selected Tools</button>
                       <div id="transportation-list" class="list"></div>
                     </div>
                   </div>
@@ -412,7 +412,7 @@
                     <div class="browse-list-div">
                       <button class="button-grey" onclick="selectAll('waste-management-list');$('#waste-management-table').DataTable().rows().select();">Select All Tools</button>
                       <button class="button-grey" onclick="deselectAll('waste-management-list');$('#waste-management-table').DataTable().rows().deselect();">Deselect All Tools</button>
-                      <button class="button-white" onclick="saveSelectedRecords('waste-management-list')">Save Selected Tools</button>
+                      <button class="button-white right" onclick="saveSelectedRecords('waste-management-list')">Save Selected Tools</button>
                       <div id="waste-management-list" class="list"></div>
                     </div>
                   </div>
@@ -425,7 +425,7 @@
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAll('results-list');$('#results-table').DataTable().rows().select();">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAll('results-list');$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
-                  <button class="button-white" onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
+                  <button class="button-white right" onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
                   <hr />
                   <img aria-hidden="true" id="loader" src="img/loader.gif">
                   <div id="results-list" class="list"></div>
@@ -461,8 +461,8 @@
                 <div id="saved-list-div">
                   <button class="button-grey" onclick="selectAll('saved-list');$('#saved-table').DataTable().rows().select();">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAll('saved-list');$('#saved-table').DataTable().rows().deselect();">Deselect All Tools</button>
-                  <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
-                  <button class="button-white" onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
+                  <button class="button-white right" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
+                  <button class="button-white right" onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
                   <hr />
                   <div id="saved-list" class="list"></div>
                 </div>
@@ -628,7 +628,7 @@ $(function () { // jquery's shorthand awaits readiness of document
         action: function () {
           saveSelectedRecords('results-list')
         },
-        className: 'button button-white'
+        className: 'button button-white right'
       }]
   });
 
@@ -677,14 +677,14 @@ $(function () { // jquery's shorthand awaits readiness of document
         action: function () {
           removeSelected('saved-list');
         },
-        className: 'button button-white'
+        className: 'button button-white right'
       },
       { 
         text: 'Export Selected Tools to CSV',
         action: function () {
           exportCSV('saved-list');
         },
-        className: 'button button-white'
+        className: 'button button-white right'
       }]
   });
 
@@ -733,7 +733,7 @@ $(function () { // jquery's shorthand awaits readiness of document
         action: function () {
           saveSelectedRecords('building-infrastructure-list')
         },
-        className: 'button button-white'
+        className: 'button button-white right'
       }]
   });
 
@@ -782,7 +782,7 @@ $(function () { // jquery's shorthand awaits readiness of document
         action: function () {
           saveSelectedRecords('land-use-list')
         },
-        className: 'button button-white'
+        className: 'button button-white right'
       }]
   });
 
@@ -831,7 +831,7 @@ $(function () { // jquery's shorthand awaits readiness of document
         action: function () {
           saveSelectedRecords('waste-management-list')
         },
-        className: 'button button-white'
+        className: 'button button-white right'
       }]
   });
 
@@ -880,7 +880,7 @@ $(function () { // jquery's shorthand awaits readiness of document
         action: function () {
           saveSelectedRecords('transportation-list')
         },
-        className: 'button button-white'
+        className: 'button button-white right'
       }]
   });
 
