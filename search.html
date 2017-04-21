@@ -461,8 +461,10 @@
                 <div id="saved-list-div">
                   <button class="button-grey" onclick="selectAll('saved-list');$('#saved-table').DataTable().rows().select();">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAll('saved-list');$('#saved-table').DataTable().rows().deselect();">Deselect All Tools</button>
-                  <button class="button-white right" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
-                  <button class="button-white right" onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
+                  <div class="right">
+                    <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
+                    <button class="button-white" onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
+                  </div>
                   <hr />
                   <div id="saved-list" class="list"></div>
                 </div>
