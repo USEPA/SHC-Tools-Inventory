@@ -1015,14 +1015,8 @@ function addCheckboxes(list, container, onChange, count) {
   var html = '';
   //Allows disabling of checkboxes for premature leaf nodes
   for (var i = 0; i < list.length; i++) {
-    if (leafNodes.indexOf(list[i]) !== -1 && developer) {
-      disabled = ' disabled';
-      html += '<input class="tool-label" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + list[i] + '" name="' + containerName + '-checkbox" ' + onChange + disabled + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="unselectable">' + list[i] + '</label>';
-      id++;
-    } else if (leafNodes.indexOf(list[i]) === -1) {
       html += '<input class="tool-label" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + list[i] + '" name="' + containerName + '-checkbox" ' + onChange + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="unselectable">' + list[i] + '</label>';
       id++;
-    } 
   }
   return html;
 }
@@ -1348,60 +1342,74 @@ function devMode(bool) {
  * Run this function to mark all leaf nodes in the data structures.
 */
 function checkPaths() {
-  /*markBlanks(conceptsByObjective, readIDsByConcept);
-  markBlanks(objectivesBySubroleRelevance[0], conceptsByObjective);
-  markBlanks(objectivesBySubroleRelevance[1], conceptsByObjective);
-  markBlanks(objectivesBySubroleRelevance[2], conceptsByObjective);
-  markBlanks(objectivesByFundamentalObjective, conceptsByObjective);
-  markBlanks(subrolesByRole, objectivesBySubroleRelevance[0]);*/
-  
+  var leafNodes = [];
   markBlanks(conceptsByObjective, readIDsByConcept);
-  markBlanks(objectivesBySubrole, conceptsByObjective);
+  markBlanks(objectivesBySubrole, conceptsByObjective, objectivesBySubroleRelevance);
   markBlanks(objectivesByFundamentalObjective, conceptsByObjective);
   markBlanks(subrolesByRole, objectivesBySubrole);
-
+  leafNodes = [];
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()");
 }
 
 /**
  * This function checks for keys from the byThis object in the values of the markThis object.
 */
-function markBlanks(markThis, byThis) {
-  var match;
-  var numberOfBlanks = 0;
-  var numberOfMatches = 0;
+function markBlanks(markThis, byThis, relevance) {
+  var level1match;
+  var level2match;
   for (var prop in markThis) {
     if(markThis.hasOwnProperty(prop)) {
+      level1match = false;
       for (var i = 0; i < markThis[prop].length; i++) {
-        match = false;
-        for (var j = 0; j < Object.keys(byThis).length; j++) {
-          if (markThis[prop][i] === Object.keys(byThis)[j]) {
-            match = true;
-            numberOfMatches++;
+        level2match = false;
+        for (var j = 0; j < Object.keys(byThis).length; j++) { 
+          if (markThis[prop][i] === Object.keys(byThis)[j] && leafNodes.indexOf(markThis[prop][i] === -1)) {
+            level2match = true;
+            level1match = true;
           }
         }
-        if (!match && markThis[prop][i] !== ".") {
+        if (!level2match) {
           if (leafNodes.indexOf(markThis[prop][i]) === -1) {
             leafNodes.push(markThis[prop][i]);
           }
-          //markThis[prop][i] = "x"+markThis[prop][i];
-          //console.log(markThis[prop][i]);
-          numberOfBlanks++;
+          if (markThis[prop].indexOf(markThis[prop][i]) > -1 && markThis[prop].indexOf(markThis[prop][i]) < markThis[prop].length ) {
+            markThis[prop].splice(markThis[prop].indexOf(markThis[prop][i]), 1); // delete from mark this array
+            if (Array.isArray(relevance)) {
+              for (var k = 0; k < relevance.length; k++) {
+                if(relevance[k].hasOwnProperty(prop)) {
+                  for (var j = 0; j < relevance[k][prop].length; j++) {
+                    if (relevance[k][prop][j] === markThis[prop][i]) {
+                      relevance[k][prop].splice(relevance[k][prop].indexOf(markThis[prop][i]), 1);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      if (!level1match) {
+        if (leafNodes.indexOf(prop) === -1) {
+          leafNodes.push(prop);
+          delete markThis[prop]; // no matches at all so delete property
+          if (Array.isArray(relevance)) {
+            for (var l = 0; l < relevance.length; l++) {
+              delete relevance[l][prop];
+            }
+          }
         }
       }
     }
   }
-  numberOfMatches += numberOfBlanks;
-  console.log(numberOfBlanks + "/" + numberOfMatches);
 }
 
 /**
  * Prints the leafNode array in a format that can be manually copied to create a hard coded version
 */
-function printLeafNodeArray() {
+function printArray(arrayToPrint) {
   var str = '[';
-  for (var i = 0; i < leafNodes.length; i++) {
-    str += '"' + leafNodes[i] + '", ';
+  for (var i = 0; i < arrayToPrint.length; i++) {
+    str += '"' + arrayToPrint[i] + '", ';
   }
 
   str += "];";
