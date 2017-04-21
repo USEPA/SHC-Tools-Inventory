@@ -385,7 +385,7 @@
                 <div class="right">
                   <button class="button-white" onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show Fewer Objectives</button>
                   <button class="button-white" onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show More Objectives</button>
-                </div>
+              </div>
                 <div id="objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
@@ -707,16 +707,6 @@ var toast = function (parameters) {
   }, 5000);
 };
 
-$('#toast').on('click', 'button', function (){
-  var div = this.parentElement;
-  div.style.opacity = "0";
-  clearTimeout(timeouts['toast']);
-  setTimeout(function (){ 
-    div.className = div.className.replace("show", "");
-    div.style.opacity = "1";
-  }, 600);
-});
-
 /**
  * initialize tabs; create listener for swithing tabs
 */
@@ -839,7 +829,8 @@ var toggleNext = function (list, nextButtonClassSubstring) {
   if (list.length > 0 || Object.keys(list).length > 0) {
     $(nextButtonSelector + ':not(.persist)').prop('disabled', false).css('display', 'inline');
     if ($('#role :checked').length > 0 && showToast === true) {
-      toast({'html':'Click either the button at the bottom of the screen or the next tab to proceed when ready.<button onclick="showToast = false">Disable these messages</button>'});
+      toast({'html':'Use the next button or the next tab to proceed when ready.<button onclick="showToast = false">Disable these messages</button>'});
+      console.log(nextButtonSelector);
     }
   }else{
     $(nextButtonSelector+':not(.persist)').prop('disabled',true).css('display','none');
@@ -1284,7 +1275,7 @@ var broadenConcepts = function () {
 var activateNextTab = function ($nextTab, URLToShow) {
   var firstString;
   if ($nextTab.parent().attr('aria-hidden') === 'true') {
-    if ('aeiouh'.indexOf($nextTab.attr('data-name')[0]) !== -1) {
+    if ('aeiouhAEIOUH'.indexOf($nextTab.attr('data-name')[0]) !== -1) {
       firstString = 'Select an '
     } else {
       firstString = 'Select a '
