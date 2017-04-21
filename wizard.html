@@ -48,83 +48,66 @@
       }
     }
 
-    #fixedgrandparent {
-      position: fixed;
-      height: 100%;
-      width: 100%;
-      box-sizing: border-box;
+     @media screen and (max-width: 480px) {
+     .navbar {
+        overflow: hidden;
+        background: rgb(50, 58, 69);
+        background: rgba(50, 58, 69, 0.75);
+        /*background-color: #323a45;*/
+        position: fixed;
+        bottom: 0;
+        left: 0px;
+        width: 100%;
+      }
+      .navbar button {
+        margin: .2em 0 .2em 0;
+      }
+      .navbar div {
+        margin: .2em 0 .2em 0;
+        border-radius: 0; 
+      }
     }
 
-    #fixedparent {
-      position: relative;
-      z-index: 10;
-      background-color: #000000;
-      color: #ffffff;
-    }
-
-    #fixedparent * {
-      position: relative;
-      z-index: 2;
-    }
-
-    .next-button {
-      /* hide until useful */
-      display: none;
-      position: fixed;
-      bottom: .5em;
-      right: 51%;
-      margin: 0 auto;
-    }
-
-    #floating-show-results-button{
-      display: none;
-      position: fixed;
-      bottom: .5em;
-      left: 51%;
-      margin: 0 auto;
-    }
-
-    /* position at the middle-top of the screen */
+    /* position at the top of the screen */
     #toast, #notice {
-      visibility: hidden; /* Hidden by default. Visible on click */
-      min-width: 250px; /* Set a default minimum width */
-      margin-left: -125px; /* Divide value of min-width by 2 */
+      display: none; /* Hidden by default. Visible on click */
+      left: 0;
+      width: 100%;
       background-color: #333; /* Black background color */
       color: #fff; /* White text color */
       text-align: center; /* Centered text */
       border-radius: 2px; /* Rounded borders */
-      padding: 16px; /* Padding */
-      position: fixed; /* Sit on top of the screen */
-      /* z-index: 1; Add a z-index if needed */
-      right: 0; /* Center the notification */
-      bottom: .5em; /* 30px from the top */
+      padding: .1em; /* Padding */
       opacity: 1;
       transition: opacity 0.6s; /* 600ms to fade out */
     }
     /* Show the notification. Show and animate with addition of class. */
-    #toast.show, #notice.show {
-      visibility: visible; /* Show the notification */
-  /* Add animation: Take 0.5 seconds to fade in and out the notification. 
-  However, delay the fade out process for 5 seconds */
+    #toast.show, .notice.show {
+      display: initial; /* Show the notification */
+      position: fixed; /* fix the notification place over page */
+      top: 0px;
+      margin: 0 auto;
+      /* Add animation: Take 0.5 seconds to fade in and out the notification. 
+      However, delay the fade out process for 5 seconds */
       -webkit-animation: fadein 0.5s, fadeout 0.5s 5s;
-      animation: fadein 0.5s/*, fadeout 0.5s 5s;*/
+      animation: fadein 0.5s, fadeout 0.5s 5s;
     }
-    /* Animations to fade notification in and out */
+    /* Animations to slide toast in and out */
     @-webkit-keyframes fadein {
-      from {top: 0; opacity: 0;} 
-      to {top: 30px; opacity: 1;}
+      from {top: 100%; opacity: 0;} 
+      to {top: 0; opacity: 1;}
     }
     @keyframes fadein {
-      from {top: 0; opacity: 0;}
-      to {top: 30px; opacity: 1;}
+      from {top: 100%; opacity: 0;}
+      to {top: 0; opacity: 1;}
     }
     @-webkit-keyframes fadeout {
-      from {top: 30px; opacity: 1;} 
-      to {top: 0; opacity: 0;}
+      from {top: 0; opacity: 1;} 
+      to {top: 100%; opacity: 0;}
     }
     @keyframes fadeout {
-      from {top: 30px; opacity: 1;}
-      to {top: 0; opacity: 0;}
+      from {top: 0; opacity: 1;}
+      to {top: 100%; opacity: 0;}
     }
 
     label{
@@ -258,15 +241,6 @@
       top:-.2em;
     }
 
-    #fixed-element * {
-      display: inline;
-      height: 4em;
-      white-space: nowrap;
-      margin-bottom: 1.5em;
-      font-weight: bold;
-      text-align: center;
-    }
-
     #results-notification {
       width: 100%;
       padding-top: .2em;
@@ -331,21 +305,16 @@
       <div class="panel-pane pane-node-content">
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
-            <div id="fixedgrandparent">
-              <div id="fixedparent">
-                <div aria-live="polite" id="toast">ORIGINAL TEXT</div>
-                <p>TESTY TEST TEST TEST WITH A foo AND A bar</p>
-              </div>
-            </div>
+            <div aria-live="polite" id="toast"></div>
             <div id="tabs">
               <ul class="tabs" id="tabsnav" role="tablist">
-                <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal" href="#tabsnav" id="role-tab" role="tab">Role >></a></li>
-                <li aria-hidden="true"><a aria-controls="subrole-panel" aria-disabled="true" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Role" data-href="#tabsnav" id="subrole-tab" role="tab">Subrole >></a></li>
-                <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Subrole" data-href="#tabsnav" id="fundamental-objective-tab" role="tab">Fundamental Objective >></a></li>
-                <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Fundamental Objective" data-href="#tabsnav" id="objective-tab" role="tab">Objective >></a></li>
-                <li aria-hidden="true"><a aria-controls="concept-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Objective" data-href="#tabsnav" id="concept-tab" role="tab">Concept >></a></li>
-                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" href="#tabsnav" id="selected-tool-tab" role="tab">Selected Tool</a></li>
-                <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" href="#tabsnav" id="results-tab" role="tab">Results</a></li>
+                <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal" href="#role-tab" id="role-tab" role="tab">Role >></a></li>
+                <li aria-hidden="true"><a aria-controls="subrole-panel" aria-disabled="true" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Role" data-href="#subrole-tab" id="subrole-tab" role="tab">Subrole >></a></li>
+                <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Subrole" data-href="#fundamental-objective-tab" id="fundamental-objective-tab" role="tab">Fundamental Objective >></a></li>
+                <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Fundamental Objective" data-href="#objective-tab" id="objective-tab" role="tab">Objective >></a></li>
+                <li aria-hidden="true"><a aria-controls="concept-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Objective" data-href="#concept-tab" id="concept-tab" role="tab">Concept >></a></li>
+                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" href="#selected-tool-tab" id="selected-tool-tab" role="tab">Selected Tool</a></li>
+                <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" href="#results-tab" id="results-tab" role="tab">Results</a></li>
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
                 <h3>Roles <small>Who are you?<button class="icon-button" onclick="$('#role-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></small></h3>
@@ -355,7 +324,9 @@
                     <em>Need help?</em> Select the <strong>ROLE</strong>(s) (e.g. Developer) that broadly describes your occupation or position in order to begin narrowing your search for tools that address issues relevant to your role. Expand your search for tools by selecting additional roles.
                   </p>
                 </p>
-                <button class="enabled-by-subrole persist" onclick="activateNextTab($('#subrole-tab'))">Next</button>
+                <div class="navbar">
+                  <button class="enabled-by-subrole persist" onclick="activateNextTab($('#subrole-tab'), 'wizard.html#subrole-tab')">Next</button>
+                </div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('role', roleSelect)">Select All Roles</button>
                 <button class="button-grey" onclick="deselectAll('role', roleSelect)">Deselect All Roles</button>
@@ -370,7 +341,9 @@
                       <em>Need help?</em> Under your broad role(s), indicate the <strong>SUBROLE</strong>(s) (e.g. Real Estate Developer) that most accurately describes the specific type of work you do in order to continue narrowing your search for tools that address issues relevant to your role. Expand your search for tools by selecting additional subroles.
                   </p>
                 </p>
-                <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'))">Next</button>
+                <div class="navbar">
+                  <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab')">Next</button>
+                </div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('subrole', subroleSelect)">Select All Subroles</button>
                 <button class="button-grey" onclick="deselectAll('subrole', subroleSelect)">Deselect All Subroles</button>
@@ -385,7 +358,9 @@
                       <em>Need help?</em> Ask yourself: “What general goals do I want to accomplish?” <strong>FUNDAMENTAL OBJECTIVES</strong> (e.g. “Maximize health and safety”) describe general goals. Your selection(s) will refine your search for targeted tools that can help you meet your objective(s). Expand your search for tools by selecting additional objectives.
                   </p>
                 </p>
-                <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'))">Next</button>
+                <div class="navbar">
+                  <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'), 'wizard.html#objective-tab')">Next</button>
+                </div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('fundamental-objective', fundamentalObjectiveSelect)">Select All Fundamental Objectives</button>
                 <button class="button-grey" onclick="deselectAll('fundamental-objective', fundamentalObjectiveSelect)">Deselect All Fundamental Objectives</button>
@@ -400,7 +375,9 @@
                       <em>Need help?</em> Ask yourself: “What specific goals can I set to accomplish my general objectives?” Select the <strong>OBJECTIVE</strong>(s) (e.g. “Maximize safety of buildings”) that best describe your explicit goals. Your selection(s) will refine your search for targeted tools that can help you meet your objective(s). Expand your search for tools by selecting additional objectives.
                   </p>
                 </p>
-                <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'))">Next</button>
+                <div class="navbar">
+                  <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'), 'wizard.html#concept-tab')">Next</button>
+                </div>
                 <hr />
                 <input id="objective-relevance" type="hidden" value="1" />
                 <button class="button-grey" onclick="selectAll('objective', objectiveSelect)">Select All Objectives</button>
@@ -408,7 +385,7 @@
                 <div class="right">
                   <button class="button-white" onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show Fewer Objectives</button>
                   <button class="button-white" onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show More Objectives</button>
-                </div>
+              </div>
                 <div id="objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
@@ -421,9 +398,9 @@
                       <em>Need help?</em> <strong>CONCEPTS</strong> (e.g. “Health & Safety”) are distinct focal areas that you and other decision makers can address with directed tools. Ask yourself: “In what focal areas do I identify a need for a tool or resource?” Select the concept(s) that most specifically describes the focal area where a tool will be helpful to you. Expand your search for tools by selecting additional concepts.
                   </p>
                 </p>
-                <div id="concept-fixed-buttons">
+                <div class="navbar">
                   <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Number of Results</button>
-                  <div id="results-notification"></div>
+                  <div aria-hidden="true" id="results-notification"></div>
                   <button aria-hidden="true" id="show-results-button" onclick="displayResults()">Display Results</button>
                 </div>
                 <hr class="park-mark" />
@@ -432,10 +409,6 @@
                 <button class="button-white right" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-              </div>
-              <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
-                <button class="button-aqua" class="button" onclick="saveRecord()">Save Record</button>
-                <div id="selected-tool"></div>
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
                 <h2 id="tools">Tools</h2>
@@ -446,7 +419,9 @@
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAll('results-list', saveAll('results-list'));$('#results-table').DataTable().rows().select();">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAll('results-list', unsaveAll());$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
-                  <button class="button-white right" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
+                  <div class="navbar">
+                    <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
+                  </div>
                   <hr />
                   <img aria-hidden="true" id="loader" src="img/loader.gif">
                   <div id="results-list" class="list"></div>
@@ -683,22 +658,22 @@ var timeouts = {};
  * accessibly notify users of information
  *
  * @param {object} parameters:
- *   - parameters.css - contains arbitrary css for this notice
- *                      as parameters.css[<key>] = <value>
- *                    - is JSON-object
- *   - parameters.html - html for notifier
- *   - parameters.priority - sets priority metadata for assistive technology
- *                         - can be 'polite' or 'assertive'
- *                         - assertive interrupts user
- *   - parameters.container - ID of container to use for alert
+ *   { parameters.css : [ "contains arbitrary css for this notice
+ *                        as parameters.css[<key>] = <value>",
+ *                        "is JSON-object" ],
+ *     parameters.html : [ "html for notifier" ]
+ *     parameters.priority : [ "sets priority metadata for assistive technology",
+ *                             "can be 'polite' or 'assertive'",
+ *                             "assertive interrupts user" ],
+ *     parameters.container : [ "ID of container to use for alert" ] }
 */
 var toast = function (parameters) {
   var noticeID = 'toast';
   var $notice = $('#' + noticeID);
   if (typeof parameters !== 'undefined') { // does parameters object exist?
     if (typeof parameters['container'] !== 'undefined') {
-      noticeID = parameters['container'];
-      $notice = $('#' + noticeID);
+      var noticeID = parameters['container'];
+      var $notice = $('#' + noticeID);
     }
     for (var parameter in parameters) {
       if (parameter === 'css') { // set css rules
@@ -710,7 +685,7 @@ var toast = function (parameters) {
         $notice.html(parameters[parameter]);
       }
       if (parameter === 'close') {
-        $notice.append('<button type="button" class="toast-close-button" role="button">×</button>');
+        $notice.append('<button type="button" class="toast-close-button" role="button"></button>');
       }
       if (parameter === 'priority') {
         if (parameters[parameter] === 'polite') {
@@ -722,23 +697,15 @@ var toast = function (parameters) {
       }
     }
   }
-  var notice = document.getElementById(noticeID); // Get the notification element
-  notice.className = 'show'; // Add the "show" class to notice
-  clearTimeout(timeouts['toast']);
+  $notice.attr('aria-hidden','false');
+  $notice.show();
+  $notice.addClass('show');
+  //$notice.addClass('show'); // Add the "show" class to notice
   timeouts["toast"] = setTimeout(function () { // remove the show class from notice after 5 seconds
-    notice.className = notice.className.replace("show", "");
+    $notice.removeClass('show');
+    $notice.hide();
   }, 5000);
 };
-
-$('#toast').on('click', 'button', function (){
-  var div = this.parentElement;
-  div.style.opacity = "0";
-  clearTimeout(timeouts['toast']);
-  setTimeout(function (){ 
-    div.className = div.className.replace("show", "");
-    div.style.opacity = "1";
-  }, 600);
-});
 
 /**
  * initialize tabs; create listener for swithing tabs
@@ -849,21 +816,24 @@ var populateWithHeader = function (list, $container, onChange) {
 };
 
 /**
+ * handle the use of a next button
+ */
+var nextHandler = function (e) {
+}
+
+/**
  * toggle disabled state of a next button
  */
 var toggleNext = function (list, nextButtonClassSubstring) {
   var nextButtonSelector = '.enabled-by-' + nextButtonClassSubstring; // identify next button by who enables it
   if (list.length > 0 || Object.keys(list).length > 0) {
-    $(nextButtonSelector + ':not(.persist)')
-      .prop('disabled', false)
-      .css('display', 'inline');
+    $(nextButtonSelector + ':not(.persist)').prop('disabled', false).css('display', 'inline');
     if ($('#role :checked').length > 0 && showToast === true) {
-      toast({'html':'Click either the button at the bottom of the screen or the next tab to proceed when ready.<button onclick="showToast = false">Disable these messages</button>'});
+      toast({'html':'Use the next button or the next tab to proceed when ready.<button onclick="showToast = false">Disable these messages</button>'});
+      console.log(nextButtonSelector);
     }
   }else{
-    $(nextButtonSelector+':not(.persist)')
-      .prop('disabled',true)
-      .css('display','none');
+    $(nextButtonSelector+':not(.persist)').prop('disabled',true).css('display','none');
   }
 };
 
@@ -888,8 +858,7 @@ var toggleTab = function (list, $container) {
 };
 
 /**
- * populate #subrole-select with subrole options for the
- * selected roles
+ * populate #subrole-select with subrole options for the selected roles
  */
 var roleSelect = function () {
   var selectedElements = scrapeDictionaryToObject($("input[name='role-checkbox']:checked"), subrolesByRole);
@@ -898,8 +867,7 @@ var roleSelect = function () {
 };
 
 /**
- * populate #objective with objective options for
- * the selected subroles
+ * populate #objective with objective options for the selected subroles
  */
 var subroleSelect = function () {
   var relevance = $('#objective-relevance').val();
@@ -1053,7 +1021,7 @@ var keywordSearch = function (div, input) {
  * search for the READ IDs from the selected Concepts from input and display results in div
  */
 var conceptSearch = function (div, input) {
-  $('#results-notification').html('').removeClass();
+  $('#results-notification').html('').removeClass().attr('aria-hidden', 'true');
   resultSet.reset(); // remove from resultSet
   $('#results-table').DataTable().rows('tr:not(.selected)').remove().draw(); // clear table of values not marked selected
   
@@ -1070,7 +1038,7 @@ var conceptSearch = function (div, input) {
 
   var concepts = getConcepts(input); //get new concepts
   if (concepts.length < 1) {
-    $('#results-notification').html('Please select a concept.').removeClass().addClass('warning');
+    $('#results-notification').html('Please select a concept.').removeClass().addClass('warning').removeAttr('aria-hidden');
     $('#results-container').hide();
     $('#results-container').attr('aria-hidden', 'true');
     $('#show-results-button').attr('aria-hidden', 'true');
@@ -1086,12 +1054,12 @@ var conceptSearch = function (div, input) {
     }
   }
   if (resultSet.getLength() > 0) {
-    $('#results-notification').html('Found ' + resultSet.getLength() + ' new results.').removeClass().addClass('success');
+    $('#results-notification').html('Found ' + resultSet.getLength() + ' new results.').removeClass().addClass('success').removeAttr('aria-hidden');
     $('#show-results-button').attr('aria-hidden', 'false');
     $('#floating-show-results-button').prop('disabled', false);
     $('#floating-show-results-button').css('display', 'inline');
   } else {
-    $('#results-notification').html('No results found.').removeClass().addClass('warning');
+    $('#results-notification').html('No results found.').removeClass().addClass('warning').removeAttr('aria-hidden');
     $('#show-results-button').attr('aria-hidden', 'true');
     $('#floating-show-results-button').prop('disabled', true);
     $('#floating-show-results-button').css('display', 'none');
@@ -1302,11 +1270,21 @@ var broadenConcepts = function () {
 /**
  * select next tab when next button is activated
  * @param $tabContainer the container for the tabs
+ * @param URLToShow = thisDocument.html#someHashValueToJumpTo
  */
-var activateNextTab = function ($nextTab) {
+var activateNextTab = function ($nextTab, URLToShow) {
+  var firstString;
   if ($nextTab.parent().attr('aria-hidden') === 'true') {
-    toast({html: 'You must select a ' + $nextTab.attr('data-name') + ' to proceed.', close: true});
+    if ('aeiouhAEIOUH'.indexOf($nextTab.attr('data-name')[0]) !== -1) {
+      firstString = 'Select an '
+    } else {
+      firstString = 'Select a '
+    }
+    toast({html: firstString + $nextTab.attr('data-name') + ' to proceed.', close: true});
   } else {
+    if (typeof(URLToShow) !== 'undefined' && window.innerWidth < 480) {
+        window.location = URLToShow;
+    }
     $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected', 'false');// deactivate active tab
     $nextTab.attr('aria-selected', 'true');// list this tab as active
     $nextTab.prop('disabled', false);// enable tab
