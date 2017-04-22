@@ -252,6 +252,9 @@ backlog to track work to be done and by whom
   - expand dt-buttons to 100% to allow "buttons" within
     to expand to width 100% when resolution < 480px, as do other buttons
   - kyle: done
+
+- Spreadsheet of Tool name, descirption, URL and the concepts it is tagged with
+  - seth: done
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -340,8 +343,6 @@ backlog to track work to be done and by whom
 - Extend time Toast is present (20s)
 
 - Fix the additional details display on the Table View
-
-- Spreadsheet of Tool name, descirption, URL and the concepts it is tagged with
 
 - Finish Portal page
 

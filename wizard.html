@@ -883,7 +883,18 @@ var subroleSelect = function () {
   }
   var list = [];
   if (objectivesFromSubroles.length > 0) {
-    list = Object.keys(objectivesByFundamentalObjective);
+    for (var prop in objectivesByFundamentalObjective) {
+      if (objectivesByFundamentalObjective.hasOwnProperty(prop)) {
+        for (var k = 0; k < objectivesFromSubroles.length; k++) {
+          if (objectivesByFundamentalObjective[prop].indexOf(objectivesFromSubroles[k]) !== -1) {
+            if (list.indexOf(prop) === -1) {
+              list.push(prop);
+            }
+            break;
+          }          
+        }
+      }
+    }
   }
   updateInterface(list, $('#fundamental-objective'), "fundamentalObjectiveSelect()");
   fundamentalObjectiveSelect();
