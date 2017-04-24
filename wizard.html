@@ -259,9 +259,11 @@
       border: none;
       width: auto;
     }
-
     .icon-img {
       width: 2em;
+    }
+    .navbar {
+      display: inline;
     }
   </style>
 </head>
@@ -426,7 +428,7 @@
                   <button class="button-grey" onclick="selectAll('results-list', saveAll('results-list'));$('#results-table').DataTable().rows().select();">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAll('results-list', unsaveAll());$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
                   <div class="navbar">
-                    <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
+                    <button class="button-white right" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                   </div>
                   <hr />
                   <img aria-hidden="true" id="loader" src="img/loader.gif">
