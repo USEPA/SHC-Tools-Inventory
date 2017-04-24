@@ -1074,8 +1074,10 @@ var displayResults = function () {
   $('#results-tab').parent().attr('aria-hidden', 'false');
   $('#results-tab')[0].click();
   activateNextTab($('#results-tab'));
-  $('#loader').removeAttr('aria-hidden').show();
-  toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
+  if (!resultSet.isEqual(resultTable.getToolSet())) {
+    $('#loader').removeAttr('aria-hidden').show();
+    toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
+  }
 }
 
 /**

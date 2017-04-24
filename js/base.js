@@ -99,18 +99,18 @@ function ToolSet() {
     }
   };
   this.isEqual = function (toolSet) {
-    if (toolSet.getLength !== this.toolSet.getLength) {
+    if (toolSet.getLength() !== this.length) {
       return false;
     }
     for (var toolId1 in this.toolSet) {
       if (this.toolSet.hasOwnProperty(toolId1)) {
-        if (!toolSet.hasOwnProperty(toolId1)) {
+        if (!toolSet.getToolSet().hasOwnProperty(toolId1)) {
           return false;
         }   
       }
     }
-    for (var toolId2 in toolSet) {
-      if (toolSet.hasOwnProperty(toolId2)) {
+    for (var toolId2 in toolSet.getToolSet()) {
+      if (toolSet.getToolSet().hasOwnProperty(toolId2)) {
         if (!this.toolSet.hasOwnProperty(toolId2)) {
           return false;
         }   
