@@ -128,11 +128,11 @@ function ToolSet() {
 /**
  * ToolDisplay Object
  */
-var ToolDisplay = function (tableId, listId, columns) {
+var ToolDisplay = function (tableId, listId, type) {
   this.toolSet = new ToolSet();
   this.tableId = tableId;
   this.listId = listId;
-  this.columns = columns; // Not an optimal solution
+  this.type = type; // Not an optimal solution
 };
 
 ToolDisplay.prototype.getToolSet = function () {
@@ -147,8 +147,8 @@ ToolDisplay.prototype.getListId = function () {
   return this.listId;
 };
 
-ToolDisplay.prototype.getColumns = function () { // Not an optimal solution
-  return this.columns;
+ToolDisplay.prototype.getType = function () { // Not an optimal solution
+  return this.type;
 };
 
 
@@ -158,7 +158,7 @@ ToolDisplay.prototype.isDisplayed = function () {
 
 ToolDisplay.prototype.displayTool = function (data) {
   this.getToolSet().addTool(data['ID']);
-  addRow(data, this.getTableId(), createRow(data, this.getColumns()), this.getColumns());
+  addRow(data, this.getTableId(), createRow(data));
   addDiv(data, this.getListId());
 };
 
@@ -168,7 +168,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   var rows = [];
   for (var toolId in toolSet.getToolSet()) {
     html += createDiv(toolCache.getParsedData(toolId), this.getListId());
-    rows.push(createRow(toolCache.getParsedData(toolId), this.getColumns()));
+    rows.push(createRow(toolCache.getParsedData(toolId)));
   }
   $('#loader').attr('aria-hidden', 'true').hide();
   $("#" + this.getListId()).append(html);
@@ -218,44 +218,24 @@ $('[name="browse-display-type"]').change(function () {
 /**
  * Create a DataTable row
  */
-function createRow(parsedResult, columns) { 
+function createRow(parsedResult) { 
   var rowData;
-  if (columns === 14) { // Not an optimal solution
-    rowData = [ // Create row
-      "",
-      "",
-      parsedResult['ID'],
-      parsedResult['Acronym'],
-      parsedResult['Title'],
-      parsedResult['Description'],
-      parsedResult['Cost'],
-      parsedResult['Spatial Extent'],
-      parsedResult['Model Inputs'],
-      parsedResult['Output Variables'],
-      parsedResult['Operating Environment'],
-      parsedResult['Operating System'],
-      parsedResult['Keywords'],
-      parsedResult['Decision Sector'],
-      parsedResult['Open Source']
-    ];
-  } else {
-    rowData = [ //Create row
-      "",
-      parsedResult['ID'],
-      parsedResult['Acronym'],
-      parsedResult['Title'],
-      parsedResult['Description'],
-      parsedResult['Cost'],
-      parsedResult['Spatial Extent'],
-      parsedResult['Model Inputs'],
-      parsedResult['Output Variables'],
-      parsedResult['Operating Environment'],
-      parsedResult['Operating System'],
-      parsedResult['Keywords'],
-      parsedResult['Decision Sector'],
-      parsedResult['Open Source']
-    ];
-  }
+  rowData = [ //Create row
+    "",
+    parsedResult['ID'],
+    parsedResult['Acronym'],
+    parsedResult['Title'],
+    parsedResult['Description'],
+    parsedResult['Cost'],
+    parsedResult['Spatial Extent'],
+    parsedResult['Model Inputs'],
+    parsedResult['Output Variables'],
+    parsedResult['Operating Environment'],
+    parsedResult['Operating System'],
+    parsedResult['Keywords'],
+    parsedResult['Decision Sector'],
+    parsedResult['Open Source']
+  ];
   for (var i = 0; i < rowData.length; i++) { // limit to 140 characters
      if (rowData[i].length > 140) {
       rowData[i] = rowData[i].substr(0, 140) + '...';
@@ -267,7 +247,7 @@ function createRow(parsedResult, columns) {
 /**
  * Add a row to a DataTable
  */
-function addRow(parsedResult, tableId, rowData, columns) {
+function addRow(parsedResult, tableId, rowData) {
   var $row = $('#' + tableId).DataTable() // add row
     .row.add(rowData)
     .draw()
@@ -276,11 +256,9 @@ function addRow(parsedResult, tableId, rowData, columns) {
     .attr('data-read-id', parsedResult['ID'])
     .attr('data-table-id', tableId)
     .attr("id", tableId + '-' + parsedResult['ID']);
-  if (columns === 13) { // Not an optimal solution
     $row.children().not(':first').click(function () {
       showDetails(parsedResult['ID']);
     });
-  }  
 }
 
 /** DEPRECATED if no longer using Saved Tools tab
@@ -313,7 +291,11 @@ function clearSaved(divID) {
  */
 function showDetails(id, origin) {
   var parsedData = toolCache.getParsedData(id);
-  var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').click()">Return to Tool List</button><button class="button button-white" onclick="saveRecord()">Save This Tool</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">'; 
+  if (resultTable.getType() === 'wizard') {
+    var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').click()">Return to Tool List</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">'; 
+  } else {
+    var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').click()">Return to Tool List</button><button class="button button-white right" onclick="saveRecord()">Save This Tool</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">'; 
+  }  
   var $tab = $("#selected-tool");
   try {
     $tab.empty();

@@ -51,11 +51,6 @@
       display: none;
       background-color: rgb(221, 206, 204);
     }
-    /* make results responsive */
-    tr:hover td:not(:first-child) {
-      background-color: #e7f4e4;
-      cursor: pointer;
-    }
     #detailed-search-feedback { 
       display:none; 
       background-color: rgb(221, 206, 204);
@@ -575,12 +570,12 @@
 var resultSet = new ToolSet(); // Create result and saved tool sets
 var savedTools = new ToolSet();
 
-var resultTable = new ToolDisplay('results-table', 'results-list', 13); // Create ToolDisplay Objects we need 
-var savedTable = new ToolDisplay('saved-table', 'saved-list', 13);
-var buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table', 'building-infrastructure-list' , 13);
-var landUseTable = new ToolDisplay('land-use-table', 'land-use-list', 13);
-var wasteManagementTable = new ToolDisplay('waste-management-table', 'waste-management-list', 13);
-var transportationTable = new ToolDisplay('transportation-table', 'transportation-list', 13);
+var resultTable = new ToolDisplay('results-table', 'results-list', 'search'); // Create ToolDisplay Objects we need 
+var savedTable = new ToolDisplay('saved-table', 'saved-list', 'search');
+var buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table', 'building-infrastructure-list' , 'search');
+var landUseTable = new ToolDisplay('land-use-table', 'land-use-list', 'search');
+var wasteManagementTable = new ToolDisplay('waste-management-table', 'waste-management-list', 'search');
+var transportationTable = new ToolDisplay('transportation-table', 'transportation-list', 'search');
 
 $(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
