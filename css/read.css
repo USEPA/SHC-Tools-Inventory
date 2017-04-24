@@ -25,9 +25,3 @@ table.noborder td
 .ui-dialog-titlebar-close {
   visibility: hidden;
 }
-
-/* make results responsive */
-tr:hover td:not(:first-child) {
-  background-color: #e7f4e4;
-  cursor: pointer;
-}

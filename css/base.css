@@ -103,3 +103,9 @@ button, a.button, .dt-buttons {
 tbody > tr.selected, table.dataTable tbody > tr > .selected {
   background-color: #dce4ef;
 }
+
+/* make results responsive */
+tr:hover td:not(:first-child) {
+  background-color: #e7f4e4;
+  cursor: pointer;
+}
