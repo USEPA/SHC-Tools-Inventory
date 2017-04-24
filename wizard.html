@@ -830,7 +830,6 @@ var toggleNext = function (list, nextButtonClassSubstring) {
     $(nextButtonSelector + ':not(.persist)').prop('disabled', false).css('display', 'inline');
     if ($('#role :checked').length > 0 && showToast === true) {
       toast({'html':'Use the next button or the next tab to proceed when ready.<button onclick="showToast = false">Disable these messages</button>'});
-      console.log(nextButtonSelector);
     }
   }else{
     $(nextButtonSelector+':not(.persist)').prop('disabled',true).css('display','none');
@@ -933,6 +932,7 @@ var fundamentalObjectiveSelect = function () {
  */
 var objectiveSelect = function () {
   var selectedElements = scrapeDictionary($("input[name='objective-checkbox']:checked"), conceptsByObjective);
+  $('#concept').html('');
   updateInterface(selectedElements, $('#concept'));
 };
 
@@ -992,7 +992,6 @@ function addCheckboxes(list, container, onChange, count) {
   var inputs = container.children('input');
   var id = inputs.length + 1;
   var html = '';
-  //Allows disabling of checkboxes for premature leaf nodes
   for (var i = 0; i < list.length; i++) {
       html += '<input class="tool-label" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + list[i] + '" name="' + containerName + '-checkbox" ' + onChange + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="unselectable">' + list[i] + '</label>';
       id++;
