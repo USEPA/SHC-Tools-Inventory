@@ -2,3 +2,11 @@
 - One semi-confusing aspect of this program is that certain tools that are listed are duplicated. When I get to the 'results' tab, it says there are 5 results, but I count 10 entries. When I highlight one of the duplicated entries, it toggles selection of the first entry rather than the duplicate entry.
 - After a few searches, this has gone up to ~30 results, and the first 5 results never change.
 - Also, I can't proceed when I select the following for Role, Subrole, and Fundamental Objective: Landowner/Homeowner >> Homeowner occupant - resident that owns home >> Maximize economic prosperity and benefits.
+2017.04.24 - Rick Debbout reviewed the program once looking for GIS-tools and repeatedly for general review
+- "[when reading about keyword-search, I want to search for keywords. Put it there.]"
+- "[Don't show absent data.]"
+- "[lots of text before app]"
+- "[details button imposing and large]"
+- "[What is supposed to happen between find and display results?]"
+- "People are fiends. [Put keyword-search immediately after the link to it.]"
+- "[Breadcrumbs from index.html are a good idea.]"
