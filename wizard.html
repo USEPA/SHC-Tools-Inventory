@@ -88,8 +88,8 @@
       margin: 0 auto;
       /* Add animation: Take 0.5 seconds to fade in and out the notification. 
       However, delay the fade out process for 5 seconds */
-      -webkit-animation: fadein 0.5s, fadeout 0.5s 5s;
-      animation: fadein 0.5s, fadeout 0.5s 5s;
+      -webkit-animation: fadein 0.5s, fadeout 0.5s 20s;
+      animation: fadein 0.5s, fadeout 0.5s 20s;
     }
     /* Animations to slide toast in and out */
     @-webkit-keyframes fadein {
@@ -711,6 +711,7 @@ var toast = function (parameters) {
     $notice.removeClass('show');
     $notice.hide();
   }, 5000);
+  }, 20000);
 };
 
 /**
