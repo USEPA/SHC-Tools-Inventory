@@ -72,13 +72,14 @@
       display: none; /* Hidden by default. Visible on click */
       left: 0;
       width: 100%;
-      background-color: #333; /* Black background color */
+      background-color: #212121; /* Black background color */
       color: #fff; /* White text color */
       text-align: center; /* Centered text */
       border-radius: 2px; /* Rounded borders */
-      padding: .1em; /* Padding */
+      padding: 1em; /* Padding */
       opacity: 1;
       transition: opacity 0.6s; /* 600ms to fade out */
+      z-index: 2;
     }
     /* Show the notification. Show and animate with addition of class. */
     #toast.show, .notice.show {
@@ -207,46 +208,45 @@
       font-weight: bold;
     }
     .toast-close-button {
-      position:relative;
-      right:-.3em;
-      top:-.3em;
-      float:right;
-      font-size:20px;
-      font-weight:700;
-      color:#fff;
-      -webkit-text-shadow:0 1px 0 #fff;
-      text-shadow:0 1px 0 #fff;
-      opacity:.8;
-      -ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
-      filter:alpha(opacity=80)
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none
     }
-
-    .toast-close-button:focus, .toast-close-button:hover{
-      color:#000;
-      text-decoration:none;
-      cursor:pointer;
-      opacity:.4;
-      -ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
-      filter:alpha(opacity=40)
+    .toast-close-button {
+      border: none;
+      display: inline-block;
+      outline: 0;
+      padding: 8px 16px;
+      vertical-align: middle;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      background-color: inherit;
+      text-align: center;
+      cursor: pointer;
+      white-space: nowrap;
+      position: absolute;
+      right: 0;
+      top: 0
     }
-
-    button.toast-close-button{
-      padding:0;
-      cursor:pointer;
-      background:0 0;
-      border:0;
-      -webkit-appearance:none;
-      right:-.2em;
-      top:-.2em;
+    .toast-close-button:hover {
+      color: #212121!important;
+      background-color: #e4e2e0!important
     }
-
+    .toast-button {
+      margin: 0 auto;
+      display: block;
+      padding: 0.2941em 0.58825em;
+    }
     #results-notification {
       width: 100%;
       padding-top: .2em;
       height: 2em;
       border: .4em;
     }
-
     .icon-button, .icon-button:hover, .icon-button:focus {
       background: transparent;
       border: none;
@@ -691,7 +691,7 @@ var toast = function (parameters) {
         $notice.html(parameters[parameter]);
       }
       if (parameter === 'close') {
-        $notice.append('<button type="button" class="toast-close-button" role="button"></button>');
+        $notice.append('<span class="toast-close-button" onclick="clearToast()" role="button">&times;</span>');
       }
       if (parameter === 'priority') {
         if (parameters[parameter] === 'polite') {
@@ -703,16 +703,23 @@ var toast = function (parameters) {
       }
     }
   }
-  $notice.attr('aria-hidden','false');
+  $notice.removeAttr('aria-hidden');
   $notice.show();
   $notice.addClass('show');
   //$notice.addClass('show'); // Add the "show" class to notice
   timeouts["toast"] = setTimeout(function () { // remove the show class from notice after 5 seconds
-    $notice.removeClass('show');
-    $notice.hide();
-  }, 5000);
+    clearToast();
   }, 20000);
 };
+
+function clearToast(){
+  var noticeID = 'toast';
+  var $notice = $('#' + noticeID);
+  clearTimeout(timeouts[noticeID]);
+  $notice.removeClass('show');
+  $notice.attr('aria-hidden','true');
+  $notice.hide();
+}
 
 /**
  * initialize tabs; create listener for swithing tabs
@@ -836,7 +843,7 @@ var toggleNext = function (list, nextButtonClassSubstring) {
   if (list.length > 0 || Object.keys(list).length > 0) {
     $(nextButtonSelector + ':not(.persist)').prop('disabled', false).css('display', 'inline');
     if ($('#role :checked').length > 0 && showToast === true) {
-      toast({'html':'Use the next button or the next tab to proceed when ready.<button onclick="showToast = false">Disable these messages</button>'});
+      toast({html:'Use the next button or the next tab to proceed when ready.<button class="button-grey toast-button" onclick="showToast = false">Disable these messages</button>', close: true});
     }
   }else{
     $(nextButtonSelector+':not(.persist)').prop('disabled',true).css('display','none');
