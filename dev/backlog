@@ -327,11 +327,9 @@ backlog to track work to be done and by whom
       - extranet search,
   - READ's structure and function,
     - document both READ-fields steward-tag and decision-sector
-      - describe how these fields are used by the project
-    - create a mapping of the used fields
-      - explain fields when useful
-  - documentation style,
-  - kyle: WIP
+
+- Decide which fields should be exported to CSV
+  - Assign proper header names for each field
 
 - Record pathway data(role,subrole,...) and/or saved tools for each use of the tool as use-information
 
@@ -359,6 +357,14 @@ backlog to track work to be done and by whom
 
 - Fix the additional details display on the Table View
 
+- Spreadsheet of Tool name, descirption, URL and the concepts it is tagged with
+
 - Finish Portal page
+
+- Concepts added after clicking "Add Additional Concepts" are no checking properly
+
+- unselected results persist in wizard's results-panel
+
+- fundamental objectives appear not to be checked correctly for leaf-nodes
 
 - the concept "life stage" finds no tools
