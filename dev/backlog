@@ -258,7 +258,7 @@ backlog to track work to be done and by whom
 
 - Additional fields populate detailed-search's autocomplete-arrays
   - additional fields' arrays autocomplete queries over those fields
-  - done: kyle
+  - kyle: done
 
 - Concepts added after clicking "Add Additional Concepts" are no checking properly
   - seth: done
@@ -277,7 +277,23 @@ backlog to track work to be done and by whom
   seth: done
 
 - Clickable URLs on detail page
-  seth: done
+  - seth: done
+
+- Re-add close button to the Toast notifications
+  - kyle: seth done it
+
+- unselected results persist in wizard's results-panel
+  - kyle: seth done it
+
+- Extend time Toast is present (20s)
+  - kyle: done
+
+- Develop test questions
+  - kyle: done
+
+- the concept "Life Stage" finds no tools
+  - kyle: removed this concept from wizard
+  - kyle: done
 =====================================================
 = COMPLETE ^=========================================
 =====================================================
@@ -333,7 +349,7 @@ backlog to track work to be done and by whom
 
 - Record pathway data(role,subrole,...) and/or saved tools for each use of the tool as use-information
 
-- Sorting/filtering result table (EPA Style guide has a link to a DataTable jquery library we like, you can see it in action here: https://www.epa.gov/superfund/search-superfund-sites-where-you-live) 
+- Sorting/filtering result table (EPA Style guide has a link to a DataTable jquery library we like: https://www.epa.gov/superfund/search-superfund-sites-where-you-live) 
 
 - Boolean operators in detailed search?
 
@@ -349,22 +365,12 @@ backlog to track work to be done and by whom
 
 - toasts to show features in optional walkthrough?
 
-- Develop test questions
-
-- Re-add close button to the Toast notifications
-
-- Extend time Toast is present (20s)
-
 - Fix the additional details display on the Table View
 
-- Spreadsheet of Tool name, descirption, URL and the concepts it is tagged with
+- Spreadsheet of Tool name, description, URL and the concepts it is tagged with
 
 - Finish Portal page
 
-- Concepts added after clicking "Add Additional Concepts" are no checking properly
-
-- unselected results persist in wizard's results-panel
+- Concepts added after clicking "Add Additional Concepts" are not checking properly
 
 - fundamental objectives appear not to be checked correctly for leaf-nodes
-
-- the concept "life stage" finds no tools
