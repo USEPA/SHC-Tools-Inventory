@@ -258,6 +258,99 @@
     .navbar {
       display: inline;
     }
+  @media screen and (min-width: 480px) {
+    #tabsnav li {
+      padding-right: 0; /*override */ 
+      padding-left: 0; /* override */
+    }
+    #tabsnav li a {
+      color: #fff;
+      display: block;
+      background: #205493;
+      text-decoration: none;
+      position: relative;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 10px 0 5px;
+      text-align: center;
+      margin-right: 23px;
+      border-radius: 0 !important;
+      font-weight: bold;
+      border-bottom-color: transparent !important;
+    }
+    #tabsnav li:nth-child(even) a {
+      background-color: #112E53;
+      color: #fff;
+    }
+    #tabsnav li:nth-child(even) a:before {
+      border-color: #112E53;
+      border-left-color: transparent;
+    }
+    #tabsnav li:nth-child(even) a:after {
+      border-left-color: #112E53;
+    }
+    #tabsnav li:first-child a {
+      padding-left: 15px;
+      -moz-border-radius: 4px 0 0 4px;
+      -webkit-border-radius: 4px;
+      border-radius: 0 !important;
+    }
+    #tabsnav li:first-child a:before {
+      border: none;
+    }
+    #tabsnav li:last-child a {
+      padding-right: 15px;
+      -moz-border-radius: 0 4px 4px 0;
+      -webkit-border-radius: 0;
+      border-radius: 0 4px 4px 0 !important;
+      margin-right: 0;
+    }
+    #tabsnav li:last-child a:after {
+      border: none;
+    }
+    #tabsnav li a:before, #tabsnav li a:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      border: 0 solid #205493;
+      border-width: 20px 10px;
+      width: 0;
+      height: 0;
+      color: #fff;
+    }
+    #tabsnav li a:before {
+      left: -20px;
+      border-left-color: transparent;
+    }
+    #tabsnav li a:after {
+      left: 100%;
+      border-color: transparent;
+      border-left-color: #205493;
+      color: #fff;
+    }
+    #tabsnav li a:hover {
+      background-color: #0071bc;
+      color: #fff;
+    }
+    #tabsnav li a:hover:before {
+      border-color: #0071bc;
+      border-left-color: transparent;
+    }
+    #tabsnav li a:hover:after {
+      border-left-color: #0071bc;
+    }
+    #tabsnav li a:active, #tabsnav li a.active {
+      background-color: #00a6d2;
+      color: #000;
+    }
+    #tabsnav li a:active:before, #tabsnav li a.active:before {
+      border-color: #00a6d2;
+      border-left-color: transparent;
+    }
+    #tabsnav li a:active:after, #tabsnav li a.active:after {
+      border-left-color: #00a6d2;
+    }
+  }
   </style>
 </head>
 <!-- NOTE, figure out body classes! -->
@@ -309,11 +402,11 @@
             <div aria-live="polite" id="toast"></div>
             <div id="tabs">
               <ul class="tabs" id="tabsnav" role="tablist">
-                <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal" href="#role-tab" id="role-tab" role="tab">Role >></a></li>
-                <li aria-hidden="true"><a aria-controls="subrole-panel" aria-disabled="true" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Role" data-href="#subrole-tab" id="subrole-tab" role="tab">Subrole >></a></li>
-                <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Subrole" data-href="#fundamental-objective-tab" id="fundamental-objective-tab" role="tab">Fundamental Objective >></a></li>
-                <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Fundamental Objective" data-href="#objective-tab" id="objective-tab" role="tab">Objective >></a></li>
-                <li aria-hidden="true"><a aria-controls="concept-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Objective" data-href="#concept-tab" id="concept-tab" role="tab">Concept >></a></li>
+                <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal" href="#role-tab" id="role-tab" role="tab">Role</a></li>
+                <li aria-hidden="true"><a aria-controls="subrole-panel" aria-disabled="true" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Role" data-href="#subrole-tab" id="subrole-tab" role="tab">Subrole</a></li>
+                <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Subrole" data-href="#fundamental-objective-tab" id="fundamental-objective-tab" role="tab">Fundamental Objective</a></li>
+                <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Fundamental Objective" data-href="#objective-tab" id="objective-tab" role="tab">Objective</a></li>
+                <li aria-hidden="true"><a aria-controls="concept-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Objective" data-href="#concept-tab" id="concept-tab" role="tab">Concept</a></li>
                 <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" href="#results-tab" id="results-tab" role="tab">Results</a></li>
                 <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" href="#selected-tool-tab" id="selected-tool-tab" role="tab">Selected Tool</a></li>
               </ul>
@@ -727,12 +820,12 @@ function clearToast(){
 var initializeTabs = function () {
   $('#tabs > div').hide(); // hide all tab-panels
   $('#tabs div:first').show(); // show first tab-panel
-  $('#tabsnav li:first').addClass('active'); // class tabs active for styling
+  $('#tabsnav li a:first').addClass('active'); // class tabs active for styling
   $('.menu-internal').click(function () { // add listener to tabbing elements
     if (!$(this).is('[aria-disabled]')) { // tab doesn't have an aria-disabled attribute...
-      $('#tabsnav li').removeClass('active'); // remove active styling from all tabs
+      $('#tabsnav li a').removeClass('active'); // remove active styling from all tabs
+      $(this).addClass('active'); // activate the clicked tab
       var currentPanel = '#' + $(this).attr('aria-controls');// make a jquery object selecting the panel associated with the clicked tab
-      $(this).parent().addClass('active'); // activate the clicked tab
       $('#tabs > div').hide(); // hide all panels
       $(currentPanel).show(); // show clicked tab's panel
       $('#results-container').show(); // Display Results
