@@ -297,6 +297,9 @@ backlog to track work to be done and by whom
 
 - reduce size of headers on wizard for brevity
   - kyle: done
+
+- replace chevrons-graphic in index with a scalable, text-selectable image containing metadata for assistive technologies 
+  - kyle: done
 #####################################################
 # CURRENT BACKLOG BELOW #############################
 #####################################################
@@ -384,5 +387,3 @@ backlog to track work to be done and by whom
 
 - try to slim description on wizard and search
   - try bullets?
-
-- replace chevrons-graphic in index
