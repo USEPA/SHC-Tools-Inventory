@@ -294,6 +294,9 @@ backlog to track work to be done and by whom
 - the concept "Life Stage" finds no tools
   - kyle: removed this concept from wizard
   - kyle: done
+
+- reduce size of headers on wizard for brevity
+  - kyle: done
 #####################################################
 # CURRENT BACKLOG BELOW #############################
 #####################################################
@@ -374,3 +377,12 @@ backlog to track work to be done and by whom
 - Concepts added after clicking "Add Additional Concepts" are not checking properly
 
 - fundamental objectives appear not to be checked correctly for leaf-nodes
+
+- using button labeled "display results" finds and displays results
+
+- balance result-details in list-view
+
+- try to slim description on wizard and search
+  - try bullets?
+
+- replace chevrons-graphic in index
