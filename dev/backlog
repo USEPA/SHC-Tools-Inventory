@@ -1,21 +1,21 @@
-=====================================================
+#####################################################
 backlog to track work to be done and by whom
-=====================================================
-= USAGE BELOW =======================================
-=====================================================
+#####################################################
+# USAGE BELOW #######################################
+#####################################################
 
 - feature, bug tagged with text BUG for statistical software-QA, or issue
   - someone do what(present tense)
   - someone: something that was said
-=====================================================
-= EXAMPLES BELOW ====================================
-=====================================================
+#####################################################
+# EXAMPLES BELOW ####################################
+#####################################################
 
 - something needs to happen outside the code
   - kyle: I think this is a good use of the backlog because it might otherwise go undocumented.
-=====================================================
-= BACKLOG BELOW =====================================
-=====================================================
+#####################################################
+# COMPLETED BACKLOG BELOW ###########################
+#####################################################
 
 - create a backlog
   - kyle type it
@@ -211,10 +211,10 @@ backlog to track work to be done and by whom
   - accessibility requires all info can be found by all users
   - informing assistive technologies is described here https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions#Live_Region_State
   - possible steps in escalation of aggressiveness:
-    1. aria-live="off"
-    2. aria-live="polite"
-    3. aria-live="assertive"
-    4. role="alert"
+    1. aria-live#"off"
+    2. aria-live#"polite"
+    3. aria-live#"assertive"
+    4. role#"alert"
       - raises elements to OS's assistive technologies
   - kyle: done
 
@@ -258,7 +258,7 @@ backlog to track work to be done and by whom
 
 - Additional fields populate detailed-search's autocomplete-arrays
   - additional fields' arrays autocomplete queries over those fields
-  - done: kyle
+  - kyle: done
 
 - Concepts added after clicking "Add Additional Concepts" are no checking properly
   - seth: done
@@ -277,10 +277,32 @@ backlog to track work to be done and by whom
   seth: done
 
 - Clickable URLs on detail page
-  seth: done
-=====================================================
-= COMPLETE ^=========================================
-=====================================================
+  - seth: done
+
+- Re-add close button to the Toast notifications
+  - kyle: seth done it
+
+- unselected results persist in wizard's results-panel
+  - kyle: seth done it
+
+- Extend time Toast is present (20s)
+  - kyle: done
+
+- Develop test questions
+  - kyle: done
+
+- the concept "Life Stage" finds no tools
+  - kyle: removed this concept from wizard
+  - kyle: done
+
+- reduce size of headers on wizard for brevity
+  - kyle: done
+
+- replace chevrons-graphic in index with a scalable, text-selectable image containing metadata for assistive technologies 
+  - kyle: done
+#####################################################
+# CURRENT BACKLOG BELOW #############################
+#####################################################
 
 - provide Allen with contacts for records not in a decision-sector and not tagged "Sustainable Comm"
   - create tool to script finding records added to the SHC-tools-inventory by others
@@ -327,15 +349,13 @@ backlog to track work to be done and by whom
       - extranet search,
   - READ's structure and function,
     - document both READ-fields steward-tag and decision-sector
-      - describe how these fields are used by the project
-    - create a mapping of the used fields
-      - explain fields when useful
-  - documentation style,
-  - kyle: WIP
+
+- Decide which fields should be exported to CSV
+  - Assign proper header names for each field
 
 - Record pathway data(role,subrole,...) and/or saved tools for each use of the tool as use-information
 
-- Sorting/filtering result table (EPA Style guide has a link to a DataTable jquery library we like, you can see it in action here: https://www.epa.gov/superfund/search-superfund-sites-where-you-live) 
+- Sorting/filtering result table (EPA Style guide has a link to a DataTable jquery library we like: https://www.epa.gov/superfund/search-superfund-sites-where-you-live) 
 
 - Boolean operators in detailed search?
 
@@ -351,14 +371,19 @@ backlog to track work to be done and by whom
 
 - toasts to show features in optional walkthrough?
 
-- Develop test questions
-
-- Re-add close button to the Toast notifications
-
-- Extend time Toast is present (20s)
-
 - Fix the additional details display on the Table View
+
+- Spreadsheet of Tool name, description, URL and the concepts it is tagged with
 
 - Finish Portal page
 
-- the concept "life stage" finds no tools
+- Concepts added after clicking "Add Additional Concepts" are not checking properly
+
+- fundamental objectives appear not to be checked correctly for leaf-nodes
+
+- using button labeled "display results" finds and displays results
+
+- balance result-details in list-view
+
+- try to slim description on wizard and search
+  - try bullets?
