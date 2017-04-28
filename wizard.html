@@ -498,7 +498,7 @@
                 <div class="navbar">
                   <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Number of Results</button>
                   <div aria-hidden="true" id="results-notification"></div>
-                  <button aria-hidden="true" id="show-results-button" onclick="displayResults()">Display Results</button>
+                  <button aria-hidden="true" id="show-results-button" onclick="findAndDisplayResults()">Find and Display Results</button>
                 </div>
                 <hr class="park-mark" />
                 <button class="button-grey" onclick="selectAll('concept')">Select All Concepts</button>
@@ -926,12 +926,6 @@ var populateWithHeader = function (list, $container, onChange) {
 };
 
 /**
- * handle the use of a next button
- */
-var nextHandler = function (e) {
-}
-
-/**
  * toggle disabled state of a next button
  */
 var toggleNext = function (list, nextButtonClassSubstring) {
@@ -1188,6 +1182,11 @@ var displayResults = function () {
     $('#loader').removeAttr('aria-hidden').show();
     toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
   }
+}
+
+var findAndDisplayResults = function() {
+  conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));
+  displayResults();
 }
 
 /**

@@ -476,7 +476,7 @@ function saveSelectedRecords(resultsDiv) {
 }
 
 /**
- * display details of parsedResult in container with containerId
+ * display details of parsedResult in container #containerId
  * dev aspiration: dynamically append spans and dynamically apply
  *                 .left class or .right class to each in order
  *                 to balance columns
@@ -510,10 +510,9 @@ function addDiv(parsedResult, containerId) {
         + '<span class="bold">Operating Environment</span>: ' + parsedResult['Operating Environment'] + '<br />'
         + '<span class="bold">Operating System</span>: ' + parsedResult['Operating System'] + '<br />'
         + '<span class="bold">Other Technical Requirements</span>: ' + parsedResult['Other Requirements'] + '<br />'
-        + '<span class="bold">Model Inputs</span>: ' + parsedResult['Model Inputs'] + '<br />'
-        + '<span class="bold">Model Output Variables</span>: ' + parsedResult['Output Variables'] + '<br />'
         + '<span class="bold">Selected Concepts</span>: ' +  getSelectedConceptsAssociatedWithTool(parsedResult['ID']) + '<br />'
-        + '<span class="bold">External Details</span>: <a href="' + prefixForExternalDetails + parsedResult['ID'] + '" target="_blank">View Details Externally</a><br />'
+        + '<span class="bold">View Details Externally</span>: <a href="' + prefixForExternalDetails + parsedResult['ID'] + '" target="_blank">View Details Externally</a><br />'
+        + '<span class="bold">Model Output Variables</span>: ' + parsedResult['Output Variables'] + '<br />'
       + '</div>'
       + '<div class="col size-1of2">'
         + '<span class="bold">Keywords</span>: ' + parsedResult['Keywords'] + '<br />'
@@ -528,6 +527,7 @@ function addDiv(parsedResult, containerId) {
         + '<span class="bold">Model Time Scale</span>: ' + parsedResult['Time Scale'] + '<br />'
         + '<span class="bold">Spatial Extent</span>: ' + parsedResult['Spatial Extent'] + '<br />'
         + '<span class="bold">Data Requirements</span>: ' + parsedResult['Input Data Requirements'] + '<br />'
+        + '<span class="bold">Model Inputs</span>: ' + parsedResult['Model Inputs'] + '<br />'
       + '</div>'
     + '</div>'
   + '</div>';
@@ -568,7 +568,6 @@ function createDiv(parsedResult, containerId) {
         + '<span class="bold">Operating System</span>: ' + parsedResult['Operating System'] + '<br />'
         + '<span class="bold">Other Technical Requirements</span>: ' + parsedResult['Other Requirements'] + '<br />'
         + '<span class="bold">Model Inputs</span>: ' + parsedResult['Model Inputs'] + '<br />'
-        + '<span class="bold">Model Output Variables</span>: ' + parsedResult['Output Variables'] + '<br />'
         + '<span class="bold">Selected Concepts</span>: ' +  getSelectedConceptsAssociatedWithTool(parsedResult['ID']) + '<br />'
         + '<span class="bold">External Details</span>: <a href="' + prefixForExternalDetails + parsedResult['ID'] + '" target="_blank">View Details Externally</a><br />'
       + '</div>'
@@ -585,6 +584,7 @@ function createDiv(parsedResult, containerId) {
         + '<span class="bold">Model Time Scale</span>: ' + parsedResult['Time Scale'] + '<br />'
         + '<span class="bold">Spatial Extent</span>: ' + parsedResult['Spatial Extent'] + '<br />'
         + '<span class="bold">Data Requirements</span>: ' + parsedResult['Input Data Requirements'] + '<br />'
+        + '<span class="bold">Model Output Variables</span>: ' + parsedResult['Output Variables'] + '<br />'
       + '</div>'
     + '</div>'
   + '</div>';
