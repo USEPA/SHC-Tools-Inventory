@@ -285,9 +285,6 @@ backlog to track work to be done and by whom
 - unselected results persist in wizard's results-panel
   - kyle: seth done it
 
-- Extend time Toast is present (20s)
-  - kyle: done
-
 - Develop test questions
   - kyle: done
 
@@ -300,6 +297,27 @@ backlog to track work to be done and by whom
 
 - replace chevrons-graphic in index with a scalable, text-selectable image containing metadata for assistive technologies 
   - kyle: done
+
+- Re-add close button to the Toast notifications
+  - seth: done
+
+- Extend time Toast is present (20s)
+  - seth: done
+
+- Fix the additional details display on the Table View
+  - seth: done
+
+- Concepts added after clicking "Add Additional Concepts" are no checking properly
+  - seth: done
+
+- Spreadsheet of Tool name, descirption, URL and the concepts it is tagged with
+  - seth: done
+
+- Fundamental objectives not pruned correctly
+  - seth: done
+
+- Display Tools keeps adding duplicate tools if clicked multiple times
+  - seth: done
 #####################################################
 # CURRENT BACKLOG BELOW #############################
 #####################################################
@@ -371,15 +389,9 @@ backlog to track work to be done and by whom
 
 - toasts to show features in optional walkthrough?
 
-- Fix the additional details display on the Table View
-
 - Spreadsheet of Tool name, description, URL and the concepts it is tagged with
 
 - Finish Portal page
-
-- Concepts added after clicking "Add Additional Concepts" are not checking properly
-
-- fundamental objectives appear not to be checked correctly for leaf-nodes
 
 - using button labeled "display results" finds and displays results
 
