@@ -47,9 +47,8 @@
         width: 95%;
       }
     }
-
-     @media screen and (max-width: 480px) {
-     .navbar {
+    @media screen and (max-width: 480px) {
+      .navbar {
         overflow: hidden;
         background: rgb(50, 58, 69);
         background: rgba(50, 58, 69, 0.75);
@@ -109,7 +108,6 @@
       from {top: 0; opacity: 1;}
       to {top: 100%; opacity: 0;}
     }
-
     label{
       border-radius: .5em;
     }
@@ -169,8 +167,7 @@
     .tool-label:checked + label {
       background-color:#d6d7d9;
     }
-    /* Makes text in an element unselectable */
-    .unselectable {
+    .unselectable { /* Makes text in an element unselectable */
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
@@ -258,99 +255,99 @@
     .navbar {
       display: inline;
     }
-  @media screen and (min-width: 480px) {
+    #tabsnav {
+      list-style: none;
+    }
     #tabsnav li {
-      padding-right: 0; /*override */ 
-      padding-left: 0; /* override */
+      padding-left: 0; /* override s.css */
+      padding-right: 0; /* override s.css */
     }
     #tabsnav li a {
-      color: #fff;
-      display: block;
       background: #205493;
-      text-decoration: none;
-      position: relative;
+      border-radius: 0 !important; /* override s.css */
+      color: #fff;
+      float: left;
+      font-size: 17px;
+      font-weight: bold;
       height: 40px;
       line-height: 40px;
-      padding: 0 10px 0 5px;
+      margin: 0 5px 0 0;
+      padding: 0px 16px 0 35px;
+      position: relative;
       text-align: center;
-      margin-right: 23px;
-      border-radius: 0 !important;
-      font-weight: bold;
-      border-bottom-color: transparent !important;
-    }
-    #tabsnav li:nth-child(even) a {
-      background-color: #112E53;
-      color: #fff;
-    }
-    #tabsnav li:nth-child(even) a:before {
-      border-color: #112E53;
-      border-left-color: transparent;
-    }
-    #tabsnav li:nth-child(even) a:after {
-      border-left-color: #112E53;
-    }
-    #tabsnav li:first-child a {
-      padding-left: 15px;
-      -moz-border-radius: 4px 0 0 4px;
-      -webkit-border-radius: 4px;
-      border-radius: 0 !important;
-    }
-    #tabsnav li:first-child a:before {
-      border: none;
-    }
-    #tabsnav li:last-child a {
-      padding-right: 15px;
-      -moz-border-radius: 0 4px 4px 0;
-      -webkit-border-radius: 0;
-      border-radius: 0 4px 4px 0 !important;
-      margin-right: 0;
-    }
-    #tabsnav li:last-child a:after {
-      border: none;
-    }
-    #tabsnav li a:before, #tabsnav li a:after {
-      content: "";
-      position: absolute;
-      top: 0;
-      border: 0 solid #205493;
-      border-width: 20px 10px;
-      width: 0;
-      height: 0;
-      color: #fff;
-    }
-    #tabsnav li a:before {
-      left: -20px;
-      border-left-color: transparent;
+      text-decoration: none;
     }
     #tabsnav li a:after {
-      left: 100%;
-      border-color: transparent;
-      border-left-color: #205493;
-      color: #fff;
+      border-top: 20px solid transparent;
+      border-bottom: 20px solid transparent;
+      border-left: 20px solid #205493;
+      content: "";
+      position: absolute;
+      right: -19px;
+      top: 0;
+      z-index: 1;
     }
-    #tabsnav li a:hover {
-      background-color: #0071bc;
-      color: #fff;
+    #tabsnav li a:before {
+      border-top: 20px solid transparent;
+      border-bottom: 20px solid transparent;
+      border-left: 20px solid #fff;
+      content: "";
+      left: 0;
+      position: absolute;
+      top: 0;
     }
-    #tabsnav li a:hover:before {
-      border-color: #0071bc;
-      border-left-color: transparent;
+    #tabsnav li:first-child a {
+      border-top-left-radius: 3px !important;
+      border-bottom-left-radius: 3px !important;
+      padding-left: 15px;
     }
-    #tabsnav li a:hover:after {
-      border-left-color: #0071bc;
+    #tabsnav li:first-child a:before {
+      display: none;
     }
-    #tabsnav li a:active, #tabsnav li a.active {
-      background-color: #00a6d2;
-      color: #000;
+    #tabsnav li:last-child a {
+      border-top-right-radius: 3px !important;
+      border-bottom-right-radius: 3px !important;
+      padding-right: 15px;
     }
-    #tabsnav li a:active:before, #tabsnav li a.active:before {
-      border-color: #00a6d2;
-      border-left-color: transparent;
+    #tabsnav li:last-child a:after {
+      display: none;
     }
-    #tabsnav li a:active:after, #tabsnav li a.active:after {
+    #tabsnav li a:hover, #tabsnav li a.active {
+      background: #00a6d2;
+    }
+    #tabsnav li a:hover:after, #tabsnav li a.active:after {
       border-left-color: #00a6d2;
     }
-  }
+    @media (max-width: 863px) {
+      #tabsnav {
+        display: block;
+      }
+      #tabsnav li {
+        width: 100%;
+      }
+      #tabsnav li a {
+        float: none;
+        padding: 0;
+        margin: 0 0 5px 0; 
+      }
+      #tabsnav li a:before, #tabsnav li a:after {
+        border-top: 0;
+        border-bottom: 0;
+        border-left: 0;
+      }
+      #tabsnav li:first-child a {
+        border-radius: 0;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        padding-left: 0;
+      }
+      #tabsnav li:last-child a {
+        border-radius: 0;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        padding-right: 0;
+      }
+    }
   </style>
 </head>
 <!-- NOTE, figure out body classes! -->
