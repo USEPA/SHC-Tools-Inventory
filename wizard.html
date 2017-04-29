@@ -496,13 +496,12 @@
                   </p>
                 </p>
                 <div class="navbar">
-                  <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Number of Results</button>
                   <div aria-hidden="true" id="results-notification"></div>
                   <button aria-hidden="true" id="show-results-button" onclick="findAndDisplayResults()">Find and Display Results</button>
                 </div>
                 <hr class="park-mark" />
-                <button class="button-grey" onclick="selectAll('concept')">Select All Concepts</button>
-                <button class="button-grey" onclick="deselectAll('concept')">Deselect All Concepts</button>
+                <button class="button-grey" onclick="selectAll('concept',function(){$($('#concept>input')[0]).prop('checked',false).click()})//manually fire click after selection change via an IIFE">Select All Concepts</button>
+                <button class="button-grey" onclick="deselectAll('concept',function(){$($('#concept>input')[0]).prop('checked',true).click()})//manually fire click after selection change via an IIFE">Deselect All Concepts</button>
                 <button class="button-white right" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
@@ -1017,15 +1016,15 @@ var fundamentalObjectiveSelect = function () {
       }
     }
   }
-  // get objectives specified by selected fundamental objectives
+  /* get objectives specified by selected fundamental objectives */
   var objectivesFromFundamentalObjectives = scrapeDictionary($("input[name='fundamental-objective-checkbox']:checked"), objectivesByFundamentalObjective);
-  // get objectives specified by both subroles and fundamental objectives
+  /* get objectives specified by both subroles and fundamental objectives */
   var objectives = [];
   for (i = 0; i < objectivesFromSubroles.length; i++) {
     if (objectivesFromFundamentalObjectives.indexOf(objectivesFromSubroles[i]) !== -1) {
       objectives.push(objectivesFromSubroles[i]);
     }
-  }  
+  }
   updateInterface(objectives, $('#objective'), "objectiveSelect()");
   objectiveSelect();
 };
@@ -1036,7 +1035,16 @@ var fundamentalObjectiveSelect = function () {
 var objectiveSelect = function () {
   var selectedElements = scrapeDictionary($("input[name='objective-checkbox']:checked"), conceptsByObjective);
   $('#concept').html('');
-  updateInterface(selectedElements, $('#concept'));
+  updateInterface(selectedElements, $('#concept'), 'conceptListenerCallback()');
+};
+
+/**
+ * update state to reflect selected concepts
+ */
+var conceptListenerCallback = function() {
+  var numberOfSelectedConcepts = $('input[name="concept-checkbox"]:checked').length;
+  var numberOfResults = conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'), 'true');//number of tools associated with selected concepts
+  $('#show-results-button').text('Show ' + numberOfResults + ' Results');//update `x` in "Show `x` Results"
 };
 
 /**
@@ -1127,11 +1135,10 @@ var keywordSearch = function (div, input) {
 /**
  * search for the READ IDs from the selected Concepts from input and display results in div
  */
-var conceptSearch = function (div, input) {
+var conceptSearch = function (div, input, returnNumberOfResultsFlag) {
   $('#results-notification').html('').removeClass().attr('aria-hidden', 'true');
   resultSet.reset(); // remove from resultSet
   $('#results-table').DataTable().rows('tr:not(.selected)').remove().draw(); // clear table of values not marked selected
-  
   $('#results-list .results-checkbox').each(function () { // clear results list of values not checked
     if (!$(this).prop('checked')) {
       $(this).parent().parent().parent().remove();
@@ -1163,30 +1170,14 @@ var conceptSearch = function (div, input) {
   if (resultSet.getLength() > 0) {
     $('#results-notification').html('Found ' + resultSet.getLength() + ' new results.').removeClass().addClass('success').removeAttr('aria-hidden');
     $('#show-results-button').attr('aria-hidden', 'false');
-    $('#floating-show-results-button').prop('disabled', false);
-    $('#floating-show-results-button').css('display', 'inline');
+    if (returnNumberOfResultsFlag === 'true') {
+      return resultSet.getLength()
+    }
   } else {
     $('#results-notification').html('No results found.').removeClass().addClass('warning').removeAttr('aria-hidden');
     $('#show-results-button').attr('aria-hidden', 'true');
-    $('#floating-show-results-button').prop('disabled', true);
-    $('#floating-show-results-button').css('display', 'none');
   }
 };
-
-var displayResults = function () {
-  $('#results-tab').parent().attr('aria-hidden', 'false');
-  $('#results-tab')[0].click();
-  activateNextTab($('#results-tab'));
-  if (!resultSet.isEqual(resultTable.getToolSet())) {
-    $('#loader').removeAttr('aria-hidden').show();
-    toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
-  }
-}
-
-var findAndDisplayResults = function() {
-  conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));
-  displayResults();
-}
 
 /**
  * get concepts from input as a list
@@ -1352,6 +1343,8 @@ function findSiblingConcepts() {
  */
 var broadenConcepts = function () {
   if ($('input[name="concept-checkbox"]:checked').length === 0) {
+    $($('#concept>input')[0]).prop('checked',true).click();
+    window.location = '#results-notification';
     return;
   }
   var allConcepts = [];
@@ -1377,7 +1370,7 @@ var broadenConcepts = function () {
       }
     }
   }
-  var html = addCheckboxes(associatedConcepts, $('#concept'));
+  var html = addCheckboxes(associatedConcepts, $('#concept'), 'conceptListenerCallback()');
   $('#concept').append(html);
 };
 
@@ -1406,19 +1399,34 @@ var activateNextTab = function ($nextTab, URLToShow) {
   }
 };
 
+var displayResults = function () {
+  $('#results-tab').parent().attr('aria-hidden', 'false');
+  $('#results-tab')[0].click();
+  activateNextTab($('#results-tab'));
+  if (!resultSet.isEqual(resultTable.getToolSet())) {
+    $('#loader').removeAttr('aria-hidden').show();
+    toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
+  }
+}
+
+var findAndDisplayResults = function() {
+  conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));
+  displayResults();
+}
+
 /**
  * return an object containing all SHC-tools indexed by decision-sector
 */
 var allTools = function () {
   var tools = {};
   tools.transportation = {};
-  $.get(resourceAdvancedSearchURL, {DecisionSector:'Transportation'}).done(function (data) {$.each(data, function (i) {tools.transportation[data[i].ResourceId] = data[i].ResourceAcronym;});});
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Transportation'}).done(function (data) {$.each(data, function (i) {tools.transportation[data[i].ResourceId] = data[i].ResourceId;});});
   tools.wasteManagement = {};
-  $.get(resourceAdvancedSearchURL, {DecisionSector:'Waste Management'}).done(function (data) {$.each(data, function (i) {tools.wasteManagement[data[i].ResourceId] = data[i].ResourceAcronym;});});
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Waste Management'}).done(function (data) {$.each(data, function (i) {tools.wasteManagement[data[i].ResourceId] = data[i].ResourceId;});});
   tools.buildingInfrastructure = {};
-  $.get(resourceAdvancedSearchURL, {DecisionSector:'Building Infrastructure'}).done(function (data) {$.each(data, function (i) {tools.buildingInfrastructure[data[i].ResourceId] = data[i].ResourceAcronym;});});
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Building Infrastructure'}).done(function (data) {$.each(data, function (i) {tools.buildingInfrastructure[data[i].ResourceId] = data[i].ResourceId;});});
   tools.landUse = {};
-  $.get(resourceAdvancedSearchURL, {DecisionSector:'Land Use'}).done(function (data) {$.each(data, function (i) {tools.landUse[data[i].ResourceId] = data[i].ResourceAcronym;});});
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Land Use'}).done(function (data) {$.each(data, function (i) {tools.landUse[data[i].ResourceId] = data[i].ResourceId;});});
   return tools;
 };
 
@@ -1430,11 +1438,6 @@ var getDetailsFromId = function (id) {
     console.log(data.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym + ': ' + data.READExportDetail.InfoResourceDetail);
   });
 };
-
-var developer = false;
-function devMode(bool) {
-  developer = bool;
-}
 
 /**
  * Run this function to mark all leaf nodes in the data structures.
