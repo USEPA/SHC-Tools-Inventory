@@ -283,7 +283,7 @@
       border-left: 20px solid #205493;
       content: "";
       position: absolute;
-      right: -19px;
+      right: -20px;
       top: 0;
       z-index: 1;
     }
@@ -405,7 +405,7 @@
             <div aria-live="polite" id="toast"></div>
             <div id="tabs">
               <ul class="tabs" id="tabsnav" role="tablist">
-                <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal" href="#role-tab" id="role-tab" role="tab">Role</a></li>
+                <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal active" href="#role-tab" id="role-tab" role="tab">Role</a></li>
                 <li aria-hidden="true"><a aria-controls="subrole-panel" aria-disabled="true" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Role" data-href="#subrole-tab" id="subrole-tab" role="tab">Subrole</a></li>
                 <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Subrole" data-href="#fundamental-objective-tab" id="fundamental-objective-tab" role="tab">Fundamental Objective</a></li>
                 <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Fundamental Objective" data-href="#objective-tab" id="objective-tab" role="tab">Objective</a></li>
@@ -823,7 +823,6 @@ function clearToast(){
 var initializeTabs = function () {
   $('#tabs > div').hide(); // hide all tab-panels
   $('#tabs div:first').show(); // show first tab-panel
-  $('#tabsnav li a:first').addClass('active'); // class tabs active for styling
   $('.menu-internal').click(function () { // add listener to tabbing elements
     if (!$(this).is('[aria-disabled]')) { // tab doesn't have an aria-disabled attribute...
       $('#tabsnav li a').removeClass('active'); // remove active styling from all tabs
