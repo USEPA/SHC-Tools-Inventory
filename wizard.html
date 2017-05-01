@@ -496,13 +496,13 @@
                   </p>
                 </p>
                 <div class="navbar">
-                  <button class="button-aqua" id="concept-search-button" onclick="conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));">Find Number of Results</button>
+                  <button class="button-aqua" id="concept-search-button" onclick="displayResults()">Show Results</button>
                   <div aria-hidden="true" id="results-notification"></div>
                   <button aria-hidden="true" id="show-results-button" onclick="findAndDisplayResults()">Find and Display Results</button>
                 </div>
                 <hr class="park-mark" />
-                <button class="button-grey" onclick="selectAll('concept')">Select All Concepts</button>
-                <button class="button-grey" onclick="deselectAll('concept')">Deselect All Concepts</button>
+                <button class="button-grey" onclick="selectAll('concept');updateConcepts()">Select All Concepts</button>
+                <button class="button-grey" onclick="deselectAll('concept');updateConcepts()">Deselect All Concepts</button>
                 <button class="button-white right" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
@@ -716,6 +716,10 @@ $(function () { // jquery's shorthand awaits readiness of document
     }
   });
 
+  $('#concept').on('change', '.tool-label', function () {
+    updateConcepts();
+  });
+
   $('tbody').on('click', 'td:nth-child(2)', function () {
     var $parent = $(this).parent();
     var tableId = $(this).closest('table').attr('id').slice(0, -6);
@@ -816,6 +820,21 @@ function clearToast(){
   $notice.attr('aria-hidden','true');
   $notice.hide();
 }
+
+function updateConcepts() {
+    conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));
+    $('#concept .tool-count').each(function () {
+      var concept = $('#' + $(this).parent().attr('for')).val();
+      var length = readIDsByConcept[concept].length;
+      var numberOfTools = 0;
+      for (var j = 0; j < length; j++) {
+        if (!resultSet.contains(readIDsByConcept[concept][j])){
+          numberOfTools++;
+        }
+      }
+      $(this).text(numberOfTools + ' tools');
+    });
+  }
 
 /**
  * initialize tabs; create listener for swithing tabs
@@ -1096,8 +1115,20 @@ function addCheckboxes(list, container, onChange, count) {
   var id = inputs.length + 1;
   var html = '';
   for (var i = 0; i < list.length; i++) {
-      html += '<input class="tool-label" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + list[i] + '" name="' + containerName + '-checkbox" ' + onChange + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="unselectable">' + list[i] + '</label>';
-      id++;
+    var concept = list[i];
+    var numberOfToolsSpan = '';
+    var numberOfTools = 0;
+    if (containerName === 'concept') {
+      var length = readIDsByConcept[concept].length;
+      for (var j = 0; j < length; j++) {
+        if (!resultSet.contains(readIDsByConcept[concept][j])){
+          numberOfTools++;
+        }
+      }
+      numberOfToolsSpan = ' <span class="tool-count" style="background: #e1f3f8;color: #212121;padding: 0 .5em;margin-bottom: .5em;">' + numberOfTools + ' tools' + '</span>'; 
+    }
+    html += '<input class="tool-label" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerName + '-checkbox" ' + onChange + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="unselectable">' + concept + numberOfToolsSpan + '</label>';
+    id++;
   }
   return html;
 }
@@ -1148,7 +1179,7 @@ var conceptSearch = function (div, input) {
     $('#results-notification').html('Please select a concept.').removeClass().addClass('warning').removeAttr('aria-hidden');
     $('#results-container').hide();
     $('#results-container').attr('aria-hidden', 'true');
-    $('#show-results-button').attr('aria-hidden', 'true');
+    $('#concept-search-button').text('Show ' + resultSet.getLength() + ' results');
     return;
   }
   for (var i = 0; i < concepts.length; i++) {
@@ -1160,26 +1191,28 @@ var conceptSearch = function (div, input) {
       }
     }
   }
+  $('#concept-search-button').text('Show ' + resultSet.getLength() + ' results');
   if (resultSet.getLength() > 0) {
-    $('#results-notification').html('Found ' + resultSet.getLength() + ' new results.').removeClass().addClass('success').removeAttr('aria-hidden');
-    $('#show-results-button').attr('aria-hidden', 'false');
     $('#floating-show-results-button').prop('disabled', false);
     $('#floating-show-results-button').css('display', 'inline');
   } else {
     $('#results-notification').html('No results found.').removeClass().addClass('warning').removeAttr('aria-hidden');
-    $('#show-results-button').attr('aria-hidden', 'true');
     $('#floating-show-results-button').prop('disabled', true);
     $('#floating-show-results-button').css('display', 'none');
   }
 };
 
 var displayResults = function () {
-  $('#results-tab').parent().attr('aria-hidden', 'false');
-  $('#results-tab')[0].click();
-  activateNextTab($('#results-tab'));
-  if (!resultSet.isEqual(resultTable.getToolSet())) {
-    $('#loader').removeAttr('aria-hidden').show();
-    toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
+  if (resultSet.getLength() > 0) {  
+    $('#results-tab').parent().attr('aria-hidden', 'false');
+    $('#results-tab')[0].click();
+    activateNextTab($('#results-tab'));
+    if (!resultSet.isEqual(resultTable.getToolSet())) {
+      $('#loader').removeAttr('aria-hidden').show();
+      toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
+    }
+  } else {
+    $('#results-notification').html('Please select a concept.').removeClass().addClass('warning').removeAttr('aria-hidden');
   }
 }
 
