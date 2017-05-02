@@ -1465,7 +1465,7 @@ var broadenConcepts = function () {
   if (associatedConcepts.length === 0) {
     toast({html: 'No related concepts found. Try selecting additional concepts or objectives.', close: true});
   }
-  var html = addCheckboxes(associatedConcepts, $('#concept'), 'conceptListenerCallback()');
+  var html = addCheckboxes(associatedConcepts, $('#concept'));
   $('#concept').append(html);
 };
 
