@@ -473,7 +473,7 @@
                   </p>
                 </p>
                 <div class="navbar">
-                  <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'), 'wizard.html#concept-tab')">Next</button>
+                  <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'), 'wizard.html#concept-tab');updateConcepts()">Next</button>
                 </div>
                 <hr />
                 <input id="objective-relevance" type="hidden" value="1" />
@@ -514,8 +514,8 @@
                   <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: Recommended for those on smaller screens.</label>
                   <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: Allows filtering and column sorting.</label>
                 <div id="results-list-div">  
-                  <button class="button-grey" onclick="selectAll('results-list', saveAll('results-list'));$('#results-table').DataTable().rows().select();">Select All Tools</button>
-                  <button class="button-grey" onclick="deselectAll('results-list', unsaveAll());$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                  <button class="button-grey" onclick="selectAll('results-list', saveAll('results-list'));$('#results-table').DataTable().rows().select();updateConcepts()">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAll('results-list', unsaveAll());$('#results-table').DataTable().rows().deselect();updateConcepts()">Deselect All Tools</button>
                   <div class="navbar">
                     <button class="button-white right" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                   </div>
@@ -717,7 +717,7 @@ $(function () { // jquery's shorthand awaits readiness of document
   });
 
   $('#concept').on('change', '.tool-label', function () {
-    updateConcepts();
+    updateConceptsandResults();
   });
 
   $('tbody').on('click', 'td:nth-child(2)', function () {
@@ -747,6 +747,7 @@ $(function () { // jquery's shorthand awaits readiness of document
       }).nodes().to$().removeClass("selected");
       savedTools.removeTool(id);
     }
+    updateConcepts();
   });
 
   $('tbody').on('click', 'td:not(:first-child)', function () {
@@ -812,6 +813,9 @@ var toast = function (parameters) {
   }, 20000);
 };
 
+/**
+ * Clears the toast and the timeout for the toast
+*/
 function clearToast(){
   var noticeID = 'toast';
   var $notice = $('#' + noticeID);
@@ -820,21 +824,6 @@ function clearToast(){
   $notice.attr('aria-hidden','true');
   $notice.hide();
 }
-
-function updateConcepts() {
-    conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));
-    $('#concept .tool-count').each(function () {
-      var concept = $('#' + $(this).parent().attr('for')).val();
-      var length = readIDsByConcept[concept].length;
-      var numberOfTools = 0;
-      for (var j = 0; j < length; j++) {
-        if (!resultSet.contains(readIDsByConcept[concept][j])){
-          numberOfTools++;
-        }
-      }
-      $(this).text(numberOfTools + ' tools');
-    });
-  }
 
 /**
  * initialize tabs; create listener for swithing tabs
@@ -1125,7 +1114,11 @@ function addCheckboxes(list, container, onChange, count) {
           numberOfTools++;
         }
       }
-      numberOfToolsSpan = ' <span class="tool-count" style="background: #e1f3f8;color: #212121;padding: 0 .5em;margin-bottom: .5em;">' + numberOfTools + ' tools' + '</span>'; 
+      if (numberOfTools === 1) {
+        numberOfToolsSpan = ' <span class="tool-count" style="background: #e1f3f8;color: #212121;padding: 0 .5em;margin-bottom: .5em;">Add ' + numberOfTools + ' Tool' + '</span>'; 
+      } else {
+        numberOfToolsSpan = ' <span class="tool-count" style="background: #e1f3f8;color: #212121;padding: 0 .5em;margin-bottom: .5em;">Add ' + numberOfTools + ' Tools' + '</span>'; 
+      }
     }
     html += '<input class="tool-label" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerName + '-checkbox" ' + onChange + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="unselectable">' + concept + numberOfToolsSpan + '</label>';
     id++;
@@ -1175,35 +1168,80 @@ var conceptSearch = function (div, input) {
   }
 
   var concepts = getConcepts(input); //get new concepts
-  if (concepts.length < 1) {
-    $('#results-notification').html('Please select a concept.').removeClass().addClass('warning').removeAttr('aria-hidden');
+  if (concepts.length < 1 && !savedTools.getLength()) {
     $('#results-container').hide();
     $('#results-container').attr('aria-hidden', 'true');
-    $('#concept-search-button').text('Show ' + resultSet.getLength() + ' results');
+    $('#concept-search-button').text('Show Results');
     return;
-  }
-  for (var i = 0; i < concepts.length; i++) {
-    if(readIDsByConcept[concepts[i]]) {
-      for (var j = 0; j < readIDsByConcept[concepts[i]].length; j++) {
-        if(!resultSet.contains(readIDsByConcept[concepts[i]][j]) && !savedTools.contains(readIDsByConcept[concepts[i]][j])) {
-          resultSet.addTool(readIDsByConcept[concepts[i]][j]);
+  } else {
+    for (var i = 0; i < concepts.length; i++) {
+      if(readIDsByConcept[concepts[i]]) {
+        for (var j = 0; j < readIDsByConcept[concepts[i]].length; j++) {
+          if(!savedTools.contains(readIDsByConcept[concepts[i]][j])) {
+            resultSet.addTool(readIDsByConcept[concepts[i]][j]);
+          }
         }
       }
     }
   }
-  $('#concept-search-button').text('Show ' + resultSet.getLength() + ' results');
-  if (resultSet.getLength() > 0) {
-    $('#floating-show-results-button').prop('disabled', false);
-    $('#floating-show-results-button').css('display', 'inline');
-  } else {
-    $('#results-notification').html('No results found.').removeClass().addClass('warning').removeAttr('aria-hidden');
-    $('#floating-show-results-button').prop('disabled', true);
-    $('#floating-show-results-button').css('display', 'none');
+  var numberOfTools = resultSet.getLength();
+  if (savedTools.getLength()) {
+    for (var toolId in savedTools.getToolSet()) {
+      if (!resultSet.getToolSet().hasOwnProperty(toolId)) {
+        numberOfTools++;
+      }
+    }
   }
+  $('#concept-search-button').text('Show ' + numberOfTools + ' Results');
 };
 
+/**
+ * Updates the list of concepts with the number of tools selecting or deselecting will add or remove
+*/
+function updateConcepts() {
+  $('#concept .tool-count').each(function () { // for each tool label
+    var $conceptCheckbox = $('#' + $(this).parent().attr('for')); // get associated checkbox
+    var concept = $conceptCheckbox.val(); // get associated concept
+    var length = readIDsByConcept[concept].length; // number of tools related to this concept
+    var numberOfTools = 0; 
+    if (!$('#' + $(this).parent().attr('for')).prop('checked')) { // if this is not checked
+      for (var j = 0; j < length; j++) {
+        var toolId = readIDsByConcept[concept][j];
+        if (!resultSet.contains(toolId) && !savedTools.contains(toolId)) { // count the number of tools that are not in the result set
+          numberOfTools++;
+        }
+      }
+      if (numberOfTools === 1) {
+        $(this).text("Add " + numberOfTools + ' Tool');
+      } else {
+        $(this).text("Add " + numberOfTools + ' Tools');
+      }
+    } else {
+      for (var k = 0; k < length; k++) {
+        var toolId = readIDsByConcept[concept][k];
+        if (resultSet.toolIsUnique(toolId) && !savedTools.contains(toolId)) { // count the number of unique tools tied to this concept
+          numberOfTools++;
+        }
+      }
+      if (numberOfTools === 1) {
+        $(this).text("Remove " + numberOfTools + ' Tool');
+      } else {
+        $(this).text("Remove " + numberOfTools + ' Tools');
+      }
+    }
+  });
+}
+
+/**
+ * Runs a concept search and updates the list of concepts 
+*/
+function updateConceptsandResults() {
+  conceptSearch('results-list', $('input[name="concept-checkbox"]:checked'));
+  updateConcepts();
+}
+
 var displayResults = function () {
-  if (resultSet.getLength() > 0) {  
+  if (resultSet.getLength() > 0 || savedTools.getLength() > 0) {  
     $('#results-tab').parent().attr('aria-hidden', 'false');
     $('#results-tab')[0].click();
     activateNextTab($('#results-tab'));
@@ -1212,7 +1250,7 @@ var displayResults = function () {
       toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
     }
   } else {
-    $('#results-notification').html('Please select a concept.').removeClass().addClass('warning').removeAttr('aria-hidden');
+    toast({html: 'Please select a concept.', close: true});
   }
 }
 
