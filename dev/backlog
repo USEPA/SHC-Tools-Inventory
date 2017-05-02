@@ -324,6 +324,12 @@ backlog to track work to be done and by whom
 
 - balance result-details in list-view
   - kyle: done
+
+- remove "find results"; replace "find and Display Results"-button with responsive "Show `x` Results"-button where `x` is number of results associated with selected concepts
+  - kyle: done
+
+- fix SVG won't instantiate visibly large in IE
+  - kyle: it's a hacked-together solution
 #####################################################
 # CURRENT BACKLOG BELOW #############################
 #####################################################
