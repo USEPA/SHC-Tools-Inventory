@@ -514,8 +514,8 @@
                   <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: Recommended for those on smaller screens.</label>
                   <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: Allows filtering and column sorting.</label>
                 <div id="results-list-div">  
-                  <button class="button-grey" onclick="selectAll('results-list', saveAll('results-list'));$('#results-table').DataTable().rows().select();updateConcepts()">Select All Tools</button>
-                  <button class="button-grey" onclick="deselectAll('results-list', unsaveAll());$('#results-table').DataTable().rows().deselect();updateConcepts()">Deselect All Tools</button>
+                  <button class="button-grey" onclick="selectAllToolsButton()">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAllToolsButton()">Deselect All Tools</button>
                   <div class="navbar">
                     <button class="button-white right" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                   </div>
@@ -681,16 +681,14 @@ $(function () { // jquery's shorthand awaits readiness of document
     buttons: [{
         text: 'Select All Tools',
         action: function () {
-          table.rows().select();
-          selectAll('results-list', saveAll('results-list'));
+          selectAllToolsButton()
         },
         className: 'button button-grey'
       },
       {
         text: 'Deselect All Tools',
         action: function () {
-          table.rows().deselect();
-          deselectAll('results-list', unsaveAll());
+          deselectAllToolsButton();
         },
         className: 'button button-grey'
       },
@@ -720,10 +718,10 @@ $(function () { // jquery's shorthand awaits readiness of document
     updateConceptsandResults();
   });
 
-  $('tbody').on('click', 'td:nth-child(2)', function () {
+  $('tbody').on('click', 'td:first-child', function () {
     var $parent = $(this).parent();
     var tableId = $(this).closest('table').attr('id').slice(0, -6);
-    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[2];  // get ID
+    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
     if (!$parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
       savedTools.removeTool(readId);
@@ -732,18 +730,19 @@ $(function () { // jquery's shorthand awaits readiness of document
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
       savedTools.addTool(readId);
     }
+    updateConcepts();
   });
 
   $(".list").on("change", "input:checkbox", function () {
     var id = $(this).val();
     if ($(this).prop('checked')) { // add selected class
       $("#results-table").DataTable().rows(function (idx, data, node) {
-        return data[2] == id ? true: false;
+        return data[1] == id ? true: false;
       }).nodes().to$().addClass("selected");
       savedTools.addTool(id);
     } else {
       $("#results-table").DataTable().rows(function (idx, data, node) {
-        return data[2] == id ? true: false;
+        return data[1] == id ? true: false;
       }).nodes().to$().removeClass("selected");
       savedTools.removeTool(id);
     }
@@ -812,6 +811,18 @@ var toast = function (parameters) {
     clearToast();
   }, 20000);
 };
+
+function selectAllToolsButton() {
+  selectAll('results-list', saveAll('results-list'));
+  $('#results-table').DataTable().rows().select();
+  updateConcepts();
+}
+
+function deselectAllToolsButton() {
+  deselectAll('results-list', unsaveAll());
+  $('#results-table').DataTable().rows().deselect();
+  updateConcepts()
+}
 
 /**
  * Clears the toast and the timeout for the toast
@@ -1192,7 +1203,11 @@ var conceptSearch = function (div, input) {
       }
     }
   }
-  $('#concept-search-button').text('Show ' + numberOfTools + ' Results');
+  if (numberOfTools === 1) {
+    $('#concept-search-button').text('Show ' + numberOfTools + ' Result');
+  } else {
+    $('#concept-search-button').text('Show ' + numberOfTools + ' Results');
+  }
 };
 
 /**
