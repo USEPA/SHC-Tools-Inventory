@@ -81,8 +81,10 @@ function ToolSet() {
   };
   this.addTool = function (toolId) {
     if (!this.getToolSet().hasOwnProperty(toolId)) {
-      this.toolSet[toolId] = true;
+      this.toolSet[toolId] = 1;
       this.length++;
+    } else {
+      this.toolSet[toolId]++;
     }
   };
   this.removeTool = function (toolId) {
@@ -94,6 +96,17 @@ function ToolSet() {
   this.contains = function (toolId) {
     if (this.getToolSet().hasOwnProperty(toolId)) {
       return true;
+    } else {
+      return false;
+    }
+  };
+  this.toolIsUnique = function (toolId) {
+    if (this.getToolSet().hasOwnProperty(toolId)) {
+      if (this.toolSet[toolId] === 1) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
