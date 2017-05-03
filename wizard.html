@@ -1055,6 +1055,7 @@ var objectiveSelect = function () {
   var selectedElements = scrapeDictionary($("input[name='objective-checkbox']:checked"), conceptsByObjective);
   $('#concept').html('');
   updateInterface(selectedElements, $('#concept'));
+  updateConcepts();
 };
 
 /**

@@ -330,6 +330,27 @@ backlog to track work to be done and by whom
 
 - fix SVG won't instantiate visibly large in IE
   - kyle: it's a hacked-together solution
+
+- Label each concept with the number of tools that would be added if concept was selected
+  - seth: done
+
+- Modifiy toolSet to count the number of times a tool has been added so we can know if a tool is unique
+  - seth: done
+
+- Add the number of tools that would be removed by deselecting a concept
+  - seth: done
+
+- Fix issue with Select All/Deselect All buttons on concept tab
+  - seth: done
+
+- Fix issue with row selection on DataTable
+  - seth: done
+
+- Add toast messages for add additional concept error states
+  - seth: done
+
+- Add updateConcepts() to the interface function chain
+  - seth: done
 #####################################################
 # CURRENT BACKLOG BELOW #############################
 #####################################################
