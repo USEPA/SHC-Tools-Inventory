@@ -77,9 +77,11 @@ button, a.button, .dt-buttons {
 }
 
 .list button {
-	width: 100%;
-  padding: .5em;
-  margin: .5em .1em;
+	width: calc(100% - 2em);
+  display: block;
+  margin: auto;
+  padding: .2em;
+  float: none !important;
 }
 
 @media screen and (min-width: 481px) {
