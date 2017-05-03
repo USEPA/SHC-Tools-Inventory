@@ -931,7 +931,7 @@ var toggleNext = function (list, nextButtonClassSubstring) {
   if (list.length > 0 || Object.keys(list).length > 0) {
     $(nextButtonSelector + ':not(.persist)').prop('disabled', false).css('display', 'inline');
     if ($('#role :checked').length > 0 && showToast === true) {
-      toast({html:'Use the next button or the next tab to proceed when ready.<button class="button-grey toast-button" onclick="showToast = false">Disable these messages</button>', close: true});
+      toast({html:'Use the next button or the next tab to proceed when ready.<button class="button-grey toast-button" onclick="showToast = false;clearToast()">Disable these messages</button>', close: true});
     }
   }else{
     $(nextButtonSelector+':not(.persist)').prop('disabled',true).css('display','none');
