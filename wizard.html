@@ -769,6 +769,7 @@ var timeouts = {};
  *     parameters.container : [ "ID of container to use for alert" ] }
 */
 var toast = function (parameters) {
+  clearToast();
   var noticeID = 'toast';
   var $notice = $('#' + noticeID);
   if (typeof parameters !== 'undefined') { // does parameters object exist?
