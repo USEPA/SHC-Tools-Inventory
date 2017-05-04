@@ -653,18 +653,6 @@ $(function () { // jquery's shorthand awaits readiness of document
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate the roles into #role div
   initializeTabs(); // initialize tabs and their listeners
 
-  /* Find tools, "found x results," and display results sticks to top of window when scrolling below their static positions. */
-  $(window).scroll(function(e){
-    var $el = $('.fixed-element'); 
-    var isPositionFixed = ($el.css('position') == 'fixed');
-    if ($(this).scrollTop() > $('.park-mark').position().top && !isPositionFixed) {
-      $('.fixed-element').css({'position': 'fixed', 'top': '0px'}).children().css({'margin-bottom': '.1em'}); 
-    }
-    if ($(this).scrollTop() < $('.park-mark').position().top && isPositionFixed) {
-      $('.fixed-element').css({'position': 'relative', 'top': '0px'}).children().css({'margin-bottom': '1.5em'});
-    }
-  });
-
   $('tbody').on('click', 'td:nth-child(2)', function () {
     var $parent = $(this).parent();
     var tableId = $(this).closest('table').attr('id').slice(0, -6);
