@@ -275,22 +275,10 @@ function removeSelected(divID) {
     if ($(this).prop("checked")) {
       savedTools.removeTool($(this).val());
       $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
-      $('#saved-table').DataTable().row('#saved-table-' + $(this).val()).remove().draw();
     }
   });
-}
-
-/** DEPRECATED if no longer using Saved Tools tab
- * Removes all tools from saved tools
- */
-function clearSaved(divID) {
-  $('#' + divID + ' input').each(function () {
-    savedTools.removeTool($(this).val());
-    $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
-  });
-  if ($.fn.DataTable.isDataTable("#saved-table")) {
-    var table = $('#saved-table').DataTable(); 
-    table.clear().draw();
+  if ($.fn.DataTable.isDataTable('#saved-table')) {
+    $('#saved-table').DataTable().rows('.selected').remove().draw();
   }
 }
 
