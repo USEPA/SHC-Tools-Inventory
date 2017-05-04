@@ -470,6 +470,7 @@ function saveSelectedRecords(resultsDiv) {
           }]
       });
     }
+    $('.dt-button').removeClass('dt-button');
     toolCache.handleToolSet(savedTools, savedTable.displayTools.bind(savedTable)); // populate divs
   }
 }
