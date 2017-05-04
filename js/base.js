@@ -465,13 +465,70 @@ function saveSelectedRecords(resultsDiv) {
   recordsToSave.each(function () {
     if(!savedTools.contains($(this).val())) {
       savedTools.addTool($(this).val()); 
-      toolCache.handleParsedData($(this).val(), savedTable.displayTool.bind(savedTable)); // populate divs
     }
   });
   if (savedTools.getLength() > 0) {
     $('#saved-tools-tab').parent().attr("aria-hidden", false);
     $('#saved-tools-panel').attr("aria-hidden", false);
     document.getElementById("saved-tools-tab").click();
+    if (!$.fn.DataTable.isDataTable('#saved-table')) {
+      var saveTable = $("#saved-table").DataTable({
+        dom: 'Bfrtip',
+        processing: true,
+        responsive: {
+          details: false
+        },
+        columnDefs: [{
+          orderable: false,
+          className: 'select-checkbox',
+          targets: [0]
+        },
+        { 
+          width: "5%",
+          targets: 0 
+        },
+        { 
+          visible: false,
+          targets: 1 
+        }],
+        select: {
+          style: 'multi',
+          selector: 'td:nth-child(2)'
+        },
+        order: [[2, 'asc']],
+        buttons: [{
+            text: 'Select All Tools',
+            action: function () {
+              saveTable.rows().select();
+              selectAll('saved-list');
+            },
+            className: 'button button-grey'
+          },
+          {
+            text: 'Deselect All Tools',
+            action: function () {
+              saveTable.rows().deselect();
+              deselectAll('saved-list');
+            },
+            className: 'button button-grey'
+          },
+          { 
+            text: 'Remove Selected Tools',
+            action: function () {
+              removeSelected('saved-list');
+            },
+            className: 'button button-white right'
+          },
+          { 
+            text: 'Export Selected Tools to CSV',
+            action: function () {
+              exportCSV('saved-list');
+            },
+            className: 'button button-white right'
+          }]
+      });
+    }
+    toolCache.handleToolSet(savedTools, savedTable.displayTools.bind(savedTable)); // populate divs
   }
 }
 

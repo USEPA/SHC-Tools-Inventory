@@ -579,307 +579,6 @@ var transportationTable = new ToolDisplay('transportation-table', 'transportatio
 
 $(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
-  
-  var table = $("#results-table").DataTable({
-    dom: 'Bfrtip',
-    processing: true,
-    responsive: {
-      details: false
-    },
-    columnDefs: [{
-      orderable: false,
-      className: 'select-checkbox',
-      targets: [0]
-    },
-    { 
-      width: "5%",
-      targets: 0 
-    },
-    { 
-      visible: false,
-      targets: 1 
-    }],
-    select: {
-      style: 'multi',
-      selector: 'td:first-child'
-    },
-    order: [[2, 'asc']],
-    buttons: [{
-        text: 'Select All Tools',
-        action: function () {
-          table.rows().select();
-          selectAll('results-list');
-        },
-        className: 'button button-grey'
-      },
-      {
-        text: 'Deselect All Tools',
-        action: function () {
-          table.rows().deselect();
-          deselectAll('results-list');
-        },
-        className: 'button button-grey'
-      },
-      {
-        text: 'Save Selected Tools',
-        action: function () {
-          saveSelectedRecords('results-list')
-        },
-        className: 'button button-white right'
-      }]
-  });
-
-  var saveTable = $("#saved-table").DataTable({ // [Violation] 'DOMContentLoaded' handler took 261ms
-    dom: 'Bfrtip',
-    processing: true,
-    responsive: {
-      details: false
-    },
-    columnDefs: [{
-      orderable: false,
-      className: 'select-checkbox',
-      targets: [0]
-    },
-    { 
-      width: "5%",
-      targets: 0 
-    },
-    { 
-      visible: false,
-      targets: 1 
-    }],
-    select: {
-      style: 'multi',
-      selector: 'td:nth-child(2)'
-    },
-    order: [[2, 'asc']],
-    buttons: [{
-        text: 'Select All Tools',
-        action: function () {
-          saveTable.rows().select();
-          selectAll('saved-list');
-        },
-        className: 'button button-grey'
-      },
-      {
-        text: 'Deselect All Tools',
-        action: function () {
-          saveTable.rows().deselect();
-          deselectAll('saved-list');
-        },
-        className: 'button button-grey'
-      },
-      { 
-        text: 'Remove Selected Tools',
-        action: function () {
-          removeSelected('saved-list');
-        },
-        className: 'button button-white right'
-      },
-      { 
-        text: 'Export Selected Tools to CSV',
-        action: function () {
-          exportCSV('saved-list');
-        },
-        className: 'button button-white right'
-      }]
-  });
-
-  var buildInfraTable = $("#building-infrastructure-table").DataTable({
-    dom: 'Bfrtip',
-    processing: true,
-    responsive: {
-      details: false
-    },
-    columnDefs: [{
-      orderable: false,
-      className: 'select-checkbox',
-      targets: [0]
-    },
-    { 
-      width: "5%",
-      targets: 0 
-    },
-    { 
-      visible: false,
-      targets: 1 
-    }],
-    select: {
-      style: 'multi',
-      selector: 'td:first-child'
-    },
-    order: [[1, 'asc']],
-    buttons: [{
-        text: 'Select All Tools',
-        action: function () {
-          buildInfraTable.rows().select();
-          selectAll('building-infrastructure-list');
-        },
-        className: 'button button-grey'
-      },
-      {
-        text: 'Deselect All Tools',
-        action: function () {
-          buildInfraTable.rows().deselect();
-          deselectAll('building-infrastructure-list');
-        },
-        className: 'button button-grey'
-      },
-      {
-        text: 'Save Selected Tools',
-        action: function () {
-          saveSelectedRecords('building-infrastructure-list')
-        },
-        className: 'button button-white right'
-      }]
-  });
-
-  var landUseTable = $("#land-use-table").DataTable({
-    dom: 'Bfrtip',
-    processing: true,
-    responsive: {
-      details: false
-    },
-    columnDefs: [{
-      orderable: false,
-      className: 'select-checkbox',
-      targets: [0]
-    },
-    { 
-      width: "5%",
-      targets: 0 
-    },
-    { 
-      visible: false,
-      targets: 1 
-    }],
-    select: {
-      style: 'multi',
-      selector: 'td:first-child'
-    },
-    order: [[1, 'asc']],
-    buttons: [{
-        text: 'Select All Tools',
-        action: function () {
-          landUseTable.rows().select();
-          selectAll('land-use-list');
-        },
-        className: 'button button-grey'
-      },
-      {
-        text: 'Deselect All Tools',
-        action: function () {
-          landUseTable.rows().deselect();
-          deselectAll('land-use-list');
-        },
-        className: 'button button-grey'
-      },
-      {
-        text: 'Save Selected Tools',
-        action: function () {
-          saveSelectedRecords('land-use-list')
-        },
-        className: 'button button-white right'
-      }]
-  });
-
-  var wasteManage = $("#waste-management-table").DataTable({
-    dom: 'Bfrtip',
-    processing: true,
-    responsive: {
-      details: false
-    },
-    columnDefs: [{
-      orderable: false,
-      className: 'select-checkbox',
-      targets: [0]
-    },
-    { 
-      width: "5%",
-      targets: 0 
-    },
-    { 
-      visible: false,
-      targets: 1 
-    }],
-    select: {
-      style: 'multi',
-      selector: 'td:first-child'
-    },
-    order: [[1, 'asc']],
-    buttons: [{
-        text: 'Select All Tools',
-        action: function () {
-          wasteManage.rows().select();
-          selectAll('waste-management-list');
-        },
-        className: 'button button-grey'
-      },
-      {
-        text: 'Deselect All Tools',
-        action: function () {
-          wasteManage.rows().deselect();
-          deselectAll('waste-management-list');
-        },
-        className: 'button button-grey'
-      },
-      {
-        text: 'Save Selected Tools',
-        action: function () {
-          saveSelectedRecords('waste-management-list')
-        },
-        className: 'button button-white right'
-      }]
-  });
-
-  var transportTable = $("#transportation-table").DataTable({
-    dom: 'Bfrtip',
-    processing: true,
-    responsive: {
-      details: false
-    },
-    columnDefs: [{
-      orderable: false,
-      className: 'select-checkbox',
-      targets: [0]
-    },
-    { 
-      width: "5%",
-      targets: 0 
-    },
-    { 
-      visible: false,
-      targets: 1 
-    }],
-    select: {
-      style: 'multi',
-      selector: 'td:first-child'
-    },
-    order: [[1, 'asc']],
-    buttons: [{
-        text: 'Select All Tools',
-        action: function () {
-          transportTable.rows().select();
-          selectAll('transportation-list');
-        },
-        className: 'button button-grey'
-      },
-      {
-        text: 'Deselect All Tools',
-        action: function () {
-          transportTable.rows().deselect();
-          deselectAll('transportation-list');
-        },
-        className: 'button button-grey'
-      },
-      {
-        text: 'Save Selected Tools',
-        action: function () {
-          saveSelectedRecords('transportation-list')
-        },
-        className: 'button button-white right'
-      }]
-  });
 
   $('tbody').on('click', 'td:first-child', function () {
     var $parent = $(this).parent();
@@ -977,7 +676,9 @@ function addMembers(dataList, fieldName, fieldValues) {
  * Search for text and choose other criteria for tools.
  */
 var detailedSearch = function () {
-  $('#results-table').DataTable().clear().draw(); // clear result table
+  if ($.fn.DataTable.isDataTable('#results-table')) {
+    $('#results-table').DataTable().clear().draw(); // clear result table 
+  }
   $('#results-list *').remove(); // clear result div
   resultSet.reset(); // clear result set
   var $feedbackDiv = $('#detailed-search-feedback');
@@ -1047,6 +748,56 @@ var detailedSearch = function () {
         $("#results-tab").click();
         var url = window.location.href;
         $('#loader').removeAttr('aria-hidden').show();
+        if (!$.fn.DataTable.isDataTable('#results-table')) {
+          var table = $("#results-table").DataTable({
+            dom: 'Bfrtip',
+            processing: true,
+            responsive: {
+              details: false
+            },
+            columnDefs: [{
+              orderable: false,
+              className: 'select-checkbox',
+              targets: [0]
+            },
+            { 
+              width: "5%",
+              targets: 0 
+            },
+            { 
+              visible: false,
+              targets: 1 
+            }],
+            select: {
+              style: 'multi',
+              selector: 'td:first-child'
+            },
+            order: [[2, 'asc']],
+            buttons: [{
+                text: 'Select All Tools',
+                action: function () {
+                  table.rows().select();
+                  selectAll('results-list');
+                },
+                className: 'button button-grey'
+              },
+              {
+                text: 'Deselect All Tools',
+                action: function () {
+                  table.rows().deselect();
+                  deselectAll('results-list');
+                },
+                className: 'button button-grey'
+              },
+              {
+                text: 'Save Selected Tools',
+                action: function () {
+                  saveSelectedRecords('results-list')
+                },
+                className: 'button button-white right'
+              }]
+          });
+        }
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     });
@@ -1065,7 +816,9 @@ var parseResultsArray = function (results) {
 };
 
 simpleSearch = function () {
-  $('#results-table').DataTable().clear().draw(); //clear result table
+  if ($.fn.DataTable.isDataTable('#results-table')) {
+    $('#results-table').DataTable().clear().draw(); //clear result table
+  }
   $('#results-list *').remove(); //clear result list
   resultSet.reset(); //clear result data
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
@@ -1126,22 +879,27 @@ function loadModels2() {
       var browse = new ToolSet();
       var table;
       var table_name = $(this).find('table').attr('id');
+      var listName;
       switch (table_name) {
       case "building-infrastructure-table":
         decision_query = "Building Infrastructure";
         table = buildingInfrastructureTable;
+        listName = "building-infrastructure-list";
         break;
       case "land-use-table":
         decision_query = "Land Use";
         table = landUseTable;
+        listName = "land-use-list";
         break;
       case "transportation-table":
         decision_query = "Transportation";
         table = transportationTable;
+        listName = "transportation-list";
         break;
       case "waste-management-table":
         decision_query = "Waste Management";
         table = wasteManagementTable;
+        listName = "waste-management-list";
         break;
       default:
         return;
@@ -1156,9 +914,59 @@ function loadModels2() {
         dataType: 'json',
         success: function (data) {
           for (i = 0; i < data.length; i++) {
-           if(!browse.contains(data[i].ResourceId)) {
+            if(!browse.contains(data[i].ResourceId)) {
               browse.addTool(data[i].ResourceId);
             } 
+          }
+          if (!$.fn.DataTable.isDataTable('#' + table_name)) {
+            var transportTable = $('#' + table_name).DataTable({
+              dom: 'Bfrtip',
+              processing: true,
+              responsive: {
+                details: false
+              },
+              columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox',
+                targets: [0]
+              },
+              { 
+                width: "5%",
+                targets: 0 
+              },
+              { 
+                visible: false,
+                targets: 1 
+              }],
+              select: {
+                style: 'multi',
+                selector: 'td:first-child'
+              },
+              order: [[1, 'asc']],
+              buttons: [{
+                  text: 'Select All Tools',
+                  action: function () {
+                    transportTable.rows().select();
+                    selectAll(listName);
+                  },
+                  className: 'button button-grey'
+                },
+                {
+                  text: 'Deselect All Tools',
+                  action: function () {
+                    transportTable.rows().deselect();
+                    deselectAll(listName);
+                  },
+                  className: 'button button-grey'
+                },
+                {
+                  text: 'Save Selected Tools',
+                  action: function () {
+                    saveSelectedRecords(listName);
+                  },
+                  className: 'button button-white right'
+                }]
+            });
           }
           toolCache.handleToolSet(browse, table.displayTools.bind(table));
         }
