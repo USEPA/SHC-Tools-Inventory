@@ -864,6 +864,56 @@ simpleSearch = function () {
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
         $('#loader').removeAttr('aria-hidden').show();
+        if (!$.fn.DataTable.isDataTable('#results-table')) {
+          var table = $("#results-table").DataTable({
+            dom: 'Bfrtip',
+            processing: true,
+            responsive: {
+              details: false
+            },
+            columnDefs: [{
+              orderable: false,
+              className: 'select-checkbox',
+              targets: [0]
+            },
+            { 
+              width: "5%",
+              targets: [0] 
+            },
+            { 
+              visible: false,
+              targets: [1]
+            }],
+            select: {
+              style: 'multi',
+              selector: 'td:first-child'
+            },
+            order: [[2, 'asc']],
+            buttons: [{
+                text: 'Select All Tools',
+                action: function () {
+                  table.rows().select();
+                  selectAll('results-list');
+                },
+                className: 'button button-grey'
+              },
+              {
+                text: 'Deselect All Tools',
+                action: function () {
+                  table.rows().deselect();
+                  deselectAll('results-list');
+                },
+                className: 'button button-grey'
+              },
+              {
+                text: 'Save Selected Tools',
+                action: function () {
+                  saveSelectedRecords('results-list')
+                },
+                className: 'button button-white right'
+              }]
+          });
+        }
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     });

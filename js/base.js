@@ -172,7 +172,9 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   }
   $('#loader').attr('aria-hidden', 'true').hide();
   $("#" + this.getListId()).append(html);
-  $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
+  if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
+    $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
+  }
 };
 
 /**
@@ -182,7 +184,9 @@ $('[name="display-type"]').change(function () {
   if($(this).attr('id') === 'table-radio') {
     $('#results-list-div').attr('aria-hidden', true);
     $('#results-table-div').attr('aria-hidden', false);
-    $('#results-table').DataTable().columns.adjust(); // adjust table cols to the width of the container
+    if ($.fn.DataTable.isDataTable('#results-table')) {
+      $('#results-table').DataTable().columns.adjust(); // adjust table cols to the width of the container
+    }
   } else if ($(this).attr('id') === 'list-radio') {
     $('#results-table-div').attr('aria-hidden', true);
     $('#results-list-div').attr('aria-hidden', false);
@@ -248,17 +252,19 @@ function createRow(parsedResult) {
  * Add a row to a DataTable
  */
 function addRow(parsedResult, tableId, rowData) {
-  var $row = $('#' + tableId).DataTable() // add row
-    .row.add(rowData)
-    .draw()
-    .nodes().to$();
-  $row.addClass('results-row')
-    .attr('data-read-id', parsedResult['ID'])
-    .attr('data-table-id', tableId)
-    .attr("id", tableId + '-' + parsedResult['ID']);
-    $row.children().not(':first').click(function () {
-      showDetails(parsedResult['ID']);
+  if ($.fn.DataTable.isDataTable('#' + tableId)) {
+    var $row = $('#' + tableId).DataTable() // add row
+      .row.add(rowData)
+      .draw()
+      .nodes().to$();
+    $row.addClass('results-row')
+      .attr('data-read-id', parsedResult['ID'])
+      .attr('data-table-id', tableId)
+      .attr("id", tableId + '-' + parsedResult['ID']);
+      $row.children().not(':first').click(function () {
+        showDetails(parsedResult['ID']);
     });
+  }
 }
 
 /** DEPRECATED if no longer using Saved Tools tab
@@ -282,8 +288,10 @@ function clearSaved(divID) {
     savedTools.removeTool($(this).val());
     $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
   });
-  var table = $('#saved-table').DataTable(); 
-  table.clear().draw();
+  if ($.fn.DataTable.isDataTable("#saved-table")) {
+    var table = $('#saved-table').DataTable(); 
+    table.clear().draw();
+  }
 }
 
 /** DEPRECATED if no longer using Selected Tools tab
