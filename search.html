@@ -586,18 +586,6 @@ var transportationTable = new ToolDisplay('transportation-table', 'transportatio
 $(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
 
-  $('tbody').on('click', 'td:first-child', function () {
-    var $parent = $(this).parent();
-    var tableId = $(this).closest('table').attr('id').slice(0, -6);
-    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
-    if (!$parent.hasClass('selected')) { // remove selected class
-      $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
-    }
-    else {
-      $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
-    }
-  });
-
   $(".list").on("change", "input:checkbox", function () {
     var id = $(this).val();
     var tableId = $(this).attr('id').slice(0, -14);
