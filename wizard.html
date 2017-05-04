@@ -652,56 +652,6 @@ var resultTable = new ToolDisplay('results-table', 'results-list', 'wizard'); //
 $(function () { // jquery's shorthand awaits readiness of document
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate the roles into #role div
   initializeTabs(); // initialize tabs and their listeners
-  
-  var table = $("#results-table").DataTable({ // [Violation] 'DOMContentLoaded' handler took 261ms
-    dom: 'Bfrtip',
-    processing: true,
-    responsive: {
-      details: false
-    },
-    columnDefs: [{
-      orderable: false,
-      className: 'select-checkbox',
-      targets: [0]
-    },
-    {
-      width: "5%",
-      targets: 0 
-    },
-    {
-      visible: false,
-      targets: [1]
-    }],
-    select: {
-      style: 'multi',
-      selector: 'td:first-child'
-    },
-    order: [[2, 'asc']],
-    buttons: [{
-        text: 'Select All Tools',
-        action: function () {
-          table.rows().select();
-          selectAll('results-list', saveAll('results-list'));
-        },
-        className: 'button button-grey'
-      },
-      {
-        text: 'Deselect All Tools',
-        action: function () {
-          table.rows().deselect();
-          deselectAll('results-list', unsaveAll());
-        },
-        className: 'button button-grey'
-      },
-      { 
-        text: 'Export Selected Tools to CSV',
-        action: function () {
-          exportCSV('results-list');
-        },
-        className: 'button button-white right'
-      }
-    ]
-  });
 
   /* Find tools, "found x results," and display results sticks to top of window when scrolling below their static positions. */
   $(window).scroll(function(e){
@@ -1139,7 +1089,9 @@ var keywordSearch = function (div, input) {
 var conceptSearch = function (div, input, returnNumberOfResultsFlag) {
   $('#results-notification').html('').removeClass().attr('aria-hidden', 'true');
   resultSet.reset(); // remove from resultSet
-  $('#results-table').DataTable().rows('tr:not(.selected)').remove().draw(); // clear table of values not marked selected
+  if ($.fn.DataTable.isDataTable('#results-table')) {
+    $('#results-table').DataTable().rows('tr:not(.selected)').remove().draw(); // clear table of values not marked selected
+  }
   $('#results-list .results-checkbox').each(function () { // clear results list of values not checked
     if (!$(this).prop('checked')) {
       $(this).parent().parent().parent().remove();
@@ -1408,6 +1360,57 @@ var displayResults = function () {
   activateNextTab($('#results-tab'));
   if (!resultSet.isEqual(resultTable.getToolSet())) {
     $('#loader').removeAttr('aria-hidden').show();
+    if (!$.fn.DataTable.isDataTable('#results-table')) {
+      var table = $("#results-table").DataTable({
+        dom: 'Bfrtip',
+        processing: true,
+        responsive: {
+          details: false
+        },
+        columnDefs: [{
+          orderable: false,
+          className: 'select-checkbox',
+          targets: [0]
+        },
+        {
+          width: "5%",
+          targets: 0 
+        },
+        {
+          visible: false,
+          targets: [1]
+        }],
+        select: {
+          style: 'multi',
+          selector: 'td:first-child'
+        },
+        order: [[2, 'asc']],
+        buttons: [{
+            text: 'Select All Tools',
+            action: function () {
+              table.rows().select();
+              selectAll('results-list', saveAll('results-list'));
+            },
+            className: 'button button-grey'
+          },
+          {
+            text: 'Deselect All Tools',
+            action: function () {
+              table.rows().deselect();
+              deselectAll('results-list', unsaveAll());
+            },
+            className: 'button button-grey'
+          },
+          { 
+            text: 'Export Selected Tools to CSV',
+            action: function () {
+              exportCSV('results-list');
+            },
+            className: 'button button-white right'
+          }
+        ]
+      });
+    }
     toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
   }
 }

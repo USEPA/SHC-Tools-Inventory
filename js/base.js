@@ -182,7 +182,7 @@ $('[name="display-type"]').change(function () {
   if($(this).attr('id') === 'table-radio') {
     $('#results-list-div').attr('aria-hidden', true);
     $('#results-table-div').attr('aria-hidden', false);
-    $('#results-table').DataTable().columns.adjust().draw(); // adjust table cols to the width of the container
+    $('#results-table').DataTable().columns.adjust(); // adjust table cols to the width of the container
   } else if ($(this).attr('id') === 'list-radio') {
     $('#results-table-div').attr('aria-hidden', true);
     $('#results-list-div').attr('aria-hidden', false);
