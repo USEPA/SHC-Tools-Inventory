@@ -493,15 +493,15 @@ function saveSelectedRecords(resultsDiv) {
         },
         { 
           width: "5%",
-          targets: 0 
+          targets: [0] 
         },
         { 
           visible: false,
-          targets: 1 
+          targets: [1] 
         }],
         select: {
           style: 'multi',
-          selector: 'td:nth-child(2)'
+          selector: 'td:first-child'
         },
         order: [[2, 'asc']],
         buttons: [{

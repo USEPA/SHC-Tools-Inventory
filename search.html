@@ -314,6 +314,7 @@
                         <thead>
                           <tr>
                             <th></th>
+                            <th></th>
                             <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
@@ -339,6 +340,7 @@
                       <table class="revision-table" id="land-use-table" width="100%">
                         <thead>
                           <tr>
+                            <th></th>
                             <th></th>
                             <th>Acronym</th>
                             <th>Title</th>
@@ -366,6 +368,7 @@
                         <thead>
                           <tr>
                             <th></th>
+                            <th></th>
                             <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
@@ -391,6 +394,7 @@
                       <table class="revision-table" id="waste-management-table" width="100%">
                         <thead>
                           <tr>
+                            <th></th>
                             <th></th>
                             <th>Acronym</th>
                             <th>Title</th>
@@ -430,6 +434,7 @@
                     <thead>
                       <tr>
                         <th></th>
+                        <th></th>
                         <th>Acronym</th>
                         <th>Title</th>
                         <th>Description</th>
@@ -467,6 +472,7 @@
                   <table class="revision-table" id="saved-table" width="100%">
                     <thead>
                       <tr>
+                        <th></th>
                         <th></th>
                         <th>Acronym</th>
                         <th>Title</th>
@@ -762,11 +768,11 @@ var detailedSearch = function () {
             },
             { 
               width: "5%",
-              targets: 0 
+              targets: [0] 
             },
             { 
               visible: false,
-              targets: 1 
+              targets: [1]
             }],
             select: {
               style: 'multi',
@@ -982,11 +988,11 @@ function loadModels2() {
               },
               { 
                 width: "5%",
-                targets: 0 
+                targets: [0] 
               },
               { 
                 visible: false,
-                targets: 1 
+                targets: [1]
               }],
               select: {
                 style: 'multi',
