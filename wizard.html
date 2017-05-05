@@ -653,20 +653,6 @@ $(function () { // jquery's shorthand awaits readiness of document
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate the roles into #role div
   initializeTabs(); // initialize tabs and their listeners
 
-  $('tbody').on('click', 'td:first-child', function () {
-    var $parent = $(this).parent();
-    var tableId = $(this).closest('table').attr('id').slice(0, -6);
-    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
-    if ($parent.hasClass('selected')) { // remove selected class
-      $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
-      savedTools.removeTool(readId);
-    }
-    else {
-      $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
-      savedTools.addTool(readId);
-    }
-  });
-
   $(".list").on("change", "input:checkbox", function () {
     var id = $(this).val();
     if ($(this).prop('checked')) { // add selected class
@@ -682,10 +668,18 @@ $(function () { // jquery's shorthand awaits readiness of document
     }
   });
 
-  $('tbody').on('click', 'td:not(:first-child)', function () {
+  $('tbody').on('click', 'td:first-child', function () {
+    var $parent = $(this).parent();
     var tableId = $(this).closest('table').attr('id').slice(0, -6);
     var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
-    showDetails(readId, $(this).closest('[role="tabpanel"]').attr('aria-labelledby'));
+    if ($parent.hasClass('selected')) { // remove selected class
+      $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
+      savedTools.removeTool(readId);
+    }
+    else {
+      $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
+      savedTools.addTool(readId);
+    }
   });
 });
 

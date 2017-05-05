@@ -613,12 +613,6 @@ $(function () { // jquery's shorthand awaits readiness of document
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
     }
   });
-
-  $('tbody').on('click', 'td:not(:first-child)', function () {
-    var tableId = $(this).closest('table').attr('id').slice(0, -6);
-    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
-    showDetails(readId, $(this).closest('[role="tabpanel"]').attr('aria-labelledby'));
-  });
 });
 
 // DOCUMENT
