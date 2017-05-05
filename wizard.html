@@ -657,12 +657,12 @@ $(function () { // jquery's shorthand awaits readiness of document
     var id = $(this).val();
     if ($(this).prop('checked')) { // add selected class
       $("#results-table").DataTable().rows(function (idx, data, node) {
-        return data[2] == id ? true: false;
+        return data[1] == id ? true: false;
       }).nodes().to$().addClass("selected");
       savedTools.addTool(id);
     } else {
       $("#results-table").DataTable().rows(function (idx, data, node) {
-        return data[2] == id ? true: false;
+        return data[1] == id ? true: false;
       }).nodes().to$().removeClass("selected");
       savedTools.removeTool(id);
     }
