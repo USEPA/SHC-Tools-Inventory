@@ -72,7 +72,7 @@ hr, #role, #subrole, #fundamental-objective, #objective, #concept, #selected-too
   float: right;
 }
 
-button, a.button, .dt-buttons {
+button, a.button, .dt-button {
   width: 100%;
 }
 
@@ -84,7 +84,7 @@ button, a.button, .dt-buttons {
 
 @media screen and (min-width: 481px) {
   button,
-  .dt-buttons,
+  .dt-button,
   a.button,
   [type=button],
   [type=submit],
