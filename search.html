@@ -185,7 +185,7 @@
             <h2 id="page-description-title" class="title">Description</h2>
             <p>The Environmental Protection Agency’s Sustainable and Healthy Communities Research Program (SHCRP) has identified and evaluated an inventory of decision support tools designed to guide non-experts and professionals who seek solutions to community level development needs that will sustain human wellbeing and ecological functions.</p>
             <p>This web-based inventory provides a searchable resource for building owners, developers, municipal planners, architects, engineers, and other interested community stakeholders. The tools in the inventory provide data, model scenarios, and narratives that guide the user through the decision-making process and promote sustainability at the community level.</p>
-            <p>The tools in the inventory occupy the following four decision sectors:</p>
+            <p>The tools in the inventory occupy the following four decision-sectors:</p>
             <dl>
               <dt class="bold">Buildings and Related Infrastructure</dt>
               <dd> Decisions around buildings, like green building, or infrastructure, like stormwater management designs or extension of sewer </dd>
@@ -240,7 +240,7 @@
                     <label class="option" for="output-variables">Output Variables</label>
                   </div>
                   <div aria-labelledby="decision-sector-label" class="form-item form-type-checkbox" id="decision-select" role="group">
-                    <h4 id="decision-sector-label">Choose Decision Sectors to find only tools in these Decision Sectors:</h4>
+                    <h4 id="decision-sector-label">Choose decision-sectors to find only tools in a selected decision-sector:</h4>
                     <input class="form-checkbox" id="decision-sector-building" name="decision-sector-check" type="checkbox" value="building infrastructure" />
                     <label class="option" for="decision-sector-building">Building and Infrastructure</label>
                     <input class="form-checkbox" id="decision-sector-land" name="decision-sector-check" type="checkbox" value="land use" />
@@ -251,7 +251,7 @@
                     <label class="option" for="decision-sector-waste">Waste Management</label>
                   </div>
                   <div aria-labelledby="operating-environment-label" class="form-item form-type-checkbox" id="operating-environment-select" role="group">
-                    <h4 id="operating-environment-label">Choose Operating Environments to find only for tools labeled with one of these Operating Environments:</h4>
+                    <h4 id="operating-environment-label">Choose operating-environments to find only tools labeled with a selected operating-environment:</h4>
                     <input class="form-checkbox" id="radioenvironment_desktop" name="radioenvironment" type="checkbox" value="desktop" />
                     <label class="option" for="radioenvironment_desktop">Desktop</label>
                     <input class="form-checkbox" id="radioenvironment_browser" name="radioenvironment" type="checkbox" value="browser" />
@@ -260,7 +260,7 @@
                     <label class="option" for="radioenvironment_mobile">Mobile</label>
                   </div>
                   <div aria-labelledby="cost-label" class="form-item form-type-checkbox" id="cost-select" class="group">
-                    <h4 id="cost-label">Choose Cost Ranges to find only tools labeled with one of these Cost Ranges:</h4>
+                    <h4 id="cost-label">Choose cost ranges to find only tools labeled with one of these cost ranges:</h4>
                     <input class="form-checkbox" id="checkbasefree" name="checkbase" type="checkbox" value="1" />
                     <label class="option" for="checkbasefree">Free</label>
                     
@@ -277,7 +277,7 @@
                     <label class="option" for="checkbase4000">&gt;$4000</label>
                   </div>
                   <div aria-labelledby="extent-label" id="extent-select" class="form-item form-type-checkbox" class="group">
-                    <h4 id="extent-label" >Choose Spatial Extents to find only tools labeled with at least one chosen Spatial Extents:</h4>
+                    <h4 id="extent-label" >Choose spatial extents to find only tools labeled with at least one chosen spatial extents:</h4>
                     <input class="form-checkbox" id="extent-building" name="extent-check" type="checkbox" value="building">
                     <label class="option" for="extent-building">Building</label>
                     <input class="form-checkbox" id="extent-site" name="extent-check" type="checkbox" value="site">
@@ -300,12 +300,12 @@
                 </form>
               </div>
               <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" aria-hidden="true">
-                <h3>Browse the Tools by Decision Sector</h3>
-                <p>Each tool is in a single Decision Sector. Expand a Decision Sector below to browse its tools.</p>
+                <h3>Browse the Tools by Decision-Sector</h3>
+                <p>Each tool is in a single decision-sector. Expand a decision-sector below to browse its tools.</p>
                 <hr />
                 <span>Choose a display:</span>
-                <input id="browse-list-radio" type="radio" name="browse-display-type" value="text" checked><label for="browse-list-radio">Text: Recommended for those on smaller screens.</label>
-                <input id="browse-table-radio" type="radio" name="browse-display-type" value="table"><label for="browse-table-radio">Table: Allows filtering and column sorting.</label>
+                <input id="browse-list-radio" type="radio" name="browse-display-type" value="text" checked><label for="browse-list-radio">Text: recommended for those on smaller screens.</label>
+                <input id="browse-table-radio" type="radio" name="browse-display-type" value="table"><label for="browse-table-radio">Table: allows filtering and column sorting.</label>
                 <div class="accordion" id="accordion">
                   <h4 class="accordion-title"><a>Building and Infrastructure</a></h4>
                   <div class="accordion-pane" id="browseBuildingInfrastructure">
@@ -419,8 +419,8 @@
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
                 <span>Choose a display:</span>
-                <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: Recommended for those on smaller screens.</label>
-                <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: Allows filtering and column sorting.</label>
+                <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: recommended for those on smaller screens.</label>
+                <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: allows filtering and column sorting.</label>
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAll('results-list');$('#results-table').DataTable().rows().select();">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAll('results-list');$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
@@ -456,8 +456,8 @@
                 <p>These are the tools you chose to save.</p>
                 <p>Select the tools you would like to export to a downloadable CSV file.</p><hr />
                 <span>Choose a display:</span>
-                <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text: Recommended for those on smaller screens.</label>
-                <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table: Allows filtering and column sorting.</label>
+                <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text: recommended for those on smaller screens.</label>
+                <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table: allows filtering and column sorting.</label>
                 <div id="saved-list-div">
                   <button class="button-grey" onclick="selectAll('saved-list');$('#saved-table').DataTable().rows().select();">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAll('saved-list');$('#saved-table').DataTable().rows().deselect();">Deselect All Tools</button>
@@ -586,18 +586,6 @@ var transportationTable = new ToolDisplay('transportation-table', 'transportatio
 $(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
 
-  $('tbody').on('click', 'td:first-child', function () {
-    var $parent = $(this).parent();
-    var tableId = $(this).closest('table').attr('id').slice(0, -6);
-    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
-    if (!$parent.hasClass('selected')) { // remove selected class
-      $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
-    }
-    else {
-      $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
-    }
-  });
-
   $(".list").on("change", "input:checkbox", function () {
     var id = $(this).val();
     var tableId = $(this).attr('id').slice(0, -14);
@@ -618,7 +606,7 @@ $(function () { // jquery's shorthand awaits readiness of document
     var $parent = $(this).parent();
     var tableId = $(this).closest('table').attr('id').slice(0, -6);
     var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
-    if (!$parent.hasClass('selected')) { // remove selected class
+    if ($parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
     }
     else {
@@ -631,9 +619,6 @@ $(function () { // jquery's shorthand awaits readiness of document
     var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
     showDetails(readId, $(this).closest('[role="tabpanel"]').attr('aria-labelledby'));
   });
-
-  $('.dt-button').removeClass('dt-button'); // remove default DataTable styles from buttons
-
 });
 
 // DOCUMENT
@@ -804,6 +789,7 @@ var detailedSearch = function () {
               }]
           });
         }
+        $('.dt-button').removeClass('dt-button');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     });

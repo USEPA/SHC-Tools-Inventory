@@ -193,7 +193,7 @@ $('[name="display-type"]').change(function () {
   }
 });
 
-/** DEPRECATED if no longer using Saved Tools tab
+/**
  * Toggle saved table or list display styles
  */
 $('[name="saved-display-type"]').change(function () {
@@ -267,7 +267,7 @@ function addRow(parsedResult, tableId, rowData) {
   }
 }
 
-/** DEPRECATED if no longer using Saved Tools tab
+/**
  * Remove the selected tools from the saved tools list
  */
 function removeSelected(divID) {
@@ -275,26 +275,14 @@ function removeSelected(divID) {
     if ($(this).prop("checked")) {
       savedTools.removeTool($(this).val());
       $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
-      $('#saved-table').DataTable().row('#saved-table-' + $(this).val()).remove().draw();
     }
   });
-}
-
-/** DEPRECATED if no longer using Saved Tools tab
- * Removes all tools from saved tools
- */
-function clearSaved(divID) {
-  $('#' + divID + ' input').each(function () {
-    savedTools.removeTool($(this).val());
-    $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
-  });
-  if ($.fn.DataTable.isDataTable("#saved-table")) {
-    var table = $('#saved-table').DataTable(); 
-    table.clear().draw();
+  if ($.fn.DataTable.isDataTable('#saved-table')) {
+    $('#saved-table').DataTable().rows('.selected').remove().draw();
   }
 }
 
-/** DEPRECATED if no longer using Selected Tools tab
+/**
  * Refactored code to display the selected tool data
  */
 function showDetails(id, origin) {
@@ -395,61 +383,7 @@ function exportCSV(resultsDiv) {
   }
 }
 
-/** DEPRECATED if no longer exporting all instead of just the selected tools
- * Export all tools from the tools table to a downloaded CSV
- */
-function exportAllCSV(resultsDiv) {
-  var records = $('#' + resultsDiv + ' input');
-  if (records.length > 0) {
-    var csvContent = '';
-    var names = [];
-    var values;
-    records.each(function () {
-      values = [];
-      var record = toolCache.getParsedData($(this).val());
-      if (record) {
-        if (names.length === 0) {
-          for (var prop in record) {
-            if (record.hasOwnProperty(prop) && record.hasOwnProperty(csvHeader)) {
-                names.push(prop.csvHeader);
-            }
-          }
-          csvContent = names.join() + '\n';
-        }
-        for (var property in record) {
-          if (record.hasOwnProperty(property) && record.hasOwnProperty(csvHeader)) {
-            values.push('"' + record[property] + '"');
-          }
-        }
-        csvContent += values.join() + '\n';
-      }
-    });
-    var link = document.createElement("a");
-    link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent));
-    link.setAttribute("download", "my_data.csv");
-    link.click();
-  }
-}
-
-/** DEPRECATED if no longer using Saved Tools tab
- * Save all tools from the the tools table
- */
-function saveAllRecords(table_reference) {
-  var recordsToSave = $('#' + table_reference + ' > tbody  > tr');
-  recordsToSave.each(function () {
-    if(!savedTools.contains($(this).attr('data-read-id'))) {
-      savedTools.addTool($(this).attr('data-read-id'));
-      toolCache.handleParsedData($(this).attr('data-read-id'), savedTable.displayTool.bind(savedTable)); // populate divs
-    }
-  });
-  if (savedTools.getLength() > 0) {
-    $('#saved-tools-panel').attr("aria-hidden", false);
-    $('#saved-tools-tab').parent().attr("aria-hidden", false);
-    document.getElementById("saved-tools-tab").click();
-  }
-}
-
-/** DEPRECATED if no longer using Saved Tools tab
+/**
  * Save tools from the the selected tool panel
  */
 function saveRecord() {
@@ -465,7 +399,7 @@ function saveRecord() {
   }
 }
 
-/** DEPRECATED if no longer using Saved Tools tab
+/**
  * Save all selected tools to the Saved Tools tab
  */
 function saveSelectedRecords(resultsDiv) {
@@ -536,6 +470,7 @@ function saveSelectedRecords(resultsDiv) {
           }]
       });
     }
+    $('.dt-button').removeClass('dt-button');
     toolCache.handleToolSet(savedTools, savedTable.displayTools.bind(savedTable)); // populate divs
   }
 }

@@ -154,6 +154,9 @@
     .bold {
       font-weight: bold;
     }
+    .main-column ul {
+      overflow: auto;
+    }
   </style>
 </head>
 <!-- NOTE, figure out body classes! -->
@@ -197,46 +200,55 @@
       <div>On this page:</div>
       <ul>
         <li><a href="#intro-title">Introduction</a></li>
-        <li>
-          <a href="#finder-title">Tool-Finder</a>
+        <li><a href="#finder-title">Tool-Finder</a></li>
           <ul>
             <li><a href="#what-is-wizard">What is It?</a></li>
             <li><a href="#why-need-wizard">Why do I need It?</a></li>
             <li><a href="#how-to-wizard">How do I use It?</a></li>
           </ul>
-        </li>
-        <li><a href="#search-title">Keyword Search</a></li>
+        <li><a href="#search-title">Search</a></li>
+          <ul>
+            <li><a href="#what-is-search">What is It?</a></li>
+            <li><a href="#why-need-search">Why do I need It?</a></li>
+            <li><a href="#how-to-search">How do I use It?</a></li>
+          </ul>
         <li><a href="#read-title">Information about READ</a></li>
       </ul>
     </div>
 
     <h3 id="intro-title" class="title">Introduction</h3>
-    <p>Find tools to assist making a decisions that meets humans' needs while preserving resources for the future. Two methods for finding the tools are the search and the tool-finder.</p>
-    <ul>
-      <li><a href="./wizard.html">Tool-Finder</a> leads users to relevant tools after answering questions about the need for a tool.</li>
-      <li><a href="./search.html">Keyword Search</a> finds tools whose titles or descriptions contain the user's text.</li>
-    </ul>
+    <p>Find tools to assist making decisions that meet human needs while preserving resources for the future. Two methods for finding the tools are a textual search and the tool-finder.</p>
+    <div id="methods">
+      <ul>
+        <li><a href="#finder-title">Tool-Finder</a> finds relevant tools using questions about the user's situation.</li>
+        <li><a href="#search-title">Search</a> for text, specify additional requirements, or browse all tools.</li>
+      </ul>
+    </div>
     <p class="pagetop"><a href="#top">Return to top of page</a></p>
     <hr />
 
     <h3 id="finder-title" class="title">Tool-Finder</h3>
-    <h4 id="what-is-wizard" class="title">What is It?</h4>
-    <p>The tool-finder asks about the situation that led the user to seek tools. The answers to these questions determine which tools are found. These answers can be changed to interactively adjust which results are found.</p>
+    <p>Go to <a href="./wizard.html">Tool-Finder</a>.</p>
+    <h4 id="what-is-wizard" class="title">What is it?</h4>
+    <p>This diagram illustrates that users find tools by selecting answers to easy questions. Tool-Finder is not intended to prescribe solutions. Tool-Finder suggests a set of tools suited to a decision-maker's situation.</p>
+    <p>The tool-finder asks about the user and the user's situation. Answers to these questions determine which tools are found. All answers can be changed to interactively adjust which results are found. Users can save tools while searching to collect a set of tools for later review.</p>
     <h4 id="why-need-wizard" class="title">Why do I need it?</h4>
-    <p>The READ database contains many tools for practitioners and decision makers. Not every tool applies to each situation. Tool-Finder identifies which tools are likely to be useful. The tools are found by a user's answers to questions about the situation.</p>
+    <p>The READ database contains many tools for practitioners and decision makers. Not every tool applies to each situation. Tool-Finder identifies which tools are likely to be useful. This method of finding tools can be helpful if a user doesn't know what text to search.</p>
     <h4 id="how-to-wizard" class="title">How do I use it?</h4>
-    <p>Users narrow their search for tools by identifying their role within the community (Who are you?), specifying their objectives (What do you want to accomplish?), and selecting the relevant concepts that correspond to directed tools (Where do you want to direct your focus?). The answers to these questions determine which tools are found.</p>
+    <p>Users select answers to questions from those provided. Each question's answers determines selections are available later. Questions are answered in order. Answers can be modified at any time to change the options available as answers to answer later questions.</p>
+    <p>Users answer "who are you?" by identifying their roles within the community. Users next answer "what do you want to accomplish?" specifying their objectives. Users then answer "where do you want to direct your focus?" by choosing concepts associated with tools. Tools are then found based on these selected concepts.</p>
+    <p>
     <div id="caption-for-diagram-of-using-the-wizard">
       <h5 id="example-use-case-wizard">Example</h5>
-      <p>This is a diagram showing questions and their possible answers. The first question asks "who are you?" The possible answers shown are "real estate developer," "academic/scientist," "landlord," "urban forest manager," and "regulatory official." Urban forest manager was selected as the desired answer.</p>
-      <p>The second question asks "what do you want to accomplish?" The selected answers are "maximize effectiveness of BMPs" and "maximize amount and quality of urban green space." "Maximize vegetation throughout urban landscape" is an unselected possible answer to the question.</p>
+      <p>This diagram illustrates that users find tools by selecting answers to easy questions. The diagram shows each question and some of its possible answers. The first question asks "who are you?" The possible answers shown are "real estate developer," "academic/scientist," "landlord," "urban forest manager," and "regulatory official." Urban forest manager was selected as the desired answer.</p>
+      <p>The second question asks "what do you want to accomplish?" The selected answers are "maximize effectiveness of BMPs" and "maximize amount and quality of urban green space." "Maximize vegetation throughout urban landscape" is an unselected possible answer to this question.</p>
       <p>The third question asks "where do you want to direct your focus?" The possible answers shown are "urban canopy cover," "vegetative cover and distribution," "urban green space," and "urban habitat." "Urban canopy cover" and "urban green space" are selected.</p>
       <p>The next step illustrated is finding tools. The tools found by the tool-finder are "Wildlife Habitat Benefits Estimation Toolkit," "National Stormwater Calculator(NSC)," and "Envision Tomorrow(ET+)." "Wildlife Habitat Benefits Estimation Toolkit" and "National Stormwater Calculator(NSC)" are selected.</p>
-      <p>The selected tools will remain when another search is performed. Unselected tools will disappear when another search is performed. Only a few selectable responses are shown for each of the questions for brevity. Brevity is intended to help viewers observe the point of the example: a user answers questions and tools are found.</p>
+      <p>Selected tools are saved while other tools are found. Unselected tools disappear. Only a few selectable responses are shown for clarity.</p>
     </div>
     <div class="row cols-1">
       <svg id="diagram-of-using-the-wizard" viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg">
-       <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ with source edited by-hand-ually by Kyle Thomas, quite naturally -->
+       <!-- Created with Method Draw: http://github.com/duopixel/Method-Draw/ -->
        <g>
         <title>Diagram of Using the Wizard to Find Tools</title>
         <desc></desc>
@@ -303,23 +315,45 @@
       </svg>
       <div class="col"></div>
     </div>
-    <div class="row cols-1">
-      <div class="col"><p>Tool-Finder is not intended to prescribe solutions. Tool-Finder delivers a set of tools suited to a decision-maker's situation.</p></div>
-    </div>
     <p class="pagetop"><a href="#top">Return to top of page</a></p>
     <hr />
 
-    <h3 id="search-title" class="title">Keyword Search</h3>
-    <p>The Environmental Protection Agency’s Sustainable and Healthy Communities Research Program (SHCRP) has an inventory of decision-support-tools. This inventory is designed to provide a catalog of options for non-experts and professionals who seek solutions to community level development needs that will sustain human wellbeing and ecological functions.</p>
-    <p>This web-based inventory provides a searchable resource for homeowners, bicyclists, building-owners, developers, municipal planners, architects, engineers, scientists, academics, and other interested community-stakeholders. The tools in the inventory variously provide data useful to making decisions, model scenarios, and produce narratives that guide the user through decision-making processes in ways that promote sustainability within communities, regions, and on larger geographic scales.</p>
+    <h3 id="search-title" class="title">Search</h3>
+    <p>Go to <a href="./search.html">Search</a>.</p>
+    <h4 id="what-is-search" class="title">What is it?</h4>
+    <p>Search for text in a tool's title, acronym, keywords, or description. Browse allows users to browse all tools in the inventory. Advanced search lets users search for text contained in titles, acronyms, descriptions, keywords, model-inputs, or output-variables. Advanced search lets users require that tools
+      <ul>
+        <li>occupy a selected decision-sector,</li>
+        <li>operate within a selected environment,</li>
+        <li>cost a specified amount, and</li>
+        <li>pertain to a specified spatial extent.</li>
+      </ul>
+    </p>
+    <p></p>
+    <h4 id="why-need-search" class="title">Why do I need it?</h4>
+    <p>Search allows users to find a very specific set of tools by searching titles, descriptions, keywords, and acronyms for text. Search has an autocomplete feature that helps users explore what text is present. Advanced search lets users specify other requirements. Browse lets users survey what tools are in the inventory.</p>
+    <h4 id="how-to-search" class="title">How do I use it?</h4>
+    <p>Search is shown immedately. Enter text where indicated and press enter or use the search button. Advanced search is in the tab named advanced search. There is also a tab named browse where users can peruse all tools in the inventory.</p>
+    <p class="pagetop"><a href="#top">Return to top of page</a></p>
+    <hr />
+
+    <h3 id="read-title" class="title">Tools in the Inventory</h3>
+    <p>The Environmental Protection Agency’s Sustainable and Healthy Communities Research Program (SHCRP) has an inventory of decision-support-tools. This inventory is designed to provide a catalog of options for non-experts and professionals who seek solutions to community-level-development-needs that will sustain human wellbeing and ecological function.</p>
+    <p>This inventory provides a searchable resource for homeowners, bicyclists, building-owners, developers, municipal planners, architects, engineers, scientists, academics, and other interested community-stakeholders. Tools in the inventory
+    <ul>
+      <li>provide data useful to making decisions,</li>
+      <li>model scenarios, and</li>
+      <li>present narratives that guide users through decision-making processes</li>
+    </ul>
+    to promote sustainability within communities, regions, and on larger geographic scales.</p>
     <p>The tools in the inventory occupy the following four decision sectors:</p>
     <dl>
       <dt class="bold">Buildings and Related Infrastructure</dt>
-      <dd>Examples include decisions involving buildings like
+      <dd>Examples include decisions involving buildings and infrastructure, including
         <ul>
           <li>passively solar HVAC considerations,</li>
           <li>decisions informed by modeling performance of building-materials, and</li>
-          <li>decisions involving stormwater management designs or sewer-extensions.</li>
+          <li>decisions involving stormwater-management-designs or sewer-extensions.</li>
         </ul>
       </dd>
       <dt class="bold">Land Use</dt>
@@ -353,10 +387,6 @@
         </ul>
       </dd>
     </dl>
-    <p class="pagetop"><a href="#top">Return to top of page</a></p>
-    <hr />
-
-    <h3 id="read-title" class="title">Tools in the Inventory</h3>
     <p>The inventory of tools is kept in the Registry of EPA Applications, models, and Data-warehouses(READ). READ is a comprehensive registry of informational resources for the EPA. General information about READ is <a href="https://ofmpub.epa.gov/sor_internet/registry/systmreg/home/overview/home.do">here</a>. The inventory is accessed using <a href="https://ofmpub.epa.gov/readwebservices/">READ Web Services</a>.</p>
     <p class="pagetop"><a href="#top">Return to top of page</a></p>
     <hr />
