@@ -473,7 +473,7 @@
                   </p>
                 </p>
                 <div class="navbar">
-                  <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'), 'wizard.html#concept-tab')">Next</button>
+                  <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'), 'wizard.html#concept-tab');updateConcepts()">Next</button>
                 </div>
                 <hr />
                 <input id="objective-relevance" type="hidden" value="1" />
@@ -488,20 +488,20 @@
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
                 <h4>Concepts <small>Where do you want to direct your focus? <button class="icon-button" onclick="$('#concept-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></small></h4>
-                  <p>Select one or more Concepts and then click <strong>Find Number of Results</strong>. If you have selected one or more Concepts and you would like to expand your selection to include additional related Concepts, click <strong>Add Additional Concepts</strong>.</p>
-                  <p>Use the <strong>Display Results</strong> button to display your list of targeted tools.</p>
+                  <p>Select one or more Concepts. Each Concept is labeled with the number of tools it will add or remove from your results. If you have selected one or more Concepts and you would like to expand your selection to include additional related Concepts, click <strong>Add Additional Concepts</strong>.</p>
+                  <p>Use the <strong>Show Results</strong> button to display your list of targeted tools.</p>
                   <p aria-hidden="true" class="success" id="concept-help">
                     <img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/>
                       <em>Need help?</em> <strong>CONCEPTS</strong> (e.g. “Health & Safety”) are distinct focal areas that you and other decision makers can address with directed tools. Ask yourself: “In what focal areas do I identify a need for a tool or resource?” Select the concept(s) that most specifically describes the focal area where a tool will be helpful to you. Expand your search for tools by selecting additional concepts.
                   </p>
                 </p>
                 <div class="navbar">
+                  <button class="button-aqua" id="concept-search-button" onclick="displayResults()">Show Results</button>
                   <div aria-hidden="true" id="results-notification"></div>
-                  <button aria-hidden="true" id="show-results-button" onclick="findAndDisplayResults()">Find and Display Results</button>
                 </div>
                 <hr class="park-mark" />
-                <button class="button-grey" onclick="selectAll('concept',function(){$($('#concept>input')[0]).prop('checked',false).click()})//manually fire click after selection change via an IIFE">Select All Concepts</button>
-                <button class="button-grey" onclick="deselectAll('concept',function(){$($('#concept>input')[0]).prop('checked',true).click()})//manually fire click after selection change via an IIFE">Deselect All Concepts</button>
+                <button class="button-grey" onclick="selectAll('concept');updateConceptsandResults()">Select All Concepts</button>
+                <button class="button-grey" onclick="deselectAll('concept');updateConceptsandResults()">Deselect All Concepts</button>
                 <button class="button-white right" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <div id="concept"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
@@ -513,8 +513,8 @@
                   <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: Recommended for those on smaller screens.</label>
                   <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: Allows filtering and column sorting.</label>
                 <div id="results-list-div">  
-                  <button class="button-grey" onclick="selectAll('results-list', saveAll('results-list'));$('#results-table').DataTable().rows().select();">Select All Tools</button>
-                  <button class="button-grey" onclick="deselectAll('results-list', unsaveAll());$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                  <button class="button-grey" onclick="selectAllToolsButton()">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAllToolsButton()">Deselect All Tools</button>
                   <div class="navbar">
                     <button class="button-white right" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                   </div>
@@ -653,6 +653,26 @@ $(function () { // jquery's shorthand awaits readiness of document
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate the roles into #role div
   initializeTabs(); // initialize tabs and their listeners
 
+  $('#concept').on('change', '.tool-label', function () {
+    updateConceptsandResults();
+  });
+
+  $(".list").on("change", "input:checkbox", function () {
+    var id = $(this).val();
+    if ($(this).prop('checked')) { // add selected class
+      $("#results-table").DataTable().rows(function (idx, data, node) {
+        return data[1] == id ? true: false;
+      }).nodes().to$().addClass("selected");
+      savedTools.addTool(id);
+    } else {
+      $("#results-table").DataTable().rows(function (idx, data, node) {
+        return data[1] == id ? true: false;
+      }).nodes().to$().removeClass("selected");
+      savedTools.removeTool(id);
+    }
+    updateConcepts();
+  });
+
   $('tbody').on('click', 'td:first-child', function () {
     var $parent = $(this).parent();
     var tableId = $(this).closest('table').attr('id').slice(0, -6);
@@ -665,27 +685,6 @@ $(function () { // jquery's shorthand awaits readiness of document
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
       savedTools.addTool(readId);
     }
-  });
-
-  $(".list").on("change", "input:checkbox", function () {
-    var id = $(this).val();
-    if ($(this).prop('checked')) { // add selected class
-      $("#results-table").DataTable().rows(function (idx, data, node) {
-        return data[2] == id ? true: false;
-      }).nodes().to$().addClass("selected");
-      savedTools.addTool(id);
-    } else {
-      $("#results-table").DataTable().rows(function (idx, data, node) {
-        return data[2] == id ? true: false;
-      }).nodes().to$().removeClass("selected");
-      savedTools.removeTool(id);
-    }
-  });
-
-  $('tbody').on('click', 'td:not(:first-child)', function () {
-    var tableId = $(this).closest('table').attr('id').slice(0, -6);
-    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
-    showDetails(readId, $(this).closest('[role="tabpanel"]').attr('aria-labelledby'));
   });
 });
 
@@ -744,6 +743,21 @@ var toast = function (parameters) {
   }, 20000);
 };
 
+function selectAllToolsButton() {
+  selectAll('results-list', saveAll('results-list'));
+  $('#results-table').DataTable().rows().select();
+  updateConcepts();
+}
+
+function deselectAllToolsButton() {
+  deselectAll('results-list', unsaveAll());
+  $('#results-table').DataTable().rows().deselect();
+  updateConcepts()
+}
+
+/**
+ * Clears the toast and the timeout for the toast
+*/
 function clearToast(){
   var noticeID = 'toast';
   var $notice = $('#' + noticeID);
@@ -972,16 +986,8 @@ var fundamentalObjectiveSelect = function () {
 var objectiveSelect = function () {
   var selectedElements = scrapeDictionary($("input[name='objective-checkbox']:checked"), conceptsByObjective);
   $('#concept').html('');
-  updateInterface(selectedElements, $('#concept'), 'conceptListenerCallback()');
-};
-
-/**
- * update state to reflect selected concepts
- */
-var conceptListenerCallback = function() {
-  var numberOfSelectedConcepts = $('input[name="concept-checkbox"]:checked').length;
-  var numberOfResults = conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'), 'true');//number of tools associated with selected concepts
-  $('#show-results-button').text('Show ' + numberOfResults + ' Results');//update `x` in "Show `x` Results"
+  updateInterface(selectedElements, $('#concept'));
+  updateConcepts();
 };
 
 /**
@@ -1041,8 +1047,24 @@ function addCheckboxes(list, container, onChange, count) {
   var id = inputs.length + 1;
   var html = '';
   for (var i = 0; i < list.length; i++) {
-      html += '<input class="tool-label" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + list[i] + '" name="' + containerName + '-checkbox" ' + onChange + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="unselectable">' + list[i] + '</label>';
-      id++;
+    var concept = list[i];
+    var numberOfToolsSpan = '';
+    var numberOfTools = 0;
+    if (containerName === 'concept') {
+      var length = readIDsByConcept[concept].length;
+      for (var j = 0; j < length; j++) {
+        if (!resultSet.contains(readIDsByConcept[concept][j])){
+          numberOfTools++;
+        }
+      }
+      if (numberOfTools === 1) {
+        numberOfToolsSpan = ' <span class="tool-count" style="background: #e1f3f8;color: #212121;padding: 0 .5em;margin-bottom: .5em;">Add ' + numberOfTools + ' Tool' + '</span>'; 
+      } else {
+        numberOfToolsSpan = ' <span class="tool-count" style="background: #e1f3f8;color: #212121;padding: 0 .5em;margin-bottom: .5em;">Add ' + numberOfTools + ' Tools' + '</span>'; 
+      }
+    }
+    html += '<input class="tool-label" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerName + '-checkbox" ' + onChange + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="unselectable">' + concept + numberOfToolsSpan + '</label>';
+    id++;
   }
   return html;
 }
@@ -1072,7 +1094,7 @@ var keywordSearch = function (div, input) {
 /**
  * search for the READ IDs from the selected Concepts from input and display results in div
  */
-var conceptSearch = function (div, input, returnNumberOfResultsFlag) {
+var conceptSearch = function (div, input) {
   $('#results-notification').html('').removeClass().attr('aria-hidden', 'true');
   resultSet.reset(); // remove from resultSet
   if ($.fn.DataTable.isDataTable('#results-table')) {
@@ -1090,33 +1112,152 @@ var conceptSearch = function (div, input, returnNumberOfResultsFlag) {
   }
 
   var concepts = getConcepts(input); //get new concepts
-  if (concepts.length < 1) {
-    $('#results-notification').html('Please select a concept.').removeClass().addClass('warning').removeAttr('aria-hidden');
+  if (concepts.length < 1 && !savedTools.getLength()) {
     $('#results-container').hide();
     $('#results-container').attr('aria-hidden', 'true');
-    $('#show-results-button').attr('aria-hidden', 'true');
+    $('#concept-search-button').text('Show Results');
     return;
-  }
-  for (var i = 0; i < concepts.length; i++) {
-    if(readIDsByConcept[concepts[i]]) {
-      for (var j = 0; j < readIDsByConcept[concepts[i]].length; j++) {
-        if(!resultSet.contains(readIDsByConcept[concepts[i]][j]) && !savedTools.contains(readIDsByConcept[concepts[i]][j])) {
-          resultSet.addTool(readIDsByConcept[concepts[i]][j]);
+  } else {
+    for (var i = 0; i < concepts.length; i++) {
+      if(readIDsByConcept[concepts[i]]) {
+        for (var j = 0; j < readIDsByConcept[concepts[i]].length; j++) {
+          if(!savedTools.contains(readIDsByConcept[concepts[i]][j])) {
+            resultSet.addTool(readIDsByConcept[concepts[i]][j]);
+          }
         }
       }
     }
   }
-  if (resultSet.getLength() > 0) {
-    $('#results-notification').html('Found ' + resultSet.getLength() + ' new results.').removeClass().addClass('success').removeAttr('aria-hidden');
-    $('#show-results-button').attr('aria-hidden', 'false');
-    if (returnNumberOfResultsFlag === 'true') {
-      return resultSet.getLength()
+  var numberOfTools = resultSet.getLength();
+  if (savedTools.getLength()) {
+    for (var toolId in savedTools.getToolSet()) {
+      if (!resultSet.getToolSet().hasOwnProperty(toolId)) {
+        numberOfTools++;
+      }
     }
+  }
+  if (numberOfTools === 1) {
+    $('#concept-search-button').text('Show ' + numberOfTools + ' Result');
   } else {
-    $('#results-notification').html('No results found.').removeClass().addClass('warning').removeAttr('aria-hidden');
-    $('#show-results-button').attr('aria-hidden', 'true');
+    $('#concept-search-button').text('Show ' + numberOfTools + ' Results');
   }
 };
+
+/**
+ * Updates the list of concepts with the number of tools selecting or deselecting will add or remove
+*/
+function updateConcepts() {
+  $('#concept .tool-count').each(function () { // for each tool label
+    var $conceptCheckbox = $('#' + $(this).parent().attr('for')); // get associated checkbox
+    var concept = $conceptCheckbox.val(); // get associated concept
+    var length = readIDsByConcept[concept].length; // number of tools related to this concept
+    var numberOfTools = 0; 
+    if (!$('#' + $(this).parent().attr('for')).prop('checked')) { // if this is not checked
+      for (var j = 0; j < length; j++) {
+        var toolId = readIDsByConcept[concept][j];
+        if (!resultSet.contains(toolId) && !savedTools.contains(toolId)) { // count the number of tools that are not in the result set
+          numberOfTools++;
+        }
+      }
+      if (numberOfTools === 1) {
+        $(this).text("Add " + numberOfTools + ' Tool');
+      } else {
+        $(this).text("Add " + numberOfTools + ' Tools');
+      }
+    } else {
+      for (var k = 0; k < length; k++) {
+        var toolId = readIDsByConcept[concept][k];
+        if (resultSet.toolIsUnique(toolId) && !savedTools.contains(toolId)) { // count the number of unique tools tied to this concept
+          numberOfTools++;
+        }
+      }
+      if (numberOfTools === 1) {
+        $(this).text("Remove " + numberOfTools + ' Tool');
+      } else {
+        $(this).text("Remove " + numberOfTools + ' Tools');
+      }
+    }
+  });
+}
+
+/**
+ * Runs a concept search and updates the list of concepts 
+*/
+function updateConceptsandResults() {
+  conceptSearch('results-list', $('input[name="concept-checkbox"]:checked'));
+  updateConcepts();
+}
+
+var displayResults = function () {
+  if (resultSet.getLength() > 0 || savedTools.getLength() > 0) {  
+    $('#results-tab').parent().attr('aria-hidden', 'false');
+    $('#results-tab')[0].click();
+    activateNextTab($('#results-tab'));
+    if (!resultSet.isEqual(resultTable.getToolSet())) {
+      $('#loader').removeAttr('aria-hidden').show();
+      if (!$.fn.DataTable.isDataTable('#results-table')) {
+        var table = $("#results-table").DataTable({
+          dom: 'Bfrtip',
+          processing: true,
+          responsive: {
+            details: false
+          },
+          columnDefs: [{
+            orderable: false,
+            className: 'select-checkbox',
+            targets: [0]
+          },
+          {
+            width: "5%",
+            targets: [0] 
+          },
+          {
+            visible: false,
+            targets: [1]
+          }],
+          select: {
+            style: 'multi',
+            selector: 'td:first-child'
+          },
+          order: [[2, 'asc']],
+          buttons: [{
+              text: 'Select All Tools',
+              action: function () {
+                table.rows().select();
+                selectAll('results-list', saveAll('results-list'));
+              },
+              className: 'button button-grey'
+            },
+            {
+              text: 'Deselect All Tools',
+              action: function () {
+                table.rows().deselect();
+                deselectAll('results-list', unsaveAll());
+              },
+              className: 'button button-grey'
+            },
+            { 
+              text: 'Export Selected Tools to CSV',
+              action: function () {
+                exportCSV('results-list');
+              },
+              className: 'button button-white right'
+            }
+          ]
+        });
+      }
+      $('.dt-button').removeClass('dt-button');
+      toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
+    }
+  } else {
+    toast({html: 'Please select a concept.', close: true});
+  }
+}
+
+var findAndDisplayResults = function() {
+  conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));
+  displayResults();
+}
 
 /**
  * get concepts from input as a list
@@ -1311,7 +1452,7 @@ var broadenConcepts = function () {
   if (associatedConcepts.length === 0) {
     toast({html: 'No related concepts found. Try selecting additional concepts or objectives.', close: true});
   }
-  var html = addCheckboxes(associatedConcepts, $('#concept'), 'conceptListenerCallback()');
+  var html = addCheckboxes(associatedConcepts, $('#concept'));
   $('#concept').append(html);
 };
 
@@ -1339,73 +1480,6 @@ var activateNextTab = function ($nextTab, URLToShow) {
     $nextTab.click();// activate tab
   }
 };
-
-var displayResults = function () {
-  $('#results-tab').parent().attr('aria-hidden', 'false');
-  $('#results-tab')[0].click();
-  activateNextTab($('#results-tab'));
-  if (!resultSet.isEqual(resultTable.getToolSet())) {
-    $('#loader').removeAttr('aria-hidden').show();
-    if (!$.fn.DataTable.isDataTable('#results-table')) {
-      var table = $("#results-table").DataTable({
-        dom: 'Bfrtip',
-        processing: true,
-        responsive: {
-          details: false
-        },
-        columnDefs: [{
-          orderable: false,
-          className: 'select-checkbox',
-          targets: [0]
-        },
-        {
-          width: "5%",
-          targets: 0 
-        },
-        {
-          visible: false,
-          targets: [1]
-        }],
-        select: {
-          style: 'multi',
-          selector: 'td:first-child'
-        },
-        order: [[2, 'asc']],
-        buttons: [{
-            text: 'Select All Tools',
-            action: function () {
-              table.rows().select();
-              selectAll('results-list', saveAll('results-list'));
-            },
-            className: 'button button-grey'
-          },
-          {
-            text: 'Deselect All Tools',
-            action: function () {
-              table.rows().deselect();
-              deselectAll('results-list', unsaveAll());
-            },
-            className: 'button button-grey'
-          },
-          { 
-            text: 'Export Selected Tools to CSV',
-            action: function () {
-              exportCSV('results-list');
-            },
-            className: 'button button-white right'
-          }
-        ]
-      });
-    }
-    $('.dt-button').removeClass('dt-button');
-    toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
-  }
-}
-
-var findAndDisplayResults = function() {
-  conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));
-  displayResults();
-}
 
 /**
  * return an object containing all SHC-tools indexed by decision-sector

@@ -81,8 +81,10 @@ function ToolSet() {
   };
   this.addTool = function (toolId) {
     if (!this.getToolSet().hasOwnProperty(toolId)) {
-      this.toolSet[toolId] = true;
+      this.toolSet[toolId] = 1;
       this.length++;
+    } else {
+      this.toolSet[toolId]++;
     }
   };
   this.removeTool = function (toolId) {
@@ -94,6 +96,17 @@ function ToolSet() {
   this.contains = function (toolId) {
     if (this.getToolSet().hasOwnProperty(toolId)) {
       return true;
+    } else {
+      return false;
+    }
+  };
+  this.toolIsUnique = function (toolId) {
+    if (this.getToolSet().hasOwnProperty(toolId)) {
+      if (this.toolSet[toolId] === 1) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
@@ -494,41 +507,9 @@ function addDiv(parsedResult, containerId) {
         + '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span>: ' + parsedResult['Description']
       + '</div>'
     + '</div>'
-    + '<div class="row expand" data-container="' + containerId + '"  data-id="' + parsedResult['ID'] + '" tabindex="0">'
-      + '<button class="col bold button-grey" id="expand-message-' + containerId + '-' + parsedResult['ID'] + '">Show Tool Details</button>'
+    + '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">'
+      + '<button class="col bold button-grey">Show Tool Details</button>'
       + '<div class="col accordion-result"></div>'
-    + '</div>'
-    + '<div class="row" id="additional-details-' + containerId + '-' + parsedResult['ID'] + '" style="display:none;">'
-      + '<div class="col size-1of2">'
-        + '<span class="bold">Contact Name</span>: ' + parsedResult['Support Name'] + '<br />'
-        + '<span class="bold">Contact Email</span>: ' + parsedResult['Support Email'] + '<br />'
-        + '<span class="bold">URL</span>: ' + parsedResult['URL'] + '<br />'
-        + '<span class="bold">Internet Help Desk Phone</span>: ' + parsedResult['Help Desk Phone'] + '<br />'
-        + '<span class="bold">Internet Help Desk Email</span>: ' + parsedResult['Help Desk Email'] + '<br />'
-        + '<span class="bold">Lifecycle Phase</span>: ' + parsedResult['Life Cycle Phase'] + '<br />'
-        + '<span class="bold">Last Modified</span>: ' + parsedResult['Last Modified'] + '<br />'
-        + '<span class="bold">Operating Environment</span>: ' + parsedResult['Operating Environment'] + '<br />'
-        + '<span class="bold">Operating System</span>: ' + parsedResult['Operating System'] + '<br />'
-        + '<span class="bold">Other Technical Requirements</span>: ' + parsedResult['Other Requirements'] + '<br />'
-        + '<span class="bold">Selected Concepts</span>: ' +  getSelectedConceptsAssociatedWithTool(parsedResult['ID']) + '<br />'
-        + '<span class="bold">View Details Externally</span>: <a href="' + prefixForExternalDetails + parsedResult['ID'] + '" target="_blank">View Details Externally</a><br />'
-        + '<span class="bold">Model Output Variables</span>: ' + parsedResult['Output Variables'] + '<br />'
-      + '</div>'
-      + '<div class="col size-1of2">'
-        + '<span class="bold">Keywords</span>: ' + parsedResult['Keywords'] + '<br />'
-        + '<span class="bold">Alternative Names</span>: ' + parsedResult['Other Costs'] + '<br />'
-        + '<span class="bold">Ownership</span>: ' + parsedResult['Ownership Type'] + '<br />'
-        + '<span class="bold">Software Cost</span>: ' + parsedResult['Cost'] + '<br />'
-        + '<span class="bold">Other Cost</span>: ' + parsedResult['Other Costs'] + '<br />'
-        + '<span class="bold">Open Source</span>: ' + parsedResult['Open Source'] + '<br />'
-        + '<span class="bold">Decision Sector</span>: ' + parsedResult['Decision Sector'] + '<br />'
-        + '<span class="bold">Support Materials</span>: ' + parsedResult['Support Materials'] + '<br />'
-        + '<span class="bold">Model Evaluation</span>: ' + parsedResult['Model Evaluation'] + '<br />'
-        + '<span class="bold">Model Time Scale</span>: ' + parsedResult['Time Scale'] + '<br />'
-        + '<span class="bold">Spatial Extent</span>: ' + parsedResult['Spatial Extent'] + '<br />'
-        + '<span class="bold">Data Requirements</span>: ' + parsedResult['Input Data Requirements'] + '<br />'
-        + '<span class="bold">Model Inputs</span>: ' + parsedResult['Model Inputs'] + '<br />'
-      + '</div>'
     + '</div>'
   + '</div>';
 
@@ -552,40 +533,8 @@ function createDiv(parsedResult, containerId) {
         + '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span></label>: ' + parsedResult['Description']
       + '</div>'
     + '</div>'
-    + '<div class="row expand" data-container="' + containerId + '"  data-id="' + parsedResult['ID'] + '" tabindex="0">'
-      + '<button class="col bold button-grey" id="expand-message-' + containerId + '-' + parsedResult['ID'] + '">Show Tool Details</button>'
-    + '</div>'
-    + '<div class="row" id="additional-details-' + containerId + '-' + parsedResult['ID'] + '" style="display:none;">'
-      + '<div class="col size-1of2">'
-        + '<span class="bold">Contact Name</span>: ' + parsedResult['Support Name'] + '<br />'
-        + '<span class="bold">Contact Email</span>: ' + parsedResult['Support Email'] + '<br />'
-        + '<span class="bold">URL</span>: ' + parsedResult['URL'] + '<br />'
-        + '<span class="bold">Internet Help Desk Phone</span>: ' + parsedResult['Help Desk Phone'] + '<br />'
-        + '<span class="bold">Internet Help Desk Email</span>: ' + parsedResult['Help Desk Email'] + '<br />'
-        + '<span class="bold">Lifecycle Phase</span>: ' + parsedResult['Life Cycle Phase'] + '<br />'
-        + '<span class="bold">Last Modified</span>: ' + parsedResult['Last Modified'] + '<br />'
-        + '<span class="bold">Operating Environment</span>: ' + parsedResult['Operating Environment'] + '<br />'
-        + '<span class="bold">Operating System</span>: ' + parsedResult['Operating System'] + '<br />'
-        + '<span class="bold">Other Technical Requirements</span>: ' + parsedResult['Other Requirements'] + '<br />'
-        + '<span class="bold">Model Inputs</span>: ' + parsedResult['Model Inputs'] + '<br />'
-        + '<span class="bold">Selected Concepts</span>: ' +  getSelectedConceptsAssociatedWithTool(parsedResult['ID']) + '<br />'
-        + '<span class="bold">External Details</span>: <a href="' + prefixForExternalDetails + parsedResult['ID'] + '" target="_blank">View Details Externally</a><br />'
-      + '</div>'
-      + '<div class="col size-1of2">'
-        + '<span class="bold">Keywords</span>: ' + parsedResult['Keywords'] + '<br />'
-        + '<span class="bold">Alternative Names</span>: ' + parsedResult['Other Costs'] + '<br />'
-        + '<span class="bold">Ownership</span>: ' + parsedResult['Ownership Type'] + '<br />'
-        + '<span class="bold">Software Cost</span>: ' + parsedResult['Cost'] + '<br />'
-        + '<span class="bold">Other Cost</span>: ' + parsedResult['Other Costs'] + '<br />'
-        + '<span class="bold">Open Source</span>: ' + parsedResult['Open Source'] + '<br />'
-        + '<span class="bold">Decision Sector</span>: ' + parsedResult['Decision Sector'] + '<br />'
-        + '<span class="bold">Support Materials</span>: ' + parsedResult['Support Materials'] + '<br />'
-        + '<span class="bold">Model Evaluation</span>: ' + parsedResult['Model Evaluation'] + '<br />'
-        + '<span class="bold">Model Time Scale</span>: ' + parsedResult['Time Scale'] + '<br />'
-        + '<span class="bold">Spatial Extent</span>: ' + parsedResult['Spatial Extent'] + '<br />'
-        + '<span class="bold">Data Requirements</span>: ' + parsedResult['Input Data Requirements'] + '<br />'
-        + '<span class="bold">Model Output Variables</span>: ' + parsedResult['Output Variables'] + '<br />'
-      + '</div>'
+    + '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">'
+      + '<button class="col bold button-grey">Show Tool Details</button>'
     + '</div>'
   + '</div>';
 
@@ -597,12 +546,19 @@ function createDiv(parsedResult, containerId) {
  */
 $('.list').on('click', '.expand', function () {
   var $this = $(this);
-  var $container = $this.attr('data-container');
-  var $id = $this.attr('data-id');
-  $("#additional-details-" + $container + '-' + $id).toggle();
-  $("#additional-details-" + $container + '-' + $id).css('display') == 'block' ? $('#expand-message-' + $container + '-' + $id).html('Hide Tool Details') : $('#expand-message-' + $container + '-' + $id).html('Show Tool Details');
-  $this.find('.accordian-result').toggleClass('collapsible');
+  var readId = $this.attr('data-id');
+  showDetails(readId, $this.closest('[role="tabpanel"]').attr('aria-labelledby'));
 })
+
+
+/**
+ * On click listener for loading the Selected Tools Tab from the table view
+ */
+$('tbody').on('click', 'td:not(:first-child)', function () {
+  var tableId = $(this).closest('table').attr('id').slice(0, -6);
+  var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
+  showDetails(readId, $(this).closest('[role="tabpanel"]').attr('aria-labelledby'));
+});
 
 /**
  * map details of a result into accessible locations
