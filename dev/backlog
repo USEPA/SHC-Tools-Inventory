@@ -351,6 +351,57 @@ backlog to track work to be done and by whom
 
 - Add updateConcepts() to the interface function chain
   - seth: done
+
+- Add close button to Toasts
+  - seth: done
+
+- Make Toasts last 20 seconds
+  - seth: done
+
+- Fixed bug where new concepts were not checking properly after being added - Ryan found this 
+  - seth: done
+
+- Fix Table headers and column data were not properly aligned
+  - seth: done
+
+- Parsed for leaf nodes - shouldn't be any dead ends now
+  - seth: done
+
+- Display Tools button was adding the same tools over and over again - David found this
+  - seth: done
+
+- Button restyling - now float right
+  - seth: done
+
+- Updated tab styling: blue and arrow like
+  - seth: done
+
+- Load time decreased: DataTables now initialize when they are being loaded instead of at page load
+  - seth: done
+
+- Selecting a Row was not selecting in the other view
+  - seth: done
+
+- Clicking disable Toasts closes the Toast
+  - seth: done
+
+- Selecting a concept now automatically displays how many tools it will show
+  - seth: done
+
+- Number of tools added or removed by adding or removing a concept now displayed
+  - seth: done
+
+- Wizard DataTable now loads at the correct width
+  - seth: done
+
+- DataTable buttons are now styles properly
+  - Both: done
+
+- Add a feedback modal to Wizard
+  - seth: done
+
+- Use selected Tool Tab to view tool details on Wizard
+  - seth: done
 #####################################################
 # CURRENT BACKLOG BELOW #############################
 #####################################################
@@ -429,3 +480,11 @@ backlog to track work to be done and by whom
 
 - Clear unselected tools on result tab
   - per feedback from Coleen
+
+- Validate Tool tagging for different permutations
+
+- Link to GWIZ, Super Find Commuity Resources on portal page (EBM tool site, MIT Tools)
+
+- Questions : Controls useful or confusing? Does display of Content make sense? Did you get the content you hoped for? What Changes would you make? 
+
+- Describe content of the tools at the top of the portal page
