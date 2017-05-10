@@ -312,31 +312,31 @@ function showDetails(id, origin) {
     console.log(error);
   }
   if (parsedData) {
-    html += "<span class='bold'>Title</span>: " + parsedData['Title'] + "<br>"
-    + "<span class='bold'>Acronym</span>: " + parsedData['Acronym'] + "<br>"
-    + "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>"
-    + "<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>"
-    + "<span class='bold'>Cost Details</span>: " + parsedData['Cost'] + "<br>"
-    + "<span class='bold'>Other Costs</span>: " + parsedData['Other Costs'] + "<br>"
-    + "<span class='bold'>Open Source</span>: " + parsedData['Open Source'] + "<br>"
-    + "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>"
-    + "<span class='bold'>Keywords</span>: " + parsedData['Keywords'] + "<br>"
-    + "<span class='bold'>User Support Name</span>: " + parsedData['Support Name'] + "<br>"
-    + "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>"
-    + "<span class='bold'>User Support Email</span>: " + parsedData['Support Email'] + "<br>"
-    + "<span class='bold'>User Support Material</span>: " + parsedData['Support Materials'] + "<br>"
-    + "<span class='bold'>URL</span>: " + parsedData['URL'] + "<br>"
-    + "<span class='bold'>Current Phase</span>: " + parsedData['Life Cycle Phase'] + "<br>"
-    + "<span class='bold'>Last Modified</span>: " + parsedData['Last Modified'] + "<br>"
-    + "<span class='bold'>Operating Environment</span>: " + parsedData['Operating Environment'] + "<br>"
-    + "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>"
-    + "<span class='bold'>Model Inputs</span>: " + parsedData['Model Inputs'] + "<br>"
-    + "<span class='bold'>Model Output Variables</span>: " + parsedData['Output Variables'] + "<br>"
-    + "<span class='bold'>Model Evaluation</span>: " + "<span class='bold'></span>: "+parsedData['Model Evaluation'] + "<br>"
-    + "<span class='bold'>Scope and Time Scale</span>: " + parsedData['Time Scale'] + "<br>"
-    + "<span class='bold'>Spatial Extent</span>: " + parsedData['Spatial Extent'] + "<br>"
-    + "<span class='bold'>Inputs Data Requirements</span>: " + parsedData['Input Data Requirements'] + "<br>"
-    + "</div>";
+    html += "<span class='bold'>Title</span>: " + parsedData['Title'] + "<br>" + 
+    "<span class='bold'>Acronym</span>: " + parsedData['Acronym'] + "<br>" +
+    "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
+    "<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>" +
+    "<span class='bold'>Cost Details</span>: " + parsedData['Cost'] + "<br>" +
+    "<span class='bold'>Other Costs</span>: " + parsedData['Other Costs'] + "<br>" +
+    "<span class='bold'>Open Source</span>: " + parsedData['Open Source'] + "<br>" +
+    "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
+    "<span class='bold'>Keywords</span>: " + parsedData['Keywords'] + "<br>" +
+    "<span class='bold'>User Support Name</span>: " + parsedData['Support Name'] + "<br>" +
+    "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
+    "<span class='bold'>User Support Email</span>: " + parsedData['Support Email'] + "<br>" +
+    "<span class='bold'>User Support Material</span>: " + parsedData['Support Materials'] + "<br>" +
+    "<span class='bold'>URL</span>: " + parsedData['URL'] + "<br>" +
+    "<span class='bold'>Current Phase</span>: " + parsedData['Life Cycle Phase'] + "<br>" +
+    "<span class='bold'>Last Modified</span>: " + parsedData['Last Modified'] + "<br>" +
+    "<span class='bold'>Operating Environment</span>: " + parsedData['Operating Environment'] + "<br>" +
+    "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>" +
+    "<span class='bold'>Model Inputs</span>: " + parsedData['Model Inputs'] + "<br>" +
+    "<span class='bold'>Model Output Variables</span>: " + parsedData['Output Variables'] + "<br>" +
+    "<span class='bold'>Model Evaluation</span>: " + "<span class='bold'></span>: "+parsedData['Model Evaluation'] + "<br>" +
+    "<span class='bold'>Scope and Time Scale</span>: " + parsedData['Time Scale'] + "<br>" +
+    "<span class='bold'>Spatial Extent</span>: " + parsedData['Spatial Extent'] + "<br>" +
+    "<span class='bold'>Inputs Data Requirements</span>: " + parsedData['Input Data Requirements'] + "<br>" +
+    "</div>";
     $tab.append(html);
     $('#selected-tool-tab').parent().attr('aria-hidden', false);
     $('#selected-tool-panel').attr('aria-hidden', false);
@@ -442,19 +442,19 @@ function addDiv(parsedResult, containerId) {
   var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
   var $container = $('#' + containerId);
 
-  var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">'
-    + '<div class="row" role="button">'
-      + '<div class="col size-95of100">'
-        + '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>'
-        + '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label"></label>'
-        + '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span>: ' + parsedResult['Description']
-      + '</div>'
-    + '</div>'
-    + '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">'
-      + '<button class="col bold button-grey">Show Tool Details</button>'
-      + '<div class="col accordion-result"></div>'
-    + '</div>'
-  + '</div>';
+  var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
+    '<div class="row" role="button">' +
+      '<div class="col size-95of100">' +
+        '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>' +
+        '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label"></label>' +
+        '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span>: ' + parsedResult['Description'] +
+      '</div>' +
+    '</div>' +
+    '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">' +
+      '<button class="col bold button-grey">Show Tool Details</button>' +
+      '<div class="col accordion-result"></div>' +
+    '</div>' +
+  '</div>';
 
   $container.append(html);
 }
@@ -468,18 +468,18 @@ function createDiv(parsedResult, containerId) {
   var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
   var $container = $('#' + containerId);
 
-  var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">'
-    + '<div class="row" role="button">'
-      + '<div class="col size-95of100">'
-        + '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>'
-        + '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label">'
-        + '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span></label>: ' + parsedResult['Description']
-      + '</div>'
-    + '</div>'
-    + '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">'
-      + '<button class="col bold button-grey">Show Tool Details</button>'
-    + '</div>'
-  + '</div>';
+  var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
+    '<div class="row" role="button">' +
+      '<div class="col size-95of100">' +
+        '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>' +
+        '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label">' +
+        '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span></label>: ' + parsedResult['Description'] +
+      '</div>' +
+    '</div>' +
+    '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">' +
+      '<button class="col bold button-grey">Show Tool Details</button>' +
+    '</div>' +
+  '</div>';
 
   return html;
 }

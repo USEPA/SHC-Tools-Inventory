@@ -902,7 +902,7 @@ function selectAllToolsButton() {
 function deselectAllToolsButton() {
   deselectAll('results-list', unsaveAll());
   $('#results-table').DataTable().rows().deselect();
-  updateConcepts()
+  updateConcepts();
 }
 
 /**
@@ -1564,9 +1564,9 @@ var activateNextTab = function ($nextTab, URLToShow) {
   var firstString;
   if ($nextTab.parent().attr('aria-hidden') === 'true') {
     if ('aeiouhAEIOUH'.indexOf($nextTab.attr('data-name')[0]) !== -1) {
-      firstString = 'Select an '
+      firstString = 'Select an ';
     } else {
-      firstString = 'Select a '
+      firstString = 'Select a ';
     }
     toast({html: firstString + $nextTab.attr('data-name') + ' to proceed.', close: true});
   } else {
