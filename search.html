@@ -733,57 +733,7 @@ var detailedSearch = function () {
         $("#results-tab").click();
         var url = window.location.href;
         $('#loader').removeAttr('aria-hidden').show();
-        if (!$.fn.DataTable.isDataTable('#results-table')) {
-          var table = $("#results-table").DataTable({
-            dom: 'Bfrtip',
-            processing: true,
-            responsive: {
-              details: false
-            },
-            columnDefs: [{
-              orderable: false,
-              className: 'select-checkbox',
-              targets: [0]
-            },
-            { 
-              width: "5%",
-              targets: [0] 
-            },
-            { 
-              visible: false,
-              targets: [1]
-            }],
-            select: {
-              style: 'multi',
-              selector: 'td:first-child'
-            },
-            order: [[2, 'asc']],
-            buttons: [{
-                text: 'Select All Tools',
-                action: function () {
-                  table.rows().select();
-                  selectAll('results-list');
-                },
-                className: 'button button-grey'
-              },
-              {
-                text: 'Deselect All Tools',
-                action: function () {
-                  table.rows().deselect();
-                  deselectAll('results-list');
-                },
-                className: 'button button-grey'
-              },
-              {
-                text: 'Save Selected Tools',
-                action: function () {
-                  saveSelectedRecords('results-list')
-                },
-                className: 'button button-white right'
-              }]
-          });
-        }
-        $('.dt-button').removeClass('dt-button');
+        createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     });
@@ -850,57 +800,7 @@ simpleSearch = function () {
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
         $('#loader').removeAttr('aria-hidden').show();
-        if (!$.fn.DataTable.isDataTable('#results-table')) {
-          var table = $("#results-table").DataTable({
-            dom: 'Bfrtip',
-            processing: true,
-            responsive: {
-              details: false
-            },
-            columnDefs: [{
-              orderable: false,
-              className: 'select-checkbox',
-              targets: [0]
-            },
-            { 
-              width: "5%",
-              targets: [0] 
-            },
-            { 
-              visible: false,
-              targets: [1]
-            }],
-            select: {
-              style: 'multi',
-              selector: 'td:first-child'
-            },
-            order: [[2, 'asc']],
-            buttons: [{
-                text: 'Select All Tools',
-                action: function () {
-                  table.rows().select();
-                  selectAll('results-list');
-                },
-                className: 'button button-grey'
-              },
-              {
-                text: 'Deselect All Tools',
-                action: function () {
-                  table.rows().deselect();
-                  deselectAll('results-list');
-                },
-                className: 'button button-grey'
-              },
-              {
-                text: 'Save Selected Tools',
-                action: function () {
-                  saveSelectedRecords('results-list')
-                },
-                className: 'button button-white right'
-              }]
-          });
-        }
-        $('.dt-button').removeClass('dt-button');
+        createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     });
@@ -915,28 +815,23 @@ function loadModels2() {
     $(".accordion-pane").each(function () {
       var browse = new ToolSet();
       var table;
-      var table_name = $(this).find('table').attr('id');
-      var listName;
-      switch (table_name) {
-      case "building-infrastructure-table":
+      var name = $(this).find('table').attr('id').slice(0, -6);;
+      switch (name) {
+      case "building-infrastructure":
         decision_query = "Building Infrastructure";
         table = buildingInfrastructureTable;
-        listName = "building-infrastructure-list";
         break;
-      case "land-use-table":
+      case "land-use":
         decision_query = "Land Use";
         table = landUseTable;
-        listName = "land-use-list";
         break;
-      case "transportation-table":
+      case "transportation":
         decision_query = "Transportation";
         table = transportationTable;
-        listName = "transportation-list";
         break;
-      case "waste-management-table":
+      case "waste-management":
         decision_query = "Waste Management";
         table = wasteManagementTable;
-        listName = "waste-management-list";
         break;
       default:
         return;
@@ -955,57 +850,7 @@ function loadModels2() {
               browse.addTool(data[i].ResourceId);
             } 
           }
-          if (!$.fn.DataTable.isDataTable('#' + table_name)) {
-            var transportTable = $('#' + table_name).DataTable({
-              dom: 'Bfrtip',
-              processing: true,
-              responsive: {
-                details: false
-              },
-              columnDefs: [{
-                orderable: false,
-                className: 'select-checkbox',
-                targets: [0]
-              },
-              { 
-                width: "5%",
-                targets: [0] 
-              },
-              { 
-                visible: false,
-                targets: [1]
-              }],
-              select: {
-                style: 'multi',
-                selector: 'td:first-child'
-              },
-              order: [[1, 'asc']],
-              buttons: [{
-                  text: 'Select All Tools',
-                  action: function () {
-                    transportTable.rows().select();
-                    selectAll(listName);
-                  },
-                  className: 'button button-grey'
-                },
-                {
-                  text: 'Deselect All Tools',
-                  action: function () {
-                    transportTable.rows().deselect();
-                    deselectAll(listName);
-                  },
-                  className: 'button button-grey'
-                },
-                {
-                  text: 'Save Selected Tools',
-                  action: function () {
-                    saveSelectedRecords(listName);
-                  },
-                  className: 'button button-white right'
-                }]
-            });
-          }
-          $('.dt-button').removeClass('dt-button');
+          createDataTable(name);
           toolCache.handleToolSet(browse, table.displayTools.bind(table));
         }
       });

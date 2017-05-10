@@ -1345,58 +1345,7 @@ var displayResults = function () {
     activateNextTab($('#results-tab'));
     if (!resultSet.isEqual(resultTable.getToolSet())) {
       $('#loader').removeAttr('aria-hidden').show();
-      if (!$.fn.DataTable.isDataTable('#results-table')) {
-        var table = $("#results-table").DataTable({
-          dom: 'Bfrtip',
-          processing: true,
-          responsive: {
-            details: false
-          },
-          columnDefs: [{
-            orderable: false,
-            className: 'select-checkbox',
-            targets: [0]
-          },
-          {
-            width: "5%",
-            targets: [0] 
-          },
-          {
-            visible: false,
-            targets: [1]
-          }],
-          select: {
-            style: 'multi',
-            selector: 'td:first-child'
-          },
-          order: [[2, 'asc']],
-          buttons: [{
-              text: 'Select All Tools',
-              action: function () {
-                table.rows().select();
-                selectAll('results-list', saveAll('results-list'));
-              },
-              className: 'button button-grey'
-            },
-            {
-              text: 'Deselect All Tools',
-              action: function () {
-                table.rows().deselect();
-                deselectAll('results-list', unsaveAll());
-              },
-              className: 'button button-grey'
-            },
-            { 
-              text: 'Export Selected Tools to CSV',
-              action: function () {
-                exportCSV('results-list');
-              },
-              className: 'button button-white right'
-            }
-          ]
-        });
-      }
-      $('.dt-button').removeClass('dt-button');
+      createDataTable('results');
       toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
     }
   } else {

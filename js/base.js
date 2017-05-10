@@ -426,64 +426,7 @@ function saveSelectedRecords(resultsDiv) {
     $('#saved-tools-tab').parent().attr("aria-hidden", false);
     $('#saved-tools-panel').attr("aria-hidden", false);
     document.getElementById("saved-tools-tab").click();
-    if (!$.fn.DataTable.isDataTable('#saved-table')) {
-      var saveTable = $("#saved-table").DataTable({
-        dom: 'Bfrtip',
-        processing: true,
-        responsive: {
-          details: false
-        },
-        columnDefs: [{
-          orderable: false,
-          className: 'select-checkbox',
-          targets: [0]
-        },
-        { 
-          width: "5%",
-          targets: [0] 
-        },
-        { 
-          visible: false,
-          targets: [1] 
-        }],
-        select: {
-          style: 'multi',
-          selector: 'td:first-child'
-        },
-        order: [[2, 'asc']],
-        buttons: [{
-            text: 'Select All Tools',
-            action: function () {
-              saveTable.rows().select();
-              selectAll('saved-list');
-            },
-            className: 'button button-grey'
-          },
-          {
-            text: 'Deselect All Tools',
-            action: function () {
-              saveTable.rows().deselect();
-              deselectAll('saved-list');
-            },
-            className: 'button button-grey'
-          },
-          { 
-            text: 'Remove Selected Tools',
-            action: function () {
-              removeSelected('saved-list');
-            },
-            className: 'button button-white right'
-          },
-          { 
-            text: 'Export Selected Tools to CSV',
-            action: function () {
-              exportCSV('saved-list');
-            },
-            className: 'button button-white right'
-          }]
-      });
-    }
-    $('.dt-button').removeClass('dt-button');
+    createDataTable('saved');
     toolCache.handleToolSet(savedTools, savedTable.displayTools.bind(savedTable)); // populate divs
   }
 }
@@ -942,6 +885,61 @@ var executeSearch = function (url, data) {
     data: data
   });
 };
+
+function createDataTable(name) {
+  if (!$.fn.DataTable.isDataTable('#' + name + '-table')) {
+    var table = $('#' + name + '-table').DataTable({
+      dom: 'Bfrtip',
+      processing: true,
+      responsive: {
+        details: false
+      },
+      columnDefs: [{
+        orderable: false,
+        className: 'select-checkbox',
+        targets: [0]
+      },
+      {
+        width: "5%",
+        targets: [0] 
+      },
+      {
+        visible: false,
+        targets: [1]
+      }],
+      select: {
+        style: 'multi',
+        selector: 'td:first-child'
+      },
+      order: [[2, 'asc']],
+      buttons: [{
+          text: 'Select All Tools',
+          action: function () {
+            table.rows().select();
+            selectAll(name + '-list', saveAll(name + '-list'));
+          },
+          className: 'button button-grey'
+        },
+        {
+          text: 'Deselect All Tools',
+          action: function () {
+            table.rows().deselect();
+            deselectAll(name + '-list', unsaveAll());
+          },
+          className: 'button button-grey'
+        },
+        { 
+          text: 'Export Selected Tools to CSV',
+          action: function () {
+            exportCSV(name + '-list');
+          },
+          className: 'button button-white right'
+        }
+      ]
+    });
+  }
+  $('.dt-button').removeClass('dt-button');
+}
 
 // stopwords to use in testing
 var stopWords = [
