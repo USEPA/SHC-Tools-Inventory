@@ -354,7 +354,7 @@
 <!-- NOTE, figure out body classes! -->
 <body class="node-type-page microsite" >
   <!-- Google Tag Manager -->
-  <!--REMOVED FOR DEVELOPMENT; REPLACE FOR PRODUCTION
+  <!--DEV: REMOVED FOR DEVELOPMENT; REPLACE FOR PRODUCTION
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script>
   -->
@@ -407,228 +407,228 @@
               <ul class="tabs" id="tabsnav" role="tablist">
                 <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal active" href="#role-tab" id="role-tab" role="tab">Role</a></li>
                 <li aria-hidden="true"><a aria-controls="subrole-panel" aria-disabled="true" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Role" data-href="#subrole-tab" id="subrole-tab" role="tab">Subrole</a></li>
-                <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Subrole" data-href="#fundamental-objective-tab" id="fundamental-objective-tab" role="tab">Fundamental Objective</a></li>
-                <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Fundamental Objective" data-href="#objective-tab" id="objective-tab" role="tab">Objective</a></li>
-                <li aria-hidden="true"><a aria-controls="concept-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Objective" data-href="#concept-tab" id="concept-tab" role="tab">Concept</a></li>
-                <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" href="#results-tab" id="results-tab" role="tab">Results</a></li>
-                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" href="#selected-tool-tab" id="selected-tool-tab" role="tab">Selected Tool</a></li>
-              </ul>
-              <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
-                <h4>Roles <small>Who are you?<button class="icon-button" onclick="$('#role-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></small></h4>
-                <p>Select one or more Roles and proceed to the Subrole tab or select Next.
-                  <p aria-hidden="true" class="success" id="role-help">
-                    <img src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg" style="width: 2em;"/>
-                    <em>Need help?</em> Select the <strong>ROLE</strong>(s) (e.g. Developer) that broadly describes your occupation or position in order to begin narrowing your search for tools that address issues relevant to your role. Expand your search for tools by selecting additional roles.
-                  </p>
+              <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Subrole" data-href="#fundamental-objective-tab" id="fundamental-objective-tab" role="tab">Fundamental Objective</a></li>
+              <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Fundamental Objective" data-href="#objective-tab" id="objective-tab" role="tab">Objective</a></li>
+              <li aria-hidden="true"><a aria-controls="concept-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Objective" data-href="#concept-tab" id="concept-tab" role="tab">Concept</a></li>
+              <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" href="#results-tab" id="results-tab" role="tab">Results</a></li>
+              <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" href="#selected-tool-tab" id="selected-tool-tab" role="tab">Selected Tool</a></li>
+            </ul>
+            <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
+              <h4>Roles <small>Who are you?<button class="icon-button" onclick="$('#role-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></small></h4>
+              <p>Select one or more Roles and proceed to the Subrole tab or select Next.
+                <p aria-hidden="true" class="success" id="role-help">
+                  <img src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg" style="width: 2em;"/>
+                  <em>Need help?</em> Select the <strong>role</strong>(s) (e.g. Developer) that broadly describes your occupation or position in order to begin narrowing your search for tools that address issues relevant to your role. Expand your search for tools by selecting additional roles.
                 </p>
+              </p>
+              <div class="navbar">
+                <button class="enabled-by-subrole persist" onclick="activateNextTab($('#subrole-tab'), 'wizard.html#subrole-tab')">Next</button>
+              </div>
+              <hr />
+              <button class="button-grey" onclick="selectAll('role', roleSelect)">Select All Roles</button>
+              <button class="button-grey" onclick="deselectAll('role', roleSelect)">Deselect All Roles</button>
+              <div id="role"></div>
+              <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+            </div>
+            <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
+              <h4>Subroles <small>What do you do?<button class="icon-button" onclick="$('#subrole-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></small></h4>
+              <p>Select one or more Subroles and proceed to the Fundamental Objective tab or select Next.
+                <p aria-hidden="true" class="success" id="subrole-help">
+                  <img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/>
+                    <em>Need help?</em> Under your broad role(s), indicate the <strong>subrole</strong>(s) (e.g. Real Estate Developer) that most accurately describes the specific type of work you do in order to continue narrowing your search for tools that address issues relevant to your role. Expand your search for tools by selecting additional subroles.
+                </p>
+              </p>
+              <div class="navbar">
+                <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab')">Next</button>
+              </div>
+              <hr />
+              <button class="button-grey" onclick="selectAll('subrole', subroleSelect)">Select All Subroles</button>
+              <button class="button-grey" onclick="deselectAll('subrole', subroleSelect)">Deselect All Subroles</button>
+              <div id="subrole"></div>
+              <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+            </div>
+            <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
+              <h4>Fundamental Objectives <small>What do you want to accomplish?<button class="icon-button" onclick="$('#fundamental-objective-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></small></h4>
+              <p>Select one or more Fundamental Objectives and proceed to the Objective tab or select Next.
+                <p aria-hidden="true" class="success" id="fundamental-objective-help">
+                  <img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/>
+                    <em>Need help?</em> Ask yourself: “What general goals do I want to accomplish?” <strong>fundamental objectives</strong> (e.g. “Maximize health and safety”) describe general goals. Your selection(s) will refine your search for targeted tools that can help you meet your objective(s). Expand your search for tools by selecting additional objectives.
+                </p>
+              </p>
+              <div class="navbar">
+                <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'), 'wizard.html#objective-tab')">Next</button>
+              </div>
+              <hr />
+              <button class="button-grey" onclick="selectAll('fundamental-objective', fundamentalObjectiveSelect)">Select All Fundamental Objectives</button>
+              <button class="button-grey" onclick="deselectAll('fundamental-objective', fundamentalObjectiveSelect)">Deselect All Fundamental Objectives</button>
+              <div id="fundamental-objective"></div>
+              <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+            </div>
+            <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
+              <h4>Objectives <small>How do you want to accomplish it?<button class="icon-button" onclick="$('#objective-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></small></h4>
+              <p>Select one or more Objectives and proceed to the Concept tab or select Next.
+                <p aria-hidden="true" class="success" id="objective-help">
+                  <img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/>
+                    <em>Need help?</em> Ask yourself: “What specific goals can I set to accomplish my general objectives?” Select the <strong>objective</strong>(s) (e.g. “Maximize safety of buildings”) that best describe your explicit goals. Your selection(s) will refine your search for targeted tools that can help you meet your objective(s). Expand your search for tools by selecting additional objectives.
+                </p>
+              </p>
+              <div class="navbar">
+                <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'), 'wizard.html#concept-tab');updateConcepts()">Next</button>
+              </div>
+              <hr />
+              <input id="objective-relevance" type="hidden" value="1" />
+              <button class="button-grey" onclick="selectAll('objective', objectiveSelect)">Select All Objectives</button>
+              <button class="button-grey" onclick="deselectAll('objective', objectiveSelect)">Deselect All Objectives</button>
+              <div class="right">
+                <button class="button-white" onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show Fewer Objectives</button>
+                <button class="button-white" onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show More Objectives</button>
+            </div>
+              <div id="objective"></div>
+              <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+            </div>
+            <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
+              <h4>Concepts <small>Where do you want to direct your focus? <button class="icon-button" onclick="$('#concept-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></small></h4>
+                <p>Select one or more Concepts. Each Concept is labeled with the number of tools it will add or remove from your results. If you have selected one or more Concepts and you would like to expand your selection to include additional related Concepts, click <strong>Add Additional Concepts</strong>.</p>
+                <p>Use the <strong>Show Results</strong> button to display your list of targeted tools.</p>
+                <p aria-hidden="true" class="success" id="concept-help">
+                  <img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/>
+                    <em>Need help?</em> <strong>concepts</strong> (e.g. “Health & Safety”) are distinct focal areas that you and other decision makers can address with directed tools. Ask yourself: “In what focal areas do I identify a need for a tool or resource?” Select the concept(s) that most specifically describes the focal area where a tool will be helpful to you. Expand your search for tools by selecting additional concepts.
+                </p>
+              </p>
+              <div class="navbar">
+                <button class="button-aqua" id="concept-search-button" onclick="displayResults()">Show Results</button>
+                <div aria-hidden="true" id="results-notification"></div>
+              </div>
+              <hr class="park-mark" />
+              <button class="button-grey" onclick="selectAll('concept');updateConceptsandResults()">Select All Concepts</button>
+              <button class="button-grey" onclick="deselectAll('concept');updateConceptsandResults()">Deselect All Concepts</button>
+              <button class="button-white right" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
+              <div id="concept"></div>
+              <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+            </div>
+            <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
+              <h3 id="tools">Tools</h3>
+              <p>Select one or more Tools and they will persist as you run additional searches. Any unselected tools will be removed. You can export your selected tools to a CSV file by using the <strong>Export</strong> button.</p>
+              <span>Choose a display:</span>
+                <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: Recommended for those on smaller screens.</label>
+                <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: Allows filtering and column sorting.</label>
+              <div id="results-list-div">  
+                <button class="button-grey" onclick="selectAllToolsButton()">Select All Tools</button>
+                <button class="button-grey" onclick="deselectAllToolsButton()">Deselect All Tools</button>
                 <div class="navbar">
-                  <button class="enabled-by-subrole persist" onclick="activateNextTab($('#subrole-tab'), 'wizard.html#subrole-tab')">Next</button>
+                  <button class="button-white right" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                 </div>
                 <hr />
-                <button class="button-grey" onclick="selectAll('role', roleSelect)">Select All Roles</button>
-                <button class="button-grey" onclick="deselectAll('role', roleSelect)">Deselect All Roles</button>
-                <div id="role"></div>
-                <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+                <img aria-hidden="true" id="loader" src="img/loader.gif">
+                <div id="results-list" class="list"></div>
               </div>
-              <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
-                <h4>Subroles <small>What do you do?<button class="icon-button" onclick="$('#subrole-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></small></h4>
-                <p>Select one or more Subroles and proceed to the Fundamental Objective tab or select Next.
-                  <p aria-hidden="true" class="success" id="subrole-help">
-                    <img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/>
-                      <em>Need help?</em> Under your broad role(s), indicate the <strong>SUBROLE</strong>(s) (e.g. Real Estate Developer) that most accurately describes the specific type of work you do in order to continue narrowing your search for tools that address issues relevant to your role. Expand your search for tools by selecting additional subroles.
-                  </p>
-                </p>
-                <div class="navbar">
-                  <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab')">Next</button>
-                </div>
-                <hr />
-                <button class="button-grey" onclick="selectAll('subrole', subroleSelect)">Select All Subroles</button>
-                <button class="button-grey" onclick="deselectAll('subrole', subroleSelect)">Deselect All Subroles</button>
-                <div id="subrole"></div>
-                <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+              <div aria-hidden="true" id="results-table-div">
+                <table class="revision-table" id="results-table" width="100%">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th>Acronym</th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Base Cost</th>
+                      <th>Spatial Extent</th>
+                      <th>Tool Inputs</th>
+                      <th>Tool Outputs</th>
+                    </tr>
+                  </thead>
+                  <tbody id="results-table-body"></tbody>
+                </table>
               </div>
-              <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
-                <h4>Fundamental Objectives <small>What do you want to accomplish?<button class="icon-button" onclick="$('#fundamental-objective-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></small></h4>
-                <p>Select one or more Fundamental Objectives and proceed to the Objective tab or select Next.
-                  <p aria-hidden="true" class="success" id="fundamental-objective-help">
-                    <img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/>
-                      <em>Need help?</em> Ask yourself: “What general goals do I want to accomplish?” <strong>FUNDAMENTAL OBJECTIVES</strong> (e.g. “Maximize health and safety”) describe general goals. Your selection(s) will refine your search for targeted tools that can help you meet your objective(s). Expand your search for tools by selecting additional objectives.
-                  </p>
-                </p>
-                <div class="navbar">
-                  <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'), 'wizard.html#objective-tab')">Next</button>
-                </div>
-                <hr />
-                <button class="button-grey" onclick="selectAll('fundamental-objective', fundamentalObjectiveSelect)">Select All Fundamental Objectives</button>
-                <button class="button-grey" onclick="deselectAll('fundamental-objective', fundamentalObjectiveSelect)">Deselect All Fundamental Objectives</button>
-                <div id="fundamental-objective"></div>
-                <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-              </div>
-              <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
-                <h4>Objectives <small>How do you want to accomplish it?<button class="icon-button" onclick="$('#objective-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></small></h4>
-                <p>Select one or more Objectives and proceed to the Concept tab or select Next.
-                  <p aria-hidden="true" class="success" id="objective-help">
-                    <img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/>
-                      <em>Need help?</em> Ask yourself: “What specific goals can I set to accomplish my general objectives?” Select the <strong>OBJECTIVE</strong>(s) (e.g. “Maximize safety of buildings”) that best describe your explicit goals. Your selection(s) will refine your search for targeted tools that can help you meet your objective(s). Expand your search for tools by selecting additional objectives.
-                  </p>
-                </p>
-                <div class="navbar">
-                  <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'), 'wizard.html#concept-tab');updateConcepts()">Next</button>
-                </div>
-                <hr />
-                <input id="objective-relevance" type="hidden" value="1" />
-                <button class="button-grey" onclick="selectAll('objective', objectiveSelect)">Select All Objectives</button>
-                <button class="button-grey" onclick="deselectAll('objective', objectiveSelect)">Deselect All Objectives</button>
-                <div class="right">
-                  <button class="button-white" onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show Fewer Objectives</button>
-                  <button class="button-white" onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show More Objectives</button>
-              </div>
-                <div id="objective"></div>
-                <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-              </div>
-              <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
-                <h4>Concepts <small>Where do you want to direct your focus? <button class="icon-button" onclick="$('#concept-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></small></h4>
-                  <p>Select one or more Concepts. Each Concept is labeled with the number of tools it will add or remove from your results. If you have selected one or more Concepts and you would like to expand your selection to include additional related Concepts, click <strong>Add Additional Concepts</strong>.</p>
-                  <p>Use the <strong>Show Results</strong> button to display your list of targeted tools.</p>
-                  <p aria-hidden="true" class="success" id="concept-help">
-                    <img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/>
-                      <em>Need help?</em> <strong>CONCEPTS</strong> (e.g. “Health & Safety”) are distinct focal areas that you and other decision makers can address with directed tools. Ask yourself: “In what focal areas do I identify a need for a tool or resource?” Select the concept(s) that most specifically describes the focal area where a tool will be helpful to you. Expand your search for tools by selecting additional concepts.
-                  </p>
-                </p>
-                <div class="navbar">
-                  <button class="button-aqua" id="concept-search-button" onclick="displayResults()">Show Results</button>
-                  <div aria-hidden="true" id="results-notification"></div>
-                </div>
-                <hr class="park-mark" />
-                <button class="button-grey" onclick="selectAll('concept');updateConceptsandResults()">Select All Concepts</button>
-                <button class="button-grey" onclick="deselectAll('concept');updateConceptsandResults()">Deselect All Concepts</button>
-                <button class="button-white right" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
-                <div id="concept"></div>
-                <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-              </div>
-              <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
-                <h3 id="tools">Tools</h3>
-                <p>Select one or more Tools and they will persist as you run additional searches. Any unselected tools will be removed. You can export your selected tools to a CSV file by using the <strong>Export</strong> button.</p>
-                <span>Choose a display:</span>
-                  <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: Recommended for those on smaller screens.</label>
-                  <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: Allows filtering and column sorting.</label>
-                <div id="results-list-div">  
-                  <button class="button-grey" onclick="selectAllToolsButton()">Select All Tools</button>
-                  <button class="button-grey" onclick="deselectAllToolsButton()">Deselect All Tools</button>
-                  <div class="navbar">
-                    <button class="button-white right" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
-                  </div>
-                  <hr />
-                  <img aria-hidden="true" id="loader" src="img/loader.gif">
-                  <div id="results-list" class="list"></div>
-                </div>
-                <div aria-hidden="true" id="results-table-div">
-                  <table class="revision-table" id="results-table" width="100%">
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th></th>
-                        <th>Acronym</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Base Cost</th>
-                        <th>Spatial Extent</th>
-                        <th>Tool Inputs</th>
-                        <th>Tool Outputs</th>
-                      </tr>
-                    </thead>
-                    <tbody id="results-table-body"></tbody>
-                  </table>
-                </div>
-                <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
-              </div>
-              <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
-                <div id="selected-tool"></div>
-              </div>
+              <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+            </div>
+            <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
+              <div id="selected-tool"></div>
             </div>
           </div>
         </div>
       </div>
-      <div id="block-epa-og-footer" class="block block-epa-og">
-      </div>
+    </div>
+    <div id="block-epa-og-footer" class="block block-epa-og">
+    </div>
 <!--googleoff: all-->
-    </div>
-  </section>
-  <nav class="nav simple-nav simple-main-nav" role="navigation">
-    <div class="nav__inner">
-      <h2 class="element-invisible">Main menu</h2>
-      <ul class="menu" role="menu">
-        <li class="menu-item" id="menu-learn" role="presentation"><a href="https://www.epa.gov/environmental-topics" title="Learn about Environmental Topics that EPA covers." class="menu-link" role="menuitem">Environmental Topics</a></li>
-        <li class="menu-item" id="menu-lawsregs" role="presentation"><a href="https://www.epa.gov/laws-regulations" title="Laws written by Congress provide the authority for EPA to write regulations. Regulations explain the technical, operational, and legal details necessary to implement laws." class="menu-link" role="menuitem">Laws &amp; Regulations</a></li>
-        <li class="menu-item" id="menu-about" role="presentation"><a href="https://www.epa.gov/aboutepa" title="Learn more about: our mission and what we do, how we are organized, and our history." class="menu-link" role="menuitem">About EPA</a></li>
-      </ul>
-    </div>
-  </nav>
-  <footer class="main-footer clearfix" role="contentinfo">
-    <div class="main-footer__inner">
-      <div class="region-footer">
-        <div class="block block-pane block-pane-epa-global-footer">
-          <div class="row cols-3">
-            <div class="col size-1of3">
-              <div class="col__title">Discover.</div>
-              <ul class="menu">
-                <li><a href="https://www.epa.gov/accessibility">Accessibility</a></li>
-                <li><a href="https://www.epa.gov/aboutepa/administrator-gina-mccarthy">EPA Administrator</a></li>
-                <li><a href="https://www.epa.gov/planandbudget">Budget &amp; Performance</a></li>
-                <li><a href="https://www.epa.gov/contracts">Contracting</a></li>
-                <li><a href="https://www.epa.gov/home/grants-and-other-funding-opportunities">Grants</a></li>
-                <li><a href="https://www.epa.gov/ocr/whistleblower-protections-epa-and-how-they-relate-non-disclosure-agreements-signed-epa-employees">No FEAR Act Data</a></li>
-                <li><a href="https://www.epa.gov/home/privacy-and-security-notice">Privacy and Security</a></li>
-              </ul>
-            </div>
-            <div class="col size-1of3">
-              <div class="col__title">Connect.</div>
-              <ul class="menu">
-                <li><a href="https://www.data.gov/">Data.gov</a></li>
-                <li><a href="https://www.epa.gov/office-inspector-general/about-epas-office-inspector-general">Inspector General</a></li>
-                <li><a href="https://www.epa.gov/careers">Jobs</a></li>
-                <li><a href="https://www.epa.gov/newsroom">Newsroom</a></li>
-                <li><a href="https://www.whitehouse.gov/open">Open Government</a></li>
-                <li><a href="http://www.regulations.gov/">Regulations.gov</a></li>
-                <li><a href="https://www.epa.gov/newsroom/email-subscriptions">Subscribe</a></li>
-                <li><a href="https://www.usa.gov/">USA.gov</a></li>
-                <li><a href="https://www.whitehouse.gov/">White House</a></li>
-              </ul>
-            </div>
-            <div class="col size-1of3">
-              <div class="col__title">Ask.</div>
-              <ul class="menu">
-                <li><a href="https://www.epa.gov/home/forms/contact-us">Contact Us</a></li>
-                <li><a href="https://www.epa.gov/home/epa-hotlines">Hotlines</a></li>
-                <li><a href="https://www.epa.gov/foia">FOIA Requests</a></li>
-                <li><a href="https://www.epa.gov/home/frequent-questions-specific-epa-programstopics">Frequent Questions</a></li>
-              </ul>
-              <div class="col__title">Follow.</div>
-              <ul class="social-menu">
-                <li><a class="menu-link social-facebook" href="https://www.facebook.com/EPA">Facebook</a></li>
-                <li><a class="menu-link social-twitter" href="https://twitter.com/epa">Twitter</a></li>
-                <li><a class="menu-link social-youtube" href="https://www.youtube.com/user/USEPAgov">YouTube</a></li>
-                <li><a class="menu-link social-flickr" href="https://www.flickr.com/photos/usepagov">Flickr</a></li>
-                <li><a class="menu-link social-instagram" href="https://instagram.com/epagov">Instagram</a></li>
-              </ul>
-              <p class="last-updated">2017-02-08</p>
-            </div>
+  </div>
+</section>
+<nav class="nav simple-nav simple-main-nav" role="navigation">
+  <div class="nav__inner">
+    <h2 class="element-invisible">Main menu</h2>
+    <ul class="menu" role="menu">
+      <li class="menu-item" id="menu-learn" role="presentation"><a href="https://www.epa.gov/environmental-topics" title="Learn about Environmental Topics that EPA covers." class="menu-link" role="menuitem">Environmental Topics</a></li>
+      <li class="menu-item" id="menu-lawsregs" role="presentation"><a href="https://www.epa.gov/laws-regulations" title="Laws written by Congress provide the authority for EPA to write regulations. Regulations explain the technical, operational, and legal details necessary to implement laws." class="menu-link" role="menuitem">Laws &amp; Regulations</a></li>
+      <li class="menu-item" id="menu-about" role="presentation"><a href="https://www.epa.gov/aboutepa" title="Learn more about: our mission and what we do, how we are organized, and our history." class="menu-link" role="menuitem">About EPA</a></li>
+    </ul>
+  </div>
+</nav>
+<footer class="main-footer clearfix" role="contentinfo">
+  <div class="main-footer__inner">
+    <div class="region-footer">
+      <div class="block block-pane block-pane-epa-global-footer">
+        <div class="row cols-3">
+          <div class="col size-1of3">
+            <div class="col__title">Discover.</div>
+            <ul class="menu">
+              <li><a href="https://www.epa.gov/accessibility">Accessibility</a></li>
+              <li><a href="https://www.epa.gov/aboutepa/administrator-gina-mccarthy">EPA Administrator</a></li>
+              <li><a href="https://www.epa.gov/planandbudget">Budget &amp; Performance</a></li>
+              <li><a href="https://www.epa.gov/contracts">Contracting</a></li>
+              <li><a href="https://www.epa.gov/home/grants-and-other-funding-opportunities">Grants</a></li>
+              <li><a href="https://www.epa.gov/ocr/whistleblower-protections-epa-and-how-they-relate-non-disclosure-agreements-signed-epa-employees">No FEAR Act Data</a></li>
+              <li><a href="https://www.epa.gov/home/privacy-and-security-notice">Privacy and Security</a></li>
+            </ul>
+          </div>
+          <div class="col size-1of3">
+            <div class="col__title">Connect.</div>
+            <ul class="menu">
+              <li><a href="https://www.data.gov/">Data.gov</a></li>
+              <li><a href="https://www.epa.gov/office-inspector-general/about-epas-office-inspector-general">Inspector General</a></li>
+              <li><a href="https://www.epa.gov/careers">Jobs</a></li>
+              <li><a href="https://www.epa.gov/newsroom">Newsroom</a></li>
+              <li><a href="https://www.whitehouse.gov/open">Open Government</a></li>
+              <li><a href="http://www.regulations.gov/">Regulations.gov</a></li>
+              <li><a href="https://www.epa.gov/newsroom/email-subscriptions">Subscribe</a></li>
+              <li><a href="https://www.usa.gov/">USA.gov</a></li>
+              <li><a href="https://www.whitehouse.gov/">White House</a></li>
+            </ul>
+          </div>
+          <div class="col size-1of3">
+            <div class="col__title">Ask.</div>
+            <ul class="menu">
+              <li><a href="https://www.epa.gov/home/forms/contact-us">Contact Us</a></li>
+              <li><a href="https://www.epa.gov/home/epa-hotlines">Hotlines</a></li>
+              <li><a href="https://www.epa.gov/foia">FOIA Requests</a></li>
+              <li><a href="https://www.epa.gov/home/frequent-questions-specific-epa-programstopics">Frequent Questions</a></li>
+            </ul>
+            <div class="col__title">Follow.</div>
+            <ul class="social-menu">
+              <li><a class="menu-link social-facebook" href="https://www.facebook.com/EPA">Facebook</a></li>
+              <li><a class="menu-link social-twitter" href="https://twitter.com/epa">Twitter</a></li>
+              <li><a class="menu-link social-youtube" href="https://www.youtube.com/user/USEPAgov">YouTube</a></li>
+              <li><a class="menu-link social-flickr" href="https://www.flickr.com/photos/usepagov">Flickr</a></li>
+              <li><a class="menu-link social-instagram" href="https://instagram.com/epagov">Instagram</a></li>
+            </ul>
+            <p class="last-updated">2017-02-08</p>
           </div>
         </div>
       </div>
     </div>
-  </footer>
-  <script src="https://www.epa.gov/sites/all/libraries/template2/jquery.js"></script>
-  <script src="https://www.epa.gov/sites/all/libraries/template2/js.js"></script>
-  <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
-  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.js"></script>
-  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/js/dataTables.responsive.min.js"></script>
-  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/js/dataTables.select.min.js"></script>
-  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/dataTables.buttons.min.js"></script>
-  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/buttons.html5.min.js"></script>
-  <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
-  <!-- <script src="js/porter-stemmer.js"></script> -->
-  <script src="js/base.js"></script>
+  </div>
+</footer>
+<script src="https://www.epa.gov/sites/all/libraries/template2/jquery.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/template2/js.js"></script>
+<script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/js/dataTables.responsive.min.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/js/dataTables.select.min.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/dataTables.buttons.min.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/buttons.html5.min.js"></script>
+<!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
+<!-- <script src="js/porter-stemmer.js"></script> -->
+<script src="js/base.js"></script>
 <script>
 var advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","OwnershipType","OtherCostConsiderations","OpenSource","AlternativeNames","Keywords","Organization","ContactPerson","Email","Internet","LifeCycle","OperatingEnvironment","CompatibleOperatingSystems","OtherPropSoftwareReqs","ModelInputs","DataRequirements","ModelOutputTypes","OutputVariables","SourceOfSupportMaterials","TypesOfSupportMaterials","ModelEvaluation","ModelStructure","TimeScale","SpatialExtent","TechSkills","BaseCostOfSoftware","StewardDefinedTags","DecisionSector","Format"];
 // details at READ web services' docs-page
@@ -641,11 +641,11 @@ var savedTools = new ToolSet();
 var resultTable = new ToolDisplay('results-table', 'results-list', 'wizard'); // Create ToolDisplay Objects we need 
 
 /* Create listeners and execute procedures which need done
-   at the document's convenience in order to avoid a
-   noticeable delay in displaying the page.
+ at the document's convenience in order to avoid a
+ noticeable delay in displaying the page.
 */
 $(function () { // jquery's shorthand awaits readiness of document
-  updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate the roles into #role div
+  updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate roles into #role div
   initializeTabs(); // initialize tabs and their listeners
 
   $('#concept').on('change', '.tool-label', function () {
@@ -671,7 +671,7 @@ $(function () { // jquery's shorthand awaits readiness of document
   $('tbody').on('click', 'td:first-child', function () {
     var $parent = $(this).parent();
     var tableId = $(this).closest('table').attr('id').slice(0, -6);
-    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
+    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get Id
     if ($parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
       savedTools.removeTool(readId);
@@ -694,17 +694,17 @@ $(function () { // jquery's shorthand awaits readiness of document
 var timeouts = {};
 
 /**
- * accessibly notify users of information
- *
- * @param {object} parameters:
- *   { parameters.css : [ "contains arbitrary css for this notice
- *                        as parameters.css[<key>] = <value>",
- *                        "is JSON-object" ],
- *     parameters.html : [ "html for notifier" ]
- *     parameters.priority : [ "sets priority metadata for assistive technology",
- *                             "can be 'polite' or 'assertive'",
- *                             "assertive interrupts user" ],
- *     parameters.container : [ "ID of container to use for alert" ] }
+* accessibly notify users of information
+*
+* @param {object} parameters:
+*   { parameters.css : [ "contains arbitrary css for this notice
+*                        as parameters.css[<key>] = <value>",
+*                        "is JSON-object" ],
+*     parameters.html : [ "html for notifier" ]
+*     parameters.priority : [ "sets priority metadata for assistive technology",
+*                             "can be 'polite' or 'assertive'",
+*                             "assertive interrupts user" ],
+*     parameters.container : [ "ID of container to use for alert" ] }
 */
 var toast = function (parameters) {
   clearToast();
@@ -740,7 +740,7 @@ var toast = function (parameters) {
   $notice.removeAttr('aria-hidden');
   $notice.show();
   $notice.addClass('show');
-  //$notice.addClass('show'); // Add the "show" class to notice
+    //$notice.addClass('show'); // Add the "show" class to notice
   timeouts["toast"] = setTimeout(function () {
     clearToast();
   }, 20000);// remove the show class from notice after specified miliseconds
@@ -759,7 +759,7 @@ function deselectAllToolsButton() {
 }
 
 /**
- * Clears the toast and the timeout for the toast
+* Clears the toast and the timeout for the toast
 */
 function clearToast(){
   var noticeID = 'toast';
@@ -771,7 +771,7 @@ function clearToast(){
 }
 
 /**
- * initialize tabs; create listener for swithing tabs
+* initialize tabs; create listener for swithing tabs
 */
 var initializeTabs = function () {
   $('#tabs > div').hide(); // hide all tab-panels
@@ -792,8 +792,8 @@ var initializeTabs = function () {
 };
 
 /**
- * show more or less objectives
- */
+* show more or less objectives
+*/
 var objectiveDisplay = function (adjust) {
   $('#objective-relevance').val(parseInt($('#objective-relevance').val()) + parseInt(adjust));
   var val = $('#objective-relevance').val();
@@ -841,9 +841,9 @@ var updateInterface = function (list, $container, onChange) {
 };
 
 /**
- * populate list into specified $container;
- * maintain selections when possible
- */
+* populate list into specified $container;
+* maintain selections when possible
+*/
 var populate = function (list, $container, onChange) {
   if (typeof list === 'undefined') {
     list = [];
@@ -862,9 +862,9 @@ var populate = function (list, $container, onChange) {
 };
 
 /**
- * populate list with header values;
- * maintain selections when possible
- */
+* populate list with header values;
+* maintain selections when possible
+*/
 var populateWithHeader = function (list, $container, onChange) {
   if (typeof list === 'undefined') {
     list = {length:0}; // ensure list is defined
@@ -896,8 +896,8 @@ var populateWithHeader = function (list, $container, onChange) {
 };
 
 /**
- * toggle disabled state of a next button
- */
+* toggle disabled state of a next button
+*/
 var toggleNext = function (list, nextButtonClassSubstring) {
   var nextButtonSelector = '.enabled-by-' + nextButtonClassSubstring; // identify next button by who enables it
   if (list.length > 0 || Object.keys(list).length > 0) {
@@ -906,14 +906,15 @@ var toggleNext = function (list, nextButtonClassSubstring) {
     if ($('#role :checked').length > 0 && showToast !== false) {
       toast({html:'Use the next button or the next tab to proceed when ready.<button class="button-grey toast-button" onclick="showToast = false;clearToast()">Disable these messages</button>', close: true});
     }
+    */
   }else{
     $(nextButtonSelector+':not(.persist)').prop('disabled',true).css('display','none');
   }
 };
 
 /**
- * show tab iff usable
- */
+* show tab iff usable
+*/
 var toggleTab = function (list, $container) {
   tabAnchor = '#' + $container.parent().attr('aria-labelledby');
   if (list.length > 0 || Object.keys(list).length > 0) {// items in list...
@@ -932,8 +933,8 @@ var toggleTab = function (list, $container) {
 };
 
 /**
- * populate #subrole-select with subrole options for the selected roles
- */
+* populate #subrole-select with subrole options for the selected roles
+*/
 var roleSelect = function () {
   var selectedElements = scrapeDictionaryToObject($("input[name='role-checkbox']:checked"), subrolesByRole);
   populateWithHeader(selectedElements, $('#subrole'), "subroleSelect()");
@@ -941,8 +942,8 @@ var roleSelect = function () {
 };
 
 /**
- * populate #objective with objective options for the selected subroles
- */
+* populate #objective with objective options for the selected subroles
+*/
 var subroleSelect = function () {
   var relevance = $('#objective-relevance').val();
   var objectivesFromSubroles = [];
@@ -975,8 +976,8 @@ var subroleSelect = function () {
 };
 
 /**
- * populate #objective with objectives determined by selected subroles and fundamental objectives
- */
+* populate #objective with objectives determined by selected subroles and fundamental objectives
+*/
 var fundamentalObjectiveSelect = function () {
   var relevance = $('#objective-relevance').val();
   var objectivesFromSubroles = [];
@@ -1003,8 +1004,8 @@ var fundamentalObjectiveSelect = function () {
 };
 
 /**
- * populate #concept with concept-options for selected objectives
- */
+* populate #concept with concept-options for selected objectives
+*/
 var objectiveSelect = function () {
   var selectedElements = scrapeDictionary($("input[name='objective-checkbox']:checked"), conceptsByObjective);
   $('#concept').html('');
@@ -1013,8 +1014,8 @@ var objectiveSelect = function () {
 };
 
 /**
- * get elements of arrays in dictionary without repeats
- */
+* get elements of arrays in dictionary without repeats
+*/
 var scrapeDictionary = function (selectedOptions, dictionary) {
   var selectedElement = '';
   var selectedElements = [];
@@ -1035,35 +1036,33 @@ var scrapeDictionary = function (selectedOptions, dictionary) {
 };
 
 /**
- * get elements in dictionary with key values retained for use in headers
- */
+* get elements in dictionary with key values retained for use in headers
+*/
 var scrapeDictionaryToObject = function (selectedOptions, dictionary) {
-  var selectedElement = '';
-  var selectedElements = [];
-  var allSelectedElements = [];
-  var selectedElementsObject = {};
-  for (var i = 0; i < selectedOptions.length; i++) {
-    selectedElement = selectedOptions[i].value;
-    selectedElements = dictionary[selectedElement];
-    selectedElementsObject[selectedElement] = dictionary[selectedElement];
-    if (typeof selectedElements === 'undefined') {
-      selectedElements = [];
-    }
-    for (var j = 0; j < selectedElements.length; j++) {
-      if(allSelectedElements.indexOf(selectedElements[j]) === -1) {
-        allSelectedElements.push(selectedElements[j]);
-      }
+var selectedElement = '';
+var selectedElements = [];
+var allSelectedElements = [];
+var selectedElementsObject = {};
+for (var i = 0; i < selectedOptions.length; i++) {
+  selectedElement = selectedOptions[i].value;
+  selectedElements = dictionary[selectedElement];
+  selectedElementsObject[selectedElement] = dictionary[selectedElement];
+  if (typeof selectedElements === 'undefined') {
+    selectedElements = [];
+  }
+  for (var j = 0; j < selectedElements.length; j++) {
+    if(allSelectedElements.indexOf(selectedElements[j]) === -1) {
+      allSelectedElements.push(selectedElements[j]);
     }
   }
-  return selectedElementsObject;
+}
+return selectedElementsObject;
 };
 
 /**
- * add checkboxes with text of name to container with containerId
- */
+* add checkboxes with text of name to container with containerId
+*/
 function addCheckboxes(list, container, onChange, count) {
-  onChange = (typeof onChange !== 'undefined') ? 'onchange="' + onChange + '"' : "";
-  count = (typeof count !== 'undefined') ? count : "0";
   var containerName = container.attr('id');
   onChange = 'onchange="checkboxChangeHandler(\'' + containerName + '\');' + onChange + '"';
   count = (typeof count !== 'undefined') ? count : "0";
@@ -1094,8 +1093,8 @@ function addCheckboxes(list, container, onChange, count) {
 }
 
 /**
- * search in descriptions for each word in query string from input and display results in div
- */
+* search in descriptions for each word in query string from input and display results in div
+*/
 var keywordSearch = function (div, input) {
   $('#' + div + ' *').remove();
   var keywords = getKeywords(input);
@@ -1116,8 +1115,8 @@ var keywordSearch = function (div, input) {
 };
 
 /**
- * search for the READ IDs from the selected Concepts from input and display results in div
- */
+* search for the READ IDs from the selected Concepts from input and display results in div
+*/
 var conceptSearch = function (div, input) {
   $('#results-notification').html('').removeClass().attr('aria-hidden', 'true');
   resultSet.reset(); // remove from resultSet
@@ -1168,7 +1167,7 @@ var conceptSearch = function (div, input) {
 };
 
 /**
- * Updates the list of concepts with the number of tools selecting or deselecting will add or remove
+* Updates the list of concepts with the number of tools selecting or deselecting will add or remove
 */
 function updateConcepts() {
   $('#concept .tool-count').each(function () { // for each tool label
@@ -1205,7 +1204,7 @@ function updateConcepts() {
 }
 
 /**
- * Runs a concept search and updates the list of concepts 
+* Runs a concept search and updates the list of concepts 
 */
 function updateConceptsandResults() {
   conceptSearch('results-list', $('input[name="concept-checkbox"]:checked'));
@@ -1280,7 +1279,7 @@ var displayResults = function () {
 
 var findAndDisplayResults = function() {
   conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));
-  displayResults();
+    displayResults();
 }
 
 /**
@@ -1522,7 +1521,7 @@ var allTools = function () {
 };
 
 /**
- * print details for a given READ ID in the console
+ * print details for a given read id in the console
 */
 var getDetailsFromId = function (id) {
   $.get(resourceDetailURL, {ResourceId:id}).done(function (data) {
