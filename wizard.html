@@ -633,7 +633,7 @@
 var advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","OwnershipType","OtherCostConsiderations","OpenSource","AlternativeNames","Keywords","Organization","ContactPerson","Email","Internet","LifeCycle","OperatingEnvironment","CompatibleOperatingSystems","OtherPropSoftwareReqs","ModelInputs","DataRequirements","ModelOutputTypes","OutputVariables","SourceOfSupportMaterials","TypesOfSupportMaterials","ModelEvaluation","ModelStructure","TimeScale","SpatialExtent","TechSkills","BaseCostOfSoftware","StewardDefinedTags","DecisionSector","Format"];
 // details at READ web services' docs-page
 var decisionSectors = ['land use','transportation','building infrastructure','waste management'];
-var showToast = true;
+var showToast = {'initialized':true};
 
 var resultSet = new ToolSet(); // Create result and saved tool sets
 var savedTools = new ToolSet();
@@ -681,6 +681,14 @@ $(function () { // jquery's shorthand awaits readiness of document
       savedTools.addTool(readId);
     }
   });
+
+  // create flags for controlling whether to show instructional notifications
+  var instructionalCheckboxes = ['role', 'subrole', 'fundamental-objective', 'objective', 'concept',  'results-list', 'results-table'];
+  for (checkboxGroupIndex in instructionalCheckboxes) {
+    var checkboxGroup = instructionalCheckboxes[checkboxGroupIndex];
+    showToast[checkboxGroup] = true;
+  }
+
 });
 
 var timeouts = {};
@@ -733,9 +741,9 @@ var toast = function (parameters) {
   $notice.show();
   $notice.addClass('show');
   //$notice.addClass('show'); // Add the "show" class to notice
-  timeouts["toast"] = setTimeout(function () { // remove the show class from notice after 5 seconds
+  timeouts["toast"] = setTimeout(function () {
     clearToast();
-  }, 20000);
+  }, 20000);// remove the show class from notice after specified miliseconds
 };
 
 function selectAllToolsButton() {
@@ -800,8 +808,26 @@ var objectiveDisplay = function (adjust) {
   fundamentalObjectiveSelect();
 };
 
+/** Handle selection and deselection to
+*  inform users of necessary information.
+*/
+var checkboxChangeHandler = function(checkboxGroup){
+  if (showToast[checkboxGroup] !== false) {// condition: are these toasts unmuted?
+    if (checkboxGroup.indexOf('table') === -1) {
+      buttonText = (checkboxGroup === 'concept') ? ($('#concept-search-button').text()) : ('next')//BOOKMARK: insert dynamically grabbed text for 'Display Tools' if checkboxGroup == 'concept'; else insert "next"
+      var message = 'Select all desired ' + checkboxGroup + 's then press the button labeled "' + buttonText + '." Selections can be changed at any time by returning to the desired tab.';
+        toast({html:message,close:true});
+        showToast[checkboxGroup] = false;
+    } else {
+      var message = 'Select all desired ' + checkboxGroup + 's then press the button labeled "next." Selections can be changed at any time.';
+      showToast[checkboxGroup] = false;
+      toast({html:message,close:true});
+    }
+  }
+}
+
 /**
- * make interface react
+* react to changes in selections
 */
 var updateInterface = function (list, $container, onChange) {
   // populate next selectables
@@ -876,7 +902,8 @@ var toggleNext = function (list, nextButtonClassSubstring) {
   var nextButtonSelector = '.enabled-by-' + nextButtonClassSubstring; // identify next button by who enables it
   if (list.length > 0 || Object.keys(list).length > 0) {
     $(nextButtonSelector + ':not(.persist)').prop('disabled', false).css('display', 'inline');
-    if ($('#role :checked').length > 0 && showToast === true) {
+    /* DEV: CODE REMOVED TO TEST SHOWING INSTRUCTIONAL TOASTS ONLY ONCE PER TAB: CREATE A LISTENER FOR EACH TAB'S SELECTABLES IN INITIALIZATION
+    if ($('#role :checked').length > 0 && showToast !== false) {
       toast({html:'Use the next button or the next tab to proceed when ready.<button class="button-grey toast-button" onclick="showToast = false;clearToast()">Disable these messages</button>', close: true});
     }
   }else{
@@ -1038,6 +1065,8 @@ function addCheckboxes(list, container, onChange, count) {
   onChange = (typeof onChange !== 'undefined') ? 'onchange="' + onChange + '"' : "";
   count = (typeof count !== 'undefined') ? count : "0";
   var containerName = container.attr('id');
+  onChange = 'onchange="checkboxChangeHandler(\'' + containerName + '\');' + onChange + '"';
+  count = (typeof count !== 'undefined') ? count : "0";
   var inputs = container.children('input');
   var id = inputs.length + 1;
   var html = '';
@@ -1497,7 +1526,7 @@ var allTools = function () {
 */
 var getDetailsFromId = function (id) {
   $.get(resourceDetailURL, {ResourceId:id}).done(function (data) {
-    console.log(data.READExportDetail.InfoResourceDetail.GeneralDetail.Acronym + ': ' + data.READExportDetail.InfoResourceDetail);
+    console.log(id + ': ' + data.READExportDetail.InfoResourceDetail);
   });
 };
 

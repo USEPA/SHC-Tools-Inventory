@@ -429,3 +429,18 @@ backlog to track work to be done and by whom
 
 - Clear unselected tools on result tab
   - per feedback from Coleen
+
+- make checkboxes on tables accessible
+  - make selected by `td role="checkbox"`
+
+- return user to tool being reviewed when click back to list or table
+
+- show instructive toasts only once
+
+- new tools:
+  - Route to Resilience (RtoR) Tool
+    - helps small- and medium-sized drinking water and wastewater utilities learn more about becoming resilient to all hazards
+    - EPA office of water
+  - Water Network Tool for Resilience
+    - will help water utilities investigate the resilience of their water systems to a wide range of hazardous scenarios and evaluate emergency response actions and long-term resilience‐enhancing strategies
+    - ORD demonstrated this new hydraulic modeling tool
