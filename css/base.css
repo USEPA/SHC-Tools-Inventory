@@ -111,3 +111,11 @@ tr:hover td:not(:first-child) {
   background-color: #e7f4e4;
   cursor: pointer;
 }
+
+.dt-body-center > input[type='checkbox'] + label:before {
+  margin: 0;
+}
+
+.dt-body-center > input[type='checkbox'] + label:before:active {
+  outline: 2px solid -webkit-focus-ring-color;
+}

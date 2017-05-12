@@ -600,8 +600,8 @@
                   <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: Recommended for those on smaller screens.</label>
                   <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: Allows filtering and column sorting.</label>
                 <div id="results-list-div">  
-                  <button class="button-grey" onclick="selectAllToolsButton()">Select All Tools</button>
-                  <button class="button-grey" onclick="deselectAllToolsButton()">Deselect All Tools</button>
+                  <button class="button-grey" onclick="selectAllToolsButton('results');updateConcepts();">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAllToolsButton('results');updateConcepts();">Deselect All Tools</button>
                   <div class="navbar">
                     <button class="button-white right" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                   </div>
@@ -795,31 +795,47 @@ $(function () { // jquery's shorthand awaits readiness of document
 
   $(".list").on("change", "input:checkbox", function () {
     var id = $(this).val();
+    var rows = $('#results-table').DataTable().rows();
+    var rowNodes = rows.nodes();
     if ($(this).prop('checked')) { // add selected class
       $("#results-table").DataTable().rows(function (idx, data, node) {
         return data[1] == id ? true: false;
       }).nodes().to$().addClass("selected");
+      $('#' + id).prop('checked', true);
       savedTools.addTool(id);
+      $('input[type="checkbox"]', rowNodes).each(function () {
+        if ($(this).attr('id') === id) {
+          $(this).prop('checked', true);
+        }
+      });
     } else {
       $("#results-table").DataTable().rows(function (idx, data, node) {
         return data[1] == id ? true: false;
       }).nodes().to$().removeClass("selected");
+      $('#' + id).prop('checked', false);
       savedTools.removeTool(id);
+      $('input[type="checkbox"]', rowNodes).each(function () {
+        if ($(this).attr('id') === id) {
+          $(this).prop('checked', false);
+        }
+      });
     }
     updateConcepts();
   });
 
-  $('tbody').on('click', 'td:first-child', function () {
-    var $parent = $(this).parent();
+  $('tbody').on('click', 'input[type="checkbox"]', function () {
+    var $parent = $(this).parent().parent();
     var tableId = $(this).closest('table').attr('id').slice(0, -6);
-    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
+    var readId = $(this).attr('id');  // get ID
     if ($parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
       savedTools.removeTool(readId);
+      $parent.removeClass('selected');
     }
     else {
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
       savedTools.addTool(readId);
+      $parent.addClass('selected');
     }
   });
 });
@@ -892,18 +908,6 @@ var toast = function (parameters) {
     clearToast();
   }, 20000);
 };
-
-function selectAllToolsButton() {
-  selectAll('results-list', saveAll('results-list'));
-  $('#results-table').DataTable().rows().select();
-  updateConcepts();
-}
-
-function deselectAllToolsButton() {
-  deselectAll('results-list', unsaveAll());
-  $('#results-table').DataTable().rows().deselect();
-  updateConcepts();
-}
 
 /**
  * Clears the toast and the timeout for the toast
@@ -1351,12 +1355,7 @@ var displayResults = function () {
   } else {
     toast({html: 'Please select a concept.', close: true});
   }
-}
-
-var findAndDisplayResults = function() {
-  conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));
-  displayResults();
-}
+};
 
 /**
  * get concepts from input as a list

@@ -895,36 +895,30 @@ function createDataTable(name) {
         details: false
       },
       columnDefs: [{
-        orderable: false,
-        className: 'select-checkbox',
-        targets: [0]
-      },
-      {
-        width: "5%",
-        targets: [0] 
-      },
-      {
-        visible: false,
-        targets: [1]
-      }],
-      select: {
-        style: 'multi',
-        selector: 'td:first-child'
-      },
+         targets: [0],
+         searchable: false,
+         orderable: false,
+         className: 'dt-body-center',
+         render: function (data, type, full, meta){
+            return '<input id="' + full[1] + '" type="checkbox"><label for="' + full[1] + '"></label>';
+         }},
+         {
+          targets: [1],
+          visible: false
+         }
+      ],
       order: [[2, 'asc']],
       buttons: [{
           text: 'Select All Tools',
           action: function () {
-            table.rows().select();
-            selectAll(name + '-list', saveAll(name + '-list'));
+            selectAllToolsButton(name);
           },
           className: 'button button-grey'
         },
         {
           text: 'Deselect All Tools',
           action: function () {
-            table.rows().deselect();
-            deselectAll(name + '-list', unsaveAll());
+            deselectAllToolsButton(name);
           },
           className: 'button button-grey'
         },
@@ -939,6 +933,30 @@ function createDataTable(name) {
     });
   }
   $('.dt-button').removeClass('dt-button');
+}
+
+function selectAllToolsButton(name) {
+  if ($('#saved-list').length) {
+    selectAll(name + '-list', saveAll(name + '-list'));  
+  } else {
+    selectAll(name + '-list');  
+  }  
+  var rows = $('#' + name + '-table').DataTable().rows();
+  var rowNodes = rows.nodes();
+  rows.select();
+  $('input[type="checkbox"]', rowNodes).prop('checked', true);
+}
+
+function deselectAllToolsButton(name) {
+  if ($('#saved-list').length) {
+    deselectAll(name + '-list', unsaveAll(name + '-list'));  
+  } else {
+    deselectAll(name + '-list');  
+  }
+  var rows = $('#' + name + '-table').DataTable().rows();
+  var rowNodes = rows.nodes();
+  rows.deselect();
+  $('input[type="checkbox"]', rowNodes).prop('checked', false);
 }
 
 // stopwords to use in testing
