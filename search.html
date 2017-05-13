@@ -328,8 +328,8 @@
                       </table>
                     </div>
                     <div class="browse-list-div">
-                      <button class="button-grey" onclick="selectAll('building-infrastructure-list');$('#building-infrastructure-table').DataTable().rows().select();">Select All Tools</button>
-                      <button class="button-grey" onclick="deselectAll('building-infrastructure-list');$('#building-infrastructure-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                      <button class="button-grey" onclick="selectAllToolsButton('building-infrastructure');">Select All Tools</button>
+                      <button class="button-grey" onclick="deselectAllToolsButton('building-infrastructure');">Deselect All Tools</button>
                       <button class="button-white right" onclick="saveSelectedRecords('building-infrastructure-list')">Save Selected Tools</button>
                       <div id="building-infrastructure-list" class="list"></div>
                     </div>
@@ -355,8 +355,8 @@
                       </table>
                     </div>
                     <div class="browse-list-div">
-                      <button class="button-grey" onclick="selectAll('land-use-list');$('#land-use-table').DataTable().rows().select();">Select All Tools</button>
-                      <button class="button-grey" onclick="deselectAll('land-use-list');$('#land-use-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                      <button class="button-grey" onclick="selectAllToolsButton('land-use');">Select All Tools</button>
+                      <button class="button-grey" onclick="deselectAllToolsButton('land-use');">Deselect All Tools</button>
                       <button class="button-white right" onclick="saveSelectedRecords('land-use-list')">Save Selected Tools</button>
                       <div id="land-use-list" class="list"></div>
                     </div>
@@ -382,8 +382,8 @@
                       </table>
                     </div>
                     <div class="browse-list-div">
-                      <button class="button-grey" onclick="selectAll('transportation-list');$('#transportation-table').DataTable().rows().select();">Select All Tools</button>
-                      <button class="button-grey" onclick="deselectAll('transportation-list');$('#transportation-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                      <button class="button-grey" onclick="selectAllToolsButton('transportation');">Select All Tools</button>
+                      <button class="button-grey" onclick="deselectAllToolsButton('transportation');">Deselect All Tools</button>
                       <button class="button-white right" onclick="saveSelectedRecords('transportation-list')">Save Selected Tools</button>
                       <div id="transportation-list" class="list"></div>
                     </div>
@@ -409,8 +409,8 @@
                       </table>
                     </div>
                     <div class="browse-list-div">
-                      <button class="button-grey" onclick="selectAll('waste-management-list');$('#waste-management-table').DataTable().rows().select();">Select All Tools</button>
-                      <button class="button-grey" onclick="deselectAll('waste-management-list');$('#waste-management-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                      <button class="button-grey" onclick="selectAllToolsButton('waste-management');">Select All Tools</button>
+                      <button class="button-grey" onclick="deselectAllToolsButton('waste-management');">Deselect All Tools</button>
                       <button class="button-white right" onclick="saveSelectedRecords('waste-management-list')">Save Selected Tools</button>
                       <div id="waste-management-list" class="list"></div>
                     </div>
@@ -422,8 +422,8 @@
                 <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: Recommended for those on smaller screens.</label>
                 <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: Allows filtering and column sorting.</label>
                 <div id="results-list-div">  
-                  <button class="button-grey" onclick="selectAll('results-list');$('#results-table').DataTable().rows().select();">Select All Tools</button>
-                  <button class="button-grey" onclick="deselectAll('results-list');$('#results-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                  <button class="button-grey" onclick="selectAllToolsButton('results');">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAllToolsButton('results');">Deselect All Tools</button>
                   <button class="button-white right" onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
                   <hr />
                   <img aria-hidden="true" id="loader" src="img/loader.gif">
@@ -459,8 +459,8 @@
                 <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text: Recommended for those on smaller screens.</label>
                 <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table: Allows filtering and column sorting.</label>
                 <div id="saved-list-div">
-                  <button class="button-grey" onclick="selectAll('saved-list');$('#saved-table').DataTable().rows().select();">Select All Tools</button>
-                  <button class="button-grey" onclick="deselectAll('saved-list');$('#saved-table').DataTable().rows().deselect();">Deselect All Tools</button>
+                  <button class="button-grey" onclick="selectAllToolsButton('saved');">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAllToolsButton('saved');">Deselect All Tools</button>
                   <div class="right">
                     <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
                     <button class="button-white" onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
@@ -589,28 +589,42 @@ $(function () { // jquery's shorthand awaits readiness of document
   $(".list").on("change", "input:checkbox", function () {
     var id = $(this).val();
     var tableId = $(this).attr('id').slice(0, -14);
+    var rows = $('#' + tableId + '-table').DataTable().rows();
+    var rowNodes = rows.nodes();
     if ($(this).prop('checked')) { // add selected class
-      var table = $("#" + tableId + "-table").DataTable();
-      table.rows(function(idx, data, node){
-          return data[1] == id ? true: false;
+      $("#" + tableId + "-table").DataTable().rows(function (idx, data, node) {
+        return data[1] == id ? true: false;
       }).nodes().to$().addClass("selected");
+      $('#' + id).prop('checked', true);
+      $('input[type="checkbox"]', rowNodes).each(function () {
+        if ($(this).attr('id') === id) {
+          $(this).prop('checked', true);
+        }
+      });
     } else {
-      var table = $("#" + tableId + "-table").DataTable();
-      table.rows(function(idx, data, node){
-          return data[1] == id ? true: false;
+      $("#" + tableId + "-table").DataTable().rows(function (idx, data, node) {
+        return data[1] == id ? true: false;
       }).nodes().to$().removeClass("selected");
+      $('#' + id).prop('checked', false);
+      $('input[type="checkbox"]', rowNodes).each(function () {
+        if ($(this).attr('id') === id) {
+          $(this).prop('checked', false);
+        }
+      });
     }
   });
 
-  $('tbody').on('click', 'td:first-child', function () {
-    var $parent = $(this).parent();
+  $('tbody').on('click', 'input[type="checkbox"]', function () {
+    var $parent = $(this).parent().parent();
     var tableId = $(this).closest('table').attr('id').slice(0, -6);
-    var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
+    var readId = $(this).attr('id');  // get ID
     if ($parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
+      $parent.removeClass('selected');
     }
     else {
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
+      $parent.addClass('selected');
     }
   });
 });
@@ -733,57 +747,7 @@ var detailedSearch = function () {
         $("#results-tab").click();
         var url = window.location.href;
         $('#loader').removeAttr('aria-hidden').show();
-        if (!$.fn.DataTable.isDataTable('#results-table')) {
-          var table = $("#results-table").DataTable({
-            dom: 'Bfrtip',
-            processing: true,
-            responsive: {
-              details: false
-            },
-            columnDefs: [{
-              orderable: false,
-              className: 'select-checkbox',
-              targets: [0]
-            },
-            { 
-              width: "5%",
-              targets: [0] 
-            },
-            { 
-              visible: false,
-              targets: [1]
-            }],
-            select: {
-              style: 'multi',
-              selector: 'td:first-child'
-            },
-            order: [[2, 'asc']],
-            buttons: [{
-                text: 'Select All Tools',
-                action: function () {
-                  table.rows().select();
-                  selectAll('results-list');
-                },
-                className: 'button button-grey'
-              },
-              {
-                text: 'Deselect All Tools',
-                action: function () {
-                  table.rows().deselect();
-                  deselectAll('results-list');
-                },
-                className: 'button button-grey'
-              },
-              {
-                text: 'Save Selected Tools',
-                action: function () {
-                  saveSelectedRecords('results-list')
-                },
-                className: 'button button-white right'
-              }]
-          });
-        }
-        $('.dt-button').removeClass('dt-button');
+        createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     });
@@ -850,57 +814,7 @@ simpleSearch = function () {
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
         $('#loader').removeAttr('aria-hidden').show();
-        if (!$.fn.DataTable.isDataTable('#results-table')) {
-          var table = $("#results-table").DataTable({
-            dom: 'Bfrtip',
-            processing: true,
-            responsive: {
-              details: false
-            },
-            columnDefs: [{
-              orderable: false,
-              className: 'select-checkbox',
-              targets: [0]
-            },
-            { 
-              width: "5%",
-              targets: [0] 
-            },
-            { 
-              visible: false,
-              targets: [1]
-            }],
-            select: {
-              style: 'multi',
-              selector: 'td:first-child'
-            },
-            order: [[2, 'asc']],
-            buttons: [{
-                text: 'Select All Tools',
-                action: function () {
-                  table.rows().select();
-                  selectAll('results-list');
-                },
-                className: 'button button-grey'
-              },
-              {
-                text: 'Deselect All Tools',
-                action: function () {
-                  table.rows().deselect();
-                  deselectAll('results-list');
-                },
-                className: 'button button-grey'
-              },
-              {
-                text: 'Save Selected Tools',
-                action: function () {
-                  saveSelectedRecords('results-list')
-                },
-                className: 'button button-white right'
-              }]
-          });
-        }
-        $('.dt-button').removeClass('dt-button');
+        createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     });
@@ -915,28 +829,23 @@ function loadModels2() {
     $(".accordion-pane").each(function () {
       var browse = new ToolSet();
       var table;
-      var table_name = $(this).find('table').attr('id');
-      var listName;
-      switch (table_name) {
-      case "building-infrastructure-table":
+      var name = $(this).find('table').attr('id').slice(0, -6);;
+      switch (name) {
+      case "building-infrastructure":
         decision_query = "Building Infrastructure";
         table = buildingInfrastructureTable;
-        listName = "building-infrastructure-list";
         break;
-      case "land-use-table":
+      case "land-use":
         decision_query = "Land Use";
         table = landUseTable;
-        listName = "land-use-list";
         break;
-      case "transportation-table":
+      case "transportation":
         decision_query = "Transportation";
         table = transportationTable;
-        listName = "transportation-list";
         break;
-      case "waste-management-table":
+      case "waste-management":
         decision_query = "Waste Management";
         table = wasteManagementTable;
-        listName = "waste-management-list";
         break;
       default:
         return;
@@ -955,57 +864,7 @@ function loadModels2() {
               browse.addTool(data[i].ResourceId);
             } 
           }
-          if (!$.fn.DataTable.isDataTable('#' + table_name)) {
-            var transportTable = $('#' + table_name).DataTable({
-              dom: 'Bfrtip',
-              processing: true,
-              responsive: {
-                details: false
-              },
-              columnDefs: [{
-                orderable: false,
-                className: 'select-checkbox',
-                targets: [0]
-              },
-              { 
-                width: "5%",
-                targets: [0] 
-              },
-              { 
-                visible: false,
-                targets: [1]
-              }],
-              select: {
-                style: 'multi',
-                selector: 'td:first-child'
-              },
-              order: [[1, 'asc']],
-              buttons: [{
-                  text: 'Select All Tools',
-                  action: function () {
-                    transportTable.rows().select();
-                    selectAll(listName);
-                  },
-                  className: 'button button-grey'
-                },
-                {
-                  text: 'Deselect All Tools',
-                  action: function () {
-                    transportTable.rows().deselect();
-                    deselectAll(listName);
-                  },
-                  className: 'button button-grey'
-                },
-                {
-                  text: 'Save Selected Tools',
-                  action: function () {
-                    saveSelectedRecords(listName);
-                  },
-                  className: 'button button-white right'
-                }]
-            });
-          }
-          $('.dt-button').removeClass('dt-button');
+          createDataTable(name);
           toolCache.handleToolSet(browse, table.displayTools.bind(table));
         }
       });
