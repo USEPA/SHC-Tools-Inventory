@@ -1346,6 +1346,7 @@ var displayResults = function () {
   if (resultSet.getLength() > 0 || savedTools.getLength() > 0) {  
     $('#results-tab').parent().attr('aria-hidden', 'false');
     $('#results-tab')[0].click();
+    $('#list-radio').prop('checked', true);
     activateNextTab($('#results-tab'));
     if (!resultSet.isEqual(resultTable.getToolSet())) {
       $('#loader').removeAttr('aria-hidden').show();
