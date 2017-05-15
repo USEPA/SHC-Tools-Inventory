@@ -402,6 +402,12 @@ backlog to track work to be done and by whom
 
 - Use selected Tool Tab to view tool details on Wizard
   - seth: done
+
+- Selecting a tool whose row is hidden doesn't mark checkbox
+  - done: seth
+
+- Added an Additional Resources section to portal
+  - done: seth
 #####################################################
 # CURRENT BACKLOG BELOW #############################
 #####################################################
