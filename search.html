@@ -17,7 +17,7 @@
 <!--googleon: all-->
   <meta name="DC.description" content="" />
   <meta name="DC.title" content="" />
-  <title>SHCRP | Tools & Inventory | US EPA</title>
+  <title>Keyword Search</title>
 <!--googleoff: snippet-->
   <meta name="keywords" content="" />
   <link rel="shortlink" href="" />
@@ -178,25 +178,29 @@
     </div>
     <div class="main-column clearfix">
 <!--googleon: all-->
-      <h1 class="page-title">Tools & Model Inventory</h1>
+      <h1 class="page-title">Keyword Search</h1>
       <div class="panel-pane pane-node-content" >
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
             <h2 id="page-description-title" class="title">Description</h2>
-            <p>The Environmental Protection Agency’s Sustainable and Healthy Communities Research Program (SHCRP) has identified and evaluated an inventory of decision support tools designed to guide non-experts and professionals who seek solutions to community level development needs that will sustain human wellbeing and ecological functions.</p>
-            <p>This web-based inventory provides a searchable resource for building owners, developers, municipal planners, architects, engineers, and other interested community stakeholders. The tools in the inventory provide data, model scenarios, and narratives that guide the user through the decision-making process and promote sustainability at the community level.</p>
-            <p>The tools in the inventory occupy the following four decision sectors:</p>
-            <dl>
-              <dt class="bold">Buildings and Related Infrastructure</dt>
-              <dd> Decisions around buildings, like green building, or infrastructure, like stormwater management designs or extension of sewer </dd>
-              <dt class="bold">Land Use</dt>
-              <dd> Decisions around zoning, development, parks, etc </dd>
-              <dt class="bold">Transportation</dt>
-              <dd> Decisions around roads, transit, bike/pedestrian infrastructure, etc </dd>
-              <dt class="bold">Waste Disposal</dt>
-              <dd> Decisions around waste management, and options to avoid landfilling waste, like recycling, composting or programs to divert wasted food or “ugly produce” </dd>
-            </dl>
-            <h2 id="disclaimer-title">Disclaimer</h2>
+            <p>Keyword Search is a search tool that helps users find relevant tools from an inventory of tools designed to support sustainable and healthy communities.</p>
+            <h3>Using Keyword Search:</h3>
+            <ul>
+            <li>Search for text in a tool's title, acronym, keywords, or description by entering your keyword and pressing the Search button.</li>
+
+            <li>
+              Advanced Search lets users require that tools
+              <ul>
+                <li>occupy a selected decision sector,</li>
+                <li>operate within a selected environment,</li>
+                <li>cost a specified amount, and</li>
+                <li>pertain to a specified spatial extent.</li>
+              </ul>
+            </li>
+            <li>You can also browse all tools in the inventory by navigating to the Browse Tools tab and selecting the Decision Sector you are interested in.</li>
+            <li>Save tools you are interested in and export them to CSV for offline review</li>
+            </ul>
+            <h4 id="disclaimer-title">Disclaimer</h4>
             <p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
             <div id="tabs">
               <ul class="tabs" id="tabs-nav" role="tablist">
@@ -211,7 +215,7 @@
                 <h3>Search</h3>
                 <label for="simple-search-text" id="simple-search-text-label">Enter text to search for and press the Search button.</label>
                 <hr />
-                <input autocomplete="off" class="ui-autocomplete-input search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text" placeholder="Enter text here.">
+                <input autocomplete="off" class="ui-autocomplete-input search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text" placeholder="Enter text here">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
                 <p id="simpleFeedback">No tools were found.</p>
               </div>
@@ -219,13 +223,13 @@
                 <h3>Advanced Search</h3>
                 <p for="detailed-search-text">Specify requirements of tools while searching for text contained in the chosen fields.</p>
                 <hr />
-                <input autocomplete="off" class="ui-autocomplete-input search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text" placeholder="Enter text here.">
+                <input autocomplete="off" class="ui-autocomplete-input search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text" placeholder="Enter text here">
                 <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
                 <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Form</button>
                 <div id="detailed-search-feedback">No results were found.</div>
                 <form>
                   <div aria-labelledby="search-field-label" class="form-item form-type-checkbox" id="search-field" role="group">
-                    <h4 id="search-field-label">Choose Fields to be Searched:</h4>
+                    <h4 id="search-field-label">Choose Fields to be searched:</h4>
                     <input class="form-checkbox" checked id="title" name="search-field" type="checkbox" value="Name" />
                     <label class="option" for="title">Title</label>
                     <input class="form-checkbox" checked id="acronym" name="search-field" type="checkbox" value="Acronym" />
@@ -251,7 +255,7 @@
                     <label class="option" for="decision-sector-waste">Waste Management</label>
                   </div>
                   <div aria-labelledby="operating-environment-label" class="form-item form-type-checkbox" id="operating-environment-select" role="group">
-                    <h4 id="operating-environment-label">Choose Operating Environments to find only for tools labeled with one of these Operating Environments:</h4>
+                    <h4 id="operating-environment-label">Choose Operating Environments to find only tools labeled with one of these Operating Environments:</h4>
                     <input class="form-checkbox" id="radioenvironment_desktop" name="radioenvironment" type="checkbox" value="desktop" />
                     <label class="option" for="radioenvironment_desktop">Desktop</label>
                     <input class="form-checkbox" id="radioenvironment_browser" name="radioenvironment" type="checkbox" value="browser" />
@@ -418,6 +422,8 @@
                 </div>
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
+                <h3>Results</h3>
+                <p>Browse your results. Select a tool by checking the checkbox to the left of the tool name. Save tools and they will remain in the Saved Tools tab if you decide to run another search.</p>
                 <span>Choose a display:</span>
                 <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: Recommended for those on smaller screens.</label>
                 <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: Allows filtering and column sorting.</label>
