@@ -835,7 +835,7 @@ var isNil = function (obj) {
 var validata = function (obj) {
   try{
     if(isNil(obj)) {
-      return 'no data on file';
+      return 'No Data';
     }else{
       return obj;
     }
