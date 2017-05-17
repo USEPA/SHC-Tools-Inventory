@@ -300,7 +300,7 @@ function removeSelected(divID) {
  */
 function showDetails(id, origin) {
   var parsedData = toolCache.getParsedData(id);
-  if (resultTable.getType() === 'wizard') {
+  if (resultTable.getType() === 'wizard' || savedTools.contains(id)) {
     var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').click()">Return to Tool List</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">'; 
   } else {
     var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').click()">Return to Tool List</button><button class="button button-white right" onclick="saveRecord()">Save This Tool</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">'; 
@@ -315,27 +315,37 @@ function showDetails(id, origin) {
     html += "<span class='bold'>Title</span>: " + parsedData['Title'] + "<br>" + 
     "<span class='bold'>Acronym</span>: " + parsedData['Acronym'] + "<br>" +
     "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
+    "<span class='bold'>URL</span>: " + linkifyString(parsedData['URL']) + "<br>" +
+    "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
     "<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>" +
+    
     "<span class='bold'>Cost Details</span>: " + parsedData['Cost'] + "<br>" +
     "<span class='bold'>Other Costs</span>: " + parsedData['Other Costs'] + "<br>" +
     "<span class='bold'>Open Source</span>: " + parsedData['Open Source'] + "<br>" +
-    "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
-    "<span class='bold'>Keywords</span>: " + parsedData['Keywords'] + "<br>" +
-    "<span class='bold'>User Support Name</span>: " + parsedData['Support Name'] + "<br>" +
-    "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
-    "<span class='bold'>User Support Email</span>: " + parsedData['Support Email'] + "<br>" +
-    "<span class='bold'>User Support Material</span>: " + parsedData['Support Materials'] + "<br>" +
-    "<span class='bold'>URL</span>: " + parsedData['URL'] + "<br>" +
+
     "<span class='bold'>Current Phase</span>: " + parsedData['Life Cycle Phase'] + "<br>" +
-    "<span class='bold'>Last Modified</span>: " + parsedData['Last Modified'] + "<br>" +
     "<span class='bold'>Operating Environment</span>: " + parsedData['Operating Environment'] + "<br>" +
     "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>" +
-    "<span class='bold'>Model Inputs</span>: " + parsedData['Model Inputs'] + "<br>" +
-    "<span class='bold'>Model Output Variables</span>: " + parsedData['Output Variables'] + "<br>" +
-    "<span class='bold'>Model Evaluation</span>: " + "<span class='bold'></span>: "+parsedData['Model Evaluation'] + "<br>" +
+
+    
+    "<span class='bold'>User Support Name</span>: " + parsedData['Support Name'] + "<br>" +
+    "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
+    "<span class='bold'>User Support Email</span>: " + linkifyString(parsedData['Support Email']) + "<br>" +
+    "<span class='bold'>User Support Material</span>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
+    
+    '<span class="bold">Internet Help Desk Phone</span>: ' + parsedData['Help Desk Phone'] + '<br />' +
+    '<span class="bold">Internet Help Desk Email</span>: ' + linkifyString(parsedData['Help Desk Email']) + '<br />' +
+    
+    "<span class='bold'>Model Inputs</span>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
+    "<span class='bold'>Model Output Variables</span>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
+    "<span class='bold'>Model Evaluation</span>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
     "<span class='bold'>Scope and Time Scale</span>: " + parsedData['Time Scale'] + "<br>" +
     "<span class='bold'>Spatial Extent</span>: " + parsedData['Spatial Extent'] + "<br>" +
-    "<span class='bold'>Inputs Data Requirements</span>: " + parsedData['Input Data Requirements'] + "<br>" +
+    "<span class='bold'>Inputs Data Requirements</span>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
+    '<span class="bold">Other Technical Requirements</span>: ' + linkifyString(parsedData['Other Requirements']) + '<br />' +
+        
+    "<span class='bold'>Keywords</span>: " + parsedData['Keywords'] + "<br>" +
+    '<span class="bold">Selected Concepts</span>: ' +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + '<br />' +
     "</div>";
     $tab.append(html);
     $('#selected-tool-tab').parent().attr('aria-hidden', false);
@@ -720,6 +730,20 @@ function getToolConcepts(toolId) {
   return concepts;
 }
 
+function linkifyString(value) {
+  var urlRegExp = /((http|ftp|https):\/\/[^ @"]+|[^@]\b[^ @"]+\.(com|gov|edu|org|net|info|io)[^ @"]*)/ig; // scrape value for URLs with regex
+  var linkTemplate = '<a href="$1" target="_blank">$1</a>'; // create a template of how to format the URL into a descriptive anchor
+  if (value.indexOf('epa.gov') === -1) { // insert exit notification if an external link
+    exitNotification = '<a class="exit-disclaimer" href="https://www.epa.gov/home/exit-epa" title="EPA\'s External Link Disclaimer">Exit</a>';
+    linkTemplate += exitNotification;
+  }
+  value = value.replace(urlRegExp, linkTemplate).toString(); // replace all matched URLs with formatted anchors
+  var emailRegExp = /(\S+@\S+\.(gov|edu|com|org|net|info))/ig; // create a sadly buggy regex to find emails
+  var mailtoTemplate = '<a href="mailto:$1">$1</a>'; // create a template of a mailto link
+  value = value.replace(emailRegExp, mailtoTemplate); // replace all email addresses in text with mailto links
+  return value;
+}
+
 /**
  * check existence of each prop_i in obj.prop_1...prop_n
  * @param object{object} test the properties of object
@@ -734,23 +758,6 @@ var readSafe = function (object, propertyArray) {
     if (Object.keys(propertyArray).length === 1) {// is this the last property in the array?
       if (value.length) {
         if (typeof value === 'string') {
-          // scrape value for URLs with regex
-          var urlRegExp = /((http|ftp|https):\/\/[^ @"]+|[^@]\b[^ @"]+\.(com|gov|edu|org|net|info|io)[^ @"]*)/ig;
-          // create a template of how to format the URL into a descriptive anchor
-          var linkTemplate = '<a href="$1" target="_blank">$1</a>';
-          // insert exit notification if an external link
-          if (value.indexOf('epa.gov') === -1) {
-            exitNotification = '<a class="exit-disclaimer" href="https://www.epa.gov/home/exit-epa" title="EPA\'s External Link Disclaimer">Exit</a>';
-            linkTemplate += exitNotification;
-          }
-          // replace all matched URLs with formatted anchors
-          value = value.replace(urlRegExp, linkTemplate).toString();
-          // create a sadly buggy regex to find emails
-          var emailRegExp = /(\S+@\S+\.(gov|edu|com|org|net|info))/ig;
-          // create a template of a mailto link
-          var mailtoTemplate = '<a href="mailto:$1">$1</a>';
-          // replace all email addresses in text with mailto links
-          value = value.replace(emailRegExp, mailtoTemplate);
         }else{// has length and isn't a string? Let's access it as an array!
           try{// try accumulating a string from all elements
             accumulatedString = '';
