@@ -375,7 +375,7 @@ function exportCSV(resultsDiv) {
       if (record) {
         if (names.length === 0) {
           for (var prop in record) {
-            if (record.hasOwnProperty(prop)) {
+            if (record.hasOwnProperty(prop) && prop != 'ID') {
               var name = prop;
               names.push(name);
             }
@@ -383,7 +383,7 @@ function exportCSV(resultsDiv) {
           csvContent = names.join() + '\n';
         }
         for (var property in record) {
-          if (record.hasOwnProperty(property)) {
+          if (record.hasOwnProperty(property) && property != 'ID') {
             values.push('"' + record[property] + '"');
           }
         }
