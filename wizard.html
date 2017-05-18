@@ -1584,7 +1584,7 @@ var broadenConcepts = function () {
     }
   }
   if (associatedConcepts.length === 0) {
-    toast({html: 'No related concepts found. Try selecting additional concepts or objectives.', close: true});
+    toast({html: 'No related concepts found.', close: true});
   }
   var html = addCheckboxes(associatedConcepts, $('#concept'));
   $('#concept').append(html);
