@@ -731,16 +731,19 @@ function getToolConcepts(toolId) {
 }
 
 function linkifyString(value) {
-  var urlRegExp = /((http|ftp|https):\/\/[^ @"]+|[^@]\b[^ @"]+\.(com|gov|edu|org|net|info|io)[^ @"]*)/ig; // scrape value for URLs with regex
-  var linkTemplate = '<a href="$1" target="_blank">$1</a>'; // create a template of how to format the URL into a descriptive anchor
-  if (value.indexOf('epa.gov') === -1) { // insert exit notification if an external link
-    exitNotification = '<a class="exit-disclaimer" href="https://www.epa.gov/home/exit-epa" title="EPA\'s External Link Disclaimer">Exit</a>';
-    linkTemplate += exitNotification;
+  if (typeof value === 'string') {
+    var urlRegExp = /((http|ftp|https):\/\/[^ @"]+|[^@]\b[^ @"]+\.(com|gov|edu|org|net|info|io)[^ @"]*)/ig; // scrape value for URLs with regex
+    var linkTemplate = '<a href="$1" target="_blank">$1</a>'; // create a template of how to format the URL into a descriptive anchor
+    if (value.indexOf('epa.gov') === -1) { // insert exit notification if an external link
+      exitNotification = '<a class="exit-disclaimer" href="https://www.epa.gov/home/exit-epa" title="EPA\'s External Link Disclaimer">Exit</a>';
+      linkTemplate += exitNotification;
+    }
+    value = value.replace(urlRegExp, linkTemplate).toString(); // replace all matched URLs with formatted anchors
+    var emailRegExp = /(\S+@\S+\.(gov|edu|com|org|net|info))/ig; // create a sadly buggy regex to find emails
+    var mailtoTemplate = '<a href="mailto:$1">$1</a>'; // create a template of a mailto link
+    value = value.replace(emailRegExp, mailtoTemplate); // replace all email addresses in text with mailto links
+    return value;
   }
-  value = value.replace(urlRegExp, linkTemplate).toString(); // replace all matched URLs with formatted anchors
-  var emailRegExp = /(\S+@\S+\.(gov|edu|com|org|net|info))/ig; // create a sadly buggy regex to find emails
-  var mailtoTemplate = '<a href="mailto:$1">$1</a>'; // create a template of a mailto link
-  value = value.replace(emailRegExp, mailtoTemplate); // replace all email addresses in text with mailto links
   return value;
 }
 
