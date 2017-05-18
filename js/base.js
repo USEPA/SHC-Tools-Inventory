@@ -911,7 +911,7 @@ function createDataTable(name) {
           orderable: false,
           className: 'dt-body-center',
           render: function (data, type, full, meta){
-            return '<input id="' + full[1] + '" type="checkbox"><label for="' + full[1] + '"></label>';
+            return '<input id="' + name + '-' + full[1] + '" type="checkbox" value="' + full[1] + '"><label for="' + name + '-' + full[1] + '"></label>';
           }
         },
         {

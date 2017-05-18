@@ -608,7 +608,7 @@ $(function () { // jquery's shorthand awaits readiness of document
       }).nodes().to$().addClass("selected");
       $('#' + id).prop('checked', true);
       $('input[type="checkbox"]', rowNodes).each(function () {
-        if ($(this).attr('id') === id) {
+        if ($(this).val() === id) {
           $(this).prop('checked', true);
         }
       });
@@ -618,7 +618,7 @@ $(function () { // jquery's shorthand awaits readiness of document
       }).nodes().to$().removeClass("selected");
       $('#' + id).prop('checked', false);
       $('input[type="checkbox"]', rowNodes).each(function () {
-        if ($(this).attr('id') === id) {
+        if ($(this).val() === id) {
           $(this).prop('checked', false);
         }
       });
@@ -628,7 +628,7 @@ $(function () { // jquery's shorthand awaits readiness of document
   $('tbody').on('click', 'input[type="checkbox"]', function () {
     var $parent = $(this).parent().parent();
     var tableId = $(this).closest('table').attr('id').slice(0, -6);
-    var readId = $(this).attr('id');  // get ID
+    var readId = $(this).val(); // get ID
     if ($parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
       $parent.removeClass('selected');
