@@ -756,13 +756,13 @@ function linkifyString(value) {
  * safely returns obj.foo.bar.baz value if all properties exist
 */
 var readSafe = function (object, propertyArray) {
-  if(object[propertyArray[0]]) {// is first element of propertyArray a property of this object?
+  if (object[propertyArray[0]]) {// is first element of propertyArray a property of this object?
     var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
     if (Object.keys(propertyArray).length === 1) {// is this the last property in the array?
       if (value.length) {
         if (typeof value === 'string') {
-        }else{// has length and isn't a string? Let's access it as an array!
-          try{// try accumulating a string from all elements
+        } else {// has length and isn't a string? Let's access it as an array!
+          try {// try accumulating a string from all elements
             accumulatedString = '';
             for (i in value) {
               iValue = value[i][propertyArray[0].replace('Detail', 'Name').replace('ModelScope','')];
@@ -778,23 +778,23 @@ var readSafe = function (object, propertyArray) {
               accumulatedString += iValue;
             }
             return accumulatedString;
-          }catch(error) {// if fail by err then warn about possible need of extension
+          }catch (error) {// if fail by err then warn about possible need of extension
             console.log('readSafe() erred and might need extended. Logging object, propertyArray, value:' + object + propertyArray + value);
-          }finally{
+          }finally {
           }
         }
       }
       return value;// return possibly formatted contents of property
-    }else{// there are multiple elements remaining in propertyArray that we need to descend into
-      try{
+    }else {// there are multiple elements remaining in propertyArray that we need to descend into
+      try {
         // recursion with obj[prop_1] as obj for next iteration
         return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
-      }catch(e) {
+      } catch (e) {
         console.log('error: ',e);// dev
         return 'no data'; // return 'no data'
       }
     }
-  }else{// first element propertyArray isn't a property of this object
+  } else {// first element propertyArray isn't a property of this object
     var accumulatedString = '';
     if (object.length && typeof(object).toLowerCase !== 'string') {
       for (i in object) {
@@ -812,7 +812,7 @@ var readSafe = function (object, propertyArray) {
         }
       }
     return accumulatedString;
-    }else{
+    } else {
       return 'no data'; // fail safely: return 'no data'
     }
   }
@@ -827,7 +827,7 @@ var isNil = function (obj) {
       obj.hasOwnProperty('xsi:nil') ||
       obj === null ||
       obj === '' ||
-      String(obj).toLowerCase() === 'no data'
+      String(obj).toLowerCase() === 'No Data'
   );
 };
 
@@ -836,15 +836,15 @@ var isNil = function (obj) {
  * return obj otherwise
  */
 var validata = function (obj) {
-  try{
-    if(isNil(obj)) {
+  try {
+    if (isNil(obj)) {
       return 'No Data';
-    }else{
+    } else {
       return obj;
     }
-  }catch(e) {
+  } catch (e) {
     console.log('ERROR: validata() returned "no data" for' + obj + 'because it threw error' + e);
-    return 'no data';
+    return 'No Data';
   }
 };
 
