@@ -904,21 +904,24 @@ function createDataTable(name) {
       responsive: {
         details: false
       },
-      columnDefs: [{
-         targets: [0],
-         searchable: false,
-         orderable: false,
-         className: 'dt-body-center',
-         render: function (data, type, full, meta){
+      columnDefs: [
+        {
+          targets: [0],
+          searchable: false,
+          orderable: false,
+          className: 'dt-body-center',
+          render: function (data, type, full, meta){
             return '<input id="' + full[1] + '" type="checkbox"><label for="' + full[1] + '"></label>';
-         }},
-         {
+          }
+        },
+        {
           targets: [1],
           visible: false
-         }
+        }
       ],
       order: [[2, 'asc']],
-      buttons: [{
+      buttons: [ 
+        {
           text: 'Select All Tools',
           action: function () {
             selectAllToolsButton(name);
@@ -931,18 +934,47 @@ function createDataTable(name) {
             deselectAllToolsButton(name);
           },
           className: 'button button-grey'
-        },
+        }
+      ]
+    });
+
+    var dtButtons = [
         { 
           text: 'Export Selected Tools to CSV',
           action: function () {
             exportCSV(name + '-list');
           },
-          className: 'button button-white right'
+          className: 'button button-white'
         }
-      ]
-    });
+      ];
+
+      if (name !== 'saved' && resultTable.getType() === 'search') {
+        dtButtons.push(
+          {
+            text: 'Save Selected Tools', 
+            action: function () {
+              saveSelectedRecords(name + '-list');
+            },
+            className: 'button button-white'
+          });
+      }
+
+      new $.fn.dataTable.Buttons(table, {
+          buttons: dtButtons
+        }
+      );
+
+
+      table.buttons(0, null).container().css('display', 'block').wrap("<div></div>");
+      if (name !== 'saved' && resultTable.getType() === 'search') {
+        table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
+      } else {
+        table.buttons(1, null).container().insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
+      }
+      
+
+    $('.dt-button').removeClass('dt-button');
   }
-  $('.dt-button').removeClass('dt-button');
 }
 
 function selectAllToolsButton(name) {
