@@ -791,7 +791,7 @@ var readSafe = function (object, propertyArray) {
         return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
       } catch (e) {
         console.log('error: ',e);// dev
-        return 'no data'; // return 'no data'
+        return 'No Data'; // return 'No Data'
       }
     }
   } else {// first element propertyArray isn't a property of this object
@@ -813,7 +813,7 @@ var readSafe = function (object, propertyArray) {
       }
     return accumulatedString;
     } else {
-      return 'no data'; // fail safely: return 'no data'
+      return 'No Data'; // fail safely: return 'No Data'
     }
   }
 };
@@ -827,7 +827,7 @@ var isNil = function (obj) {
       obj.hasOwnProperty('xsi:nil') ||
       obj === null ||
       obj === '' ||
-      String(obj).toLowerCase() === 'No Data'
+      String(obj).toLowerCase() === 'no data'
   );
 };
 
