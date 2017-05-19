@@ -188,6 +188,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
     $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
   }
+  if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
 };
 
 /**
@@ -213,6 +214,9 @@ $('[name="saved-display-type"]').change(function () {
   if ($(this).attr('id') === 'saved-table-radio') {
     $('#saved-list-div').attr('aria-hidden', true);
     $('#saved-table-div').attr('aria-hidden', false);
+    if ($.fn.DataTable.isDataTable('#saved-table')) {
+      $('#saved-table').DataTable().columns.adjust(); // adjust table cols to the width of the container
+    }
   } else if ($(this).attr('id') === 'saved-list-radio') { // show list
     $('#saved-table-div').attr('aria-hidden', true);
     $('#saved-list-div').attr('aria-hidden', false);
@@ -226,6 +230,18 @@ $('[name="browse-display-type"]').change(function () {
   if ($(this).attr('id') === 'browse-table-radio') {
     $('.browse-list-div').attr('aria-hidden', true);
     $('.browse-table-div').attr('aria-hidden', false);
+    if ($.fn.DataTable.isDataTable('#building-infrastructure-table')) {
+      $('#building-infrastructure-table').DataTable().columns.adjust(); // adjust table cols to the width of the container
+    }
+    if ($.fn.DataTable.isDataTable('#land-use-table')) {
+      $('#land-use-table').DataTable().columns.adjust(); // adjust table cols to the width of the container
+    }
+    if ($.fn.DataTable.isDataTable('#waste-management-table')) {
+      $('#waste-management-table').DataTable().columns.adjust(); // adjust table cols to the width of the container
+    }
+    if ($.fn.DataTable.isDataTable('#transportation-table')) {
+      $('#transportation-table').DataTable().columns.adjust(); // adjust table cols to the width of the container
+    }
   } else if ($(this).attr('id') === 'browse-list-radio') { // show list
     $('.browse-table-div').attr('aria-hidden', true);
     $('.browse-list-div').attr('aria-hidden', false);
