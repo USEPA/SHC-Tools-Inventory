@@ -189,6 +189,8 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
     $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
   }
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
+    $("#" + this.getTableId()).DataTable().columns.adjust(); // adjust table cols to the width of the container
+  }
 };
 
 /**
