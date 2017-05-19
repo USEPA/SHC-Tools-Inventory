@@ -1,0 +1,191 @@
+120/1: %load 'data/twenty_newsgroups/fetch_data.py'
+120/2:
+# %load 'data/twenty_newsgroups/fetch_data.py'
+data/twenty_newsgroups/fetch_data.py
+120/3: %load 'foo test words here'
+120/4: %load file('data/twenty_newsgroups/fetch_data.py')
+120/5: %load './data/twenty_newsgroups/fetch_data.py'
+120/6: %pwd
+120/7: %ls
+120/8: %cd data/twenty_newsgroups/
+120/9: %load fetch_data.py
+120/10:
+# %load fetch_data.py
+"""Script to download the 20 newsgroups text classification set"""
+
+import os
+import tarfile
+from contextlib import closing
+
+try:
+    from urllib import urlopen
+except ImportError:
+    from urllib.request import urlopen
+
+URL = ("http://people.csail.mit.edu/jrennie/"
+       "20Newsgroups/20news-bydate.tar.gz")
+
+ARCHIVE_NAME = URL.rsplit('/', 1)[1]
+TRAIN_FOLDER = "20news-bydate-train"
+TEST_FOLDER = "20news-bydate-test"
+
+
+if not os.path.exists(TRAIN_FOLDER) or not os.path.exists(TEST_FOLDER):
+
+    if not os.path.exists(ARCHIVE_NAME):
+        print("Downloading dataset from %s (14 MB)" % URL)
+        opener = urlopen(URL)
+        with open(ARCHIVE_NAME, 'wb') as archive:
+            archive.write(opener.read())
+
+    print("Decompressing %s" % ARCHIVE_NAME)
+    with closing(tarfile.open(ARCHIVE_NAME, "r:gz")) as archive:
+        archive.extractall(path='.')
+    os.remove(ARCHIVE_NAME)
+120/11: %pwd
+120/12: %ls ../..
+120/13: %ls '../..'
+120/14: !ls ../..
+120/15: !cp -rp ../../skeletons ../../sklearn_tut_workspace
+120/16: !ls
+120/17: %cd ../..
+120/18: %cd sklearn_tut_workspace/
+120/19: ls
+120/20: cd exercise_01_language_train_model.py
+120/21: ls
+120/22: less exercise_01_language_train_model.py
+120/23: less exercise_01_language_train_model.py
+120/24: less exercise_01_language_train_model
+120/25: !less exercise_01_language_train_model.py
+120/26: !less exercise_02_sentiment.py
+120/27: import sklearn
+120/28: sklearn.datasets.load_files
+120/29: sklearn.setup_module
+120/30: sklearn.setup_module?
+120/31: sklearn.setup_module??
+120/32: from sklearn.datasets import fetch_20newsgroups
+120/33:
+categories = ['alt.atheism', 'soc.religion.christian',
+              'comp.graphics', 'sci.med']
+120/34: from sklearn.datasets import fetch_20newsgroups
+120/35:
+twenty_train = fetch_20newsgroups(subset='train',
+    categories=categories, shuffle=True, random_state=42)
+120/36: %hist 33-
+120/37: %hist 33
+120/38: %hist 33-36
+120/39: %hist 33-35
+120/40: len(twenty_train.data)
+120/41: len(twenty_train.filenames)
+120/42: twenty_train.target_names
+120/43: print('\n'.join(twenty_train.data[0].split('\n')[:4]))
+120/44: print(twenty_train.target_names[twenty_train.target[0]])
+120/45: print(twenty_train.target[0])
+120/46: print(twenty_train.target[1])
+120/47: print(twenty_train.target[2])
+120/48: len(twenty_train.target)
+120/49: twenty_train.target_names[twenty_train.target[:10]]
+120/50: twenty_train.target_names[twenty_train.target[i]] for i in range(10)
+120/51: (twenty_train.target_names[twenty_train.target[i]] for i in range(10))
+120/52: (twenty_train.target_names[twenty_train.target[i]] for i in range(10))[;4]
+120/53: (twenty_train.target_names[twenty_train.target[i]] for i in range(10))[:4]
+120/54: (twenty_train.target_names[twenty_train.target[i]] for i in range(10))90
+120/55: (twenty_train.target_names[twenty_train.target[i]] for i in range(10))()
+120/56: (twenty_train.target_names[twenty_train.target[i]] for i in range(10))
+120/57: [twenty_train.target_names[twenty_train.target[i]] for i in range(10)]
+120/58: from sklearn.feature_extraction.text import CountVectorizer
+120/59: count_vect = CountVectorizer()
+120/60: X_train_counts = count_vect.fit_transform(twenty_train.data)
+120/61: X_train_counts.shape
+120/62: count_vect.vocabulary_.get(u'algorithm')
+120/63: from sklearn.feature_extraction.text import TfidfTransformer
+120/64: tf_transformer = TfidfTransformer(use_idf=False).fit(X_train_counts)
+120/65: X_train_tf = tf_transformer.transform(X_train_counts)
+120/66: from sklearn.naive_bayes import MultinomialNB
+120/67: clf = MultinomialNB().fit(X_train_tf, twenty_train.target)
+120/68: docs_new = ['God is love', 'OpenGL on the GPU is fast']
+120/69: X_new_counts = count_vect.transform(docs_new)
+120/70: X_new_tfidf = tf_transformer.transform(X_new_counts)
+120/71: predicted = clf.predict(X_new_tfidf)
+120/72:
+for doc, category in zip(docs_new, predicted):
+    print('%r +> %s' % (doc, twenty_train.target_names[category]))
+120/73: from sklearn import Pipeline
+120/74: from sklearn.pipeline import Pipeline
+120/75:
+test_clf = Pipeline([('vect', CountVectorizer()),
+                     ('tfidf', TfidfTransformer()),
+                     ('clf', MultinomialNB()),
+])
+120/76:
+text_clf = Pipeline([('vect', CountVectorizer()),
+                     ('tfidf', TfidfTransformer()),
+                     ('clf', MultinomialNB()),
+])
+120/77: del test_clf
+120/78: txt_clf = text_clf.fit(twenty_train.data, twenty_train.target)
+120/79: import numpy as np
+120/80:
+twenty_test = fetch_20newsgroups(subset='test',
+    categories=categories, shuffle=True, random_state=42)
+120/81: docs_test = twenty_test.data
+120/82: predicted = text_clf.predict(docs_test)
+120/83: np.mean(predicted == twenty_test.target)
+120/84: from sklearn.linear_model import SGDClassifier
+120/85:
+test_clf = Pipeline([('vect', CountVectorizer())),
+                     ('tfidf', TfidfTransformer()),
+                     ('clf', SGDClassifier(loss='hinge', penalty='l2',
+                                           alpha=1e-3, n_iter=5, random_state=42)),
+])
+120/86:
+test_clf = Pipeline([('vect', CountVectorizer()),
+                     ('tfidf', TfidfTransformer()),
+                     ('clf', SGDClassifier(loss='hinge', penalty='l2',
+                                           alpha=1e-3, n_iter=5, random_state=42)),
+])
+120/87: _ = text_clf.fit(twenty_train.data, twenty_train.target)
+120/88: predicted = text_clf.predict(docs_test)
+120/89: np.mean(predicted == twenty_test.target)
+120/90: text_clf = text_clf.fit(twenty_train.data, twenty_train.target)
+120/91: predicted = text_clf.predict(docs_test)
+120/92: np.mean(predicted == twenty_test.target)
+120/93:
+text_clf = Pipeline([('vect', CountVectorizer()),
+                     ('tfidf', TfidfTransformer()),
+                     ('clf', SGDClassifier(loss='hinge', penalty='l2',
+                                           alpha=1e-3, n_iter=5, random_state=42)),
+])
+120/94: _ = text_clf.fit(twenty_train.data, twenty_train.target)
+120/95: predicted = text_clf.predict(docs_test)
+120/96: np.mean(predicted == twenty_test.target)
+120/97: from sklearn import metrics
+120/98:
+print(metrics.classification_report(twenty_test.target, predicted,
+    target_names=twenty_test.target_names))
+120/99: metrics.confusion_matrix(twenty_test.target, predicted)
+120/100: from sklearn.model_selection import GridSearchCV
+120/101:
+parameters = {'vect__ngram_range': [(1, 1), (1, 2)],
+              'rfidf__use_idf': (True, False),
+              'clf__alpha': (1e-2, 1e-3),
+}
+120/102: gs_clf = GridSearchCV(text_clf, paraceters, n_jobs=-1)
+120/103: gs_clf = GridSearchCV(text_clf, parameters, n_jobs=-1)
+120/104: gs_clf = gs_clf.fit(twenty_train.data[:400], twenty_train.target[:400])
+120/105:
+parameters = {'vect__ngram_range': [(1, 1), (1, 2)],
+              'tfidf__use_idf': (True, False),
+              'clf__alpha': (1e-2, 1e-3),
+}
+120/106: gs_clf = GridSearchCV(text_clf, parameters, n_jobs=-1)
+120/107: gs_clf = gs_clf.fit(twenty_train.data[:400], twenty_train.target[:400])
+120/108: twenty_train.target_names[gs_clf.predict(['God is love'])[0]]
+120/109: gs_clf.best_score_
+120/110:
+for param_name in sorted(parameters.keys()):
+    print("%s: %r
+120/111:
+for param_name in sorted(parameters.keys()):
+    print("%s: %r" % (param_name, gs_clf.best_params_[param_name]))
+120/112: gs_clf.cv_results_

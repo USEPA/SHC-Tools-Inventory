@@ -15,8 +15,12 @@ response = []
 descriptions = {}
 details = {}
 descriptions_file = 'descriptions.json'
+read_ids_by_concept_filename = 'readIdsByConcept.json'
+wizard_filename = '../../wizard.html'
 
-# attempt to load descriptions and download them on exception
+# load descriptions indexed by READ-id
+# download descriptions on exception
+# hence deleting json-files forces update of data
 try:
     with open(descriptions_file) as f:
         descriptions = json.load(f)
@@ -31,13 +35,18 @@ except Exception:
     with open(descriptions_file, 'w') as f:
         json.dump(descriptions, f)
 
-# load concepts indexed by READ-Id to be training data
-with open('../../wizard.html', encoding='utf8') as f:
-    wizard = f.read()
-readIdsByConcept = re.search('readIDsByConcept = (.+);\n', wizard).group(1)
-if not os.path.exists(read_ids_by_concept_filename):
-
-    file(read_ids_by_concept_filename, 'w').close()
+# load concepts indexed by READ-id to be training data
+# collect from wizard.html on exception
+# hence deleting json-files forces update of data
+try:
+    with open(read_ids_by_concept_filename) as f:
+        read_ids_by_concept = json.load(f)
+except Exception:
+    with open(wizard_filename, encoding='utf8') as f:
+        wizard_text = f.read()
+    read_ids_by_concept = re.search('readIDsByConcept = (.+);\n', wizard_text).group(1)
+    with open(read_ids_by_concept_filename, 'w') as read_ids_by_concept_file:
+        json.dump(read_ids_by_concept, read_ids_by_concept_file)
 
 # tokenize each description with sklearn, nltk, or a pipeline through both
 # compute tf/idf for each label
