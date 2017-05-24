@@ -863,16 +863,19 @@ $('#feedback-modal').click(function (e) {
 var timeouts = {};
 
 /**
-* accessibly notify users of information
+* toast() accessibly notifies users of arbitrary information
 *
 * @param {object} parameters:
 *   { parameters.css : [ "contains arbitrary css for this notice
 *                        as parameters.css[<key>] = <value>",
 *                        "is JSON-object" ],
-*     parameters.html : [ "html for notifier" ]
-*     parameters.priority : [ "sets priority metadata for assistive technology",
+*     parameters.disable : [ "true to show disabling-button" ],
+*     parameters.html : [ "html for notifier" ],
+*     parameters.priority : [ "sets priority-metadata for
+*                              assistive technology",
 *                             "can be 'polite' or 'assertive'",
-*                             "assertive interrupts user" ],
+*                             "assertive interrupts user",
+*                             "see aria-live's values in html-spec" ],
 *     parameters.container : [ "ID of container to use for alert" ] }
 */
 var toast = function (parameters) {
@@ -904,16 +907,28 @@ var toast = function (parameters) {
           $notice.attr('aria-live', 'assertive');
         }
       }
+      if (parameter === 'disable') {
+        if (parameters[parameter] === true) {
+          $notice.append($('<button>').text('Disable These Messages').click(function(){disableToast(noticeID, showToast)}));
+        }
+      }
     }
   }
   $notice.removeAttr('aria-hidden');
   $notice.show();
   $notice.addClass('show');
-    //$notice.addClass('show'); // Add the "show" class to notice
   timeouts["toast"] = setTimeout(function () {
     clearToast();
   }, 20000);// remove the show class from notice after specified miliseconds
 };
+
+/**
+ * disable instructional toasts for all tab-panels
+ */
+function disableToast(noticeID, showToast) {
+  showToast['all'] = false;
+  $('#' + noticeID).hide();
+}
 
 /**
 * Clears the toast and the timeout for the toast
@@ -969,16 +984,17 @@ var objectiveDisplay = function (adjust) {
 *  inform users of necessary information.
 */
 var checkboxChangeHandler = function(checkboxGroup){
-  if (showToast[checkboxGroup] !== false) {// condition: are these toasts unmuted?
+  if (showToast[checkboxGroup] !== false && showToast['all'] !== false) {// condition: are these toasts unmuted?
     if (checkboxGroup.indexOf('table') === -1) {
       buttonText = (checkboxGroup === 'concept') ? ($('#concept-search-button').text()) : ('next')//BOOKMARK: insert dynamically grabbed text for 'Display Tools' if checkboxGroup == 'concept'; else insert "next"
       var message = 'Select all desired ' + checkboxGroup + 's then press the button labeled "' + buttonText + '." Selections can be changed at any time by returning to the desired tab.';
-        toast({html:message,close:true});
+        toast({html:message,close:true,disable:true});
         showToast[checkboxGroup] = false;
     } else {
+      console.log('showToast[checkboxGroup],showToast[\'all\']',showToast[checkboxGroup],showToast['all']);
       var message = 'Select all desired ' + checkboxGroup + 's then press the button labeled "next." Selections can be changed at any time.';
       showToast[checkboxGroup] = false;
-      toast({html:message,close:true});
+      toast({html:message,close:true,disable:true});
     }
   }
 }
