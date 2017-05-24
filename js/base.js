@@ -1019,6 +1019,88 @@ function deselectAllToolsButton(name) {
   $('input[type="checkbox"]', rowNodes).prop('checked', false);
 }
 
+var timeouts = {};
+
+/**
+* toast() accessibly notifies users of arbitrary information
+*
+* @param {object} parameters:
+*   { parameters.css : [ "contains arbitrary css for this notice
+*                        as parameters.css[<key>] = <value>",
+*                        "is JSON-object" ],
+*     parameters.disable : [ "true to show disabling-button" ],
+*     parameters.html : [ "html for notifier" ],
+*     parameters.priority : [ "sets priority-metadata for
+*                              assistive technology",
+*                             "can be 'polite' or 'assertive'",
+*                             "assertive interrupts user",
+*                             "see aria-live's values in html-spec" ],
+*     parameters.container : [ "ID of container to use for alert" ] }
+*/
+var toast = function (parameters) {
+  clearToast();
+  var noticeID = 'toast';
+  var $notice = $('#' + noticeID);
+  if (typeof parameters !== 'undefined') { // does parameters object exist?
+    if (typeof parameters['container'] !== 'undefined') {
+      var noticeID = parameters['container'];
+      var $notice = $('#' + noticeID);
+    }
+    for (var parameter in parameters) {
+      if (parameter === 'css') { // set css rules
+        for (var property in parameters[parameter]) {
+          $notice.css(property, parameters[parameter][property]);
+        }
+      }
+      if (parameter === 'html') {
+        $notice.html(parameters[parameter]);
+      }
+      if (parameter === 'close') {
+        $notice.append('<span class="toast-close-button" onclick="clearToast()" role="button">&times;</span>');
+      }
+      if (parameter === 'priority') {
+        if (parameters[parameter] === 'polite') {
+          $notice.attr('aria-live', 'polite');
+        }
+        if (parameters[parameter] === 'assertive') {
+          $notice.attr('aria-live', 'assertive');
+        }
+      }
+      if (parameter === 'disable') {
+        if (parameters[parameter] === true) {
+          $notice.append($('<button>').text('Disable These Messages').click(function(){disableToast(noticeID, showToast)}));
+        }
+      }
+    }
+  }
+  $notice.removeAttr('aria-hidden');
+  $notice.show();
+  $notice.addClass('show');
+  timeouts["toast"] = setTimeout(function () {
+    clearToast();
+  }, 20000);// remove the show class from notice after specified miliseconds
+};
+
+/**
+ * disable instructional toasts for all tab-panels
+ */
+function disableToast(noticeID, showToast) {
+  showToast['all'] = false;
+  $('#' + noticeID).hide();
+}
+
+/**
+* Clears the toast and the timeout for the toast
+*/
+function clearToast(){
+  var noticeID = 'toast';
+  var $notice = $('#' + noticeID);
+  clearTimeout(timeouts[noticeID]);
+  $notice.removeClass('show');
+  $notice.attr('aria-hidden','true');
+  $notice.hide();
+}
+
 // stopwords to use in testing
 var stopWords = [
   "&","a","about","above","across","after","afterwards","again","against","all","almost","alone","along","already","also","although","always","am","among","amongst","amoungst","amount","an","and","another","any","anyhow","anyone","anything","anyway","anywhere","are","around","as","at","back","be","became","because","become","becomes","becoming","been","before","beforehand","behind","being","below","beside","besides","between","beyond","bill","both","bottom","but","by","call","can","cannot","cant","co","computer","con","could","couldnt","cry","de","describe","detail","do","done","down","due","during","each","eg","eight","either","eleven","else","elsewhere","empty","enough","etc","even","ever","every","everyone","everything","everywhere","except","few","fifteen","fify","fill","find","fire","first","five","for","former","formerly","forty","found","four","from","front","full","further","get","give","go","had","has","hasnt","have","he","hence","her","here","hereafter","hereby","herein","hereupon","hers","herself","him","himself","his","how","however","hundred","i","ie","if","in","inc","indeed","interest","into","is","it","its","itself","keep","last","latter","latterly","least","less","ltd","made","many","may","me","meanwhile","might","mill","mine","more","moreover","most","mostly","move","much","must","my","myself","name","namely","neither","never","nevertheless","next","nine","no","nobody","none","noone","nor","not","nothing","now","nowhere","of","off","often","on","once","one","only","onto","or","other","others","otherwise","our","ours","ourselves","out","over","own","part","per","perhaps","please","put","rather","re","same","see","seem","seemed","seeming","seems","serious","several","she","should","show","side","since","sincere","six","sixty","so","some","somehow","someone","something","sometime","sometimes","somewhere","still","such","system","take","ten","than","that","the","their","them","themselves","then","thence","there","thereafter","thereby","therefore","therein","thereupon","these","they","thick","thin","third","this","those","though","three","through","throughout","thru","thus","to","together","too","top","toward","towards","twelve","twenty","two","un","under","until","up","upon","us","very","via","was","we","well","were","what","whatever","when","whence","whenever","where","whereafter","whereas","whereby","wherein","whereupon","wherever","whether","which","while","whither","who","whoever","whole","whom","whose","why","will","with","within","without","would","yet","you","your","yours","yourself","yourselves"

@@ -31,6 +31,7 @@
 <!--googleoff: all-->
   <link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/template2/s.css" media="all" />
   <!--[if lt IE 9]><link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/themes/epa/css/ie.css" media="all" /><![endif]-->
+  <link type="text/css" rel="stylesheet" href="css/base.css" media="all" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov All Press Releases" href="https://www.epa.gov/newsreleases/search/rss" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters" />
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
@@ -196,6 +197,7 @@
     <div class="main-column clearfix">
       <!--googleon: all-->
       <h1>Sustainable Community Tools</h1>
+      <div aria-live="polite" id="toast"></div>
       <div id="page-map">
       <div>On this page:</div>
         <ul>
@@ -369,61 +371,62 @@
       <p>The tools listed here are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed within.</p>
       <p class="pagetop"><a href="#top">Return to top of page</a></p>
       <div id="feedback-modal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <span class="close" role="button" tabindex="1">&times;</span>
-      <h2>Feedback Form</h2>
-    </div>
-    <div class="modal-body">
-      <form onsubmit="toast({html: 'Feedback submission is currently unavailable.', close: true});return false;">
-        <br />
-        <div class="row">
-          <div class="col"><p>Your feedback can help us improve this application. If you have general feedback, a bug to report, an idea or tool suggestion to add to our inventory please let us know!</p></div>
-        <div class="row cols-3">
-          <div class="col">
-            <input checked id="general-feedback" name="feedback-type" type="Radio"/>
-            <label for="general-feedback">General feedback</label>
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="close" role="button" tabindex="1">&times;</span>
+            <h2>Feedback Form</h2>
           </div>
-          <div class="col">
-            <input id="report-a-bug" name="feedback-type" type="Radio"/>
-            <label for="report-a-bug">Report a bug</label>
-          </div>
-          <div class="col">  
-            <input id="suggest-an-idea" name="feedback-type" type="Radio"/>
-            <label for="suggest-an-idea">Suggest an idea or tool</label>
+          <div class="modal-body">
+            <form onsubmit="toast({html: 'Feedback submission is currently unavailable.', close: true});return false;">
+              <br />
+              <div class="row">
+                <div class="col"><p>Your feedback can help us improve this application. If you have general feedback, a bug to report, an idea or tool suggestion to add to our inventory please let us know!</p></div>
+              </div>
+              <div class="row cols-3">
+                <div class="col">
+                  <input checked id="general-feedback" name="feedback-type" type="Radio"/>
+                  <label for="general-feedback">General feedback</label>
+                </div>
+                <div class="col">
+                  <input id="report-a-bug" name="feedback-type" type="Radio"/>
+                  <label for="report-a-bug">Report a bug</label>
+                </div>
+                <div class="col">  
+                  <input id="suggest-an-idea" name="feedback-type" type="Radio"/>
+                  <label for="suggest-an-idea">Suggest an idea or tool</label>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col size-1of1">
+                  <label for="feedback-text">Feedback</label>
+                  <textarea id="feedback-text" placeholder="Enter feedback" rows="5"></textarea>
+                </div>
+              </div>
+              <div class="row cols-3">
+                <div class="col">
+                  <label for="first-name">First Name (Optional)</label>
+                  <input class="full-width" id="first-name" placeholder="Enter first name" type="text" />
+                </div>
+                <div class="col">
+                  <label for="last-name">Last Name (Optional)</label>
+                  <input class="full-width" id="last-name" placeholder="Enter last name" type="text"/>
+                </div>
+                <div class="col">
+                  <label for="email">Email Address (Optional)</label>
+                  <input class="full-width" id="email" placeholder="Enter email address" type="email"/>
+                </div>
+              </div>
+              <br />
+              <div class="row">
+                <div class="col">
+                  <input id="submit-feedback" type="submit" value="Submit Feedback"/>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-        <br />
-        <div class="row">
-          <div class="col size-1of1">
-            <label for="feedback-text">Feedback</label>
-            <textarea id="feedback-text" placeholder="Enter feedback" rows="5"></textarea>
-          </div>
-        </div>
-        <div class="row cols-3">
-          <div class="col">
-            <label for="first-name">First Name (Optional)</label>
-            <input class="full-width" id="first-name" placeholder="Enter first name" type="text" />
-          </div>
-          <div class="col">
-            <label for="last-name">Last Name (Optional)</label>
-            <input class="full-width" id="last-name" placeholder="Enter last name" type="text"/>
-          </div>
-          <div class="col">
-            <label for="email">Email Address (Optional)</label>
-            <input class="full-width" id="email" placeholder="Enter email address" type="email"/>
-          </div>
-        </div>
-        <br />
-        <div class="row">
-          <div class="col">
-            <input id="submit-feedback" type="submit" value="Submit Feedback"/>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+      </div>
       <!--googleoff: all-->
     </div>
   </section>
@@ -496,5 +499,21 @@
   <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/porter-stemmer.js"></script>
+  <script src="js/base.js"></script>
+  <script>
+  $('#feedback-link').click(function () {
+    $('#feedback-modal').css('display', 'block');
+  });
+
+  $('.close').click(function () {
+    $('#feedback-modal').css('display', 'none');
+  });
+
+  $('#feedback-modal').click(function (e) {
+    if (e.target === $('#feedback-modal')[0]) {
+      $('#feedback-modal').css('display', 'none');
+    }
+  });
+  </script>
 </body>
 </html>

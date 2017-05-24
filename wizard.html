@@ -66,48 +66,6 @@
         border-radius: 0; 
       }
     }
-    /* position at the top of the screen */
-    #toast, #notice {
-      display: none; /* Hidden by default. Visible on click */
-      left: 0;
-      width: 100%;
-      background-color: #212121; /* Black background color */
-      color: #fff; /* White text color */
-      text-align: center; /* Centered text */
-      border-radius: 2px; /* Rounded borders */
-      padding: 1em; /* Padding */
-      opacity: 1;
-      transition: opacity 0.5s; /* 600ms to fade out */
-      z-index: 2;
-    }
-    /* Show the notification. Show and animate with addition of class. */
-    #toast.show, .notice.show {
-      display: initial; /* Show the notification */
-      position: fixed; /* fix the notification place over page */
-      top: 0px;
-      margin: 0 auto;
-      /* Add animation: Take 0.5 seconds to fade in and out the notification. 
-      However, delay the fade out process for 5 seconds */
-      -webkit-animation: fadein 0.5s, fadeout 0.5s 20s;
-      animation: fadein 0.5s, fadeout 0.5s 20s;
-    }
-    /* Animations to slide toast in and out */
-    @-webkit-keyframes fadein {
-      from {top: 100%; opacity: 0;} 
-      to {top: 0; opacity: 1;}
-    }
-    @keyframes fadein {
-      from {top: 100%; opacity: 0;}
-      to {top: 0; opacity: 1;}
-    }
-    @-webkit-keyframes fadeout {
-      from {top: 0; opacity: 1;} 
-      to {top: 100%; opacity: 0;}
-    }
-    @keyframes fadeout {
-      from {top: 0; opacity: 1;}
-      to {top: 100%; opacity: 0;}
-    }
     label{
       border-radius: .5em;
     }
@@ -203,40 +161,6 @@
     }
     .bold {
       font-weight: bold;
-    }
-    .toast-close-button {
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none
-    }
-    .toast-close-button {
-      border: none;
-      display: inline-block;
-      outline: 0;
-      padding: 8px 16px;
-      vertical-align: middle;
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
-      background-color: inherit;
-      text-align: center;
-      cursor: pointer;
-      white-space: nowrap;
-      position: absolute;
-      right: 0;
-      top: 0
-    }
-    .toast-close-button:hover {
-      color: #212121!important;
-      background-color: #e4e2e0!important
-    }
-    .toast-button {
-      margin: 0 auto;
-      display: block;
-      padding: 0.2941em 0.58825em;
     }
     #results-notification {
       width: 100%;
@@ -775,88 +699,6 @@ $('#feedback-modal').click(function (e) {
     $('#feedback-modal').css('display', 'none');
   }
 });
-
-var timeouts = {};
-
-/**
-* toast() accessibly notifies users of arbitrary information
-*
-* @param {object} parameters:
-*   { parameters.css : [ "contains arbitrary css for this notice
-*                        as parameters.css[<key>] = <value>",
-*                        "is JSON-object" ],
-*     parameters.disable : [ "true to show disabling-button" ],
-*     parameters.html : [ "html for notifier" ],
-*     parameters.priority : [ "sets priority-metadata for
-*                              assistive technology",
-*                             "can be 'polite' or 'assertive'",
-*                             "assertive interrupts user",
-*                             "see aria-live's values in html-spec" ],
-*     parameters.container : [ "ID of container to use for alert" ] }
-*/
-var toast = function (parameters) {
-  clearToast();
-  var noticeID = 'toast';
-  var $notice = $('#' + noticeID);
-  if (typeof parameters !== 'undefined') { // does parameters object exist?
-    if (typeof parameters['container'] !== 'undefined') {
-      var noticeID = parameters['container'];
-      var $notice = $('#' + noticeID);
-    }
-    for (var parameter in parameters) {
-      if (parameter === 'css') { // set css rules
-        for (var property in parameters[parameter]) {
-          $notice.css(property, parameters[parameter][property]);
-        }
-      }
-      if (parameter === 'html') {
-        $notice.html(parameters[parameter]);
-      }
-      if (parameter === 'close') {
-        $notice.append('<span class="toast-close-button" onclick="clearToast()" role="button">&times;</span>');
-      }
-      if (parameter === 'priority') {
-        if (parameters[parameter] === 'polite') {
-          $notice.attr('aria-live', 'polite');
-        }
-        if (parameters[parameter] === 'assertive') {
-          $notice.attr('aria-live', 'assertive');
-        }
-      }
-      if (parameter === 'disable') {
-        if (parameters[parameter] === true) {
-          $notice.append($('<button>').text('Disable These Messages').click(function(){disableToast(noticeID, showToast)}));
-        }
-      }
-    }
-  }
-  $notice.removeAttr('aria-hidden');
-  $notice.show();
-  $notice.addClass('show');
-  timeouts["toast"] = setTimeout(function () {
-    clearToast();
-  }, 20000);// remove the show class from notice after specified miliseconds
-};
-
-/**
- * disable instructional toasts for all tab-panels
- */
-function disableToast(noticeID, showToast) {
-  showToast['all'] = false;
-  $('#' + noticeID).hide();
-}
-
-/**
-* Clears the toast and the timeout for the toast
-*/
-function clearToast(){
-  var noticeID = 'toast';
-  var $notice = $('#' + noticeID);
-  clearTimeout(timeouts[noticeID]);
-  $notice.removeClass('show');
-  $notice.attr('aria-hidden','true');
-  $notice.hide();
-}
 
 /**
 * initialize tabs; create listener for swithing tabs

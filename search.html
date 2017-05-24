@@ -202,6 +202,7 @@
             </ul>
             <h4 id="disclaimer-title">Disclaimer</h4>
             <p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
+            <div aria-live="polite" id="toast"></div>
             <div id="tabs">
               <ul class="tabs" id="tabs-nav" role="tablist">
                 <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Search</a></li>
@@ -505,61 +506,62 @@
     </div>
   </div>
   <div id="feedback-modal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <span class="close" role="button" tabindex="1">&times;</span>
-      <h2>Feedback Form</h2>
-    </div>
-    <div class="modal-body">
-      <form onsubmit="toast({html: 'Feedback submission is currently unavailable.', close: true});return false;">
-        <br />
-        <div class="row">
-          <div class="col"><p>Your feedback can help us improve this application. If you have general feedback, a bug to report, an idea or tool suggestion to add to our inventory please let us know!</p></div>
-        <div class="row cols-3">
-          <div class="col">
-            <input checked id="general-feedback" name="feedback-type" type="Radio"/>
-            <label for="general-feedback">General feedback</label>
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="close" role="button" tabindex="1">&times;</span>
+        <h2>Feedback Form</h2>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="toast({html: 'Feedback submission is currently unavailable.', close: true});return false;">
+          <br />
+          <div class="row">
+            <div class="col"><p>Your feedback can help us improve this application. If you have general feedback, a bug to report, an idea or tool suggestion to add to our inventory please let us know!</p></div>
           </div>
-          <div class="col">
-            <input id="report-a-bug" name="feedback-type" type="Radio"/>
-            <label for="report-a-bug">Report a bug</label>
+          <div class="row cols-3">
+            <div class="col">
+              <input checked id="general-feedback" name="feedback-type" type="Radio"/>
+              <label for="general-feedback">General feedback</label>
+            </div>
+            <div class="col">
+              <input id="report-a-bug" name="feedback-type" type="Radio"/>
+              <label for="report-a-bug">Report a bug</label>
+            </div>
+            <div class="col">  
+              <input id="suggest-an-idea" name="feedback-type" type="Radio"/>
+              <label for="suggest-an-idea">Suggest an idea or tool</label>
+            </div>
           </div>
-          <div class="col">  
-            <input id="suggest-an-idea" name="feedback-type" type="Radio"/>
-            <label for="suggest-an-idea">Suggest an idea or tool</label>
+          <br />
+          <div class="row">
+            <div class="col size-1of1">
+              <label for="feedback-text">Feedback</label>
+              <textarea id="feedback-text" placeholder="Enter feedback" rows="5"></textarea>
+            </div>
           </div>
-        </div>
-        <br />
-        <div class="row">
-          <div class="col size-1of1">
-            <label for="feedback-text">Feedback</label>
-            <textarea id="feedback-text" placeholder="Enter feedback" rows="5"></textarea>
+          <div class="row cols-3">
+            <div class="col">
+              <label for="first-name">First Name (Optional)</label>
+              <input class="full-width" id="first-name" placeholder="Enter first name" type="text" />
+            </div>
+            <div class="col">
+              <label for="last-name">Last Name (Optional)</label>
+              <input class="full-width" id="last-name" placeholder="Enter last name" type="text"/>
+            </div>
+            <div class="col">
+              <label for="email">Email Address (Optional)</label>
+              <input class="full-width" id="email" placeholder="Enter email address" type="email"/>
+            </div>
           </div>
-        </div>
-        <div class="row cols-3">
-          <div class="col">
-            <label for="first-name">First Name (Optional)</label>
-            <input class="full-width" id="first-name" placeholder="Enter first name" type="text" />
+          <br />
+          <div class="row">
+            <div class="col">
+              <input id="submit-feedback" type="submit" value="Submit Feedback"/>
+            </div>
           </div>
-          <div class="col">
-            <label for="last-name">Last Name (Optional)</label>
-            <input class="full-width" id="last-name" placeholder="Enter last name" type="text"/>
-          </div>
-          <div class="col">
-            <label for="email">Email Address (Optional)</label>
-            <input class="full-width" id="email" placeholder="Enter email address" type="email"/>
-          </div>
-        </div>
-        <br />
-        <div class="row">
-          <div class="col">
-            <input id="submit-feedback" type="submit" value="Submit Feedback"/>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
   <div id="block-epa-og-footer" class="block block-epa-og">
     <p></p>
   </div>
@@ -694,6 +696,20 @@ $(function () { // jquery's shorthand awaits readiness of document
       $parent.addClass('selected');
     }
   });
+});
+
+$('#feedback-link').click(function () {
+  $('#feedback-modal').css('display', 'block');
+});
+
+$('.close').click(function () {
+  $('#feedback-modal').css('display', 'none');
+});
+
+$('#feedback-modal').click(function (e) {
+  if (e.target === $('#feedback-modal')[0]) {
+    $('#feedback-modal').css('display', 'none');
+  }
 });
 
 // DOCUMENT
