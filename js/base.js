@@ -1068,7 +1068,7 @@ var toast = function (parameters) {
       }
       if (parameter === 'disable') {
         if (parameters[parameter] === true) {
-          $notice.append($('<button>').text('Disable These Messages').click(function(){disableToast(noticeID, showToast)}));
+          $notice.append($('<button>').text('Disable These Messages').addClass('button-grey toast-button').click(function(){disableToast(noticeID, showToast)}));
         }
       }
     }
