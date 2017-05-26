@@ -20,44 +20,32 @@
 <label><input type="radio" name="output-type" value="5">DPL Links</label><br>
 <label><input type="radio" name="output-type" value="6">objectivesBySubrole</label><br>
 
-<textarea id="input" rows="10" value="Insert text to be converted"></textarea>
-<!-- INSERT A FILE-CHOOSER FOR THE USER TO SELECT A CSV FROM HIS OR HER COMPUTER WHEN BROWSERS PROVIDE BETTER SUPPORT FOR THIS -->
-<br />
-<br />
-<button id="uri-btn" onclick="viaURI()">Do Via URI</button>
+<textarea id="input" rows="10" style="width:100%" value="Insert text to be converted"></textarea>
+<button onclick="compareValues()">Compare CSV with READ's Data</button>
 <button onclick="displayFormattedData()">Display formatted data</button>
 
 <h2>Output:</h2>
 <button onclick="copyToClipboard('output')">Copy output to clipboard</button>
 <div id="output"></div>
+
 <script src="papaparse.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+<script src="../js/base.js"></script>
 <script>
 
-/** requires papaparse.js loaded */
-function getData(){
-  var data = document.getElementById('input').value;
-  return data;
+/** small, composable functions permit flexible reuse */
+var getData = function () {
+  return document.getElementById('input').value
 }
 
+/** requires papaparse.js loaded, E.G. in a script tag */
 function parseData(gottenData=getData()){
-  // use header
-  // correct newline for ms xl
   var config = { header: true }
   var parsedData = Papa.parse(gottenData, config);
   return parsedData;
-}
-
-function viaURI() {
-  var data = JSON.stringify(parseData());
-  var outputDiv = document.getElementById('output');
-  outputDiv.insertAdjacentText('beforeend',data)
-/* UNCOMMENT TO DOWNLOAD DATA
-  var link = document.createElement("a");
-  link.setAttribute("href", 'data:text/csv;charset=utf-8,' + encodeURIComponent(data));
-  link.setAttribute("download", "parsed_data.json");
-  link.click();
-  link.remove();
-*/
 }
 
 function formatRelevancyData(data){
@@ -160,6 +148,56 @@ function copyToClipboard(elementId) {
   document.execCommand("copy");
   document.body.removeChild(hiddenInput);
 }
+
+/** return object containing all SHC-tool-details indexed by decision-sector */
+var allToolDetails = function () {
+  var decisionSectors = ['building infrastructure', 'land use', 'transportation', 'waste management'];
+  /* find details in READ web services' docs */
+  var resourceAdvancedSearchURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch";
+  var resourceDetailURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail";
+  var tools = {};
+  for (var j = 0; j < decisionSectors.length; j++) {
+    jQuery.ajax(resourceAdvancedSearchURL, {DecisionSector:decisionSectors[j]}).done(function (data) { $.each(data, function (i) { $.get(resourceDetailURL, {ResourceId:data[i].ResourceId}).done(function (data) {var parsedResult = parseResult(data); tools[parsedResult['ID']] = parsedResult;});});});
+  }
+  return tools;
+};
+
+/**
+ * Turn CSV of keywords from text-field into an array of keywords.
+ * Useful to ensure all keywords in the spreadsheet appear in READ.
+ * The CSV has each tools' keywords on their line.
+ */
+var keywordsCSVToArray = function() {
+  var keywords = [];
+  var element = [];
+  var keywordsObjectArray = parseData()['data'];
+  for (var k = 0; k < keywordsObjectArray.length; k++) {
+      element = [];
+      element = element.concat(keywordsObjectArray[k]['keywords']);
+      if (keywordsObjectArray[k].hasOwnProperty('__parsed_extra')) {
+          element = element.concat(keywordsObjectArray[k]['__parsed_extra']);
+      }
+      keywords = keywords.concat([element]);
+  }
+  return keywords;
+};
+
+/**
+ * Compare CSV of values from Excel-workbook for planning
+ * tools-inventory-data-entry with values from READ.
+ * @parameter {string} fieldnames - specify fields from READ.
+ */
+var compareValues = function() {
+  // Get values from CSV out of text-field.
+  var intendedKeywords = keywordsCSVToArray();
+  // Get values from READ.
+  var actualKeywords = allToolDetails();
+  // Search values from READ for values from CSV.
+  fieldName = 'keywords';
+  // Report which records from READ had absent values.
+  return toolsWithAbsentData;
+};
+
 </script>
 </body>
 <html>
