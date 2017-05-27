@@ -184,8 +184,9 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
     rows.push(createRow(toolCache.getParsedData(toolId)));
   }
   $('#loader').attr('aria-hidden', 'true').hide();
-  $("#" + this.getListId()).append(html);
+  $("#" + this.getListId()).html(html);
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
+    $("#" + this.getTableId()).DataTable().clear();
     $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
   }
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
