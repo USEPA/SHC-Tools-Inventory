@@ -334,37 +334,35 @@ function showDetails(id, origin) {
     html += "<span class='bold'>Title</span>: " + parsedData['Title'] + "<br>" + 
     "<span class='bold'>Acronym</span>: " + parsedData['Acronym'] + "<br>" +
     "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
+    "<span class='bold'>Organization</span>: " + parsedData['Organization'] + "<br>" +
     "<span class='bold'>URL</span>: " + linkifyString(parsedData['URL']) + "<br>" +
+    "<span class='bold'>Model Structure</span>: " + parsedData['Model Structure'] + "<br>" +
+    "<span class='bold'>Resource Type</span>: " + parsedData['Resource Type'] + "<br>" +    
     "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
     "<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>" +
-    
     "<span class='bold'>Cost Details</span>: " + parsedData['Cost'] + "<br>" +
     "<span class='bold'>Other Costs</span>: " + parsedData['Other Costs'] + "<br>" +
     "<span class='bold'>Open Source</span>: " + parsedData['Open Source'] + "<br>" +
-
     "<span class='bold'>Current Phase</span>: " + parsedData['Life Cycle Phase'] + "<br>" +
     "<span class='bold'>Operating Environment</span>: " + parsedData['Operating Environment'] + "<br>" +
-    "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>" +
-
-    
+    "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>" +    
     "<span class='bold'>User Support Name</span>: " + parsedData['Support Name'] + "<br>" +
     "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
     "<span class='bold'>User Support Email</span>: " + linkifyString(parsedData['Support Email']) + "<br>" +
     "<span class='bold'>User Support Material</span>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
-    
-    '<span class="bold">Internet Help Desk Phone</span>: ' + parsedData['Help Desk Phone'] + '<br />' +
-    '<span class="bold">Internet Help Desk Email</span>: ' + linkifyString(parsedData['Help Desk Email']) + '<br />' +
-    
+    "<span class='bold'>Internet Help Desk Phone</span>: " + parsedData['Help Desk Phone'] + "<br />" +
+    "<span class='bold'>Internet Help Desk Email</span>: " + linkifyString(parsedData['Help Desk Email']) + "<br />" +
     "<span class='bold'>Model Inputs</span>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
+    "<span class='bold'>Model Output Types</span>: " + parsedData['Output Types'] + "<br>" +
     "<span class='bold'>Model Output Variables</span>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
     "<span class='bold'>Model Evaluation</span>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
     "<span class='bold'>Scope and Time Scale</span>: " + parsedData['Time Scale'] + "<br>" +
     "<span class='bold'>Spatial Extent</span>: " + parsedData['Spatial Extent'] + "<br>" +
     "<span class='bold'>Inputs Data Requirements</span>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
-    '<span class="bold">Other Technical Requirements</span>: ' + linkifyString(parsedData['Other Requirements']) + '<br />' +
-        
+    "<span class='bold'>Other Technical Requirements</span>: " + linkifyString(parsedData['Other Requirements']) + "<br />" +
+    "<span class='bold'>Skills Required</span>: " + parsedData['Skills Required'] + "<br />" +
     "<span class='bold'>Keywords</span>: " + parsedData['Keywords'] + "<br>" +
-    '<span class="bold">Selected Concepts</span>: ' +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + '<br />' +
+    "<span class='bold'>Selected Concepts</span>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" +
     "</div>";
     $tab.append(html);
     $('#selected-tool-tab').parent().attr('aria-hidden', false);
@@ -567,6 +565,11 @@ var parseResult = function (result) {
   parsedResult['Support Phone'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportPhoneNumber']);
   parsedResult['Keywords'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'KeywordDetail', 'KeywordText']);
   //parsedResult.InfoResourceStewardTagText = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'TagDetail', 'InfoResourceStewardTagText']);
+  parsedResult['Skills Required'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelScopeDetail', 'ModelScopeTechnicalSkillsNeededToApplyModelDetail']);
+  parsedResult['Model Structure'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelStructureDetail', 'ModelStructureTextArea']);
+  parsedResult['Resource Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'ResourceTypeName']);
+  parsedResult['Organization'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ContactDetail', 'IndividualContactDetail', 'OrganizationName']);
+  parsedResult['Output Types'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelOutputsDetail', 'ModelOutputsModelOutputTypesDetail']);
   parsedResult['URL'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'URLText']);
   parsedResult['Help Desk Email'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'HelpDeskEmailAddressText']);
   parsedResult['Help Desk Phone'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'HelpDeskTelephoneNumber']);
@@ -783,8 +786,8 @@ var readSafe = function (object, propertyArray) {
         } else {// has length and isn't a string? Let's access it as an array!
           try {// try accumulating a string from all elements
             accumulatedString = '';
-            for (i in value) {
-              iValue = value[i][propertyArray[0].replace('Detail', 'Name').replace('ModelScope','')];
+            for (var i = 0; i < value.length; i++) {
+              iValue = value[i][Object.keys(value[i])[0]];
               if (i > 0 && value.length > 2) {
                 accumulatedString += ', ';
               }
