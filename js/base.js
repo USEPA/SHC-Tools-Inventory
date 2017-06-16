@@ -176,17 +176,24 @@ ToolDisplay.prototype.displayTool = function (data) {
 };
 
 ToolDisplay.prototype.displayTools = function (toolSet) {
-  this.toolSet = _.extend({}, toolSet); // do not create a reference to the toolSet object, copy it
+  //this.toolSet = _.extend({}, toolSet); // do not create a reference to the toolSet object, copy it
   var html = '';
   var rows = [];
   for (var toolId in toolSet.getToolSet()) {
-    html += createDiv(toolCache.getParsedData(toolId), this.getListId());
-    rows.push(createRow(toolCache.getParsedData(toolId)));
+  	if (this.toolSet.contains(toolId)) {
+  		console.log("already contains: " + toolId);
+  	} else {
+  		console.log("adding: " + toolId);
+  		this.toolSet.addTool(toolId);
+  		html += createDiv(toolCache.getParsedData(toolId), this.getListId());
+    	rows.push(createRow(toolCache.getParsedData(toolId)));
+  	}
   }
   $('#loader').attr('aria-hidden', 'true').hide();
-  $("#" + this.getListId()).html(html);
+  //$("#" + this.getListId()).html(html);
+  $("#" + this.getListId()).append(html);
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
-    $("#" + this.getTableId()).DataTable().clear();
+    //$("#" + this.getTableId()).DataTable().clear();
     $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
   }
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
@@ -306,6 +313,7 @@ function removeSelected(divID) {
   $('#' + divID + ' input').each(function () {
     if ($(this).prop("checked")) {
       savedTools.removeTool($(this).val());
+      savedTable.getToolSet().removeTool($(this).val()); //remove tool from saved tool display tool set
       $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
     }
   });
@@ -981,6 +989,17 @@ function createDataTable(name) {
           });
       }
 
+      if (name === 'saved' && resultTable.getType() === 'search') {
+        dtButtons.push(
+          {
+            text: 'Remove Selected Tools', 
+            action: function () {
+              removeSelected(name + '-list');
+            },
+            className: 'button button-white'
+          });
+      }
+
       new $.fn.dataTable.Buttons(table, {
           buttons: dtButtons
         }
@@ -991,7 +1010,8 @@ function createDataTable(name) {
       if (name !== 'saved' && resultTable.getType() === 'search') {
         table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
       } else {
-        table.buttons(1, null).container().insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
+      	table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
+        //table.buttons(1, null).container().insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
       }
       
 
@@ -1000,7 +1020,7 @@ function createDataTable(name) {
 }
 
 function selectAllToolsButton(name) {
-  if ($('#saved-list').length) {
+  if (!$('#saved-list').length) {
     selectAll(name + '-list', saveAll(name + '-list'));  
   } else {
     selectAll(name + '-list');  
@@ -1012,7 +1032,7 @@ function selectAllToolsButton(name) {
 }
 
 function deselectAllToolsButton(name) {
-  if ($('#saved-list').length) {
+  if (!$('#saved-list').length) {
     deselectAll(name + '-list', unsaveAll(name + '-list'));  
   } else {
     deselectAll(name + '-list');  

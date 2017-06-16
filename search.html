@@ -763,6 +763,7 @@ var detailedSearch = function () {
   }
   $('#results-list *').remove(); // clear result div
   resultSet.reset(); // clear result set
+  resultTable.getToolSet().reset(); //reset display toolset
   var $feedbackDiv = $('#detailed-search-feedback');
   var queryTypes = $("#search-field input:checkbox:checked").map(function(){return $(this).val()}).get();
   if (!queryTypes.length) { // ensure queryType is selected
@@ -854,6 +855,7 @@ simpleSearch = function () {
   }
   $('#results-list *').remove(); //clear result list
   resultSet.reset(); //clear result data
+  resultTable.getToolSet().reset(); //reset display toolset
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"];
   var $feedbackDiv = $('#simpleFeedback');
