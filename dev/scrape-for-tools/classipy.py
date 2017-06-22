@@ -1,4 +1,4 @@
-# load static file into input-line:
+# load classipy.py into input-line in ipython:
 #   %load ./classipy.py
 # save interactive work:
 #   %hist -f proposed_classipy.py SOME_LINE_NUMBER
@@ -15,7 +15,7 @@ response = []
 descriptions = {}
 details = {}
 descriptions_file = 'descriptions.json'
-read_ids_by_concept_filename = 'readIdsByConcept.json'
+read_ids_by_concept_filename = 'READ-ids-by-concept.json'
 wizard_filename = '../../wizard.html'
 
 # load descriptions indexed by READ-id
@@ -49,5 +49,8 @@ except Exception:
         json.dump(read_ids_by_concept, read_ids_by_concept_file)
 
 # tokenize each description with sklearn, nltk, or a pipeline through both
+vectorizer = TfidfVectorizer(stop_words='english')
+
 # compute tf/idf for each label
 # try k-fold cross validation to test on training data
+# implement adaboost for arbitrary accuracy given enough data
