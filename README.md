@@ -2,14 +2,13 @@
 
 ## Introduction
 
-This tool finds softwares of interest that promote sustainability.
-Users answer questions that allow this tool to select a set of softwares.
-Users can then review or print the details of selected softwares.
-
-Users may also search titles, acronyms, and descriptions of the many softwares.
-The search works as a search-engine.
+This tool helps users find software that promote sustainability.
+Users of the wizard answer questions about a scenario to find relevant software-tools.
+Once results are found, users can review or print the details of user-selected softwares.
 
 ## Usage
+
+### Wizard
 
 1. Select one or more answers to each question from the choices shown.
 1. Use the button labeled "Next" or use the next tab to advance to the next question.
@@ -21,15 +20,15 @@ The search works as a search-engine.
 
 ## Contributing
 
-Please follow this project's documented code-conventions to contribute to maintain a healthy consistency.
-These conventions are outlined in `./dev/codelaborate`.
-`codelaborate` also specifies interfaces, web-services, and design-patterns.
+Please follow this project's documented code-conventions when contributing in order to maintain consistency.
+These conventions are outlined in `./doc/CONTRIBUTE`.
+`CONTRIBUTE` also specifies interfaces, web-services, and design-patterns.
 
 ## Help
 
 Explain which communication channels are available to request help.
 Communication channels with a proven track record are mailing lists, IRC channels, and forums.
-Also be sure to tell your more experienced users how and where to submit bugs or feature requests, possibly turning them into project participants.
+Tell users how and where to submit bugs or feature requests, possibly turning them into project participants.
 
 The documentation for this project should provide a great help.
 Please maintain documentation by documenting new work in a consistent manner.
@@ -42,7 +41,7 @@ Installation is getting the documents and a web-browser.
 ### Requirements
 
 This project requires a web-browser with javascript enabled.
-If the browser is Internet Explorer then it must be a version later than 9 to function completely.
+If the browser is Internet Explorer then it must be version 10 or greater to function completely.
 
 ### Installation
 
