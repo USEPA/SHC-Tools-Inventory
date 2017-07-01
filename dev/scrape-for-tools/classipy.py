@@ -27,6 +27,7 @@ response = []
 descriptions_by_read_id = {}
 details = {}
 descriptions_file = 'descriptions.json'
+concepts_by_read_id_filename = 'concepts-by-READ-id.json'
 read_ids_by_concept_filename = 'READ-ids-by-concept.json'
 wizard_filename = '../../wizard.html'
 
@@ -37,7 +38,7 @@ try:
     with open(descriptions_file) as f:
         descriptions_by_read_id = json.load(f)
 except Exception:
-    print('CACHED DESCRIPTIONS NOT GOT; DOWNLOADING DESCRIPTIONS')
+    print('CACHED DESCRIPTIONS NOT FOUND; DOWNLOADING DESCRIPTIONS')
     for decision_sector in decision_sectors:
         response += requests.request('GET', resource_advanced_search_url + '?DecisionSector=' + decision_sector).json()
     for summary in response:
@@ -48,23 +49,30 @@ except Exception:
     with open(descriptions_file, 'w') as f:
         json.dump(descriptions_by_read_id, f)
 
-# try load concepts indexed by READ-id to be training data
-# collect from wizard.html on exception
-# hence deleting json-files forces update of data
-try:
-    with open(read_ids_by_concept_filename) as f:
-        read_ids_by_concept = json.load(f)
-except Exception:
-    print('CACHED CONCEPTS NOT GOT; PARSING CONCEPTS FROM ' + wizard_filename)
-    with open(wizard_filename, encoding='utf8') as f:
-        wizard_text = f.read()
-    read_ids_by_concept = re.search('readIDsByConcept = (.+);\n', wizard_text).group(1)
-    with open(read_ids_by_concept_filename, 'w') as read_ids_by_concept_file:
-        json.dump(read_ids_by_concept, read_ids_by_concept_file)
-
 # preprocess priors as a training set:
 # we have prior knowledge of what text labeled with
 # concepts look like, so let the machine learn from that!
+try:
+    with open(concepts_by_read_id_filename) as f:
+        concepts_by_read_id = json.load(f)
+        print(60 * '#')
+        print('LOADED concepts_by_read_id')
+except Exception:
+    # try load concepts indexed by READ-id to be training data
+    # collect from wizard.html on exception
+    # hence deleting json-files forces update of data
+    try:
+        with open(read_ids_by_concept_filename) as f:
+            read_ids_by_concept = json.load(f)
+    except Exception:
+        print('CACHED CONCEPTS NOT FOUND; PARSING CONCEPTS FROM ' + wizard_filename)
+        with open(wizard_filename, encoding='utf8') as f:
+            wizard_text = f.read()
+        read_ids_by_concept = re.search('readIDsByConcept = (.+);\n', wizard_text).group(1)
+        with open(read_ids_by_concept_filename, 'w') as read_ids_by_concept_file:
+            json.dump(read_ids_by_concept, read_ids_by_concept_file)
+            print(60 * '#')
+            print('WROTE read_ids_by_concept.json')
 read_ids = sorted(descriptions_by_read_id.keys())
 descriptions = [descriptions_by_read_id[read_id] for read_id in read_ids]
 concepts_by_read_id = {}
@@ -73,16 +81,18 @@ for concept in read_ids_by_concept.keys():
         if read_id not in concepts_by_read_id.keys():
             concepts_by_read_id[read_id] = []
         if concept not in concepts_by_read_id[read_id]:
-            concepts_by_read_id[read_id] += concept
-concepts = [concepts_by_read_id[read_id] for read_id in read_ids]
+            concepts_by_read_id[read_id].append(concept)
+concepts = [concept for concept in concepts_by_read_id[read_id] for read_id in read_ids]
 X = descriptions
 y = concepts
+print('len(X), len(y):')
+print(len(X), len(y))
 
 # dev feedback intended to later succeed silently
-print('X:')
-pprint(X)
-print('y:')
-pprint(y)
+#print('X[:10]:')
+#print(X[:10])
+#print('y[:10]:')
+#print(y[:10])
 
 # create a pipeline to act as a new transformer made from pipeline of transformers
 # tokenize each description with sklearn, nltk, or a pipeline through both
