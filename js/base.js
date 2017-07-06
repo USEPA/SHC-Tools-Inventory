@@ -181,9 +181,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   var rows = [];
   for (var toolId in toolSet.getToolSet()) {
   	if (this.toolSet.contains(toolId)) {
-  		console.log("already contains: " + toolId);
   	} else {
-  		console.log("adding: " + toolId);
   		this.toolSet.addTool(toolId);
   		html += createDiv(toolCache.getParsedData(toolId), this.getListId());
     	rows.push(createRow(toolCache.getParsedData(toolId)));
@@ -270,14 +268,14 @@ function createRow(parsedResult) {
     parsedResult['Title'],
     parsedResult['Description'],
     parsedResult['Cost'],
+    parsedResult['Open Source'],
     parsedResult['Spatial Extent'],
-    parsedResult['Model Inputs'],
-    parsedResult['Output Variables'],
+    parsedResult['Decision Sector'],
     parsedResult['Operating Environment'],
     parsedResult['Operating System'],
-    parsedResult['Keywords'],
-    parsedResult['Decision Sector'],
-    parsedResult['Open Source']
+    parsedResult['Model Inputs'],
+    parsedResult['Output Variables'],    
+    parsedResult['Keywords']
   ];
   for (var i = 0; i < rowData.length; i++) { // limit to 140 characters
      if (rowData[i].length > 140) {
