@@ -741,9 +741,12 @@ function addMembers(dataList, fieldName, fieldValues) {
   if (fieldValues.length > 0) {// are any values selected?
     var tmpDataList = [];// create a temp copy of dataList
     for (iFieldValue = 0; iFieldValue < fieldValues.length; iFieldValue++) {// loop through os-selections
-      for (var iDatum in dataList) {// loop through current data-objects
+      for (var iDatum = 0; iDatum < dataList.length; iDatum++) {// loop through current data-objects
         // expand the temp object to be num_osSelections * num_previousDataObjects
-        tmpDataList[fieldValues.length * iDatum + iFieldValue] = dataList[iDatum];
+        tmpDataList[fieldValues.length * iDatum + iFieldValue] = {}; //create new object
+        for (var prop in dataList[iDatum]) { // loop over and copy values to new object. tmp = dataList does not create a new object.
+          tmpDataList[fieldValues.length * iDatum + iFieldValue][prop] = dataList[iDatum][prop];
+        }
         // add member for value of fieldValues
         tmpDataList[fieldValues.length * iDatum + iFieldValue][fieldName] = fieldValues[iFieldValue];
       }
@@ -801,11 +804,11 @@ var detailedSearch = function () {
       }
       for (var j = 0; j < decisionSectors.length; j++) {
         data.DecisionSector = decisionSectors[j];
-        dataList = [data]; // create an initial array of query-data
+        var dataList = [data]; // create an initial array of query-data
         dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
         dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
         dataList = addMembers(dataList, 'SpatialExtent', extent_select); // create a data object for each selection of SpatialExtent
-        for (var iDatum in dataList) {
+        for (var iDatum = 0; iDatum < dataList.length; iDatum++) {
           requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
         }
       }
