@@ -366,7 +366,7 @@ function showDetails(id, origin) {
     "<span class='bold'>Spatial Extent</span>: " + parsedData['Spatial Extent'] + "<br>" +
     "<span class='bold'>Inputs Data Requirements</span>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
     "<span class='bold'>Other Technical Requirements</span>: " + linkifyString(parsedData['Other Requirements']) + "<br />" +
-    "<span class='bold'>Skills Required</span>: " + parsedData['Skills Required'] + "<br />" +
+    "<span class='bold'>Technical Skills Required</span>: " + parsedData['Technical Skills Needed'] + "<br />" +
     "<span class='bold'>Keywords</span>: " + parsedData['Keywords'] + "<br>" +
     "<span class='bold'>Selected Concepts</span>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" +
     "</div>";
@@ -571,7 +571,7 @@ var parseResult = function (result) {
   parsedResult['Support Phone'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportPhoneNumber']);
   parsedResult['Keywords'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'KeywordDetail', 'KeywordText']);
   //parsedResult.InfoResourceStewardTagText = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'TagDetail', 'InfoResourceStewardTagText']);
-  parsedResult['Skills Required'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelScopeDetail', 'ModelScopeTechnicalSkillsNeededToApplyModelDetail']);
+  parsedResult['Technical Skills Needed'] = parseTechnicalSkill(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelScopeDetail', 'ModelScopeTechnicalSkillsNeededToApplyModelDetail']));
   parsedResult['Model Structure'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelStructureDetail', 'ModelStructureTextArea']);
   parsedResult['Resource Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'ResourceTypeName']);
   parsedResult['Organization'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ContactDetail', 'IndividualContactDetail', 'OrganizationName']);
@@ -649,6 +649,50 @@ var parseResult = function (result) {
   }
 
   // DOCUMENT
+  function parseTechnicalSkill(ModelScopeTechnicalSkillsNeededToApplyModelDetail) { // possibly joins strings in an array
+    if (ModelScopeTechnicalSkillsNeededToApplyModelDetail.TechnicalSkillName) {
+      return ModelScopeTechnicalSkillsNeededToApplyModelDetail.TechnicalSkillName; // return desired value if it is a property of extent
+    }
+    if (ModelScopeTechnicalSkillsNeededToApplyModelDetail.length) { // is array?(this means several values instead of just one)
+      if (typeof ModelScopeTechnicalSkillsNeededToApplyModelDetail === 'string') {
+        return ModelScopeTechnicalSkillsNeededToApplyModelDetail;
+      }
+      var str = ''; // create string for appending each spatial extent to while looping through array
+      for (var i = 0; i < ModelScopeTechnicalSkillsNeededToApplyModelDetail.length - 1; i++) { // loop through all elements except last...
+        if(ModelScopeTechnicalSkillsNeededToApplyModelDetail.length > 2) {
+          str += parseModelOutputType(ModelScopeTechnicalSkillsNeededToApplyModelDetail[i]) + ", "; //...append ith value and a delimiter. comma if more than 2 in list
+        } else {
+          str += parseModelOutputType(ModelScopeTechnicalSkillsNeededToApplyModelDetail[i]) + " "; //...append ith value and a delimiter just a space if only 2 in list
+        }
+      }
+      str += 'and ' + parseModelOutputType(ModelScopeTechnicalSkillsNeededToApplyModelDetail[ModelScopeTechnicalSkillsNeededToApplyModelDetail.length - 1]); //append final value
+      return str; // return accumulated values in a string
+    }
+  }
+
+  // DOCUMENT
+  function parseModelOutputType(ModelOutputsModelOutputTypesDetail) { // possibly joins strings in an array
+    if (ModelOutputsModelOutputTypesDetail.ModelOutputTypeName) {
+      return ModelOutputsModelOutputTypesDetail.ModelOutputTypeName; // return desired value if it is a property of extent
+    }
+    if (ModelOutputsModelOutputTypesDetail.length) { // is array?(this means several values instead of just one)
+      if (typeof ModelOutputsModelOutputTypesDetail === 'string') {
+        return ModelOutputsModelOutputTypesDetail;
+      }
+      var str = ''; // create string for appending each spatial extent to while looping through array
+      for (var i = 0; i < ModelOutputsModelOutputTypesDetail.length - 1; i++) { // loop through all elements except last...
+        if(ModelOutputsModelOutputTypesDetail.length > 2) {
+          str += parseModelOutputType(ModelOutputsModelOutputTypesDetail[i]) + ", "; //...append ith value and a delimiter. comma if more than 2 in list
+        } else {
+          str += parseModelOutputType(ModelOutputsModelOutputTypesDetail[i]) + " "; //...append ith value and a delimiter just a space if only 2 in list
+        }
+      }
+      str += 'and ' + parseModelOutputType(ModelOutputsModelOutputTypesDetail[ModelOutputsModelOutputTypesDetail.length - 1]); //append final value
+      return str; // return accumulated values in a string
+    }
+  }
+
+  // DOCUMENT
   function parseSpatialExtent(extent) {// possibly joins strings in an array
     if (extent.SpatialExtentName) {
       return extent.SpatialExtentName;
@@ -681,7 +725,10 @@ var parseResult = function (result) {
 
   // DOCUMENT
   function parseDataRequirements(dataRequirements) {// requires decoding a data-standard
-    return dataRequirementsMap[dataRequirements];// do work
+    if (dataRequirementsMap.hasOwnProperty(dataRequirements)) {
+      return dataRequirementsMap[dataRequirements];
+    }
+    return "No Data";
   }
 
   // DOCUMENT
