@@ -408,3 +408,7 @@ backlog to track work to be done and by whom
 
 - Clear unselected tools on result tab
   - per feedback from Coleen
+
+- create a list of strings to feed to TfidfVectorizer
+  - python is not playing nicely
+  - desire a list of tools' labels to use as a response vector for the training set

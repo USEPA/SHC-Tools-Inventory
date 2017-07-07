@@ -9,6 +9,7 @@
 #import pandas as pd
 import sklearn
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import SGDClassifier
 from sklearn.linear_model import LogisticRegressionCV
@@ -75,6 +76,8 @@ except Exception:
             print('WROTE read_ids_by_concept.json')
 read_ids = sorted(descriptions_by_read_id.keys())
 descriptions = [descriptions_by_read_id[read_id] for read_id in read_ids]
+
+# create an object of concepts indexed by read id
 concepts_by_read_id = {}
 for concept in read_ids_by_concept.keys():
     for read_id in read_ids_by_concept[concept]:
@@ -82,9 +85,25 @@ for concept in read_ids_by_concept.keys():
             concepts_by_read_id[read_id] = []
         if concept not in concepts_by_read_id[read_id]:
             concepts_by_read_id[read_id].append(concept)
-concepts = [concept for concept in concepts_by_read_id[read_id] for read_id in read_ids]
+
+# create a list of all concepts used as labels
+label_list = [concept for concept in read_ids_by_concepts.keys()]
+
+# format training labels
+training_labels = []
+for i in range(len(read_ids)):
+    training_labels.append([])
+    for k in range(len(label_list)):
+        if label_list[k] in concepts_by_read_id[read_ids[i]]:
+            training_labels[i].append(concepts_by_read_id[read_ids[k]])
+        else:
+            training_labels[i].append(concepts_by_read_id[read_ids[k]])
+print(training_labels)
+mlb = MultiLabelBinarizer(labels)
+mlb.fit(training_labels)
+
 X = descriptions
-y = concepts
+y = training_labels
 print('len(X), len(y):')
 print(len(X), len(y))
 
@@ -100,12 +119,13 @@ print(len(X), len(y))
 # DEV-DESIRE:
 # compute tf*idf for each word in each document
 # try k-fold cross validation to test on training data
-# implement adaboost for arbitrary accuracy given enough data
+# implement adaboost for arbitrary accuracy given sufficient data
 
 # create a pipeline of transformers ending in a classifier
 # transform() called on all but last
 # classifier get a different method called by Pipeline
 pipeline = Pipeline([
+    # transform training data into 
     # transform data into term-frequency/document-frequency
     ('vect', TfidfVectorizer()),
     # classify with sarcastic greatest descent ;)
