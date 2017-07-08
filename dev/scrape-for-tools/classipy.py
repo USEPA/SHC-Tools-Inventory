@@ -56,7 +56,6 @@ except Exception:
 try:
     with open(concepts_by_read_id_filename) as f:
         concepts_by_read_id = json.load(f)
-        print(60 * '#')
         print('LOADED concepts_by_read_id')
 except Exception:
     # try load concepts indexed by READ-id to be training data
@@ -72,12 +71,11 @@ except Exception:
         read_ids_by_concept = re.search('readIDsByConcept = (.+);\n', wizard_text).group(1)
         with open(read_ids_by_concept_filename, 'w') as read_ids_by_concept_file:
             json.dump(read_ids_by_concept, read_ids_by_concept_file)
-            print(60 * '#')
             print('WROTE read_ids_by_concept.json')
 read_ids = sorted(descriptions_by_read_id.keys())
 descriptions = [descriptions_by_read_id[read_id] for read_id in read_ids]
 
-# create an object of concepts indexed by read id
+# create an dict of concepts indexed by read id
 concepts_by_read_id = {}
 for concept in read_ids_by_concept.keys():
     for read_id in read_ids_by_concept[concept]:
@@ -87,31 +85,17 @@ for concept in read_ids_by_concept.keys():
             concepts_by_read_id[read_id].append(concept)
 
 # create a list of all concepts used as labels
-label_list = [concept for concept in read_ids_by_concepts.keys()]
+label_list = [concept for concept in read_ids_by_concept.keys()]
 
-# format training labels
+# format training labels into dict associating read_id to a list of labels
 training_labels = []
 for i in range(len(read_ids)):
-    training_labels.append([])
+    training_labels.append(set())
     for k in range(len(label_list)):
         if label_list[k] in concepts_by_read_id[read_ids[i]]:
-            training_labels[i].append(concepts_by_read_id[read_ids[k]])
-        else:
-            training_labels[i].append(concepts_by_read_id[read_ids[k]])
-print(training_labels)
-mlb = MultiLabelBinarizer(labels)
-mlb.fit(training_labels)
-
-X = descriptions
-y = training_labels
-print('len(X), len(y):')
-print(len(X), len(y))
-
-# dev feedback intended to later succeed silently
-#print('X[:10]:')
-#print(X[:10])
-#print('y[:10]:')
-#print(y[:10])
+            training_labels[i].add(label_list[k])
+mlb = MultiLabelBinarizer(label_list)
+y_train = mlb.fit_transform(training_labels)
 
 # create a pipeline to act as a new transformer made from pipeline of transformers
 # tokenize each description with sklearn, nltk, or a pipeline through both
@@ -153,12 +137,12 @@ if __name__ == "__main__":
     grid_search = sklearn.model_selection.GridSearchCV(pipeline, parameters, n_jobs=-1, verbose=1)
     print("pipeline:", [name for name, _ in pipeline.steps])
     t0 = time()
-    grid_search.fit(X, y)
+    grid_search.fit(descriptions, y_train)
     print("grid was searched in %0.3fs" % (time() - t0))
     print()
 
     print("Best score: %0.3f" % grid_search.best_score_)
     print("Best permutation of parameters:")
-    bast_parameters = grid_search.best_estimator_.get_params()
+    best_parameters = grid_search.best_estimator_.get_params()
     for param_name in sort(parameters.keys()):
         print("\t%s: %r" % (param_name, best_parameters[param_name]))
