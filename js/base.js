@@ -167,7 +167,6 @@ ToolDisplay.prototype.getType = function () { // Not an optimal solution
   return this.type;
 };
 
-
 ToolDisplay.prototype.isDisplayed = function () {
   return this.displayed;
 };
@@ -179,7 +178,6 @@ ToolDisplay.prototype.displayTool = function (data) {
 };
 
 ToolDisplay.prototype.displayTools = function (toolSet) {
-  //this.toolSet = _.extend({}, toolSet); // do not create a reference to the toolSet object, copy it
   var html = '';
   var rows = [];
   for (var toolId in toolSet.getToolSet()) {
@@ -191,10 +189,8 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   	}
   }
   $('#loader').attr('aria-hidden', 'true').hide();
-  //$("#" + this.getListId()).html(html);
   $("#" + this.getListId()).append(html);
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
-    //$("#" + this.getTableId()).DataTable().clear();
     $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
   }
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
@@ -271,10 +267,10 @@ function createRow(parsedResult) {
     parsedResult['Title'],
     parsedResult['Description'],
     parsedResult['Cost'],
-    parsedResult['Open Source'],
+    parsedResult['Operating Environment'],
     parsedResult['Spatial Extent'],
     parsedResult['Decision Sector'],
-    parsedResult['Operating Environment'],
+    parsedResult['Open Source'],
     parsedResult['Operating System'],
     parsedResult['Model Inputs'],
     parsedResult['Output Variables'],    
