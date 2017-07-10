@@ -52,6 +52,9 @@ var toolCache = (function () {
           }
         }
         callback(toolSet);
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+        $('#loader').attr('aria-hidden', 'true').hide();
+        toast({html: 'Could not load results. Try again later.', close: true});
       });
     },
     getParsedData: function (id) {

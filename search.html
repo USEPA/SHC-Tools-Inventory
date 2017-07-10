@@ -837,6 +837,8 @@ var detailedSearch = function () {
         createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      $feedbackDiv.html('Server error. Please try again another time.').css('display', 'block');
     });
   } else {
     $feedbackDiv.html('Please enter a search term.').css('display', 'block');
@@ -905,6 +907,8 @@ simpleSearch = function () {
         createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      $feedbackDiv.html('Server error. Please try again another time.').css('display', 'block');
     });
   } else {
     $feedbackDiv.html('Please enter a search term.').css('display', 'block');
