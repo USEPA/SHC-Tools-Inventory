@@ -9,30 +9,55 @@ var resourceDetailURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceDetai
 var toolCache = (function () {
   var cache = {};
 
+  /**
+   * Stores parsed data for a tool ID
+   * @private @function
+   * @param {string} id - The ID of the tool.
+   * @param {object} data - The parsed data.
+   */
   function setData(id, data) {
-    cache[id] = data;
+    cache[id] = data; // store the parsed data by the tool ID
   }
 
+  /**
+   * Get data for a particular ID
+   * @private @function
+   * @param {string} id - The ID of the tool.
+   * @return {object} - The parsed data.
+   */
   function getData(id) {
     if (cache.hasOwnProperty(id)) {
-      return cache[id];
+      return cache[id]; // return the data for a tool ID
     }
   }
 
   return { // public interface
+    /**
+     * Gets (or retrieves for the first time) and handles the parsed data
+     * @function
+     * @param {string} id - The ID of the tool.
+     * @param {function} callback - The function which will handle the parsed data.
+     */
     handleParsedData: function (id, callback) {
       if (cache.hasOwnProperty(id)) {
-        callback(getData(id));
+        callback(getData(id)); // run the passed in function on the parsed data for the Tool ID
       } else {
         $.support.cors = true; // needed for < IE 10 versions
-        $.get(resourceDetailURL, {ResourceId:id}).done(
+        $.get(resourceDetailURL, {ResourceId:id}).done( // if we don't have the data, get the data and then run the passed in function
           function (data) {
-            setData(id, parseResult(data));
-            callback(getData(id));
+            setData(id, parseResult(data)); // store the data in cache
+            callback(getData(id)); // run the passed in function
           }
         );
       }
     },
+
+    /**
+     * Gets the data for a toolSet (or retrieves it for the first time) and then handles it.
+     * @function
+     * @param {object} toolSet - The ToolSet.
+     * @param {function} data - The function that will handle the ToolSet data.
+     */
     handleToolSet: function (toolSet, callback) {
       var readIds = Object.keys(toolSet.getToolSet());
       var requests = [];
@@ -57,6 +82,13 @@ var toolCache = (function () {
         toast({html: 'Could not load results. Try again later.', close: true});
       });
     },
+
+    /**
+     * Returns the parsed data for a tool ID.
+     * @function
+     * @param {string} - The tool ID.
+     * @return {object} - The parsed data.
+     */
     getParsedData: function (id) {
       if (cache.hasOwnProperty(id)) {
         return getData(id);
@@ -64,6 +96,12 @@ var toolCache = (function () {
         return null;
       }
     },
+
+    /**
+     * Returns the ToolCache object.
+     * @function
+     * @return {object} - ToolCache.
+     */
     getCache : function () {
       return cache;
     }
@@ -71,17 +109,45 @@ var toolCache = (function () {
 })();
 
 /**
- * ToolSet Object
+ * Represents a ToolSet.
+ * @constructor
  */
 function ToolSet() {
   this.toolSet = {};
   this.length = 0;
+
+  /**
+   * Returns the ToolSet
+   * @function
+   * @return {object} - The ToolSet.
+   */
   this.getToolSet = function () {
     return this.toolSet;
   };
+
+  /**
+   * Returns the number of tools in the ToolSet
+   * @function
+   * @return {number} - The number of tools.
+   */
   this.getLength = function () {
     return this.length;
   };
+
+  /**
+   * Returns whether the ToolSet has a filter or not 
+   * @function
+   * @return {bool} - The presence of filters.
+   */
+  this.hasFilters = function () {
+    return Object.keys(this.filters).length !== 0;
+  };
+
+  /**
+   * Adds a tool to the ToolSet. If it is already there, it increments the count of that tool.
+   * @function
+   * @param {string} toolId - The id of the tool.
+   */
   this.addTool = function (toolId) {
     if (!this.getToolSet().hasOwnProperty(toolId)) {
       this.toolSet[toolId] = 1;
@@ -90,12 +156,25 @@ function ToolSet() {
       this.toolSet[toolId]++;
     }
   };
+
+  /**
+   * Removes a tool from the ToolSet
+   * @function
+   * @param {string} toolId - The ID of the tool.
+   */
   this.removeTool = function (toolId) {
     if (this.getToolSet().hasOwnProperty(toolId)) {
       delete this.toolSet[toolId];
       this.length--;
     }
   };
+
+  /**
+   * Checks if the ToolSet contains the specified Tool ID
+   * @function
+   * @param {string} toolId - The ID of the tool.
+   * @return {bool} - The presense of the tool.
+   */
   this.contains = function (toolId) {
     if (this.getToolSet().hasOwnProperty(toolId)) {
       return true;
@@ -103,6 +182,13 @@ function ToolSet() {
       return false;
     }
   };
+
+  /**
+   * Checks if the Tool is unique.
+   * @function
+   * @param {string} toolId - The ID of the tool.
+   * @return {bool} - The presenece of a unique tool.
+   */
   this.toolIsUnique = function (toolId) {
     if (this.getToolSet().hasOwnProperty(toolId)) {
       if (this.toolSet[toolId] === 1) {
@@ -114,6 +200,13 @@ function ToolSet() {
       return false;
     }
   };
+
+  /**
+   * Checks if the ToolSet is equal to the passed in ToolSet.
+   * @function
+   * @param {object} toolSet - A ToolSet.
+   * @return {bool} - The presense of an equal ToolSet.
+   */
   this.isEqual = function (toolSet) {
     if (toolSet.getLength() !== this.length) {
       return false;
@@ -134,6 +227,11 @@ function ToolSet() {
     }
     return true;
   };
+
+  /**
+   * Resets the ToolSet to the default state.
+   * @function
+   */
   this.reset = function () {
     this.toolSet = {};
     this.length = 0;
@@ -142,7 +240,11 @@ function ToolSet() {
 }
 
 /**
- * ToolDisplay Object
+ * Represents a ToolDisplay.
+ * @constructor
+ * @param {string} tableId - The id of the table container.
+ * @param {string} listId - The id of the list container.
+ * @param {string} type - The type of app.
  */
 var ToolDisplay = function (tableId, listId, type) {
   this.toolSet = new ToolSet();
@@ -151,32 +253,58 @@ var ToolDisplay = function (tableId, listId, type) {
   this.type = type; // Not an optimal solution
 };
 
+/**
+ * Returns the ToolSet object tied to the ToolDisplay
+ * @function
+ * @return {object} - The ToolSet
+ */
 ToolDisplay.prototype.getToolSet = function () {
   return this.toolSet;
 };
 
+/**
+ * Returns the ID of the table tied to this Display
+ * @function
+ * @return {string} - The ID of the container holding the table.
+ */
 ToolDisplay.prototype.getTableId = function () {
   return this.tableId;
 };
 
+/**
+ * Returns the ID of the list tied to this Display
+ * @function
+ * @return {string} - The ID of the container holding the list.
+ */
 ToolDisplay.prototype.getListId = function () {
   return this.listId;
 };
 
+/**
+ * Returns the type of app the display is used on.
+ * @function
+ * @return {string} - The type of app being used.
+ */
 ToolDisplay.prototype.getType = function () { // Not an optimal solution
   return this.type;
 };
 
-ToolDisplay.prototype.isDisplayed = function () {
-  return this.displayed;
-};
-
+/**
+ * Displays the specified data in a DataTable row and a div in the list.
+ * @function
+ * @param {object} data - The data for the tool to be displayed
+ */
 ToolDisplay.prototype.displayTool = function (data) {
   this.getToolSet().addTool(data['ID']);
   addRow(data, this.getTableId(), createRow(data));
   addDiv(data, this.getListId());
 };
 
+/**
+ * Displays an entire ToolSet in the DataTable and List container tied to this Display.
+ * @function
+ * @param {object} toolSet - The ToolSet to be displayed.
+ */
 ToolDisplay.prototype.displayTools = function (toolSet) {
   var html = '';
   var rows = [];
@@ -256,7 +384,10 @@ $('[name="browse-display-type"]').change(function () {
 });
 
 /**
- * Create a DataTable row
+ * Creates an array for use in creating a DataTable row.
+ * @function
+ * @param {object} parsedResult - The parsed data of a tool.
+ * @return {array} - The array to be used to create the row.
  */
 function createRow(parsedResult) { 
   var rowData;
@@ -285,7 +416,11 @@ function createRow(parsedResult) {
 }
 
 /**
- * Add a row to a DataTable
+ * Adds a row to a DataTable.
+ * @function
+ * @param {object} parsedResult - The parsed data of a tool.
+ * @param {string} tableId - The id of a table container.
+ * @param {array} rowData - The array used for creating a row.
  */
 function addRow(parsedResult, tableId, rowData) {
   if ($.fn.DataTable.isDataTable('#' + tableId)) {
@@ -304,7 +439,9 @@ function addRow(parsedResult, tableId, rowData) {
 }
 
 /**
- * Remove the selected tools from the saved tools list
+ * Remove the selected tool from the specified tools list.
+ * @function
+ * @param {string} divID - The ID of the tool to remove.
  */
 function removeSelected(divID) {
   $('#' + divID + ' input').each(function () {
@@ -320,7 +457,10 @@ function removeSelected(divID) {
 }
 
 /**
- * Refactored code to display the selected tool data
+ * Display the additional Tool data in the Selected Tool tab.
+ * @function
+ * @param {string} id - The tool ID.
+ * @param {string} origin - The ID of the perviously selected tab.
  */
 function showDetails(id, origin) {
   var parsedData = toolCache.getParsedData(id);
@@ -383,6 +523,8 @@ function showDetails(id, origin) {
 
 /**
  * Export the selected (check marked) tools from the tools list to a downloaded CSV
+ * @function
+ * @param {string} resultsDiv - The ID of the div.
  */
 function exportCSV(resultsDiv) {
   var filename = 'sustainable_community_tools.csv';
@@ -430,6 +572,7 @@ function exportCSV(resultsDiv) {
 
 /**
  * Save tools from the the selected tool panel
+ * @function
  */
 function saveRecord() {
   var recordIdToSave = $('#selected-tool-div').attr('data-read-id');
@@ -446,6 +589,8 @@ function saveRecord() {
 
 /**
  * Save all selected tools to the Saved Tools tab
+ * @function
+ * @param {string} resultsDiv - The ID of the div.
  */
 function saveSelectedRecords(resultsDiv) {
   var recordsToSave = $('#' + resultsDiv + ' input:checked');
@@ -464,16 +609,15 @@ function saveSelectedRecords(resultsDiv) {
 }
 
 /**
- * display details of parsedResult in container #containerId
- * dev aspiration: dynamically append spans and dynamically apply
- *                 .left class or .right class to each in order
- *                 to balance columns
+ * Creates a div to display details of parsedResult appended to the specified container
+ * @function
+ * @param {object} parsedResult - The parsed data for the tool.
+ * @param {string} containerId - The ID of the container the DIV will be appended to.
  */
 function addDiv(parsedResult, containerId) {
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
   var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
   var $container = $('#' + containerId);
-
   var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
     '<div class="row" role="button">' +
       '<div class="col size-95of100">' +
@@ -487,13 +631,15 @@ function addDiv(parsedResult, containerId) {
       '<div class="col accordion-result"></div>' +
     '</div>' +
   '</div>';
-
   $container.append(html);
 }
 
 /**
  * Creates the HTML to create a Display DIV and returns it
- *
+ * @function
+ * @param {object} parsedResult - The parsed data of a tool.
+ * @param {string} containerId - The ID of the div.
+ * @return {string} - The HTML to create a DIV.
  */
 function createDiv(parsedResult, containerId) {
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
@@ -537,6 +683,8 @@ $('tbody').on('click', 'td:not(:first-child)', function () {
 
 /**
  * map details of a result into accessible locations
+ * @function
+ * @param {object} result - Unparsed data from READ Web Service.
  */
 var parseResult = function (result) {
   if(typeof(result) === 'undefined') {
@@ -598,9 +746,9 @@ var parseResult = function (result) {
 
   /**
    * return decoded value(s) accumulated into a string
-   * @param field{object} contains either object[propertyName] or object[0][propertyName]
-   * @param propertyName{string} name of the property that holds the desired value
-   * @param map{object} decode values with map[object[propertyName]] or map[object[0][propertyName]]
+   * @param field {object} contains either object[propertyName] or object[0][propertyName]
+   * @param propertyName {string} name of the property that holds the desired value
+   * @param map {object} decode values with map[object[propertyName]] or map[object[0][propertyName]]
    * READ Web Services return one value if only one value exists. If several values then they're in an array.
    * There are various data-standards used in READ, like storing integers in place of strings for options.
    */
@@ -890,7 +1038,10 @@ var readSafe = function (object, propertyArray) {
 };
 
 /**
- * check if object represents xsi:nil or unsanitized absence of data
+ * Check if object represents xsi:nil or unsanitized absence of data
+ * @function
+ * @param {object} obj - The container holding all the checkboxes.
+ * @return {bool} - Presense of a nil/null/blank/no data onject.
  */
 var isNil = function (obj) {
   return Boolean(
@@ -903,8 +1054,11 @@ var isNil = function (obj) {
 };
 
 /**
- * return 'no data' if obj is invalid data
- * return obj otherwise
+ * Validates the object.
+ * @function
+ * @param {object} obj - The container holding all the checkboxes.
+ * @return {string} - If no data, return a string containing "No Data"
+ * @return {object} - The original object.
  */
 var validata = function (obj) {
   try {
@@ -921,7 +1075,10 @@ var validata = function (obj) {
 
 /**
  * Check all the checkboxes in the specified location
-*/
+ * @function
+ * @param {string} divId - The container holding all the checkboxes.
+ * @param {function} callback - The function that will be executed when done unselecting all the checkboxes.
+ */
 function selectAll(divId, callback) {
   $('#' + divId + ' input:checkbox').prop('checked', true)
     .promise()
@@ -934,7 +1091,10 @@ function selectAll(divId, callback) {
 
 /**
  * Uncheck all the checkboxes in the specified location
-*/
+ * @function
+ * @param {string} divId - The container holding all the checkboxes.
+ * @param {function} callback - The function that will be executed when done unselecting all the checkboxes.
+ */
 function deselectAll(divId, callback) {
   $('#' + divId + ' input:checkbox').prop('checked', false)
     .promise()
@@ -945,19 +1105,31 @@ function deselectAll(divId, callback) {
     });
 }
 
+/**
+ * Save all the tools in a specified container
+ * @function
+ */
 function saveAll(divId) {
   $('#' + divId + ' input:checkbox').each(function () {
     savedTools.addTool($(this).val());
   });
 }
 
+/**
+ * Unsave all the tools in the saved tools ToolSet.
+ * @function
+ */
 function unsaveAll() {
   savedTools.reset();
 }
 
 /**
  * Execute get request on specified url and data
-*/
+ * @function
+ * @param {string} url - The URL we are attempting to reach.
+ * @param {object} data - The query data/parameters we are sending to the URL.
+ * @return {object} - The object holding result of the ajax request.
+ */
 var executeSearch = function (url, data) {
   $.support.cors = true; // needed for < IE 10 versions
   return $.ajax({
@@ -967,6 +1139,11 @@ var executeSearch = function (url, data) {
   });
 };
 
+/**
+ * Create a DataTable in the specified container.
+ * @function
+ * @param {string} name - Partial ID of the table to be created.
+ */
 function createDataTable(name) {
   if (!$.fn.DataTable.isDataTable('#' + name + '-table')) {
     var table = $('#' + name + '-table').DataTable({
@@ -1027,7 +1204,8 @@ function createDataTable(name) {
               saveSelectedRecords(name + '-list');
             },
             className: 'button button-white'
-          });
+          }
+        );
       }
 
       if (name === 'saved' && resultTable.getType() === 'search') {
@@ -1038,7 +1216,8 @@ function createDataTable(name) {
               removeSelected(name + '-list');
             },
             className: 'button button-white'
-          });
+          }
+        );
       }
 
       new $.fn.dataTable.Buttons(table, {
@@ -1052,14 +1231,17 @@ function createDataTable(name) {
         table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
       } else {
       	table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
-        //table.buttons(1, null).container().insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
       }
       
-
     $('.dt-button').removeClass('dt-button');
   }
 }
 
+/**
+ * Selects all the tools in the specified container.
+ * @function
+ * @param {string} name - Partial ID of the table to be created.
+ */
 function selectAllToolsButton(name) {
   if (!$('#saved-list').length) {
     selectAll(name + '-list', saveAll(name + '-list'));  
@@ -1072,6 +1254,11 @@ function selectAllToolsButton(name) {
   $('input[type="checkbox"]', rowNodes).prop('checked', true);
 }
 
+/**
+ * deselects all the tools in the specified container.
+ * @function
+ * @param {string} name - Partial ID of the table to be created.
+ */
 function deselectAllToolsButton(name) {
   if (!$('#saved-list').length) {
     deselectAll(name + '-list', unsaveAll(name + '-list'));  
@@ -1087,21 +1274,21 @@ function deselectAllToolsButton(name) {
 var timeouts = {};
 
 /**
-* toast() accessibly notifies users of arbitrary information
-*
-* @param {object} parameters:
-*   { parameters.css : [ "contains arbitrary css for this notice
-*                        as parameters.css[<key>] = <value>",
-*                        "is JSON-object" ],
-*     parameters.disable : [ "true to show disabling-button" ],
-*     parameters.html : [ "html for notifier" ],
-*     parameters.priority : [ "sets priority-metadata for
-*                              assistive technology",
-*                             "can be 'polite' or 'assertive'",
-*                             "assertive interrupts user",
-*                             "see aria-live's values in html-spec" ],
-*     parameters.container : [ "ID of container to use for alert" ] }
-*/
+ * toast() accessibly notifies users of arbitrary information
+ *
+ * @param {object} parameters:
+ *   { parameters.css : [ "contains arbitrary css for this notice
+ *                        as parameters.css[<key>] = <value>",
+ *                        "is JSON-object" ],
+ *     parameters.disable : [ "true to show disabling-button" ],
+ *     parameters.html : [ "html for notifier" ],
+ *     parameters.priority : [ "sets priority-metadata for
+ *                              assistive technology",
+ *                             "can be 'polite' or 'assertive'",
+ *                             "assertive interrupts user",
+ *                             "see aria-live's values in html-spec" ],
+ *     parameters.container : [ "ID of container to use for alert" ] }
+ */
 var toast = function (parameters) {
   clearToast();
   var noticeID = 'toast';
@@ -1147,7 +1334,10 @@ var toast = function (parameters) {
 };
 
 /**
- * disable instructional toasts for all tab-panels
+ * Disable instructional toasts for all tab panels
+ * @function
+ * @param {string} noticeID - ID of the toast container.
+ * @param {object} showToast - Object containing the properties for Toasts.
  */
 function disableToast(noticeID, showToast) {
   showToast['all'] = false;
@@ -1155,8 +1345,9 @@ function disableToast(noticeID, showToast) {
 }
 
 /**
-* Clears the toast and the timeout for the toast
-*/
+ * Clears the toast and the timeout for the toast
+ * @function
+ */
 function clearToast(){
   var noticeID = 'toast';
   var $notice = $('#' + noticeID);
@@ -1173,7 +1364,9 @@ var stopWords = [
 
 /**
  * Prints the leafNode array in a format that can be manually copied to create a hard coded version
-*/
+ * @function
+ * @param {array} arrayToPrint - An array that will be printed. 
+ */
 function printArray(arrayToPrint) {
   var str = '[';
   for (var i = 0; i < arrayToPrint.length; i++) {
