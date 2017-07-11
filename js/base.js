@@ -1376,3 +1376,45 @@ function printArray(arrayToPrint) {
   str += "];";
   console.log(str);
 }
+
+/**
+ * Returns an object containing all tools indexed by decision sector
+ * @function
+ * @return {object} - Object containing the Resource ID of all tools by decision sector.
+ */
+var allTools = function () {
+  var tools = {};
+  tools.transportation = {};
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Transportation'}).done(function (data) {$.each(data, function (i) {tools.transportation[data[i].ResourceId] = data[i].ResourceId;});});
+  tools.wasteManagement = {};
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Waste Management'}).done(function (data) {$.each(data, function (i) {tools.wasteManagement[data[i].ResourceId] = data[i].ResourceId;});});
+  tools.buildingInfrastructure = {};
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Building Infrastructure'}).done(function (data) {$.each(data, function (i) {tools.buildingInfrastructure[data[i].ResourceId] = data[i].ResourceId;});});
+  tools.landUse = {};
+  $.get(resourceAdvancedSearchURL, {DecisionSector:'Land Use'}).done(function (data) {$.each(data, function (i) {tools.landUse[data[i].ResourceId] = data[i].ResourceId;});});
+  return tools;
+};
+
+/**
+ * Returns an object containing parsed data for all tools in each decision sectors
+ * @function
+ * @return {object} - Object containing the parsed data of all tools by decision sector.
+ */
+var allToolDetails = function () {
+  var tools = {};
+  for (var j = 0; j < decisionSectors.length; j++) {
+    $.get(resourceAdvancedSearchURL, {DecisionSector:decisionSectors[j]}).done(function (data) { $.each(data, function (i) { $.get(resourceDetailURL, {ResourceId:data[i].ResourceId}).done(function (data) {var parsedResult = parseResult(data); tools[parsedResult['ID']] = parsedResult;});});});
+  }
+  return tools;
+};
+
+/**
+ * Print details for a given READ ID in the console
+ * @function
+ * @param {string} id - The tool ID.
+ */
+var getDetailsFromId = function (id) {
+  $.get(resourceDetailURL, {ResourceId:id}).done(function (data) {
+    console.log(id + ': ' + data.READExportDetail.InfoResourceDetail);
+  });
+};
