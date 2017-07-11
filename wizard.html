@@ -702,8 +702,8 @@ $('#feedback-modal').click(function (e) {
 });
 
 /**
-* initialize tabs; create listener for swithing tabs
-*/
+ * initialize tabs; create listener for swithing tabs
+ */
 var initializeTabs = function () {
   $('#tabs > div').hide(); // hide all tab-panels
   $('#tabs div:first').show(); // show first tab-panel
@@ -723,8 +723,8 @@ var initializeTabs = function () {
 };
 
 /**
-* show more or less objectives
-*/
+ * show more or less objectives
+ */
 var objectiveDisplay = function (adjust) {
   $('#objective-relevance').val(parseInt($('#objective-relevance').val()) + parseInt(adjust));
   var val = $('#objective-relevance').val();
@@ -740,8 +740,8 @@ var objectiveDisplay = function (adjust) {
 };
 
 /** Handle selection and deselection to
-*  inform users of necessary information.
-*/
+ *  inform users of necessary information.
+ */
 var checkboxChangeHandler = function(checkboxGroup){
   if (showToast[checkboxGroup] !== false && showToast['all'] !== false) {// condition: are these toasts unmuted?
     if (checkboxGroup.indexOf('table') === -1) {
@@ -759,8 +759,8 @@ var checkboxChangeHandler = function(checkboxGroup){
 }
 
 /**
-* react to changes in selections
-*/
+ * react to changes in selections
+ */
 var updateInterface = function (list, $container, onChange) {
   // populate next selectables
   populate(list, $container, onChange);// populate list into $container
@@ -773,9 +773,9 @@ var updateInterface = function (list, $container, onChange) {
 };
 
 /**
-* populate list into specified $container;
-* maintain selections when possible
-*/
+ * populate list into specified $container;
+ * maintain selections when possible
+ */
 var populate = function (list, $container, onChange) {
   if (typeof list === 'undefined') {
     list = [];
@@ -794,9 +794,9 @@ var populate = function (list, $container, onChange) {
 };
 
 /**
-* populate list with header values;
-* maintain selections when possible
-*/
+ * populate list with header values;
+ * maintain selections when possible
+ */
 var populateWithHeader = function (list, $container, onChange) {
   if (typeof list === 'undefined') {
     list = {length:0}; // ensure list is defined
@@ -828,8 +828,8 @@ var populateWithHeader = function (list, $container, onChange) {
 };
 
 /**
-* toggle disabled state of a next button
-*/
+ * toggle disabled state of a next button
+ */
 var toggleNext = function (list, nextButtonClassSubstring) {
   var nextButtonSelector = '.enabled-by-' + nextButtonClassSubstring; // identify next button by who enables it
   if (list.length > 0 || Object.keys(list).length > 0) {
