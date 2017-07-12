@@ -702,7 +702,8 @@ $('#feedback-modal').click(function (e) {
 });
 
 /**
- * initialize tabs; create listener for swithing tabs
+ * Initialize tabs; create listener for switching tabs
+ * @function
  */
 var initializeTabs = function () {
   $('#tabs > div').hide(); // hide all tab-panels
@@ -723,7 +724,9 @@ var initializeTabs = function () {
 };
 
 /**
- * show more or less objectives
+ * Show more or fewer objectives
+ * @function
+ * @param {number} - A number that symbolizes if we add or subtract objectives from displaying. 
  */
 var objectiveDisplay = function (adjust) {
   $('#objective-relevance').val(parseInt($('#objective-relevance').val()) + parseInt(adjust));
@@ -739,8 +742,10 @@ var objectiveDisplay = function (adjust) {
   fundamentalObjectiveSelect();
 };
 
-/** Handle selection and deselection to
- *  inform users of necessary information.
+/** 
+ * Handle selection and deselection to inform users of necessary information.
+ * @function
+ * @param {string} checkboxGroup - The ID of the container.
  */
 var checkboxChangeHandler = function(checkboxGroup){
   if (showToast[checkboxGroup] !== false && showToast['all'] !== false) {// condition: are these toasts unmuted?
@@ -750,7 +755,6 @@ var checkboxChangeHandler = function(checkboxGroup){
         toast({html:message,close:true,disable:true});
         showToast[checkboxGroup] = false;
     } else {
-      console.log('showToast[checkboxGroup],showToast[\'all\']',showToast[checkboxGroup],showToast['all']);
       var message = 'Select all desired ' + checkboxGroup + 's then press the button labeled "next." Selections can be changed at any time.';
       showToast[checkboxGroup] = false;
       toast({html:message,close:true,disable:true});
@@ -759,27 +763,30 @@ var checkboxChangeHandler = function(checkboxGroup){
 }
 
 /**
- * react to changes in selections
+ * Updates the interface when a change occurs.
+ * @function
+ * @param {array} list - The list which we'll use to populate the checkboxes.
+ * @param {object} $container - The container which we will place the checkboxes in.
+ * @param {string} onChange - The function which will be run when the checkbox state is changed.
  */
 var updateInterface = function (list, $container, onChange) {
-  // populate next selectables
   populate(list, $container, onChange);// populate list into $container
-  // toggle tab
   toggleTab(list, $container);// enable next tab iff list not empty
-  // build selector for next button
   var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
-  // toggle next
   toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
 };
 
 /**
- * populate list into specified $container;
- * maintain selections when possible
+ * Populate list into specified $container; maintain selections when possible
+ * @function
+ * @param {array} list - The list which we'll use to populate the checkboxes.
+ * @param {object} $container - The container which we will place the checkboxes in.
+ * @param {string} onChange - The function which will be run when the checkbox state is changed.
  */
 var populate = function (list, $container, onChange) {
-  if (typeof list === 'undefined') {
+  if (typeof list === 'undefined') { // ensure list is defined
     list = [];
-  }// ensure list is defined
+  }
   var currentlySelected = []; // create container for current selections
   $container.find(':checked').each(function (i, v) {
     currentlySelected.push(v.value); // store current selections in container
@@ -787,15 +794,18 @@ var populate = function (list, $container, onChange) {
   var html = addCheckboxes(list.sort(), $container, onChange); // repopulate new selectables
   $container.html(html); // create contents of $container
   $container.find('input[type=checkbox]').each(function (i, v) { // look through each element in $container
-      if(currentlySelected.indexOf(v.value) !== -1) { // check if item was selected
-        $($(v)[0]).prop('checked', true); // select item
-      }
+    if(currentlySelected.indexOf(v.value) !== -1) { // check if item was selected
+      $($(v)[0]).prop('checked', true); // select item
+    }
   });
 };
 
 /**
- * populate list with header values;
- * maintain selections when possible
+ * Populate list with header values; maintain selections when possible
+ * @function
+ * @param {array} list - The list which we'll use to populate the checkboxes.
+ * @param {object} $container - The container which we will place the checkboxes in.
+ * @param {string} onChange - The function which will be run when the checkbox state is changed.
  */
 var populateWithHeader = function (list, $container, onChange) {
   if (typeof list === 'undefined') {
@@ -805,7 +815,6 @@ var populateWithHeader = function (list, $container, onChange) {
   $container.find(':checked').each(function (i, v) { // create an array for currently selected values
       currentlySelected.push(v.value);
   });
-  //$container.html(''); // clear items out of container
   var html = '';
   var count = 0;
   for (var i in list) {
@@ -820,44 +829,43 @@ var populateWithHeader = function (list, $container, onChange) {
   toggleTab(list, $container); // enable next tab iff list not empty
   var nextButtonClassSubstring = $container.attr("id"); // identify next button by who enables it
   toggleNext(list, nextButtonClassSubstring); // enable next button iff list not empty 
-  $container.find('input[type=checkbox]').each(function (i, v) { // look through each element in $container
-    if(currentlySelected.indexOf(v.value) !== -1) { // check if item was currentlySelected
+  $container.find('input[type=checkbox]').each( function (i, v) { // look through each element in $container
+    if (currentlySelected.indexOf(v.value) !== -1) { // check if item was currentlySelected
       $($(v)[0]).prop('checked', true); // select item
     }
   });
 };
 
 /**
- * toggle disabled state of a next button
+ * Toggle disabled state of a next button
+ * @function
+ * @param {array} - The list of items we are loading into the next page.
+ * @param {string} - The ID of the container the list comes from.
  */
 var toggleNext = function (list, nextButtonClassSubstring) {
   var nextButtonSelector = '.enabled-by-' + nextButtonClassSubstring; // identify next button by who enables it
   if (list.length > 0 || Object.keys(list).length > 0) {
     $(nextButtonSelector + ':not(.persist)').prop('disabled', false).css('display', 'inline');
-    /* DEV: CODE REMOVED TO TEST SHOWING INSTRUCTIONAL TOASTS ONLY ONCE PER TAB: CREATE A LISTENER FOR EACH TAB'S SELECTABLES IN INITIALIZATION
-    if ($('#role :checked').length > 0 && showToast !== false) {
-      toast({html:'Use the next button or the next tab to proceed when ready.<button class="button-grey toast-button" onclick="showToast = false;clearToast()">Disable these messages</button>', close: true});
-    }
-    */
-  }else{
+  } else {
     $(nextButtonSelector+':not(.persist)').prop('disabled',true).css('display','none');
   }
 };
 
 /**
-* show tab iff usable
-*/
+ * Show the tab if there is anything to display in that tab.
+ * @function
+ * @param {array} list - An array containing the list of elements to display on the particular tab.
+ * @param {object} $container - The jQuery selection for the container we are loading the list into.
+ */
 var toggleTab = function (list, $container) {
   tabAnchor = '#' + $container.parent().attr('aria-labelledby');
-  if (list.length > 0 || Object.keys(list).length > 0) {// items in list...
-    // ...enable tabs
+  if (list.length > 0 || Object.keys(list).length > 0) { // items in list enable tabs
     $(tabAnchor).removeAttr('aria-disabled');
     $(tabAnchor).attr('href', $(tabAnchor).attr('data-href'));
     $(tabAnchor).parent().removeAttr('aria-hidden');
     $(tabAnchor).removeAttr('aria-hidden');
     $(tabAnchor).show();
-  }else{// no items in list...
-    // ...disable tabs
+  } else { // no items in list disable tabs
     $(tabAnchor).attr('aria-disabled', 'true').removeAttr('href');
     $(tabAnchor).hide();
     $(tabAnchor).parent().attr('aria-hidden', 'true');
@@ -865,8 +873,9 @@ var toggleTab = function (list, $container) {
 };
 
 /**
-* populate #subrole-select with subrole options for the selected roles
-*/
+ * Populate the #subrole container with subrole options for the selected roles.
+ * @function
+ */
 var roleSelect = function () {
   var selectedElements = scrapeDictionaryToObject($("input[name='role-checkbox']:checked"), subrolesByRole);
   populateWithHeader(selectedElements, $('#subrole'), "subroleSelect()");
@@ -874,8 +883,9 @@ var roleSelect = function () {
 };
 
 /**
-* populate #objective with objective options for the selected subroles
-*/
+ * Populate the #objective container with objective options for the selected subroles.
+ * @function
+ */
 var subroleSelect = function () {
   var relevance = $('#objective-relevance').val();
   var objectivesFromSubroles = [];
@@ -908,8 +918,9 @@ var subroleSelect = function () {
 };
 
 /**
-* populate #objective with objectives determined by selected subroles and fundamental objectives
-*/
+ * Populate the #objective container with objectives determined by selected subroles and fundamental objectives.
+ * @function
+ */
 var fundamentalObjectiveSelect = function () {
   var relevance = $('#objective-relevance').val();
   var objectivesFromSubroles = [];
@@ -936,8 +947,9 @@ var fundamentalObjectiveSelect = function () {
 };
 
 /**
-* populate #concept with concept-options for selected objectives
-*/
+ * Populate the #concept container with the concept options for selected objectives.
+ * @function
+ */
 var objectiveSelect = function () {
   var selectedElements = scrapeDictionary($("input[name='objective-checkbox']:checked"), conceptsByObjective);
   $('#concept').html('');
@@ -946,8 +958,12 @@ var objectiveSelect = function () {
 };
 
 /**
-* get elements of arrays in dictionary without repeats
-*/
+ * Create an array of values taken from dictionary for the selected options.
+ * @function
+ * @param {object} selectedOptions - A jQuery selection of the checked checkboxes
+ * @param {object} dictionary - The dictionary we are taking values from.
+ * @return {array} - An array containing the elements from the dictionary which match the values in selectedOptions
+ */
 var scrapeDictionary = function (selectedOptions, dictionary) {
   var selectedElement = '';
   var selectedElements = [];
@@ -968,8 +984,12 @@ var scrapeDictionary = function (selectedOptions, dictionary) {
 };
 
 /**
-* get elements in dictionary with key values retained for use in headers
-*/
+ * Get child values (properties) for a selected option from a specified object while the key values retained for use in headers
+ * @function
+ * @param {object} selectedOptions - A jQuery selection of the checked checkboxes
+ * @param {object} dictionary - The dictionary we are taking values from.
+ * @return {object} - An object containing the elements from the dictionary which match the values in selectedOptions
+ */
 var scrapeDictionaryToObject = function (selectedOptions, dictionary) {
 var selectedElement = '';
 var selectedElements = [];
@@ -992,8 +1012,14 @@ return selectedElementsObject;
 };
 
 /**
-* add checkboxes with text of name to container with containerId
-*/
+ * Add checkboxes with specified values to the specified container.
+ * @function
+ * @param {array} list - An array containing the values to populare the checkboxes with.
+ * @param {object} container - The jQuery selection which will hold the checkboxes.
+ * @param {string} onChange - The function which will run when a checkbox is changed.
+ * @param {number} count - Optional parameter which is used when populating with headers.
+ * @return {string} - The HTML to create checkboxes.
+ */
 function addCheckboxes(list, container, onChange, count) {
   var containerName = container.attr('id');
   onChange = 'onchange="checkboxChangeHandler(\'' + containerName + '\');' + onChange + '"';
@@ -1025,8 +1051,10 @@ function addCheckboxes(list, container, onChange, count) {
 }
 
 /**
-* search in descriptions for each word in query string from input and display results in div
-*/
+ * Search in descriptions for each word in query string from input and display results in div
+ * @function
+ * @deprecated
+ */
 var keywordSearch = function (div, input) {
   $('#' + div + ' *').remove();
   var keywords = getKeywords(input);
@@ -1047,9 +1075,10 @@ var keywordSearch = function (div, input) {
 };
 
 /**
-* search for the READ IDs from the selected Concepts from input and display results in div
-*/
-var conceptSearch = function (div, input) {
+ * Search for the READ IDs from the selected Concepts from input and display results in div
+ * @function
+ */
+var conceptSearch = function () {
   $('#results-notification').html('').removeClass().attr('aria-hidden', 'true');
   resultSet.reset(); // remove from resultSet
   if ($.fn.DataTable.isDataTable('#results-table')) {
@@ -1099,8 +1128,9 @@ var conceptSearch = function (div, input) {
 };
 
 /**
-* Updates the list of concepts with the number of tools selecting or deselecting will add or remove
-*/
+ * Displays the number of tools which will be added/removed from selecting/deselecting a particular concept
+ * @function
+ */
 function updateConcepts() {
   $('#concept .tool-count').each(function () { // for each tool label
     var $conceptCheckbox = $('#' + $(this).parent().attr('for')); // get associated checkbox
@@ -1136,13 +1166,18 @@ function updateConcepts() {
 }
 
 /**
-* Runs a concept search and updates the list of concepts 
-*/
+ * Runs a concept search and updates the list of concepts 
+ * @function
+ */
 function updateConceptsandResults() {
   conceptSearch('results-list', $('input[name="concept-checkbox"]:checked'));
   updateConcepts();
 }
 
+/**
+ * Display the current result set.
+ * @function
+ */
 var displayResults = function () {
   if (resultSet.getLength() > 0 || savedTools.getLength() > 0) {  
     $('#results-tab').parent().attr('aria-hidden', 'false');
@@ -1159,13 +1194,21 @@ var displayResults = function () {
   }
 }
 
+/**
+ * Execute the conceptSearch and displayResults functions.
+ * @function
+ * @deprecated
+ */
 var findAndDisplayResults = function() {
   conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));
     displayResults();
 }
 
 /**
- * get concepts from input as a list
+ * Extract text values of the passed in jQuery object and store in an array.
+ * @function
+ * @param {object} input - jQuery selection of the checked concept checkboxes.
+ * @return {array} - An array containing the selected concepts values.
  */
 var getConcepts = function (input) {
   var concept = '';
@@ -1180,7 +1223,11 @@ var getConcepts = function (input) {
 };
 
 /**
- * get keywords from input as a list
+ * Process the selected concepts into their constituent words to serve as keywords.
+ * @function
+ * @deprecated
+ * @param {object} input - The jQuery selection containing the selected concepts.
+ * @return {array} - An array of words.
  */
 var getKeywords = function (input) {
   var concept = '';
@@ -1203,128 +1250,8 @@ var getKeywords = function (input) {
 };
 
 /**
- * Use links table to find related concepts
- */
-function conceptDplLinks() {
-  var allConcepts = [];
-  var checkedConcepts = [];
-  var associatedConcepts = [];
-  $("input[name='concept-checkbox']").each(function () {
-    if ($(this).prop("checked")) {
-      checkedConcepts.push($(this).val());
-    }
-    allConcepts.push($(this).val());
-  });
-
-  for (var k = 0; k < checkedConcepts.length; k++) { //find child nodes of selected concept
-    if (dplLinks[checkedConcepts[k]]) { 
-      for (var i = 0; i < dplLinks[checkedConcepts[k]].length; i++) {
-        if (readIDsByConcept[dplLinks[checkedConcepts[k]][i]]) {
-          console.log(checkedConcepts[k] + " > " + dplLinks[checkedConcepts[k]][i] + " > " + readIDsByConcept[dplLinks[checkedConcepts[k]][i]]);
-        }
-      }
-    }
-
-    for (var concept in dplLinks) { //find parent nodes of selected concept
-      if (dplLinks.hasOwnProperty(concept)) {
-        if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
-          if (readIDsByConcept[concept]) {
-            console.log(concept + " < " + checkedConcepts[k] + ": " + readIDsByConcept[concept]);
-          }
-        }
-      }
-    }
-  }
-}
-
-function findChildConcepts() {
-  if ($('input[name="concept-checkbox"]:checked').length === 0) {
-    return;
-  }
-  var allConcepts = [];
-  var checkedConcepts = [];
-  var associatedConcepts = [];
-  $("input[name='concept-checkbox']").each(function () {
-    if ($(this).prop("checked")) {
-      checkedConcepts.push($(this).val());
-    }
-    allConcepts.push($(this).val());
-  });
-  for (var k = 0; k < checkedConcepts.length; k++) {
-    if (dplLinks[checkedConcepts[k]]) { //find child nodes of selected concept
-      for (var i = 0; i < dplLinks[checkedConcepts[k]].length; i++) {
-        if (readIDsByConcept[dplLinks[checkedConcepts[k]][i]]) {
-          if (associatedConcepts.indexOf(dplLinks[checkedConcepts[k]][i]) === -1 && dplLinks[checkedConcepts[k]][i].length > 1 && allConcepts.indexOf(dplLinks[checkedConcepts[k]][i]) === -1) {
-            associatedConcepts.push(dplLinks[checkedConcepts[k]][i]);
-          }
-        }
-      }
-    }
-  }
-  console.log("Children: " + associatedConcepts);
-}
-
-function findParentConcepts() {
-  if ($('input[name="concept-checkbox"]:checked').length === 0) {
-    return;
-  }
-  var allConcepts = [];
-  var checkedConcepts = [];
-  var associatedConcepts = [];
-  $("input[name='concept-checkbox']").each(function () {
-    if ($(this).prop("checked")) {
-      checkedConcepts.push($(this).val());
-    }
-    allConcepts.push($(this).val());
-  });
-
-  for (var k = 0; k < checkedConcepts.length; k++) {
-    for (var concept in dplLinks) { //find parent nodes of selected concept
-      if (dplLinks.hasOwnProperty(concept)) {
-        if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
-          if (readIDsByConcept[concept]) {
-            if (associatedConcepts.indexOf(concept) === -1 && concept.length > 1 && allConcepts.indexOf(concept) === -1) {
-              associatedConcepts.push(concept);
-            }
-          }
-        }
-      }
-    }
-  }
-  console.log("Parents: "+ associatedConcepts);
-}
-
-function findSiblingConcepts() {
-  if ($('input[name="concept-checkbox"]:checked').length === 0) {
-    return;
-  }
-  var allConcepts = [];
-  var checkedConcepts = [];
-  var associatedConcepts = [];
-  $("input[name='concept-checkbox']").each(function () {
-    if ($(this).prop("checked")) {
-      checkedConcepts.push($(this).val());
-    }
-    allConcepts.push($(this).val());
-  });
-
-  for (var k = 0; k < checkedConcepts.length; k++) {
-    for (var concept in dplLinks) { //find parent nodes of selected concept
-      if (dplLinks.hasOwnProperty(concept)) {
-        if (dplLinks[concept].indexOf(checkedConcepts[k]) !== -1) {
-          if (readIDsByConcept[concept]) {
-            console.log("Parent: " + concept);
-            console.log("Siblings: " + dplLinks[concept]);
-          }
-        }
-      }
-    }
-  }
-  //console.log("Parents: "+ associatedConcepts);
-}
-
-/**
- * find all concepts associated with selected concepts by being grouped in same objective
+ * Finds all concepts that are associated with the selected concepts by finding all concepts which are connected to the same objectives.
+ * @function
  */
 var broadenConcepts = function () {
   if ($('input[name="concept-checkbox"]:checked').length === 0) {
@@ -1362,9 +1289,10 @@ var broadenConcepts = function () {
 };
 
 /**
- * select next tab when next button is activated
- * @param $tabContainer the container for the tabs
- * @param URLToShow = thisDocument.html#someHashValueToJumpTo
+ * Selects the next tab when next button is activated
+ * @function
+ * @param {object} $nextTab - The next tab
+ * @param {string} URLToShow - thisDocument.html#someHashValueToJumpTo
  */
 var activateNextTab = function ($nextTab, URLToShow) {
   var firstString;
