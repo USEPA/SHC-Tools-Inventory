@@ -6,13 +6,15 @@
 # save interactive work:
 #   %hist -f proposed_classipy.py SOME_LINE_NUMBER
 
-#import pandas as pd
+import numpy as np
 import sklearn
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import SGDClassifier
 from sklearn.linear_model import LogisticRegressionCV
+from sklearn.svm import LinearSVC
+from sklearn.multiclass import OneVsRestClassifier
 
 import requests
 import json
@@ -94,36 +96,32 @@ for i in range(len(read_ids)):
     for k in range(len(label_list)):
         if label_list[k] in concepts_by_read_id[read_ids[i]]:
             training_labels[i].add(label_list[k])
-mlb = MultiLabelBinarizer(label_list)
-y_train = mlb.fit_transform(training_labels)
+print(training_labels)
+mlb = MultiLabelBinarizer()
+y = mlb.fit_transform(training_labels)
 
-# create a pipeline to act as a new transformer made from pipeline of transformers
-# tokenize each description with sklearn, nltk, or a pipeline through both
+# create a pipeline to process data
+pipeline = Pipeline([
+    # transform training data into 
+    # transform data into term-frequency/document-frequency
+    ('vec', TfidfVectorizer()),
+    # classify with sarcastic greatest descent ;)
+    # TRY CLASSIFYING WITH LogisticRegressionCV, too!
+    ('clf', SGDClassifier()),
+])
 
 # DEV-DESIRE:
 # compute tf*idf for each word in each document
 # try k-fold cross validation to test on training data
 # implement adaboost for arbitrary accuracy given sufficient data
 
-# create a pipeline of transformers ending in a classifier
-# transform() called on all but last
-# classifier get a different method called by Pipeline
-pipeline = Pipeline([
-    # transform training data into 
-    # transform data into term-frequency/document-frequency
-    ('vect', TfidfVectorizer()),
-    # classify with sarcastic greatest descent ;)
-    # TRY CLASSIFYING WITH LogisticRegressionCV, too!
-    ('clf', SGDClassifier()),
-])
-
 # define parameters to be explored
 # parameters are keyed by <transformer>__<parameter>
 parameters = {
     # use these maximal document-frequencies
-    'vect__max_df': (0.5, 0.75, 1.0),
-    #'vect__max_features': (None, 5000, 10000, 50000),
-    'vect__ngram_range': ((1, 1), (1, 2)),  # unigrams or bigrams
+    'vec__max_df': (0.5, 0.75, 1.0),
+    #'vec__max_features': (None, 5000, 10000, 50000),
+    'vec__ngram_range': ((1, 1), (1, 2)),  # unigrams or bigrams
     #'tfidf__use_idf': (True, False),
     #'tfidf__norm': ('l1', 'l2'),
     #'clf__alpha': (0.00001, 0.000001),
@@ -131,13 +129,58 @@ parameters = {
     #'clf__n_iter': (10, 50, 80),
 }
 
-if __name__ == "__main__":
+#print('last few values of zip(descriptions, y):')
+#print(list(zip(descriptions[-3:], y[-3:])))
+#print('type of descriptions and y:')
+#print('size of descriptions[:3] and y[:3]:')
+#descriptions = np.array(descriptions)
+#print(type(descriptions))
+#print(descriptions[:3].size)
+#y = np.array(y)
+#print(type(y))
+#print(len(y[:3]))
+
+############################################################
+# Form a one-off solution to extend with gridsearch ########
+from sklearn.model_selection import train_test_split
+from scipy.sparse import csr_matrix, issparse
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.svm import LinearSVC
+
+descriptions = np.array(descriptions)
+training_labels = np.array([list(item) for item in training_labels])
+X_train, X_test, y_train, y_test = train_test_split(descriptions, training_labels, test_size=0.1)
+X_train, X_test, y_train, y_test = np.array(X_train), np.array(X_test), np.array(y_train), np.array(y_test)
+print(60 * '#')
+print('type(X_train), type(X_test), type(y_train), type(y_test):')
+print(type(X_train), type(X_test), type(y_train), type(y_test))
+print('type(descriptions), descriptions.shape, descriptions:')
+print(type(descriptions), descriptions.shape, descriptions)
+print('type(training_labels), training_labels.shape, training_labels:')
+print(type(training_labels), training_labels.shape, training_labels)
+
+classifier = Pipeline([
+    ('vec', CountVectorizer()),
+    ('tfidf', TfidfTransformer()),
+    ('clf', OneVsRestClassifier(LinearSVC()))
+])
+
+# learn the classifier
+classifier.fit_transform(descriptions, training_labels)
+
+# predict labels for test data
+predictions = classifier.predict(X_test)
+############################################################
+
+if __name__ == "_main__":
     # prepare to search the grid in our parameter-space
     # defined in the variable named parameters
-    grid_search = sklearn.model_selection.GridSearchCV(pipeline, parameters, n_jobs=-1, verbose=1)
+    grid_search = sklearn.model_selection.GridSearchCV(pipeline, parameters, verbose=1)
     print("pipeline:", [name for name, _ in pipeline.steps])
     t0 = time()
-    grid_search.fit(descriptions, y_train)
+    grid_search.fit(X_train, y_train)
     print("grid was searched in %0.3fs" % (time() - t0))
     print()
 
