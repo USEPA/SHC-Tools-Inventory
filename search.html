@@ -712,7 +712,10 @@ $('#feedback-modal').click(function (e) {
   }
 });
 
-// DOCUMENT
+/**
+ * Initialize tabs; create listener for switching tabs
+ * @function
+ */
 var initializeTabs = function () {
   $('#tabs > div').hide(); // hide all tab-panels
   $('#tabs div:first').show(); // show first tab-panel
@@ -759,6 +762,7 @@ function addMembers(dataList, fieldName, fieldValues) {
 
 /**
  * Search for text and choose other criteria for tools.
+ * @function
  */
 var detailedSearch = function () {
   if ($.fn.DataTable.isDataTable('#results-table')) {
@@ -845,6 +849,12 @@ var detailedSearch = function () {
   }
 };
 
+/**
+ * Process the results array. Add IDs that are not already in the ResultSet or in the white list to the ResultSet.
+ * @function
+ * @param {array} results - An array containing the results from the Ajax queries.
+ * @return {number} the length of the ResultSet.
+ */
 var parseResultsArray = function (results) {
   for (var i = 0; i < results.length; i++) {
     if(!resultSet.contains(results[i].ResourceId)) {
@@ -854,6 +864,12 @@ var parseResultsArray = function (results) {
   return resultSet.getLength();
 };
 
+/**
+ * Performs a search for the specified term.
+ * @function
+ * @param {array} results - An array containing the results from the Ajax queries.
+ * @return {number} the length of the ResultSet.
+ */
 simpleSearch = function () {
   if ($.fn.DataTable.isDataTable('#results-table')) {
     $('#results-table').DataTable().clear().draw(); //clear result table
@@ -915,6 +931,11 @@ simpleSearch = function () {
   }
 };
 
+/**
+ * Loads the tools relevant to the selected Decision Sector into the appropriate container.
+ * @function
+ * @param {string} tableID - The Decision Sector that we want to view.
+ */
 function loadModels2(tableID) {
   if (!$.fn.DataTable.isDataTable('#' + tableID + 'table')) {
       var browse = new ToolSet();
