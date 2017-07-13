@@ -500,20 +500,5 @@
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/porter-stemmer.js"></script>
   <script src="js/base.js"></script>
-  <script>
-  $('#feedback-link').click(function () {
-    $('#feedback-modal').css('display', 'block');
-  });
-
-  $('.close').click(function () {
-    $('#feedback-modal').css('display', 'none');
-  });
-
-  $('#feedback-modal').click(function (e) {
-    if (e.target === $('#feedback-modal')[0]) {
-      $('#feedback-modal').css('display', 'none');
-    }
-  });
-  </script>
 </body>
 </html>

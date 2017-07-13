@@ -687,20 +687,6 @@ $(function () { // jquery's shorthand awaits readiness of document
 
 });
 
-$('#feedback-link').click(function () {
-  $('#feedback-modal').css('display', 'block');
-});
-
-$('.close').click(function () {
-  $('#feedback-modal').css('display', 'none');
-});
-
-$('#feedback-modal').click(function (e) {
-  if (e.target === $('#feedback-modal')[0]) {
-    $('#feedback-modal').css('display', 'none');
-  }
-});
-
 /**
  * Initialize tabs; create listener for switching tabs
  * @function
