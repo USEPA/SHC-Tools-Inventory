@@ -328,6 +328,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
 
 /**
  * Toggle result table or list display styles
+ * @listens change
  */
 $('[name="display-type"]').change(function () {
   if($(this).attr('id') === 'table-radio') {
@@ -344,6 +345,7 @@ $('[name="display-type"]').change(function () {
 
 /**
  * Toggle saved table or list display styles
+ * @listens change
  */
 $('[name="saved-display-type"]').change(function () {
   if ($(this).attr('id') === 'saved-table-radio') {
@@ -360,6 +362,7 @@ $('[name="saved-display-type"]').change(function () {
 
 /**
  * Toggle browse table or list display styles
+ * @listens change
  */
 $('[name="browse-display-type"]').change(function () {
   if ($(this).attr('id') === 'browse-table-radio') {
@@ -664,6 +667,7 @@ function createDiv(parsedResult, containerId) {
 
 /**
  * On click listener for the expandable details section of the lists
+ * @listens click
  */
 $('.list').on('click', '.expand', function () {
   var $this = $(this);

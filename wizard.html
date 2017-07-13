@@ -627,11 +627,19 @@ var resultTable = new ToolDisplay('results-table', 'results-list', 'wizard'); //
 $(function () { // jquery's shorthand awaits readiness of document
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate roles into #role div
   initializeTabs(); // initialize tabs and their listeners
-
+  
+  /**
+   * Updates the interface when a concept checkbox changes state.
+   * @listens change
+   */
   $('#concept').on('change', '.tool-label', function () {
     updateConceptsandResults();
   });
 
+  /**
+   * Toggles the saved state of a tool via a list div checkbox.
+   * @listens change
+   */
   $(".list").on("change", "input:checkbox", function () {
     var id = $(this).val();
     var rows = $('#results-table').DataTable().rows();
@@ -662,6 +670,10 @@ $(function () { // jquery's shorthand awaits readiness of document
     updateConcepts();
   });
 
+  /**
+   * Toggles the saved state of a tool via a DataTable row.
+   * @listens click
+   */
   $('tbody').on('click', 'input[type="checkbox"]', function () {
     var $parent = $(this).parent().parent();
     var tableId = $(this).closest('table').attr('id').slice(0, -6);

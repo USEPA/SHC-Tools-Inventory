@@ -655,6 +655,10 @@ var transportationTable = new ToolDisplay('transportation-table', 'transportatio
 $(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
 
+  /**
+   * Toggles the selected state of tool via a list div checkbox.
+   * @listens change
+   */
   $(".list").on("change", "input:checkbox", function () {
     var id = $(this).val();
     var tableId = $(this).attr('id').slice(0, -14);
@@ -683,6 +687,10 @@ $(function () { // jquery's shorthand awaits readiness of document
     }
   });
 
+  /**
+   * Toggles the selected state of a tool via a DataTable row 
+   * @listens click
+   */
   $('tbody').on('click', 'input[type="checkbox"]', function () {
     var $parent = $(this).parent().parent();
     var tableId = $(this).closest('table').attr('id').slice(0, -6);
