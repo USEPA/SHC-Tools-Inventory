@@ -154,15 +154,6 @@ training_labels = np.array([list(item) for item in training_labels])
 y = mlb.fit_transform(training_labels)
 X_train, X_test, y_train, y_test = train_test_split(descriptions, y, test_size=0.1)
 
-print(60 * '#')
-print('type(X_train), type(X_test), type(y_train), type(y_test):')
-print(type(X_train), type(X_test), type(y_train), type(y_test))
-print('type(descriptions), descriptions.shape, descriptions:')
-print(type(descriptions), descriptions.shape, descriptions)
-print('type(training_labels), training_labels.shape, training_labels:')
-print(type(training_labels), training_labels.shape, training_labels)
-print(type(X_train), X_train.shape, X_train[:3])
-
 classifier = Pipeline([
     ('vec', CountVectorizer()),
     ('tfidf', TfidfTransformer()),
@@ -174,18 +165,30 @@ classifier.fit(X_train, y_train)
 
 # predict labels for test data
 predictions = classifier.predict(X_test)
+print(60 * '#')
+print('predictions:')
+print(predictions)
 
 # check predicted labels against actual labels
-predicted_labels = dict()
-def check_predicted_labels(predicted_labels):
+def check_labels(predicted_labels):
+    predicted_labels = dict()
+    actual_labels = dict()
     for i in range(len(predictions)):
-        predicted_labels[str(read_ids[i])]
+        predicted_labels[str(read_ids[i])] = []
+        actual_labels[str(read_ids[i])] = []
         for j in range(len(predictions[i])):
+            if y_test[str(read_ids[i])] == 1:
+                actual_labels[str(read_ids[i])].append(label_list[j])
             if predictions[i][j] == 1:
-                predicted_labels[str(read_ids[i])].append(training_labels[j])
-    print(predicted_labels)
-    return predicted_labels
-check_predicted_labels(predicted_labels)
+                predicted_labels[str(read_ids[i])].append(label_list[j])
+    # measure precision and false omission rate between
+    # predicted_labels and actual_labels. Find definitions
+    # of these terms on wikipedia.org/wiki/Precision_and_recall
+    for key in predicted_labels:
+        if y_test != 1:
+            pass# measure discrepency!
+    print(zip(actual_labels, predicted_labels))
+check_labels(predictions)
 ############################################################
 
 if __name__ == "_main__":
