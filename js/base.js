@@ -678,6 +678,7 @@ $('.list').on('click', '.expand', function () {
 
 /**
  * On click listener for loading the Selected Tools Tab from the table view
+ * @listens click
  */
 $('tbody').on('click', 'td:not(:first-child)', function () {
   var tableId = $(this).closest('table').attr('id').slice(0, -6);
@@ -796,7 +797,13 @@ var parseResult = function (result) {
     }
   }
 
-  // DOCUMENT
+  /**
+   * Parse the technical skill array or object for the technical skill value(s).
+   * @function
+   * @param {object|array} ModelScopeTechnicalSkillsNeededToApplyModelDetail - An object containing the property, or an array of objects contain the property.
+   * @param {string} extent.TechnicalSkillName - A string specifying the technical skill.
+   * @return {string|object} - Either the value itself, or a string combining all the values.
+   */
   function parseTechnicalSkill(ModelScopeTechnicalSkillsNeededToApplyModelDetail) { // possibly joins strings in an array
     if (ModelScopeTechnicalSkillsNeededToApplyModelDetail.TechnicalSkillName) {
       return ModelScopeTechnicalSkillsNeededToApplyModelDetail.TechnicalSkillName; // return desired value if it is a property of extent
@@ -818,7 +825,13 @@ var parseResult = function (result) {
     }
   }
 
-  // DOCUMENT
+  /**
+   * Parse the spatial extent array or object for the spatial extent value(s).
+   * @function
+   * @param {object|array} extent - An object containing the property, or an array of objects contain the property.
+   * @param {string} extent.SpatialExtentName - A string specifying the spatial extent.
+   * @return {string|object} - Either the value itself, or a string combining all the values.
+   */
   function parseModelOutputType(ModelOutputsModelOutputTypesDetail) { // possibly joins strings in an array
     if (ModelOutputsModelOutputTypesDetail.ModelOutputTypeName) {
       return ModelOutputsModelOutputTypesDetail.ModelOutputTypeName; // return desired value if it is a property of extent
@@ -840,75 +853,102 @@ var parseResult = function (result) {
     }
   }
 
-  // DOCUMENT
-  function parseSpatialExtent(extent) {// possibly joins strings in an array
+  /**
+   * Parse the spatial extent array or object for the spatial extent value(s).
+   * @function
+   * @param {object|array} extent - An object containing the property, or an array of objects contain the property.
+   * @param {string} extent.SpatialExtentName - A string specifying the spatial extent.
+   * @return {string|object} - Either the value itself, or a string combining all the values.
+   */
+  function parseSpatialExtent(extent) { // possibly joins strings in an array
     if (extent.SpatialExtentName) {
-      return extent.SpatialExtentName;
-    }// return desired value if it is a property of extent
-    if (extent.length) {// is array?(this means several values instead of just one)
+      return extent.SpatialExtentName; // return desired value if it is a property of extent
+    }
+    if (extent.length) { // is array?(this means several values instead of just one)
       if (typeof extent === 'string') {
         return extent;
       }
-      var str = '';// create string for appending each spatial extent to while looping through array
-      for (var i = 0; i < extent.length - 1; i++) {// loop through all elements except last...
+      var str = ''; // create string for appending each spatial extent to while looping through array
+      for (var i = 0; i < extent.length - 1; i++) { // loop through all elements except last...
         if(extent.length > 2) {
-          str += parseSpatialExtent(extent[i]) + ", ";//...append ith value and a delimiter. comma if more than 2 in list
+          str += parseSpatialExtent(extent[i]) + ", "; // append ith value and a delimiter. comma if more than 2 in list
         } else {
-          str += parseSpatialExtent(extent[i]) + " ";//...append ith value and a delimiter just a space if only 2 in list
+          str += parseSpatialExtent(extent[i]) + " "; // append ith value and a delimiter just a space if only 2 in list
         }
       }
-      str += 'and ' + parseSpatialExtent(extent[extent.length - 1]);//append final value
+      str += 'and ' + parseSpatialExtent(extent[extent.length - 1]); // append final value
       return str; // return accumulated values in a string
     }
   }
 
-  // DOCUMENT
+  /**
+   * Returns a string detailing if the tools is open source 
+   * @function
+   * @param {number} openSource - An integer which represents an open source category.
+   * @return {string|object} - Either the value itself, or the initial variable.
+   */
   function parseOpenSource(openSource) {
     if(openSourceMap.hasOwnProperty(openSource)) {
       return openSourceMap[openSource];
     } else{
       return openSource;
     }
-  }// requires decoding a data-standard; will be mapped in parseResult['Open Source']Map[INTEGER]
+  }
 
-  // DOCUMENT
-  function parseDataRequirements(dataRequirements) {// requires decoding a data-standard
+  /**
+   * Returns a string containing the data requirements
+   * @function
+   * @param {number} dataRequirements - An integer which represents a requirements category.
+   * @return {string|string} - Either the value itself, or a string containing "No Data."
+   */
+  function parseDataRequirements(dataRequirements) { // requires decoding a data-standard
     if (dataRequirementsMap.hasOwnProperty(dataRequirements)) {
       return dataRequirementsMap[dataRequirements];
     }
     return "No Data";
   }
 
-  // DOCUMENT
-  function parseSoftwareCost(softwareCost) {// requires decoding a data-standard
+  /**
+   * Returns a string containing the software cost.
+   * @function
+   * @param {number} softwareCost - An integer which represents a cost category.
+   * @return {string|string} - Either the value itself, or a string containing "No Data."
+   */
+  function parseSoftwareCost(softwareCost) { // requires decoding a data-standard
     if (softwareCostMap.hasOwnProperty(softwareCost)) {
-      return softwareCostMap[softwareCost];// do work
+      return softwareCostMap[softwareCost];
     } else {
       return "No Data";
     }
   }
 
-  // DOCUMENT
-  function parseTimeScale(timeScale) {//all that apply
+  /**
+   * Parse the time scale array or object for the time scale value(s).
+   * @function
+   * @param {object|array} timeScale - Either and object containing the relevant property, or an array of objects.
+   * @param {string} timeScale.TimeScaleName - A string containing a timescale value.
+   * @return {string|string} - Either the value itself, or a string containing all the values.
+   */
+  function parseTimeScale(timeScale) {
     if (timeScale.TimeScaleName) {
-      return timeScale.TimeScaleName;
-    }// return value if possible
+      return timeScale.TimeScaleName; // return value if possible
+    }
     if (timeScale.length) {
       if (typeof timeScale === 'string') {
-        return timeScale;
-      }// if it's a string then return it
+        return timeScale; // if it's a string then return it
+      }
       var timeStr = '';
-      for (var i = 0; i < timeScale.length - 1; i++) {// loop through all elements except last...
-        timeStr += timeScale[i].TimeScaleName;//...append ith value and a delimiter
+      for (var i = 0; i < timeScale.length - 1; i++) { // loop through all elements except last...
+        timeStr += timeScale[i].TimeScaleName; // append ith value and a delimiter
         if (timeScale.length > 2) {
-          timeStr += ',';
-        }// append comma when appropriate
+          timeStr += ','; // append comma when appropriate
+        }
         timeStr += ' ';
       }
       if (timeScale.length > 2) {
-        timeStr += 'and ';
-      }// append 'and ' when appropriate
-      timeStr += timeScale[i].TimeScaleName;//append final value from array
+        timeStr += 'and '; // append 'and ' when appropriate
+      }
+      timeStr += timeScale[i].TimeScaleName; //append final value from array
       return timeStr; // return accumulated values in string
     }
   }
@@ -916,15 +956,17 @@ var parseResult = function (result) {
 };
 
 /**
- * return selected concepts associated with given toolID
+ * Return selected concepts associated with given toolID
+ * @function
+ * @param {string} toolID - The tool ID.
+ * @return {string|string} - A string which lists the selected concepts which are tied to the specified tool ID, or a string containing "none."
  */
 var getSelectedConceptsAssociatedWithTool = function (toolID) {
   if (typeof readIDsByConcept !== 'undefined') {
     var selectedConceptsAssociatedWithTool = [];
     var selectedConcepts = $('input[name="concept-checkbox"]:checked');
     var toolConcepts = getToolConcepts(toolID);
-    // build array of tool's associated concepts that are selected
-    for (var i in selectedConcepts) {
+    for (var i in selectedConcepts) { // build array of tool's associated concepts that are selected
       for (var j in toolConcepts) {
         if (selectedConcepts[i].value === toolConcepts[j]) {
           selectedConceptsAssociatedWithTool.push(selectedConcepts[i].value);
@@ -939,7 +981,10 @@ var getSelectedConceptsAssociatedWithTool = function (toolID) {
 };
 
 /**
- * collect all concepts related to toolId in readIDsByConept
+ * Collect all concepts related to toolId in readIDsByConept
+ * @function
+ * @param {string} toolId - The tool ID.
+ * @return {array} - The concepts tied to the specified tool ID.
  */
 function getToolConcepts(toolId) {
   var concepts = [];
@@ -953,6 +998,12 @@ function getToolConcepts(toolId) {
   return concepts;
 }
 
+/**
+ * Turn a valid URL into a proper HTML link.
+ * @function
+ * @param {string} value - The string containing the candidate URL to linkify.
+ * @return {string|string} - The URL with proper HTML tags added, or the unchanged string value.
+ */
 function linkifyString(value) {
   if (typeof value === 'string') {
     var urlRegExp = /((http|ftp|https):\/\/[^ @"]+|[^@]\b[^ @"]+\.(com|gov|edu|org|net|info|io)[^ @"]*)/ig; // scrape value for URLs with regex
@@ -1061,8 +1112,7 @@ var isNil = function (obj) {
  * Validates the object.
  * @function
  * @param {object} obj - The container holding all the checkboxes.
- * @return {string} - If no data, return a string containing "No Data"
- * @return {object} - The original object.
+ * @return {string|object} - If no data, return a string containing "No Data," or the original object if not nil.
  */
 var validata = function (obj) {
   try {
@@ -1228,7 +1278,6 @@ function createDataTable(name) {
           buttons: dtButtons
         }
       );
-
 
       table.buttons(0, null).container().css('display', 'block').wrap("<div></div>");
       if (name !== 'saved' && resultTable.getType() === 'search') {
