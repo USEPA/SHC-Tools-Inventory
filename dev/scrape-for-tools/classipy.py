@@ -151,8 +151,9 @@ from sklearn.svm import LinearSVC
 
 descriptions = np.array(descriptions)
 training_labels = np.array([list(item) for item in training_labels])
-X_train, X_test, y_train, y_test = train_test_split(descriptions, training_labels, test_size=0.1)
-X_train, X_test, y_train, y_test = np.array(X_train), np.array(X_test), np.array(y_train), np.array(y_test)
+y = mlb.fit_transform(training_labels)
+X_train, X_test, y_train, y_test = train_test_split(descriptions, y, test_size=0.1)
+
 print(60 * '#')
 print('type(X_train), type(X_test), type(y_train), type(y_test):')
 print(type(X_train), type(X_test), type(y_train), type(y_test))
@@ -160,6 +161,7 @@ print('type(descriptions), descriptions.shape, descriptions:')
 print(type(descriptions), descriptions.shape, descriptions)
 print('type(training_labels), training_labels.shape, training_labels:')
 print(type(training_labels), training_labels.shape, training_labels)
+print(type(X_train), X_train.shape, X_train[:3])
 
 classifier = Pipeline([
     ('vec', CountVectorizer()),
@@ -168,10 +170,22 @@ classifier = Pipeline([
 ])
 
 # learn the classifier
-classifier.fit_transform(descriptions, training_labels)
+classifier.fit(X_train, y_train)
 
 # predict labels for test data
 predictions = classifier.predict(X_test)
+
+# check predicted labels against actual labels
+predicted_labels = dict()
+def check_predicted_labels(predicted_labels):
+    for i in range(len(predictions)):
+        predicted_labels[str(read_ids[i])]
+        for j in range(len(predictions[i])):
+            if predictions[i][j] == 1:
+                predicted_labels[str(read_ids[i])].append(training_labels[j])
+    print(predicted_labels)
+    return predicted_labels
+check_predicted_labels(predicted_labels)
 ############################################################
 
 if __name__ == "_main__":
