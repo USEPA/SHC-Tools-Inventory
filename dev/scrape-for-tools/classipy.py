@@ -96,7 +96,6 @@ for i in range(len(read_ids)):
     for k in range(len(label_list)):
         if label_list[k] in concepts_by_read_id[read_ids[i]]:
             training_labels[i].add(label_list[k])
-print(training_labels)
 mlb = MultiLabelBinarizer()
 y = mlb.fit_transform(training_labels)
 
@@ -148,6 +147,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import LinearSVC
+from sklearn.metrics import confusion_matrix
 
 descriptions = np.array(descriptions)
 training_labels = np.array([list(item) for item in training_labels])
@@ -157,38 +157,77 @@ X_train, X_test, y_train, y_test = train_test_split(descriptions, y, test_size=0
 classifier = Pipeline([
     ('vec', CountVectorizer()),
     ('tfidf', TfidfTransformer()),
-    ('clf', OneVsRestClassifier(LinearSVC()))
+    ('clf', OneVsRestClassifier(SGDClassifier(alpha=2e-12, loss='squared_epsilon_insensitive')))
 ])
+print(classifier.steps)
+
+classifier_parameters = {
+    # set threshold for estimator w/in OneVsRestClassifier
+    'estimator__alpha': [2e-10, 2e-11, 2e-12, 2e-13, 2e-14],
+}
+
+# create a grid-searching object to find optimal parameters
+grid_search_classifier = GridSearchCV(
+        classifier,
+        param_grid=classifier_parameters,
+        score =#BOOKMARK: WIP CREATE SCORE FNCN 
 
 # learn the classifier
 classifier.fit(X_train, y_train)
 
 # predict labels for test data
 predictions = classifier.predict(X_test)
-print(60 * '#')
-print('predictions:')
-print(predictions)
 
 # check predicted labels against actual labels
 def check_labels(predicted_labels):
     predicted_labels = dict()
     actual_labels = dict()
     for i in range(len(predictions)):
-        predicted_labels[str(read_ids[i])] = []
-        actual_labels[str(read_ids[i])] = []
+        predicted_labels[i] = dict()
+        actual_labels[i] = dict()
         for j in range(len(predictions[i])):
-            if y_test[str(read_ids[i])] == 1:
-                actual_labels[str(read_ids[i])].append(label_list[j])
+            if y_test[i][j] == 1:
+                actual_labels[i][j] = predictions[i][j]
             if predictions[i][j] == 1:
-                predicted_labels[str(read_ids[i])].append(label_list[j])
+                predicted_labels[i][j]
     # measure precision and false omission rate between
     # predicted_labels and actual_labels. Find definitions
     # of these terms on wikipedia.org/wiki/Precision_and_recall
-    for key in predicted_labels:
-        if y_test != 1:
-            pass# measure discrepency!
-    print(zip(actual_labels, predicted_labels))
-check_labels(predictions)
+    for i in predicted_labels:
+        for j in predicted_labels[i]:
+            if predicted_labels[i][j] and not y_test[i]:
+                pass# measure discrepency!
+        print(zip(actual_labels[i].keys(), predicted_labels[i].keys()))
+#check_labels(predictions)
+
+# confusion matrices don't work with multilabel-indicators
+def confusion_matrices(actual_labels, predicted_labels):
+    for i in actual_labels:
+        confusion_matrix_i = confusion_matrix(actual_labels[i], predicted_labels[i])
+        print('confusion matrix for test %(index)' % {'index': i})
+        print(confusion_matrix_i)
+#confusion_matrices(y_test, predictions)
+
+def ml_confusion_matrix(actual_labels, predicted_labels):
+    # take labels as binarized multilabel-format
+    # return [true_positives, false_positives, false_negatives, true_negatives], total_confusion_matrix
+    total_confusion_matrix = np.array([[0, 0], [0, 0]])
+    for i in range(len(actual_labels)):
+        for j in range(len(actual_labels[i])):
+            if not actual_labels[i][j]:
+                if not predicted_labels[i][j]:
+                    total_confusion_matrix[1][1] += 1
+                else:
+                    total_confusion_matrix[1][0] += 1
+            else:
+                if predicted_labels[i][j]:
+                    total_confusion_matrix[0][0] += 1
+                else:
+                    total_confusion_matrix[0][1] += 1
+    return total_confusion_matrix
+total_confusion_matrix = ml_confusion_matrix(y_test, predictions)
+print(total_confusion_matrix)
+
 ############################################################
 
 if __name__ == "_main__":
