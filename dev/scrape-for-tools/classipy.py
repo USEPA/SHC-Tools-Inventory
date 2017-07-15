@@ -97,7 +97,7 @@ for i in range(len(read_ids)):
         if label_list[k] in concepts_by_read_id[read_ids[i]]:
             training_labels[i].add(label_list[k])
 mlb = MultiLabelBinarizer()
-y = mlb.fit_transform(training_labels)
+y_bin = mlb.fit_transform(training_labels)
 
 # create a pipeline to process data
 pipeline = Pipeline([
@@ -128,19 +128,20 @@ parameters = {
     #'clf__n_iter': (10, 50, 80),
 }
 
-#print('last few values of zip(descriptions, y):')
-#print(list(zip(descriptions[-3:], y[-3:])))
-#print('type of descriptions and y:')
-#print('size of descriptions[:3] and y[:3]:')
+#print('last few values of zip(descriptions, y_bin):')
+#print(list(zip(descriptions[-3:], y_bin[-3:])))
+#print('type of descriptions and y_bin:')
+#print('size of descriptions[:3] and y_bin[:3]:')
 #descriptions = np.array(descriptions)
 #print(type(descriptions))
 #print(descriptions[:3].size)
-#y = np.array(y)
-#print(type(y))
-#print(len(y[:3]))
+#y_bin = np.array(y_bin)
+#print(type(y_bin))
+#print(len(y_bin[:3]))
 
 ############################################################
 # Form a one-off solution to extend with gridsearch ########
+
 from sklearn.model_selection import train_test_split
 from scipy.sparse import csr_matrix, issparse
 from sklearn.feature_extraction.text import CountVectorizer
@@ -148,35 +149,8 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import LinearSVC
 from sklearn.metrics import confusion_matrix
-
-descriptions = np.array(descriptions)
-training_labels = np.array([list(item) for item in training_labels])
-y = mlb.fit_transform(training_labels)
-X_train, X_test, y_train, y_test = train_test_split(descriptions, y, test_size=0.1)
-
-classifier = Pipeline([
-    ('vec', CountVectorizer()),
-    ('tfidf', TfidfTransformer()),
-    ('clf', OneVsRestClassifier(SGDClassifier(alpha=2e-12, loss='squared_epsilon_insensitive')))
-])
-print(classifier.steps)
-
-classifier_parameters = {
-    # set threshold for estimator w/in OneVsRestClassifier
-    'estimator__alpha': [2e-10, 2e-11, 2e-12, 2e-13, 2e-14],
-}
-
-# create a grid-searching object to find optimal parameters
-grid_search_classifier = GridSearchCV(
-        classifier,
-        param_grid=classifier_parameters,
-        score =#BOOKMARK: WIP CREATE SCORE FNCN 
-
-# learn the classifier
-classifier.fit(X_train, y_train)
-
-# predict labels for test data
-predictions = classifier.predict(X_test)
+from sklearn.metrics import make_scorer
+from sklearn.model_selection import GridSearchCV
 
 # check predicted labels against actual labels
 def check_labels(predicted_labels):
@@ -199,6 +173,18 @@ def check_labels(predicted_labels):
                 pass# measure discrepency!
         print(zip(actual_labels[i].keys(), predicted_labels[i].keys()))
 #check_labels(predictions)
+
+def ml_accuracy_score(y, y_pred):
+    correct = 0
+    wrong = 0
+    for i in range(len(y)):
+        for j in range(len(y[i])):
+            #import pdb;pdb.set_trace()
+            if y[i][j] == y_pred[i][j]:
+                correct += 1
+            else:
+                wrong += 1
+    return float(correct)/(float(correct) + float(wrong))
 
 # confusion matrices don't work with multilabel-indicators
 def confusion_matrices(actual_labels, predicted_labels):
@@ -225,8 +211,46 @@ def ml_confusion_matrix(actual_labels, predicted_labels):
                 else:
                     total_confusion_matrix[0][1] += 1
     return total_confusion_matrix
-total_confusion_matrix = ml_confusion_matrix(y_test, predictions)
-print(total_confusion_matrix)
+
+descriptions = np.array(descriptions)
+training_labels = np.array([list(item) for item in training_labels])
+y_bin = mlb.fit_transform(training_labels)
+X_train, X_test, y_train, y_test = train_test_split(descriptions, y_bin, test_size=0.1)
+
+classifier = Pipeline([
+    ('vec', CountVectorizer()),
+    ('tfidf', TfidfTransformer()),
+    ('clf', OneVsRestClassifier(SGDClassifier(alpha=2e-12, loss='squared_epsilon_insensitive')))
+])
+print(classifier.steps)
+
+classifier_parameters = {
+    # set threshold for estimator w/in OneVsRestClassifier
+    'clf__estimator__alpha': [2e-10, 2e-11, 2e-12, 2e-13, 2e-14],
+    'clf__estimator__loss': ['hinge', 'squared_hinge', 'epsilon_insensitive', 'squared_epsilon_insensitive'],
+}
+
+if __name__ == '__main__':
+    # create a grid-searching object to find optimal parameters
+    grid_search_classifier = GridSearchCV(
+            classifier,
+            n_jobs = -1,
+            param_grid = classifier_parameters,
+            scoring = make_scorer(ml_accuracy_score)
+    )
+
+    # learn the classifier
+    #classifier.fit(X_train, y_train) # replaced with grid_search
+    # search specified parameters of classifier
+    grid_search_classifier.fit(descriptions, y_bin)
+
+    # predict labels for test data
+    #predictions = classifier.predict(X_test) # replaced with grid_search
+    # use best_parameters from grid_search for predicting y_pred
+    predictions = grid_search_classifier.predict(X_test)
+
+    total_confusion_matrix = ml_confusion_matrix(y_test, predictions)
+    print(total_confusion_matrix)
 
 ############################################################
 
