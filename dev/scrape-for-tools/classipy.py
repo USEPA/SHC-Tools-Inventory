@@ -10,11 +10,18 @@ import numpy as np
 import sklearn
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MultiLabelBinarizer
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import SGDClassifier
 from sklearn.linear_model import LogisticRegressionCV
+from sklearn.model_selection import GridSearchCV
 from sklearn.svm import LinearSVC
 from sklearn.multiclass import OneVsRestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import make_scorer
+from sklearn.metrics import confusion_matrix
+
 
 import requests
 import json
@@ -33,6 +40,66 @@ descriptions_file = 'descriptions.json'
 concepts_by_read_id_filename = 'concepts-by-READ-id.json'
 read_ids_by_concept_filename = 'READ-ids-by-concept.json'
 wizard_filename = '../../wizard.html'
+
+# check predicted labels against actual labels
+def check_labels(predicted_labels):
+    predicted_labels = dict()
+    actual_labels = dict()
+    for i in range(len(predictions)):
+        predicted_labels[i] = dict()
+        actual_labels[i] = dict()
+        for j in range(len(predictions[i])):
+            if y_test[i][j] == 1:
+                actual_labels[i][j] = predictions[i][j]
+            if predictions[i][j] == 1:
+                predicted_labels[i][j]
+    # measure precision and false omission rate between
+    # predicted_labels and actual_labels. Find definitions
+    # of these terms on wikipedia.org/wiki/Precision_and_recall
+    for i in predicted_labels:
+        for j in predicted_labels[i]:
+            if predicted_labels[i][j] and not y_test[i]:
+                pass# measure discrepency!
+        print(zip(actual_labels[i].keys(), predicted_labels[i].keys()))
+#check_labels(predictions)
+
+def multilabel_accuracy_score(y, y_pred):
+    correct = 0
+    wrong = 0
+    for i in range(len(y)):
+        for j in range(len(y[i])):
+            #import pdb;pdb.set_trace()
+            if y[i][j] == y_pred[i][j]:
+                correct += 1
+            else:
+                wrong += 1
+    return float(correct)/(float(correct) + float(wrong))
+
+# confusion matrices don't work with multilabel-indicators
+def confusion_matrices(actual_labels, predicted_labels):
+    for i in actual_labels:
+        confusion_matrix_i = confusion_matrix(actual_labels[i], predicted_labels[i])
+        print('confusion matrix for test %(index)' % {'index': i})
+        print(confusion_matrix_i)
+#confusion_matrices(y_test, predictions)
+
+def multilabel_confusion_matrix(actual_labels, predicted_labels):
+    # take labels as binarized multilabel-format
+    # return [true_positives, false_positives, false_negatives, true_negatives], total_confusion_matrix
+    total_confusion_matrix = np.array([[0, 0], [0, 0]])
+    for i in range(len(actual_labels)):
+        for j in range(len(actual_labels[i])):
+            if not actual_labels[i][j]:
+                if not predicted_labels[i][j]:
+                    total_confusion_matrix[1][1] += 1
+                else:
+                    total_confusion_matrix[1][0] += 1
+            else:
+                if predicted_labels[i][j]:
+                    total_confusion_matrix[0][0] += 1
+                else:
+                    total_confusion_matrix[0][1] += 1
+    return total_confusion_matrix
 
 # try load descriptions indexed by READ-id
 # download descriptions on exception
@@ -128,8 +195,8 @@ parameters = {
     #'clf__n_iter': (10, 50, 80),
 }
 
-#print('last few values of zip(descriptions, y_bin):')
-#print(list(zip(descriptions[-3:], y_bin[-3:])))
+print('last few values of zip(descriptions, y_bin):')
+print(list(zip(descriptions[-3:], y_bin[-3:])))
 #print('type of descriptions and y_bin:')
 #print('size of descriptions[:3] and y_bin[:3]:')
 #descriptions = np.array(descriptions)
@@ -139,133 +206,82 @@ parameters = {
 #print(type(y_bin))
 #print(len(y_bin[:3]))
 
-############################################################
-# Form a one-off solution to extend with gridsearch ########
+if __name__ == "__main__":
+    #######################################################
+    # original code from example workflow below ###########
+    #-----------------------------------------------------#
 
-from sklearn.model_selection import train_test_split
-from scipy.sparse import csr_matrix, issparse
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.multiclass import OneVsRestClassifier
-from sklearn.svm import LinearSVC
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import make_scorer
-from sklearn.model_selection import GridSearchCV
+    # prepare to search the grid in our parameter-space
+    # defined in the variable named parameters
+    if True == False:
+        # convenient method of disabling code but not syntax-highlighting
+        grid_search = sklearn.model_selection.GridSearchCV(pipeline, parameters, verbose=1)
+        print(60 * '#')
+        print('entered __main__ block')
+        print(60 * '#')
+        print("pipeline:", [name for name, _ in pipeline.steps])
+        t0 = time()
+        grid_search.fit(X_train, y_train)
+        print("grid was searched in %0.3fs" % (time() - t0))
+        print()
 
-# check predicted labels against actual labels
-def check_labels(predicted_labels):
-    predicted_labels = dict()
-    actual_labels = dict()
-    for i in range(len(predictions)):
-        predicted_labels[i] = dict()
-        actual_labels[i] = dict()
-        for j in range(len(predictions[i])):
-            if y_test[i][j] == 1:
-                actual_labels[i][j] = predictions[i][j]
-            if predictions[i][j] == 1:
-                predicted_labels[i][j]
-    # measure precision and false omission rate between
-    # predicted_labels and actual_labels. Find definitions
-    # of these terms on wikipedia.org/wiki/Precision_and_recall
-    for i in predicted_labels:
-        for j in predicted_labels[i]:
-            if predicted_labels[i][j] and not y_test[i]:
-                pass# measure discrepency!
-        print(zip(actual_labels[i].keys(), predicted_labels[i].keys()))
-#check_labels(predictions)
+        print("Best score: %0.3f" % grid_search.best_score_)
+        print("Best permutation of parameters:")
+        best_parameters = grid_search.best_estimator_.get_params()
+        for param_name in sort(parameters.keys()):
+            print("\t%s: %r" % (param_name, best_parameters[param_name]))
 
-def ml_accuracy_score(y, y_pred):
-    correct = 0
-    wrong = 0
-    for i in range(len(y)):
-        for j in range(len(y[i])):
-            #import pdb;pdb.set_trace()
-            if y[i][j] == y_pred[i][j]:
-                correct += 1
-            else:
-                wrong += 1
-    return float(correct)/(float(correct) + float(wrong))
+    #-----------------------------------------------------#
+    # original code from example workflow above ###########
+    #######################################################
 
-# confusion matrices don't work with multilabel-indicators
-def confusion_matrices(actual_labels, predicted_labels):
-    for i in actual_labels:
-        confusion_matrix_i = confusion_matrix(actual_labels[i], predicted_labels[i])
-        print('confusion matrix for test %(index)' % {'index': i})
-        print(confusion_matrix_i)
-#confusion_matrices(y_test, predictions)
+    #######################################################
+    # form a one-off solution for multiproc deep learning #
+    #-----------------------------------------------------#
 
-def ml_confusion_matrix(actual_labels, predicted_labels):
-    # take labels as binarized multilabel-format
-    # return [true_positives, false_positives, false_negatives, true_negatives], total_confusion_matrix
-    total_confusion_matrix = np.array([[0, 0], [0, 0]])
-    for i in range(len(actual_labels)):
-        for j in range(len(actual_labels[i])):
-            if not actual_labels[i][j]:
-                if not predicted_labels[i][j]:
-                    total_confusion_matrix[1][1] += 1
-                else:
-                    total_confusion_matrix[1][0] += 1
-            else:
-                if predicted_labels[i][j]:
-                    total_confusion_matrix[0][0] += 1
-                else:
-                    total_confusion_matrix[0][1] += 1
-    return total_confusion_matrix
+    descriptions = np.array(descriptions)
+    training_labels = np.array([list(item) for item in training_labels])
+    y_bin = mlb.fit_transform(training_labels)
+    X_train, X_test, y_train, y_test = train_test_split(descriptions, y_bin, test_size=0.1)
 
-descriptions = np.array(descriptions)
-training_labels = np.array([list(item) for item in training_labels])
-y_bin = mlb.fit_transform(training_labels)
-X_train, X_test, y_train, y_test = train_test_split(descriptions, y_bin, test_size=0.1)
+    classifier_parameters = {
+        # set threshold for estimator w/in OneVsRestClassifier
+        'clf__estimator__alpha': [2e-10, 2e-11, 2e-12, 2e-13, 2e-14],
+        'clf__estimator__loss': ['hinge', 'squared_hinge', 'epsilon_insensitive', 'squared_epsilon_insensitive'],
+    }
 
-classifier = Pipeline([
-    ('vec', CountVectorizer()),
-    ('tfidf', TfidfTransformer()),
-    ('clf', OneVsRestClassifier(SGDClassifier(alpha=2e-12, loss='squared_epsilon_insensitive')))
-])
-print(classifier.steps)
+    classifier = Pipeline([
+        ('vec', CountVectorizer()),
+        ('tfidf', TfidfTransformer()),
+        ('clf', OneVsRestClassifier(SGDClassifier(alpha=2e-12, loss='squared_epsilon_insensitive')))
+    ])
 
-classifier_parameters = {
-    # set threshold for estimator w/in OneVsRestClassifier
-    'clf__estimator__alpha': [2e-10, 2e-11, 2e-12, 2e-13, 2e-14],
-    'clf__estimator__loss': ['hinge', 'squared_hinge', 'epsilon_insensitive', 'squared_epsilon_insensitive'],
-}
-
-if __name__ == '__main__':
     # create a grid-searching object to find optimal parameters
     grid_search_classifier = GridSearchCV(
             classifier,
             n_jobs = -1,
             param_grid = classifier_parameters,
-            scoring = make_scorer(ml_accuracy_score)
+            scoring = make_scorer(multilabel_accuracy_score)
     )
 
     # learn the classifier
     #classifier.fit(X_train, y_train) # replaced with grid_search
     # search specified parameters of classifier
-    grid_search_classifier.fit(descriptions, y_bin)
+    print("pipeline named classifier:", [name for name, _ in classifier.steps])
+    t0 = time()
+    grid_search_classifier.fit(X_train, y_train)
+    #grid_search_classifier.fit(descriptions, y_bin)
+    print("grid was searched in %0.3fs" % (time() - t0))
+    print()
 
     # predict labels for test data
     #predictions = classifier.predict(X_test) # replaced with grid_search
     # use best_parameters from grid_search for predicting y_pred
     predictions = grid_search_classifier.predict(X_test)
 
-    total_confusion_matrix = ml_confusion_matrix(y_test, predictions)
+    total_confusion_matrix = multilabel_confusion_matrix(y_test, predictions)
     print(total_confusion_matrix)
 
-############################################################
-
-if __name__ == "_main__":
-    # prepare to search the grid in our parameter-space
-    # defined in the variable named parameters
-    grid_search = sklearn.model_selection.GridSearchCV(pipeline, parameters, verbose=1)
-    print("pipeline:", [name for name, _ in pipeline.steps])
-    t0 = time()
-    grid_search.fit(X_train, y_train)
-    print("grid was searched in %0.3fs" % (time() - t0))
-    print()
-
-    print("Best score: %0.3f" % grid_search.best_score_)
-    print("Best permutation of parameters:")
-    best_parameters = grid_search.best_estimator_.get_params()
-    for param_name in sort(parameters.keys()):
-        print("\t%s: %r" % (param_name, best_parameters[param_name]))
+    #-----------------------------------------------------#
+    # form a one-off solution for multiproc deep learning #
+    #######################################################
