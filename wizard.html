@@ -1092,7 +1092,7 @@ var conceptSearch = function () {
     $('#results-tab').parent().attr('aria-hidden', 'true');
   }
 
-  var concepts = getConcepts(input); //get new concepts
+  var concepts = getConcepts($('input[name="concept-checkbox"]:checked')); //get new concepts
   if (concepts.length < 1 && !savedTools.getLength()) {
     $('#results-container').hide();
     $('#results-container').attr('aria-hidden', 'true');
