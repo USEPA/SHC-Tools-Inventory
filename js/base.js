@@ -87,7 +87,7 @@ var toolCache = (function () {
      * Returns the parsed data for a tool ID.
      * @function
      * @param {string} - The tool ID.
-     * @return {object} - The parsed data.
+     * @return {object|null} - The parsed data, or null.
      */
     getParsedData: function (id) {
       if (cache.hasOwnProperty(id)) {
@@ -1437,6 +1437,7 @@ function printArray(arrayToPrint) {
  */
 var allTools = function () {
   var tools = {};
+  var decisionSectors = ['land use','transportation','building infrastructure','waste management'];
   tools.transportation = {};
   $.get(resourceAdvancedSearchURL, {DecisionSector:'Transportation'}).done(function (data) {$.each(data, function (i) {tools.transportation[data[i].ResourceId] = data[i].ResourceId;});});
   tools.wasteManagement = {};
@@ -1455,6 +1456,7 @@ var allTools = function () {
  */
 var allToolDetails = function () {
   var tools = {};
+  var decisionSectors = ['land use','transportation','building infrastructure','waste management'];
   for (var j = 0; j < decisionSectors.length; j++) {
     $.get(resourceAdvancedSearchURL, {DecisionSector:decisionSectors[j]}).done(function (data) { $.each(data, function (i) { $.get(resourceDetailURL, {ResourceId:data[i].ResourceId}).done(function (data) {var parsedResult = parseResult(data); tools[parsedResult['ID']] = parsedResult;});});});
   }
