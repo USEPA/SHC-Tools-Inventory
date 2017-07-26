@@ -1328,6 +1328,8 @@ function createDataTable(name) {
           table.responsive.rebuild();
           table.responsive.recalc();
         });
+
+        $('.dataTables_empty').html('<img id="loader" src="img/loader.gif">');
       }
 
       new $.fn.dataTable.Buttons(table, {
