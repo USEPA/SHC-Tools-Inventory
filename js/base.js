@@ -711,21 +711,21 @@ $('tbody').on('click', 'td:not(:first-child)', function () {
  * @param {object} result - Unparsed data from READ Web Service.
  */
 var parseResult = function (result) {
-  if (typeof(result) === 'undefined') {
+  if (typeof(result) === 'undefined') { // catch bad input
     return;
-  }// catch bad input
-  var openSourceMap = {// map integral data-standard to text
+  }
+  var openSourceMap = { // map integral data-standard to text
     1:'Yes',
     2:'No',
     3:'Partial'
   };
-  var dataRequirementsMap = {// map integral data-standard to text
+  var dataRequirementsMap = { // map integral data-standard to text
     1:'All data is provided.',
     2:'Data is publicly available.',
     3:'Data is not publicly available but routinely available.',
     4:'New data must be created.'
   };
-  var softwareCostMap = {// map integral data-standard to text
+  var softwareCostMap = { // map integral data-standard to text
     1:'Free',
     2:'$1-$499',
     3:'$500-$1499',
@@ -754,7 +754,7 @@ var parseResult = function (result) {
   parsedResult['Technical Skills Needed'] = parseTechnicalSkill(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelScopeDetail', 'ModelScopeTechnicalSkillsNeededToApplyModelDetail']));
   parsedResult['Model Structure'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelStructureDetail', 'ModelStructureTextArea']);
   parsedResult['Model Inputs'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelInputsDetail', 'ModelInputsTextArea']);
-  parsedResult['Input Data Requirements'] = parseDataRequirements(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelInputsDetail', 'ModelInputsDataRequirements']));  
+  parsedResult['Input Data Requirements'] = parseDataRequirements(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelInputsDetail', 'ModelInputsDataRequirements']));
   parsedResult['Model Output Types'] = parseModelOutputType(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelOutputsDetail', 'ModelOutputsModelOutputTypesDetail']));
   parsedResult['Output Variables'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelOutputsDetail', 'ModelOutputsModelVariablesTextArea']);
   parsedResult['Model Evaluation'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelEvaluationDetail', 'ModelEvaluationTextArea']);
@@ -764,8 +764,8 @@ var parseResult = function (result) {
   parsedResult['Support Phone'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportPhoneNumber']);
   //parsedResult['Help Desk Email'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'HelpDeskEmailAddressText']); // All No Data
   //parsedResult['Help Desk Phone'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'HelpDeskTelephoneNumber']); // All No Data
-  parsedResult['Support Materials'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportSourceOfSupportMaterials']);  
-  parsedResult['Last Software Update'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsLastKnownSoftwareUpdate']);  
+  parsedResult['Support Materials'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportSourceOfSupportMaterials']);
+  parsedResult['Last Software Update'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsLastKnownSoftwareUpdate']);
   parsedResult['Last Modified'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'LastModifiedDateTimeText']);
 
   /**
@@ -912,6 +912,7 @@ var parseResult = function (result) {
     }
     return timeScale; // if it's a string then return it
   }
+
   return parsedResult;
 };
 
@@ -990,13 +991,13 @@ function linkifyString(value) {
  * safely returns obj.foo.bar.baz value if all properties exist
 */
 var readSafe = function (object, propertyArray) {
-  if (object[propertyArray[0]]) {// is first element of propertyArray a property of this object?
-    var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
-    if (Object.keys(propertyArray).length === 1) {// is this the last property in the array?
+  if (object[propertyArray[0]]) { // is first element of propertyArray a property of this object?
+    var value = validata(object[propertyArray[0]]); // oft-used value is sensibly extant
+    if (Object.keys(propertyArray).length === 1) { // is this the last property in the array?
       if (value.length) {
         if (typeof value === 'string') {
-        } else {// has length and isn't a string? Let's access it as an array!
-          try {// try accumulating a string from all elements
+        } else { // has length and isn't a string? Let's access it as an array!
+          try { // try accumulating a string from all elements
             accumulatedString = '';
             for (var i = 0; i < value.length; i++) {
               iValue = value[i][Object.keys(value[i])[0]];
@@ -1012,23 +1013,22 @@ var readSafe = function (object, propertyArray) {
               accumulatedString += iValue;
             }
             return accumulatedString;
-          } catch (error) {// if fail by err then warn about possible need of extension
+          } catch (error) { // if fail by err then warn about possible need of extension
             console.log('readSafe() erred and might need extended. Logging object, propertyArray, value:' + object + propertyArray + value);
           } finally {
           }
         }
       }
-      return value;// return possibly formatted contents of property
-    } else {// there are multiple elements remaining in propertyArray that we need to descend into
+      return value; // return possibly formatted contents of property
+    } else { // there are multiple elements remaining in propertyArray that we need to descend into
       try {
-        // recursion with obj[prop_1] as obj for next iteration
-        return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
+        return readSafe(value,propertyArray.slice(1)); // pass the second element through the last element of the property array
       } catch (e) {
-        console.log('error: ',e);// dev
+        console.log('error: ',e); // dev
         return 'No Data'; // return 'No Data'
       }
     }
-  } else {// first element propertyArray isn't a property of this object
+  } else { // first element propertyArray isn't a property of this object
     var accumulatedString = '';
     if (object.length && typeof(object).toLowerCase !== 'string') {
       for (i in object) {
