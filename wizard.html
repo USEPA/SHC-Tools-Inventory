@@ -744,7 +744,7 @@ var objectiveDisplay = function (adjust) {
  * @function
  * @param {string} checkboxGroup - The ID of the container.
  */
-var checkboxChangeHandler = function(checkboxGroup){
+var checkboxChangeHandler = function(checkboxGroup) {
   if (showToast[checkboxGroup] !== false && showToast['all'] !== false) {// condition: are these toasts unmuted?
     if (checkboxGroup.indexOf('table') === -1) {
       buttonText = (checkboxGroup === 'concept') ? ($('#concept-search-button').text()) : ('next')//BOOKMARK: insert dynamically grabbed text for 'Display Tools' if checkboxGroup == 'concept'; else insert "next"
@@ -791,7 +791,7 @@ var populate = function (list, $container, onChange) {
   var html = addCheckboxes(list.sort(), $container, onChange); // repopulate new selectables
   $container.html(html); // create contents of $container
   $container.find('input[type=checkbox]').each(function (i, v) { // look through each element in $container
-    if(currentlySelected.indexOf(v.value) !== -1) { // check if item was selected
+    if (currentlySelected.indexOf(v.value) !== -1) { // check if item was selected
       $($(v)[0]).prop('checked', true); // select item
     }
   });
@@ -972,7 +972,7 @@ var scrapeDictionary = function (selectedOptions, dictionary) {
       selectedElements = [];
     }
     for (var j = 0; j < selectedElements.length; j++) {
-      if(allSelectedElements.indexOf(selectedElements[j]) === -1) {
+      if (allSelectedElements.indexOf(selectedElements[j]) === -1) {
         allSelectedElements.push(selectedElements[j]);
       }
     }
@@ -1000,7 +1000,7 @@ for (var i = 0; i < selectedOptions.length; i++) {
     selectedElements = [];
   }
   for (var j = 0; j < selectedElements.length; j++) {
-    if(allSelectedElements.indexOf(selectedElements[j]) === -1) {
+    if (allSelectedElements.indexOf(selectedElements[j]) === -1) {
       allSelectedElements.push(selectedElements[j]);
     }
   }
@@ -1031,7 +1031,7 @@ function addCheckboxes(list, container, onChange, count) {
     if (containerName === 'concept') {
       var length = readIDsByConcept[concept].length;
       for (var j = 0; j < length; j++) {
-        if (!resultSet.contains(readIDsByConcept[concept][j])){
+        if (!resultSet.contains(readIDsByConcept[concept][j])) {
           numberOfTools++;
         }
       }
@@ -1100,9 +1100,9 @@ var conceptSearch = function () {
     return;
   } else {
     for (var i = 0; i < concepts.length; i++) {
-      if(readIDsByConcept[concepts[i]]) {
+      if (readIDsByConcept[concepts[i]]) {
         for (var j = 0; j < readIDsByConcept[concepts[i]].length; j++) {
-          if(!savedTools.contains(readIDsByConcept[concepts[i]][j])) {
+          if (!savedTools.contains(readIDsByConcept[concepts[i]][j])) {
             resultSet.addTool(readIDsByConcept[concepts[i]][j]);
           }
         }

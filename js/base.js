@@ -331,7 +331,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
  * @listens change
  */
 $('[name="display-type"]').change(function () {
-  if($(this).attr('id') === 'table-radio') {
+  if ($(this).attr('id') === 'table-radio') {
     $('#results-list-div').attr('aria-hidden', true);
     $('#results-table-div').attr('aria-hidden', false);
     if ($.fn.DataTable.isDataTable('#results-table')) {
@@ -398,7 +398,7 @@ function createRow(parsedResult) {
     "",
     parsedResult['ID'],
     //parsedResult['Acronym'],
-    parsedResult['Title'].substr(0,15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')',
+    parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')',
     parsedResult['Description'],
     parsedResult['Operating Environment'],
     parsedResult['Spatial Extent'],
@@ -598,7 +598,7 @@ function exportCSV(resultsDiv) {
  */
 function saveRecord() {
   var recordIdToSave = $('#selected-tool-div').attr('data-read-id');
-  if(!savedTools.contains(recordIdToSave)) {
+  if (!savedTools.contains(recordIdToSave)) {
     savedTools.addTool(recordIdToSave);
     toolCache.handleParsedData(recordIdToSave, savedTable.displayTool.bind(savedTable)); // populate divs
   }
@@ -617,7 +617,7 @@ function saveRecord() {
 function saveSelectedRecords(resultsDiv) {
   var recordsToSave = $('#' + resultsDiv + ' input:checked');
   recordsToSave.each(function () {
-    if(!savedTools.contains($(this).val())) {
+    if (!savedTools.contains($(this).val())) {
       savedTools.addTool($(this).val()); 
     }
   });
@@ -711,7 +711,7 @@ $('tbody').on('click', 'td:not(:first-child)', function () {
  * @param {object} result - Unparsed data from READ Web Service.
  */
 var parseResult = function (result) {
-  if(typeof(result) === 'undefined') {
+  if (typeof(result) === 'undefined') {
     return;
   }// catch bad input
   var openSourceMap = {// map integral data-standard to text
@@ -833,7 +833,7 @@ var parseResult = function (result) {
       }
       var str = ''; // create string for appending each spatial extent to while looping through array
       for (var i = 0; i < ModelScopeTechnicalSkillsNeededToApplyModelDetail.length - 1; i++) { // loop through all elements except last...
-        if(ModelScopeTechnicalSkillsNeededToApplyModelDetail.length > 2) {
+        if (ModelScopeTechnicalSkillsNeededToApplyModelDetail.length > 2) {
           str += parseModelOutputType(ModelScopeTechnicalSkillsNeededToApplyModelDetail[i]) + ", "; //...append ith value and a delimiter. comma if more than 2 in list
         } else {
           str += parseModelOutputType(ModelScopeTechnicalSkillsNeededToApplyModelDetail[i]) + " "; //...append ith value and a delimiter just a space if only 2 in list
@@ -861,7 +861,7 @@ var parseResult = function (result) {
       }
       var str = ''; // create string for appending each spatial extent to while looping through array
       for (var i = 0; i < ModelOutputsModelOutputTypesDetail.length - 1; i++) { // loop through all elements except last...
-        if(ModelOutputsModelOutputTypesDetail.length > 2) {
+        if (ModelOutputsModelOutputTypesDetail.length > 2) {
           str += parseModelOutputType(ModelOutputsModelOutputTypesDetail[i]) + ", "; //...append ith value and a delimiter. comma if more than 2 in list
         } else {
           str += parseModelOutputType(ModelOutputsModelOutputTypesDetail[i]) + " "; //...append ith value and a delimiter just a space if only 2 in list
@@ -889,7 +889,7 @@ var parseResult = function (result) {
       }
       var str = ''; // create string for appending each spatial extent to while looping through array
       for (var i = 0; i < extent.length - 1; i++) { // loop through all elements except last...
-        if(extent.length > 2) {
+        if (extent.length > 2) {
           str += parseSpatialExtent(extent[i]) + ", "; // append ith value and a delimiter. comma if more than 2 in list
         } else {
           str += parseSpatialExtent(extent[i]) + " "; // append ith value and a delimiter just a space if only 2 in list
@@ -907,9 +907,9 @@ var parseResult = function (result) {
    * @return {string|object} - Either the value itself, or the initial variable.
    */
   function parseOpenSource(openSource) {
-    if(openSourceMap.hasOwnProperty(openSource)) {
+    if (openSourceMap.hasOwnProperty(openSource)) {
       return openSourceMap[openSource];
-    } else{
+    } else {
       return openSource;
     }
   }
@@ -1156,7 +1156,7 @@ function selectAll(divId, callback) {
   $('#' + divId + ' input:checkbox').prop('checked', true)
     .promise()
     .done(function () {
-      if(callback) {
+      if (callback) {
         callback();
       }
     });
@@ -1172,7 +1172,7 @@ function deselectAll(divId, callback) {
   $('#' + divId + ' input:checkbox').prop('checked', false)
     .promise()
     .done(function () {
-      if(callback) {
+      if (callback) {
         callback();
       }
     });
@@ -1231,7 +1231,7 @@ function createDataTable(name) {
           searchable: false,
           orderable: false,
           className: 'dt-body-center',
-          render: function (data, type, full, meta){
+          render: function (data, type, full, meta) {
             return '<input id="' + name + '-' + full[1] + '" type="checkbox" value="' + full[1] + '"><label for="' + name + '-' + full[1] + '"></label>';
           }
         },
@@ -1400,7 +1400,7 @@ var toast = function (parameters) {
       }
       if (parameter === 'disable') {
         if (parameters[parameter] === true) {
-          $notice.append($('<button>').text('Disable These Messages').addClass('button-grey toast-button').click(function(){disableToast(noticeID, showToast)}));
+          $notice.append($('<button>').text('Disable These Messages').addClass('button-grey toast-button').click(function () {disableToast(noticeID, showToast)}));
         }
       }
     }
@@ -1428,7 +1428,7 @@ function disableToast(noticeID, showToast) {
  * Clears the toast and the timeout for the toast
  * @function
  */
-function clearToast(){
+function clearToast() {
   var noticeID = 'toast';
   var $notice = $('#' + noticeID);
   clearTimeout(timeouts[noticeID]);

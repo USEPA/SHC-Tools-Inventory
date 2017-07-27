@@ -692,8 +692,7 @@ $(function () { // jquery's shorthand awaits readiness of document
     if ($parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
       $parent.removeClass('selected');
-    }
-    else {
+    } else {
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
       $parent.addClass('selected');
     }
@@ -760,7 +759,7 @@ var detailedSearch = function () {
   resultSet.reset(); // clear result set
   resultTable.getToolSet().reset(); //reset display toolset
   var $feedbackDiv = $('#detailed-search-feedback');
-  var queryTypes = $("#search-field input:checkbox:checked").map(function(){return $(this).val()}).get();
+  var queryTypes = $("#search-field input:checkbox:checked").map(function () {return $(this).val()}).get();
   if (!queryTypes.length) { // ensure queryType is selected
     $feedbackDiv.html('You must select at least one Search Field.').css('display', 'block');
     return;
@@ -845,7 +844,7 @@ var detailedSearch = function () {
  */
 var parseResultsArray = function (results) {
   for (var i = 0; i < results.length; i++) {
-    if(!resultSet.contains(results[i].ResourceId)) {
+    if (!resultSet.contains(results[i].ResourceId)) {
       resultSet.addTool(results[i].ResourceId);
     }
   }
@@ -873,11 +872,11 @@ simpleSearch = function () {
   var requests = [];
   var data = {};
   var decisionSectors = [
-      "Land Use",
-      "Waste Management",
-      "Building Infrastructure",
-      "Transportation"
-    ];
+    "Land Use",
+    "Waste Management",
+    "Building Infrastructure",
+    "Transportation"
+  ];
   if (queryString) { // ensure search-string is not empty
     for (var i = 0; i < queryTypes.length; i++) {
       if (queryTypes[i] === 'Acronym') {
@@ -903,7 +902,7 @@ simpleSearch = function () {
       if (0 === numberOfResults) {
         $feedbackDiv.html('No results were found.').css('display', 'block');
         $('#results-tab').parent().attr('aria-hidden',true);
-      }else {
+      } else {
         $feedbackDiv.html('').css('display', 'none');
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
@@ -926,44 +925,44 @@ simpleSearch = function () {
  */
 function loadModels2(tableID) {
   if (!$.fn.DataTable.isDataTable('#' + tableID + 'table')) {
-      var browse = new ToolSet();
-      var table;
-      switch (tableID) {
-      case "building-infrastructure":
-        decision_query = "Building Infrastructure";
-        table = buildingInfrastructureTable;
-        break;
-      case "land-use":
-        decision_query = "Land Use";
-        table = landUseTable;
-        break;
-      case "transportation":
-        decision_query = "Transportation";
-        table = transportationTable;
-        break;
-      case "waste-management":
-        decision_query = "Waste Management";
-        table = wasteManagementTable;
-        break;
-      default:
-        return;
-      }
-      $.ajax({
-        type: 'GET',
-        url: resourceAdvancedSearchURL,
-        data: {
-          DecisionSector: decision_query
-        },
-        success: function (data) {
-          for (i = 0; i < data.length; i++) {
-            if(!browse.contains(data[i].ResourceId)) {
-              browse.addTool(data[i].ResourceId);
-            } 
-          }
-          createDataTable(tableID);
-          toolCache.handleToolSet(browse, table.displayTools.bind(table));
+    var browse = new ToolSet();
+    var table;
+    switch (tableID) {
+    case "building-infrastructure":
+      decision_query = "Building Infrastructure";
+      table = buildingInfrastructureTable;
+      break;
+    case "land-use":
+      decision_query = "Land Use";
+      table = landUseTable;
+      break;
+    case "transportation":
+      decision_query = "Transportation";
+      table = transportationTable;
+      break;
+    case "waste-management":
+      decision_query = "Waste Management";
+      table = wasteManagementTable;
+      break;
+    default:
+      return;
+    }
+    $.ajax({
+      type: 'GET',
+      url: resourceAdvancedSearchURL,
+      data: {
+        DecisionSector: decision_query
+      },
+      success: function (data) {
+        for (i = 0; i < data.length; i++) {
+          if (!browse.contains(data[i].ResourceId)) {
+            browse.addTool(data[i].ResourceId);
+          } 
         }
-      });
+        createDataTable(tableID);
+        toolCache.handleToolSet(browse, table.displayTools.bind(table));
+      }
+    });
   }
 }
 </script>
