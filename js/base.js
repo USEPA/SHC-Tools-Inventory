@@ -827,21 +827,7 @@ var parseResult = function (result) {
     if (ModelScopeTechnicalSkillsNeededToApplyModelDetail.TechnicalSkillName) {
       return ModelScopeTechnicalSkillsNeededToApplyModelDetail.TechnicalSkillName; // return desired value if it is a property of extent
     }
-    if (ModelScopeTechnicalSkillsNeededToApplyModelDetail.length) { // is array?(this means several values instead of just one)
-      if (typeof ModelScopeTechnicalSkillsNeededToApplyModelDetail === 'string') {
-        return ModelScopeTechnicalSkillsNeededToApplyModelDetail;
-      }
-      var str = ''; // create string for appending each spatial extent to while looping through array
-      for (var i = 0; i < ModelScopeTechnicalSkillsNeededToApplyModelDetail.length - 1; i++) { // loop through all elements except last...
-        if (ModelScopeTechnicalSkillsNeededToApplyModelDetail.length > 2) {
-          str += parseModelOutputType(ModelScopeTechnicalSkillsNeededToApplyModelDetail[i]) + ", "; //...append ith value and a delimiter. comma if more than 2 in list
-        } else {
-          str += parseModelOutputType(ModelScopeTechnicalSkillsNeededToApplyModelDetail[i]) + " "; //...append ith value and a delimiter just a space if only 2 in list
-        }
-      }
-      str += 'and ' + parseModelOutputType(ModelScopeTechnicalSkillsNeededToApplyModelDetail[ModelScopeTechnicalSkillsNeededToApplyModelDetail.length - 1]); //append final value
-      return str; // return accumulated values in a string
-    }
+    return ModelScopeTechnicalSkillsNeededToApplyModelDetail;
   }
 
   /**
@@ -855,21 +841,7 @@ var parseResult = function (result) {
     if (ModelOutputsModelOutputTypesDetail.ModelOutputTypeName) {
       return ModelOutputsModelOutputTypesDetail.ModelOutputTypeName; // return desired value if it is a property of extent
     }
-    if (ModelOutputsModelOutputTypesDetail.length) { // is array?(this means several values instead of just one)
-      if (typeof ModelOutputsModelOutputTypesDetail === 'string') {
-        return ModelOutputsModelOutputTypesDetail;
-      }
-      var str = ''; // create string for appending each spatial extent to while looping through array
-      for (var i = 0; i < ModelOutputsModelOutputTypesDetail.length - 1; i++) { // loop through all elements except last...
-        if (ModelOutputsModelOutputTypesDetail.length > 2) {
-          str += parseModelOutputType(ModelOutputsModelOutputTypesDetail[i]) + ", "; //...append ith value and a delimiter. comma if more than 2 in list
-        } else {
-          str += parseModelOutputType(ModelOutputsModelOutputTypesDetail[i]) + " "; //...append ith value and a delimiter just a space if only 2 in list
-        }
-      }
-      str += 'and ' + parseModelOutputType(ModelOutputsModelOutputTypesDetail[ModelOutputsModelOutputTypesDetail.length - 1]); //append final value
-      return str; // return accumulated values in a string
-    }
+    return ModelOutputsModelOutputTypesDetail;
   }
 
   /**
@@ -883,21 +855,7 @@ var parseResult = function (result) {
     if (extent.SpatialExtentName) {
       return extent.SpatialExtentName; // return desired value if it is a property of extent
     }
-    if (extent.length) { // is array?(this means several values instead of just one)
-      if (typeof extent === 'string') {
-        return extent;
-      }
-      var str = ''; // create string for appending each spatial extent to while looping through array
-      for (var i = 0; i < extent.length - 1; i++) { // loop through all elements except last...
-        if (extent.length > 2) {
-          str += parseSpatialExtent(extent[i]) + ", "; // append ith value and a delimiter. comma if more than 2 in list
-        } else {
-          str += parseSpatialExtent(extent[i]) + " "; // append ith value and a delimiter just a space if only 2 in list
-        }
-      }
-      str += 'and ' + parseSpatialExtent(extent[extent.length - 1]); // append final value
-      return str; // return accumulated values in a string
-    }
+    return extent;
   }
 
   /**
@@ -952,24 +910,7 @@ var parseResult = function (result) {
     if (timeScale.TimeScaleName) {
       return timeScale.TimeScaleName; // return value if possible
     }
-    if (timeScale.length) {
-      if (typeof timeScale === 'string') {
-        return timeScale; // if it's a string then return it
-      }
-      var timeStr = '';
-      for (var i = 0; i < timeScale.length - 1; i++) { // loop through all elements except last...
-        timeStr += timeScale[i].TimeScaleName; // append ith value and a delimiter
-        if (timeScale.length > 2) {
-          timeStr += ','; // append comma when appropriate
-        }
-        timeStr += ' ';
-      }
-      if (timeScale.length > 2) {
-        timeStr += 'and '; // append 'and ' when appropriate
-      }
-      timeStr += timeScale[i].TimeScaleName; //append final value from array
-      return timeStr; // return accumulated values in string
-    }
+    return timeScale; // if it's a string then return it
   }
   return parsedResult;
 };
