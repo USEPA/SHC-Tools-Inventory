@@ -430,7 +430,7 @@ function createRow(parsedResult) {
     //parsedResult['Help Desk Email'] // All No Data
   ];
   for (var i = 0; i < rowData.length; i++) { // limit to 140 characters
-     if (rowData[i].length > 280) {
+    if (rowData[i].length > 280) {
       rowData[i] = rowData[i].substr(0, 280) + '...';
     }
   }
@@ -776,40 +776,40 @@ var parseResult = function (result) {
    * READ Web Services return one value if only one value exists. If several values then they're in an array.
    * There are various data-standards used in READ, like storing integers in place of strings for options.
    */
-  function mapAll(field, propertyName, map) {//
-    if (typeof propertyName !== 'undefined') {// arg propertyName passed?
+  function mapAll(field, propertyName, map) { //
+    if (typeof propertyName !== 'undefined') { // arg propertyName passed?
       if (field[propertyName]) {return map[field[propertyName]];}// money-shot!
       if (field.length) {
-        var accumulatedString = '';// append accumulated values here
+        var accumulatedString = ''; // append accumulated values here
         for (var i = 0; i < field.length - 1; i++) {
-          if (typeof map === 'undefined') {// no arg map passed...
-            accumulatedString += field[i][propertyName] + ', ';// ...accumulate ith value
-          } else {// arg map was passed...
-            accumulatedString += map[field[i]][propertyName] + ', ';// ...accumulate ith value
+          if (typeof map === 'undefined') { // no arg map passed...
+            accumulatedString += field[i][propertyName] + ', '; // ...accumulate ith value
+          } else { // arg map was passed...
+            accumulatedString += map[field[i]][propertyName] + ', '; // ...accumulate ith value
           }
         }
-        if (typeof map === 'undefined') {// no arg map passed...
-          accumulatedString += 'and ' + field[field.length - 1][propertyName];// ...accumulate final value
-        } else {// arg map was passed...
-          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
+        if (typeof map === 'undefined') { // no arg map passed...
+          accumulatedString += 'and ' + field[field.length - 1][propertyName]; // ...accumulate final value
+        } else { // arg map was passed...
+          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]]; // ...accumulate final value
         }
         return accumulatedString;
       }
-    } else {// no arg propertyName
+    } else { // no arg propertyName
       if (field) {return field;}
       if (field.length) {
-        var accumulatedString = '';// append accumulated values here
+        var accumulatedString = ''; // append accumulated values here
         for (var i = 0; i < field.length - 1; i++) {
-          if (typeof map === 'undefined') {// no arg map passed...
-            accumulatedString += field[i] + ', ';// ...accumulate ith value
-          } else {// arg map was passed...
-            accumulatedString += map[field[i]] + ', ';// ...accumulate ith value
+          if (typeof map === 'undefined') { // no arg map passed...
+            accumulatedString += field[i] + ', '; // ...accumulate ith value
+          } else { // arg map was passed...
+            accumulatedString += map[field[i]] + ', '; // ...accumulate ith value
           }
         }
-        if (typeof map === 'undefined') {// no arg map passed...
-          accumulatedString += 'and ' + field[field.length - 1][propertyName];// ...accumulate final value
-        } else {// arg map was passed...
-          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
+        if (typeof map === 'undefined') { // no arg map passed...
+          accumulatedString += 'and ' + field[field.length - 1][propertyName]; // ...accumulate final value
+        } else { // arg map was passed...
+          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]]; // ...accumulate final value
         }
         return accumulatedString;
       }
@@ -1071,14 +1071,14 @@ var readSafe = function (object, propertyArray) {
               accumulatedString += iValue;
             }
             return accumulatedString;
-          }catch (error) {// if fail by err then warn about possible need of extension
+          } catch (error) {// if fail by err then warn about possible need of extension
             console.log('readSafe() erred and might need extended. Logging object, propertyArray, value:' + object + propertyArray + value);
-          }finally {
+          } finally {
           }
         }
       }
       return value;// return possibly formatted contents of property
-    }else {// there are multiple elements remaining in propertyArray that we need to descend into
+    } else {// there are multiple elements remaining in propertyArray that we need to descend into
       try {
         // recursion with obj[prop_1] as obj for next iteration
         return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
@@ -1119,11 +1119,11 @@ var readSafe = function (object, propertyArray) {
  */
 var isNil = function (obj) {
   return Boolean(
-      typeof(obj) === 'undefined' ||
-      obj.hasOwnProperty('xsi:nil') ||
-      obj === null ||
-      obj === '' ||
-      String(obj).toLowerCase() === 'no data'
+    typeof(obj) === 'undefined' ||
+    obj.hasOwnProperty('xsi:nil') ||
+    obj === null ||
+    obj === '' ||
+    String(obj).toLowerCase() === 'no data'
   );
 };
 

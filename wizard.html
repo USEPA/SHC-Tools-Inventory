@@ -681,8 +681,7 @@ $(function () { // jquery's shorthand awaits readiness of document
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
       savedTools.removeTool(readId);
       $parent.removeClass('selected');
-    }
-    else {
+    } else {
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
       savedTools.addTool(readId);
       $parent.addClass('selected');
@@ -714,7 +713,7 @@ var initializeTabs = function () {
       $(currentPanel).show(); // show clicked tab's panel
       $('#results-container').show(); // Display Results
       $('#results-container').attr('aria-hidden', 'false');
-    }else { // tab has attribute aria-disabled...
+    } else { // tab has attribute aria-disabled...
       return;
     }
   });
@@ -730,9 +729,9 @@ var objectiveDisplay = function (adjust) {
   var val = $('#objective-relevance').val();
   if (val <= 0) {
     $('#objective-relevance-decrease').prop('disabled', true);
-  }else if (val >= 2) {
+  } else if (val >= 2) {
     $('#objective-relevance-increase').prop('disabled', true);
-  }else{
+  } else {
     $('#objective-relevance-decrease').prop('disabled', false);
     $('#objective-relevance-increase').prop('disabled', false);
   }
