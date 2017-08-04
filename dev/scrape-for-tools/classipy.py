@@ -101,9 +101,9 @@ def multilabel_confusion_matrix(actual_labels, predicted_labels):
                     total_confusion_matrix[0][1] += 1
     return total_confusion_matrix
 
-# try load descriptions indexed by READ-id
+# try load descriptions indexed by READ-id from a file
 # download descriptions on exception
-# hence deleting json-files forces update of data
+# hence deleting json-files forces update of data from app
 try:
     with open(descriptions_file) as f:
         descriptions_by_read_id = json.load(f)
@@ -122,14 +122,14 @@ except Exception:
 # preprocess priors as a training set:
 # we have prior knowledge of what text labeled with
 # concepts look like, so let the machine learn from that!
+# try load concepts indexed by READ-id to be training data
+# collect from wizard.html on exception
+# hence deleting json-files forces update of data from app
 try:
     with open(concepts_by_read_id_filename) as f:
         concepts_by_read_id = json.load(f)
         print('LOADED concepts_by_read_id')
 except Exception:
-    # try load concepts indexed by READ-id to be training data
-    # collect from wizard.html on exception
-    # hence deleting json-files forces update of data
     try:
         with open(read_ids_by_concept_filename) as f:
             read_ids_by_concept = json.load(f)
@@ -141,8 +141,6 @@ except Exception:
         with open(read_ids_by_concept_filename, 'w') as read_ids_by_concept_file:
             json.dump(read_ids_by_concept, read_ids_by_concept_file)
             print('WROTE read_ids_by_concept.json')
-read_ids = sorted(descriptions_by_read_id.keys())
-descriptions = [descriptions_by_read_id[read_id] for read_id in read_ids]
 
 # create an dict of concepts indexed by read id
 concepts_by_read_id = {}
@@ -155,6 +153,8 @@ for concept in read_ids_by_concept.keys():
 
 # create a list of all concepts used as labels
 label_list = [concept for concept in read_ids_by_concept.keys()]
+read_ids = sorted(descriptions_by_read_id.keys())
+descriptions = [descriptions_by_read_id[read_id] for read_id in read_ids]
 
 # format training labels into dict associating read_id to a list of labels
 training_labels = []
