@@ -1094,13 +1094,24 @@ var validata = function (obj) {
  * @param {function} callback - The function that will be executed when done unselecting all the checkboxes.
  */
 function selectAll(divId, callback) {
-  $('#' + divId + ' input:checkbox').prop('checked', true)
+  //disabled functionality which allows for checking all instances of the checkbox value
+  /*var parent = $('#' + divId).attr('data-parent');
+  if (parent) {
+    $('#' + divId + ' input:checkbox').each(function () {
+      $('#' + parent + ' :input[value="' + $(this).val() + '"]').prop('checked', true);
+    });
+    if (callback) {
+      callback();
+    }
+  } else {*/
+    $('#' + divId + ' input:checkbox').prop('checked', true)
     .promise()
     .done(function () {
       if (callback) {
         callback();
       }
     });
+  //}
 }
 
 /**
@@ -1110,13 +1121,24 @@ function selectAll(divId, callback) {
  * @param {function} callback - The function that will be executed when done unselecting all the checkboxes.
  */
 function deselectAll(divId, callback) {
-  $('#' + divId + ' input:checkbox').prop('checked', false)
+  //disabled functionality which allows for unchecking all instances of the checkbox value
+  /*var parent = $('#' + divId).attr('data-parent');
+  if (parent) {
+    $('#' + divId + ' input:checkbox').each(function () {
+      $('#' + parent + ' :input[value="' + $(this).val() + '"]').prop('checked', false);
+    });
+    if (callback) {
+      callback();
+    }
+  } else {*/
+    $('#' + divId + ' input:checkbox').prop('checked', false)
     .promise()
     .done(function () {
       if (callback) {
         callback();
       }
     });
+  //}
 }
 
 /**

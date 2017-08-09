@@ -273,6 +273,15 @@
         padding-right: 0;
       }
     }
+    .small-button {
+      margin: 0 0 0 0.5em;
+      display: inline-block;
+      vertical-align: middle;
+      padding: .5em .5em;
+    }
+    .new-item {
+      background-color: #dce4ef;
+    }
     .tool-label {
       padding: .1em .5em;
       margin-bottom: .1em;
@@ -356,12 +365,15 @@
                 <hr />
                 <button class="button-grey" onclick="selectAll('role', roleSelect)">Select All Roles</button>
                 <button class="button-grey" onclick="deselectAll('role', roleSelect)">Deselect All Roles</button>
+                <div class="bold" id="role-tool-count"></div>
                 <div id="role"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
               <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
                 <h4>Subroles  - What do you do?<button class="icon-button" onclick="$('#subrole-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></h4>
                 <p>Select one or more subroles and proceed to the fundamental objective tab or select Next.
+                <br /><br />
+                Some subroles will appear under multiple roles.
                   <p aria-hidden="true" class="success" id="subrole-help">
                     <img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/>
                       <em>Need help?</em> Under your broad role(s), indicate the <strong>subrole</strong>(s) (e.g. Real Estate Developer) that most accurately describes the specific type of work you do in order to continue narrowing your search for tools that address issues relevant to your role. Expand your search for tools by selecting additional subroles.
@@ -373,6 +385,7 @@
                 <hr />
                 <button class="button-grey" onclick="selectAll('subrole', subroleSelect)">Select All Subroles</button>
                 <button class="button-grey" onclick="deselectAll('subrole', subroleSelect)">Deselect All Subroles</button>
+                <div class="bold" id="subrole-tool-count"></div>
                 <div id="subrole"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
@@ -390,12 +403,15 @@
                 <hr />
                 <button class="button-grey" onclick="selectAll('fundamental-objective', fundamentalObjectiveSelect)">Select All Fundamental Objectives</button>
                 <button class="button-grey" onclick="deselectAll('fundamental-objective', fundamentalObjectiveSelect)">Deselect All Fundamental Objectives</button>
+                <div class="bold" id="fundamental-objective-tool-count"></div>
                 <div id="fundamental-objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
               <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
                 <h4>Objectives  - How do you want to accomplish it?<button class="icon-button" onclick="$('#objective-help').toggle()"><img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></h4>
                 <p>Select one or more objectives and proceed to the concept tab or select Next.
+                  <br /><br />
+                  Some objectives will appear under multiple fundamental objectives.
                   <p aria-hidden="true" class="success" id="objective-help">
                     <img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/>
                       <em>Need help?</em> Ask yourself: “What specific goals can I set to accomplish my general objectives?” Select the <strong>objective</strong>(s) (e.g. “Maximize safety of buildings”) that best describe your explicit goals. Your selection(s) will refine your search for targeted tools that can help you meet your objective(s). Expand your search for tools by selecting additional objectives.
@@ -412,6 +428,7 @@
                   <button class="button-white" onclick="objectiveDisplay(-1)" id="objective-relevance-decrease">Show Fewer Objectives</button>
                   <button class="button-white" onclick="objectiveDisplay(1)" id="objective-relevance-increase">Show More Objectives</button>
                 </div>
+                <div class="bold" id="objective-tool-count"></div>
                 <div id="objective"></div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
@@ -813,22 +830,55 @@ var populateWithHeader = function (list, $container, onChange) {
     list = {length:0}; // ensure list is defined
   }
   var currentlySelected = [];
-  $container.find(':checked').each(function (i, v) { // create an array for currently selected values
-      currentlySelected.push(v.value);
-  });
+  var containerID = $container.attr('id');
   var html = '';
   var count = 0;
-  for (var i in list) {
-    if (list.hasOwnProperty(i)) {
-      html += '<h5 class="highlighted">' + i + '</h5><div id="' + $container.attr('id') + '-' + count + '">';
-      html += addCheckboxes(list[i].sort(), $container, onChange, count);
+  var previousValues = {};
+  $container.find('input[type=checkbox]').each(function (i, v) { // create an array for currently selected values
+    if ($(this).prop('checked')) {
+      currentlySelected.push(v.value);
+    }
+    var fundamentalObjective = $('#' + $(this).attr('data-parent') + '-header').attr('data-value');
+    if (!previousValues.hasOwnProperty(fundamentalObjective)) {
+      previousValues[fundamentalObjective] = [];
+    }
+    previousValues[fundamentalObjective].push(v.value);
+  });
+  var newItemCount = 0;
+  for (var key in list) {
+    if (list.hasOwnProperty(key)) {
+      html += '<h5 class="highlighted" data-parent="' + containerID + '" data-value="' + key + '" id="' + containerID + '-' + count + '-header' + '">' + key + '<button class="small-button" onclick="selectAll(\'' + containerID + '-' + count + '\', ' + containerID + 'Select)">Select All</button>' + 
+        '<button class="small-button" onclick="deselectAll(\'' + containerID + '-' + count + '\', ' + containerID + 'Select)">Deselect All</button></h5>' +
+        '<div data-parent="' + containerID + '" id="' + containerID + '-' + count + '">';
+      onChange = 'onchange="checkboxChangeHandler(\'' + containerID + '\');' + onChange + '"';
+      var inputs = $container.children('input');
+      var id = inputs.length + 1;
+      list[key].sort();
+      for (var i = 0; i < list[key].length; i++) {
+        var concept = list[key][i];
+        var newItem = '';
+        var newItemSpan = '';
+        if (previousValues.hasOwnProperty(key)) {
+          if (previousValues[key].indexOf(concept) === -1) {
+            newItem = " new-item";
+            newItemSpan = ' <span class="" style="background: #4aa564;color: #212121;padding: 0 .5em;margin-bottom: .5em;font-weight:bold;border-radius: .5em;">New</span>';
+            newItemCount++;
+          }
+        }
+        html += '<input class="tool-label" data-parent="' + containerID + '-' + count + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerID + '-checkbox" ' + onChange + ' />' +
+        '<label for="cb-' + containerID + '-' + count + '-' + id + '" class="unselectable tool-label' + newItem + '">' + concept + newItemSpan + '</label>';
+        id++;
+      }
       html += '</div>';
       count++;
     }
   }
+  if (newItemCount > 0) {
+    toast({html: 'Added ' + newItemCount + ' new items to the list.', close: true});
+  }  
   $container.html(html);
   toggleTab(list, $container); // enable next tab iff list not empty
-  var nextButtonClassSubstring = $container.attr("id"); // identify next button by who enables it
+  var nextButtonClassSubstring = containerID; // identify next button by who enables it
   toggleNext(list, nextButtonClassSubstring); // enable next button iff list not empty 
   $container.find('input[type=checkbox]').each( function (i, v) { // look through each element in $container
     if (currentlySelected.indexOf(v.value) !== -1) { // check if item was currentlySelected
@@ -873,6 +923,47 @@ var toggleTab = function (list, $container) {
   }
 };
 
+function getSubrolesFromRoles(roles) {
+  var subroles = [];
+  for (var i = 0; i < roles.length; i++) { // find the concepts associated with these objectives
+    for (var j = 0; j < subrolesByRole[roles[i]].length; j++) {
+      if (subroles.indexOf(subrolesByRole[roles[i]][j]) === -1) {
+        subroles.push(subrolesByRole[roles[i]][j]);
+      }
+    }
+  }
+  return subroles;
+}
+
+function getConceptsFromObjectives(objectives) {
+  var concepts = [];
+  for (var i = 0; i < objectives.length; i++) { // find the concepts associated with these objectives
+    for (var j = 0; j < conceptsByObjective[objectives[i]].length; j++) {
+      if (concepts.indexOf(conceptsByObjective[objectives[i]][j]) === -1) {
+        concepts.push(conceptsByObjective[objectives[i]][j]);
+      }
+    }
+  }
+  return concepts;
+}
+
+function calculateNumberOfTools(concepts, div) {
+  var tools = [];
+  for (var i = 0; i < concepts.length; i++) {
+    if (readIDsByConcept.hasOwnProperty(concepts[i])) {
+      for (var j = 0; j < readIDsByConcept[concepts[i]].length; j++) {
+        var toolID = readIDsByConcept[concepts[i]][j];
+        if (tools.indexOf(toolID) === -1) {
+          tools.push(toolID);
+        }
+      }
+    } else {
+      console.log("not found");
+    }
+  }
+  $('#' + div + '-tool-count').html(tools.length + (tools.length === 1 ? ' tool' : ' tools' ) + ' found for the selected ' + div.replace(/-/g, ' ') + '(s).');
+}
+
 /**
  * Populate the #subrole container with subrole options for the selected roles.
  * @function
@@ -880,6 +971,24 @@ var toggleTab = function (list, $container) {
 var roleSelect = function () {
   var selectedElements = scrapeDictionaryToObject($("input[name='role-checkbox']:checked"), subrolesByRole);
   populateWithHeader(selectedElements, $('#subrole'), "subroleSelect()");
+  var subroles = getSubrolesFromRoles(Object.keys(selectedElements));
+  var relevance = $('#objective-relevance').val();
+  var objectivesFromSubroles = [];
+  var objectivesFromSubrolesRelevance = [];
+  for (var i = 0; i <= relevance; i++) {
+    for (var k = 0; k < subroles.length; k++) {
+      if (objectivesBySubroleRelevance[i].hasOwnProperty(subroles[k])) {
+        for (var j = 0; j < objectivesBySubroleRelevance[i][subroles[k]].length; j++) {
+          if (objectivesFromSubroles.indexOf(objectivesBySubroleRelevance[i][subroles[k]][j]) === -1) {
+            objectivesFromSubroles.push(objectivesBySubroleRelevance[i][subroles[k]][j]);
+          }
+        }
+      }
+    }
+  }
+  var concepts = getConceptsFromObjectives(objectivesFromSubroles);
+  calculateNumberOfTools(concepts, 'role'); // pass the concepts to calculate the number of tools
+
   subroleSelect();
 };
 
@@ -918,14 +1027,11 @@ var subroleSelect = function () {
   fundamentalObjectiveSelect();
 };
 
-/**
- * Populate the #objective container with objectives determined by selected subroles and fundamental objectives.
- * @function
- */
-var fundamentalObjectiveSelect = function () {
-  var relevance = $('#objective-relevance').val();
+var getObjectivesFromSubroles = function () {
   var objectivesFromSubroles = [];
   var objectivesFromSubrolesRelevance = [];
+  var relevance = $('#objective-relevance').val();
+  
   for (var i = 0; i <= relevance; i++) {
     objectivesFromSubrolesRelevance = scrapeDictionary($("input[name='subrole-checkbox']:checked"), objectivesBySubroleRelevance[i]);
     for (var j = 0; j < objectivesFromSubrolesRelevance.length; j++) {
@@ -934,18 +1040,48 @@ var fundamentalObjectiveSelect = function () {
       }
     }
   }
-  /* get objectives specified by selected fundamental objectives */
-  var objectivesFromFundamentalObjectives = scrapeDictionary($("input[name='fundamental-objective-checkbox']:checked"), objectivesByFundamentalObjective);
-  /* get objectives specified by both subroles and fundamental objectives */
+  return objectivesFromSubroles;
+}
+
+/**
+ * Populate the #objective container with objectives determined by selected subroles and fundamental objectives.
+ * @function
+ */
+var fundamentalObjectiveSelect = function () {
+  var objectivesFromSubroles = getObjectivesFromSubroles();
+  var objectivesFromFundamentalObjectives = scrapeDictionaryToObject($("input[name='fundamental-objective-checkbox']:checked"), objectivesByFundamentalObjective);
   var objectives = [];
+  var ObjectivesFromSelectionsByFundamentalObjective = {}
   for (i = 0; i < objectivesFromSubroles.length; i++) {
-    if (objectivesFromFundamentalObjectives.indexOf(objectivesFromSubroles[i]) !== -1) {
-      objectives.push(objectivesFromSubroles[i]);
+    for (var fundamentalObjective in objectivesFromFundamentalObjectives) {
+      if (objectivesFromFundamentalObjectives[fundamentalObjective].indexOf(objectivesFromSubroles[i]) !== -1) {
+        if (objectives.indexOf(objectivesFromSubroles[i]) === -1) {
+          objectives.push(objectivesFromSubroles[i]);
+        }
+        if (typeof ObjectivesFromSelectionsByFundamentalObjective[fundamentalObjective] === 'undefined') {
+          ObjectivesFromSelectionsByFundamentalObjective[fundamentalObjective] = [];
+        }
+        ObjectivesFromSelectionsByFundamentalObjective[fundamentalObjective].push(objectivesFromSubroles[i]);
+      }
     }
   }
-  updateInterface(objectives, $('#objective'), "objectiveSelect()");
+  var concepts = getConceptsFromObjectives(objectivesFromSubroles);
+  calculateNumberOfTools(concepts, 'subrole'); // pass the concepts to calculate the number of tools
+  concepts = getConceptsFromObjectives(objectives);
+  calculateNumberOfTools(concepts, 'fundamental-objective'); // pass the concepts to calculate the number of tools
+  populateWithHeader(ObjectivesFromSelectionsByFundamentalObjective, $('#objective'), "catchObjectiveSelection(event)");
+  toggleTab(objectives, $('#objective'));// enable next tab iff list not empty
+  var nextButtonClassSubstring = $('#objective').attr("id");// identify next button by who enables it
+  toggleNext(objectives, nextButtonClassSubstring);// enable next button iff list not empty 
   objectiveSelect();
 };
+
+var catchObjectiveSelection = function (event) {
+  //Disabled becasue we are not checking all instances of a checkbox value
+  //event.preventDefault();
+  //$('#objective :input[value="' + $(event.target).val() + '"]').prop('checked', $(event.target).prop('checked'));
+  objectiveSelect();
+}
 
 /**
  * Populate the #concept container with the concept options for selected objectives.
@@ -953,6 +1089,8 @@ var fundamentalObjectiveSelect = function () {
  */
 var objectiveSelect = function () {
   var selectedElements = scrapeDictionary($("input[name='objective-checkbox']:checked"), conceptsByObjective);
+  var checked = selectedElements;
+  calculateNumberOfTools(checked, 'objective');
   $('#concept').html('');
   updateInterface(selectedElements, $('#concept'));
   updateConcepts();
@@ -1045,7 +1183,7 @@ function addCheckboxes(list, container, onChange, count) {
         numberOfToolsSpan = ' <span class="tool-count" style="background: #e1f3f8;color: #212121;padding: 0 .5em;margin-bottom: .5em;">Add ' + numberOfTools + ' Tools' + '</span>'; 
       }
     }
-    html += '<input class="tool-label" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerName + '-checkbox" ' + onChange + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="unselectable">' + concept + numberOfToolsSpan + '</label>';
+    html += '<input class="tool-label" data-parent="' + containerName + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerName + '-checkbox" ' + onChange + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="unselectable tool-label">' + concept + numberOfToolsSpan + '</label>';
     id++;
   }
   return html;
