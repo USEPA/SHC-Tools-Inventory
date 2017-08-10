@@ -850,7 +850,7 @@ var populateWithHeader = function (list, $container, onChange) {
       html += '<h5 class="highlighted" data-parent="' + containerID + '" data-value="' + key + '" id="' + containerID + '-' + count + '-header' + '">' + key + '<button class="small-button" onclick="selectAll(\'' + containerID + '-' + count + '\', ' + containerID + 'Select)">Select All</button>' + 
         '<button class="small-button" onclick="deselectAll(\'' + containerID + '-' + count + '\', ' + containerID + 'Select)">Deselect All</button></h5>' +
         '<div data-parent="' + containerID + '" id="' + containerID + '-' + count + '">';
-      onChange = 'onchange="checkboxChangeHandler(\'' + containerID + '\');' + onChange + '"';
+      var newOnChange = 'onchange="checkboxChangeHandler(\'' + containerID + '\');' + onChange + '"';
       var inputs = $container.children('input');
       var id = inputs.length + 1;
       list[key].sort();
@@ -865,7 +865,7 @@ var populateWithHeader = function (list, $container, onChange) {
             newItemCount++;
           }
         }
-        html += '<input class="tool-label" data-parent="' + containerID + '-' + count + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerID + '-checkbox" ' + onChange + ' />' +
+        html += '<input class="tool-label" data-parent="' + containerID + '-' + count + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerID + '-checkbox" ' + newOnChange + ' />' +
         '<label for="cb-' + containerID + '-' + count + '-' + id + '" class="unselectable tool-label' + newItem + '">' + concept + newItemSpan + '</label>';
         id++;
       }
