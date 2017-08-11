@@ -389,7 +389,7 @@
                       <em>Need help?</em> Under your broad role(s), indicate the <strong>subrole</strong>(s) (e.g. Real Estate Developer) that most accurately describes the specific type of work you do in order to continue narrowing your search for tools that address issues relevant to your role. Expand your search for tools by selecting additional subroles.
                   </p>
                 <div class="navbar">
-                  <button class="persist" onclick="activateNextTab($('#role-tab'), 'wizard.html#role-tab')">Back</button>
+                  <button class="persist" onclick="activatePreviousTab($('#role-tab'), 'wizard.html#role-tab')">Back</button>
                   <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab')">Next</button>
                 </div>
                 <hr />
@@ -407,7 +407,7 @@
                       <em>Need help?</em> Ask yourself: “What general goals do I want to accomplish?” <strong>Fundamental objectives</strong> (e.g. “Maximize health and safety”) describe general goals. Your selection(s) will refine your search for targeted tools that can help you meet your objective(s). Expand your search for tools by selecting additional objectives.
                   </p>
                 <div class="navbar">
-                  <button class="persist" onclick="activateNextTab($('#subrole-tab'), 'wizard.html#subrole-tab')">Back</button>
+                  <button class="persist" onclick="activatePreviousTab($('#subrole-tab'), 'wizard.html#subrole-tab')">Back</button>
                   <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'), 'wizard.html#objective-tab')">Next</button>
                 </div>
                 <hr />
@@ -427,7 +427,7 @@
                       <em>Need help?</em> Ask yourself: “What specific goals can I set to accomplish my general objectives?” Select the <strong>objective</strong>(s) (e.g. “Maximize safety of buildings”) that best describe your explicit goals. Your selection(s) will refine your search for targeted tools that can help you meet your objective(s). Expand your search for tools by selecting additional objectives.
                   </p>
                 <div class="navbar">
-                  <button class="persist" onclick="activateNextTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab')">Back</button>
+                  <button class="persist" onclick="activatePreviousTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab')">Back</button>
                   <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'), 'wizard.html#concept-tab');updateConcepts()">Next</button>
                 </div>
                 <hr />
@@ -451,7 +451,7 @@
                     <em>Need help?</em> <strong>concepts</strong> (e.g. “Health & Safety”) are distinct focal areas that you and other decision makers can address with directed tools. Ask yourself: “In what focal areas do I identify a need for a tool or resource?” Select the concept(s) that most specifically describes the focal area where a tool will be helpful to you. Expand your search for tools by selecting additional concepts.
                 </p>
                 <div class="navbar">
-                  <button class="persist" onclick="activateNextTab($('#objective-tab'), 'wizard.html#objective-tab')">Back</button>
+                  <button class="persist" onclick="activatePreviousTab($('#objective-tab'), 'wizard.html#objective-tab')">Back</button>
                   <button class="button-aqua" id="concept-search-button" onclick="displayResults()">Show Results</button>
                   <div aria-hidden="true" id="results-notification"></div>
                 </div>
@@ -467,7 +467,7 @@
                 <p>Select one or more tools and they will persist as you run additional searches. Any unselected tools will be removed. You can export your selected tools to a CSV file by using the <strong>Export</strong> button.</p>
 
                 <div class="navbar">
-                  <button class="persist" onclick="activateNextTab($('#concept-tab'), 'wizard.html#concept-tab')">Back</button>
+                  <button class="persist" onclick="activatePreviousTab($('#concept-tab'), 'wizard.html#concept-tab')">Back</button>
                   <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                 </div>
 
@@ -1468,6 +1468,15 @@ var activateNextTab = function ($nextTab, URLToShow) {
     $nextTab.prop('disabled', false);// enable tab
     $nextTab.click();// activate tab
   }
+};
+var activatePreviousTab = function ($nextTab, URLToShow) {
+  if (typeof(URLToShow) !== 'undefined' && window.innerWidth < 480) {
+      window.location = URLToShow;
+  }
+  $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected', 'false');// deactivate active tab
+  $nextTab.attr('aria-selected', 'true');// list this tab as active
+  $nextTab.prop('disabled', false);// enable tab
+  $nextTab[0].click();// activate tab
 };
 </script>
 </body>
