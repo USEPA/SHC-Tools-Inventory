@@ -1466,7 +1466,7 @@ var activateNextTab = function ($nextTab, URLToShow) {
     $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected', 'false');// deactivate active tab
     $nextTab.attr('aria-selected', 'true');// list this tab as active
     $nextTab.prop('disabled', false);// enable tab
-    $nextTab.click();// activate tab
+    $nextTab[0].click();// activate tab
   }
 };
 var activatePreviousTab = function ($nextTab, URLToShow) {

@@ -487,9 +487,9 @@ function removeSelected(divID) {
 function showDetails(id, origin) {
   var parsedData = toolCache.getParsedData(id);
   if (resultTable.getType() === 'wizard' || savedTools.contains(id)) {
-    var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').click()">Return to Tool List</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">'; 
+    var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +')[0].click()">Return to Tool List</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">'; 
   } else {
-    var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').click()">Return to Tool List</button><button class="button button-white right" onclick="saveRecord()">Save This Tool</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">'; 
+    var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +')[0].click()">Return to Tool List</button><button class="button button-white right" onclick="saveRecord()">Save This Tool</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">'; 
   }  
   var $tab = $("#selected-tool");
   try {
@@ -534,7 +534,7 @@ function showDetails(id, origin) {
     $tab.append(html);
     $('#selected-tool-tab').parent().attr('aria-hidden', false);
     $('#selected-tool-panel').attr('aria-hidden', false);
-    $("#selected-tool-tab").click();
+    $("#selected-tool-tab")[0].click();
     $("#selected-tool-tab").focus();
   } else {
     $tab.append(html);
