@@ -1230,7 +1230,10 @@ function createDataTable(name) {
       ]
     });
 
-    var dtButtons = [
+    var dtButtons = [];
+
+    if (resultTable.getType() === 'search') {
+      dtButtons.push(
         { 
           text: 'Export Selected Tools to CSV',
           action: function () {
@@ -1238,43 +1241,44 @@ function createDataTable(name) {
           },
           className: 'button button-white'
         }
-      ];
+      );
+    }
 
-      if (name !== 'saved' && resultTable.getType() === 'search') {
-        dtButtons.push(
-          {
-            text: 'Save Selected Tools', 
-            action: function () {
-              saveSelectedRecords(name + '-list');
-            },
-            className: 'button button-white'
-          }
-        );
-      }
-
-      if (name === 'saved' && resultTable.getType() === 'search') {
-        dtButtons.push(
-          {
-            text: 'Remove Selected Tools', 
-            action: function () {
-              removeSelected(name + '-list');
-            },
-            className: 'button button-white'
-          }
-        );
-      }
-
-      new $.fn.dataTable.Buttons(table, {
-          buttons: dtButtons
+    if (name !== 'saved' && resultTable.getType() === 'search') {
+      dtButtons.push(
+        {
+          text: 'Save Selected Tools', 
+          action: function () {
+            saveSelectedRecords(name + '-list');
+          },
+          className: 'button button-white'
         }
       );
+    }
 
-      table.buttons(0, null).container().css('display', 'block').wrap("<div></div>");
-      if (name !== 'saved' && resultTable.getType() === 'search') {
-        table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
-      } else {
-      	table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
+    if (name === 'saved' && resultTable.getType() === 'search') {
+      dtButtons.push(
+        {
+          text: 'Remove Selected Tools', 
+          action: function () {
+            removeSelected(name + '-list');
+          },
+          className: 'button button-white'
+        }
+      );
+    }
+
+    new $.fn.dataTable.Buttons(table, {
+        buttons: dtButtons
       }
+    );
+
+    table.buttons(0, null).container().css('display', 'block').wrap("<div></div>");
+    if (name !== 'saved' && resultTable.getType() === 'search') {
+      table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
+    } else {
+    	table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
+    }
       
     $('.dt-button').removeClass('dt-button');
   }
