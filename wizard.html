@@ -1080,9 +1080,9 @@ var fundamentalObjectiveSelect = function () {
 };
 
 var catchObjectiveSelection = function (event) {
-  //Disabled becasue we are not checking all instances of a checkbox value
-  //event.preventDefault();
-  //$('#objective :input[value="' + $(event.target).val() + '"]').prop('checked', $(event.target).prop('checked'));
+  //enabled becasue we are not checking all instances of a checkbox value
+  event.preventDefault();
+  $('#objective :input[value="' + $(event.target).val() + '"]').prop('checked', $(event.target).prop('checked'));
   objectiveSelect();
 }
 
