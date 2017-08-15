@@ -692,7 +692,7 @@ $('.list').on('click', '.expand', function () {
   var $this = $(this);
   var readId = $this.attr('data-id');
   showDetails(readId, $this.closest('[role="tabpanel"]').attr('aria-labelledby'));
-})
+});
 
 
 /**

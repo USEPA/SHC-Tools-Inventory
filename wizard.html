@@ -795,7 +795,7 @@ var checkboxChangeHandler = function(checkboxGroup) {
       toast({html:message,close:true,disable:true});
     }
   }
-}
+};
 
 /**
  * Updates the interface when a change occurs.
@@ -1058,7 +1058,7 @@ var getObjectivesFromSubroles = function () {
     }
   }
   return objectivesFromSubroles;
-}
+};
 
 /**
  * Populate the #objective container with objectives determined by selected subroles and fundamental objectives.
@@ -1068,7 +1068,7 @@ var fundamentalObjectiveSelect = function () {
   var objectivesFromSubroles = getObjectivesFromSubroles();
   var objectivesFromFundamentalObjectives = scrapeDictionaryToObject($("input[name='fundamental-objective-checkbox']:checked"), objectivesByFundamentalObjective);
   var objectives = [];
-  var ObjectivesFromSelectionsByFundamentalObjective = {}
+  var ObjectivesFromSelectionsByFundamentalObjective = {};
   for (i = 0; i < objectivesFromSubroles.length; i++) {
     for (var fundamentalObjective in objectivesFromFundamentalObjectives) {
       if (objectivesFromFundamentalObjectives[fundamentalObjective].indexOf(objectivesFromSubroles[i]) !== -1) {
@@ -1098,7 +1098,7 @@ var catchObjectiveSelection = function (event) {
   event.preventDefault();
   $('#objective :input[value="' + $(event.target).val() + '"]').prop('checked', $(event.target).prop('checked'));
   objectiveSelect();
-}
+};
 
 /**
  * Populate the #concept container with the concept options for selected objectives.
@@ -1348,7 +1348,7 @@ var displayResults = function () {
   } else {
     toast({html: 'Please select a concept.', close: true});
   }
-}
+};
 
 /**
  * Execute the conceptSearch and displayResults functions.
@@ -1358,7 +1358,7 @@ var displayResults = function () {
 var findAndDisplayResults = function() {
   conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));
     displayResults();
-}
+};
 
 /**
  * Extract text values of the passed in jQuery object and store in an array.
