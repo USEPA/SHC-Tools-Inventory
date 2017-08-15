@@ -729,7 +729,7 @@ $(function () { // jquery's shorthand awaits readiness of document
 
   // create flags for controlling whether to show instructional notifications
   var instructionalCheckboxes = ['role', 'subrole', 'fundamental-objective', 'objective', 'concept',  'results-list', 'results-table'];
-  for (checkboxGroupIndex in instructionalCheckboxes) {
+  for (var checkboxGroupIndex in instructionalCheckboxes) {
     var checkboxGroup = instructionalCheckboxes[checkboxGroupIndex];
     showToast[checkboxGroup] = true;
   }
@@ -785,7 +785,7 @@ var objectiveDisplay = function (adjust) {
 var checkboxChangeHandler = function(checkboxGroup) {
   if (showToast[checkboxGroup] !== false && showToast['all'] !== false) {// condition: are these toasts unmuted?
     if (checkboxGroup.indexOf('table') === -1) {
-      buttonText = (checkboxGroup === 'concept') ? ($('#concept-search-button').text()) : ('next')//BOOKMARK: insert dynamically grabbed text for 'Display Tools' if checkboxGroup == 'concept'; else insert "next"
+      buttonText = (checkboxGroup === 'concept') ? ($('#concept-search-button').text()) : ('next'); //BOOKMARK: insert dynamically grabbed text for 'Display Tools' if checkboxGroup == 'concept'; else insert "next"
       var message = 'Select all desired ' + checkboxGroup + 's then press the button labeled "' + buttonText + '." Selections can be changed at any time by returning to the desired tab.';
         toast({html:message,close:true,disable:true});
         showToast[checkboxGroup] = false;
