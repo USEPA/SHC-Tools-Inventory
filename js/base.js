@@ -70,7 +70,7 @@ var toolCache = (function () {
         if (arguments[1] === 'success') {
           var result = parseResult(arguments[0]);
           setData(result['ID'], result);
-        } else { 
+        } else {
           for (var i = 0; i < arguments.length; i++) {
             var result = parseResult(arguments[i][0]);
             setData(result['ID'], result);
@@ -135,7 +135,7 @@ function ToolSet() {
   };
 
   /**
-   * Returns whether the ToolSet has a filter or not 
+   * Returns whether the ToolSet has a filter or not
    * @function
    * @return {bool} - The presence of filters.
    */
@@ -215,14 +215,14 @@ function ToolSet() {
       if (this.toolSet.hasOwnProperty(toolId1)) {
         if (!toolSet.getToolSet().hasOwnProperty(toolId1)) {
           return false;
-        }   
+        }
       }
     }
     for (var toolId2 in toolSet.getToolSet()) {
       if (toolSet.getToolSet().hasOwnProperty(toolId2)) {
         if (!this.toolSet.hasOwnProperty(toolId2)) {
           return false;
-        }   
+        }
       }
     }
     return true;
@@ -392,7 +392,7 @@ $('[name="browse-display-type"]').change(function () {
  * @param {object} parsedResult - The parsed data of a tool.
  * @return {array} - The array to be used to create the row.
  */
-function createRow(parsedResult) { 
+function createRow(parsedResult) {
   var rowData;
   rowData = [ //Create row
     "",
@@ -498,7 +498,7 @@ function showDetails(id, origin) {
     console.log(error);
   }
   if (parsedData) {
-    html += "<span class='bold'>Title</span>: " + parsedData['Title'] + "<br>" + 
+    html += "<span class='bold'>Title</span>: " + parsedData['Title'] + "<br>" +
     "<span class='bold'>Acronym</span>: " + parsedData['Acronym'] + "<br>" +
     "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
     "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
@@ -511,7 +511,7 @@ function showDetails(id, origin) {
     "<span class='bold'>Other Costs</span>: " + parsedData['Other Costs'] + "<br>" +
     "<span class='bold'>Open Source</span>: " + parsedData['Open Source'] + "<br>" +
     "<span class='bold'>Operating Environment</span>: " + parsedData['Operating Environment'] + "<br>" +
-    "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>" +    
+    "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>" +
     "<span class='bold'>Other Technical Requirements</span>: " + linkifyString(parsedData['Other Requirements']) + "<br />" +
     "<span class='bold'>Scope and Time Scale</span>: " + parsedData['Time Scale'] + "<br>" +
     "<span class='bold'>Spatial Extent</span>: " + parsedData['Spatial Extent'] + "<br>" +
@@ -618,7 +618,7 @@ function saveSelectedRecords(resultsDiv) {
   var recordsToSave = $('#' + resultsDiv + ' input:checked');
   recordsToSave.each(function () {
     if (!savedTools.contains($(this).val())) {
-      savedTools.addTool($(this).val()); 
+      savedTools.addTool($(this).val());
     }
   });
   if (savedTools.getLength() > 0) {
@@ -637,7 +637,7 @@ function saveSelectedRecords(resultsDiv) {
  * @param {string} containerId - The ID of the container the DIV will be appended to.
  */
 function addDiv(parsedResult, containerId) {
-  // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
+  // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries
   var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
   var $container = $('#' + containerId);
   var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
@@ -664,7 +664,7 @@ function addDiv(parsedResult, containerId) {
  * @return {string} - The HTML to create a DIV.
  */
 function createDiv(parsedResult, containerId) {
-  // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
+  // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries
   var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
   var $container = $('#' + containerId);
 
@@ -859,7 +859,7 @@ var parseResult = function (result) {
   }
 
   /**
-   * Returns a string detailing if the tools is open source 
+   * Returns a string detailing if the tools is open source
    * @function
    * @param {number} openSource - An integer which represents an open source category.
    * @return {string|object} - Either the value itself, or the initial variable.
@@ -1212,7 +1212,7 @@ function createDataTable(name) {
         }
       ],
       order: [[2, 'asc']],
-      buttons: [ 
+      buttons: [
         {
           text: 'Select All Tools',
           action: function () {
@@ -1234,7 +1234,7 @@ function createDataTable(name) {
 
     if (resultTable.getType() === 'search') {
       dtButtons.push(
-        { 
+        {
           text: 'Export Selected Tools to CSV',
           action: function () {
             exportCSV(name + '-list');
@@ -1247,7 +1247,7 @@ function createDataTable(name) {
     if (name !== 'saved' && resultTable.getType() === 'search') {
       dtButtons.push(
         {
-          text: 'Save Selected Tools', 
+          text: 'Save Selected Tools',
           action: function () {
             saveSelectedRecords(name + '-list');
           },
@@ -1259,7 +1259,7 @@ function createDataTable(name) {
     if (name === 'saved' && resultTable.getType() === 'search') {
       dtButtons.push(
         {
-          text: 'Remove Selected Tools', 
+          text: 'Remove Selected Tools',
           action: function () {
             removeSelected(name + '-list');
           },
@@ -1275,11 +1275,11 @@ function createDataTable(name) {
 
     table.buttons(0, null).container().css('display', 'block').wrap("<div></div>");
     if (name !== 'saved' && resultTable.getType() === 'search') {
-      table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
+      table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');
     } else {
-    	table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
+    	table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');
     }
-      
+
     $('.dt-button').removeClass('dt-button');
   }
 }
@@ -1291,10 +1291,10 @@ function createDataTable(name) {
  */
 function selectAllToolsButton(name) {
   if (!$('#saved-list').length) {
-    selectAll(name + '-list', saveAll(name + '-list'));  
+    selectAll(name + '-list', saveAll(name + '-list'));
   } else {
-    selectAll(name + '-list');  
-  }  
+    selectAll(name + '-list');
+  }
   var rows = $('#' + name + '-table').DataTable().rows();
   var rowNodes = rows.nodes();
   rows.select();
@@ -1308,9 +1308,9 @@ function selectAllToolsButton(name) {
  */
 function deselectAllToolsButton(name) {
   if (!$('#saved-list').length) {
-    deselectAll(name + '-list', unsaveAll(name + '-list'));  
+    deselectAll(name + '-list', unsaveAll(name + '-list'));
   } else {
-    deselectAll(name + '-list');  
+    deselectAll(name + '-list');
   }
   var rows = $('#' + name + '-table').DataTable().rows();
   var rowNodes = rows.nodes();
@@ -1412,7 +1412,7 @@ var stopWords = [
 /**
  * Prints the leafNode array in a format that can be manually copied to create a hard coded version
  * @function
- * @param {array} arrayToPrint - An array that will be printed. 
+ * @param {array} arrayToPrint - An array that will be printed.
  */
 function printArray(arrayToPrint) {
   var str = '[';

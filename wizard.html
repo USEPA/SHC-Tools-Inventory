@@ -1461,7 +1461,7 @@ var activateNextTab = function ($nextTab, URLToShow) {
     toast({html: firstString + $nextTab.attr('data-name') + ' to proceed.', close: true});
   } else {
     if (typeof(URLToShow) !== 'undefined' && window.innerWidth < 480) {
-        window.location = URLToShow;
+      window.location = URLToShow;
     }
     $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected', 'false');// deactivate active tab
     $nextTab.attr('aria-selected', 'true');// list this tab as active
@@ -1473,7 +1473,7 @@ var activateNextTab = function ($nextTab, URLToShow) {
 //document
 var activateTab = function ($nextTab, URLToShow) {
   if (typeof(URLToShow) !== 'undefined' && window.innerWidth < 480) {
-      window.location = URLToShow;
+    window.location = URLToShow;
   }
   $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected', 'false');// deactivate active tab
   $nextTab.attr('aria-selected', 'true');// list this tab as active
