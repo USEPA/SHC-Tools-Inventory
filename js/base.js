@@ -970,7 +970,7 @@ function linkifyString(value) {
     var urlRegExp = /((http|ftp|https):\/\/[^ @"]+|[^@]\b[^ @"]+\.(com|gov|edu|org|net|info|io)[^ @"]*)/ig; // scrape value for URLs with regex
     var linkTemplate = '<a href="$1" target="_blank">$1</a>'; // create a template of how to format the URL into a descriptive anchor
     if (value.indexOf('epa.gov') === -1) { // insert exit notification if an external link
-      exitNotification = '<a class="exit-disclaimer" href="https://www.epa.gov/home/exit-epa" title="EPA\'s External Link Disclaimer">Exit</a>';
+      var exitNotification = '<a class="exit-disclaimer" href="https://www.epa.gov/home/exit-epa" title="EPA\'s External Link Disclaimer">Exit</a>';
       linkTemplate += exitNotification;
     }
     value = value.replace(urlRegExp, linkTemplate).toString(); // replace all matched URLs with formatted anchors
@@ -1000,7 +1000,7 @@ var readSafe = function (object, propertyArray) {
           try { // try accumulating a string from all elements
             accumulatedString = '';
             for (var i = 0; i < value.length; i++) {
-              iValue = value[i][Object.keys(value[i])[0]];
+              var iValue = value[i][Object.keys(value[i])[0]];
               if (i > 0 && value.length > 2) {
                 accumulatedString += ', ';
               }

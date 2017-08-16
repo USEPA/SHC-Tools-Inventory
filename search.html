@@ -730,7 +730,7 @@ var initializeTabs = function () {
 function addMembers(dataList, fieldName, fieldValues) {
   if (fieldValues.length > 0) {// are any values selected?
     var tmpDataList = [];// create a temp copy of dataList
-    for (iFieldValue = 0; iFieldValue < fieldValues.length; iFieldValue++) {// loop through os-selections
+    for (var iFieldValue = 0; iFieldValue < fieldValues.length; iFieldValue++) {// loop through os-selections
       for (var iDatum = 0; iDatum < dataList.length; iDatum++) {// loop through current data-objects
         // expand the temp object to be num_osSelections * num_previousDataObjects
         tmpDataList[fieldValues.length * iDatum + iFieldValue] = {}; //create new object
@@ -857,7 +857,7 @@ var parseResultsArray = function (results) {
  * @param {array} results - An array containing the results from the Ajax queries.
  * @return {number} the length of the ResultSet.
  */
-simpleSearch = function () {
+var simpleSearch = function () {
   if ($.fn.DataTable.isDataTable('#results-table')) {
     $('#results-table').DataTable().clear().draw(); //clear result table
   }
@@ -927,6 +927,7 @@ function loadModels2(tableID) {
   if (!$.fn.DataTable.isDataTable('#' + tableID + 'table')) {
     var browse = new ToolSet();
     var table;
+    var decision_query = '';
     switch (tableID) {
     case "building-infrastructure":
       decision_query = "Building Infrastructure";
@@ -954,7 +955,7 @@ function loadModels2(tableID) {
         DecisionSector: decision_query
       },
       success: function (data) {
-        for (i = 0; i < data.length; i++) {
+        for (var i = 0; i < data.length; i++) {
           if (!browse.contains(data[i].ResourceId)) {
             browse.addTool(data[i].ResourceId);
           } 
