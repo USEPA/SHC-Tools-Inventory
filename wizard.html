@@ -398,6 +398,22 @@ var savedTools = new ToolSet();
 
 var resultTable = new ToolDisplay('results-table', 'results-list', 'wizard'); // Create ToolDisplay Objects we need 
 
+/**
+ * Create listener for changes in the URL hash fragment and changes the page if the URL fragment page is not the page being displayed
+ * @listens onhashchange
+ */
+window.onhashchange = function () { 
+  if (location.hash === '') {
+    $('#role-tab').parent().siblings('li').children('[role=tab][aria-selected=true]').attr('aria-selected', 'false'); // deactivate active tab
+    $('#role-tab').attr('aria-selected', 'true') // list this tab as active
+      .prop('disabled', false) // enable tab
+      .click(); // activate tab
+  }
+  if ($(location.hash).attr('aria-selected') === 'false') {
+    activateTab($(location.hash), 'wizard.html' + location.hash);
+  }
+};
+
 /* Create listeners and execute procedures which need done
  at the document's convenience in order to avoid a
  noticeable delay in displaying the page.
@@ -812,7 +828,6 @@ var getObjectivesFromSubroles = function () {
   var objectivesFromSubroles = [];
   var objectivesFromSubrolesRelevance = [];
   var relevance = $('#objective-relevance').val();
-  
   for (var i = 0; i <= relevance; i++) {
     objectivesFromSubrolesRelevance = scrapeDictionary($("input[name='subrole-checkbox']:checked"), objectivesBySubroleRelevance[i]);
     for (var j = 0; j < objectivesFromSubrolesRelevance.length; j++) {
@@ -863,7 +878,6 @@ var fundamentalObjectiveSelect = function () {
  * @param {event}  - The change event for the checkbox change.
  */
 var catchObjectiveSelection = function (event) {
-  //enabled becasue we are not checking all instances of a checkbox value
   event.preventDefault();
   $('#objective :input[value="' + $(event.target).val() + '"]').prop('checked', $(event.target).prop('checked'));
   objectiveSelect();
@@ -916,24 +930,24 @@ var scrapeDictionary = function (selectedOptions, dictionary) {
  * @return {object} - An object containing the elements from the dictionary which match the values in selectedOptions
  */
 var scrapeDictionaryToObject = function (selectedOptions, dictionary) {
-var selectedElement = '';
-var selectedElements = [];
-var allSelectedElements = [];
-var selectedElementsObject = {};
-for (var i = 0; i < selectedOptions.length; i++) {
-  selectedElement = selectedOptions[i].value;
-  selectedElements = dictionary[selectedElement];
-  selectedElementsObject[selectedElement] = dictionary[selectedElement];
-  if (typeof selectedElements === 'undefined') {
-    selectedElements = [];
-  }
-  for (var j = 0; j < selectedElements.length; j++) {
-    if (allSelectedElements.indexOf(selectedElements[j]) === -1) {
-      allSelectedElements.push(selectedElements[j]);
+  var selectedElement = '';
+  var selectedElements = [];
+  var allSelectedElements = [];
+  var selectedElementsObject = {};
+  for (var i = 0; i < selectedOptions.length; i++) {
+    selectedElement = selectedOptions[i].value;
+    selectedElements = dictionary[selectedElement];
+    selectedElementsObject[selectedElement] = dictionary[selectedElement];
+    if (typeof selectedElements === 'undefined') {
+      selectedElements = [];
+    }
+    for (var j = 0; j < selectedElements.length; j++) {
+      if (allSelectedElements.indexOf(selectedElements[j]) === -1) {
+        allSelectedElements.push(selectedElements[j]);
+      }
     }
   }
-}
-return selectedElementsObject;
+  return selectedElementsObject;
 };
 
 /**
@@ -1232,10 +1246,10 @@ var activateNextTab = function ($nextTab, URLToShow) {
     if (typeof(URLToShow) !== 'undefined' && window.innerWidth < 480) {
       window.location = URLToShow;
     }
-    $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected', 'false');// deactivate active tab
-    $nextTab.attr('aria-selected', 'true');// list this tab as active
-    $nextTab.prop('disabled', false);// enable tab
-    $nextTab[0].click();// activate tab
+    $nextTab.parent().siblings('li').children('[role=tab][aria-selected=true]').attr('aria-selected', 'false'); // deactivate active tab
+    $nextTab.attr('aria-selected', 'true'); // list this tab as active
+    $nextTab.prop('disabled', false); // enable tab
+    $nextTab[0].click(); // activate tab
   }
 };
 
@@ -1249,10 +1263,10 @@ var activateTab = function ($nextTab, URLToShow) {
   if (typeof(URLToShow) !== 'undefined' && window.innerWidth < 480) {
     window.location = URLToShow;
   }
-  $nextTab.siblings('[role=tab][aria-selected=true]').attr('aria-selected', 'false');// deactivate active tab
-  $nextTab.attr('aria-selected', 'true');// list this tab as active
-  $nextTab.prop('disabled', false);// enable tab
-  $nextTab[0].click();// activate tab
+  $nextTab.parent().siblings('li').children('[role=tab][aria-selected=true]').attr('aria-selected', 'false'); // deactivate active tab
+  $nextTab.attr('aria-selected', 'true'); // list this tab as active
+  $nextTab.prop('disabled', false); // enable tab
+  $nextTab[0].click(); // activate tab
 };
 </script>
 </body>
