@@ -31,273 +31,16 @@
 <!--googleoff: all-->
   <link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/template2/s.css" media="all" />
   <!--[if lt IE 9]><link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/themes/epa/css/ie.css" media="all" /><![endif]-->
-  
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.css">
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/css/select.dataTables.min.css">
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/css/responsive.dataTables.min.css">
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/css/buttons.dataTables.min.css">
   <link type="text/css" rel="stylesheet" href="css/base.css" media="all" />
+  <link type="text/css" rel="stylesheet" href="css/wizard.css" media="all" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov All Press Releases" href="https://www.epa.gov/newsreleases/search/rss" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters" />
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
-  <style>
-    @media screen and (min-width: 45em), print and (min-width: 45em) {
-      .row > .size-95of100.col {
-        width: 95%;
-      }
-    }
-    @media screen and (max-width: 480px) {
-      .navbar {
-        overflow: hidden;
-        background: rgb(50, 58, 69);
-        background: rgba(50, 58, 69, 0.75);
-        /*background-color: #323a45;*/
-        position: fixed;
-        bottom: 0;
-        left: 0px;
-        width: 100%;
-        z-index:999;
-      }
-      .navbar button {
-        margin: .2em 0 .2em 0;
-      }
-      .navbar div {
-        margin: .2em 0 .2em 0;
-        border-radius: 0; 
-      }
-    }
-    label{
-      border-radius: .5em;
-    }
-    .success {
-      border: .5em solid #e7f4e4;
-      border-radius: .5em;
-      background-color: #e7f4e4;
-      margin-bottom: 1.5em;
-    }
-    .warning {
-      border: .5em solid #fff1d2;
-      border-radius: .5em;
-      background-color: #fff1d2;
-      color: #000;
-      margin-bottom: 1.5em;
-    }
-    #results-container {
-      border: 2px solid #d6d7d9;
-      margin: 1em 0 0 0;
-      padding: .5em;
-    }
-    .expand:hover {
-      background-color: #e7f4e4;
-      cursor: pointer;
-    }
-    .expand {
-      margin: 0;
-    }
-    .list-div {
-      background-color: #f1f1f1;
-      margin-top: .5em;
-      border-radius: 5px;
-      padding: 2px;
-    }
-    [role=tab] {
-      margin: 1px 0 0;
-      border-bottom-left-radius:0;
-      border-bottom-right-radius:0;
-    }
-    [role=tabpanel] {
-      padding: .5em;
-      border: 2px solid #d6d7d9;
-      border-radius: 5px;
-      border-top-left-radius:0;
-      border-top-right-radius:0;
-    }
-    [aria-hidden="true"] {
-      display: none;
-    }
-    .results-label {
-      display: inline;
-      background-color:transparent;
-    }
-    .tool-label:focus + label {
-      background-color:#e1f3f8;
-    }
-    .tool-label:checked + label {
-      background-color:#d6d7d9;
-    }
-    .unselectable { /* Makes text in an element unselectable */
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      -o-user-select: none;
-      user-select: none;
-    }
-    button:disabled {
-      background-color:#aeb0b5
-    }
-    * {
-      -ms-transition: none;
-      transition: none;
-    }
-    .accordian-result {
-      background-image: url(https://www.epa.gov/sites/all/themes/epa/img/arrow-alt-down.png);
-      background-repeat: no-repeat;
-      float: right;
-      height: 13px;
-      margin: 5px;
-      width: 13px;
-    }
-    .collapsible {
-      transform: rotateX(180deg);
-    }
-    .tabs, .tabs > li {
-      margin-bottom: 0;
-      border: none;
-    }
-    hr {
-      border: .5em solid #d6d7d9;
-      border-radius: 1em;
-      height: 0;
-    }
-    .bold {
-      font-weight: bold;
-    }
-    #results-notification {
-      width: 100%;
-      padding-top: .2em;
-      height: 2em;
-      border: .4em;
-    }
-    .icon-button, .icon-button:hover, .icon-button:focus {
-      background: transparent;
-      border: none;
-      width: auto;
-    }
-    .icon-img {
-      width: 2em;
-    }
-    .navbar {
-      display: inline;
-    }
-    #tabsnav {
-      list-style: none;
-    }
-    #tabsnav li {
-      padding-left: 0; /* override s.css */
-      padding-right: 0; /* override s.css */
-    }
-    #tabsnav li a {
-      background: #205493;
-      border-radius: 0 !important; /* override s.css */
-      color: #fff;
-      float: left;
-      font-size: 17px;
-      font-weight: bold;
-      height: 40px;
-      line-height: 40px;
-      margin: 0 5px 0 0;
-      padding: 0px 16px 0 35px;
-      position: relative;
-      text-align: center;
-      text-decoration: none;
-    }
-    #tabsnav li a:after {
-      border-top: 20px solid transparent;
-      border-bottom: 20px solid transparent;
-      border-left: 20px solid #205493;
-      content: "";
-      position: absolute;
-      right: -20px;
-      top: 0;
-      z-index: 1;
-    }
-    #tabsnav li a:before {
-      border-top: 20px solid transparent;
-      border-bottom: 20px solid transparent;
-      border-left: 20px solid #fff;
-      content: "";
-      left: 0;
-      position: absolute;
-      top: 0;
-    }
-    #tabsnav li:first-child a {
-      border-top-left-radius: 3px !important;
-      border-bottom-left-radius: 3px !important;
-      padding-left: 15px;
-    }
-    #tabsnav li:first-child a:before {
-      display: none;
-    }
-    #tabsnav li:last-child a {
-      border-top-right-radius: 3px !important;
-      border-bottom-right-radius: 3px !important;
-      padding-right: 15px;
-    }
-    #tabsnav li:last-child a:after {
-      display: none;
-    }
-    #tabsnav li a:hover, #tabsnav li a.active {
-      background: #00a6d2;
-      color: #000;
-    }
-    #tabsnav li a:hover:after, #tabsnav li a.active:after {
-      border-left-color: #00a6d2;
-    }
-    @media (max-width: 1000px) {
-      #tabsnav {
-        display: block;
-      }
-      #tabsnav li {
-        width: 100%;
-      }
-      #tabsnav li a {
-        float: none;
-        padding: 0;
-        margin: 0 0 5px 0; 
-      }
-      #tabsnav li a:before, #tabsnav li a:after {
-        border-top: 0;
-        border-bottom: 0;
-        border-left: 0;
-      }
-      #tabsnav li:first-child a {
-        border-radius: 0;
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        padding-left: 0;
-      }
-      #tabsnav li:last-child a {
-        border-radius: 0;
-        border-bottom-left-radius: 3px;
-        border-bottom-right-radius: 3px;
-        padding-right: 0;
-      }
-    }
-    @media screen and (min-width: 481px) {
-      .small-button {
-        margin: 0 0 0 0.5em;
-        display: inline-block;
-        vertical-align: middle;
-        padding: .5em .5em;
-      }
-    }
-    .small-button {
-      display: inline-block;
-      vertical-align: middle;
-      padding: .5em .5em;
-    }
-    .new-item {
-      background-color: #dce4ef;
-    }
-    .tool-label {
-      padding: .1em .5em;
-      margin-bottom: .1em;
-    }
-    .subclass {
-      padding-left: 1.5em;
-    }
-  </style>
 </head>
 <!-- NOTE, figure out body classes! -->
 <body class="node-type-page microsite" >
@@ -465,12 +208,10 @@
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
                 <h3 id="tools">Tools</h3>
                 <p>Select one or more tools and they will persist as you run additional searches. Any unselected tools will be removed. You can export your selected tools to a CSV file by using the <strong>Export</strong> button.</p>
-
                 <div class="navbar">
                   <button class="persist" onclick="activateTab($('#concept-tab'), 'wizard.html#concept-tab')">Back</button>
                   <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                 </div>
-
                 <hr />
                 <span>Choose a display:</span>
                   <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: recommended for those on smaller screens.</label>
@@ -478,7 +219,6 @@
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAllToolsButton('results')">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('results')">Deselect All Tools</button>
-                  
                   <div class="row">
                     <img alt="Loading GIF" aria-hidden="true" id="loader" src="img/loader.gif">
                   </div>
@@ -878,12 +618,12 @@ var populateWithHeader = function (list, $container, onChange) {
         if (previousValues.hasOwnProperty(key)) {
           if (previousValues[key].indexOf(concept) === -1) {
             newItem = " new-item";
-            newItemSpan = ' <span class="" style="background: #4aa564;color: #212121;padding: 0 .5em;margin-bottom: .5em;font-weight:bold;border-radius: .5em;">New</span>';
+            newItemSpan = ' <span class="new-item">New</span>';
             newItemCount++;
           }
         }
         html += '<input class="tool-label" data-parent="' + containerID + '-' + count + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerID + '-checkbox" ' + newOnChange + ' />' +
-        '<label for="cb-' + containerID + '-' + count + '-' + id + '" class="unselectable tool-label' + newItem + '">' + concept + newItemSpan + '</label>';
+        '<label for="cb-' + containerID + '-' + count + '-' + id + '" class="tool-label' + newItem + '">' + concept + newItemSpan + '</label>';
         id++;
       }
       html += '</div>';
@@ -1195,12 +935,12 @@ function addCheckboxes(list, container, onChange, count) {
         }
       }
       if (numberOfTools === 1) {
-        numberOfToolsSpan = ' <span class="tool-count" style="background: #e1f3f8;color: #212121;padding: 0 .5em;margin-bottom: .5em;">Add ' + numberOfTools + ' Tool' + '</span>'; 
+        numberOfToolsSpan = ' <span class="tool-count">Add ' + numberOfTools + ' Tool' + '</span>'; 
       } else {
-        numberOfToolsSpan = ' <span class="tool-count" style="background: #e1f3f8;color: #212121;padding: 0 .5em;margin-bottom: .5em;">Add ' + numberOfTools + ' Tools' + '</span>'; 
+        numberOfToolsSpan = ' <span class="tool-count">Add ' + numberOfTools + ' Tools' + '</span>'; 
       }
     }
-    html += '<input class="tool-label" data-parent="' + containerName + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerName + '-checkbox" ' + onChange + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="unselectable tool-label">' + concept + numberOfToolsSpan + '</label>';
+    html += '<input class="tool-label" data-parent="' + containerName + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerName + '-checkbox" ' + onChange + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="tool-label">' + concept + numberOfToolsSpan + '</label>';
     id++;
   }
   return html;

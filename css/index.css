@@ -1,0 +1,114 @@
+@media screen and (min-width: 45em), print and (min-width: 45em) {
+  .row > .size-95of100.col {
+    width: 95%;
+  }
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  svg {
+    width: 960px; 
+    height: 600px;
+  }
+}
+.ie9 svg {
+  width: 960px;
+  height: 600px;
+}
+#page-map {
+  border: 1px solid lightgrey;
+  float: left;
+  padding: 1em 1em 0 1em;
+  margin-right: 1em;
+}
+.next {
+  position: fixed;
+  bottom: 1ex;
+  right: 1em;
+  margin: 0 auto;
+  border: 2vh solid pink;
+}
+label {
+  border-radius: .5em;
+}
+.success {
+  border: .5em solid #e7f4e4;
+  border-radius: .5em;
+  background-color: #e7f4e4;
+  margin-bottom: 1.5em;
+}
+.warning {
+  border: .5em solid #fff1d2;
+  border-radius: .5em;
+  background-color: #fff1d2;
+  margin-bottom: 1.5em;
+}
+#results-container {
+  border: 2px solid #d6d7d9;
+  margin: 1em 0 0 0;
+  padding: .5em;
+}
+#search-results > :hover,
+#saved-results > :hover {
+  background-color: #e7f4e4;
+}
+#search-results > div,
+#saved-results > div {
+  background-color: #f1f1f1;
+  margin-top: .5em;
+  border-radius: 5px;
+  padding: 2px;
+}
+[role=tab] {
+  margin: 1px 0 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+[role=tabpanel] {
+  padding: 0.5em;
+  border: 2px solid #d6d7d9;
+  border-radius: 5px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+[aria-hidden="true"] {
+  display: none;
+}
+.result-label {
+  display: inline;
+  background-color: transparent;
+}
+.tool-label:focus + label {
+  background-color: #e1f3f8;
+}
+.tool-label:checked + label {
+  background-color: #d6d7d9;
+}
+button:disabled {
+  background-color: #aeb0b5;
+}
+.accordian-result {
+  background-image: url(https://www.epa.gov/sites/all/themes/epa/img/arrow-alt-down.png);
+  background-repeat: no-repeat;
+  float: right;
+  height: 13px;
+  margin: 5px;
+  width: 13px;
+}
+.collapsible {
+  transform: rotateX(180deg);
+}
+.tabs,
+.tabs > li {
+  margin-bottom: 0;
+  border: none;
+}
+hr {
+  border: .5em solid #d6d7d9;
+  border-radius: 1em;
+  height: 0;
+}
+.bold {
+  font-weight: bold;
+}
+.main-column ul {
+  overflow: auto;
+}

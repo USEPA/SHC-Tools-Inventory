@@ -1355,7 +1355,7 @@ var toast = function (parameters) {
         $notice.html(parameters[parameter]);
       }
       if (parameter === 'close') {
-        $notice.append('<span class="toast-close-button" onclick="clearToast()" role="button">&times;</span>');
+        $notice.append('<span class="toast-close-button unselectable" onclick="clearToast()" role="button">&times;</span>');
       }
       if (parameter === 'priority') {
         if (parameters[parameter] === 'polite') {
