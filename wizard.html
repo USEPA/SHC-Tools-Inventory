@@ -680,6 +680,12 @@ var toggleTab = function (list, $container) {
   }
 };
 
+/**
+ * Get the subroles associated with the roles.
+ * @function
+ * @param {array} roles - An array containing the selected roles.
+ * @return {array} - An array containing the subroles.
+ */
 function getSubrolesFromRoles(roles) {
   var subroles = [];
   for (var i = 0; i < roles.length; i++) { // find the concepts associated with these objectives
@@ -692,6 +698,12 @@ function getSubrolesFromRoles(roles) {
   return subroles;
 }
 
+/**
+ * Gets the concepts associated with the objectives.
+ * @function
+ * @param {array} objectives - An array containing the selected objectives.
+ * @return {array} - An array containing the concepts
+ */
 function getConceptsFromObjectives(objectives) {
   var concepts = [];
   for (var i = 0; i < objectives.length; i++) { // find the concepts associated with these objectives
@@ -704,6 +716,12 @@ function getConceptsFromObjectives(objectives) {
   return concepts;
 }
 
+/**
+ * Calculates the number of tools assocated with the list of concepts and displays a notice to the user on the specified page.
+ * @function
+ * @param {array} concepts - An array containing the selected concepts.
+ * @param {string} div - A string containing the partial id of the container to put the message.
+ */
 function calculateNumberOfTools(concepts, div) {
   var tools = [];
   for (var i = 0; i < concepts.length; i++) {
@@ -784,6 +802,11 @@ var subroleSelect = function () {
   fundamentalObjectiveSelect();
 };
 
+/**
+ * Get the list of all the objectives tied to the selected subroles.
+ * @function
+ * @return {array} - An array containing the objectives.
+ */
 var getObjectivesFromSubroles = function () {
   var objectivesFromSubroles = [];
   var objectivesFromSubrolesRelevance = [];
@@ -833,6 +856,11 @@ var fundamentalObjectiveSelect = function () {
   objectiveSelect();
 };
 
+/**
+ * Prevents the default check event from occuring and then selects all checkboxes which match the checkbox value.
+ * @function
+ * @param {event}  - The change event for the checkbox change.
+ */
 var catchObjectiveSelection = function (event) {
   //enabled becasue we are not checking all instances of a checkbox value
   event.preventDefault();
@@ -1210,7 +1238,12 @@ var activateNextTab = function ($nextTab, URLToShow) {
   }
 };
 
-//document
+/**
+ * Selects the specified tab
+ * @function
+ * @param {object} $nextTab - The tab to show.
+ * @param {string} URLToShow - thisDocument.html#someHashValueToJumpTo
+ */
 var activateTab = function ($nextTab, URLToShow) {
   if (typeof(URLToShow) !== 'undefined' && window.innerWidth < 480) {
     window.location = URLToShow;
