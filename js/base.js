@@ -673,7 +673,7 @@ function createDiv(parsedResult, containerId) {
       '<div class="col size-95of100">' +
         '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>' +
         '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label">' +
-        '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span></label>: ' + parsedResult['Description'] +
+        '<span class="bold">' + parsedResult['Title'] + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? '' : ' (' + parsedResult['Acronym'] + ')') + '</span></label>: ' + parsedResult['Description'] +
       '</div>' +
     '</div>' +
     '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">' +
