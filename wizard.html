@@ -522,17 +522,17 @@ var objectiveDisplay = function (adjust) {
  * @function
  * @param {string} checkboxGroup - The ID of the container.
  */
-var checkboxChangeHandler = function(checkboxGroup) {
+var checkboxChangeHandler = function (checkboxGroup) {
   if (showToast[checkboxGroup] !== false && showToast['all'] !== false) {// condition: are these toasts unmuted?
     if (checkboxGroup.indexOf('table') === -1) {
       var buttonText = (checkboxGroup === 'concept') ? ($('#concept-search-button').text()) : ('next'); //BOOKMARK: insert dynamically grabbed text for 'Display Tools' if checkboxGroup == 'concept'; else insert "next"
       var message = 'Select all desired ' + checkboxGroup + 's then press the button labeled "' + buttonText + '." Selections can be changed at any time by returning to the desired tab.';
-        toast({html:message,close:true,disable:true});
+        toast({html: message, close: true, disable: true});
         showToast[checkboxGroup] = false;
     } else {
       var message = 'Select all desired ' + checkboxGroup + 's then press the button labeled "next." Selections can be changed at any time.';
       showToast[checkboxGroup] = false;
-      toast({html:message,close:true,disable:true});
+      toast({html: message, close:true, disable: true});
     }
   }
 };
@@ -604,7 +604,8 @@ var populateWithHeader = function (list, $container, onChange) {
   var newItemCount = 0;
   for (var key in list) {
     if (list.hasOwnProperty(key)) {
-      html += '<h5 class="highlighted" data-parent="' + containerID + '" data-value="' + key + '" id="' + containerID + '-' + count + '-header' + '">' + key + '<button class="small-button" onclick="selectAll(\'' + containerID + '-' + count + '\', ' + containerID + 'Select)">Select All</button>' + 
+      html += '<h5 class="highlighted" data-parent="' + containerID + '" data-value="' + key + '" id="' + containerID + '-' + count + '-header' + '">' + key + 
+        '<button class="small-button" onclick="selectAll(\'' + containerID + '-' + count + '\', ' + containerID + 'Select)">Select All</button>' + 
         '<button class="small-button" onclick="deselectAll(\'' + containerID + '-' + count + '\', ' + containerID + 'Select)">Deselect All</button></h5>' +
         '<div class="subclass" data-parent="' + containerID + '" id="' + containerID + '-' + count + '">';
       var newOnChange = 'onchange="checkboxChangeHandler(\'' + containerID + '\');' + onChange + '"';
@@ -655,7 +656,7 @@ var toggleNext = function (list, nextButtonClassSubstring) {
   if (list.length > 0 || Object.keys(list).length > 0) {
     $(nextButtonSelector + ':not(.persist)').prop('disabled', false).css('display', 'inline');
   } else {
-    $(nextButtonSelector+':not(.persist)').prop('disabled',true).css('display','none');
+    $(nextButtonSelector + ':not(.persist)').prop('disabled', true).css('display', 'none');
   }
 };
 
@@ -1123,9 +1124,9 @@ var displayResults = function () {
  * @function
  * @deprecated
  */
-var findAndDisplayResults = function() {
+var findAndDisplayResults = function () {
   conceptSearch('results-list', $('input[name=\x22concept-checkbox\x22]:checked'));
-    displayResults();
+  displayResults();
 };
 
 /**
