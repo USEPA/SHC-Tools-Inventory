@@ -1,8 +1,9 @@
-if __name__ == "__main__":
+def load_shc_labeled_descriptions():
     # load tools' READ-ids, descriptions, and labeled concepts
     # train and test models with this data
     import json
     import re
+    import numpy as np
     from sklearn.preprocessing import MultiLabelBinarizer
 
     descriptions_by_read_id = {}
@@ -63,7 +64,7 @@ if __name__ == "__main__":
                     if concept not in concepts_by_read_id[read_id]:
                         concepts_by_read_id[read_id].append(concept)
 
-    # correspondingly ordered lists of each set from among
+    # prepare corresponding lists of
     # read_ids, labels, concepts used as labels
     read_ids = sorted(descriptions_by_read_id.keys())
     labels = [concepts_by_read_id[read_id] for read_id in read_ids]
@@ -71,8 +72,10 @@ if __name__ == "__main__":
 
     mlb = MultiLabelBinarizer()
     y_bin = mlb.fit_transform(labels)
-    #print(list(zip(read_ids, descriptions, labels, list(y_bin)))[0])
-    import numpy as np
     X = np.array(descriptions) # X[i] is a string describing read_ids[i]
     y = labels # y[i] is a collection of labels for X[i] and read_ids[i]
-    print(list(zip(X,y,y_bin))[0])
+
+    return X, y
+
+if __name__ == "__main__":
+    descriptions, labels = load_shc_labeled_descriptions()
