@@ -497,6 +497,8 @@ function showDetails(id, origin) {
   } catch (error) {
     console.log(error);
   }
+  var $selectedToolTab = $('#selected-tool-tab');
+  var $selectedToolPanel = $('#selected-tool-panel');
   if (parsedData) {
     html += "<span class='bold'>Title</span>: " + parsedData['Title'] + "<br>" +
     "<span class='bold'>Acronym</span>: " + parsedData['Acronym'] + "<br>" +
@@ -532,16 +534,17 @@ function showDetails(id, origin) {
     //"<span class='bold'>Internet Help Desk Email</span>: " + linkifyString(parsedData['Help Desk Email']) + "<br />" + // All No Data
     "</div>";
     $tab.append(html);
-    $('#selected-tool-tab').parent().attr('aria-hidden', false);
-    $('#selected-tool-panel').attr('aria-hidden', false);
-    $('#selected-tool-tab').attr('aria-selected', true);
+    $selectedToolPanel.removeAttr('aria-hidden');
     $('#' + origin).attr('aria-selected', false);
-    $("#selected-tool-tab")[0].click();
-    $("#selected-tool-tab").focus();
+    $selectedToolTab.parent().removeAttr('aria-hidden');
+    $selectedToolTab.removeAttr('aria-disabled');
+    $selectedToolTab.removeAttr('aria-hidden');
+    $selectedToolTab.attr('aria-selected', true);
+    $selectedToolTab[0].click();
   } else {
     $tab.append(html);
-    $('#selected-tool-tab').parent().attr('aria-hidden', true);
-    $('#selected-tool-panel').attr('aria-hidden', true);
+    $selectedToolTab.parent().attr('aria-hidden', true);
+    $selectedToolPanel.attr('aria-hidden', true);
   }
 }
 

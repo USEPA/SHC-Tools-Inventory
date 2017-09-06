@@ -102,8 +102,8 @@
                 <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Subrole" data-href="#fundamental-objective-tab" id="fundamental-objective-tab" role="tab" title="Click here to modify the fundamental objective tab.">Fundamental Objective</a></li>
                 <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Fundamental Objective" data-href="#objective-tab" id="objective-tab" role="tab" title="Click here to modify the objective tab.">Objective</a></li>
                 <li aria-hidden="true"><a aria-controls="concept-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Objective" data-href="#concept-tab" id="concept-tab" role="tab" title="Click here to modify the concept tab.">Concept</a></li>
-                <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" href="#results-tab" id="results-tab" role="tab" title="Click here to view the result tab.">Results</a></li>
-                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" href="#selected-tool-tab" id="selected-tool-tab" role="tab" title="Click here to view the selected tool tab.">Selected Tool</a></li>
+                <li aria-hidden="true"><a aria-controls="results-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Concept" href="#results-tab" id="results-tab" role="tab" title="Click here to view the result tab.">Results</a></li>
+                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Results" href="#selected-tool-tab" id="selected-tool-tab" role="tab" title="Click here to view the selected tool tab.">Selected Tool</a></li>
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
                 <h4>Roles  - Who are you?<button class="icon-button" onclick="$('#role-help').toggle()"><img alt="Help Icon" class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></h4>
@@ -419,6 +419,7 @@ window.onhashchange = function () {
  noticeable delay in displaying the page.
 */
 $(function () { // jquery's shorthand awaits readiness of document
+  location.hash = '';
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate roles into #role div
   initializeTabs(); // initialize tabs and their listeners
   
@@ -506,10 +507,6 @@ var initializeTabs = function () {
       var currentPanel = '#' + $(this).attr('aria-controls');// make a jquery object selecting the panel associated with the clicked tab
       $('#tabs > div').hide(); // hide all panels
       $(currentPanel).show(); // show clicked tab's panel
-      $('#results-container').show(); // Display Results
-      $('#results-container').attr('aria-hidden', 'false');
-    } else { // tab has attribute aria-disabled...
-      return;
     }
   });
 };
@@ -749,8 +746,6 @@ function calculateNumberOfTools(concepts, div) {
           tools.push(toolID);
         }
       }
-    } else {
-      console.log("not found");
     }
   }
   $('#' + div + '-tool-count').html(tools.length + (tools.length === 1 ? ' tool' : ' tools' ) + ' found for the selected ' + div.replace(/-/g, ' ') + '(s).');
@@ -1119,16 +1114,15 @@ function updateConceptsandResults() {
  */
 var displayResults = function () {
   if (resultSet.getLength() > 0 || savedTools.getLength() > 0) {  
-    $('#results-tab').parent().attr('aria-hidden', 'false');
-    $('#results-tab')[0].click();
-    $('#list-radio').prop('checked', true);
-    activateNextTab($('#results-tab'));
+    toggleTab(Object.keys(resultSet.getToolSet()), $('#tools'));
+    activateNextTab($('#results-tab'), 'wizard.html#results-tab');
     if (!resultSet.isEqual(resultTable.getToolSet())) {
       $('#loader').removeAttr('aria-hidden').show();
       createDataTable('results');
       toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
     }
   } else {
+    $('#results-tab').parent().attr('aria-hidden', 'true');
     toast({html: 'Please select a concept.', close: true});
   }
 };
