@@ -1097,22 +1097,9 @@ var validata = function (obj) {
  */
 function selectAll(divId, callback) {
   //enabled functionality which allows for checking all instances of the checkbox value
-  var parent = $('#' + divId).attr('data-parent');
-  if (parent) {
-    $('#' + divId + ' input:checkbox').each(function () {
-      $('#' + parent + ' :input[value="' + $(this).val() + '"]').prop('checked', true);
-    });
-    if (callback) {
-      callback();
-    }
-  } else {
-    $('#' + divId + ' input:checkbox').prop('checked', true)
-    .promise()
-    .done(function () {
-      if (callback) {
-        callback();
-      }
-    });
+  $('#' + divId + ' input:checkbox').prop('checked', true);
+  if (callback) {
+    callback();
   }
 }
 
@@ -1124,22 +1111,9 @@ function selectAll(divId, callback) {
  */
 function deselectAll(divId, callback) {
   //enabled functionality which allows for unchecking all instances of the checkbox value
-  var parent = $('#' + divId).attr('data-parent');
-  if (parent) {
-    $('#' + divId + ' input:checkbox').each(function () {
-      $('#' + parent + ' :input[value="' + $(this).val() + '"]').prop('checked', false);
-    });
-    if (callback) {
-      callback();
-    }
-  } else {
-    $('#' + divId + ' input:checkbox').prop('checked', false)
-    .promise()
-    .done(function () {
-      if (callback) {
-        callback();
-      }
-    });
+  $('#' + divId + ' input:checkbox').prop('checked', false);
+  if (callback) {
+    callback();
   }
 }
 

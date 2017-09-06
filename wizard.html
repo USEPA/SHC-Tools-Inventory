@@ -426,7 +426,7 @@ $(function () { // jquery's shorthand awaits readiness of document
    * Updates the interface when a concept checkbox changes state.
    * @listens change
    */
-  $('#concept').on('change', '.tool-label', function () {
+  $('#concept').on('change', '.concept-label', function () {
     updateConceptsandResults();
   });
 
@@ -639,8 +639,8 @@ var populateWithHeader = function (list, $container, onChange) {
             newItemCount++;
           }
         }
-        html += '<input class="tool-label" data-parent="' + containerID + '-' + count + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerID + '-checkbox" ' + newOnChange + ' />' +
-        '<label for="cb-' + containerID + '-' + count + '-' + id + '" class="tool-label' + newItem + '">' + concept + newItemSpan + '</label>';
+        html += '<input class="' + containerID + '-cb" data-parent="' + containerID + '-' + count + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerID + '-checkbox" ' + newOnChange + ' />' +
+        '<label for="cb-' + containerID + '-' + count + '-' + id + '" class="' + containerID + '-label' + newItem + '">' + concept + newItemSpan + '</label>';
         id++;
       }
       html += '</div>';
@@ -960,8 +960,8 @@ var scrapeDictionaryToObject = function (selectedOptions, dictionary) {
  * @return {string} - The HTML to create checkboxes.
  */
 function addCheckboxes(list, container, onChange, count) {
-  var containerName = container.attr('id');
-  onChange = 'onchange="checkboxChangeHandler(\'' + containerName + '\');' + onChange + '"';
+  var containerID = container.attr('id');
+  onChange = 'onchange="checkboxChangeHandler(\'' + containerID + '\');' + onChange + '"';
   count = (typeof count !== 'undefined') ? count : "0";
   var inputs = container.children('input');
   var id = inputs.length + 1;
@@ -970,7 +970,7 @@ function addCheckboxes(list, container, onChange, count) {
     var concept = list[i];
     var numberOfToolsSpan = '';
     var numberOfTools = 0;
-    if (containerName === 'concept') {
+    if (containerID === 'concept') {
       var length = readIDsByConcept[concept].length;
       for (var j = 0; j < length; j++) {
         if (!resultSet.contains(readIDsByConcept[concept][j])) {
@@ -983,7 +983,7 @@ function addCheckboxes(list, container, onChange, count) {
         numberOfToolsSpan = ' <span class="tool-count">Add ' + numberOfTools + ' Tools' + '</span>'; 
       }
     }
-    html += '<input class="tool-label" data-parent="' + containerName + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerName + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerName + '-checkbox" ' + onChange + ' /><label for="cb-' + containerName + '-' + count + '-' + id + '" class="tool-label">' + concept + numberOfToolsSpan + '</label>';
+    html += '<input class="' + containerID + '-cb" data-parent="' + containerID + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerID + '-checkbox" ' + onChange + ' /><label for="cb-' + containerID + '-' + count + '-' + id + '" class="' + containerID + '-label">' + concept + numberOfToolsSpan + '</label>';
     id++;
   }
   return html;
