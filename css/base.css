@@ -268,9 +268,9 @@ tr:hover td:not(:first-child) {
   padding: 0.2941em 0.58825em;
 }
 /** Transitions ***************************************************************/
-*,
-*:before,
-*:after {
+#tabsnav *,
+#tabsnav *:before,
+#tabsnav *:after {
   -webkit-transition: all .25s linear;
      -moz-transition: all .25s linear;
       -ms-transition: all .25s linear;
