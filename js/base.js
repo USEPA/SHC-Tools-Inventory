@@ -70,7 +70,7 @@ var toolCache = (function () {
         if (arguments[1] === 'success') {
           var result = parseResult(arguments[0]);
           setData(result['ID'], result);
-        } else { 
+        } else {
           for (var i = 0; i < arguments.length; i++) {
             var result = parseResult(arguments[i][0]);
             setData(result['ID'], result);
@@ -135,7 +135,7 @@ function ToolSet() {
   };
 
   /**
-   * Returns whether the ToolSet has a filter or not 
+   * Returns whether the ToolSet has a filter or not
    * @function
    * @return {bool} - The presence of filters.
    */
@@ -215,14 +215,14 @@ function ToolSet() {
       if (this.toolSet.hasOwnProperty(toolId1)) {
         if (!toolSet.getToolSet().hasOwnProperty(toolId1)) {
           return false;
-        }   
+        }
       }
     }
     for (var toolId2 in toolSet.getToolSet()) {
       if (toolSet.getToolSet().hasOwnProperty(toolId2)) {
         if (!this.toolSet.hasOwnProperty(toolId2)) {
           return false;
-        }   
+        }
       }
     }
     return true;
@@ -331,7 +331,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
  * @listens change
  */
 $('[name="display-type"]').change(function () {
-  if($(this).attr('id') === 'table-radio') {
+  if ($(this).attr('id') === 'table-radio') {
     $('#results-list-div').attr('aria-hidden', true);
     $('#results-table-div').attr('aria-hidden', false);
     if ($.fn.DataTable.isDataTable('#results-table')) {
@@ -392,13 +392,13 @@ $('[name="browse-display-type"]').change(function () {
  * @param {object} parsedResult - The parsed data of a tool.
  * @return {array} - The array to be used to create the row.
  */
-function createRow(parsedResult) { 
+function createRow(parsedResult) {
   var rowData;
   rowData = [ //Create row
     "",
     parsedResult['ID'],
     //parsedResult['Acronym'],
-    parsedResult['Title'].substr(0,15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')',
+    parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')',
     parsedResult['Description'],
     parsedResult['Operating Environment'],
     parsedResult['Spatial Extent'],
@@ -430,7 +430,7 @@ function createRow(parsedResult) {
     //parsedResult['Help Desk Email'] // All No Data
   ];
   for (var i = 0; i < rowData.length; i++) { // limit to 140 characters
-     if (rowData[i].length > 280) {
+    if (rowData[i].length > 280) {
       rowData[i] = rowData[i].substr(0, 280) + '...';
     }
   }
@@ -487,18 +487,20 @@ function removeSelected(divID) {
 function showDetails(id, origin) {
   var parsedData = toolCache.getParsedData(id);
   if (resultTable.getType() === 'wizard' || savedTools.contains(id)) {
-    var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').click()">Return to Tool List</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">'; 
+    var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').attr(\'aria-selected\', true);$(\'#selected-tool-tab\').attr(\'aria-selected\', false);$(' + "'#" + origin + "'" +')[0].click();">Return to Tool List</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">';
   } else {
-    var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').click()">Return to Tool List</button><button class="button button-white right" onclick="saveRecord()">Save This Tool</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">'; 
-  }  
+    var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').attr(\'aria-selected\', true);$(\'#selected-tool-tab\').attr(\'aria-selected\', false);$(' + "'#" + origin + "'" +')[0].click();">Return to Tool List</button><button class="button button-white right" onclick="saveRecord()">Save This Tool</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">';
+  }
   var $tab = $("#selected-tool");
   try {
     $tab.empty();
   } catch (error) {
     console.log(error);
   }
+  var $selectedToolTab = $('#selected-tool-tab');
+  var $selectedToolPanel = $('#selected-tool-panel');
   if (parsedData) {
-    html += "<span class='bold'>Title</span>: " + parsedData['Title'] + "<br>" + 
+    html += "<span class='bold'>Title</span>: " + parsedData['Title'] + "<br>" +
     "<span class='bold'>Acronym</span>: " + parsedData['Acronym'] + "<br>" +
     "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
     "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
@@ -511,7 +513,7 @@ function showDetails(id, origin) {
     "<span class='bold'>Other Costs</span>: " + parsedData['Other Costs'] + "<br>" +
     "<span class='bold'>Open Source</span>: " + parsedData['Open Source'] + "<br>" +
     "<span class='bold'>Operating Environment</span>: " + parsedData['Operating Environment'] + "<br>" +
-    "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>" +    
+    "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>" +
     "<span class='bold'>Other Technical Requirements</span>: " + linkifyString(parsedData['Other Requirements']) + "<br />" +
     "<span class='bold'>Scope and Time Scale</span>: " + parsedData['Time Scale'] + "<br>" +
     "<span class='bold'>Spatial Extent</span>: " + parsedData['Spatial Extent'] + "<br>" +
@@ -532,14 +534,17 @@ function showDetails(id, origin) {
     //"<span class='bold'>Internet Help Desk Email</span>: " + linkifyString(parsedData['Help Desk Email']) + "<br />" + // All No Data
     "</div>";
     $tab.append(html);
-    $('#selected-tool-tab').parent().attr('aria-hidden', false);
-    $('#selected-tool-panel').attr('aria-hidden', false);
-    $("#selected-tool-tab").click();
-    $("#selected-tool-tab").focus();
+    $selectedToolPanel.removeAttr('aria-hidden');
+    $('#' + origin).attr('aria-selected', false);
+    $selectedToolTab.parent().removeAttr('aria-hidden');
+    $selectedToolTab.removeAttr('aria-disabled');
+    $selectedToolTab.removeAttr('aria-hidden');
+    $selectedToolTab.attr('aria-selected', true);
+    $selectedToolTab[0].click();
   } else {
     $tab.append(html);
-    $('#selected-tool-tab').parent().attr('aria-hidden', true);
-    $('#selected-tool-panel').attr('aria-hidden', true);
+    $selectedToolTab.parent().attr('aria-hidden', true);
+    $selectedToolPanel.attr('aria-hidden', true);
   }
 }
 
@@ -598,7 +603,7 @@ function exportCSV(resultsDiv) {
  */
 function saveRecord() {
   var recordIdToSave = $('#selected-tool-div').attr('data-read-id');
-  if(!savedTools.contains(recordIdToSave)) {
+  if (!savedTools.contains(recordIdToSave)) {
     savedTools.addTool(recordIdToSave);
     toolCache.handleParsedData(recordIdToSave, savedTable.displayTool.bind(savedTable)); // populate divs
   }
@@ -617,8 +622,8 @@ function saveRecord() {
 function saveSelectedRecords(resultsDiv) {
   var recordsToSave = $('#' + resultsDiv + ' input:checked');
   recordsToSave.each(function () {
-    if(!savedTools.contains($(this).val())) {
-      savedTools.addTool($(this).val()); 
+    if (!savedTools.contains($(this).val())) {
+      savedTools.addTool($(this).val());
     }
   });
   if (savedTools.getLength() > 0) {
@@ -637,7 +642,7 @@ function saveSelectedRecords(resultsDiv) {
  * @param {string} containerId - The ID of the container the DIV will be appended to.
  */
 function addDiv(parsedResult, containerId) {
-  // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
+  // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries
   var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
   var $container = $('#' + containerId);
   var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
@@ -664,7 +669,7 @@ function addDiv(parsedResult, containerId) {
  * @return {string} - The HTML to create a DIV.
  */
 function createDiv(parsedResult, containerId) {
-  // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries 
+  // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries
   var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
   var $container = $('#' + containerId);
 
@@ -673,7 +678,7 @@ function createDiv(parsedResult, containerId) {
       '<div class="col size-95of100">' +
         '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>' +
         '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label">' +
-        '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span></label>: ' + parsedResult['Description'] +
+        '<span class="bold">' + parsedResult['Title'] + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? '' : ' (' + parsedResult['Acronym'] + ')') + '</span></label>: ' + parsedResult['Description'] +
       '</div>' +
     '</div>' +
     '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">' +
@@ -692,7 +697,7 @@ $('.list').on('click', '.expand', function () {
   var $this = $(this);
   var readId = $this.attr('data-id');
   showDetails(readId, $this.closest('[role="tabpanel"]').attr('aria-labelledby'));
-})
+});
 
 
 /**
@@ -711,21 +716,21 @@ $('tbody').on('click', 'td:not(:first-child)', function () {
  * @param {object} result - Unparsed data from READ Web Service.
  */
 var parseResult = function (result) {
-  if(typeof(result) === 'undefined') {
+  if (typeof(result) === 'undefined') { // catch bad input
     return;
-  }// catch bad input
-  var openSourceMap = {// map integral data-standard to text
+  }
+  var openSourceMap = { // map integral data-standard to text
     1:'Yes',
     2:'No',
     3:'Partial'
   };
-  var dataRequirementsMap = {// map integral data-standard to text
+  var dataRequirementsMap = { // map integral data-standard to text
     1:'All data is provided.',
     2:'Data is publicly available.',
     3:'Data is not publicly available but routinely available.',
     4:'New data must be created.'
   };
-  var softwareCostMap = {// map integral data-standard to text
+  var softwareCostMap = { // map integral data-standard to text
     1:'Free',
     2:'$1-$499',
     3:'$500-$1499',
@@ -754,7 +759,7 @@ var parseResult = function (result) {
   parsedResult['Technical Skills Needed'] = parseTechnicalSkill(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelScopeDetail', 'ModelScopeTechnicalSkillsNeededToApplyModelDetail']));
   parsedResult['Model Structure'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelStructureDetail', 'ModelStructureTextArea']);
   parsedResult['Model Inputs'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelInputsDetail', 'ModelInputsTextArea']);
-  parsedResult['Input Data Requirements'] = parseDataRequirements(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelInputsDetail', 'ModelInputsDataRequirements']));  
+  parsedResult['Input Data Requirements'] = parseDataRequirements(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelInputsDetail', 'ModelInputsDataRequirements']));
   parsedResult['Model Output Types'] = parseModelOutputType(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelOutputsDetail', 'ModelOutputsModelOutputTypesDetail']));
   parsedResult['Output Variables'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelOutputsDetail', 'ModelOutputsModelVariablesTextArea']);
   parsedResult['Model Evaluation'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelEvaluationDetail', 'ModelEvaluationTextArea']);
@@ -764,8 +769,8 @@ var parseResult = function (result) {
   parsedResult['Support Phone'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportPhoneNumber']);
   //parsedResult['Help Desk Email'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'HelpDeskEmailAddressText']); // All No Data
   //parsedResult['Help Desk Phone'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'HelpDeskTelephoneNumber']); // All No Data
-  parsedResult['Support Materials'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportSourceOfSupportMaterials']);  
-  parsedResult['Last Software Update'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsLastKnownSoftwareUpdate']);  
+  parsedResult['Support Materials'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportSourceOfSupportMaterials']);
+  parsedResult['Last Software Update'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsLastKnownSoftwareUpdate']);
   parsedResult['Last Modified'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'LastModifiedDateTimeText']);
 
   /**
@@ -776,40 +781,40 @@ var parseResult = function (result) {
    * READ Web Services return one value if only one value exists. If several values then they're in an array.
    * There are various data-standards used in READ, like storing integers in place of strings for options.
    */
-  function mapAll(field, propertyName, map) {//
-    if (typeof propertyName !== 'undefined') {// arg propertyName passed?
+  function mapAll(field, propertyName, map) { //
+    if (typeof propertyName !== 'undefined') { // arg propertyName passed?
       if (field[propertyName]) {return map[field[propertyName]];}// money-shot!
       if (field.length) {
-        var accumulatedString = '';// append accumulated values here
+        var accumulatedString = ''; // append accumulated values here
         for (var i = 0; i < field.length - 1; i++) {
-          if (typeof map === 'undefined') {// no arg map passed...
-            accumulatedString += field[i][propertyName] + ', ';// ...accumulate ith value
-          } else {// arg map was passed...
-            accumulatedString += map[field[i]][propertyName] + ', ';// ...accumulate ith value
+          if (typeof map === 'undefined') { // no arg map passed...
+            accumulatedString += field[i][propertyName] + ', '; // ...accumulate ith value
+          } else { // arg map was passed...
+            accumulatedString += map[field[i]][propertyName] + ', '; // ...accumulate ith value
           }
         }
-        if (typeof map === 'undefined') {// no arg map passed...
-          accumulatedString += 'and ' + field[field.length - 1][propertyName];// ...accumulate final value
-        } else {// arg map was passed...
-          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
+        if (typeof map === 'undefined') { // no arg map passed...
+          accumulatedString += 'and ' + field[field.length - 1][propertyName]; // ...accumulate final value
+        } else { // arg map was passed...
+          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]]; // ...accumulate final value
         }
         return accumulatedString;
       }
-    } else {// no arg propertyName
+    } else { // no arg propertyName
       if (field) {return field;}
       if (field.length) {
-        var accumulatedString = '';// append accumulated values here
+        var accumulatedString = ''; // append accumulated values here
         for (var i = 0; i < field.length - 1; i++) {
-          if (typeof map === 'undefined') {// no arg map passed...
-            accumulatedString += field[i] + ', ';// ...accumulate ith value
-          } else {// arg map was passed...
-            accumulatedString += map[field[i]] + ', ';// ...accumulate ith value
+          if (typeof map === 'undefined') { // no arg map passed...
+            accumulatedString += field[i] + ', '; // ...accumulate ith value
+          } else { // arg map was passed...
+            accumulatedString += map[field[i]] + ', '; // ...accumulate ith value
           }
         }
-        if (typeof map === 'undefined') {// no arg map passed...
-          accumulatedString += 'and ' + field[field.length - 1][propertyName];// ...accumulate final value
-        } else {// arg map was passed...
-          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]];// ...accumulate final value
+        if (typeof map === 'undefined') { // no arg map passed...
+          accumulatedString += 'and ' + field[field.length - 1][propertyName]; // ...accumulate final value
+        } else { // arg map was passed...
+          accumulatedString += 'and ' + map[field[field.length - 1][propertyName]]; // ...accumulate final value
         }
         return accumulatedString;
       }
@@ -827,21 +832,7 @@ var parseResult = function (result) {
     if (ModelScopeTechnicalSkillsNeededToApplyModelDetail.TechnicalSkillName) {
       return ModelScopeTechnicalSkillsNeededToApplyModelDetail.TechnicalSkillName; // return desired value if it is a property of extent
     }
-    if (ModelScopeTechnicalSkillsNeededToApplyModelDetail.length) { // is array?(this means several values instead of just one)
-      if (typeof ModelScopeTechnicalSkillsNeededToApplyModelDetail === 'string') {
-        return ModelScopeTechnicalSkillsNeededToApplyModelDetail;
-      }
-      var str = ''; // create string for appending each spatial extent to while looping through array
-      for (var i = 0; i < ModelScopeTechnicalSkillsNeededToApplyModelDetail.length - 1; i++) { // loop through all elements except last...
-        if(ModelScopeTechnicalSkillsNeededToApplyModelDetail.length > 2) {
-          str += parseModelOutputType(ModelScopeTechnicalSkillsNeededToApplyModelDetail[i]) + ", "; //...append ith value and a delimiter. comma if more than 2 in list
-        } else {
-          str += parseModelOutputType(ModelScopeTechnicalSkillsNeededToApplyModelDetail[i]) + " "; //...append ith value and a delimiter just a space if only 2 in list
-        }
-      }
-      str += 'and ' + parseModelOutputType(ModelScopeTechnicalSkillsNeededToApplyModelDetail[ModelScopeTechnicalSkillsNeededToApplyModelDetail.length - 1]); //append final value
-      return str; // return accumulated values in a string
-    }
+    return ModelScopeTechnicalSkillsNeededToApplyModelDetail;
   }
 
   /**
@@ -855,21 +846,7 @@ var parseResult = function (result) {
     if (ModelOutputsModelOutputTypesDetail.ModelOutputTypeName) {
       return ModelOutputsModelOutputTypesDetail.ModelOutputTypeName; // return desired value if it is a property of extent
     }
-    if (ModelOutputsModelOutputTypesDetail.length) { // is array?(this means several values instead of just one)
-      if (typeof ModelOutputsModelOutputTypesDetail === 'string') {
-        return ModelOutputsModelOutputTypesDetail;
-      }
-      var str = ''; // create string for appending each spatial extent to while looping through array
-      for (var i = 0; i < ModelOutputsModelOutputTypesDetail.length - 1; i++) { // loop through all elements except last...
-        if(ModelOutputsModelOutputTypesDetail.length > 2) {
-          str += parseModelOutputType(ModelOutputsModelOutputTypesDetail[i]) + ", "; //...append ith value and a delimiter. comma if more than 2 in list
-        } else {
-          str += parseModelOutputType(ModelOutputsModelOutputTypesDetail[i]) + " "; //...append ith value and a delimiter just a space if only 2 in list
-        }
-      }
-      str += 'and ' + parseModelOutputType(ModelOutputsModelOutputTypesDetail[ModelOutputsModelOutputTypesDetail.length - 1]); //append final value
-      return str; // return accumulated values in a string
-    }
+    return ModelOutputsModelOutputTypesDetail;
   }
 
   /**
@@ -883,33 +860,19 @@ var parseResult = function (result) {
     if (extent.SpatialExtentName) {
       return extent.SpatialExtentName; // return desired value if it is a property of extent
     }
-    if (extent.length) { // is array?(this means several values instead of just one)
-      if (typeof extent === 'string') {
-        return extent;
-      }
-      var str = ''; // create string for appending each spatial extent to while looping through array
-      for (var i = 0; i < extent.length - 1; i++) { // loop through all elements except last...
-        if(extent.length > 2) {
-          str += parseSpatialExtent(extent[i]) + ", "; // append ith value and a delimiter. comma if more than 2 in list
-        } else {
-          str += parseSpatialExtent(extent[i]) + " "; // append ith value and a delimiter just a space if only 2 in list
-        }
-      }
-      str += 'and ' + parseSpatialExtent(extent[extent.length - 1]); // append final value
-      return str; // return accumulated values in a string
-    }
+    return extent;
   }
 
   /**
-   * Returns a string detailing if the tools is open source 
+   * Returns a string detailing if the tools is open source
    * @function
    * @param {number} openSource - An integer which represents an open source category.
    * @return {string|object} - Either the value itself, or the initial variable.
    */
   function parseOpenSource(openSource) {
-    if(openSourceMap.hasOwnProperty(openSource)) {
+    if (openSourceMap.hasOwnProperty(openSource)) {
       return openSourceMap[openSource];
-    } else{
+    } else {
       return openSource;
     }
   }
@@ -952,25 +915,9 @@ var parseResult = function (result) {
     if (timeScale.TimeScaleName) {
       return timeScale.TimeScaleName; // return value if possible
     }
-    if (timeScale.length) {
-      if (typeof timeScale === 'string') {
-        return timeScale; // if it's a string then return it
-      }
-      var timeStr = '';
-      for (var i = 0; i < timeScale.length - 1; i++) { // loop through all elements except last...
-        timeStr += timeScale[i].TimeScaleName; // append ith value and a delimiter
-        if (timeScale.length > 2) {
-          timeStr += ','; // append comma when appropriate
-        }
-        timeStr += ' ';
-      }
-      if (timeScale.length > 2) {
-        timeStr += 'and '; // append 'and ' when appropriate
-      }
-      timeStr += timeScale[i].TimeScaleName; //append final value from array
-      return timeStr; // return accumulated values in string
-    }
+    return timeScale; // if it's a string then return it
   }
+
   return parsedResult;
 };
 
@@ -1028,7 +975,7 @@ function linkifyString(value) {
     var urlRegExp = /((http|ftp|https):\/\/[^ @"]+|[^@]\b[^ @"]+\.(com|gov|edu|org|net|info|io)[^ @"]*)/ig; // scrape value for URLs with regex
     var linkTemplate = '<a href="$1" target="_blank">$1</a>'; // create a template of how to format the URL into a descriptive anchor
     if (value.indexOf('epa.gov') === -1) { // insert exit notification if an external link
-      exitNotification = '<a class="exit-disclaimer" href="https://www.epa.gov/home/exit-epa" title="EPA\'s External Link Disclaimer">Exit</a>';
+      var exitNotification = '<a class="exit-disclaimer" href="https://www.epa.gov/home/exit-epa" title="EPA\'s External Link Disclaimer">Exit</a>';
       linkTemplate += exitNotification;
     }
     value = value.replace(urlRegExp, linkTemplate).toString(); // replace all matched URLs with formatted anchors
@@ -1049,16 +996,16 @@ function linkifyString(value) {
  * safely returns obj.foo.bar.baz value if all properties exist
 */
 var readSafe = function (object, propertyArray) {
-  if (object[propertyArray[0]]) {// is first element of propertyArray a property of this object?
-    var value = validata(object[propertyArray[0]]);// oft-used value is sensibly extant
-    if (Object.keys(propertyArray).length === 1) {// is this the last property in the array?
+  if (object[propertyArray[0]]) { // is first element of propertyArray a property of this object?
+    var value = validata(object[propertyArray[0]]); // oft-used value is sensibly extant
+    if (Object.keys(propertyArray).length === 1) { // is this the last property in the array?
       if (value.length) {
         if (typeof value === 'string') {
-        } else {// has length and isn't a string? Let's access it as an array!
-          try {// try accumulating a string from all elements
+        } else { // has length and isn't a string? Let's access it as an array!
+          try { // try accumulating a string from all elements
             accumulatedString = '';
             for (var i = 0; i < value.length; i++) {
-              iValue = value[i][Object.keys(value[i])[0]];
+              var iValue = value[i][Object.keys(value[i])[0]];
               if (i > 0 && value.length > 2) {
                 accumulatedString += ', ';
               }
@@ -1071,23 +1018,22 @@ var readSafe = function (object, propertyArray) {
               accumulatedString += iValue;
             }
             return accumulatedString;
-          }catch (error) {// if fail by err then warn about possible need of extension
+          } catch (error) { // if fail by err then warn about possible need of extension
             console.log('readSafe() erred and might need extended. Logging object, propertyArray, value:' + object + propertyArray + value);
-          }finally {
+          } finally {
           }
         }
       }
-      return value;// return possibly formatted contents of property
-    }else {// there are multiple elements remaining in propertyArray that we need to descend into
+      return value; // return possibly formatted contents of property
+    } else { // there are multiple elements remaining in propertyArray that we need to descend into
       try {
-        // recursion with obj[prop_1] as obj for next iteration
-        return readSafe(value,propertyArray.slice(1));// pass the second element through the last element of the property array
+        return readSafe(value,propertyArray.slice(1)); // pass the second element through the last element of the property array
       } catch (e) {
-        console.log('error: ',e);// dev
+        console.log('error: ',e); // dev
         return 'No Data'; // return 'No Data'
       }
     }
-  } else {// first element propertyArray isn't a property of this object
+  } else { // first element propertyArray isn't a property of this object
     var accumulatedString = '';
     if (object.length && typeof(object).toLowerCase !== 'string') {
       for (i in object) {
@@ -1119,11 +1065,11 @@ var readSafe = function (object, propertyArray) {
  */
 var isNil = function (obj) {
   return Boolean(
-      typeof(obj) === 'undefined' ||
-      obj.hasOwnProperty('xsi:nil') ||
-      obj === null ||
-      obj === '' ||
-      String(obj).toLowerCase() === 'no data'
+    typeof(obj) === 'undefined' ||
+    obj.hasOwnProperty('xsi:nil') ||
+    obj === null ||
+    obj === '' ||
+    String(obj).toLowerCase() === 'no data'
   );
 };
 
@@ -1153,13 +1099,11 @@ var validata = function (obj) {
  * @param {function} callback - The function that will be executed when done unselecting all the checkboxes.
  */
 function selectAll(divId, callback) {
-  $('#' + divId + ' input:checkbox').prop('checked', true)
-    .promise()
-    .done(function () {
-      if(callback) {
-        callback();
-      }
-    });
+  //enabled functionality which allows for checking all instances of the checkbox value
+  $('#' + divId + ' input:checkbox').prop('checked', true);
+  if (callback) {
+    callback();
+  }
 }
 
 /**
@@ -1169,13 +1113,11 @@ function selectAll(divId, callback) {
  * @param {function} callback - The function that will be executed when done unselecting all the checkboxes.
  */
 function deselectAll(divId, callback) {
-  $('#' + divId + ' input:checkbox').prop('checked', false)
-    .promise()
-    .done(function () {
-      if(callback) {
-        callback();
-      }
-    });
+  //enabled functionality which allows for unchecking all instances of the checkbox value
+  $('#' + divId + ' input:checkbox').prop('checked', false);
+  if (callback) {
+    callback();
+  }
 }
 
 /**
@@ -1231,7 +1173,7 @@ function createDataTable(name) {
           searchable: false,
           orderable: false,
           className: 'dt-body-center',
-          render: function (data, type, full, meta){
+          render: function (data, type, full, meta) {
             return '<input id="' + name + '-' + full[1] + '" type="checkbox" value="' + full[1] + '"><label for="' + name + '-' + full[1] + '"></label>';
           }
         },
@@ -1249,7 +1191,7 @@ function createDataTable(name) {
         }
       ],
       order: [[2, 'asc']],
-      buttons: [ 
+      buttons: [
         {
           text: 'Select All Tools',
           action: function () {
@@ -1267,83 +1209,87 @@ function createDataTable(name) {
       ]
     });
 
-    var dtButtons = [
-        { 
+    var dtButtons = [];
+
+    if (resultTable.getType() === 'search') {
+      dtButtons.push(
+        {
           text: 'Export Selected Tools to CSV',
           action: function () {
             exportCSV(name + '-list');
           },
           className: 'button button-white'
         }
-      ];
+      );
+    }
 
-      if (name !== 'saved' && resultTable.getType() === 'search') {
-        dtButtons.push(
-          {
-            text: 'Save Selected Tools', 
-            action: function () {
-              saveSelectedRecords(name + '-list');
-            },
-            className: 'button button-white'
-          }
-        );
-      }
-
-      if (name === 'saved' && resultTable.getType() === 'search') {
-        dtButtons.push(
-          {
-            text: 'Remove Selected Tools', 
-            action: function () {
-              removeSelected(name + '-list');
-            },
-            className: 'button button-white'
-          }
-        );
-      }
-
-      if (name === 'browse') {
-        var columns = table.columns([8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]);
-        columns.visible(false, false);
-        $(columns.header()).addClass('never');
-        table.columns.adjust().draw(false);
-
-        $('button.toggle-vis').on('click', function (e) {
-          e.preventDefault();
-     
-          var column = table.column($(this).attr('data-column')); // Get the column API object
-          var header = column.header(); // Get the header API object
-          var $header = $(header);
-          if ($header.hasClass('never')) {
-            $header.removeClass('never');
-            $(this).addClass('pressed')
-                   .attr('aria-pressed', 'true');
-          } else {
-            $header.addClass('never');
-            $(this).removeClass('pressed')
-                   .attr('aria-pressed', 'false');
-          }
-
-          column.visible(!column.visible()); // Toggle the visibility
-
-          table.responsive.rebuild();
-          table.responsive.recalc();
-        });
-
-        $('.dataTables_empty').html('<img id="loader" src="img/loader.gif">');
-      }
-
-      new $.fn.dataTable.Buttons(table, {
-          buttons: dtButtons
+    if (name !== 'saved' && resultTable.getType() === 'search') {
+      dtButtons.push(
+        {
+          text: 'Save Selected Tools',
+          action: function () {
+            saveSelectedRecords(name + '-list');
+          },
+          className: 'button button-white'
         }
       );
+    }
 
-      table.buttons(0, null).container().css('display', 'block').wrap("<div></div>");
-      if (name !== 'saved' && resultTable.getType() === 'search') {
-        table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
-      } else {
-      	table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');  
+    if (name === 'browse') {
+      var columns = table.columns([8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]);
+      columns.visible(false, false);
+      $(columns.header()).addClass('never');
+      table.columns.adjust().draw(false);
+
+      $('button.toggle-vis').on('click', function (e) {
+        e.preventDefault();
+   
+        var column = table.column($(this).attr('data-column')); // Get the column API object
+        var header = column.header(); // Get the header API object
+        var $header = $(header);
+        if ($header.hasClass('never')) {
+          $header.removeClass('never');
+          $(this).addClass('pressed')
+                 .attr('aria-pressed', 'true');
+        } else {
+          $header.addClass('never');
+          $(this).removeClass('pressed')
+                 .attr('aria-pressed', 'false');
+        }
+
+        column.visible(!column.visible()); // Toggle the visibility
+
+        table.responsive.rebuild();
+        table.responsive.recalc();
+      });
+
+      $('.dataTables_empty').html('<img id="loader" src="img/loader.gif">');
+    }
+
+    if (name === 'saved' && resultTable.getType() === 'search') {
+      dtButtons.push(
+        {
+          text: 'Remove Selected Tools',
+          action: function () {
+            removeSelected(name + '-list');
+          },
+          className: 'button button-white'
+        }
+      );
+    }
+
+    new $.fn.dataTable.Buttons(table, {
+        buttons: dtButtons
       }
-      
+    );
+
+    table.buttons(0, null).container().css('display', 'block').wrap("<div></div>");
+    if (name !== 'saved' && resultTable.getType() === 'search') {
+      table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');
+    } else {
+    	table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');
+    }
+
     $('.dt-button').removeClass('dt-button');
   }
 }
@@ -1355,10 +1301,10 @@ function createDataTable(name) {
  */
 function selectAllToolsButton(name) {
   if (!$('#saved-list').length) {
-    selectAll(name + '-list', saveAll(name + '-list'));  
+    selectAll(name + '-list', saveAll(name + '-list'));
   } else {
-    selectAll(name + '-list');  
-  }  
+    selectAll(name + '-list');
+  }
   var rows = $('#' + name + '-table').DataTable().rows();
   var rowNodes = rows.nodes();
   rows.select();
@@ -1372,9 +1318,9 @@ function selectAllToolsButton(name) {
  */
 function deselectAllToolsButton(name) {
   if (!$('#saved-list').length) {
-    deselectAll(name + '-list', unsaveAll(name + '-list'));  
+    deselectAll(name + '-list', unsaveAll(name + '-list'));
   } else {
-    deselectAll(name + '-list');  
+    deselectAll(name + '-list');
   }
   var rows = $('#' + name + '-table').DataTable().rows();
   var rowNodes = rows.nodes();
@@ -1419,7 +1365,7 @@ var toast = function (parameters) {
         $notice.html(parameters[parameter]);
       }
       if (parameter === 'close') {
-        $notice.append('<span class="toast-close-button" onclick="clearToast()" role="button">&times;</span>');
+        $notice.append('<span class="toast-close-button unselectable" onclick="clearToast()" role="button">&times;</span>');
       }
       if (parameter === 'priority') {
         if (parameters[parameter] === 'polite') {
@@ -1431,7 +1377,7 @@ var toast = function (parameters) {
       }
       if (parameter === 'disable') {
         if (parameters[parameter] === true) {
-          $notice.append($('<button>').text('Disable These Messages').addClass('button-grey toast-button').click(function(){disableToast(noticeID, showToast)}));
+          $notice.append($('<button>').text('Disable These Messages').addClass('button-grey toast-button').click(function () {disableToast(noticeID, showToast)}));
         }
       }
     }
@@ -1459,7 +1405,7 @@ function disableToast(noticeID, showToast) {
  * Clears the toast and the timeout for the toast
  * @function
  */
-function clearToast(){
+function clearToast() {
   var noticeID = 'toast';
   var $notice = $('#' + noticeID);
   clearTimeout(timeouts[noticeID]);
@@ -1476,7 +1422,7 @@ var stopWords = [
 /**
  * Prints the leafNode array in a format that can be manually copied to create a hard coded version
  * @function
- * @param {array} arrayToPrint - An array that will be printed. 
+ * @param {array} arrayToPrint - An array that will be printed.
  */
 function printArray(arrayToPrint) {
   var str = '[';
@@ -1558,3 +1504,17 @@ $('#feedback-modal').click(function (e) {
     $('#feedback-modal').css('display', 'none');
   }
 });
+
+/**
+ * return selected label for each checked element and
+ * console-log each label
+ */
+var debugLogSelected = function(){
+    var selected = [];
+    $.each($(':checked').next('label'), function(i,d){
+        console.log(i,d);
+        selected += i + ' ' + d.className + ': ' + d.innerText + '; '
+    });
+    selected = JSON.stringify(selected);
+	return selected
+};

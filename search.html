@@ -38,110 +38,11 @@
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/css/buttons.dataTables.min.css">
   <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
   <link type="text/css" rel="stylesheet" href="css/base.css" media="all" />
+  <link type="text/css" rel="stylesheet" href="css/search.css" media="all" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov All Press Releases" href="https://www.epa.gov/newsreleases/search/rss" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters" />
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
-  <style>
-    #tabs-nav {
-      padding:0
-    }
-    /* don't initially display "no results returned from search" */
-    #simpleFeedback {
-      display: none;
-      background-color: rgb(221, 206, 204);
-    }
-    #detailed-search-feedback { 
-      display:none; 
-      background-color: rgb(221, 206, 204);
-    }
-    /************* ADDED FROM MOCKUP.HTML ************/
-    button:disabled { 
-      background-color: #aeb0b5;
-    }
-    @media screen and (min-width: 45em), print and (min-width: 45em) {
-      .row > .size-95of100.col {
-        width: 95%;
-      }
-    }
-    .expand:hover {
-      background-color: #e7f4e4;
-      cursor: pointer;
-    }
-    .expand {
-      margin: 0;
-    }
-    .list-div {
-      background-color: #f1f1f1;
-      margin-top: .5em;
-      border-radius: 5px;
-      padding: 2px;
-    }
-    [role=tab] {
-      margin: 1px 0 0;
-      border-bottom-left-radius:0;
-      border-bottom-right-radius:0;
-    }
-    [role=tabpanel] {
-      padding: .5em;
-      border: 2px solid #d6d7d9;
-      border-radius: 5px;
-      border-top-left-radius:0;
-      border-top-right-radius:0;
-    }
-    [aria-hidden="true"] {
-      display: none;
-    }
-    .results-label {
-      display: inline;
-      background-color:transparent;
-    }
-    .tool-label:focus + label {
-      background-color:#e1f3f8;
-    }
-    .tool-label:checked + label {
-      background-color:#d6d7d9;
-    }
-    /* Makes text in an element unselectable */
-    .unselectable {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      -o-user-select: none;
-      user-select: none;
-    }
-    button:disabled {
-      background-color:#aeb0b5
-    }
-    * {
-      -ms-transition: none;
-      transition: none;
-    }
-    .collapsible {
-      transform: rotateX(180deg);
-    }
-    .tabs, .tabs > li {
-      margin-bottom: 0;
-      border: none;
-    }
-    hr {
-      border: .5em solid #d6d7d9;
-      border-radius: 1em;
-      height: 0;
-    }
-    .bold {
-      font-weight: bold;
-    }
-    .option {
-      margin-right: 1.4rem;
-    }
-    .search-input {
-      width: 40em;
-    }
-    .accordion-pane {
-      display: none;
-    }
-  </style>
 </head>
 <body class="node-type-web-area microsite" >
   <!-- Google Tag Manager -->
@@ -692,8 +593,7 @@ $(function () { // jquery's shorthand awaits readiness of document
     if ($parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
       $parent.removeClass('selected');
-    }
-    else {
+    } else {
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
       $parent.addClass('selected');
     }
@@ -731,7 +631,7 @@ var initializeTabs = function () {
 function addMembers(dataList, fieldName, fieldValues) {
   if (fieldValues.length > 0) {// are any values selected?
     var tmpDataList = [];// create a temp copy of dataList
-    for (iFieldValue = 0; iFieldValue < fieldValues.length; iFieldValue++) {// loop through os-selections
+    for (var iFieldValue = 0; iFieldValue < fieldValues.length; iFieldValue++) {// loop through os-selections
       for (var iDatum = 0; iDatum < dataList.length; iDatum++) {// loop through current data-objects
         // expand the temp object to be num_osSelections * num_previousDataObjects
         tmpDataList[fieldValues.length * iDatum + iFieldValue] = {}; //create new object
@@ -760,7 +660,7 @@ var detailedSearch = function () {
   resultSet.reset(); // clear result set
   resultTable.getToolSet().reset(); //reset display toolset
   var $feedbackDiv = $('#detailed-search-feedback');
-  var queryTypes = $("#search-field input:checkbox:checked").map(function(){return $(this).val()}).get();
+  var queryTypes = $("#search-field input:checkbox:checked").map(function () {return $(this).val()}).get();
   if (!queryTypes.length) { // ensure queryType is selected
     $feedbackDiv.html('You must select at least one Search Field.').css('display', 'block');
     return;
@@ -845,7 +745,7 @@ var detailedSearch = function () {
  */
 var parseResultsArray = function (results) {
   for (var i = 0; i < results.length; i++) {
-    if(!resultSet.contains(results[i].ResourceId)) {
+    if (!resultSet.contains(results[i].ResourceId)) {
       resultSet.addTool(results[i].ResourceId);
     }
   }
@@ -858,7 +758,7 @@ var parseResultsArray = function (results) {
  * @param {array} results - An array containing the results from the Ajax queries.
  * @return {number} the length of the ResultSet.
  */
-simpleSearch = function () {
+var simpleSearch = function () {
   if ($.fn.DataTable.isDataTable('#results-table')) {
     $('#results-table').DataTable().clear().draw(); //clear result table
   }
@@ -873,11 +773,11 @@ simpleSearch = function () {
   var requests = [];
   var data = {};
   var decisionSectors = [
-      "Land Use",
-      "Waste Management",
-      "Building Infrastructure",
-      "Transportation"
-    ];
+    "Land Use",
+    "Waste Management",
+    "Building Infrastructure",
+    "Transportation"
+  ];
   if (queryString) { // ensure search-string is not empty
     for (var i = 0; i < queryTypes.length; i++) {
       if (queryTypes[i] === 'Acronym') {
@@ -903,7 +803,7 @@ simpleSearch = function () {
       if (0 === numberOfResults) {
         $feedbackDiv.html('No results were found.').css('display', 'block');
         $('#results-tab').parent().attr('aria-hidden',true);
-      }else {
+      } else {
         $feedbackDiv.html('').css('display', 'none');
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
@@ -926,44 +826,45 @@ simpleSearch = function () {
  */
 function loadModels2(tableID) {
   if (!$.fn.DataTable.isDataTable('#' + tableID + 'table')) {
-      var browse = new ToolSet();
-      var table;
-      switch (tableID) {
-      case "building-infrastructure":
-        decision_query = "Building Infrastructure";
-        table = buildingInfrastructureTable;
-        break;
-      case "land-use":
-        decision_query = "Land Use";
-        table = landUseTable;
-        break;
-      case "transportation":
-        decision_query = "Transportation";
-        table = transportationTable;
-        break;
-      case "waste-management":
-        decision_query = "Waste Management";
-        table = wasteManagementTable;
-        break;
-      default:
-        return;
-      }
-      $.ajax({
-        type: 'GET',
-        url: resourceAdvancedSearchURL,
-        data: {
-          DecisionSector: decision_query
-        },
-        success: function (data) {
-          for (i = 0; i < data.length; i++) {
-            if(!browse.contains(data[i].ResourceId)) {
-              browse.addTool(data[i].ResourceId);
-            } 
-          }
-          createDataTable(tableID);
-          toolCache.handleToolSet(browse, table.displayTools.bind(table));
+    var browse = new ToolSet();
+    var table;
+    var decision_query = '';
+    switch (tableID) {
+    case "building-infrastructure":
+      decision_query = "Building Infrastructure";
+      table = buildingInfrastructureTable;
+      break;
+    case "land-use":
+      decision_query = "Land Use";
+      table = landUseTable;
+      break;
+    case "transportation":
+      decision_query = "Transportation";
+      table = transportationTable;
+      break;
+    case "waste-management":
+      decision_query = "Waste Management";
+      table = wasteManagementTable;
+      break;
+    default:
+      return;
+    }
+    $.ajax({
+      type: 'GET',
+      url: resourceAdvancedSearchURL,
+      data: {
+        DecisionSector: decision_query
+      },
+      success: function (data) {
+        for (var i = 0; i < data.length; i++) {
+          if (!browse.contains(data[i].ResourceId)) {
+            browse.addTool(data[i].ResourceId);
+          } 
         }
-      });
+        createDataTable(tableID);
+        toolCache.handleToolSet(browse, table.displayTools.bind(table));
+      }
+    });
   }
 }
 </script>
