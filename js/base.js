@@ -1473,3 +1473,17 @@ $('#feedback-modal').click(function (e) {
     $('#feedback-modal').css('display', 'none');
   }
 });
+
+/**
+ * return selected label for each checked element and
+ * console-log each label
+ */
+var debugLogSelected = function(){
+    var selected = [];
+    $.each($(':checked').next('label'), function(i,d){
+        console.log(i,d);
+        selected += i + ' ' + d.className + ': ' + d.innerText + '; '
+    });
+    selected = JSON.stringify(selected);
+	return selected
+};
