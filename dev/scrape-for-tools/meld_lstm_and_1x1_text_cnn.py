@@ -1,60 +1,191 @@
-def lstm_document_classifier():
-    '''Trains an LSTM model on the IMDB sentiment classification task.
-    The dataset is actually too small for LSTM to be of any advantage
-    compared to simpler, much faster methods such as TF-IDF + LogReg.
-    Notes:
-
-    - RNNs are tricky. Choice of batch size is important,
-    choice of loss and optimizer is critical, etc.
-    Some configurations won't converge.
-
-    - LSTM loss decrease patterns during training can be quite different
-    from what you see with CNNs/MLPs/etc.
+def anyone_can_learn_to_code_an_lstm_rnn_in_python():
+    '''kyle2017.09.11: lstm from scratch copied from iamtrask's
+    Anyone Can Learn To Code an LSTM-RNN in Python (Part 1: RNN)
     '''
-    #from __future__ import print_function
+    import copy, numpy as np
+    np.random.seed(0)
 
-    from keras.preprocessing import sequence
-    from keras.models import Sequential
-    from keras.layers import Dense, Embedding
-    from keras.layers import LSTM
-    from keras.datasets import imdb
+    # compute sigmoid nonlinearity
+    def sigmoid(x):
+        output = 1/(1+np.exp(-x))
+        return output
+
+    # convert output of sigmoid function to its derivative
+    def sigmoid_output_to_derivative(output):
+        return output*(1-output)
 
 
-    max_features = 20000
-    maxlen = 80  # cut texts after this number of words (among top max_features most common words)
-    batch_size = 32
+    # training dataset generation
+    int2binary = {}
+    binary_dim = 8
 
-    print('Loading data...')
-    (x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=max_features)
-    print(len(x_train), 'train sequences')
-    print(len(x_test), 'test sequences')
+    largest_number = pow(2,binary_dim)
+    binary = np.unpackbits(
+        np.array([range(largest_number)],dtype=np.uint8).T,axis=1)
+    for i in range(largest_number):
+        int2binary[i] = binary[i]
 
-    print('Pad sequences (samples x time)')
-    x_train = sequence.pad_sequences(x_train, maxlen=maxlen)
-    x_test = sequence.pad_sequences(x_test, maxlen=maxlen)
-    print('x_train shape:', x_train.shape)
-    print('x_test shape:', x_test.shape)
 
-    print('Build model...')
-    model = Sequential()
-    model.add(Embedding(max_features, 128))
-    model.add(LSTM(128, dropout=0.2, recurrent_dropout=0.2))
-    model.add(Dense(1, activation='sigmoid'))
+    # input variables
+    alpha = 0.1
+    input_dim = 2
+    hidden_dim = 16
+    output_dim = 1
 
-    # try using different optimizers and different optimizer configs
-    model.compile(loss='binary_crossentropy',
-                  optimizer='adam',
-                  metrics=['accuracy'])
 
-    print('Train...')
-    model.fit(x_train, y_train,
-              batch_size=batch_size,
-              epochs=15,
-              validation_data=(x_test, y_test))
-    score, acc = model.evaluate(x_test, y_test,
-                                batch_size=batch_size)
-    print('Test score:', score)
-    print('Test accuracy:', acc)
+    # initialize neural network weights
+    synapse_0 = 2*np.random.random((input_dim,hidden_dim)) - 1
+    synapse_1 = 2*np.random.random((hidden_dim,output_dim)) - 1
+    synapse_h = 2*np.random.random((hidden_dim,hidden_dim)) - 1
+
+    synapse_0_update = np.zeros_like(synapse_0)
+    synapse_1_update = np.zeros_like(synapse_1)
+    synapse_h_update = np.zeros_like(synapse_h)
+
+    # training logic
+    for j in range(10000):
+        
+        # generate a simple addition problem (a + b = c)
+        a_int = np.random.randint(largest_number/2) # int version
+        a = int2binary[a_int] # binary encoding
+
+        b_int = np.random.randint(largest_number/2) # int version
+        b = int2binary[b_int] # binary encoding
+
+        # true answer
+        c_int = a_int + b_int
+        c = int2binary[c_int]
+        
+        # where we'll store our best guess (binary encoded)
+        d = np.zeros_like(c)
+
+        overallError = 0
+        
+        layer_2_deltas = list()
+        layer_1_values = list()
+        layer_1_values.append(np.zeros(hidden_dim))
+        
+        # moving along the positions in the binary encoding
+        for position in range(binary_dim):
+            
+            # generate input and output
+            X = np.array([[a[binary_dim - position - 1],b[binary_dim - position - 1]]])
+            y = np.array([[c[binary_dim - position - 1]]]).T
+
+            # hidden layer (input ~+ prev_hidden)
+            layer_1 = sigmoid(np.dot(X,synapse_0) + np.dot(layer_1_values[-1],synapse_h))
+
+            # output layer (new binary representation)
+            layer_2 = sigmoid(np.dot(layer_1,synapse_1))
+
+            # did we miss?... if so, by how much?
+            layer_2_error = y - layer_2
+            layer_2_deltas.append((layer_2_error)*sigmoid_output_to_derivative(layer_2))
+            overallError += np.abs(layer_2_error[0])
+        
+            # decode estimate so we can print it out
+            d[binary_dim - position - 1] = np.round(layer_2[0][0])
+            
+            # store hidden layer so we can use it in the next timestep
+            layer_1_values.append(copy.deepcopy(layer_1))
+        
+        future_layer_1_delta = np.zeros(hidden_dim)
+        
+        for position in range(binary_dim):
+            
+            X = np.array([[a[position],b[position]]])
+            layer_1 = layer_1_values[-position-1]
+            prev_layer_1 = layer_1_values[-position-2]
+            
+            # error at output layer
+            layer_2_delta = layer_2_deltas[-position-1]
+            # error at hidden layer
+            layer_1_delta = (future_layer_1_delta.dot(synapse_h.T) + layer_2_delta.dot(synapse_1.T)) * sigmoid_output_to_derivative(layer_1)
+
+            # let's update all our weights so we can try again
+            synapse_1_update += np.atleast_2d(layer_1).T.dot(layer_2_delta)
+            synapse_h_update += np.atleast_2d(prev_layer_1).T.dot(layer_1_delta)
+            synapse_0_update += X.T.dot(layer_1_delta)
+            
+            future_layer_1_delta = layer_1_delta
+        
+
+        synapse_0 += synapse_0_update * alpha
+        synapse_1 += synapse_1_update * alpha
+        synapse_h += synapse_h_update * alpha    
+
+        synapse_0_update *= 0
+        synapse_1_update *= 0
+        synapse_h_update *= 0
+        
+        # print out progress
+        if(j % 1000 == 0):
+            print "Error:" + str(overallError)
+            print "Pred:" + str(d)
+            print "True:" + str(c)
+            out = 0
+            for index,x in enumerate(reversed(d)):
+                out += x*pow(2,index)
+            print str(a_int) + " + " + str(b_int) + " = " + str(out)
+            print "------------"
+
+def lstm_document_classifier():
+	'''Trains an LSTM model on the IMDB sentiment classification task.
+	The dataset is actually too small for LSTM to be of any advantage
+	compared to simpler, much faster methods such as TF-IDF + LogReg.
+	Notes:
+
+	- RNNs are tricky. Choice of batch size is important,
+	choice of loss and optimizer is critical, etc.
+	Some configurations won't converge.
+
+	- LSTM loss decrease patterns during training can be quite different
+	from what you see with CNNs/MLPs/etc.
+	'''
+	#from __future__ import print_function
+
+	from keras.preprocessing import sequence
+	from keras.models import Sequential
+	from keras.layers import Dense, Embedding
+	from keras.layers import LSTM
+	from keras.datasets import imdb
+
+
+	max_features = 20000
+	maxlen = 80  # cut texts after this number of words (among top max_features most common words)
+	batch_size = 32
+
+	print('Loading data...')
+	(x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=max_features)
+	print(len(x_train), 'train sequences')
+	print(len(x_test), 'test sequences')
+
+	print('Pad sequences (samples x time)')
+	x_train = sequence.pad_sequences(x_train, maxlen=maxlen)
+	x_test = sequence.pad_sequences(x_test, maxlen=maxlen)
+	print('x_train shape:', x_train.shape)
+	print('x_test shape:', x_test.shape)
+
+	print('Build model...')
+	model = Sequential()
+	model.add(Embedding(max_features, 128))
+	model.add(LSTM(128, dropout=0.2, recurrent_dropout=0.2))
+	model.add(Dense(1, activation='sigmoid'))
+
+	# try using different optimizers and different optimizer configs
+	model.compile(loss='binary_crossentropy',
+				  optimizer='adam',
+				  metrics=['accuracy'])
+
+	print('Train...')
+	model.fit(x_train, y_train,
+			  batch_size=batch_size,
+			  epochs=15,
+			  validation_data=(x_test, y_test))
+	score, acc = model.evaluate(x_test, y_test,
+								batch_size=batch_size)
+	print('Test score:', score)
+	print('Test accuracy:', acc)
 
 def autoencoder():
     '''Example script to generate text from Nietzsche's writings.
