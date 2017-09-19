@@ -80,98 +80,110 @@
 
 def text_classifier():
     import numpy as np
+    np.random.seed(42)
     from keras.models import Sequential
     from keras.layers import Dense, Dropout, Activation, Flatten
-    from keras.layers import Convolution1D, MaxPooling1D
+    from keras.layers import Conv1D, MaxPooling1D
     from keras.utils import np_utils
     from collect_data import collect_data
     from sklearn.model_selection import train_test_split
     from sklearn.preprocessing import MultiLabelBinarizer
     from keras.preprocessing.sequence import pad_sequences
     from keras.preprocessing.text import Tokenizer
+    from pprint import pprint
 
     MAX_NB_WORDS = 20000
-    MAX_SEQUENCE_LENGTH = 1000
+    MAX_SEQUENCE_LENGTH = 1500
+    EMBEDDING_DIMENSION = 10
+    VALIDATION_SPLIT = 0.1
+    EPOCHS = 16
+    BATCH_SIZE = 4
 
-    read_ids, descriptions, labels = collect_data()# get data
+    embeddings_index = {}
+    glove_data = '/Users/KThom02/data/glove.6B/glove.6B.50d.txt'
+    f = open(glove_data, encoding='utf8')
+    for line in f:
+        values = line.split()
+        word = values[0]
+        value = np.asarray(values[1:], dtype='float32')
+        embeddings_index[word] = value
+    f.close()
+    print('Loaded %s word vectors.' % len(embeddings_index)) 
+
+    read_ids, descriptions, labels = collect_data()
     tokenizer = Tokenizer(num_words=MAX_NB_WORDS)
     tokenizer.fit_on_texts(descriptions)
-    word_index = tokenizer.word_index
-    index_word = {index: word for index, word in enumerate(word_index)}
-    sequences = tokenizer.texts_to_sequences(descriptions, maxlen=MAX_SEQUENCE_LENGTH)
-    X = pad_sequences(sequences)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1)
-    SIZE = X_train.shape[1]
+    word_to_index = tokenizer.word_index
+    index_to_word = dict((index, word) for word, index in word_to_index.items())
+    sequences = tokenizer.texts_to_sequences(descriptions)
+    X = pad_sequences(sequences, padding='post', truncating='post')
 
-    data = np.array(data)
-    labels = np.array(labels)
+    # EXPLICITLY CHANGE TO SINGLE CHANNEL
+    SIZE = X.shape[1]
+    X = X.reshape(X.shape[0], 1, SIZE)
+    
 
-    #labels = to_categorical(np.asarray(labels)) # see above
-    print('Shape of data tensor:', data.shape)
-    print('Shape of label tensor:', labels.shape)
+    embedding_dimension = EMBEDDING_DIMENSION
 
-    # split the data into a training set and a validation set
-    indices = np.arange(data.shape[0])
-    np.random.shuffle(indices)
-    data = data[indices]
-    labels = labels[indices]
-    num_validation_samples = int(VALIDATION_SPLIT * data.shape[0])
-
-    # EXPLICITLY CHANGE SHAPE
-    X_train = X_train.reshape(X_train.shape[0], 1, SIZE, SIZE)
-    X_test = X_test.reshape(X_test.shape[0], 1, SIZE, SIZE)
+    embedding_matrix = np.zeros((len(word_to_index) + 1, embedding_dimension))
+    for word, i in word_to_index.items():
+        embedding_vector = embeddings_index.get(word)
+        if embedding_vector is not None:
+            # words not found in embedding index will all be zeros
+            embedding_matrix[i] = embedding_vector[:embedding_dimension]
 
     mlb = MultiLabelBinarizer()
-    y = mlb.fit_transform(labels)
-    # ARRAY OF SCALAR LABELS -> ARRAY OF ONE-HOT VECTORS
-    Y_train = np_utils.to_categorical(y_train, 10)
-    Y_test = np_utils.to_categorical(y_test, 10)
+    Y = mlb.fit_transform(labels)
+    Y = Y.reshape(Y.shape[0], 1, Y.shape[1])
+
+    # split the data into a training set and a validation set
+    indices = np.arange(X.shape[0])
+    np.random.shuffle(indices)
+    X = X[indices]
+    Y = Y[indices]
+    num_validation_samples = int(VALIDATION_SPLIT * X.shape[0])
+    X_train = X[:-num_validation_samples]
+    X_test = X[-num_validation_samples:]
+    Y_train = Y[:-num_validation_samples]
+    Y_test = Y[-num_validation_samples:]
 
     model = Sequential()
-    model.add(Convolution2D(32, (3, 3),
-                            activation='relu',
-                            input_shape=(1,SIZE,SIZE),
-                            dim_ordering='th'))
-    i = 0
-    i += 1
-    print('after layer', i, ':', model.output_shape)
-    model.add(Convolution2D(32, (3, 3), activation='relu'))
-    i += 1
-    print('after layer', i, ':', model.output_shape)
-    model.add(Convolution2D(32, (3, 3), activation='relu'))
-    i += 1
-    print('after layer', i, ':', model.output_shape)
-    model.add(MaxPooling2D(pool_size=(2,2)))
-    i += 1
-    print('after layer', i, ':', model.output_shape)
-    model.add(Dropout(0.25))
-    i += 1
-    print('after layer', i, ':', model.output_shape)
-    model.add(Flatten())
-    i += 1
-    print('after layer', i, ':', model.output_shape)
-    model.add(Dense(128, activation='relu'))
-    i += 1
-    print('after layer', i, ':', model.output_shape)
-    model.add(Dropout(0.5))
-    i += 1
-    print('after layer', i, ':', model.output_shape)
-    model.add(Dense(10, activation='softmax'))
-    i += 1
-    print('after layer', i, ':', model.output_shape)
+    #model.add(Conv1D(32, 1, input_shape=(None, 950), activation='relu'))
+    #model.add(Dropout(0.25))
+    #model.add(Conv1D(16, 1, activation='relu'))
+    #model.add(Dropout(0.5))
+    #model.add(Dense(448, activation='selu'))
+    model.add(Dense(199, input_shape=(1, 199), activation='relu'))
+    model.add(Dense(199, activation='relu'))
+    model.add(Dense(100, activation='relu'))
+    model.add(Dense(100, activation='relu'))
+    model.add(Dense(50, activation='relu'))
+    model.add(Dense(50, activation='relu'))
+    model.add(Dense(25, activation='relu'))
+    model.add(Dense(25, activation='relu'))
+    model.add(Dense(50, activation='relu'))
+    model.add(Dense(50, activation='relu'))
+    model.add(Dense(100, activation='relu'))
+    model.add(Dense(100, activation='relu'))
+    model.add(Dense(199, activation='relu'))
+    model.add(Dense(199, activation='relu'))
+    model.add(Dense(448, activation='relu'))
+    model.add(Dense(448, activation='relu'))
+    model.summary()
 
-    model.compile(loss='categorical_crossentropy',
+    model.compile(loss='binary_crossentropy',
                   optimizer='adam',
                   metrics=['accuracy'])
     model.fit(X_train,
               Y_train,
-              batch_size=1,
-              epochs=2,
+              batch_size=BATCH_SIZE,
+              epochs=EPOCHS,
               verbose=1)
     score = model.evaluate(X_test,
                            Y_test,
                            verbose=1)
 
+    return X_test, Y_test, model, score
 
 if __name__ == '__main__':
-    text_classifier()
+    X_test, Y_test, model, score = text_classifier()
