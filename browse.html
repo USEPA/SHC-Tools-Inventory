@@ -133,7 +133,7 @@
     }
   </style>
 </head>
-<body class="node-type-web-area microsite wide-template" >
+<body class="node-type-web-area microsite" >
   <!-- Google Tag Manager -->
   <!--REMOVED FOR DEVELOPMENT; REPLACE FOR PRODUCTION
   <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -182,41 +182,8 @@
             <input id="browse-table-radio" type="radio" name="browse-display-type" value="table" checked><label for="browse-table-radio">Table: allows filtering and column sorting.</label>
             <br />
             <hr />
+            <div id="browse-feedback"></div>
             <div class="browse-table-div">
-              <div>
-                <div>Toggle column:</div>
-                <button class="toggle-vis pressed" data-column="2" role="button" aria-pressed="true">Title</button> - 
-                <button class="toggle-vis pressed" data-column="3" role="button" aria-pressed="true">Description</button> - 
-                <button class="toggle-vis pressed" data-column="4" role="button" aria-pressed="true">Operating Environment</button> -
-                <button class="toggle-vis pressed" data-column="5" role="button" aria-pressed="true">Spatial Extent</button> -
-                <button class="toggle-vis pressed" data-column="6" role="button" aria-pressed="true">Decision Sector</button> -
-                <button class="toggle-vis pressed" data-column="7" role="button" aria-pressed="true">Base Cost</button> -
-                <button class="toggle-vis" data-column="8">Other Costs</button> -
-                <!-- <button class="toggle-vis" data-column="9">Ownership Type</button> -
-                <button class="toggle-vis" data-column="10">Resource Type</button> -
-                <button class="toggle-vis" data-column="11">Organization</button> - -->
-                <button class="toggle-vis" data-column="9">URL</button> -
-                <button class="toggle-vis" data-column="10">Life Cycle Phase</button> -
-                <button class="toggle-vis" data-column="11">Open Source</button> -
-                <button class="toggle-vis" data-column="12">Operating System</button> -
-                <button class="toggle-vis" data-column="13">Other Requirements</button> -
-                <button class="toggle-vis" data-column="14">Time Scale</button> -
-                <button class="toggle-vis" data-column="15">Technical Skills Needed</button> -
-                <button class="toggle-vis" data-column="16">Model Structure</button> -
-                <button class="toggle-vis" data-column="17">Model Inputs</button> -
-                <button class="toggle-vis" data-column="18">Input Data Requirements</button> -
-                <button class="toggle-vis" data-column="19">Model Output Types</button> -
-                <button class="toggle-vis" data-column="20">Output Variables</button> -
-                <button class="toggle-vis" data-column="21">Model Evaluation</button> -
-                <button class="toggle-vis" data-column="22">Keywords</button> -
-                <button class="toggle-vis" data-column="23">Support Name</button> -
-                <button class="toggle-vis" data-column="24">Support Phone</button> -
-                <button class="toggle-vis" data-column="25">Support Email</button> -
-                <button class="toggle-vis" data-column="26">Support Materials</button>
-                <!-- <button class="toggle-vis" data-column="32">Help Desk Phone</button> -
-                <button class="toggle-vis" data-column="33">Help Desk Email</button> -->
-              </div>
-              <hr />
               <table class="revision-table" id="browse-table" width="100%">
                 <thead>
                   <tr>
@@ -228,31 +195,6 @@
                     <th>Spatial Extent</th>
                     <th>Decision Sector</th>
                     <th>Base Cost</th>
-                    <th>Other Costs</th>
-                    <!-- <th>Ownership Type</th> --> <!-- All "External" -->
-                    <!-- <th>Resource Type</th> --> <!-- All "Model" -->
-                    <!-- <th>Organization</th> --> <!-- All "No Data" -->
-                    <th>URL</th>
-                    <th>Life Cycle Phase</th>
-                    <th>Open Source</th>
-                    <th>Operating System</th>
-                    <th>Other Requirements</th>
-                    <th>Time Scale</th>
-                    <!-- spatial extent -->
-                    <th>Technical Skills Needed</th>
-                    <th>Model Structure</th>
-                    <th>Model Inputs</th>
-                    <th>Input Data Requirements</th>
-                    <th>Model Output Types</th>
-                    <th>Output Variables</th>
-                    <th>Model Evaluation</th>
-                    <th>Keywords</th>
-                    <th>Support Name</th>
-                    <th>Support Phone</th>
-                    <th>Support Email</th>
-                    <th>Support Materials</th>
-                    <!-- <th>Help Desk Phone</th> --> <!-- All "No Data" -->
-                    <!-- <th>Help Desk Email</th> --> <!-- All "No Data" -->
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -491,6 +433,7 @@ function browseTools() {
     "Building Infrastructure",
     "Transportation"
   ];
+  var $feedbackDiv = $('#browse-feedback');
   var results = [];
   var requests = [];
   var data = {};

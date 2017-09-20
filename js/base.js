@@ -59,6 +59,7 @@ var toolCache = (function () {
      * @param {function} data - The function that will handle the ToolSet data.
      */
     handleToolSet: function (toolSet, callback) {
+      console.log(toolSet.getToolSet());
       var readIds = Object.keys(toolSet.getToolSet());
       var requests = [];
       for (var i = 0; i < readIds.length; i++) {
@@ -525,7 +526,7 @@ function showDetails(id, origin) {
     "<span class='bold'>Model Output Variables</span>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
     "<span class='bold'>Model Evaluation</span>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
     "<span class='bold'>Keywords</span>: " + parsedData['Keywords'] + "<br>" +
-    "<span class='bold'>Selected Concepts</span>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" +
+    "<span class='bold'>Selected Concepts</span>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']).join(', ') + "<br />" +
     "<span class='bold'>User Support Name</span>: " + parsedData['Support Name'] + "<br>" +
     "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
     "<span class='bold'>User Support Email</span>: " + linkifyString(parsedData['Support Email']) + "<br>" +
@@ -1236,33 +1237,6 @@ function createDataTable(name) {
     }
 
     if (name === 'browse') {
-      var columns = table.columns([8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]);
-      columns.visible(false, false);
-      $(columns.header()).addClass('never');
-      table.columns.adjust().draw(false);
-
-      $('button.toggle-vis').on('click', function (e) {
-        e.preventDefault();
-   
-        var column = table.column($(this).attr('data-column')); // Get the column API object
-        var header = column.header(); // Get the header API object
-        var $header = $(header);
-        if ($header.hasClass('never')) {
-          $header.removeClass('never');
-          $(this).addClass('pressed')
-                 .attr('aria-pressed', 'true');
-        } else {
-          $header.addClass('never');
-          $(this).removeClass('pressed')
-                 .attr('aria-pressed', 'false');
-        }
-
-        column.visible(!column.visible()); // Toggle the visibility
-
-        table.responsive.rebuild();
-        table.responsive.recalc();
-      });
-
       $('.dataTables_empty').html('<img id="loader" src="img/loader.gif">');
     }
 
