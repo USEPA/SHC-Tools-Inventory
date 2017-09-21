@@ -308,14 +308,25 @@ ToolDisplay.prototype.displayTool = function (data) {
 ToolDisplay.prototype.displayTools = function (toolSet) {
   var html = '';
   var rows = [];
-  for (var toolId in toolSet.getToolSet()) {
-  	if (this.toolSet.contains(toolId)) {
+
+  function sort(obj) {
+    return Object.keys(obj).sort(function(a, b) {
+      return obj[b] - obj[a];
+    });
+  }
+
+  var sorted = sort(toolSet.getToolSet());
+
+
+  for (var i = 0; i < sorted.length; i++) {
+  	if (this.toolSet.contains(sorted[i])) {
   	} else {
-  		this.toolSet.addTool(toolId);
-  		html += createDiv(toolCache.getParsedData(toolId), this.getListId());
-    	rows.push(createRow(toolCache.getParsedData(toolId)));
+  		this.toolSet.addTool(sorted[i]);
+  		html += createDiv(toolCache.getParsedData(sorted[i]), this.getListId());
+    	rows.push(createRow(toolCache.getParsedData(sorted[i])));
   	}
   }
+
   $('#loader').attr('aria-hidden', 'true').hide();
   $("#" + this.getListId()).append(html);
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
@@ -498,9 +509,6 @@ function showDetails(id, origin) {
     "<span class='bold'>Acronym</span>: " + parsedData['Acronym'] + "<br>" +
     "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
     "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
-    //"<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>" + // All External
-    //"<span class='bold'>Resource Type</span>: " + parsedData['Resource Type'] + "<br>" +  // All Model
-    //"<span class='bold'>Organization</span>: " + parsedData['Organization'] + "<br>" + // All No Data
     "<span class='bold'>URL</span>: " + linkifyString(parsedData['URL']) + "<br>" +
     "<span class='bold'>Current Phase</span>: " + parsedData['Life Cycle Phase'] + "<br>" +
     "<span class='bold'>Cost Details</span>: " + parsedData['Cost'] + "<br>" +
