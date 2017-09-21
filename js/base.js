@@ -528,7 +528,7 @@ function showDetails(id, origin) {
     "<span class='bold'>Model Output Variables</span>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
     "<span class='bold'>Model Evaluation</span>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
     "<span class='bold'>Keywords</span>: " + parsedData['Keywords'] + "<br>" +
-    "<span class='bold'>Selected Concepts</span>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']).join(', ') + "<br />" +
+    "<span class='bold'>Selected Concepts</span>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" +
     "<span class='bold'>User Support Name</span>: " + parsedData['Support Name'] + "<br>" +
     "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
     "<span class='bold'>User Support Email</span>: " + linkifyString(parsedData['Support Email']) + "<br>" +
@@ -1219,7 +1219,7 @@ function createDataTable(name) {
       );
     }
 
-    if (name !== 'saved' && resultTable.getType() === 'search') {
+    if (name !== 'saved' && resultTable.getType() === 'search' || resultTable.getType() === 'browse') {
       dtButtons.push(
         {
           text: 'Save Selected Tools',
