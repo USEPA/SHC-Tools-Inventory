@@ -309,14 +309,25 @@ ToolDisplay.prototype.displayTool = function (data) {
 ToolDisplay.prototype.displayTools = function (toolSet) {
   var html = '';
   var rows = [];
-  for (var toolId in toolSet.getToolSet()) {
-  	if (this.toolSet.contains(toolId)) {
+
+  function sort(obj) {
+    return Object.keys(obj).sort(function(a, b) {
+      return obj[b] - obj[a];
+    });
+  }
+
+  var sorted = sort(toolSet.getToolSet());
+
+
+  for (var i = 0; i < sorted.length; i++) {
+  	if (this.toolSet.contains(sorted[i])) {
   	} else {
-  		this.toolSet.addTool(toolId);
-  		html += createDiv(toolCache.getParsedData(toolId), this.getListId());
-    	rows.push(createRow(toolCache.getParsedData(toolId)));
+  		this.toolSet.addTool(sorted[i]);
+  		html += createDiv(toolCache.getParsedData(sorted[i]), this.getListId());
+    	rows.push(createRow(toolCache.getParsedData(sorted[i])));
   	}
   }
+
   $('#loader').attr('aria-hidden', 'true').hide();
   $("#" + this.getListId()).append(html);
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
@@ -398,7 +409,6 @@ function createRow(parsedResult) {
   rowData = [ //Create row
     "",
     parsedResult['ID'],
-    //parsedResult['Acronym'],
     parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')',
     parsedResult['Description'],
     parsedResult['Operating Environment'],
@@ -406,9 +416,6 @@ function createRow(parsedResult) {
     parsedResult['Decision Sector'],
     parsedResult['Cost'],
     parsedResult['Other Costs'],
-    //parsedResult['Ownership Type'], // All External
-    //parsedResult['Resource Type'], // All Model
-    //parsedResult['Organization'], // All No Data
     parsedResult['URL'],
     parsedResult['Life Cycle Phase'],
     parsedResult['Open Source'],
@@ -426,9 +433,7 @@ function createRow(parsedResult) {
     parsedResult['Support Name'],
     parsedResult['Support Phone'],
     parsedResult['Support Email'],
-    parsedResult['Support Materials']//,
-    //parsedResult['Help Desk Phone'], // All No Data
-    //parsedResult['Help Desk Email'] // All No Data
+    parsedResult['Support Materials']
   ];
   for (var i = 0; i < rowData.length; i++) { // limit to 140 characters
     if (rowData[i].length > 280) {
@@ -505,9 +510,6 @@ function showDetails(id, origin) {
     "<span class='bold'>Acronym</span>: " + parsedData['Acronym'] + "<br>" +
     "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
     "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
-    //"<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>" + // All External
-    //"<span class='bold'>Resource Type</span>: " + parsedData['Resource Type'] + "<br>" +  // All Model
-    //"<span class='bold'>Organization</span>: " + parsedData['Organization'] + "<br>" + // All No Data
     "<span class='bold'>URL</span>: " + linkifyString(parsedData['URL']) + "<br>" +
     "<span class='bold'>Current Phase</span>: " + parsedData['Life Cycle Phase'] + "<br>" +
     "<span class='bold'>Cost Details</span>: " + parsedData['Cost'] + "<br>" +
@@ -531,8 +533,6 @@ function showDetails(id, origin) {
     "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
     "<span class='bold'>User Support Email</span>: " + linkifyString(parsedData['Support Email']) + "<br>" +
     "<span class='bold'>User Support Material</span>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
-    //"<span class='bold'>Internet Help Desk Phone</span>: " + parsedData['Help Desk Phone'] + "<br />" + // All No Data
-    //"<span class='bold'>Internet Help Desk Email</span>: " + linkifyString(parsedData['Help Desk Email']) + "<br />" + // All No Data
     "</div>";
     $tab.append(html);
     $selectedToolPanel.removeAttr('aria-hidden');
@@ -744,9 +744,6 @@ var parseResult = function (result) {
   parsedResult['Acronym'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'Acronym']);
   parsedResult['Description'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'LongDescription']);
   parsedResult['Decision Sector'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelScopeDetail', 'ModelScopeDecisionSector']);
-  //parsedResult['Ownership Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'OwnershipTypeName']); // All External
-  //parsedResult['Resource Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'ResourceTypeName']); // All Model
-  //parsedResult['Organization'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ContactDetail', 'IndividualContactDetail', 'OrganizationName']); // All No Data
   parsedResult['URL'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'URLText']);
   parsedResult['Life Cycle Phase'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'LifeCycleDetail', 'CurrentLifeCyclePhase']);
   parsedResult['Cost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsBaseSoftwareCost']));
@@ -768,8 +765,6 @@ var parseResult = function (result) {
   parsedResult['Support Name'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportName']);
   parsedResult['Support Email'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportEmail']);
   parsedResult['Support Phone'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportPhoneNumber']);
-  //parsedResult['Help Desk Email'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'HelpDeskEmailAddressText']); // All No Data
-  //parsedResult['Help Desk Phone'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'HelpDeskTelephoneNumber']); // All No Data
   parsedResult['Support Materials'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportSourceOfSupportMaterials']);
   parsedResult['Last Software Update'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsLastKnownSoftwareUpdate']);
   parsedResult['Last Modified'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'LastModifiedDateTimeText']);
