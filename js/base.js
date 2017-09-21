@@ -397,7 +397,6 @@ function createRow(parsedResult) {
   rowData = [ //Create row
     "",
     parsedResult['ID'],
-    //parsedResult['Acronym'],
     parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')',
     parsedResult['Description'],
     parsedResult['Operating Environment'],
@@ -405,9 +404,6 @@ function createRow(parsedResult) {
     parsedResult['Decision Sector'],
     parsedResult['Cost'],
     parsedResult['Other Costs'],
-    //parsedResult['Ownership Type'], // All External
-    //parsedResult['Resource Type'], // All Model
-    //parsedResult['Organization'], // All No Data
     parsedResult['URL'],
     parsedResult['Life Cycle Phase'],
     parsedResult['Open Source'],
@@ -425,9 +421,7 @@ function createRow(parsedResult) {
     parsedResult['Support Name'],
     parsedResult['Support Phone'],
     parsedResult['Support Email'],
-    parsedResult['Support Materials']//,
-    //parsedResult['Help Desk Phone'], // All No Data
-    //parsedResult['Help Desk Email'] // All No Data
+    parsedResult['Support Materials']
   ];
   for (var i = 0; i < rowData.length; i++) { // limit to 140 characters
     if (rowData[i].length > 280) {
@@ -530,8 +524,6 @@ function showDetails(id, origin) {
     "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
     "<span class='bold'>User Support Email</span>: " + linkifyString(parsedData['Support Email']) + "<br>" +
     "<span class='bold'>User Support Material</span>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
-    //"<span class='bold'>Internet Help Desk Phone</span>: " + parsedData['Help Desk Phone'] + "<br />" + // All No Data
-    //"<span class='bold'>Internet Help Desk Email</span>: " + linkifyString(parsedData['Help Desk Email']) + "<br />" + // All No Data
     "</div>";
     $tab.append(html);
     $selectedToolPanel.removeAttr('aria-hidden');
@@ -743,9 +735,6 @@ var parseResult = function (result) {
   parsedResult['Acronym'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'Acronym']);
   parsedResult['Description'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'LongDescription']);
   parsedResult['Decision Sector'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelScopeDetail', 'ModelScopeDecisionSector']);
-  //parsedResult['Ownership Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'OwnershipTypeName']); // All External
-  //parsedResult['Resource Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'ResourceTypeName']); // All Model
-  //parsedResult['Organization'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ContactDetail', 'IndividualContactDetail', 'OrganizationName']); // All No Data
   parsedResult['URL'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'URLText']);
   parsedResult['Life Cycle Phase'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'LifeCycleDetail', 'CurrentLifeCyclePhase']);
   parsedResult['Cost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsBaseSoftwareCost']));
@@ -767,8 +756,6 @@ var parseResult = function (result) {
   parsedResult['Support Name'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportName']);
   parsedResult['Support Email'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportEmail']);
   parsedResult['Support Phone'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportPhoneNumber']);
-  //parsedResult['Help Desk Email'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'HelpDeskEmailAddressText']); // All No Data
-  //parsedResult['Help Desk Phone'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'HelpDeskTelephoneNumber']); // All No Data
   parsedResult['Support Materials'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportSourceOfSupportMaterials']);
   parsedResult['Last Software Update'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsLastKnownSoftwareUpdate']);
   parsedResult['Last Modified'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'LastModifiedDateTimeText']);
