@@ -1473,7 +1473,7 @@ $('#feedback-modal').click(function (e) {
  * return selected label for each checked element and
  * console-log each label
  */
-var debugLogSelected = function(){
+var debugGetSelected = function(){
     var selected = [];
     $.each($(':checked').next('label'), function(i,d){
         console.log(i,d);
