@@ -77,5 +77,34 @@ def load_shc_labeled_descriptions():
 
     return X, y
 
+def get_all_tools_info():
+    # return READ's data about all tools with a decision-sector from SHC's tracked tools
+    # get from READ all info about tools in a decision-sector in READ
+    # docs for READ's web-services are at
+    # https://ofmpub.epa.gov/readwebservices
+    import requests
+
+    advanced_search_url = 'https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch?DecisionSector='
+    detail_url = 'https://ofmpub.epa.gov:443/readwebservices/v1/ResourceDetail?ResourceId='
+    shc_tools = []
+    decision_sectors = ['building+infrastructure',\
+    					'land+use',\
+                        'transportation',\
+                        'waste+management']
+
+    # catalog basic info about tools in a decision-sector
+    for decision_sector in decision_sectors:
+        shc_tools += requests.get(advanced_search_url+decision_sector).json()
+    # add further details to info about tools
+    for i in range(len(shc_tools)):
+        tool_id = shc_tools[i]['ResourceId']
+        tool_details = requests.get(detail_url+tool_id).json()
+        tool_details = tool_details['READExportDetail']
+        tool_details = tool_details['InfoResourceDetail']
+        shc_tools[i]['details'] = tool_details
+
+    return shc_tools
+
 if __name__ == "__main__":
-    descriptions, labels = load_shc_labeled_descriptions()
+    #descriptions_local, labels_local = load_shc_labeled_descriptions()
+    shc_tools = get_all_tools_info()
