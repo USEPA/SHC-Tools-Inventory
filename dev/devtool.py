@@ -1,4 +1,19 @@
 class Devtool:
+    def get_ids(self):
+        from requests import get
+        url_advanced_search = 'https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch'
+        decision_sectors = [ 'Building+Infrastructure',
+                             'Land+Use',
+                             'Transportation',
+                             'Waste+Management' ]
+        ids = []
+        for decision_sector in decision_sectors:
+            results = get(url_advanced_search
+                          + '?DecisionSector='
+                          + decision_sector).json()
+            for result in results:
+                ids += [result['ResourceId']]
+        return ids
     def get_details(self, READ_id):
         from requests import get
         details_url = 'https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail?ResourceId='
