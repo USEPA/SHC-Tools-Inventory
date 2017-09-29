@@ -35,7 +35,8 @@ tests = {'READ_id': not_implemented,
          'status': not_implemented,
          'get_details': not_implemented,
          'link_check': not_implemented,
-         'get_ids': not_implemented}
+         'get_ids': not_implemented,
+         'validate_READ_id': not_implemented}
 url = 'http://epa.gov'
 READ_id = '12522'# READ-id of GEMIS
 
@@ -54,8 +55,16 @@ tests['status'] = Devtool().status(url)
 tests['url'] = Devtool().url(Devtool().get_details(READ_id))
 # return (read-id, acronym, url, url_status, field of url)
 tests['link_check'] = Devtool().link_check(Devtool().get_details(READ_id))
-#TODO return ids in a specified decision-sector
+# return ids in a specified decision-sector
 tests['get_ids'] = Devtool().get_ids()
+# validate a READ-id
+tests['validate_READ_id'] = Devtool().validate_READ_id(READ_id)
+#TODO note URL of status in a comment
+#TODO run link_check() for all ids
+#TODO send link_check() to CSV
+#TODO record final URL with status()
+#TODO compare final URL to the original
+#TODO textually describe URL-status
 
 ############################################################
 # Now, with all those definitions out of the way, on to ####

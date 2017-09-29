@@ -32,3 +32,7 @@ class Devtool:
     def link_check(self, details):
         url_info = self.url(details)
         return self.READ_id(details), self.acronym(details), self.url(details)[1], self.status(self.url(details)[1]), self.url(details)[0],
+    def validate_READ_id(self, READ_id):
+        from requests import get
+        details_url = 'https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail?ResourceId='
+        return get(details_url + str(READ_id)).json()['READExportDetail']['InfoResourceDetail']['READResourceIdentifier']
