@@ -66,7 +66,9 @@ var toolCache = (function () {
           requests.push(executeSearch(resourceDetailURL, {ResourceId:readIds[i]}));
         }
       }
+      console.log("waiting for these IDs: " + readIds);
       $.when.apply(null, requests).done(function () {
+        console.log("Handle response for: " + readIds);
         if (arguments[1] === 'success') {
           var result = parseResult(arguments[0]);
           setData(result['ID'], result);
@@ -322,6 +324,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   	if (this.toolSet.contains(sorted[i])) {
   	} else {
   		this.toolSet.addTool(sorted[i]);
+      console.log("creating div for ID: " + sorted[i]);
   		html += createDiv(toolCache.getParsedData(sorted[i]), this.getListId());
     	rows.push(createRow(toolCache.getParsedData(sorted[i])));
   	}
@@ -475,6 +478,8 @@ function removeSelected(divID) {
     if ($(this).prop("checked")) {
       savedTools.removeTool($(this).val());
       savedTable.getToolSet().removeTool($(this).val()); //remove tool from saved tool display tool set
+      console.log('B478');
+      localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
       $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
     }
   });
@@ -605,6 +610,8 @@ function saveRecord() {
   var recordIdToSave = $('#selected-tool-div').attr('data-read-id');
   if (!savedTools.contains(recordIdToSave)) {
     savedTools.addTool(recordIdToSave);
+    console.log('B610');
+    localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
     toolCache.handleParsedData(recordIdToSave, savedTable.displayTool.bind(savedTable)); // populate divs
   }
   if (savedTools.getLength() > 0) {
@@ -626,6 +633,8 @@ function saveSelectedRecords(resultsDiv) {
       savedTools.addTool($(this).val());
     }
   });
+  console.log('B633');
+  localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
   if (savedTools.getLength() > 0) {
     $('#saved-tools-tab').parent().attr("aria-hidden", false);
     $('#saved-tools-panel').attr("aria-hidden", false);
@@ -673,6 +682,7 @@ function createDiv(parsedResult, containerId) {
   var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
   var $container = $('#' + containerId);
 
+  console.log(parsedResult);
   var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
     '<div class="row" role="button">' +
       '<div class="col size-95of100">' +
@@ -1126,6 +1136,8 @@ function saveAll(divId) {
       savedTools.addTool(readID);
     }
   });
+  console.log('B1132');
+  localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
 }
 
 /**
@@ -1134,6 +1146,8 @@ function saveAll(divId) {
  */
 function unsaveAll() {
   savedTools.reset();
+  console.log('B1142');
+  localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
 }
 
 /**
@@ -1144,7 +1158,7 @@ function unsaveAll() {
  * @return {object} - The object holding result of the ajax request.
  */
 var executeSearch = function (url, data) {
-  $.support.cors = true; // needed for < IE 10 versions
+  //$.support.cors = true; // needed for < IE 10 versions
   return $.ajax({
     type: 'GET',
     url: url,
@@ -1485,3 +1499,48 @@ var debugGetSelected = function(){
     selected = JSON.stringify(selected);
 	return selected
 };
+
+function localStorageEnabled () {
+  try {
+    localStorage.setItem('test', 'test');
+    localStorage.removeItem('test');
+    console.log("localStorage Enabled");
+    return true;
+  } catch (e) {
+    console.log("localStorage Disabled");
+    return false;
+  }
+}
+
+function localStorageSetItem (key, value) {
+  if (localStorageEnabled()) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+}
+
+function loadSavedTools() {
+  if (localStorageEnabled()) {
+    savedTools = JSON.parse(localStorage.getItem("savedTools"));
+    console.log(savedTools);
+    if (savedTools) {
+      console.log("There were saved tools.")
+    } else {
+      console.log("There weren't saved tools.")
+    }
+  } else {
+    console.log("NO STORAGE CAPABILITY.")
+  }
+}
+
+$(window).bind('storage', function (e) {
+  if (e.originalEvent.key === 'savedTools') {
+    console.log(e.originalEvent.key, e.originalEvent.newValue);
+    var newSavedTools = JSON.parse(e.originalEvent.newValue);
+    savedTools.toolSet = newSavedTools.toolSet;
+    savedTools.length = newSavedTools.length;
+    if (savedTable) {
+      createDataTable('saved');
+      toolCache.handleToolSet(savedTools, savedTable.displayTools.bind(savedTable));
+    }
+  }
+});
