@@ -1096,7 +1096,7 @@ var validata = function (obj) {
  */
 function selectAll(divId, callback) {
   //enabled functionality which allows for checking all instances of the checkbox value
-  $('#' + divId + ' input:checkbox').prop('checked', true);
+  $('#' + divId + ' input:checkbox:not(:checked)').prop('checked', true);
   if (callback) {
     callback();
   }
@@ -1110,7 +1110,7 @@ function selectAll(divId, callback) {
  */
 function deselectAll(divId, callback) {
   //enabled functionality which allows for unchecking all instances of the checkbox value
-  $('#' + divId + ' input:checkbox').prop('checked', false);
+  $('#' + divId + ' input:checkbox:checked').prop('checked', false);
   if (callback) {
     callback();
   }
@@ -1122,7 +1122,10 @@ function deselectAll(divId, callback) {
  */
 function saveAll(divId) {
   $('#' + divId + ' input:checkbox').each(function () {
-    savedTools.addTool($(this).val());
+    var readID = $(this).val();
+    if (!savedTools.contains(readID)) {
+      savedTools.addTool(readID);
+    }
   });
 }
 
@@ -1478,7 +1481,7 @@ $('#feedback-modal').click(function (e) {
  * return selected label for each checked element and
  * console-log each label
  */
-var debugLogSelected = function(){
+var debugGetSelected = function(){
     var selected = [];
     $.each($(':checked').next('label'), function(i,d){
         console.log(i,d);
