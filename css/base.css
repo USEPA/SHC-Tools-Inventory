@@ -4,47 +4,58 @@
 }
 .button-aqua {
   background-color: #02bfe7;
-  color:#000;
+  color: #000;
 }
-.button-aqua:hover, .button-aqua:focus {
+.button-aqua:hover,
+.button-aqua:focus {
   background-color: #00a6d2;
 }
 .button-aqua:active {
   background-color: #046b99;
-  color:#fff;
+  color: #fff;
 }
 .button-red {
   background-color: #e31c3d;
 }
-.button-red:hover, .button-red:focus {
+.button-red:hover,
+.button-red:focus {
   background-color: #cd2026;
 }
 .button-red:active {
   background-color: #981b1e;
 }
-.button-grey {
+.button-grey, 
+a.button-grey,
+a.button-grey:visited {
   background-color: #5b616b;
-  color:#fff;
+  color: #fff;
 }
-.button-grey:hover, .button-grey:focus {
+.button-grey:hover,
+.button-grey:focus {
   background-color: #323a45;
-  color:#fff;
+  color: #fff;
 }
 .button-grey:active {
   background-color: #212121;
-  color:#fff;
+  color: #fff;
 }
-.button-white {
+.button-white,
+a.button-white,
+a.button-white:visited {
   background-color: #fff;
   box-shadow: inset 0 0 0 2px #0071bc;
   color: #0071bc;
 }
-.button-white:hover, .button-white:focus {
+.button-white:hover,
+.button-white:focus,
+a.button-white:hover,
+a.button-white:focus {
   background-color: #fff;
   box-shadow: inset 0 0 0 2px #205493;
   color: #205493;
 }
-.button-white:active {
+.button-white:active,
+a.button-white:active {
   background-color: #fff;
   box-shadow: inset 0 0 0 2px #112e51;
   color: #112e51;
@@ -59,23 +70,22 @@
 a.button {
   margin-right: 3px;
 }
-
-table.dataTable td.select-checkbox:before, table.dataTable td.select-checkbox:after {
+table.dataTable td.select-checkbox:before,
+table.dataTable td.select-checkbox:after {
   top: initial;
 }
-
-hr, #role, #subrole, #fundamental-objective, #objective, #concept, #selected-tool {
+hr,
+#role,
+#subrole,
+#fundamental-objective,
+#objective,
+#concept,
+#selected-tool {
   clear: both;
 }
-
 .right {
   float: right;
 }
-
-button, a.button, .dt-button {
-  width: 100%;
-}
-
 .list button {
 	width: calc(100% - 2em);
   display: block;
@@ -83,43 +93,26 @@ button, a.button, .dt-button {
   padding: .2em;
   float: none !important;
 }
-
-@media screen and (min-width: 481px) {
-  button,
-  .dt-button,
-  a.button,
-  [type=button],
-  [type=submit],
-  [type=reset],
-  [type=image] {
-    width: auto;
-  } 
-}
-
 #loader {
   display: block; 
   margin-left: auto; 
   margin-right: auto;
 }
-
-tbody > tr.selected, table.dataTable tbody > tr > .selected {
+tbody > tr.selected,
+table.dataTable tbody > tr > .selected {
   background-color: #dce4ef;
 }
-
 /* make results responsive */
 tr:hover td:not(:first-child) {
   background-color: #e7f4e4;
   cursor: pointer;
 }
-
 .dt-body-center > input[type='checkbox'] + label:before {
   margin: 0;
 }
-
 .dt-body-center > input[type='checkbox']:focus + label:before {
   outline: 2px solid Highlight;
 }
-
 #feedback-text {
   width: 100%;
 }
@@ -150,12 +143,6 @@ tr:hover td:not(:first-child) {
   animation-name: animatetop;
   animation-duration: 0.5s
 }
-
-@-webkit-keyframes animatetop {
-  from {top: -300px; opacity: 0} 
-  to {top: 0; opacity: 1}
-}
-
 @keyframes animatetop {
   from {top: -300px; opacity: 0}
   to {top: 0; opacity: 1}
@@ -166,7 +153,8 @@ tr:hover td:not(:first-child) {
   float: right;
   font-size: 1.5em;
 }
-.close:hover, .close:focus {
+.close:hover,
+.close:focus {
   color: #000;
   cursor: pointer;
   text-decoration: none;
@@ -203,13 +191,18 @@ tr:hover td:not(:first-child) {
   #submit-feedback {
     width: 100%; 
   }
+  button,
+  a.button,
+  .dt-button {
+    width: 100%;
+  }
 }
 .full-width {
   width: 100%;
 }
-
 /* position at the top of the screen */
-#toast, #notice {
+#toast,
+#notice {
   display: none; /* Hidden by default. Visible on click */
   left: 0;
   width: 100%;
@@ -223,7 +216,8 @@ tr:hover td:not(:first-child) {
   z-index: 2;
 }
 /* Show the notification. Show and animate with addition of class. */
-#toast.show, .notice.show {
+#toast.show,
+.notice.show {
   display: initial; /* Show the notification */
   position: fixed; /* fix the notification place over page */
   top: 0px;
@@ -234,29 +228,18 @@ tr:hover td:not(:first-child) {
   animation: fadein 0.5s, fadeout 0.5s 20s;
 }
 /* Animations to slide toast in and out */
-@-webkit-keyframes fadein {
-  from {top: 100%; opacity: 0;} 
-  to {top: 0; opacity: 1;}
-}
 @keyframes fadein {
   from {top: 100%; opacity: 0;}
   to {top: 0; opacity: 1;}
-}
-@-webkit-keyframes fadeout {
-  from {top: 0; opacity: 1;} 
-  to {top: 100%; opacity: 0;}
 }
 @keyframes fadeout {
   from {top: 0; opacity: 1;}
   to {top: 100%; opacity: 0;}
 }
-.toast-close-button {
-  -webkit-touch-callout: none;
+.unselectable { /* Makes text in an element unselectable */
   -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none
+     -moz-user-select: none;
+      -ms-user-select: none;
 }
 .toast-close-button {
   border: none;
@@ -283,4 +266,13 @@ tr:hover td:not(:first-child) {
   margin: 0 auto;
   display: block;
   padding: 0.2941em 0.58825em;
+}
+/** Transitions ***************************************************************/
+#tabsnav *,
+#tabsnav *:before,
+#tabsnav *:after {
+  -webkit-transition: all .25s linear;
+     -moz-transition: all .25s linear;
+      -ms-transition: all .25s linear;
+          transition: all .25s linear;
 }

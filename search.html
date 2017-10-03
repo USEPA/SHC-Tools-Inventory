@@ -38,110 +38,11 @@
   <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/css/buttons.dataTables.min.css">
   <link href="css/jquery-ui.min.css" rel="stylesheet" type="text/css">
   <link type="text/css" rel="stylesheet" href="css/base.css" media="all" />
+  <link type="text/css" rel="stylesheet" href="css/search.css" media="all" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov All Press Releases" href="https://www.epa.gov/newsreleases/search/rss" />
   <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters" />
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
-  <style>
-    #tabs-nav {
-      padding:0
-    }
-    /* don't initially display "no results returned from search" */
-    #simpleFeedback {
-      display: none;
-      background-color: rgb(221, 206, 204);
-    }
-    #detailed-search-feedback { 
-      display:none; 
-      background-color: rgb(221, 206, 204);
-    }
-    /************* ADDED FROM MOCKUP.HTML ************/
-    button:disabled { 
-      background-color: #aeb0b5;
-    }
-    @media screen and (min-width: 45em), print and (min-width: 45em) {
-      .row > .size-95of100.col {
-        width: 95%;
-      }
-    }
-    .expand:hover {
-      background-color: #e7f4e4;
-      cursor: pointer;
-    }
-    .expand {
-      margin: 0;
-    }
-    .list-div {
-      background-color: #f1f1f1;
-      margin-top: .5em;
-      border-radius: 5px;
-      padding: 2px;
-    }
-    [role=tab] {
-      margin: 1px 0 0;
-      border-bottom-left-radius:0;
-      border-bottom-right-radius:0;
-    }
-    [role=tabpanel] {
-      padding: .5em;
-      border: 2px solid #d6d7d9;
-      border-radius: 5px;
-      border-top-left-radius:0;
-      border-top-right-radius:0;
-    }
-    [aria-hidden="true"] {
-      display: none;
-    }
-    .results-label {
-      display: inline;
-      background-color:transparent;
-    }
-    .tool-label:focus + label {
-      background-color:#e1f3f8;
-    }
-    .tool-label:checked + label {
-      background-color:#d6d7d9;
-    }
-    /* Makes text in an element unselectable */
-    .unselectable {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      -o-user-select: none;
-      user-select: none;
-    }
-    button:disabled {
-      background-color:#aeb0b5
-    }
-    * {
-      -ms-transition: none;
-      transition: none;
-    }
-    .collapsible {
-      transform: rotateX(180deg);
-    }
-    .tabs, .tabs > li {
-      margin-bottom: 0;
-      border: none;
-    }
-    hr {
-      border: .5em solid #d6d7d9;
-      border-radius: 1em;
-      height: 0;
-    }
-    .bold {
-      font-weight: bold;
-    }
-    .option {
-      margin-right: 1.4rem;
-    }
-    .search-input {
-      width: 40em;
-    }
-    .accordion-pane {
-      display: none;
-    }
-  </style>
 </head>
 <body class="node-type-web-area microsite" >
   <!-- Google Tag Manager -->
@@ -207,7 +108,7 @@
               <ul class="tabs" id="tabs-nav" role="tablist">
                 <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Search</a></li>
                 <li><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" name="tab1" role="tab">Advanced Search</a></li>
-                <li><a aria-controls="browse-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#browse-tools-panel" id="browse-tools-tab" name="tab1" role="tab" onclick="loadModels2()">Browse Tools</a></li>
+                <li><a aria-controls="browse-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#browse-tools-panel" id="browse-tools-tab" name="tab1" role="tab">Browse Tools</a></li>
                 <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#results-panel" id="results-tab" name="tab1" role="tab">Results</a></li>
                 <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Results</a></li>
                 <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
@@ -312,7 +213,7 @@
                 <input id="browse-list-radio" type="radio" name="browse-display-type" value="text" checked><label for="browse-list-radio">Text: recommended for those on smaller screens.</label>
                 <input id="browse-table-radio" type="radio" name="browse-display-type" value="table"><label for="browse-table-radio">Table: allows filtering and column sorting.</label>
                 <div class="accordion" id="accordion">
-                  <h4 class="accordion-title"><a>Building and Infrastructure</a></h4>
+                  <h4 class="accordion-title" onclick="loadModels2('building-infrastructure')"><a>Building and Infrastructure</a></h4>
                   <div class="accordion-pane" id="browseBuildingInfrastructure">
                     <div class="browse-table-div" aria-hidden="true">
                       <table class="revision-table" id="building-infrastructure-table" width="100%">
@@ -320,13 +221,12 @@
                           <tr>
                             <th></th>
                             <th></th>
-                            <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
-                            <th>Base Cost</th>
+                            <th>Operating Environment</th>
                             <th>Spatial Extent</th>
-                            <th>Tool Inputs</th>
-                            <th>Tool Outputs</th>
+                            <th>Decision Sector</th>
+                            <th>Base Cost</th>
                           </tr>
                         </thead>
                         <tbody></tbody>
@@ -339,7 +239,7 @@
                       <div id="building-infrastructure-list" class="list"></div>
                     </div>
                   </div>
-                  <h4 class="accordion-title"><a>Land Use</a></h4>
+                  <h4 class="accordion-title" onclick="loadModels2('land-use')"><a>Land Use</a></h4>
                   <div class="accordion-pane" id="browseLand">
                     <div class="browse-table-div" aria-hidden="true">
                       <table class="revision-table" id="land-use-table" width="100%">
@@ -347,13 +247,12 @@
                           <tr>
                             <th></th>
                             <th></th>
-                            <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
-                            <th>Base Cost</th>
+                            <th>Operating Environment</th>
                             <th>Spatial Extent</th>
-                            <th>Tool Inputs</th>
-                            <th>Tool Outputs</th>
+                            <th>Decision Sector</th>
+                            <th>Base Cost</th>
                           </tr>
                         </thead>
                         <tbody></tbody>
@@ -366,7 +265,7 @@
                       <div id="land-use-list" class="list"></div>
                     </div>
                   </div>
-                  <h4 class="accordion-title"><a>Transportation</a></h4>
+                  <h4 class="accordion-title" onclick="loadModels2('transportation')"><a>Transportation</a></h4>
                   <div class="accordion-pane" id="browseTransportation">
                     <div class="browse-table-div" aria-hidden="true">
                       <table class="revision-table" id="transportation-table" width="100%">
@@ -374,13 +273,12 @@
                           <tr>
                             <th></th>
                             <th></th>
-                            <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
-                            <th>Base Cost</th>
+                            <th>Operating Environment</th>
                             <th>Spatial Extent</th>
-                            <th>Tool Inputs</th>
-                            <th>Tool Outputs</th>
+                            <th>Decision Sector</th>
+                            <th>Base Cost</th>
                           </tr>
                         </thead>
                        <tbody></tbody>
@@ -393,7 +291,7 @@
                       <div id="transportation-list" class="list"></div>
                     </div>
                   </div>
-                  <h4 class="accordion-title"><a>Waste Management</a></h4>
+                  <h4 class="accordion-title" onclick="loadModels2('waste-management')"><a>Waste Management</a></h4>
                   <div class="accordion-pane" id="browseWasteManagement">
                     <div class="browse-table-div" aria-hidden="true">
                       <table class="revision-table" id="waste-management-table" width="100%">
@@ -401,13 +299,12 @@
                           <tr>
                             <th></th>
                             <th></th>
-                            <th>Acronym</th>
                             <th>Title</th>
                             <th>Description</th>
-                            <th>Base Cost</th>
+                            <th>Operating Environment</th>
                             <th>Spatial Extent</th>
-                            <th>Tool Inputs</th>
-                            <th>Tool Outputs</th>
+                            <th>Decision Sector</th>
+                            <th>Base Cost</th>
                           </tr>
                         </thead>
                        <tbody></tbody>
@@ -445,13 +342,12 @@
                       <tr>
                         <th></th>
                         <th></th>
-                        <th>Acronym</th>
                         <th>Title</th>
                         <th>Description</th>
-                        <th>Base Cost</th>
+                        <th>Operating Environment</th>
                         <th>Spatial Extent</th>
-                        <th>Tool Inputs</th>
-                        <th>Tool Outputs</th>
+                        <th>Decision Sector</th>
+                        <th>Base Cost</th>
                       </tr>
                     </thead>
                        <tbody></tbody>
@@ -474,8 +370,8 @@
                   <button class="button-grey" onclick="selectAllToolsButton('saved');">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('saved');">Deselect All Tools</button>
                   <div class="right">
-                    <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
                     <button class="button-white" onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
+                    <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
                   </div>
                   <hr />
                   <div id="saved-list" class="list"></div>
@@ -486,13 +382,12 @@
                       <tr>
                         <th></th>
                         <th></th>
-                        <th>Acronym</th>
                         <th>Title</th>
                         <th>Description</th>
-                        <th>Base Cost</th>
+                        <th>Operating Environment</th>
                         <th>Spatial Extent</th>
-                        <th>Tool Inputs</th>
-                        <th>Tool Outputs</th>
+                        <th>Decision Sector</th>
+                        <th>Base Cost</th>
                       </tr>
                     </thead>
                        <tbody></tbody>
@@ -655,6 +550,10 @@ var transportationTable = new ToolDisplay('transportation-table', 'transportatio
 $(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
 
+  /**
+   * Toggles the selected state of tool via a list div checkbox.
+   * @listens change
+   */
   $(".list").on("change", "input:checkbox", function () {
     var id = $(this).val();
     var tableId = $(this).attr('id').slice(0, -14);
@@ -683,6 +582,10 @@ $(function () { // jquery's shorthand awaits readiness of document
     }
   });
 
+  /**
+   * Toggles the selected state of a tool via a DataTable row 
+   * @listens click
+   */
   $('tbody').on('click', 'input[type="checkbox"]', function () {
     var $parent = $(this).parent().parent();
     var tableId = $(this).closest('table').attr('id').slice(0, -6);
@@ -690,29 +593,17 @@ $(function () { // jquery's shorthand awaits readiness of document
     if ($parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
       $parent.removeClass('selected');
-    }
-    else {
+    } else {
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
       $parent.addClass('selected');
     }
   });
 });
 
-$('#feedback-link').click(function () {
-  $('#feedback-modal').css('display', 'block');
-});
-
-$('.close').click(function () {
-  $('#feedback-modal').css('display', 'none');
-});
-
-$('#feedback-modal').click(function (e) {
-  if (e.target === $('#feedback-modal')[0]) {
-    $('#feedback-modal').css('display', 'none');
-  }
-});
-
-// DOCUMENT
+/**
+ * Initialize tabs; create listener for switching tabs
+ * @function
+ */
 var initializeTabs = function () {
   $('#tabs > div').hide(); // hide all tab-panels
   $('#tabs div:first').show(); // show first tab-panel
@@ -740,10 +631,13 @@ var initializeTabs = function () {
 function addMembers(dataList, fieldName, fieldValues) {
   if (fieldValues.length > 0) {// are any values selected?
     var tmpDataList = [];// create a temp copy of dataList
-    for (iFieldValue = 0; iFieldValue < fieldValues.length; iFieldValue++) {// loop through os-selections
-      for (var iDatum in dataList) {// loop through current data-objects
+    for (var iFieldValue = 0; iFieldValue < fieldValues.length; iFieldValue++) {// loop through os-selections
+      for (var iDatum = 0; iDatum < dataList.length; iDatum++) {// loop through current data-objects
         // expand the temp object to be num_osSelections * num_previousDataObjects
-        tmpDataList[fieldValues.length * iDatum + iFieldValue] = dataList[iDatum];
+        tmpDataList[fieldValues.length * iDatum + iFieldValue] = {}; //create new object
+        for (var prop in dataList[iDatum]) { // loop over and copy values to new object. tmp = dataList does not create a new object.
+          tmpDataList[fieldValues.length * iDatum + iFieldValue][prop] = dataList[iDatum][prop];
+        }
         // add member for value of fieldValues
         tmpDataList[fieldValues.length * iDatum + iFieldValue][fieldName] = fieldValues[iFieldValue];
       }
@@ -756,6 +650,7 @@ function addMembers(dataList, fieldName, fieldValues) {
 
 /**
  * Search for text and choose other criteria for tools.
+ * @function
  */
 var detailedSearch = function () {
   if ($.fn.DataTable.isDataTable('#results-table')) {
@@ -763,8 +658,9 @@ var detailedSearch = function () {
   }
   $('#results-list *').remove(); // clear result div
   resultSet.reset(); // clear result set
+  resultTable.getToolSet().reset(); //reset display toolset
   var $feedbackDiv = $('#detailed-search-feedback');
-  var queryTypes = $("#search-field input:checkbox:checked").map(function(){return $(this).val()}).get();
+  var queryTypes = $("#search-field input:checkbox:checked").map(function () {return $(this).val()}).get();
   if (!queryTypes.length) { // ensure queryType is selected
     $feedbackDiv.html('You must select at least one Search Field.').css('display', 'block');
     return;
@@ -800,11 +696,11 @@ var detailedSearch = function () {
       }
       for (var j = 0; j < decisionSectors.length; j++) {
         data.DecisionSector = decisionSectors[j];
-        dataList = [data]; // create an initial array of query-data
+        var dataList = [data]; // create an initial array of query-data
         dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
         dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
         dataList = addMembers(dataList, 'SpatialExtent', extent_select); // create a data object for each selection of SpatialExtent
-        for (var iDatum in dataList) {
+        for (var iDatum = 0; iDatum < dataList.length; iDatum++) {
           requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
         }
       }
@@ -833,27 +729,42 @@ var detailedSearch = function () {
         createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      $feedbackDiv.html('Server error. Please try again another time.').css('display', 'block');
     });
   } else {
     $feedbackDiv.html('Please enter a search term.').css('display', 'block');
   }
 };
 
+/**
+ * Process the results array. Add IDs that are not already in the ResultSet or in the white list to the ResultSet.
+ * @function
+ * @param {array} results - An array containing the results from the Ajax queries.
+ * @return {number} the length of the ResultSet.
+ */
 var parseResultsArray = function (results) {
   for (var i = 0; i < results.length; i++) {
-    if(!resultSet.contains(results[i].ResourceId)) {
+    if (!resultSet.contains(results[i].ResourceId)) {
       resultSet.addTool(results[i].ResourceId);
     }
   }
   return resultSet.getLength();
 };
 
-simpleSearch = function () {
+/**
+ * Performs a search for the specified term.
+ * @function
+ * @param {array} results - An array containing the results from the Ajax queries.
+ * @return {number} the length of the ResultSet.
+ */
+var simpleSearch = function () {
   if ($.fn.DataTable.isDataTable('#results-table')) {
     $('#results-table').DataTable().clear().draw(); //clear result table
   }
   $('#results-list *').remove(); //clear result list
   resultSet.reset(); //clear result data
+  resultTable.getToolSet().reset(); //reset display toolset
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"];
   var $feedbackDiv = $('#simpleFeedback');
@@ -862,11 +773,11 @@ simpleSearch = function () {
   var requests = [];
   var data = {};
   var decisionSectors = [
-      "Land Use",
-      "Waste Management",
-      "Building Infrastructure",
-      "Transportation"
-    ];
+    "Land Use",
+    "Waste Management",
+    "Building Infrastructure",
+    "Transportation"
+  ];
   if (queryString) { // ensure search-string is not empty
     for (var i = 0; i < queryTypes.length; i++) {
       if (queryTypes[i] === 'Acronym') {
@@ -892,7 +803,7 @@ simpleSearch = function () {
       if (0 === numberOfResults) {
         $feedbackDiv.html('No results were found.').css('display', 'block');
         $('#results-tab').parent().attr('aria-hidden',true);
-      }else {
+      } else {
         $feedbackDiv.html('').css('display', 'none');
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
@@ -900,60 +811,61 @@ simpleSearch = function () {
         createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      $feedbackDiv.html('Server error. Please try again another time.').css('display', 'block');
     });
   } else {
     $feedbackDiv.html('Please enter a search term.').css('display', 'block');
   }
 };
 
-var tabsBrowserClicked = false;
-function loadModels2() {
-  if (tabsBrowserClicked === false) {
-    $(".accordion-pane").each(function () {
-      var browse = new ToolSet();
-      var table;
-      var name = $(this).find('table').attr('id').slice(0, -6);;
-      switch (name) {
-      case "building-infrastructure":
-        decision_query = "Building Infrastructure";
-        table = buildingInfrastructureTable;
-        break;
-      case "land-use":
-        decision_query = "Land Use";
-        table = landUseTable;
-        break;
-      case "transportation":
-        decision_query = "Transportation";
-        table = transportationTable;
-        break;
-      case "waste-management":
-        decision_query = "Waste Management";
-        table = wasteManagementTable;
-        break;
-      default:
-        return;
-      }
-      $.ajax({
-        type: 'GET',
-        url: resourceAdvancedSearchURL,
-        data: {
-          DecisionSector: decision_query,
-          Format: 'JSON'
-        },
-        dataType: 'json',
-        success: function (data) {
-          for (i = 0; i < data.length; i++) {
-            if(!browse.contains(data[i].ResourceId)) {
-              browse.addTool(data[i].ResourceId);
-            } 
-          }
-          createDataTable(name);
-          toolCache.handleToolSet(browse, table.displayTools.bind(table));
+/**
+ * Loads the tools relevant to the selected Decision Sector into the appropriate container.
+ * @function
+ * @param {string} tableID - The Decision Sector that we want to view.
+ */
+function loadModels2(tableID) {
+  if (!$.fn.DataTable.isDataTable('#' + tableID + 'table')) {
+    var browse = new ToolSet();
+    var table;
+    var decision_query = '';
+    switch (tableID) {
+    case "building-infrastructure":
+      decision_query = "Building Infrastructure";
+      table = buildingInfrastructureTable;
+      break;
+    case "land-use":
+      decision_query = "Land Use";
+      table = landUseTable;
+      break;
+    case "transportation":
+      decision_query = "Transportation";
+      table = transportationTable;
+      break;
+    case "waste-management":
+      decision_query = "Waste Management";
+      table = wasteManagementTable;
+      break;
+    default:
+      return;
+    }
+    $.ajax({
+      type: 'GET',
+      url: resourceAdvancedSearchURL,
+      data: {
+        DecisionSector: decision_query
+      },
+      success: function (data) {
+        for (var i = 0; i < data.length; i++) {
+          if (!browse.contains(data[i].ResourceId)) {
+            browse.addTool(data[i].ResourceId);
+          } 
         }
-      });
+        createDataTable(tableID);
+        toolCache.handleToolSet(browse, table.displayTools.bind(table));
+      }
     });
   }
-  tabsBrowserClicked = true;
 }
 </script>
 <script src="js/jquery-ui.min.js"></script>
