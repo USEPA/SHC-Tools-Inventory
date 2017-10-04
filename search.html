@@ -108,10 +108,9 @@
               <ul class="tabs" id="tabs-nav" role="tablist">
                 <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Search</a></li>
                 <li><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" name="tab1" role="tab">Advanced Search</a></li>
-                <li><a aria-controls="browse-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#browse-tools-panel" id="browse-tools-tab" name="tab1" role="tab">Browse Tools</a></li>
-                <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#results-panel" id="results-tab" name="tab1" role="tab">Results</a></li>
-                <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Results</a></li>
-                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="6" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
+                <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#results-panel" id="results-tab" name="tab1" role="tab">Results</a></li>
+                <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Results</a></li>
+                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
               </ul>
               <div aria-hidden="false" aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel">
                 <h3>Search</h3>
@@ -204,120 +203,6 @@
                     <label class="option" for="extent-globe">Globe</label>
                   </div>
                 </form>
-              </div>
-              <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" aria-hidden="true">
-                <h3>Browse the Tools by Decision Sector</h3>
-                <p>Each tool is in a single decision sector. Expand a decision sector below to browse its tools.</p>
-                <hr />
-                <span>Choose a display:</span>
-                <input id="browse-list-radio" type="radio" name="browse-display-type" value="text" checked><label for="browse-list-radio">Text: recommended for those on smaller screens.</label>
-                <input id="browse-table-radio" type="radio" name="browse-display-type" value="table"><label for="browse-table-radio">Table: allows filtering and column sorting.</label>
-                <div class="accordion" id="accordion">
-                  <h4 class="accordion-title" onclick="loadModels2('building-infrastructure')"><a>Building and Infrastructure</a></h4>
-                  <div class="accordion-pane" id="browseBuildingInfrastructure">
-                    <div class="browse-table-div" aria-hidden="true">
-                      <table class="revision-table" id="building-infrastructure-table" width="100%">
-                        <thead>
-                          <tr>
-                            <th></th>
-                            <th></th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Operating Environment</th>
-                            <th>Spatial Extent</th>
-                            <th>Decision Sector</th>
-                            <th>Base Cost</th>
-                          </tr>
-                        </thead>
-                        <tbody></tbody>
-                      </table>
-                    </div>
-                    <div class="browse-list-div">
-                      <button class="button-grey" onclick="selectAllToolsButton('building-infrastructure');">Select All Tools</button>
-                      <button class="button-grey" onclick="deselectAllToolsButton('building-infrastructure');">Deselect All Tools</button>
-                      <button class="button-white right" onclick="saveSelectedRecords('building-infrastructure-list')">Save Selected Tools</button>
-                      <div id="building-infrastructure-list" class="list"></div>
-                    </div>
-                  </div>
-                  <h4 class="accordion-title" onclick="loadModels2('land-use')"><a>Land Use</a></h4>
-                  <div class="accordion-pane" id="browseLand">
-                    <div class="browse-table-div" aria-hidden="true">
-                      <table class="revision-table" id="land-use-table" width="100%">
-                        <thead>
-                          <tr>
-                            <th></th>
-                            <th></th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Operating Environment</th>
-                            <th>Spatial Extent</th>
-                            <th>Decision Sector</th>
-                            <th>Base Cost</th>
-                          </tr>
-                        </thead>
-                        <tbody></tbody>
-                      </table>
-                    </div>
-                    <div class="browse-list-div">
-                      <button class="button-grey" onclick="selectAllToolsButton('land-use');">Select All Tools</button>
-                      <button class="button-grey" onclick="deselectAllToolsButton('land-use');">Deselect All Tools</button>
-                      <button class="button-white right" onclick="saveSelectedRecords('land-use-list')">Save Selected Tools</button>
-                      <div id="land-use-list" class="list"></div>
-                    </div>
-                  </div>
-                  <h4 class="accordion-title" onclick="loadModels2('transportation')"><a>Transportation</a></h4>
-                  <div class="accordion-pane" id="browseTransportation">
-                    <div class="browse-table-div" aria-hidden="true">
-                      <table class="revision-table" id="transportation-table" width="100%">
-                        <thead>
-                          <tr>
-                            <th></th>
-                            <th></th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Operating Environment</th>
-                            <th>Spatial Extent</th>
-                            <th>Decision Sector</th>
-                            <th>Base Cost</th>
-                          </tr>
-                        </thead>
-                       <tbody></tbody>
-                      </table>
-                    </div>
-                    <div class="browse-list-div">
-                      <button class="button-grey" onclick="selectAllToolsButton('transportation');">Select All Tools</button>
-                      <button class="button-grey" onclick="deselectAllToolsButton('transportation');">Deselect All Tools</button>
-                      <button class="button-white right" onclick="saveSelectedRecords('transportation-list')">Save Selected Tools</button>
-                      <div id="transportation-list" class="list"></div>
-                    </div>
-                  </div>
-                  <h4 class="accordion-title" onclick="loadModels2('waste-management')"><a>Waste Management</a></h4>
-                  <div class="accordion-pane" id="browseWasteManagement">
-                    <div class="browse-table-div" aria-hidden="true">
-                      <table class="revision-table" id="waste-management-table" width="100%">
-                        <thead>
-                          <tr>
-                            <th></th>
-                            <th></th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Operating Environment</th>
-                            <th>Spatial Extent</th>
-                            <th>Decision Sector</th>
-                            <th>Base Cost</th>
-                          </tr>
-                        </thead>
-                       <tbody></tbody>
-                      </table>
-                    </div>
-                    <div class="browse-list-div">
-                      <button class="button-grey" onclick="selectAllToolsButton('waste-management');">Select All Tools</button>
-                      <button class="button-grey" onclick="deselectAllToolsButton('waste-management');">Deselect All Tools</button>
-                      <button class="button-white right" onclick="saveSelectedRecords('waste-management-list')">Save Selected Tools</button>
-                      <div id="waste-management-list" class="list"></div>
-                    </div>
-                  </div>
-                </div>
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
                 <h3>Results</h3>
@@ -542,10 +427,6 @@ var savedTools = new ToolSet();
 
 var resultTable = new ToolDisplay('results-table', 'results-list', 'search'); // Create ToolDisplay Objects we need 
 var savedTable = new ToolDisplay('saved-table', 'saved-list', 'search');
-var buildingInfrastructureTable = new ToolDisplay('building-infrastructure-table', 'building-infrastructure-list' , 'search');
-var landUseTable = new ToolDisplay('land-use-table', 'land-use-list', 'search');
-var wasteManagementTable = new ToolDisplay('waste-management-table', 'waste-management-list', 'search');
-var transportationTable = new ToolDisplay('transportation-table', 'transportation-list', 'search');
 
 $(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
@@ -818,55 +699,6 @@ var simpleSearch = function () {
     $feedbackDiv.html('Please enter a search term.').css('display', 'block');
   }
 };
-
-/**
- * Loads the tools relevant to the selected Decision Sector into the appropriate container.
- * @function
- * @param {string} tableID - The Decision Sector that we want to view.
- */
-function loadModels2(tableID) {
-  if (!$.fn.DataTable.isDataTable('#' + tableID + 'table')) {
-    var browse = new ToolSet();
-    var table;
-    var decision_query = '';
-    switch (tableID) {
-    case "building-infrastructure":
-      decision_query = "Building Infrastructure";
-      table = buildingInfrastructureTable;
-      break;
-    case "land-use":
-      decision_query = "Land Use";
-      table = landUseTable;
-      break;
-    case "transportation":
-      decision_query = "Transportation";
-      table = transportationTable;
-      break;
-    case "waste-management":
-      decision_query = "Waste Management";
-      table = wasteManagementTable;
-      break;
-    default:
-      return;
-    }
-    $.ajax({
-      type: 'GET',
-      url: resourceAdvancedSearchURL,
-      data: {
-        DecisionSector: decision_query
-      },
-      success: function (data) {
-        for (var i = 0; i < data.length; i++) {
-          if (!browse.contains(data[i].ResourceId)) {
-            browse.addTool(data[i].ResourceId);
-          } 
-        }
-        createDataTable(tableID);
-        toolCache.handleToolSet(browse, table.displayTools.bind(table));
-      }
-    });
-  }
-}
 </script>
 <script src="js/jquery-ui.min.js"></script>
 <script src="js/read.js"></script>

@@ -1,0 +1,23 @@
+button.toggle-vis {
+  background: #f1f1f1;
+  border: 1px solid #aeb0b5;
+  -webkit-box-shadow: 1px 1px 2px #aeb0b5;
+     -moz-box-shadow: 1px 1px 2px #aeb0b5;
+          box-shadow: 1px 1px 2px #aeb0b5;
+  cursor: pointer;
+  color: black;
+  font-weight: initial;
+}
+button.toggle-vis.pressed {
+  background: #d6d7d9;
+  outline: none;
+  -webkit-box-shadow: inset 0px 0px 4px #aeb0b5;
+     -moz-box-shadow: inset 0px 0px 4px #aeb0b5;
+          box-shadow: inset 0px 0px 4px #aeb0b5;
+}
+button.toggle-vis:hover {
+  cursor: pointer;
+}
+button.toggle-vis:focus {
+  box-shadow: 0 0 3px #3e94cf, 0 0 7px #3e94cf;
+}

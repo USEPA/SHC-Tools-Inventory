@@ -59,6 +59,7 @@ var toolCache = (function () {
      * @param {function} data - The function that will handle the ToolSet data.
      */
     handleToolSet: function (toolSet, callback) {
+      console.log(toolSet.getToolSet());
       var readIds = Object.keys(toolSet.getToolSet());
       var requests = [];
       for (var i = 0; i < readIds.length; i++) {
@@ -1235,7 +1236,7 @@ function createDataTable(name) {
       );
     }
 
-    if (name !== 'saved' && resultTable.getType() === 'search') {
+    if (name !== 'saved' && resultTable.getType() === 'search' || resultTable.getType() === 'browse') {
       dtButtons.push(
         {
           text: 'Save Selected Tools',
@@ -1245,6 +1246,10 @@ function createDataTable(name) {
           className: 'button button-white'
         }
       );
+    }
+
+    if (name === 'browse') {
+      $('.dataTables_empty').html('<img id="loader" src="img/loader.gif">');
     }
 
     if (name === 'saved' && resultTable.getType() === 'search') {
