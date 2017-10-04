@@ -17,7 +17,7 @@
 <!--googleon: all-->
   <meta name="DC.description" content="" />
   <meta name="DC.title" content="" />
-  <title>Browse</title>
+  <title>Browse Tools</title>
 <!--googleoff: snippet-->
   <meta name="keywords" content="" />
   <link rel="shortlink" href="" />
@@ -42,7 +42,7 @@
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
 </head>
-<body class="node-type-web-area microsite" >
+<body class="node-type-web-area microsite wide-template" >
   <!-- Google Tag Manager -->
   <!--REMOVED FOR DEVELOPMENT; REPLACE FOR PRODUCTION
   <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -77,7 +77,7 @@
     </div>
     <div class="main-column clearfix">
 <!--googleon: all-->
-      <h1 class="page-title">Browse</h1>
+      <h1 class="page-title">Browse Tools</h1>
       <div class="panel-pane pane-node-content" >
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
@@ -85,36 +85,135 @@
             <h4 id="disclaimer-title">Disclaimer</h4>
             <p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
             <div aria-live="polite" id="toast"></div>
-            <hr />
-            <span>Choose a display:</span>
-            <input id="browse-list-radio" type="radio" name="browse-display-type" value="text"><label for="browse-list-radio">Text: recommended for those on smaller screens.</label>
-            <input id="browse-table-radio" type="radio" name="browse-display-type" value="table" checked><label for="browse-table-radio">Table: allows filtering and column sorting.</label>
-            <br />
-            <hr />
-            <div id="browse-feedback"></div>
-            <div class="browse-table-div">
-              <table class="revision-table" id="browse-table" width="100%">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th></th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Operating Environment</th>
-                    <th>Spatial Extent</th>
-                    <th>Decision Sector</th>
-                    <th>Base Cost</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-            <div class="browse-list-div" aria-hidden="true">
-              <button class="button-grey" onclick="selectAllToolsButton('building-infrastructure');">Select All Tools</button>
-              <button class="button-grey" onclick="deselectAllToolsButton('building-infrastructure');">Deselect All Tools</button>
-              <button class="button-white right" onclick="saveSelectedRecords('building-infrastructure-list')">Save Selected Tools</button>
-              <div id="browse-list" class="list"></div>
-            </div>             
+            <div id="tabs">
+              <ul class="tabs" id="tabs-nav" role="tablist">
+                <li class="active"><a aria-controls="browse-tools-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#browse-tools-panel" id="browse-tools-tab" name="tab1" role="tab" onclick="browseTools();">Browse Tools</a></li>
+                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
+                <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Results</a></li>
+              </ul>
+              <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" >
+                <hr />
+                <span>Choose a display:</span>
+                <input id="browse-list-radio" type="radio" name="browse-display-type" value="text"><label for="browse-list-radio">Text: recommended for those on smaller screens.</label>
+                <input id="browse-table-radio" type="radio" name="browse-display-type" value="table" checked><label for="browse-table-radio">Table: allows filtering and column sorting.</label>
+                <br />
+                <hr />
+                <div id="browse-feedback"></div>
+                <div class="browse-table-div">
+                  <div>
+                    <div>Toggle column:</div>
+                    <button class="toggle-vis pressed" data-column="2" role="button" aria-pressed="true">Title</button> - 
+                    <button class="toggle-vis pressed" data-column="3" role="button" aria-pressed="true">Description</button> - 
+                    <button class="toggle-vis pressed" data-column="4" role="button" aria-pressed="true">Operating Environment</button> -
+                    <button class="toggle-vis pressed" data-column="5" role="button" aria-pressed="true">Spatial Extent</button> -
+                    <button class="toggle-vis pressed" data-column="6" role="button" aria-pressed="true">Decision Sector</button> -
+                    <button class="toggle-vis pressed" data-column="7" role="button" aria-pressed="true">Base Cost</button> -
+                    <button class="toggle-vis" data-column="8">Other Costs</button> -
+                    <button class="toggle-vis" data-column="9">URL</button> -
+                    <button class="toggle-vis" data-column="10">Life Cycle Phase</button> -
+                    <button class="toggle-vis" data-column="11">Open Source</button> -
+                    <button class="toggle-vis" data-column="12">Operating System</button> -
+                    <button class="toggle-vis" data-column="13">Other Requirements</button> -
+                    <button class="toggle-vis" data-column="14">Time Scale</button> -
+                    <button class="toggle-vis" data-column="15">Technical Skills Needed</button> -
+                    <button class="toggle-vis" data-column="16">Model Structure</button> -
+                    <button class="toggle-vis" data-column="17">Model Inputs</button> -
+                    <button class="toggle-vis" data-column="18">Input Data Requirements</button> -
+                    <button class="toggle-vis" data-column="19">Model Output Types</button> -
+                    <button class="toggle-vis" data-column="20">Output Variables</button> -
+                    <button class="toggle-vis" data-column="21">Model Evaluation</button> -
+                    <button class="toggle-vis" data-column="22">Keywords</button> -
+                    <button class="toggle-vis" data-column="23">Support Name</button> -
+                    <button class="toggle-vis" data-column="24">Support Phone</button> -
+                    <button class="toggle-vis" data-column="25">Support Email</button> -
+                    <button class="toggle-vis" data-column="26">Support Materials</button>
+                  </div>
+                  <hr />
+                  <table class="revision-table" id="browse-table" width="100%">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Operating Environment</th>
+                        <th>Spatial Extent</th>
+                        <th>Decision Sector</th>
+                        <th>Base Cost</th>
+                        <th>Other Costs</th>
+                        <th>URL</th>
+                        <th>Life Cycle Phase</th>
+                        <th>Open Source</th>
+                        <th>Operating System</th>
+                        <th>Other Requirements</th>
+                        <th>Time Scale</th>
+                        <!-- spatial extent -->
+                        <th>Technical Skills Needed</th>
+                        <th>Model Structure</th>
+                        <th>Model Inputs</th>
+                        <th>Input Data Requirements</th>
+                        <th>Model Output Types</th>
+                        <th>Output Variables</th>
+                        <th>Model Evaluation</th>
+                        <th>Keywords</th>
+                        <th>Support Name</th>
+                        <th>Support Phone</th>
+                        <th>Support Email</th>
+                        <th>Support Materials</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+                <div class="browse-list-div" aria-hidden="true">
+                  <button class="button-grey" onclick="selectAllToolsButton('building-infrastructure');">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAllToolsButton('building-infrastructure');">Deselect All Tools</button>
+                  <button class="button-white right" onclick="saveSelectedRecords('building-infrastructure-list')">Save Selected Tools</button>
+                  <div id="browse-list" class="list"></div>
+                </div>
+              </div>
+              <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
+                <h3>Selected Tool</h3>
+                <p>Here are the tool details for your selected tool.</p><hr />
+                <div id="selected-tool"></div>
+              </div>
+              <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
+                <h3>Saved Results</h3>
+                <p>These are the tools you chose to save.</p>
+                <p>Select the tools you would like to export to a downloadable CSV file.</p><hr />
+                <span>Choose a display:</span>
+                <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text: recommended for those on smaller screens.</label>
+                <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table: allows filtering and column sorting.</label>
+                <div id="saved-list-div">
+                  <button class="button-grey" onclick="selectAllToolsButton('saved');">Select All Tools</button>
+                  <button class="button-grey" onclick="deselectAllToolsButton('saved');">Deselect All Tools</button>
+                  <div class="right">
+                    <button class="button-white" onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
+                    <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
+                  </div>
+                  <hr />
+                  <div id="saved-list" class="list"></div>
+                </div>
+                <div aria-hidden="true" id="saved-table-div">
+                  <table class="revision-table" id="saved-table" width="100%">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th></th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Operating Environment</th>
+                        <th>Spatial Extent</th>
+                        <th>Decision Sector</th>
+                        <th>Base Cost</th>
+                      </tr>
+                    </thead>
+                       <tbody></tbody>
+                  </table>
+                </div>
+                <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+              </div>
+            </div>         
           </div>
         </div>
       </div>
@@ -261,8 +360,10 @@ var resultSet = new ToolSet(); // Create result and saved tool sets
 var savedTools = new ToolSet();
 
 var resultTable = new ToolDisplay('browse-table', 'browse-list', 'browse'); // Create ToolDisplay Objects we need 
+var savedTable = new ToolDisplay('saved-table', 'saved-list', 'browse');
 
 $(function () { // jquery's shorthand awaits readiness of document
+  initializeTabs();// initialize tabs and their listeners
   browseTools();
 
   /**
@@ -315,6 +416,26 @@ $(function () { // jquery's shorthand awaits readiness of document
     }
   });
 });
+
+/**
+   * Initialize tabs; create listener for switching tabs
+   * @function
+   */
+  var initializeTabs = function () {
+    console.log("initializeTabs")
+    $('#tabs > div').hide(); // hide all tab-panels
+    $('#tabs div:first').show(); // show first tab-panel
+    $('#tabs-nav li:first').addClass('active'); // class tabs active for styling
+    $('.menu-internal').click(function () { // add listener to tabbing elements
+      console.log("clicked")
+      $('#tabs-nav li').removeClass('active'); // remove active styling from all tabs
+      var currentTab = $(this).attr('href'); // get name of clicked tab
+      $('#tabs-nav li a[href="' + currentTab + '"]').parent().addClass('active'); // activate the clicked tab
+      $('#tabs > div').hide(); // hide all panels
+      $(currentTab).show(); // show clicked tab's panel
+      return false;// return false for success; conventionially return truthy description of failure
+    });
+  };
 
 /**
  * Process the results array. Add IDs that are not already in the ResultSet or in the white list to the ResultSet.
