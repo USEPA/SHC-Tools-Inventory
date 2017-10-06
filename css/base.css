@@ -329,3 +329,6 @@ tr:hover td:not(:first-child) {
 button:disabled {
   background-color: #aeb0b5
 }
+table {
+  width: 100%;
+}
