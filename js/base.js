@@ -1174,12 +1174,17 @@ var executeSearch = function (url, data) {
  */
 function createDataTable(name) {
   if (!$.fn.DataTable.isDataTable('#' + name + '-table')) {
+    var paging = true;
+    if (name === 'browse') {
+      paging = false;
+    }
     var table = $('#' + name + '-table').DataTable({
       dom: 'Bfrtip',
       processing: true,
       responsive: {
         details: false
       },
+      paging: paging,
       columnDefs: [
         {
           targets: [0],
