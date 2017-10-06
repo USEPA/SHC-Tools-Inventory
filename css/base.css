@@ -74,7 +74,6 @@ table.dataTable td.select-checkbox:before,
 table.dataTable td.select-checkbox:after {
   top: initial;
 }
-hr,
 #role,
 #subrole,
 #fundamental-objective,
@@ -278,12 +277,6 @@ tr:hover td:not(:first-child) {
 }
 
 /* shared */
-
-hr {
-  border: 0.5em solid #d6d7d9;
-  border-radius: 1em;
-  height: 0;
-}
 .bold {
   font-weight: bold;
 }

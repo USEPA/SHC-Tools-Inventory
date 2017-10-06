@@ -101,11 +101,6 @@ button:disabled {
   margin-bottom: 0;
   border: none;
 }
-hr {
-  border: .5em solid #d6d7d9;
-  border-radius: 1em;
-  height: 0;
-}
 .bold {
   font-weight: bold;
 }
