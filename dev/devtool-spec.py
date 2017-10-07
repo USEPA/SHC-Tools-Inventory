@@ -42,39 +42,53 @@ tests = {'READ_id': not_implemented,
          'link_check': not_implemented,
          'get_ids': not_implemented,
          'validate_READ_id': not_implemented,
-         'check_link_for_all_ids': not_implemented,}
+         'check_link_for_all_ids': not_implemented,
+         'send_to_csv': not_implemented,
+         'describe_status': not_implemented,}
+dt = Devtool()
 
 ############################################################
-# Tests are the Spec. ######################################
+# Tests are the Spec. # Comment a test here to disable it. #
 ############################################################
 # return ids in statically specified decision-sectors
-tests['get_ids'] = Devtool().get_ids()
+tests['get_ids'] = dt.get_ids()
 # get details of a specified tool
-tests['get_details'] = str(Devtool().get_details(READ_id))[:50]+'...TRUNCATED...'
+tests['get_details'] = str(dt.get_details(READ_id))[:45]+'...TRUNCATED...'
 # return the specified tool's READ-id 
-tests['READ_id'] = Devtool().READ_id(Devtool().get_details(READ_id))
+tests['READ_id'] = dt.READ_id(dt.get_details(READ_id))
 # validate a READ-id
-tests['validate_READ_id'] = Devtool().validate_READ_id(READ_id)
+tests['validate_READ_id'] = dt.validate_READ_id(READ_id)
 # return the specified tool's acronym
-tests['acronym'] = Devtool().acronym(Devtool().get_details(READ_id))
+tests['acronym'] = dt.acronym(dt.get_details(READ_id))
 # http response's status-code for a predefined URL
-tests['status'] = Devtool().status(url)
+tests['status'] = dt.status(url)
 # return a url-field and its value
-tests['url'] = Devtool().url(Devtool().get_details(READ_id))
+tests['url'] = dt.url(dt.get_details(READ_id))
 # return (read-id, acronym, url, url_status, field of url)
-tests['link_check'] = Devtool().link_check(Devtool().get_details(READ_id))
+tests['link_check'] = dt.link_check(dt.get_details(READ_id))
 # run link_check() for all ids
-tests['check_link_for_all_ids'] = Devtool().check_link_for_all_ids()
+tests['check_link_for_all_ids'] = dt.check_link_for_all_ids()
+# send check_link_for_all_ids() to CSV
+import csv
+csv_name = 'DELETE_ME_TESTING_DEVTOOL.SEND_TO_CSV.csv'
+dt.send_to_csv(dt.check_link_for_all_ids(), csv_name)
+checked_link_for_all_ids_csv = list()
+with open(csv_name) as infile:
+    reader = csv.reader(infile)
+    for row in reader:
+        checked_link_for_all_ids_csv.append(row)
+tests['send_to_csv'] = checked_link_for_all_ids_csv
+# textually describe URL-status
+from http_status import STATUS_CODES
+tests['describe_status'] = {code: dt.describe_status(code) for code in STATUS_CODES.keys()}
 
-#TODO send link_check() to CSV
 #TODO record final URL with status()
 #TODO compare final URL to the original
-#TODO textually describe URL-status
 #DEV TODO integrate tests into Devtool's class
 #DEV TODO determine whether to pass details or the READ-id as arg
 
 ############################################################
-# Now, with all those definitions out of the way, on to ####
-# the procedural play. #####################################
+# Now, with definitions out of the way, ####################
+# let's move on to the procedural play. ####################
 ############################################################
 spec = check_spec(tests)
