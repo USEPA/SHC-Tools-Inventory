@@ -107,3 +107,6 @@ button:disabled {
 .main-column ul {
   overflow: auto;
 }
+.method {
+  margin-bottom: 1.5em;
+}
