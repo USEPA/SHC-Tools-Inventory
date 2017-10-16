@@ -1,6 +1,12 @@
 class Devtool:
 
-    async def async_example(self):
+    def __init__(self):
+        self.details = {}
+        self.responses = {}
+        self.checked_links = {}
+        self.async_get_all_details()
+
+    def async_get_all_details(self):
         '''Implement asynchronous requests with large
         thread-pool to speed testing.'''
         # Example 3: asynchronous requests with larger thread pool
@@ -8,18 +14,16 @@ class Devtool:
         import concurrent.futures
         import requests
         async def main():
+            details_url = 'https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail?ResourceId='
             with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
                 loop = asyncio.get_event_loop()
-                futures = [
-                    loop.run_in_executor(
-                        executor, 
-                        requests.get, 
-                        'http://example.org/'
-                    )
-                    for i in range(20)
-                ]
-                for response in await asyncio.gather(*futures):
-                    pass
+                read_ids = self.get_ids()
+                futures = [loop.run_in_executor(executor,
+                                                self.get_details, # fncn to call
+                                                read_id) # arg to fncn
+                           for read_id in read_ids]
+                for details in await asyncio.gather(*futures):
+                    self.details[self.read_id(details)] = details
         loop = asyncio.get_event_loop()
         loop.run_until_complete(main())
 
@@ -57,22 +61,28 @@ class Devtool:
                 ids += [result['ResourceId']]
         return ids
 
-    def get_details(self, READ_id):
-        '''Get details from READ's Web-Services with READ-id.
-        '''
-        from requests import get
-        details_url = 'https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail?ResourceId='
-        return get(details_url + str(READ_id)).json()
+    def get_details(self, read_id):
+        '''Cache and return details from READ's Web-Services
+        with read_id if details aren't cached.'''
+        read_id = str(read_id) 
+        if read_id in self.details.keys():
+            return self.details[read_id]
+        else:
+            from requests import get
+            details_url = 'https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail?ResourceId='
+            details = get(details_url + read_id).json()
+            self.details[read_id] = details
+            return details
 
-    def READ_id(self, details):
-        '''Return READ-id given json-encoded details from READ's Web-Services.
+    def read_id(self, details):
+        '''Return read_id given json-encoded details from READ's Web-Services.
         '''
         if type(details) != type(dict()):
             from json import loads
             details = loads(details)
-        READ_id = self.probe_path(details,
+        read_id = self.probe_path(details,
                 ['READExportDetail','InfoResourceDetail','READResourceIdentifier'])
-        return READ_id
+        return read_id
 
     def acronym(self, details):
         '''Return acronym given json-encoded details from READ's Web-Services.
@@ -84,21 +94,39 @@ class Devtool:
                 'Acronym'])
 
     def status(self, url):
-        '''Return HTTP-status-code given a URL.
+        '''Return HTTP-status-code for url.
         '''
-        from requests import get
-        import json
         if 'xsi:nil' in str(url):
             return str(url)
+        if url in self.responses.keys():
+            response = self.responses[url]
+        else:
+            from requests import get
+            import json
+            try:
+                response = get(url)
+                self.responses[url] = response
+            except Exception as e:
+                status = 'Devool().status(\'' + url + '\') caught an error when getting an HTTP-status-code.'
+                return status
         try:
-            status = get(url).status_code
+            status = str(response.status_code)
+        except AttributeError as e:
+            status = 'ERROR'
+        try:
+            if response.history != []:
+                for response_from_history in response.history[::-1]:
+                    status = str(response_from_history.status_code) + ' ' + status
         except Exception as e:
-            status = 'Devool().status(\'' + url + '\') caught an error when getting an HTTP-status-code.'
+            print(60*'#')
+            print('IGNORING EXCEPTION RAISED WHEN APPENDING REDIRECTS\' STATUS-CODES TO status:')
+            print(e)
         return status
 
-    def url(self, details):
-        '''Return url given json-encoded details from READ's Web-Services.
+    def url(self, read_id):
+        '''Return url for READ-id.
         '''
+        details = self.get_details(read_id)
         path = ['READExportDetail',
                 'InfoResourceDetail',
                 'AccessDetail',
@@ -106,40 +134,83 @@ class Devtool:
                 'URLText']
         return self.probe_path(details, path)
 
-    def link_check(self, details):
-        '''Return details of link for given json-encoded details from READ's Web-Services.
+    def response(self, url):
+        '''Return response to url or error.
+
+        Use cache in self.responses if possible.
+        Add returned value to cache when nothing is present.
         '''
-        info = {'READ_id': self.READ_id(details),
+        if url in self.responses.keys():
+            response = self.responses[url]
+        else:
+            try:
+                from requests import get
+                response = get(url)
+            except Exception as e:
+                response = str(e)
+        self.responses[url] = response
+        return response
+
+    def link_check(self, read_id):
+        '''Return details of url for read_id.
+        '''
+        details = self.get_details(read_id)
+        info = {'read_id': self.read_id(details),
                 'acronym': self.acronym(details),
-                'url': self.url(details),
-                'status': self.describe_status(self.status(self.url(details))),
+                'requested url': self.url(read_id),
+                'gets_redirected': self.gets_redirected(self.url(read_id)),
+                'status': str(self.status(self.url(read_id))),
                 'path': ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'URLText'],}
+        try:
+            info['final_url'] = self.response(self.url(read_id)).url
+        except AttributeError as e:
+            info['final_url'] = 'ERROR'
         return info
 
-    def validate_READ_id(self, READ_id):
-        '''Get and return READ-id associated with argument READ_id as validation.
+    def validate_read_id(self, read_id):
+        '''Get and return read_id associated with argument read_id as validation.
         '''
         from requests import get
         details_url = 'https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail?ResourceId='
-        return get(details_url + str(READ_id)).json()['READExportDetail']['InfoResourceDetail']['READResourceIdentifier']
+        return get(details_url + str(read_id)).json()['READExportDetail']['InfoResourceDetail']['READResourceIdentifier']
 
     def check_link_for_all_ids(self):
         '''Return HTTP-status-code and other details for url of each id in inventory.
         '''
-        ids = self.get_ids()
-        checked_links = {}
-        for id in ids:
-            id = str(id)
-            checked_links[id] = self.link_check(self.get_details(id))
-        return checked_links
+        ## original code
+        #read_ids = self.get_ids()
+        #checked_links = {}
+        #for read_id in read_ids:
+        #    read_id = str(read_id)
+        #    checked_links[read_id] = self.link_check(read_id)
+        #return checked_links
 
-    def send_to_csv(self, data, filename):
+        import asyncio
+        import concurrent.futures
+        import requests
+        async def main():
+            self.checked_links = {}
+            with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+                loop = asyncio.get_event_loop()
+                read_ids = self.details.keys()
+                futures = [loop.run_in_executor(executor,
+                                                self.link_check,
+                                                read_id)
+                           for read_id in read_ids]
+                for link_check in await asyncio.gather(*futures):
+                    self.checked_links[link_check['read_id']] = link_check
+            return self.checked_links
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(main())
+
+    def send_to_csv(self, data, filename, verbose=False):
         '''Write dict of dicts with top-level-keys as header to filename as CSV.
         '''
         import csv
         from pprint import pprint
-        pprint('data')
-        pprint(data)
+        if verbose != False:
+            pprint('verbose != False => printing argument data:')
+            pprint(data)
         ids = list(data.keys())
         keys = list(data[ids[0]].keys())
         data_for_csv = list()
@@ -150,13 +221,47 @@ class Devtool:
             for key in keys:
                 row.append(data[id][key])
         print(data_for_csv)
-        with open(filename, 'w') as outfile:
+        with open(filename, 'w', newline='') as outfile:
             writer = csv.writer(outfile)
             writer.writerows(data_for_csv)
 
     def describe_status(self, status_code):
+        '''Describe a numeric HTTP-status-code.
+        '''
         from http_status import STATUS_CODES
         try:
             return STATUS_CODES[int(status_code)]
         except:
             return status_code
+
+    def get_response(self, url):
+        '''Return request or self.error.
+
+        Use a cached response if present.
+        Ensure response is cached when done.
+        '''
+        if url in self.responses.keys():
+            response = self.responses[url]
+        else:
+            from requests import get
+            try:
+                response = get(url)
+            except Exception as e:
+                e.status = 'ERROR from Devtool().get_response(' + str(url) + ')'
+                response = e
+            self.responses[url] = response
+        return response
+
+    def gets_redirected(self, url):
+        '''Compare requested url with the final url.
+        '''
+        response = self.get_response(url)
+        if hasattr(response, 'status') and response.status[:5] == 'ERROR':
+            return False
+        if response.url != url:
+            return True
+        else:
+            return False
+
+if __name__ == '__main__':
+    dt = Devtool()
