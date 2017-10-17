@@ -461,8 +461,7 @@ function browseTools() {
       results = results.concat(arguments[i][0]);
     }
     var numberOfResults = parseResultsArray(results);
-    if (0 === numberOfResults) {
-    } else {
+    if (0 !== numberOfResults) {
       createDataTable('browse');
       toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
     }

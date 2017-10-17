@@ -325,8 +325,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
 
 
   for (var i = 0; i < sorted.length; i++) {
-  	if (this.toolSet.contains(sorted[i])) {
-  	} else {
+  	if (!this.toolSet.contains(sorted[i])) {
   		this.toolSet.addTool(sorted[i]);
   		html += createDiv(toolCache.getParsedData(sorted[i]), this.getListId());
     	rows.push(createRow(toolCache.getParsedData(sorted[i])));
