@@ -453,7 +453,6 @@ $(function () { // jquery's shorthand awaits readiness of document
       }).nodes().to$().addClass("selected");
       $('#' + id).prop('checked', true);
       savedTools.addTool(id);
-      console.log('W451');
       localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
       $('input[type="checkbox"]', rowNodes).each(function () {
         if ($(this).val() === id) {
@@ -466,7 +465,6 @@ $(function () { // jquery's shorthand awaits readiness of document
       }).nodes().to$().removeClass("selected");
       $('#' + id).prop('checked', false);
       savedTools.removeTool(id);
-      console.log('W464');
       localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
       $('input[type="checkbox"]', rowNodes).each(function () {
         if ($(this).val() === id) {
@@ -488,13 +486,11 @@ $(function () { // jquery's shorthand awaits readiness of document
     if ($parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
       savedTools.removeTool(readId);
-      console.log('W486');
       localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
       $parent.removeClass('selected');
     } else {
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
       savedTools.addTool(readId);
-      console.log('W492');
       localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
       $parent.addClass('selected');
     }
@@ -1061,7 +1057,6 @@ var conceptSearch = function () {
         }
       }
     }
-    console.log('W1059');
     localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
   }
   var numberOfTools = resultSet.getLength();
