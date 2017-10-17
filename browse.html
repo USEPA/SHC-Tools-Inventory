@@ -450,6 +450,12 @@ function browseTools() {
     requests.push(executeSearch(resourceAdvancedSearchURL, data));
     data = {};
   }
+  /*
+      .apply allows for variable parameters stored in an array
+      .when then waits for the array of promises to be resolved
+      .done then executes when all those promises are resolved
+      arguments allows for the variable number of arguments to be accessed
+    */
   $.when.apply(null, requests).done(function () {
     for (var i = 0; i < arguments.length; i++) {
       results = results.concat(arguments[i][0]);
