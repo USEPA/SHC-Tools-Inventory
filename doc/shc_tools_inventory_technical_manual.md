@@ -1,16 +1,16 @@
-# SHC Tools-Inventory Technical Manual
+# SHC Tools-Inventory: a Technical Manual
 
-- The SHC Tools-Inventory is a set of web-applications which function through javascript using the Registry of EPA's Applications and Data-warehouses(READ) web-services to help users find relevant tools.
+- The SHC Tools-Inventory is a set of web-applications which function through javascript using the Registry of EPA's Applications and Data-warehouses(READ)'s Web-Services to help users find relevant tools.
 
-- READ's web-services' documentation is [here](https://ofmpub.epa.gov/readwebservices/).
+- SHC's Tools-Inventory is built upon [READ's Web-Services](https://ofmpub.epa.gov/readwebservices/).
 
-- Sets of tools such as search results, browsed tools, and saved tools may be shown in either a textual format or a tabular format at any time.
+- Sets of tools such as search results, browsed tools, and saved tools may be toggled between a textual format and a tabular format at any time.
 
-- The button labeled "export selected tools to CSV" saves details for each selected tool as a row of a comma-separated values fail.
+- The button labeled "export selected tools to CSV" saves details for each selected tool as a row of a comma-separated values file.
 
-- The button labeled "select all tools" will select all displayed tools.
+- The button labeled "select all tools" will select all tools within the section.
 
-- The button labeled "deselect all tools" will deselect all selected tools.
+- The button labeled "deselect all tools" will deselect all selected tools within the section.
 
 - When results are found there will be a tab labeled "results" alongside those for search, advanced search, and browse tools.
 
@@ -50,7 +50,7 @@
 
 - This page contains search, advanced search, and browse tools.
 
-### search
+### Search
 
 - Search case-insensitively matches a substring within the
 
@@ -63,7 +63,7 @@
   - keywords-field
 of READ.
 
-### advanced search
+### Advanced Search
 
 - Users can select which fields of READ to search for the substring entered in the search-query-text-field with optional constraints specified.
 
@@ -135,7 +135,7 @@ of READ.
 
 - All selections are cleared by using the button labeled "reset form."
 
-### browse tools
+### Browse Tools
 
 - A decision-sector is selected from among
 
@@ -147,17 +147,17 @@ of READ.
 
   - waste-management.
 
-### results
+### Results
 
 - The tab labeled "results" shows the results returned from the most recent search or advanced search.
 
-### saved results
+### Saved Results
 
 - Results remain saved during repeated searches, browsing, and changes between tabular and textual formats.
 
 - If settings permit the app to use local storage then saved results will be saved during navigation away from the app.
 
-### selected tool
+### Selected Tool
 
 - The tab labeled "selected tool" displays the details of the most recently selected tool.
 
@@ -165,7 +165,27 @@ of READ.
 
 - The SHC's Tools-Inventory-Wizard asks questions about a scenario to locate relevant tools for that scenario.
 
-- Help icons that look like an "i" in a black-filled circle display additional information about the current step when used.
+- Wizard uses a database called Decision-Path-Library(DPL) to populate possible responses to future questions according to previous questions' responses.
+
+- Use wizard:
+
+  1. choose roles from those provided by DPL,
+
+  2. choose subroles that DPL associates with the selected roles,
+
+  3. choose fundamental objectives from those DPL associates with selected subroles,
+
+  4. choose objectives from those DPL associates with selected subroles and fundamental objectives,
+
+  5. choose concepts from those DPL associates with selected objectives,
+
+  6. peruse tools, and
+
+  7. choose tools to export their details to a CSV-file, print the details, or collect the details together with other tools' details while searching or browsing.
+  
+    - Local storage is required to share tools' details amongst wizard, search, and browse.
+
+- Help icons that look like an "i" in a black-filled circle display additional information about the current step.
 
 ### Roles
 
@@ -173,7 +193,7 @@ of READ.
 
 - Select all roles that apply in the scenario for which tools are desired.
 
-- Use the button labeled next to proceed.
+- Use the button labeled "next" to proceed.
 
 ### Subroles
 
@@ -199,7 +219,7 @@ of READ.
 
 - Use the button labeled "next" to proceed.
 
-### Objectves
+### Objectives
 
 - Use any tab as a button to review or change the selections made there.
 
