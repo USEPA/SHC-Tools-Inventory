@@ -16,7 +16,43 @@ var toolCache = (function () {
    * @param {object} data - The parsed data.
    */
   function setData(id, data) {
-    cache[id] = data; // store the parsed data by the tool ID
+    cache[id] = {};
+    cache[id]['data'] = data; // store the parsed data by the tool ID
+    cache[id]['date'] = Date.now(); // store the parsed data by the tool ID
+  }
+
+  /**
+   * Copies the specified data to the cache
+   * @private @function
+   * @param {string} id - The ID of the tool.
+   * @param {object} data - The parsed data.
+   */
+  function copyData(id, data) {
+    cache[id] = {};
+    cache[id]['data'] = data.data; // store the parsed data by the tool ID
+    cache[id]['date'] = data.date; // store the parsed data by the tool ID
+  }
+
+  /**
+   * Sets the cache to the specified cache
+   * @private @function
+   * @param {object} newCache - The new data to set as cache.
+   */
+  function setCache(newCache) {
+    cache = newCache;
+  }
+
+  /**
+   * Checks if the cache contains the specified ID.
+   * @private @function
+   * @param {string} id - The ID of the tool.
+   */
+  function contains(id) {
+    if (cache.hasOwnProperty(id)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -27,7 +63,7 @@ var toolCache = (function () {
    */
   function getData(id) {
     if (cache.hasOwnProperty(id)) {
-      return cache[id]; // return the data for a tool ID
+      return cache[id]['data']; // return the data for a tool ID
     }
   }
 
@@ -46,6 +82,7 @@ var toolCache = (function () {
         $.get(resourceDetailURL, {ResourceId:id}).done( // if we don't have the data, get the data and then run the passed in function
           function (data) {
             setData(id, parseResult(data)); // store the data in cache
+            localStorageSetItem('toolCache', cache);          
             callback(getData(id)); // run the passed in function
           }
         );
@@ -62,7 +99,7 @@ var toolCache = (function () {
       var readIds = Object.keys(toolSet.getToolSet());
       var requests = [];
       for (var i = 0; i < readIds.length; i++) {
-        if (!cache.hasOwnProperty(readIds[i])) {
+        if (!cache.hasOwnProperty(readIds[i]) || (Date.now() - cache[readIds[i]]['date']) > 86400000) { // if the tool isn't in the cache or if the data is > 24 hours old request new data
           requests.push(executeSearch(resourceDetailURL, {ResourceId:readIds[i]}));
         }
       }
@@ -82,6 +119,7 @@ var toolCache = (function () {
             setData(result['ID'], result);
           }
         }
+        localStorageSetItem('toolCache', cache);
         callback(toolSet);
       }).fail(function (jqXHR, textStatus, errorThrown) {
         $('#loader').attr('aria-hidden', 'true').hide();
@@ -110,6 +148,28 @@ var toolCache = (function () {
      */
     getCache : function () {
       return cache;
+    },
+
+    /**
+     * Load a data cache
+     * @function
+     * @param {object} newCache - The new data.
+     */
+    loadCache : function (newCache) {
+      setCache(newCache);
+    },
+
+    /**
+     * Update the cache with data from localStorage
+     * @function
+     */
+    updateCache : function () {
+      cachedToolCache = JSON.parse(localStorage.getItem('toolCache'));
+      for (toolID in cachedToolCache) {
+        if (!cache.hasOwnProperty(toolID) || cache[toolID].date < cachedToolCache[toolID].date) { //copy LS data if not in cache or is older in cache
+          copyData(toolID, cachedToolCache[toolID]);
+        }
+      }
     }
   };
 })();
@@ -486,6 +546,11 @@ function removeSelected(divID) {
   });
   if ($.fn.DataTable.isDataTable('#saved-table')) {
     $('#saved-table').DataTable().rows('.selected').remove().draw();
+  }
+  if (savedTools.length < 1) {
+    $('#saved-tools-tab').parent().attr("aria-hidden", true);
+    $('#saved-tools-panel').attr("aria-hidden", true);
+    $('#tabs-nav > li').children().first().click();
   }
 }
 
@@ -1153,7 +1218,7 @@ function unsaveAll() {
  * @return {object} - The object holding result of the ajax request.
  */
 var executeSearch = function (url, data) {
-  //$.support.cors = true; // needed for < IE 10 versions
+  $.support.cors = true; // needed for < IE 10 versions
   return $.ajax({
     type: 'GET',
     url: url,
@@ -1223,7 +1288,7 @@ function createDataTable(name) {
 
     var dtButtons = [];
 
-    if (resultTable.getType() === 'search') {
+    if (resultTable.getType() === 'search' || resultTable.getType() === 'browse') {
       dtButtons.push(
         {
           text: 'Export Selected Tools to CSV',
@@ -1235,7 +1300,7 @@ function createDataTable(name) {
       );
     }
 
-    if (name !== 'saved' && resultTable.getType() === 'search' || resultTable.getType() === 'browse') {
+    if (name !== 'saved' && (resultTable.getType() === 'search' || resultTable.getType() === 'browse')) {
       dtButtons.push(
         {
           text: 'Save Selected Tools',
@@ -1251,7 +1316,7 @@ function createDataTable(name) {
       $('.dataTables_empty').html('<img id="loader" src="img/loader.gif">');
     }
 
-    if (name === 'saved' && resultTable.getType() === 'search') {
+    if (name === 'saved' && (resultTable.getType() === 'search' || resultTable.getType() === 'browse')) {
       dtButtons.push(
         {
           text: 'Remove Selected Tools',
@@ -1504,39 +1569,142 @@ var debugGetSelected = function(){
 	return selected
 };
 
-function localStorageEnabled () {
+/**
+ * Detects whether localStorage is both supported and available.
+ * @tutorial https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
+ * @function
+ */
+function localStorageEnabled() {
   try {
-    localStorage.setItem('test', 'test');
-    localStorage.removeItem('test');
+    var storage = window['localStorage'],
+      x = '__storage_test__';
+    storage.setItem(x, x);
+    storage.removeItem(x);
     return true;
-  } catch (e) {
-    return false;
+  }
+  catch(e) {
+    return e instanceof DOMException && (
+      e.code === 22 || // everything except Firefox
+      e.code === 1014 || // Firefox
+      e.name === 'QuotaExceededError' || // test name field too, because code might not be present // everything except Firefox
+      e.name === 'NS_ERROR_DOM_QUOTA_REACHED') && // Firefox
+      storage.length !== 0; // acknowledge QuotaExceededError only if there's something already stored
   }
 }
 
-function localStorageSetItem (key, value) {
+/**
+ * Sets a speficied key value to the specified data value
+ * @function
+ * @param {string} key - The key.
+ * @param {string} value - The value.
+ */
+function localStorageSetItem(key, value) {
   if (localStorageEnabled()) {
     localStorage.setItem(key, JSON.stringify(value));
   }
 }
 
+/**
+ * Loads saved tools from local storage into the current page.
+ * @function
+ */
 function loadSavedTools() {
   if (localStorageEnabled()) {
-    savedTools = JSON.parse(localStorage.getItem("savedTools"));
-    if (savedTools) {
-    } else {
+    cachedSavedTools = JSON.parse(localStorage.getItem("savedTools"));
+    if (cachedSavedTools && cachedSavedTools.length > 0) {
+      savedTools.toolSet = cachedSavedTools.toolSet;
+      savedTools.length = cachedSavedTools.length;
+      if (typeof(savedTable) !== 'undefined') {
+        createDataTable('saved');
+        $('#saved-tools-tab').parent().attr("aria-hidden", false);
+        $('#saved-tools-panel').attr("aria-hidden", false);
+        toolCache.handleToolSet(savedTools, savedTable.displayTools.bind(savedTable));
+      } else {
+        createDataTable('results');
+        $('#results-tab').parent().attr("aria-hidden", false) // enable tab button. it's not working right.
+          .removeAttr("aria-disabled")
+          .attr("aria-hidden", false);
+        toolCache.handleToolSet(savedTools, resultTable.displayTools.bind(resultTable));
+        selectAllToolsButton('results');
+      }
     }
   }
 }
 
+/**
+ * Loads the localStorage tool cache into the current pages tool cache.
+ * @function
+ */
+function loadCache() {
+  if (localStorageEnabled()) {
+    var newCache = JSON.parse(localStorage.getItem('toolCache'));
+    if (newCache !== null) {
+      toolCache.loadCache(newCache); //load cache
+    }
+  }
+}
+
+/**
+ * Compares the values of two arrays.
+ * @function
+ * @param {array} a1 - The first array.
+ * @param {array} a2 - The second array.
+ * @return {boolean} - True if they are the same; False if they aren't.
+ */
+function arrayCompare(a1, a2) {
+  if (a1.length !== a2.length) {
+    return false;
+  }
+  for (var i = 0, length = a1.length; i < length; i++) {
+    if (a1[i] !== a2[i]){
+      return false;
+    }
+  }
+  return true; 
+}
+
+/**
+ * Listens for changes in the local storage. If 
+ * @param {event} e - The storage event.
+ * @listens storage
+ */
 $(window).bind('storage', function (e) {
   if (e.originalEvent.key === 'savedTools') {
     var newSavedTools = JSON.parse(e.originalEvent.newValue);
+    if (arrayCompare(Object.keys(newSavedTools.toolSet).sort(), Object.keys(savedTools.toolSet).sort()) === true) { // if the saved tools are the same don't do anything
+      return;
+    }
     savedTools.toolSet = newSavedTools.toolSet;
     savedTools.length = newSavedTools.length;
-    if (savedTable) {
-      createDataTable('saved');
-      toolCache.handleToolSet(savedTools, savedTable.displayTools.bind(savedTable));
+    var type = resultTable.getType();
+    if (type === 'wizard') {
+      createDataTable('results'); // create table
+      resultTable.getToolSet().reset(); // clear table/div
+      $("#" + resultTable.getListId()).html('');
+      $("#" + resultTable.getTableId()).DataTable().clear().draw();
+      if (savedTools.length > 0) {
+        toolCache.handleToolSet(savedTools, resultTable.displayTools.bind(resultTable)); // add saved tools
+        selectAllToolsButton('results');
+      }
+      toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable)); // add result current set
+      $('#results-tab').parent().attr("aria-hidden", false) // enable tab button.
+        .removeAttr("aria-disabled")
+        .attr("aria-hidden", false);
+    } else if (type === 'browse' || type === 'search') {
+      savedTable.getToolSet().reset();
+      $("#" + savedTable.getListId()).html('');
+      $("#" + savedTable.getTableId()).DataTable().clear().draw();
+      if (savedTools.length > 0) {
+        $('#saved-tools-tab').parent().attr("aria-hidden", false);
+        $('#saved-tools-panel').attr("aria-hidden", false);
+        toolCache.handleToolSet(savedTools, savedTable.displayTools.bind(savedTable));
+      } else {
+        $('#saved-tools-tab').parent().attr("aria-hidden", true);
+        $('#saved-tools-panel').attr("aria-hidden", true);
+        $('#tabs-nav > li').children().first().click();
+      }
     }
+  } else if (e.originalEvent.key === 'toolCache') {
+    toolCache.updateCache();
   }
 });

@@ -430,6 +430,8 @@ $(function () { // jquery's shorthand awaits readiness of document
   location.hash = '';
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate roles into #role div
   initializeTabs(); // initialize tabs and their listeners
+  loadCache(); //load cache from local storage
+  loadSavedTools(); // load saved tools
   
   /**
    * Updates the interface when a concept checkbox changes state.

@@ -439,6 +439,8 @@ var savedTable = new ToolDisplay('saved-table', 'saved-list', 'search');
 
 $(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
+  loadCache(); //load cache from local storage
+  loadSavedTools(); // load saved tools
 
   /**
    * Toggles the selected state of tool via a list div checkbox.
