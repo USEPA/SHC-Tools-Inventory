@@ -1621,8 +1621,8 @@ function loadSavedTools() {
         toolCache.handleToolSet(savedTools, savedTable.displayTools.bind(savedTable));
       } else {
         createDataTable('results');
-        $('#results-tab').parent().attr("aria-hidden", false) // enable tab button. it's not working right.
-          .removeAttr("aria-disabled")
+        $('#results-tab').parent().attr("aria-hidden", false); // enable tab button. it's not working right.
+        $('#results-tab').removeAttr("aria-disabled")
           .attr("aria-hidden", false);
         toolCache.handleToolSet(savedTools, resultTable.displayTools.bind(resultTable));
         selectAllToolsButton('results');
