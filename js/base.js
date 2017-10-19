@@ -540,10 +540,10 @@ function removeSelected(divID) {
     if ($(this).prop("checked")) {
       savedTools.removeTool($(this).val());
       savedTable.getToolSet().removeTool($(this).val()); //remove tool from saved tool display tool set
-  localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
       $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
     }
   });
+  localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
   if ($.fn.DataTable.isDataTable('#saved-table')) {
     $('#saved-table').DataTable().rows('.selected').remove().draw();
   }
