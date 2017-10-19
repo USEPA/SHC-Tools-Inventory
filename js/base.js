@@ -1621,7 +1621,7 @@ function loadSavedTools() {
         toolCache.handleToolSet(savedTools, savedTable.displayTools.bind(savedTable));
       } else {
         createDataTable('results');
-        $('#results-tab').parent().attr("aria-hidden", false); // enable tab button. it's not working right.
+        $('#results-tab').parent().attr("aria-hidden", false); // enable tab button.
         $('#results-tab').removeAttr("aria-disabled")
           .attr("aria-hidden", false);
         toolCache.handleToolSet(savedTools, resultTable.displayTools.bind(resultTable));
@@ -1687,9 +1687,8 @@ $(window).bind('storage', function (e) {
         selectAllToolsButton('results');
       }
       toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable)); // add result current set
-      $('#results-tab').parent().attr("aria-hidden", false) // enable tab button.
-        .removeAttr("aria-disabled")
-        .attr("aria-hidden", false);
+      $('#results-tab').parent().attr("aria-hidden", false); // enable tab button.
+      $('#results-tab').removeAttr("aria-disabled")
     } else if (type === 'browse' || type === 'search') {
       savedTable.getToolSet().reset();
       $("#" + savedTable.getListId()).html('');
