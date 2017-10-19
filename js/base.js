@@ -1272,14 +1272,14 @@ function createDataTable(name) {
         {
           text: 'Select All Tools',
           action: function () {
-            selectAllToolsButton(name);
+            selectFilteredToolsButton(name);
           },
           className: 'button button-grey'
         },
         {
           text: 'Deselect All Tools',
           action: function () {
-            deselectAllToolsButton(name);
+            deselectFilteredToolsButton(name);
           },
           className: 'button button-grey'
         }
@@ -1376,6 +1376,56 @@ function deselectAllToolsButton(name) {
   var rowNodes = rows.nodes();
   rows.deselect();
   $('input[type="checkbox"]', rowNodes).prop('checked', false);
+}
+
+/**
+ * Selects all the filtered tools in the specified container.
+ * @function
+ * @param {string} name - Partial ID of the table to be created.
+ */
+function selectFilteredToolsButton(name) {
+  var rows = $('#' + name + '-table').DataTable().rows({ search: 'applied'});
+  var rowNodes = rows.nodes();
+  rows.select();
+  $('input[type="checkbox"]', rowNodes).prop('checked', true);
+
+  var toolsToSelect = [];
+  rowNodes.to$().each(function() {
+    $('#' + name + '-list-cb-' + $(this).find('input[type="checkbox"]').val()).prop('checked', true);
+    toolsToSelect.push($(this).find('input[type="checkbox"]').val());
+  });
+
+  if (!$('#saved-list').length) {
+    for (var i = 0, length = toolsToSelect.length; i < length; i++) {
+      savedTools.addTool(toolsToSelect[i]);
+    }
+    localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
+  }
+}
+
+/**
+ * deselects all the filtered tools in the specified container.
+ * @function
+ * @param {string} name - Partial ID of the table to be created.
+ */
+function deselectFilteredToolsButton(name) {
+  var rows = $('#' + name + '-table').DataTable().rows({ search: 'applied'});
+  var rowNodes = rows.nodes();
+  rows.deselect();
+  $('input[type="checkbox"]', rowNodes).prop('checked', false);
+
+  var toolsToDeselect = [];
+  rowNodes.to$().each(function() {
+    $('#' + name + '-list-cb-' + $(this).find('input[type="checkbox"]').val()).prop('checked', false);
+    toolsToDeselect.push($(this).find('input[type="checkbox"]').val());
+  });
+
+  if (!$('#saved-list').length) {
+    for (var i = 0, length = toolsToDeselect.length; i < length; i++) {
+      savedTools.removeTool(toolsToDeselect[i]);
+    }
+    localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
+  }
 }
 
 var timeouts = {};
