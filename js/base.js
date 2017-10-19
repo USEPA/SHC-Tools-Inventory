@@ -1690,6 +1690,7 @@ $(window).bind('storage', function (e) {
       $('#results-tab').parent().attr("aria-hidden", false); // enable tab button.
       $('#results-tab').removeAttr("aria-disabled")
     } else if (type === 'browse' || type === 'search') {
+      createDataTable('saved'); // create table
       savedTable.getToolSet().reset();
       $("#" + savedTable.getListId()).html('');
       $("#" + savedTable.getTableId()).DataTable().clear().draw();
