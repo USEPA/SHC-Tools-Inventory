@@ -216,3 +216,29 @@
   - 12522,GEMIS had keywords 'LCA, material flow'
   - 12569,AFLEET had keywords ''
   - 12567,'GHG Emissions f' had keywords ''
+
+- manually test functionality after implementing use of local storage to let users collect tools' details persistently across search, browse, and wizard
+  - BUG win10 opera 48.0.2685.39 (PGO) loading browse.html via the http:// scheme the tools never load
+    - error from the console:
+        Uncaught TypeError: Cannot read property 'ID' of undefined
+            at createDiv (base.js:748)
+            at ToolDisplay.displayTools (base.js:390)
+            at Object.<anonymous> (base.js:123)
+            at n (jquery.js:2)
+            at Object.add [as done] (jquery.js:2)
+            at Object.handleToolSet (base.js:112)
+            at Object.<anonymous> (browse.html:468)
+            at n (jquery.js:2)
+            at Object.fireWith [as resolveWith] (jquery.js:2)
+            at Object.<anonymous> (jquery.js:2)
+  - BUG win10 chrome 61.0.3163.100 64-bit
+    - http://.../browse.html -> select fresa, afleet, and swc -> toggle display from tabular to textual repeatedly -> neither select all nor deselect all work in textual display -> switch to tabular display -> select all successfully -> textual display still shows only fresa, afleet, and swc selected
+  - BUG win10 chrome 61.0.3163.100 64-bit and opera 48.0.2685.39 (PGO)
+    - select all tools and deselect all tools stop working variously
+    - reproduce by focusing select all tools then hit space then hit enter
+  - The button labeled "return to tool list" could read "return to saved tool list."
+  - The bottom of a long lists in browse have no link to the top of section.
+  - BUG win10 firefox 56.0
+    - horizontal scrollbar broken
+    - this appears to be a general bug with the browser
+      - read general to mean more general than specific to our page
