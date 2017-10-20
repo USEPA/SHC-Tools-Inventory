@@ -1128,16 +1128,16 @@ function updateConceptsandResults() {
  * @function
  */
 var displayResults = function () {
-  if (resultSet.getLength() > 0 || savedTools.getLength() > 0) {  
-    toggleTab(Object.keys(resultSet.getToolSet()), $('#tools'));
-    activateNextTab($('#results-tab'), 'wizard.html#results-tab');
-    if (!resultSet.isEqual(resultTable.getToolSet())) {
+  if (resultSet.getLength() > 0 || savedTools.getLength() > 0) { // if there are saved tools or results
+    toggleTab(Object.keys(resultSet.getToolSet()).concat(Object.keys(savedTools.getToolSet())), $('#tools')); // send an array containing the results and saved tools to toggle tab
+    activateNextTab($('#results-tab'), 'wizard.html#results-tab'); // activate the reults tab
+    if (!resultSet.isEqual(resultTable.getToolSet())) { // if the results are new create the table and display results
       $('#loader').removeAttr('aria-hidden').show();
       createDataTable('results');
       toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
     }
   } else {
-    $('#results-tab').parent().attr('aria-hidden', 'true');
+    $('#results-tab').parent().attr('aria-hidden', 'true'); // if no saved tools or results then hide the results tab and tell them to pick a concept
     toast({html: 'Please select a concept.', close: true});
   }
 };
