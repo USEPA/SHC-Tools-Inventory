@@ -217,7 +217,8 @@
                 <h3 id="tools">Tools</h3>
                 <p>Select one or more tools and they will be added to your saved tools. Any unselected tools will be removed if you run additional searches. You can export your selected tools to a CSV file by using the <strong>Export</strong> button.</p>
                 <div class="navbar">
-                  <button class="persist" onclick="activateTab($('#concept-tab'), 'wizard.html#concept-tab')">Back</button>
+                  <button class="persist" onclick="activatePreviousUnhiddenTab()">Back</button>
+                  <!--<button class="persist" onclick="activateTab($('#concept-tab'), 'wizard.html#concept-tab')">Back</button>-->
                   <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                 </div>
                 <hr />
@@ -1261,6 +1262,28 @@ var activateNextTab = function ($nextTab, URLToShow) {
     $nextTab[0].click(); // activate tab
   }
 };
+
+/**
+ * Select the previous visible tab.
+*/
+var activatePreviousUnhiddenTab = function () {
+  var pageName = 'wizard.html';// parametrize the name of the page
+  var $currentTab = $('.menu-internal[aria-selected="true"]')[0];// get the active tab
+  for (var i = $('.menu-internal').length - 1; i >= 0; i--) {// cycle backwards through menu 
+    var $tab = $('.menu-internal')[i];// get the ith tab once
+    if ($tab.id === $currentTab.id) {
+      var activateNextUnhiddenTabFlag = true;// flag when current tab is seen
+      continue;
+    }
+    if (activateNextUnhiddenTabFlag === true
+        && $tab.getAttribute('aria-hidden') == null
+        && $tab.getAttribute('aria-disabled') !== 'true') {
+      var $tabToActivate = $('#' + $tab.id);// refer to tab to activate
+      activateTab($tabToActivate, pageName + '#' +  $tab.id);// activate previous tab shown
+      break;
+    }
+  }
+}
 
 /**
  * Selects the specified tab
