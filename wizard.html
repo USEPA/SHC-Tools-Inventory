@@ -1251,22 +1251,22 @@ var activateNextTab = function ($nextTab, URLToShow) {
  * Select the previous visible tab.
 */
 var activatePreviousUnhiddenTab = function () {
-    var pageName = 'wizard.html';// parametrize the name of the page
-    var $currentTab = $('.menu-internal[aria-selected="true"]')[0];// get the active tab
-    for (var i = $('.menu-internal').length - 1; i >= 0; i--) {// cycle backwards through menu 
-        var $tab = $('.menu-internal')[i];// get the ith tab once
-        if ($tab.id === $currentTab.id) {
-            var activateNextUnhiddenTabFlag = true;// flag when current tab is seen
-            continue;
-        }
-        if (activateNextUnhiddenTabFlag === true
-                && $tab.getAttribute('aria-hidden') == null
-                && $tab.getAttribute('aria-disabled') !== 'true') {
-            var $tabToActivate = $('#' + $tab.id);// refer to tab to activate
-            activateTab($tabToActivate, pageName + '#' +  $tab.id);// activate previous tab shown
-            break;
-        }
+  var pageName = 'wizard.html';// parametrize the name of the page
+  var $currentTab = $('.menu-internal[aria-selected="true"]')[0];// get the active tab
+  for (var i = $('.menu-internal').length - 1; i >= 0; i--) {// cycle backwards through menu 
+    var $tab = $('.menu-internal')[i];// get the ith tab once
+    if ($tab.id === $currentTab.id) {
+      var activateNextUnhiddenTabFlag = true;// flag when current tab is seen
+      continue;
     }
+    if (activateNextUnhiddenTabFlag === true
+        && $tab.getAttribute('aria-hidden') == null
+        && $tab.getAttribute('aria-disabled') !== 'true') {
+      var $tabToActivate = $('#' + $tab.id);// refer to tab to activate
+      activateTab($tabToActivate, pageName + '#' +  $tab.id);// activate previous tab shown
+      break;
+    }
+  }
 }
 
 /**
