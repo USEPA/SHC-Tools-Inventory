@@ -104,7 +104,6 @@ table.dataTable tbody > tr > .selected {
 /* make results responsive */
 tr:hover td:not(:first-child) {
   background-color: #e7f4e4;
-  cursor: pointer;
 }
 .dt-body-center > input[type='checkbox'] + label:before {
   margin: 0;

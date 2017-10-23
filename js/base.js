@@ -473,7 +473,7 @@ function createRow(parsedResult) {
   rowData = [ //Create row
     "",
     parsedResult['ID'],
-    parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')',
+    '<span class="bold">' + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')') + '</span><br /><button class="col button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Tool Details</button>',
     parsedResult['Description'],
     parsedResult['Operating Environment'],
     parsedResult['Spatial Extent'],
@@ -524,9 +524,6 @@ function addRow(parsedResult, tableId, rowData) {
       .attr('data-read-id', parsedResult['ID'])
       .attr('data-table-id', tableId)
       .attr("id", tableId + '-' + parsedResult['ID']);
-      $row.children().not(':first').click(function () {
-        showDetails(parsedResult['ID']);
-    });
   }
 }
 
@@ -560,7 +557,8 @@ function removeSelected(divID) {
  * @param {string} id - The tool ID.
  * @param {string} origin - The ID of the perviously selected tab.
  */
-function showDetails(id, origin) {
+function showDetails(id, that) {
+  var origin = $(that).closest('[role="tabpanel"]').attr('aria-labelledby');
   var parsedData = toolCache.getParsedData(id);
   if (resultTable.getType() === 'wizard' || savedTools.contains(id)) {
     var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').attr(\'aria-selected\', true);$(\'#selected-tool-tab\').attr(\'aria-selected\', false);$(' + "'#" + origin + "'" +')[0].click();">Return to Tool List</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">';
@@ -768,18 +766,7 @@ function createDiv(parsedResult, containerId) {
 $('.list').on('click', '.expand', function () {
   var $this = $(this);
   var readId = $this.attr('data-id');
-  showDetails(readId, $this.closest('[role="tabpanel"]').attr('aria-labelledby'));
-});
-
-
-/**
- * On click listener for loading the Selected Tools Tab from the table view
- * @listens click
- */
-$('tbody').on('click', 'td:not(:first-child)', function () {
-  var tableId = $(this).closest('table').attr('id').slice(0, -6);
-  var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
-  showDetails(readId, $(this).closest('[role="tabpanel"]').attr('aria-labelledby'));
+  showDetails(readId, this);
 });
 
 /**
