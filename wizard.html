@@ -489,12 +489,12 @@ $(function () { // jquery's shorthand awaits readiness of document
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
       savedTools.removeTool(readId);
       localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
-      $parent.removeClass('selected');
+      $('#' + tableId + '-table').DataTable().row($parent).deselect();
     } else {
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
       savedTools.addTool(readId);
       localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
-      $parent.addClass('selected');
+      $('#' + tableId + '-table').DataTable().row($parent).select();
     }
   });
 
