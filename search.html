@@ -473,10 +473,10 @@ $(function () { // jquery's shorthand awaits readiness of document
     var readId = $(this).val(); // get ID
     if ($parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
-      $parent.removeClass('selected');
+      $('#' + tableId + '-table').DataTable().row($parent).deselect();
     } else {
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
-      $parent.addClass('selected');
+      $('#' + tableId + '-table').DataTable().row($parent).select();
     }
   });
 });

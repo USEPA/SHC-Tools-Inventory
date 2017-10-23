@@ -475,11 +475,11 @@ $(function () { // jquery's shorthand awaits readiness of document
     if ($parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
       savedTools.removeTool(readId);
-      $parent.removeClass('selected');
+      $('#' + tableId + '-table').DataTable().row($parent).deselect();
     } else {
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
       savedTools.addTool(readId);
-      $parent.addClass('selected');
+      $('#' + tableId + '-table').DataTable().row($parent).select();
     }
   });
 
