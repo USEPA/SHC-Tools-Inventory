@@ -74,7 +74,6 @@ table.dataTable td.select-checkbox:before,
 table.dataTable td.select-checkbox:after {
   top: initial;
 }
-hr,
 #role,
 #subrole,
 #fundamental-objective,
@@ -105,7 +104,6 @@ table.dataTable tbody > tr > .selected {
 /* make results responsive */
 tr:hover td:not(:first-child) {
   background-color: #e7f4e4;
-  cursor: pointer;
 }
 .dt-body-center > input[type='checkbox'] + label:before {
   margin: 0;
@@ -278,12 +276,6 @@ tr:hover td:not(:first-child) {
 }
 
 /* shared */
-
-hr {
-  border: 0.5em solid #d6d7d9;
-  border-radius: 1em;
-  height: 0;
-}
 .bold {
   font-weight: bold;
 }
@@ -335,4 +327,7 @@ hr {
 }
 button:disabled {
   background-color: #aeb0b5
+}
+table {
+  width: 100%;
 }

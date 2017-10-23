@@ -91,7 +91,16 @@
               <li>Finally, select relevant concepts (e.g. “Health & Safety”) and then output the list of found tools</li>
             </ul>
             <p>Users can expand and narrow their search at each stage in the wizard by selecting greater or fewer roles, objectives, or concepts.</p>
-            <p>Modify prior selections by clicking on the appropriate arrow-shaped tab at the top of the application.</p>            
+            <p>Modify prior selections by clicking on the appropriate arrow-shaped tab at the top of the application.</p>
+            <span class="related-info"><strong>Other Search Options:</strong></span>
+            <ul class="menu pipeline">
+              <li class="menu-item">  
+                <a href="./browse.html">Browse Tools</a>
+              </li>
+              <li class="views-row views-row-2 views-row-even views-row-last menu-item">  
+                <a href="./search.html">Keyword Search</a>
+              </li>
+            </ul>   
             <h4 id="disclaimer-title">Disclaimer</h4>
             <p id="disclaimer-text">The tools listed below are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
             <div aria-live="polite" id="toast"></div>
@@ -108,7 +117,7 @@
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
                 <h4>Roles  - Who are you?<button class="icon-button" onclick="$('#role-help').toggle()"><img alt="Help Icon" class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/></button></h4>
                 <p aria-hidden="true" class="success" id="role-help">
-                  <img class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/>
+                  <img alt="Help Icon" class="icon-img" src="https://www.epa.gov/sites/all/themes/epa/img/svg/info.svg"/>
                   <em>Need help?</em> Select the <strong>role</strong>(s) (e.g. Developer) that broadly describes your occupation or position in order to begin narrowing your search for tools that address issues relevant to your role. Expand your search for tools by selecting additional roles.
                 </p>
                 <p>Select one or more roles and proceed to the subrole tab or select Next.</p>
@@ -206,7 +215,7 @@
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
                 <h3 id="tools">Tools</h3>
-                <p>Select one or more tools and they will persist as you run additional searches. Any unselected tools will be removed. You can export your selected tools to a CSV file by using the <strong>Export</strong> button.</p>
+                <p>Select one or more tools and they will be added to your saved tools. Any unselected tools will be removed if you run additional searches. You can export your selected tools to a CSV file by using the <strong>Export</strong> button.</p>
                 <div class="navbar">
                   <button class="persist" onclick="activatePreviousUnhiddenTab()">Back</button>
                   <!--<button class="persist" onclick="activateTab($('#concept-tab'), 'wizard.html#concept-tab')">Back</button>-->
@@ -225,7 +234,7 @@
                   <div id="results-list" class="list"></div>
                 </div>
                 <div aria-hidden="true" id="results-table-div">
-                  <table class="revision-table" id="results-table" width="100%">
+                  <table class="revision-table" id="results-table" style="width:100%;">
                     <thead>
                       <tr>
                         <th></th>
@@ -422,6 +431,8 @@ $(function () { // jquery's shorthand awaits readiness of document
   location.hash = '';
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate roles into #role div
   initializeTabs(); // initialize tabs and their listeners
+  loadCache(); //load cache from local storage
+  loadSavedTools(); // load saved tools
   
   /**
    * Updates the interface when a concept checkbox changes state.
@@ -445,6 +456,7 @@ $(function () { // jquery's shorthand awaits readiness of document
       }).nodes().to$().addClass("selected");
       $('#' + id).prop('checked', true);
       savedTools.addTool(id);
+      localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
       $('input[type="checkbox"]', rowNodes).each(function () {
         if ($(this).val() === id) {
           $(this).prop('checked', true);
@@ -456,6 +468,7 @@ $(function () { // jquery's shorthand awaits readiness of document
       }).nodes().to$().removeClass("selected");
       $('#' + id).prop('checked', false);
       savedTools.removeTool(id);
+      localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
       $('input[type="checkbox"]', rowNodes).each(function () {
         if ($(this).val() === id) {
           $(this).prop('checked', false);
@@ -476,10 +489,12 @@ $(function () { // jquery's shorthand awaits readiness of document
     if ($parent.hasClass('selected')) { // remove selected class
       $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
       savedTools.removeTool(readId);
+      localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
       $('#' + tableId + '-table').DataTable().row($parent).deselect();
     } else {
       $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
       savedTools.addTool(readId);
+      localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
       $('#' + tableId + '-table').DataTable().row($parent).select();
     }
   });
@@ -1045,6 +1060,7 @@ var conceptSearch = function () {
         }
       }
     }
+    localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
   }
   var numberOfTools = resultSet.getLength();
   if (savedTools.getLength()) {

@@ -101,16 +101,25 @@
             <li>You can also browse all tools in the inventory by navigating to the Browse Tools tab and selecting the decision sector you are interested in.</li>
             <li>Save tools you are interested in and export them to CSV for offline review</li>
             </ul>
+            <span class="related-info"><strong>Other Search Options:</strong></span>
+            <ul class="menu pipeline">
+              <li class="menu-item">  
+                <a href="./wizard.html">Tool Finder</a>
+              </li>
+              <li class="views-row views-row-2 views-row-even views-row-last menu-item">  
+                <a href="./browse.html">Browse Tools</a>
+              </li>
+            </ul>
             <h4 id="disclaimer-title">Disclaimer</h4>
             <p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
             <div aria-live="polite" id="toast"></div>
             <div id="tabs">
               <ul class="tabs" id="tabs-nav" role="tablist">
-                <li><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" name="tab1" role="tab">Search</a></li>
-                <li><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" name="tab1" role="tab">Advanced Search</a></li>
-                <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#results-panel" id="results-tab" name="tab1" role="tab">Results</a></li>
-                <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#saved-tools-panel" id="saved-tools-tab" name="tab1" role="tab">Saved Results</a></li>
-                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" name="tab1" role="tab">Selected Tool</a></li>
+                <li class="active"><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" role="tab">Search</a></li>
+                <li><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" role="tab">Advanced Search</a></li>
+                <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#results-panel" id="results-tab" role="tab">Results</a></li>
+                <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#saved-tools-panel" id="saved-tools-tab" role="tab">Saved Tools</a></li>
+                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" role="tab">Selected Tool</a></li>
               </ul>
               <div aria-hidden="false" aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel">
                 <h3>Search</h3>
@@ -122,10 +131,10 @@
               </div>
               <div aria-hidden="true" aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">
                 <h3>Advanced Search</h3>
-                <p for="detailed-search-text">Specify requirements of tools while searching for text contained in the chosen fields.</p>
+                <label for="detailed-search-text">Specify requirements of tools while searching for text contained in the chosen fields.</label>
                 <hr />
                 <input autocomplete="off" class="ui-autocomplete-input search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text" placeholder="Enter text here">
-                <button id="detailed-search-button" onclick="detailedSearch()" type="">Search</button>
+                <button id="detailed-search-button" onclick="detailedSearch()">Search</button>
                 <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Form</button>
                 <div id="detailed-search-feedback">No results were found.</div>
                 <form>
@@ -164,7 +173,7 @@
                     <input class="form-checkbox" type="checkbox" name="radioenvironment" id="radioenvironment_mobile" value="mobile" />
                     <label class="option" for="radioenvironment_mobile">Mobile</label>
                   </div>
-                  <div aria-labelledby="cost-label" class="form-item form-type-checkbox" id="cost-select" class="group">
+                  <div aria-labelledby="cost-label" class="form-item form-type-checkbox group" id="cost-select">
                     <h4 id="cost-label">Choose cost ranges to find only tools labeled with one of these cost ranges:</h4>
                     <input class="form-checkbox" id="checkbasefree" name="checkbase" type="checkbox" value="1" />
                     <label class="option" for="checkbasefree">Free</label>
@@ -181,7 +190,7 @@
                     <input class="form-checkbox" id="checkbase4000" name="checkbase" type="checkbox" value="5" />
                     <label class="option" for="checkbase4000">&gt;$4000</label>
                   </div>
-                  <div aria-labelledby="extent-label" id="extent-select" class="form-item form-type-checkbox" class="group">
+                  <div aria-labelledby="extent-label" id="extent-select" class="form-item form-type-checkbox group">
                     <h4 id="extent-label" >Choose spatial extents to find only tools labeled with at least one chosen spatial extents:</h4>
                     <input class="form-checkbox" id="extent-building" name="extent-check" type="checkbox" value="building">
                     <label class="option" for="extent-building">Building</label>
@@ -218,11 +227,11 @@
                     <button class="button-white" onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
                   </div>
                   <hr />
-                  <img aria-hidden="true" id="loader" src="img/loader.gif">
+                  <img alt="Loading GIF image" aria-hidden="true" id="loader" src="img/loader.gif">
                   <div id="results-list" class="list"></div>
                 </div>
                 <div aria-hidden="true" id="results-table-div">
-                  <table class="revision-table" id="results-table" width="100%">
+                  <table class="revision-table" id="results-table" style="width:100%;">
                     <thead>
                       <tr>
                         <th></th>
@@ -245,7 +254,7 @@
                 <div id="selected-tool"></div>
               </div>
               <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
-                <h3>Saved Results</h3>
+                <h3>Saved Tools</h3>
                 <p>These are the tools you chose to save.</p>
                 <p>Select the tools you would like to export to a downloadable CSV file.</p><hr />
                 <span>Choose a display:</span>
@@ -262,7 +271,7 @@
                   <div id="saved-list" class="list"></div>
                 </div>
                 <div aria-hidden="true" id="saved-table-div">
-                  <table class="revision-table" id="saved-table" width="100%">
+                  <table class="revision-table" id="saved-table" style="width:100%;">
                     <thead>
                       <tr>
                         <th></th>
@@ -430,6 +439,8 @@ var savedTable = new ToolDisplay('saved-table', 'saved-list', 'search');
 
 $(function () { // jquery's shorthand awaits readiness of document
   initializeTabs();// initialize tabs and their listeners
+  loadCache(); //load cache from local storage
+  loadSavedTools(); // load saved tools
 
   /**
    * Toggles the selected state of tool via a list div checkbox.
@@ -676,6 +687,12 @@ var simpleSearch = function () {
       }
       data = {};
     }
+    /*
+      .apply allows for variable parameters stored in an array
+      .when then waits for the array of promises to be resolved
+      .done then executes when all those promises are resolved
+      arguments allows for the variable number of arguments to be accessed
+    */
     $.when.apply(null, requests).done(function () {
       for (var i = 0; i < arguments.length; i++) {
         results = results.concat(arguments[i][0]);
@@ -700,7 +717,5 @@ var simpleSearch = function () {
   }
 };
 </script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/read.js"></script>
 </body>
 </html>
