@@ -547,7 +547,7 @@ function addMembers(dataList, fieldName, fieldValues) {
  * @function
  */
 var detailedSearch = function () {
-  $('#detailed-search-text').autocomplete('close');
+  $('.search-input').autocomplete('close');
   if ($.fn.DataTable.isDataTable('#results-table')) {
     $('#results-table').DataTable().clear().draw(); // clear result table 
   }
@@ -654,7 +654,7 @@ var parseResultsArray = function (results) {
  * @return {number} the length of the ResultSet.
  */
 var simpleSearch = function () {
-  $('#simpleSearchText').autocomplete('close');
+  $('.search-input').autocomplete('close');
   if ($.fn.DataTable.isDataTable('#results-table')) {
     $('#results-table').DataTable().clear().draw(); //clear result table
   }
