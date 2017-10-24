@@ -125,7 +125,7 @@
                 <h3>Search</h3>
                 <label for="simple-search-text" id="simple-search-text-label">Enter text to search for and press the Search button.</label>
                 <hr />
-                <input autocomplete="off" class="ui-autocomplete-input search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text" placeholder="Enter text here">
+                <input autocomplete="off" class="search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text" placeholder="Enter text here">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
                 <p id="simpleFeedback">No tools were found.</p>
               </div>
@@ -133,7 +133,7 @@
                 <h3>Advanced Search</h3>
                 <label for="detailed-search-text">Specify requirements of tools while searching for text contained in the chosen fields.</label>
                 <hr />
-                <input autocomplete="off" class="ui-autocomplete-input search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text" placeholder="Enter text here">
+                <input autocomplete="off" class="search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text" placeholder="Enter text here">
                 <button id="detailed-search-button" onclick="detailedSearch()">Search</button>
                 <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Form</button>
                 <div id="detailed-search-feedback">No results were found.</div>
