@@ -784,10 +784,11 @@ var parseResult = function (result) {
     3:'Partial'
   };
   var dataRequirementsMap = { // map integral data-standard to text
-    1:'All data is provided.',
-    2:'Data is publicly available.',
-    3:'Data is not publicly available but routinely available.',
-    4:'New data must be created.'
+    1:'None - All Data Provided',
+    2:'Low - Data Generally Publicly Available',
+    3:'Med - Not Publicly Available, but Routinely Available',
+    4:'High - New Data Must be Created',
+    5:'Insufficient Information'
   };
   var softwareCostMap = { // map integral data-standard to text
     1:'Free',
@@ -941,7 +942,7 @@ var parseResult = function (result) {
     if (dataRequirementsMap.hasOwnProperty(dataRequirements)) {
       return dataRequirementsMap[dataRequirements];
     }
-    return "No Data";
+    return dataRequirements;
   }
 
   /**
