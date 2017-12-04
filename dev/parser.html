@@ -6,10 +6,10 @@
 <body>
 <h2>Instructions</h2>
 <ol>
-  <li />Ensure papaparse.js is in the same folder as this file.
-  <li />Copy the comma delimited data into the text area.
-  <li />Select the correct option for the data you want to format.
-  <li />Click Display formatted data
+  <li>Ensure papaparse.js is in the same folder as this file.</li>
+  <li>Copy the comma delimited data into the text area.</li>
+  <li>Select the correct option for the data you want to format.</li>
+  <li>Click Display formatted data</li>
 </ol>
 
 <label><input type="radio" name="output-type" value="0" checked>subrolesByRole</label><br>
@@ -20,8 +20,7 @@
 <label><input type="radio" name="output-type" value="5">DPL Links</label><br>
 <label><input type="radio" name="output-type" value="6">objectivesBySubrole</label><br>
 
-<textarea id="input" rows="10" style="width:100%" value="Insert text to be converted"></textarea>
-<button onclick="compareValues()">Compare CSV with READ's Data</button>
+<textarea id="input" rows="10" style="width:100%" placeholder="Insert text to be converted"></textarea>
 <button onclick="displayFormattedData()">Display formatted data</button>
 
 <h2>Output:</h2>
@@ -311,4 +310,4 @@ function formatToolData(data) {
 
 </script>
 </body>
-<html>
+</html>
