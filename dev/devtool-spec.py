@@ -72,21 +72,21 @@ tests['response'] = dt.response(url)
 tests['link_check'] = dt.link_check(read_id)
 # run link_check() for all ids
 tests['check_link_for_all_ids'] = dt.check_link_for_all_ids()
-# send check_link_for_all_ids() to CSV
-import csv
-csv_name = 'DELETE_ME_TESTING_DEVTOOL.SEND_TO_CSV.csv'
-dt.send_to_csv(dt.check_link_for_all_ids(), csv_name)
-checked_link_for_all_ids_csv = list()
-with open(csv_name) as infile:
-    reader = csv.reader(infile)
-    for row in reader:
-        checked_link_for_all_ids_csv.append(row)
-tests['send_to_csv'] = checked_link_for_all_ids_csv
-# textually describe URL-status
-from http_status import STATUS_CODES
-tests['describe_status'] = {code: dt.describe_status(code) for code in STATUS_CODES.keys()}
-# is final URL the original?
-tests['gets_redirected'] = dt.gets_redirected(url)
+## send check_link_for_all_ids() to CSV
+#import csv
+#csv_name = 'DELETE_ME_TESTING_DEVTOOL.SEND_TO_CSV.csv'
+#dt.send_to_csv(dt.check_link_for_all_ids(), csv_name)
+#checked_link_for_all_ids_csv = list()
+#with open(csv_name) as infile:
+#    reader = csv.reader(infile)
+#    for row in reader:
+#        checked_link_for_all_ids_csv.append(row)
+#tests['send_to_csv'] = checked_link_for_all_ids_csv
+## textually describe URL-status
+#from http_status import STATUS_CODES
+#tests['describe_status'] = {code: dt.describe_status(code) for code in STATUS_CODES.keys()}
+## is final URL the original?
+#tests['gets_redirected'] = dt.gets_redirected(url)
 
 #DEV TODO finish caching mechanism of Devtool().get_details(read_id)
 #DEV TODO write URL-extractor
