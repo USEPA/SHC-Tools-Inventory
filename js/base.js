@@ -791,7 +791,7 @@ var parseResult = function (result) {
     5:'Insufficient Information'
   };
   var softwareCostMap = { // map integral data-standard to text
-    1:'Free',
+    1:'$0',
     2:'$1-$499',
     3:'$500-$1499',
     4:'$1500-$3999',
