@@ -574,12 +574,12 @@ function showDetails(id, that) {
   var $selectedToolTab = $('#selected-tool-tab');
   var $selectedToolPanel = $('#selected-tool-panel');
   if (parsedData) {
-    html += "<span class='bold'>Title</span>: " + parsedData['Title'] + "<br>" +
-    "<span class='bold'>Acronym</span>: " + parsedData['Acronym'] + "<br>" +
+    html += "<span class='bold'>Title</span>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
     "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
+    "<span class='bold'>Alternate Names</span>: " + parsedData['Alternate Names'] + "<br>" +
     "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
     "<span class='bold'>URL</span>: " + linkifyString(parsedData['URL']) + "<br>" +
-    "<span class='bold'>Current Phase</span>: " + parsedData['Life Cycle Phase'] + "<br>" +
+    "<span class='bold'>Life Cycle Phase</span>: " + parsedData['Life Cycle Phase'] + "<br>" +
     "<span class='bold'>Cost Details</span>: " + parsedData['Cost'] + "<br>" +
     "<span class='bold'>Other Costs</span>: " + parsedData['Other Costs'] + "<br>" +
     "<span class='bold'>Open Source</span>: " + parsedData['Open Source'] + "<br>" +
@@ -601,6 +601,10 @@ function showDetails(id, that) {
     "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
     "<span class='bold'>User Support Email</span>: " + linkifyString(parsedData['Support Email']) + "<br>" +
     "<span class='bold'>User Support Material</span>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
+    "<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>" +    
+    "<span class='bold'>Resource Type</span>: " + parsedData['Resource Type'] + "<br>" +    
+    "<span class='bold'>Relationships</span>: " + parsedData['Relationships'] + "<br>" +
+    "<span class='bold'>Last Software Update</span>: " + parsedData['Last Software Update'] + "<br>" +
     "</div>";
     $tab.append(html);
     $selectedToolPanel.removeAttr('aria-hidden');
