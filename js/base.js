@@ -372,6 +372,7 @@ ToolDisplay.prototype.displayTool = function (data) {
  * @param {object} toolSet - The ToolSet to be displayed.
  */
 ToolDisplay.prototype.displayTools = function (toolSet) {
+  console.log("displayTools");
   var html = '';
   var rows = [];
 
@@ -387,8 +388,15 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   for (var i = 0; i < sorted.length; i++) {
   	if (!this.toolSet.contains(sorted[i])) {
   		this.toolSet.addTool(sorted[i]);
-  		html += createDiv(toolCache.getParsedData(sorted[i]), this.getListId());
-    	rows.push(createRow(toolCache.getParsedData(sorted[i])));
+
+      var toolData = toolCache.getParsedData(sorted[i]);
+
+      if (toolData["Life Cycle Phase"] === "Termination" && !$('#toggle-unsupported').prop('checked')) {
+        console.log("Don't show.")
+      } else {
+        html += createDiv(toolData, this.getListId());
+        rows.push(createRow(toolData));
+      }
   	}
   }
 
@@ -473,7 +481,7 @@ function createRow(parsedResult) {
   rowData = [ //Create row
     "",
     parsedResult['ID'],
-    '<span class="bold">' + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')') + '</span><br /><button class="col button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Tool Details</button>',
+    '<span class="bold">' + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')') + '</span><br /><button class="col button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Tool Details</button>' + (parsedResult['Life Cycle Phase'] === "Termination" ? '<br /><span class="bold">This tool is no longer supported.</span>' : ""),
     parsedResult['Description'],
     parsedResult['Operating Environment'],
     parsedResult['Spatial Extent'],
@@ -574,7 +582,17 @@ function showDetails(id, that) {
   var $selectedToolTab = $('#selected-tool-tab');
   var $selectedToolPanel = $('#selected-tool-panel');
   if (parsedData) {
-    html += "<span class='bold'>Title</span>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
+    if (parsedData['Life Cycle Phase'] === "Termination") {
+      html += 
+      '<div class="box multi alert">' +
+      '<h3 class="pane-title">Tool no longer supported</h3>' +
+      ' <div class="pane-content">' +
+        '<p>The tool might no longer be available, updated, or supported.</p>' +
+      '</div>' +
+    '</div>';
+    }
+    html +=
+    "<span class='bold'>Title</span>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
     "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
     "<span class='bold'>Alternate Names</span>: " + parsedData['Alternate Names'] + "<br>" +
     "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
@@ -726,6 +744,7 @@ function addDiv(parsedResult, containerId) {
         '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>' +
         '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label"></label>' +
         '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span>: ' + parsedResult['Description'] +
+        (parsedResult['Life Cycle Phase'] === "Termination" ? '<div class="bold">This tool is no longer supported.</div>' : "") +
       '</div>' +
     '</div>' +
     '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">' +
@@ -752,7 +771,8 @@ function createDiv(parsedResult, containerId) {
       '<div class="col size-95of100">' +
         '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>' +
         '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label">' +
-        '<span class="bold">' + parsedResult['Title'] + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? '' : ' (' + parsedResult['Acronym'] + ')') + '</span></label>: ' + parsedResult['Description'] +
+        '<span class="bold">' + parsedResult['Title'] + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? '' : ' (' + parsedResult['Acronym'] + ')') + '</span></label>: ' + parsedResult['Description'] + 
+        (parsedResult['Life Cycle Phase'] === "Termination" ? '<div class="bold">This tool is no longer supported.</div>' : "") +
       '</div>' +
     '</div>' +
     '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">' +
@@ -1754,3 +1774,33 @@ $(window).bind('storage', function (e) {
     toolCache.updateCache();
   }
 });
+
+$('#toggle-unsupported').on("change", function () {
+
+  var type = $(this).attr('data-table-type');
+
+  $('#' + type + '-list *').remove(); // clear result div
+
+  if ($.fn.DataTable.isDataTable('#' + type + '-table')) {
+    $('#' + type + '-table').DataTable().clear().draw(); // clear result table 
+  }
+  
+
+  resultTable.getToolSet().reset(); //reset display toolset
+  resultTable.displayTools(resultSet);  
+});
+
+/**
+ * Process the results array. Add IDs that are not already in the ResultSet or in the white list to the ResultSet.
+ * @function
+ * @param {array} results - An array containing the results from the Ajax queries.
+ * @return {number} the length of the ResultSet.
+ */
+var parseResultsArray = function (results) {
+  for (var i = 0; i < results.length; i++) {
+    if (!resultSet.contains(results[i].ResourceId)) {
+      resultSet.addTool(results[i].ResourceId);
+    }
+  }
+  return resultSet.getLength();
+};

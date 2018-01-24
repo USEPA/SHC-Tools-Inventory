@@ -225,6 +225,11 @@
                 <span>Choose a display:</span>
                   <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: recommended for those on smaller screens.</label>
                   <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: allows filtering and column sorting.</label>
+
+                  <br />
+                  <div><input id="toggle-unsupported" type="checkbox" data-table-type="results"/><label for="toggle-unsupported">Show unsupported tools</label></div>
+                  <hr />
+
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAllToolsButton('results')">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('results')">Deselect All Tools</button>
@@ -506,6 +511,7 @@ $(function () { // jquery's shorthand awaits readiness of document
     showToast[checkboxGroup] = true;
   }
 
+  $('#toggle-unsupported').prop('checked', true);
 });
 
 /**

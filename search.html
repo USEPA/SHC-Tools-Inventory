@@ -218,6 +218,9 @@
                 <span>Choose a display:</span>
                 <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: recommended for those on smaller screens.</label>
                 <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: allows filtering and column sorting.</label>
+                <br />
+                <div><input id="toggle-unsupported" type="checkbox" data-table-type="results"/><label for="toggle-unsupported">Show unsupported tools</label></div>
+                <hr />
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAllToolsButton('results');">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('results');">Deselect All Tools</button>
@@ -225,7 +228,6 @@
                     <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                     <button class="button-white" onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
                   </div>
-                  <hr />
                   <img alt="Loading GIF image" aria-hidden="true" id="loader" src="img/loader.gif">
                   <div id="results-list" class="list"></div>
                 </div>
@@ -491,6 +493,8 @@ $(function () { // jquery's shorthand awaits readiness of document
       $('#' + tableId + '-table').DataTable().row($parent).select();
     }
   });
+
+  $('#toggle-unsupported').prop('checked', true);
 });
 
 /**
@@ -629,21 +633,6 @@ var detailedSearch = function () {
   } else {
     $feedbackDiv.html('Please enter a search term.').css('display', 'block');
   }
-};
-
-/**
- * Process the results array. Add IDs that are not already in the ResultSet or in the white list to the ResultSet.
- * @function
- * @param {array} results - An array containing the results from the Ajax queries.
- * @return {number} the length of the ResultSet.
- */
-var parseResultsArray = function (results) {
-  for (var i = 0; i < results.length; i++) {
-    if (!resultSet.contains(results[i].ResourceId)) {
-      resultSet.addTool(results[i].ResourceId);
-    }
-  }
-  return resultSet.getLength();
 };
 
 /**
