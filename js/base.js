@@ -1785,9 +1785,10 @@ $('#toggle-unsupported').on("change", function () {
     $('#' + type + '-table').DataTable().clear().draw(); // clear result table 
   }
   
-
+  // Test
   resultTable.getToolSet().reset(); //reset display toolset
-  resultTable.displayTools(resultSet);  
+  resultTable.displayTools(resultSet);
+  // recheck boxes that were checked....
 });
 
 /**
