@@ -481,7 +481,7 @@ function createRow(parsedResult) {
   rowData = [ //Create row
     "",
     parsedResult['ID'],
-    '<span class="bold">' + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')') + '</span><br /><button class="col button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Tool Details</button>' + (parsedResult['Life Cycle Phase'] === "Termination" ? '<br /><span class="bold">This tool is no longer supported.</span>' : ""),
+    '<span class="bold">' + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')') + '</span><br /><button class="col button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Tool Details</button>' + (parsedResult['Life Cycle Phase'] === "Termination" ? '<br /><span class="bold red">This tool is no longer supported.</span>' : ""),
     parsedResult['Description'],
     parsedResult['Operating Environment'],
     parsedResult['Spatial Extent'],
@@ -771,7 +771,7 @@ function addDiv(parsedResult, containerId) {
         '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>' +
         '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label"></label>' +
         '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span>: ' + parsedResult['Description'] +
-        (parsedResult['Life Cycle Phase'] === "Termination" ? '<div class="bold">This tool is no longer supported.</div>' : "") +
+        (parsedResult['Life Cycle Phase'] === "Termination" ? '<span class="bold red"> This tool is no longer supported.</span>' : "") +
       '</div>' +
     '</div>' +
     '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">' +
@@ -799,7 +799,7 @@ function createDiv(parsedResult, containerId) {
         '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>' +
         '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label">' +
         '<span class="bold">' + parsedResult['Title'] + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? '' : ' (' + parsedResult['Acronym'] + ')') + '</span></label>: ' + parsedResult['Description'] + 
-        (parsedResult['Life Cycle Phase'] === "Termination" ? '<div class="bold">This tool is no longer supported.</div>' : "") +
+        (parsedResult['Life Cycle Phase'] === "Termination" ? '<span class="bold red"> This tool is no longer supported.</span>' : "") +
       '</div>' +
     '</div>' +
     '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">' +
