@@ -16,7 +16,43 @@ var toolCache = (function () {
    * @param {object} data - The parsed data.
    */
   function setData(id, data) {
-    cache[id] = data; // store the parsed data by the tool ID
+    cache[id] = {};
+    cache[id]['data'] = data; // store the parsed data by the tool ID
+    cache[id]['date'] = Date.now(); // store the parsed data by the tool ID
+  }
+
+  /**
+   * Copies the specified data to the cache
+   * @private @function
+   * @param {string} id - The ID of the tool.
+   * @param {object} data - The parsed data.
+   */
+  function copyData(id, data) {
+    cache[id] = {};
+    cache[id]['data'] = data.data; // store the parsed data by the tool ID
+    cache[id]['date'] = data.date; // store the parsed data by the tool ID
+  }
+
+  /**
+   * Sets the cache to the specified cache
+   * @private @function
+   * @param {object} newCache - The new data to set as cache.
+   */
+  function setCache(newCache) {
+    cache = newCache;
+  }
+
+  /**
+   * Checks if the cache contains the specified ID.
+   * @private @function
+   * @param {string} id - The ID of the tool.
+   */
+  function contains(id) {
+    if (cache.hasOwnProperty(id)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -27,7 +63,7 @@ var toolCache = (function () {
    */
   function getData(id) {
     if (cache.hasOwnProperty(id)) {
-      return cache[id]; // return the data for a tool ID
+      return cache[id]['data']; // return the data for a tool ID
     }
   }
 
@@ -46,6 +82,7 @@ var toolCache = (function () {
         $.get(resourceDetailURL, {ResourceId:id}).done( // if we don't have the data, get the data and then run the passed in function
           function (data) {
             setData(id, parseResult(data)); // store the data in cache
+            localStorageSetItem('toolCache', cache);          
             callback(getData(id)); // run the passed in function
           }
         );
@@ -62,10 +99,16 @@ var toolCache = (function () {
       var readIds = Object.keys(toolSet.getToolSet());
       var requests = [];
       for (var i = 0; i < readIds.length; i++) {
-        if (!cache.hasOwnProperty(readIds[i])) {
+        if (!cache.hasOwnProperty(readIds[i]) || (Date.now() - cache[readIds[i]]['date']) > 86400000) { // if the tool isn't in the cache or if the data is > 24 hours old request new data
           requests.push(executeSearch(resourceDetailURL, {ResourceId:readIds[i]}));
         }
       }
+      /*
+        .apply allows for variable parameters stored in an array
+        .when then waits for the array of promises to be resolved
+        .done then executes when all those promises are resolved
+        arguments allows for the variable number of arguments to be accessed
+      */
       $.when.apply(null, requests).done(function () {
         if (arguments[1] === 'success') {
           var result = parseResult(arguments[0]);
@@ -76,6 +119,7 @@ var toolCache = (function () {
             setData(result['ID'], result);
           }
         }
+        localStorageSetItem('toolCache', cache);
         callback(toolSet);
       }).fail(function (jqXHR, textStatus, errorThrown) {
         $('#loader').attr('aria-hidden', 'true').hide();
@@ -104,6 +148,28 @@ var toolCache = (function () {
      */
     getCache : function () {
       return cache;
+    },
+
+    /**
+     * Load a data cache
+     * @function
+     * @param {object} newCache - The new data.
+     */
+    loadCache : function (newCache) {
+      setCache(newCache);
+    },
+
+    /**
+     * Update the cache with data from localStorage
+     * @function
+     */
+    updateCache : function () {
+      cachedToolCache = JSON.parse(localStorage.getItem('toolCache'));
+      for (toolID in cachedToolCache) {
+        if (!cache.hasOwnProperty(toolID) || cache[toolID].date < cachedToolCache[toolID].date) { //copy LS data if not in cache or is older in cache
+          copyData(toolID, cachedToolCache[toolID]);
+        }
+      }
     }
   };
 })();
@@ -319,8 +385,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
 
 
   for (var i = 0; i < sorted.length; i++) {
-  	if (this.toolSet.contains(sorted[i])) {
-  	} else {
+  	if (!this.toolSet.contains(sorted[i])) {
   		this.toolSet.addTool(sorted[i]);
   		html += createDiv(toolCache.getParsedData(sorted[i]), this.getListId());
     	rows.push(createRow(toolCache.getParsedData(sorted[i])));
@@ -408,13 +473,14 @@ function createRow(parsedResult) {
   rowData = [ //Create row
     "",
     parsedResult['ID'],
-    parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')',
+    '<span class="bold">' + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')') + '</span><br /><button class="col button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Tool Details</button>',
     parsedResult['Description'],
     parsedResult['Operating Environment'],
     parsedResult['Spatial Extent'],
     parsedResult['Decision Sector'],
-    parsedResult['Cost'],
-    parsedResult['Other Costs'],
+    parsedResult['BaseCost'],
+    parsedResult['AnnualCost'],
+    parsedResult['Other Cost Considerations'],
     parsedResult['URL'],
     parsedResult['Life Cycle Phase'],
     parsedResult['Open Source'],
@@ -459,9 +525,6 @@ function addRow(parsedResult, tableId, rowData) {
       .attr('data-read-id', parsedResult['ID'])
       .attr('data-table-id', tableId)
       .attr("id", tableId + '-' + parsedResult['ID']);
-      $row.children().not(':first').click(function () {
-        showDetails(parsedResult['ID']);
-    });
   }
 }
 
@@ -478,8 +541,14 @@ function removeSelected(divID) {
       $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
     }
   });
+  localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
   if ($.fn.DataTable.isDataTable('#saved-table')) {
     $('#saved-table').DataTable().rows('.selected').remove().draw();
+  }
+  if (savedTools.length < 1) {
+    $('#saved-tools-tab').parent().attr("aria-hidden", true);
+    $('#saved-tools-panel').attr("aria-hidden", true);
+    $('#tabs-nav > li').children().first().click();
   }
 }
 
@@ -489,7 +558,8 @@ function removeSelected(divID) {
  * @param {string} id - The tool ID.
  * @param {string} origin - The ID of the perviously selected tab.
  */
-function showDetails(id, origin) {
+function showDetails(id, that) {
+  var origin = $(that).closest('[role="tabpanel"]').attr('aria-labelledby');
   var parsedData = toolCache.getParsedData(id);
   if (resultTable.getType() === 'wizard' || savedTools.contains(id)) {
     var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').attr(\'aria-selected\', true);$(\'#selected-tool-tab\').attr(\'aria-selected\', false);$(' + "'#" + origin + "'" +')[0].click();">Return to Tool List</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">';
@@ -505,33 +575,64 @@ function showDetails(id, origin) {
   var $selectedToolTab = $('#selected-tool-tab');
   var $selectedToolPanel = $('#selected-tool-panel');
   if (parsedData) {
-    html += "<span class='bold'>Title</span>: " + parsedData['Title'] + "<br>" +
-    "<span class='bold'>Acronym</span>: " + parsedData['Acronym'] + "<br>" +
-    "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
-    "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
-    "<span class='bold'>URL</span>: " + linkifyString(parsedData['URL']) + "<br>" +
-    "<span class='bold'>Current Phase</span>: " + parsedData['Life Cycle Phase'] + "<br>" +
-    "<span class='bold'>Cost Details</span>: " + parsedData['Cost'] + "<br>" +
-    "<span class='bold'>Other Costs</span>: " + parsedData['Other Costs'] + "<br>" +
-    "<span class='bold'>Open Source</span>: " + parsedData['Open Source'] + "<br>" +
-    "<span class='bold'>Operating Environment</span>: " + parsedData['Operating Environment'] + "<br>" +
-    "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>" +
-    "<span class='bold'>Other Technical Requirements</span>: " + linkifyString(parsedData['Other Requirements']) + "<br />" +
-    "<span class='bold'>Scope and Time Scale</span>: " + parsedData['Time Scale'] + "<br>" +
-    "<span class='bold'>Spatial Extent</span>: " + parsedData['Spatial Extent'] + "<br>" +
-    "<span class='bold'>Technical Skills Required</span>: " + parsedData['Technical Skills Needed'] + "<br />" +
-    "<span class='bold'>Model Structure</span>: " + parsedData['Model Structure'] + "<br>" +
-    "<span class='bold'>Model Inputs</span>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
-    "<span class='bold'>Model Inputs Data Requirements</span>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
-    "<span class='bold'>Model Output Types</span>: " + parsedData['Model Output Types'] + "<br>" +
-    "<span class='bold'>Model Output Variables</span>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
-    "<span class='bold'>Model Evaluation</span>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
-    "<span class='bold'>Keywords</span>: " + parsedData['Keywords'] + "<br>" +
-    "<span class='bold'>Selected Concepts</span>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" +
-    "<span class='bold'>User Support Name</span>: " + parsedData['Support Name'] + "<br>" +
-    "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
-    "<span class='bold'>User Support Email</span>: " + linkifyString(parsedData['Support Email']) + "<br>" +
-    "<span class='bold'>User Support Material</span>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
+    html += "" +
+      
+    '<div class="light-gray">' +
+      "<span class='bold'>Title</span>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
+      "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
+      "<span class='bold'>Alternate Names</span>: " + parsedData['Alternate Names'] + "<br>" +
+      "<span class='bold'>URL</span>: " + linkifyString(parsedData['URL']) + "<br>" +
+      "<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>" +   
+      "<span class='bold'>Resource Type</span>: " + parsedData['Resource Type'] + "<br>" + 
+      "<span class='bold'>Relationships</span>: " + parsedData['Relationships'] + "<br>" +
+    "</div>" +
+
+    '<div class="light-gray">' +
+      "<h4>Cost Details</h4>" +
+      "<span class='bold'>Base Cost</span>: " + parsedData['BaseCost'] + "<br>" +
+      "<span class='bold'>Annual Cost</span>: " + parsedData['AnnualCost'] + "<br>" +
+      "<span class='bold'>Other Cost Considerations</span>: " + parsedData['Other Cost Considerations'] + "<br>" +
+    "</div>" +
+      
+    '<div class="light-gray">' +
+      "<h4>Model Details</h4>" +
+      "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
+      "<span class='bold'>Life Cycle Phase</span>: " + parsedData['Life Cycle Phase'] + "<br>" +
+      "<span class='bold'>Scope and Time Scale</span>: " + parsedData['Time Scale'] + "<br>" +
+      "<span class='bold'>Spatial Extent</span>: " + parsedData['Spatial Extent'] + "<br>" +
+      "<span class='bold'>Model Structure</span>: " + parsedData['Model Structure'] + "<br>" +
+    "</div>" +
+
+    '<div class="light-gray">' +
+      "<h4>Technical Details</h4>" +
+      "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>" +
+      "<span class='bold'>Operating Environment</span>: " + parsedData['Operating Environment'] + "<br>" +
+      "<span class='bold'>Other Proprietary Software Requirements</span>: " + linkifyString(parsedData['Other Requirements']) + "<br />" +
+      "<span class='bold'>Technical Skills Required</span>: " + parsedData['Technical Skills Needed'] + "<br />" +
+      "<span class='bold'>Open Source</span>: " + parsedData['Open Source'] + "<br>" +
+      "<span class='bold'>Last Software Update</span>: " + parsedData['Last Software Update'] + "<br>" +
+    "</div>" +
+
+    '<div class="light-gray">' +
+      "<h4>Model Input/Output Details</h4>" +
+      "<span class='bold'>Model Inputs</span>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
+      "<span class='bold'>Model Inputs Data Requirements</span>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
+      "<span class='bold'>Model Output Types</span>: " + parsedData['Model Output Types'] + "<br>" +
+      "<span class='bold'>Model Output Variables</span>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
+      "<span class='bold'>Model Evaluation</span>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
+    "</div>" +
+      
+    '<div class="light-gray">' +
+      "<span class='bold'>Keywords</span>: " + parsedData['Keywords'] + "<br>" +
+      "<span class='bold'>Selected Concepts</span>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" +
+    "</div>" +
+      
+    '<div class="light-gray">' +
+      "<h4>Support Details</h4>" +
+      "<span class='bold'>User Support Name</span>: " + parsedData['Support Name'] + "<br>" +
+      "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
+      "<span class='bold'>User Support Email</span>: " + linkifyString(parsedData['Support Email']) + "<br>" +
+      "<span class='bold'>User Support Material</span>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
     "</div>";
     $tab.append(html);
     $selectedToolPanel.removeAttr('aria-hidden');
@@ -605,6 +706,7 @@ function saveRecord() {
   var recordIdToSave = $('#selected-tool-div').attr('data-read-id');
   if (!savedTools.contains(recordIdToSave)) {
     savedTools.addTool(recordIdToSave);
+    localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
     toolCache.handleParsedData(recordIdToSave, savedTable.displayTool.bind(savedTable)); // populate divs
   }
   if (savedTools.getLength() > 0) {
@@ -626,6 +728,7 @@ function saveSelectedRecords(resultsDiv) {
       savedTools.addTool($(this).val());
     }
   });
+  localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
   if (savedTools.getLength() > 0) {
     $('#saved-tools-tab').parent().attr("aria-hidden", false);
     $('#saved-tools-panel').attr("aria-hidden", false);
@@ -672,7 +775,6 @@ function createDiv(parsedResult, containerId) {
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries
   var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
   var $container = $('#' + containerId);
-
   var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
     '<div class="row" role="button">' +
       '<div class="col size-95of100">' +
@@ -696,18 +798,7 @@ function createDiv(parsedResult, containerId) {
 $('.list').on('click', '.expand', function () {
   var $this = $(this);
   var readId = $this.attr('data-id');
-  showDetails(readId, $this.closest('[role="tabpanel"]').attr('aria-labelledby'));
-});
-
-
-/**
- * On click listener for loading the Selected Tools Tab from the table view
- * @listens click
- */
-$('tbody').on('click', 'td:not(:first-child)', function () {
-  var tableId = $(this).closest('table').attr('id').slice(0, -6);
-  var readId = $('#' + tableId + '-table').DataTable().row(this).data()[1];  // get ID
-  showDetails(readId, $(this).closest('[role="tabpanel"]').attr('aria-labelledby'));
+  showDetails(readId, this);
 });
 
 /**
@@ -725,13 +816,14 @@ var parseResult = function (result) {
     3:'Partial'
   };
   var dataRequirementsMap = { // map integral data-standard to text
-    1:'All data is provided.',
-    2:'Data is publicly available.',
-    3:'Data is not publicly available but routinely available.',
-    4:'New data must be created.'
+    1:'None - All Data Provided',
+    2:'Low - Data Generally Publicly Available',
+    3:'Med - Not Publicly Available, but Routinely Available',
+    4:'High - New Data Must be Created',
+    5:'Insufficient Information'
   };
   var softwareCostMap = { // map integral data-standard to text
-    1:'Free',
+    1:'$0',
     2:'$1-$499',
     3:'$500-$1499',
     4:'$1500-$3999',
@@ -745,8 +837,9 @@ var parseResult = function (result) {
   parsedResult['Decision Sector'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelScopeDetail', 'ModelScopeDecisionSector']);
   parsedResult['URL'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'URLText']);
   parsedResult['Life Cycle Phase'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'LifeCycleDetail', 'CurrentLifeCyclePhase']);
-  parsedResult['Cost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsBaseSoftwareCost']));
-  parsedResult['Other Costs'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsOtherCostConsiderations']);
+  parsedResult['BaseCost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsBaseSoftwareCost']));
+  parsedResult['AnnualCost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsRecurringAnnualCost']));
+  parsedResult['Other Cost Considerations'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsOtherCostConsiderations']);
   parsedResult['Open Source'] = parseOpenSource(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsOpenSource']));
   parsedResult['Operating Environment'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'TechRequirementsDetail', 'TechReqOperatingEnvironmentDetail', 'OperatingEnvironmentName']);
   parsedResult['Operating System'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'TechRequirementsDetail', 'TechReqCompatibleOSDetail', 'OSName']);
@@ -767,6 +860,10 @@ var parseResult = function (result) {
   parsedResult['Support Materials'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportSourceOfSupportMaterials']);
   parsedResult['Last Software Update'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsLastKnownSoftwareUpdate']);
   parsedResult['Last Modified'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'LastModifiedDateTimeText']);
+  parsedResult['Ownership Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'OwnershipTypeName']);
+  parsedResult['Resource Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'ResourceTypeName']);
+  parsedResult['Alternate Names'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'AlternateNamesDetail', 'AlternateName']);
+  parsedResult['Relationships'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'RelationshipDetail', 'InfoResourceRelationshipDetail', 'RelatedInfoResourceName']);
 
   /**
    * return decoded value(s) accumulated into a string
@@ -882,7 +979,7 @@ var parseResult = function (result) {
     if (dataRequirementsMap.hasOwnProperty(dataRequirements)) {
       return dataRequirementsMap[dataRequirements];
     }
-    return "No Data";
+    return dataRequirements;
   }
 
   /**
@@ -1126,6 +1223,7 @@ function saveAll(divId) {
       savedTools.addTool(readID);
     }
   });
+  localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
 }
 
 /**
@@ -1134,6 +1232,7 @@ function saveAll(divId) {
  */
 function unsaveAll() {
   savedTools.reset();
+  localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
 }
 
 /**
@@ -1159,12 +1258,17 @@ var executeSearch = function (url, data) {
  */
 function createDataTable(name) {
   if (!$.fn.DataTable.isDataTable('#' + name + '-table')) {
+    var paging = true;
+    if (name === 'browse') {
+      paging = false;
+    }
     var table = $('#' + name + '-table').DataTable({
       dom: 'Bfrtip',
       processing: true,
       responsive: {
         details: false
       },
+      paging: paging,
       columnDefs: [
         {
           targets: [0],
@@ -1193,14 +1297,14 @@ function createDataTable(name) {
         {
           text: 'Select All Tools',
           action: function () {
-            selectAllToolsButton(name);
+            selectFilteredToolsButton(name);
           },
           className: 'button button-grey'
         },
         {
           text: 'Deselect All Tools',
           action: function () {
-            deselectAllToolsButton(name);
+            deselectFilteredToolsButton(name);
           },
           className: 'button button-grey'
         }
@@ -1209,7 +1313,7 @@ function createDataTable(name) {
 
     var dtButtons = [];
 
-    if (resultTable.getType() === 'search') {
+    if (resultTable.getType() === 'search' || resultTable.getType() === 'browse') {
       dtButtons.push(
         {
           text: 'Export Selected Tools to CSV',
@@ -1221,7 +1325,7 @@ function createDataTable(name) {
       );
     }
 
-    if (name !== 'saved' && resultTable.getType() === 'search') {
+    if (name !== 'saved' && (resultTable.getType() === 'search' || resultTable.getType() === 'browse')) {
       dtButtons.push(
         {
           text: 'Save Selected Tools',
@@ -1233,7 +1337,11 @@ function createDataTable(name) {
       );
     }
 
-    if (name === 'saved' && resultTable.getType() === 'search') {
+    if (name === 'browse') {
+      $('.dataTables_empty').html('<img id="loader" src="img/loader.gif">');
+    }
+
+    if (name === 'saved' && (resultTable.getType() === 'search' || resultTable.getType() === 'browse')) {
       dtButtons.push(
         {
           text: 'Remove Selected Tools',
@@ -1293,6 +1401,56 @@ function deselectAllToolsButton(name) {
   var rowNodes = rows.nodes();
   rows.deselect();
   $('input[type="checkbox"]', rowNodes).prop('checked', false);
+}
+
+/**
+ * Selects all the filtered tools in the specified container.
+ * @function
+ * @param {string} name - Partial ID of the table to be created.
+ */
+function selectFilteredToolsButton(name) {
+  var rows = $('#' + name + '-table').DataTable().rows({ search: 'applied'});
+  var rowNodes = rows.nodes();
+  rows.select();
+  $('input[type="checkbox"]', rowNodes).prop('checked', true);
+
+  var toolsToSelect = [];
+  rowNodes.to$().each(function() {
+    $('#' + name + '-list-cb-' + $(this).find('input[type="checkbox"]').val()).prop('checked', true);
+    toolsToSelect.push($(this).find('input[type="checkbox"]').val());
+  });
+
+  if (!$('#saved-list').length) {
+    for (var i = 0, length = toolsToSelect.length; i < length; i++) {
+      savedTools.addTool(toolsToSelect[i]);
+    }
+    localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
+  }
+}
+
+/**
+ * deselects all the filtered tools in the specified container.
+ * @function
+ * @param {string} name - Partial ID of the table to be created.
+ */
+function deselectFilteredToolsButton(name) {
+  var rows = $('#' + name + '-table').DataTable().rows({ search: 'applied'});
+  var rowNodes = rows.nodes();
+  rows.deselect();
+  $('input[type="checkbox"]', rowNodes).prop('checked', false);
+
+  var toolsToDeselect = [];
+  rowNodes.to$().each(function() {
+    $('#' + name + '-list-cb-' + $(this).find('input[type="checkbox"]').val()).prop('checked', false);
+    toolsToDeselect.push($(this).find('input[type="checkbox"]').val());
+  });
+
+  if (!$('#saved-list').length) {
+    for (var i = 0, length = toolsToDeselect.length; i < length; i++) {
+      savedTools.removeTool(toolsToDeselect[i]);
+    }
+    localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
+  }
 }
 
 var timeouts = {};
@@ -1485,3 +1643,143 @@ var debugGetSelected = function(){
     selected = JSON.stringify(selected);
 	return selected
 };
+
+/**
+ * Detects whether localStorage is both supported and available.
+ * @tutorial https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
+ * @function
+ */
+function localStorageEnabled() {
+  try {
+    var storage = window['localStorage'],
+      x = '__storage_test__';
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  }
+  catch(e) {
+    return e instanceof DOMException && (
+      e.code === 22 || // everything except Firefox
+      e.code === 1014 || // Firefox
+      e.name === 'QuotaExceededError' || // test name field too, because code might not be present // everything except Firefox
+      e.name === 'NS_ERROR_DOM_QUOTA_REACHED') && // Firefox
+      storage.length !== 0; // acknowledge QuotaExceededError only if there's something already stored
+  }
+}
+
+/**
+ * Sets a speficied key value to the specified data value
+ * @function
+ * @param {string} key - The key.
+ * @param {string} value - The value.
+ */
+function localStorageSetItem(key, value) {
+  if (localStorageEnabled()) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+}
+
+/**
+ * Loads saved tools from local storage into the current page.
+ * @function
+ */
+function loadSavedTools() {
+  if (localStorageEnabled()) {
+    cachedSavedTools = JSON.parse(localStorage.getItem("savedTools"));
+    if (cachedSavedTools && cachedSavedTools.length > 0) {
+      savedTools.toolSet = cachedSavedTools.toolSet;
+      savedTools.length = cachedSavedTools.length;
+      if (typeof(savedTable) !== 'undefined') {
+        createDataTable('saved');
+        $('#saved-tools-tab').parent().attr("aria-hidden", false);
+        $('#saved-tools-panel').attr("aria-hidden", false);
+        toolCache.handleToolSet(savedTools, savedTable.displayTools.bind(savedTable));
+      } else {
+        createDataTable('results');
+        $('#results-tab').parent().attr("aria-hidden", false); // enable tab button.
+        $('#results-tab').removeAttr("aria-disabled")
+          .attr("aria-hidden", false);
+        toolCache.handleToolSet(savedTools, resultTable.displayTools.bind(resultTable));
+        selectAllToolsButton('results');
+      }
+    }
+  }
+}
+
+/**
+ * Loads the localStorage tool cache into the current pages tool cache.
+ * @function
+ */
+function loadCache() {
+  if (localStorageEnabled()) {
+    var newCache = JSON.parse(localStorage.getItem('toolCache'));
+    if (newCache !== null) {
+      toolCache.loadCache(newCache); //load cache
+    }
+  }
+}
+
+/**
+ * Compares the values of two arrays.
+ * @function
+ * @param {array} a1 - The first array.
+ * @param {array} a2 - The second array.
+ * @return {boolean} - True if they are the same; False if they aren't.
+ */
+function arrayCompare(a1, a2) {
+  if (a1.length !== a2.length) {
+    return false;
+  }
+  for (var i = 0, length = a1.length; i < length; i++) {
+    if (a1[i] !== a2[i]){
+      return false;
+    }
+  }
+  return true; 
+}
+
+/**
+ * Listens for changes in the local storage. If 
+ * @param {event} e - The storage event.
+ * @listens storage
+ */
+$(window).bind('storage', function (e) {
+  if (e.originalEvent.key === 'savedTools') {
+    var newSavedTools = JSON.parse(e.originalEvent.newValue);
+    if (arrayCompare(Object.keys(newSavedTools.toolSet).sort(), Object.keys(savedTools.toolSet).sort()) === true) { // if the saved tools are the same don't do anything
+      return;
+    }
+    savedTools.toolSet = newSavedTools.toolSet;
+    savedTools.length = newSavedTools.length;
+    var type = resultTable.getType();
+    if (type === 'wizard') {
+      createDataTable('results'); // create table
+      resultTable.getToolSet().reset(); // clear table/div
+      $("#" + resultTable.getListId()).html('');
+      $("#" + resultTable.getTableId()).DataTable().clear().draw();
+      if (savedTools.length > 0) {
+        toolCache.handleToolSet(savedTools, resultTable.displayTools.bind(resultTable)); // add saved tools
+        selectAllToolsButton('results');
+      }
+      toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable)); // add result current set
+      $('#results-tab').parent().attr("aria-hidden", false); // enable tab button.
+      $('#results-tab').removeAttr("aria-disabled")
+    } else if (type === 'browse' || type === 'search') {
+      createDataTable('saved'); // create table
+      savedTable.getToolSet().reset();
+      $("#" + savedTable.getListId()).html('');
+      $("#" + savedTable.getTableId()).DataTable().clear().draw();
+      if (savedTools.length > 0) {
+        $('#saved-tools-tab').parent().attr("aria-hidden", false);
+        $('#saved-tools-panel').attr("aria-hidden", false);
+        toolCache.handleToolSet(savedTools, savedTable.displayTools.bind(savedTable));
+      } else {
+        $('#saved-tools-tab').parent().attr("aria-hidden", true);
+        $('#saved-tools-panel').attr("aria-hidden", true);
+        $('#tabs-nav > li').children().first().click();
+      }
+    }
+  } else if (e.originalEvent.key === 'toolCache') {
+    toolCache.updateCache();
+  }
+});

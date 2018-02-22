@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7]><html class="iem7 no-js" lang="en" dir="ltr"><![endif]-->
+<!--[if lt IE 7]><html class="lt-ie9 lt-ie8 lt-ie7 no-js" lang="en" dir="ltr"><![endif]-->
+<!--[if (IE 7)&(!IEMobile)]><html class="lt-ie9 lt-ie8 no-js" lang="en" dir="ltr"><![endif]-->
+<!--[if IE 8]><html class="lt-ie9 no-js" lang="en" dir="ltr"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)]><!--> <html class="no-js not-oldie" lang="en" dir="ltr"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="true" />
+  <link rel="shortcut icon" href="https://www.epa.gov/sites/all/themes/epa/favicon.ico" type="image/vnd.microsoft.icon" />
+  <meta name="MobileOptimized" content="width" />
+  <meta http-equiv="cleartype" content="on" />
+  <meta http-equiv="ImageToolbar" content="false" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="version" content="20161218" />
+<!--googleon: all-->
+  <meta name="DC.description" content="" />
+  <meta name="DC.title" content="" />
+  <title>Browse Tools</title>
+<!--googleoff: snippet-->
+  <meta name="keywords" content="" />
+  <link rel="shortlink" href="" />
+  <link rel="canonical" href="" />
+  <meta name="DC.creator" content="" />
+  <meta name="DC.language" content="en" />
+  <meta name="DC.Subject.epachannel" content="" />
+  <meta name="DC.type" content="" />
+  <meta name="DC.date.created" content="" />
+  <meta name="DC.date.modified" content="" />
+<!--googleoff: all-->
+  <link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/template2/s.css" media="all" />
+  <!--[if lt IE 9]><link type="text/css" rel="stylesheet" href="https://www.epa.gov/sites/all/themes/epa/css/ie.css" media="all" /><![endif]-->
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/css/select.dataTables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/css/buttons.dataTables.min.css">
+  <link type="text/css" rel="stylesheet" href="css/base.css" media="all" />
+  <link type="text/css" rel="stylesheet" href="css/browse.css" media="all" />
+  <link rel="alternate" type="application/atom+xml" title="EPA.gov All Press Releases" href="https://www.epa.gov/newsreleases/search/rss" />
+  <link rel="alternate" type="application/atom+xml" title="EPA.gov Headquarters Press Releases" href="https://www.epa.gov/newsreleases/search/rss/field_press_office/headquarters" />
+  <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
+  <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
+</head>
+<body class="node-type-web-area microsite wide-template" >
+  <!-- Google Tag Manager -->
+  <!--REMOVED FOR DEVELOPMENT; REPLACE FOR PRODUCTION
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script>
+  -->
+  <!-- End Google Tag Manager -->
+  <div class="skip-links"><a href="#main-content" class="skip-link element-invisible element-focusable">Jump to main content</a></div>
+  <header class="masthead clearfix" role="banner">
+    <img class="site-logo" src="https://www.epa.gov/sites/all/themes/epa/logo.png" alt="" />
+    <hgroup class="site-name-and-slogan">
+      <h1 class="site-name"><a href="https://www.epa.gov/" title="Go to the home page" rel="home"><span>US EPA</span></a></h1>
+      <div class="site-slogan">United States Environmental Protection Agency</div>
+    </hgroup>
+    <form class="epa-search" method="get" action="https://search.epa.gov/epasearch/epasearch">
+      <label class="element-hidden" for="search-box">Search</label>
+      <input class="form-text" placeholder="Search EPA.gov" name="querytext" id="search-box" value=""/>
+      <button class="epa-search-button" id="search-button" type="submit" title="Search">Search</button>
+      <input type="hidden" name="areaname" value="" />
+      <input type="hidden" name="areacontacts" value="" />
+      <input type="hidden" name="areasearchurl" value="" />
+      <input type="hidden" name="typeofsearch" value="epa" />
+      <input type="hidden" name="result_template" value="2col.ftl" />
+    </form>
+  </header>
+  <section id="main-content" class="main-content clearfix" role="main">
+    <div class="region-preface clearfix">
+      <div id="block-pane-epa-web-area-connect" class="block block-pane contextual-links-region">
+        <ul class="menu utility-menu">
+          <li class="menu-item"><a href="#feedback-modal" class="menu-link contact-us" id="feedback-link">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-column clearfix">
+<!--googleon: all-->
+      <h1 class="page-title">Browse Tools</h1>
+      <div class="panel-pane pane-node-content" >
+        <div class="pane-content">
+          <div class="node node-page clearfix view-mode-full">
+            <h2 id="page-description-title" class="title">Description</h2>  
+            <p>Browse Tools allows users to view the entire inventory at once. Click on a tool to view more details. Filter tools by entering text into the Search box. Save tools by selecting the checkbox. Export the tools to CSV.</p>
+          </div>
+          <span class="related-info"><strong>Other Search Options:</strong></span>
+          <ul class="menu pipeline">
+            <li class="menu-item">  
+              <a href="./wizard.html">Tool Finder</a>
+            </li>
+            <li class="menu-item">  
+              <a href="./search.html">Keyword Search</a>
+            </li>
+            <li class="views-row views-row-2 views-row-even views-row-last menu-item">
+                <a href="./index.html">Return to Landing Page</a>
+            </li>
+          </ul>
+          <h4 id="disclaimer-title">Disclaimer</h4>
+          <p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
+          <div aria-live="polite" id="toast"></div>
+          <div id="tabs">
+            <ul class="tabs" id="tabs-nav" role="tablist">
+              <li class="active"><a aria-controls="browse-tools-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#browse-tools-panel" id="browse-tools-tab" role="tab" onclick="browseTools();">Browse Tools</a></li>
+              <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#selected-tool-panel" id="selected-tool-tab" role="tab">Selected Tool</a></li>
+              <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#saved-tools-panel" id="saved-tools-tab" role="tab">Saved Tools</a></li>
+            </ul>
+            <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" >
+              <h3>Browse Tools</h3>
+              <p></p>
+              <hr />
+              <span>Choose a display:</span>
+              <input id="browse-list-radio" type="radio" name="browse-display-type" value="text"><label for="browse-list-radio">Text: recommended for those on smaller screens.</label>
+              <input id="browse-table-radio" type="radio" name="browse-display-type" value="table" checked><label for="browse-table-radio">Table: allows filtering and column sorting.</label>
+              <div id="browse-feedback"></div>
+              <div class="browse-table-div">
+                <table class="revision-table" id="browse-table" style="width:100%;">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Operating Environment</th>
+                      <th>Spatial Extent</th>
+                      <th>Decision Sector</th>
+                      <th>Base Cost</th>
+                      <th>Other Costs</th>
+                      <th>URL</th>
+                      <th>Life Cycle Phase</th>
+                      <th>Open Source</th>
+                      <th>Operating System</th>
+                      <th>Other Requirements</th>
+                      <th>Time Scale</th>
+                      <!-- spatial extent -->
+                      <th>Technical Skills Needed</th>
+                      <th>Model Structure</th>
+                      <th>Model Inputs</th>
+                      <th>Input Data Requirements</th>
+                      <th>Model Output Types</th>
+                      <th>Output Variables</th>
+                      <th>Model Evaluation</th>
+                      <th>Keywords</th>
+                      <th>Support Name</th>
+                      <th>Support Phone</th>
+                      <th>Support Email</th>
+                      <th>Support Materials</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+              <div class="browse-list-div" aria-hidden="true">
+                <button class="button-grey" onclick="selectAllToolsButton('browse');">Select All Tools</button>
+                <button class="button-grey" onclick="deselectAllToolsButton('browse');">Deselect All Tools</button>
+                <button class="button-white right" onclick="saveSelectedRecords('browse')">Save Selected Tools</button>
+                <div id="browse-list" class="list"></div>
+              </div>
+              <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+            </div>
+            <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
+              <h3>Selected Tool</h3>
+              <p>Here are the tool details for your selected tool.</p><hr />
+              <div id="selected-tool"></div>
+            </div>
+            <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
+              <h3>Saved Tools</h3>
+              <p>These are the tools you chose to save.</p>
+              <p>Select the tools you would like to export to a downloadable CSV file.</p><hr />
+              <span>Choose a display:</span>
+              <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text: recommended for those on smaller screens.</label>
+              <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table: allows filtering and column sorting.</label>
+              <div id="saved-list-div">
+                <button class="button-grey" onclick="selectAllToolsButton('saved');">Select All Tools</button>
+                <button class="button-grey" onclick="deselectAllToolsButton('saved');">Deselect All Tools</button>
+                <div class="right">
+                  <button class="button-white" onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
+                  <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
+                </div>
+                <hr />
+                <div id="saved-list" class="list"></div>
+              </div>
+              <div aria-hidden="true" id="saved-table-div">
+                <table class="revision-table" id="saved-table" style="width:100%;">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Operating Environment</th>
+                      <th>Spatial Extent</th>
+                      <th>Decision Sector</th>
+                      <th>Base Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+              <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+            </div>
+          </div>         
+        </div>
+      </div>
+    </div>
+    <div id="feedback-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close" role="button" tabindex="1">&times;</span>
+          <h2>Feedback Form</h2>
+        </div>
+        <div class="modal-body">
+          <form onsubmit="toast({html: 'Feedback submission is currently unavailable.', close: true});return false;">
+            <br />
+            <div class="row">
+              <div class="col"><p>Your feedback can help us improve this application. If you have general feedback, a bug to report, an idea or tool suggestion to add to our inventory please let us know!</p></div>
+            </div>
+            <div class="row cols-3">
+              <div class="col">
+                <input checked id="general-feedback" name="feedback-type" type="Radio"/>
+                <label for="general-feedback">General feedback</label>
+              </div>
+              <div class="col">
+                <input id="report-a-bug" name="feedback-type" type="Radio"/>
+                <label for="report-a-bug">Report a bug</label>
+              </div>
+              <div class="col">  
+                <input id="suggest-an-idea" name="feedback-type" type="Radio"/>
+                <label for="suggest-an-idea">Suggest an idea or tool</label>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col size-1of1">
+                <label for="feedback-text">Feedback</label>
+                <textarea id="feedback-text" placeholder="Enter feedback" rows="5"></textarea>
+              </div>
+            </div>
+            <div class="row cols-3">
+              <div class="col">
+                <label for="first-name">First Name (Optional)</label>
+                <input class="full-width" id="first-name" placeholder="Enter first name" type="text" />
+              </div>
+              <div class="col">
+                <label for="last-name">Last Name (Optional)</label>
+                <input class="full-width" id="last-name" placeholder="Enter last name" type="text"/>
+              </div>
+              <div class="col">
+                <label for="email">Email Address (Optional)</label>
+                <input class="full-width" id="email" placeholder="Enter email address" type="email"/>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col">
+                <input id="submit-feedback" type="submit" value="Submit Feedback"/>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div id="block-epa-og-footer" class="block block-epa-og">
+      <p></p>
+    </div>
+<!--googleoff: all-->
+  </section>
+  <nav class="nav simple-nav simple-main-nav" role="navigation">
+    <div class="nav__inner">
+      <h2 class="element-invisible">Main menu</h2>
+      <ul class="menu" role="menu">
+        <li class="menu-item" id="menu-learn" role="presentation"><a href="https://www.epa.gov/environmental-topics" title="Learn about Environmental Topics that EPA covers." class="menu-link" role="menuitem">Environmental Topics</a></li>
+        <li class="menu-item" id="menu-lawsregs" role="presentation"><a href="https://www.epa.gov/laws-regulations" title="Laws written by Congress provide the authority for EPA to write regulations. Regulations explain the technical, operational, and legal details necessary to implement laws." class="menu-link" role="menuitem">Laws &amp; Regulations</a></li>
+        <li class="menu-item" id="menu-about" role="presentation"><a href="https://www.epa.gov/aboutepa" title="Learn more about: our mission and what we do, how we are organized, and our history." class="menu-link" role="menuitem">About EPA</a></li>
+      </ul>
+    </div>
+  </nav>
+  <footer class="main-footer clearfix" role="contentinfo">
+    <div class="main-footer__inner">
+      <div class="region-footer">
+        <div class="block block-pane block-pane-epa-global-footer">
+          <div class="row cols-3">
+            <div class="col size-1of3">
+              <div class="col__title">Discover.</div>
+              <ul class="menu">
+                <li><a href="https://www.epa.gov/accessibility">Accessibility</a></li>
+                <li><a href="https://www.epa.gov/aboutepa/administrator-gina-mccarthy">EPA Administrator</a></li>
+                <li><a href="https://www.epa.gov/planandbudget">Budget &amp; Performance</a></li>
+                <li><a href="https://www.epa.gov/contracts">Contracting</a></li>
+                <li><a href="https://www.epa.gov/home/grants-and-other-funding-opportunities">Grants</a></li>
+                <li><a href="https://www.epa.gov/ocr/whistleblower-protections-epa-and-how-they-relate-non-disclosure-agreements-signed-epa-employees">No FEAR Act Data</a></li>
+                <li><a href="https://www.epa.gov/home/privacy-and-security-notice">Privacy and Security</a></li>
+              </ul>
+            </div>
+            <div class="col size-1of3">
+              <div class="col__title">Connect.</div>
+              <ul class="menu">
+                <li><a href="https://www.data.gov/">Data.gov</a></li>
+                <li><a href="https://www.epa.gov/office-inspector-general/about-epas-office-inspector-general">Inspector General</a></li>
+                <li><a href="https://www.epa.gov/careers">Jobs</a></li>
+                <li><a href="https://www.epa.gov/newsroom">Newsroom</a></li>
+                <li><a href="https://www.whitehouse.gov/open">Open Government</a></li>
+                <li><a href="http://www.regulations.gov/">Regulations.gov</a></li>
+                <li><a href="https://www.epa.gov/newsroom/email-subscriptions">Subscribe</a></li>
+                <li><a href="https://www.usa.gov/">USA.gov</a></li>
+                <li><a href="https://www.whitehouse.gov/">White House</a></li>
+              </ul>
+            </div>
+            <div class="col size-1of3">
+              <div class="col__title">Ask.</div>
+              <ul class="menu">
+                <li><a href="https://www.epa.gov/home/forms/contact-us">Contact Us</a></li>
+                <li><a href="https://www.epa.gov/home/epa-hotlines">Hotlines</a></li>
+                <li><a href="https://www.epa.gov/foia">FOIA Requests</a></li>
+                <li><a href="https://www.epa.gov/home/frequent-questions-specific-epa-programstopics">Frequent Questions</a></li>
+              </ul>
+              <div class="col__title">Follow.</div>
+              <ul class="social-menu">
+                <li><a class="menu-link social-facebook" href="https://www.facebook.com/EPA">Facebook</a></li>
+                <li><a class="menu-link social-twitter" href="https://twitter.com/epa">Twitter</a></li>
+                <li><a class="menu-link social-youtube" href="https://www.youtube.com/user/USEPAgov">YouTube</a></li>
+                <li><a class="menu-link social-flickr" href="https://www.flickr.com/photos/usepagov">Flickr</a></li>
+                <li><a class="menu-link social-instagram" href="https://instagram.com/epagov">Instagram</a></li>
+              </ul>
+              <p class="last-updated">This page was last updated on 2017-07-25.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://www.epa.gov/sites/all/libraries/template2/jquery.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/template2/js.js"></script>
+  <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/js/dataTables.responsive.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/js/dataTables.select.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/dataTables.buttons.min.js"></script>
+  <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/buttons.html5.min.js"></script>
+  <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
+  <script src="js/base.js"></script>
+<script>
+var resultSet = new ToolSet(); // Create result and saved tool sets
+var savedTools = new ToolSet();
+
+var resultTable = new ToolDisplay('browse-table', 'browse-list', 'browse'); // Create ToolDisplay Objects we need 
+var savedTable = new ToolDisplay('saved-table', 'saved-list', 'browse');
+
+$(function () { // jquery's shorthand awaits readiness of document
+  initializeTabs();// initialize tabs and their listeners
+  loadCache(); //load cache from local storage
+  loadSavedTools(); // load saved tools
+  browseTools();
+
+  /**
+   * Toggles the selected state of tool via a list div checkbox.
+   * @listens change
+   */
+  $(".list").on("change", "input:checkbox", function () {
+    var id = $(this).val();
+    var tableId = $(this).attr('id').slice(0, -14);
+    var rows = $('#' + tableId + '-table').DataTable().rows();
+    var rowNodes = rows.nodes();
+    if ($(this).prop('checked')) { // add selected class
+      $("#" + tableId + "-table").DataTable().rows(function (idx, data, node) {
+        return data[1] == id ? true: false;
+      }).nodes().to$().addClass("selected");
+      $('#' + id).prop('checked', true);
+      $('input[type="checkbox"]', rowNodes).each(function () {
+        if ($(this).val() === id) {
+          $(this).prop('checked', true);
+        }
+      });
+    } else {
+      $("#" + tableId + "-table").DataTable().rows(function (idx, data, node) {
+        return data[1] == id ? true: false;
+      }).nodes().to$().removeClass("selected");
+      $('#' + id).prop('checked', false);
+      $('input[type="checkbox"]', rowNodes).each(function () {
+        if ($(this).val() === id) {
+          $(this).prop('checked', false);
+        }
+      });
+    }
+  });
+
+  /**
+   * Toggles the selected state of a tool via a DataTable row 
+   * @listens click
+   */
+  $('tbody').on('click', 'input[type="checkbox"]', function () {
+    var $parent = $(this).parent().parent();
+    var tableId = $(this).closest('table').attr('id').slice(0, -6);
+    var readId = $(this).val(); // get ID
+    if ($parent.hasClass('selected')) { // remove selected class
+      $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
+      $('#' + tableId + '-table').DataTable().row($parent).deselect();
+    }
+    else {
+      $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
+      $('#' + tableId + '-table').DataTable().row($parent).select();
+    }
+  });
+});
+
+/**
+   * Initialize tabs; create listener for switching tabs
+   * @function
+   */
+  var initializeTabs = function () {
+    $('#tabs > div').hide(); // hide all tab-panels
+    $('#tabs div:first').show(); // show first tab-panel
+    $('#tabs-nav li:first').addClass('active'); // class tabs active for styling
+    $('.menu-internal').click(function () { // add listener to tabbing elements
+      $('#tabs-nav li').removeClass('active'); // remove active styling from all tabs
+      var currentTab = $(this).attr('href'); // get name of clicked tab
+      $('#tabs-nav li a[href="' + currentTab + '"]').parent().addClass('active'); // activate the clicked tab
+      $('#tabs > div').hide(); // hide all panels
+      $(currentTab).show(); // show clicked tab's panel
+      return false;// return false for success; conventionially return truthy description of failure
+    });
+  };
+
+/**
+ * Process the results array. Add IDs that are not already in the ResultSet or in the white list to the ResultSet.
+ * @function
+ * @param {array} results - An array containing the results from the Ajax queries.
+ * @return {number} the length of the ResultSet.
+ */
+var parseResultsArray = function (results) {
+  for (var i = 0; i < results.length; i++) {
+    if(!resultSet.contains(results[i].ResourceId)) {
+      resultSet.addTool(results[i].ResourceId);
+    }
+  }
+  return resultSet.getLength();
+};
+
+/**
+ * Loads all the tools to allows users to browse them in a DataTable or list view.
+ * @function
+ */
+function browseTools() {
+  var decisionSectors = [
+    "Land Use",
+    "Waste Management",
+    "Building Infrastructure",
+    "Transportation"
+  ];
+  var $feedbackDiv = $('#browse-feedback');
+  var results = [];
+  var requests = [];
+  var data = {};
+  for (var i = 0; i < decisionSectors.length; i++) {
+    data['DecisionSector'] = decisionSectors[i];
+    requests.push(executeSearch(resourceAdvancedSearchURL, data));
+    data = {};
+  }
+  /*
+      .apply allows for variable parameters stored in an array
+      .when then waits for the array of promises to be resolved
+      .done then executes when all those promises are resolved
+      arguments allows for the variable number of arguments to be accessed
+    */
+  $.when.apply(null, requests).done(function () {
+    for (var i = 0; i < arguments.length; i++) {
+      results = results.concat(arguments[i][0]);
+    }
+    var numberOfResults = parseResultsArray(results);
+    if (0 !== numberOfResults) {
+      createDataTable('browse');
+      toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
+    }
+  }).fail(function (jqXHR, textStatus, errorThrown) {
+    $feedbackDiv.html('Server error. Please try again another time.').css('display', 'block');
+  });
+}
+</script>
+</body>
+</html>

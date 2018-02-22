@@ -11,70 +11,11 @@
   background-color: rgb(221, 206, 204);
 }
 /************* ADDED FROM MOCKUP.HTML ************/
-button:disabled { 
-  background-color: #aeb0b5;
-}
+
 @media screen and (min-width: 45em), print and (min-width: 45em) {
   .row > .size-95of100.col {
     width: 95%;
   }
-}
-.expand:hover {
-  background-color: #e7f4e4;
-  cursor: pointer;
-}
-.expand {
-  margin: 0;
-}
-.list-div {
-  background-color: #f1f1f1;
-  margin-top: 0.5em;
-  border-radius: 5px;
-  padding: 2px;
-}
-[role=tab] {
-  margin: 1px 0 0;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-[role=tabpanel] {
-  padding: 0.5em;
-  border: 2px solid #d6d7d9;
-  border-radius: 5px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-[aria-hidden="true"] {
-  display: none;
-}
-.results-label {
-  display: inline;
-  background-color: transparent;
-}
-.tool-label:focus + label {
-  background-color: #e1f3f8;
-}
-.tool-label:checked + label {
-  background-color: #d6d7d9;
-}
-button:disabled {
-  background-color: #aeb0b5
-}
-.collapsible {
-  transform: rotateX(180deg);
-}
-.tabs,
-.tabs > li {
-  margin-bottom: 0;
-  border: none;
-}
-hr {
-  border: 0.5em solid #d6d7d9;
-  border-radius: 1em;
-  height: 0;
-}
-.bold {
-  font-weight: bold;
 }
 .option {
   margin-right: 1.4rem;
@@ -84,4 +25,25 @@ hr {
 }
 .accordion-pane {
   display: none;
+}
+table.noborder td {
+  border:0; 
+}
+#tabsResults {
+  overflow-x:scroll;
+}
+.ui-autocomplete {
+  max-height: 20em;
+  max-width: 40em;
+  overflow-y: auto;
+  overflow-x: auto; /* prevent horizontal scrollbar */
+}
+  /* IE 6 doesn't support max-height
+   * we use height instead, but this forces the menu to always be this tall
+   */
+* html .ui-autocomplete {
+  height: 100px;
+}
+.ui-dialog-titlebar-close {
+  visibility: hidden;
 }
