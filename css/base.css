@@ -331,3 +331,9 @@ button:disabled {
 table {
   width: 100%;
 }
+.light-gray {
+  background-color: #d6d7d9;
+  border-radius: 3px;
+  padding: 1em 1em 1em 1em;
+  margin-bottom: .4em;
+}

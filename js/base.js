@@ -486,8 +486,9 @@ function createRow(parsedResult) {
     parsedResult['Operating Environment'],
     parsedResult['Spatial Extent'],
     parsedResult['Decision Sector'],
-    parsedResult['Cost'],
-    parsedResult['Other Costs'],
+    parsedResult['BaseCost'],
+    parsedResult['AnnualCost'],
+    parsedResult['Other Cost Considerations'],
     parsedResult['URL'],
     parsedResult['Life Cycle Phase'],
     parsedResult['Open Source'],
@@ -591,38 +592,64 @@ function showDetails(id, that) {
       '</div>' +
     '</div>';
     }
-    html +=
-    "<span class='bold'>Title</span>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
-    "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
-    "<span class='bold'>Alternate Names</span>: " + parsedData['Alternate Names'] + "<br>" +
-    "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
-    "<span class='bold'>URL</span>: " + linkifyString(parsedData['URL']) + "<br>" +
-    "<span class='bold'>Life Cycle Phase</span>: " + parsedData['Life Cycle Phase'] + "<br>" +
-    "<span class='bold'>Cost Details</span>: " + parsedData['Cost'] + "<br>" +
-    "<span class='bold'>Other Costs</span>: " + parsedData['Other Costs'] + "<br>" +
-    "<span class='bold'>Open Source</span>: " + parsedData['Open Source'] + "<br>" +
-    "<span class='bold'>Operating Environment</span>: " + parsedData['Operating Environment'] + "<br>" +
-    "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>" +
-    "<span class='bold'>Other Technical Requirements</span>: " + linkifyString(parsedData['Other Requirements']) + "<br />" +
-    "<span class='bold'>Scope and Time Scale</span>: " + parsedData['Time Scale'] + "<br>" +
-    "<span class='bold'>Spatial Extent</span>: " + parsedData['Spatial Extent'] + "<br>" +
-    "<span class='bold'>Technical Skills Required</span>: " + parsedData['Technical Skills Needed'] + "<br />" +
-    "<span class='bold'>Model Structure</span>: " + parsedData['Model Structure'] + "<br>" +
-    "<span class='bold'>Model Inputs</span>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
-    "<span class='bold'>Model Inputs Data Requirements</span>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
-    "<span class='bold'>Model Output Types</span>: " + parsedData['Model Output Types'] + "<br>" +
-    "<span class='bold'>Model Output Variables</span>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
-    "<span class='bold'>Model Evaluation</span>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
-    "<span class='bold'>Keywords</span>: " + parsedData['Keywords'] + "<br>" +
-    "<span class='bold'>Selected Concepts</span>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" +
-    "<span class='bold'>User Support Name</span>: " + parsedData['Support Name'] + "<br>" +
-    "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
-    "<span class='bold'>User Support Email</span>: " + linkifyString(parsedData['Support Email']) + "<br>" +
-    "<span class='bold'>User Support Material</span>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
-    "<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>" +    
-    "<span class='bold'>Resource Type</span>: " + parsedData['Resource Type'] + "<br>" +    
-    "<span class='bold'>Relationships</span>: " + parsedData['Relationships'] + "<br>" +
-    "<span class='bold'>Last Software Update</span>: " + parsedData['Last Software Update'] + "<br>" +
+    html += "" +
+      
+    '<div class="light-gray">' +
+      "<span class='bold'>Title</span>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
+      "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
+      "<span class='bold'>Alternate Names</span>: " + parsedData['Alternate Names'] + "<br>" +
+      "<span class='bold'>URL</span>: " + linkifyString(parsedData['URL']) + "<br>" +
+      "<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>" +   
+      "<span class='bold'>Resource Type</span>: " + parsedData['Resource Type'] + "<br>" + 
+      "<span class='bold'>Relationships</span>: " + parsedData['Relationships'] + "<br>" +
+    "</div>" +
+
+    '<div class="light-gray">' +
+      "<h4>Cost Details</h4>" +
+      "<span class='bold'>Base Cost</span>: " + parsedData['BaseCost'] + "<br>" +
+      "<span class='bold'>Annual Cost</span>: " + parsedData['AnnualCost'] + "<br>" +
+      "<span class='bold'>Other Cost Considerations</span>: " + parsedData['Other Cost Considerations'] + "<br>" +
+    "</div>" +
+      
+    '<div class="light-gray">' +
+      "<h4>Model Details</h4>" +
+      "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
+      "<span class='bold'>Life Cycle Phase</span>: " + parsedData['Life Cycle Phase'] + "<br>" +
+      "<span class='bold'>Scope and Time Scale</span>: " + parsedData['Time Scale'] + "<br>" +
+      "<span class='bold'>Spatial Extent</span>: " + parsedData['Spatial Extent'] + "<br>" +
+      "<span class='bold'>Model Structure</span>: " + parsedData['Model Structure'] + "<br>" +
+    "</div>" +
+
+    '<div class="light-gray">' +
+      "<h4>Technical Details</h4>" +
+      "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>" +
+      "<span class='bold'>Operating Environment</span>: " + parsedData['Operating Environment'] + "<br>" +
+      "<span class='bold'>Other Proprietary Software Requirements</span>: " + linkifyString(parsedData['Other Requirements']) + "<br />" +
+      "<span class='bold'>Technical Skills Required</span>: " + parsedData['Technical Skills Needed'] + "<br />" +
+      "<span class='bold'>Open Source</span>: " + parsedData['Open Source'] + "<br>" +
+      "<span class='bold'>Last Software Update</span>: " + parsedData['Last Software Update'] + "<br>" +
+    "</div>" +
+
+    '<div class="light-gray">' +
+      "<h4>Model Input/Output Details</h4>" +
+      "<span class='bold'>Model Inputs</span>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
+      "<span class='bold'>Model Inputs Data Requirements</span>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
+      "<span class='bold'>Model Output Types</span>: " + parsedData['Model Output Types'] + "<br>" +
+      "<span class='bold'>Model Output Variables</span>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
+      "<span class='bold'>Model Evaluation</span>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
+    "</div>" +
+      
+    '<div class="light-gray">' +
+      "<span class='bold'>Keywords</span>: " + parsedData['Keywords'] + "<br>" +
+      "<span class='bold'>Selected Concepts</span>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" +
+    "</div>" +
+      
+    '<div class="light-gray">' +
+      "<h4>Support Details</h4>" +
+      "<span class='bold'>User Support Name</span>: " + parsedData['Support Name'] + "<br>" +
+      "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
+      "<span class='bold'>User Support Email</span>: " + linkifyString(parsedData['Support Email']) + "<br>" +
+      "<span class='bold'>User Support Material</span>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
     "</div>";
     $tab.append(html);
     $selectedToolPanel.removeAttr('aria-hidden');
@@ -829,8 +856,9 @@ var parseResult = function (result) {
   parsedResult['Decision Sector'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelScopeDetail', 'ModelScopeDecisionSector']);
   parsedResult['URL'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'URLText']);
   parsedResult['Life Cycle Phase'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'LifeCycleDetail', 'CurrentLifeCyclePhase']);
-  parsedResult['Cost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsBaseSoftwareCost']));
-  parsedResult['Other Costs'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsOtherCostConsiderations']);
+  parsedResult['BaseCost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsBaseSoftwareCost']));
+  parsedResult['AnnualCost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsRecurringAnnualCost']));
+  parsedResult['Other Cost Considerations'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsOtherCostConsiderations']);
   parsedResult['Open Source'] = parseOpenSource(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsOpenSource']));
   parsedResult['Operating Environment'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'TechRequirementsDetail', 'TechReqOperatingEnvironmentDetail', 'OperatingEnvironmentName']);
   parsedResult['Operating System'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'TechRequirementsDetail', 'TechReqCompatibleOSDetail', 'OSName']);
