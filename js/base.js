@@ -113,10 +113,12 @@ var toolCache = (function () {
         if (arguments[1] === 'success') {
           var result = parseResult(arguments[0]);
           setData(result['ID'], result);
+          terminationCheck(result);
         } else {
           for (var i = 0; i < arguments.length; i++) {
             var result = parseResult(arguments[i][0]);
             setData(result['ID'], result);
+            terminationCheck(result);
           }
         }
         localStorageSetItem('toolCache', cache);
@@ -173,6 +175,12 @@ var toolCache = (function () {
     }
   };
 })();
+
+function terminationCheck(result) {
+  if (result["Life Cycle Phase"] === "Termination") {
+    terminatedTools.addTool(result['ID'])
+  }
+}
 
 /**
  * Represents a ToolSet.
@@ -1833,3 +1841,5 @@ var parseResultsArray = function (results) {
   }
   return resultSet.getLength();
 };
+
+var terminatedTools = new ToolSet();
