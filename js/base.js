@@ -1604,33 +1604,6 @@ var getDetailsFromId = function (id) {
 };
 
 /**
- * Display the feedback modal when the link is clicked.
- * @listens click
- */
-$('#feedback-link').click(function () {
-  $('#feedback-modal').css('display', 'block');
-});
-
-/**
- * Close the feedback modal when the close button is clicked.
- * @listens click
- */
-$('.close').click(function () {
-  $('#feedback-modal').css('display', 'none');
-});
-
-/**
- * Close the feedback modal if there is a click registered on the background of the modal.
- * @param {event} e - The click event.
- * @listens click
- */
-$('#feedback-modal').click(function (e) {
-  if (e.target === $('#feedback-modal')[0]) {
-    $('#feedback-modal').css('display', 'none');
-  }
-});
-
-/**
  * return selected label for each checked element and
  * console-log each label
  */
