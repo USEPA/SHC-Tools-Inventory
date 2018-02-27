@@ -1,10 +1,11 @@
 class Devtool:
 
     def __init__(self):
+        self.read_ids = self.get_ids()
         self.details = {}
         self.responses = {}
         self.checked_links = {}
-        self.async_get_all_details()
+        #self.async_get_all_details()
 
     def async_get_all_details(self):
         '''Implement asynchronous requests with large
@@ -17,7 +18,7 @@ class Devtool:
             details_url = 'https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail?ResourceId='
             with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
                 loop = asyncio.get_event_loop()
-                read_ids = self.get_ids()
+                read_ids = self.read_ids
                 futures = [loop.run_in_executor(executor,
                                                 self.get_details, # fncn to call
                                                 read_id) # arg to fncn
@@ -27,21 +28,31 @@ class Devtool:
         loop = asyncio.get_event_loop()
         loop.run_until_complete(main())
 
-    def probe_path(self, object, path):
+    def probe_path(self, object_to_probe, path):
         '''Return element in given object at given path.
 
         Attempt to access data at path in object. Give prescibed data on error.
         '''
-        probe = object
+
+        probe = object_to_probe
         for key in path:
-            if 'xsi:nil' in probe.keys():
-                return str(probe)
-            if key in probe.keys():
+            if type(probe) is str:
+                return probe
+            elif key in probe.keys():
                 probe = probe[key]
-            else:
-                print('Report: probe_path(object, path) got to its else condition.')
-                return 'probe_path(): key ' + key + 'is not in object' + object + ' with key-set ' + probe.keys()
-        return str(probe)
+                continue
+        if type(probe) is str:
+            return probe
+        return 'probe_path() was unable to follow ' + str(key) + ' through ' + str(probe)
+
+        #OLD CODE COMMENTED BELOW:
+        #probe = object
+        #for key in path:
+        #    if 'xsi:nil' in probe.keys():
+        #        return str(probe)
+        #    if key in probe.keys():
+        #        probe = probe[key]
+        #return str(probe)
 
     def get_ids(self):
         '''Query READ's Web-Services for id of every tool in SHC's inventory.
@@ -107,7 +118,7 @@ class Devtool:
                 response = get(url)
                 self.responses[url] = response
             except Exception as e:
-                status = 'Devool().status(\'' + url + '\') caught an error when getting an HTTP-status-code.'
+                status = 'Devool().status(\'' + url + '\') caught an exception when getting an HTTP-status-code.'
                 return status
         try:
             status = str(response.status_code)
@@ -119,11 +130,12 @@ class Devtool:
                     status = str(response_from_history.status_code) + ' ' + status
         except Exception as e:
             print(60*'#')
-            print('IGNORING EXCEPTION RAISED WHEN APPENDING REDIRECTS\' STATUS-CODES TO status:')
+            print('RETURNING EXCEPTION RAISED WHEN APPENDING REDIRECTS\' STATUS-CODES TO RETURN-VALUE NAMED status:')
             print(e)
+            status = '***EXCEPTION: ' + str(e) + '*** ' + status
         return status
 
-    def url(self, read_id):
+    def get_url(self, read_id):
         '''Return url for READ-id.
         '''
         details = self.get_details(read_id)
@@ -131,15 +143,12 @@ class Devtool:
                 'InfoResourceDetail',
                 'AccessDetail',
                 'InternetDetail',
+                'URLDetail',
                 'URLText']
         return self.probe_path(details, path)
 
     def response(self, url):
-        '''Return response to url or error.
-
-        Use cache in self.responses if possible.
-        Add returned value to cache when nothing is present.
-        '''
+        'Return response to url or error.'
         if url in self.responses.keys():
             response = self.responses[url]
         else:
@@ -152,17 +161,21 @@ class Devtool:
         return response
 
     def link_check(self, read_id):
-        '''Return details of url for read_id.
-        '''
+        'Return details of url for read_id.'
         details = self.get_details(read_id)
         info = {'read_id': self.read_id(details),
                 'acronym': self.acronym(details),
-                'requested url': self.url(read_id),
-                'gets_redirected': self.gets_redirected(self.url(read_id)),
-                'status': str(self.status(self.url(read_id))),
-                'path': ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'URLText'],}
+                'requested url': self.get_url(read_id),
+                'gets_redirected': self.gets_redirected(self.get_url(read_id)),
+                'status': str(self.status(self.get_url(read_id))),
+                'path': ['READExportDetail',
+                         'InfoResourceDetail',
+                         'AccessDetail',
+                         'InternetDetail',
+                         'URLDetail',
+                         'URLText'],}
         try:
-            info['final_url'] = self.response(self.url(read_id)).url
+            info['final_url'] = self.response(self.get_url(read_id)).url
         except AttributeError as e:
             info['final_url'] = 'ERROR'
         return info
@@ -177,35 +190,35 @@ class Devtool:
     def check_link_for_all_ids(self):
         '''Return HTTP-status-code and other details for url of each id in inventory.
         '''
-        ## original code
-        #read_ids = self.get_ids()
-        #checked_links = {}
-        #for read_id in read_ids:
-        #    read_id = str(read_id)
-        #    checked_links[read_id] = self.link_check(read_id)
-        #return checked_links
+        # original code
+        read_ids = self.read_ids
+        checked_links = {}
+        for read_id in read_ids:
+            read_id = str(read_id)
+            checked_links[read_id] = self.link_check(read_id)
+        return checked_links
 
-        import asyncio
-        import concurrent.futures
-        import requests
-        async def main():
-            self.checked_links = {}
-            with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
-                loop = asyncio.get_event_loop()
-                read_ids = self.details.keys()
-                futures = [loop.run_in_executor(executor,
-                                                self.link_check,
-                                                read_id)
-                           for read_id in read_ids]
-                for link_check in await asyncio.gather(*futures):
-                    self.checked_links[link_check['read_id']] = link_check
-            return self.checked_links
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(main())
+        ## async version
+        #import asyncio
+        #import concurrent.futures
+        #import requests
+        #async def main():
+        #    self.checked_links = {}
+        #    with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+        #        loop = asyncio.get_event_loop()
+        #        read_ids = self.details.keys()
+        #        futures = [loop.run_in_executor(executor,
+        #                                        self.link_check,
+        #                                        read_id)
+        #                   for read_id in read_ids]
+        #        for link_check in await asyncio.gather(*futures):
+        #            self.checked_links[link_check['read_id']] = link_check
+        #    return self.checked_links
+        #loop = asyncio.get_event_loop()
+        #loop.run_until_complete(main())
 
     def send_to_csv(self, data, filename, verbose=False):
-        '''Write dict of dicts with top-level-keys as header to filename as CSV.
-        '''
+        'Write dict of dicts with top-level-keys as header to filename as CSV.'
         import csv
         from pprint import pprint
         if verbose != False:
@@ -226,9 +239,8 @@ class Devtool:
             writer.writerows(data_for_csv)
 
     def describe_status(self, status_code):
-        '''Describe a numeric HTTP-status-code.
-        '''
-        from http_status import STATUS_CODES
+        'Describe a numeric HTTP-status-code.'
+        from http_status_codes_to_names import STATUS_CODES
         try:
             return STATUS_CODES[int(status_code)]
         except:
