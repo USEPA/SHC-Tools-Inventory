@@ -584,7 +584,7 @@ function showDetails(id, that) {
       "<span class='bold'>URL</span>: " + linkifyString(parsedData['URL']) + "<br>" +
       "<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>" +   
       "<span class='bold'>Resource Type</span>: " + parsedData['Resource Type'] + "<br>" + 
-      "<span class='bold'>Relationships</span>: " + parsedData['Relationships'] + "<br>" +
+      // "<span class='bold'>Relationships</span>: " + parsedData['Relationships'] + "<br>" + // Not properly implemented in READ
     "</div>" +
 
     '<div class="light-gray">' +
@@ -835,7 +835,7 @@ var parseResult = function (result) {
   parsedResult['Acronym'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'Acronym']);
   parsedResult['Description'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'LongDescription']);
   parsedResult['Decision Sector'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelScopeDetail', 'ModelScopeDecisionSector']);
-  parsedResult['URL'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'URLText']);
+  parsedResult['URL'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'URLDetail', 'URLText']);
   parsedResult['Life Cycle Phase'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'LifeCycleDetail', 'CurrentLifeCyclePhase']);
   parsedResult['BaseCost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsBaseSoftwareCost']));
   parsedResult['AnnualCost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsRecurringAnnualCost']));
@@ -863,7 +863,7 @@ var parseResult = function (result) {
   parsedResult['Ownership Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'OwnershipTypeName']);
   parsedResult['Resource Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'ResourceTypeName']);
   parsedResult['Alternate Names'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'AlternateNamesDetail', 'AlternateName']);
-  parsedResult['Relationships'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'RelationshipDetail', 'InfoResourceRelationshipDetail', 'RelatedInfoResourceName']);
+  // parsedResult['Relationships'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'RelationshipDetail', 'InfoResourceRelationshipDetail', 'RelatedInfoResourceName']); // Not properly implemented in READ
 
   /**
    * return decoded value(s) accumulated into a string
@@ -1097,7 +1097,12 @@ var readSafe = function (object, propertyArray) {
           try { // try accumulating a string from all elements
             accumulatedString = '';
             for (var i = 0; i < value.length; i++) {
-              var iValue = value[i][Object.keys(value[i])[0]];
+              var iValue;
+              if (typeof(value[i]) === 'string') {
+                iValue = value[i];
+              } else {
+                iValue = value[i][Object.keys(value[i])[0]];
+              }
               if (i > 0 && value.length > 2) {
                 accumulatedString += ', ';
               }
@@ -1127,7 +1132,7 @@ var readSafe = function (object, propertyArray) {
     }
   } else { // first element propertyArray isn't a property of this object
     var accumulatedString = '';
-    if (object.length && typeof(object).toLowerCase !== 'string') {
+    if (object.length && typeof(object) !== 'string') {
       for (i in object) {
         accumulatedString += object[i][propertyArray[0]];
         if (object.length - i > 1) {
@@ -1602,33 +1607,6 @@ var getDetailsFromId = function (id) {
     console.log(id + ': ' + data.READExportDetail.InfoResourceDetail);
   });
 };
-
-/**
- * Display the feedback modal when the link is clicked.
- * @listens click
- */
-$('#feedback-link').click(function () {
-  $('#feedback-modal').css('display', 'block');
-});
-
-/**
- * Close the feedback modal when the close button is clicked.
- * @listens click
- */
-$('.close').click(function () {
-  $('#feedback-modal').css('display', 'none');
-});
-
-/**
- * Close the feedback modal if there is a click registered on the background of the modal.
- * @param {event} e - The click event.
- * @listens click
- */
-$('#feedback-modal').click(function (e) {
-  if (e.target === $('#feedback-modal')[0]) {
-    $('#feedback-modal').css('display', 'none');
-  }
-});
 
 /**
  * return selected label for each checked element and

@@ -125,7 +125,8 @@
                       <th>Spatial Extent</th>
                       <th>Decision Sector</th>
                       <th>Base Cost</th>
-                      <th>Other Costs</th>
+                      <th>Annual Cost</th>
+                      <th>Other Cost Considerations</th>
                       <th>URL</th>
                       <th>Life Cycle Phase</th>
                       <th>Open Source</th>
@@ -210,50 +211,29 @@
           <h2>Feedback Form</h2>
         </div>
         <div class="modal-body">
-          <form onsubmit="toast({html: 'Feedback submission is currently unavailable.', close: true});return false;">
+          <form onsubmit="submitFeedback(event)">
             <br />
             <div class="row">
               <div class="col"><p>Your feedback can help us improve this application. If you have general feedback, a bug to report, an idea or tool suggestion to add to our inventory please let us know!</p></div>
             </div>
             <div class="row cols-3">
               <div class="col">
-                <input checked id="general-feedback" name="feedback-type" type="Radio"/>
+                <input checked id="general-feedback" name="feedback-type" type="Radio" value="General Feedback"/>
                 <label for="general-feedback">General feedback</label>
               </div>
               <div class="col">
-                <input id="report-a-bug" name="feedback-type" type="Radio"/>
+                <input id="report-a-bug" name="feedback-type" type="Radio" value="Bug Report"/>
                 <label for="report-a-bug">Report a bug</label>
               </div>
               <div class="col">  
-                <input id="suggest-an-idea" name="feedback-type" type="Radio"/>
+                <input id="suggest-an-idea" name="feedback-type" type="Radio" value="Suggest an Idea"/>
                 <label for="suggest-an-idea">Suggest an idea or tool</label>
               </div>
             </div>
             <br />
             <div class="row">
-              <div class="col size-1of1">
-                <label for="feedback-text">Feedback</label>
-                <textarea id="feedback-text" placeholder="Enter feedback" rows="5"></textarea>
-              </div>
-            </div>
-            <div class="row cols-3">
               <div class="col">
-                <label for="first-name">First Name (Optional)</label>
-                <input class="full-width" id="first-name" placeholder="Enter first name" type="text" />
-              </div>
-              <div class="col">
-                <label for="last-name">Last Name (Optional)</label>
-                <input class="full-width" id="last-name" placeholder="Enter last name" type="text"/>
-              </div>
-              <div class="col">
-                <label for="email">Email Address (Optional)</label>
-                <input class="full-width" id="email" placeholder="Enter email address" type="email"/>
-              </div>
-            </div>
-            <br />
-            <div class="row">
-              <div class="col">
-                <input id="submit-feedback" type="submit" value="Submit Feedback"/>
+                <input id="submit-feedback" type="submit" value="Send us an Email"/>
               </div>
             </div>
           </form>
@@ -339,6 +319,7 @@
   <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/buttons.html5.min.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/base.js"></script>
+  <script src="js/feedback-modal.js"></script>
 <script>
 var resultSet = new ToolSet(); // Create result and saved tool sets
 var savedTools = new ToolSet();
