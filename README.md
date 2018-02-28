@@ -21,8 +21,18 @@ Once results are found, users can review or print the details of user-selected s
 ## Contributing
 
 Please follow this project's documented code-conventions when contributing in order to maintain consistency.
-These conventions are outlined in `./doc/CONTRIBUTE`.
-`CONTRIBUTE` also specifies interfaces, web-services, and design-patterns.
+A python module to aid development is at `dev/devtool.py`.
+This tool can be used to list important details for each tool in the inventory.
+The following example demonstrates retrieving details for each tool and checking the HTTP-status-code for each tool's URL and sending the data to a csv.
+
+```
+$ cd dev/
+$ python
+>>> import devtool
+>>> dt = devtool.Devtool()
+>>> checked_links = dt.check_link_for_all_ids()
+>>> dt.send_to_csv(checked_links, filename.csv)
+```
 
 ## Help
 
