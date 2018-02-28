@@ -1097,7 +1097,12 @@ var readSafe = function (object, propertyArray) {
           try { // try accumulating a string from all elements
             accumulatedString = '';
             for (var i = 0; i < value.length; i++) {
-              var iValue = value[i][Object.keys(value[i])[0]];
+              var iValue;
+              if (typeof(value[i]) === 'string') {
+                iValue = value[i];
+              } else {
+                iValue = value[i][Object.keys(value[i])[0]];
+              }
               if (i > 0 && value.length > 2) {
                 accumulatedString += ', ';
               }
@@ -1127,7 +1132,7 @@ var readSafe = function (object, propertyArray) {
     }
   } else { // first element propertyArray isn't a property of this object
     var accumulatedString = '';
-    if (object.length && typeof(object).toLowerCase() !== 'string') {
+    if (object.length && typeof(object) !== 'string') {
       for (i in object) {
         accumulatedString += object[i][propertyArray[0]];
         if (object.length - i > 1) {
