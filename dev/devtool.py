@@ -86,13 +86,11 @@ class Devtool:
             return details
 
     def read_id(self, details):
-        '''Return read_id given json-encoded details from READ's Web-Services.
-        '''
-        if type(details) != type(dict()):
+        'Return read_id given json-encoded details from READ\'s Web-Services.'
+        if not type(details) is dict: # handle details passed in as string
             from json import loads
             details = loads(details)
-        read_id = self.probe_path(details,
-                ['READExportDetail','InfoResourceDetail','READResourceIdentifier'])
+        read_id = details['READExportDetail']['InfoResourceDetail']['READResourceIdentifier']
         return read_id
 
     def acronym(self, details):
@@ -129,9 +127,10 @@ class Devtool:
                 for response_from_history in response.history[::-1]:
                     status = str(response_from_history.status_code) + ' ' + status
         except Exception as e:
-            print(60*'#')
-            print('RETURNING EXCEPTION RAISED WHEN APPENDING REDIRECTS\' STATUS-CODES TO RETURN-VALUE NAMED status:')
-            print(e)
+            #FIXME gracefully handle exceptions
+            #print(60*'#')
+            #print('RETURNING EXCEPTION RAISED WHEN APPENDING REDIRECTS\' STATUS-CODES TO RETURN-VALUE NAMED status:')
+            #print(e)
             status = '***EXCEPTION: ' + str(e) + '*** ' + status
         return status
 
