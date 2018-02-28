@@ -584,7 +584,7 @@ function showDetails(id, that) {
       "<span class='bold'>URL</span>: " + linkifyString(parsedData['URL']) + "<br>" +
       "<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>" +   
       "<span class='bold'>Resource Type</span>: " + parsedData['Resource Type'] + "<br>" + 
-      "<span class='bold'>Relationships</span>: " + parsedData['Relationships'] + "<br>" +
+      // "<span class='bold'>Relationships</span>: " + parsedData['Relationships'] + "<br>" + // Not properly implemented in READ
     "</div>" +
 
     '<div class="light-gray">' +
@@ -863,7 +863,7 @@ var parseResult = function (result) {
   parsedResult['Ownership Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'OwnershipTypeName']);
   parsedResult['Resource Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'ResourceTypeName']);
   parsedResult['Alternate Names'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'AlternateNamesDetail', 'AlternateName']);
-  parsedResult['Relationships'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'RelationshipDetail', 'InfoResourceRelationshipDetail', 'RelatedInfoResourceName']);
+  // parsedResult['Relationships'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'RelationshipDetail', 'InfoResourceRelationshipDetail', 'RelatedInfoResourceName']); // Not properly implemented in READ
 
   /**
    * return decoded value(s) accumulated into a string
