@@ -1127,7 +1127,7 @@ var readSafe = function (object, propertyArray) {
     }
   } else { // first element propertyArray isn't a property of this object
     var accumulatedString = '';
-    if (object.length && typeof(object).toLowerCase !== 'string') {
+    if (object.length && typeof(object).toLowerCase() !== 'string') {
       for (i in object) {
         accumulatedString += object[i][propertyArray[0]];
         if (object.length - i > 1) {
