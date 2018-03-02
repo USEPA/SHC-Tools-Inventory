@@ -478,8 +478,8 @@ function createRow(parsedResult) {
     parsedResult['Operating Environment'],
     parsedResult['Spatial Extent'],
     parsedResult['Decision Sector'],
-    parsedResult['BaseCost'],
-    parsedResult['AnnualCost'],
+    parsedResult['Base Cost'],
+    parsedResult['Annual Cost'],
     parsedResult['Other Cost Considerations'],
     parsedResult['URL'],
     parsedResult['Life Cycle Phase'],
@@ -589,8 +589,8 @@ function showDetails(id, that) {
 
     '<div class="light-gray">' +
       "<h4>Cost Details</h4>" +
-      "<span class='bold'>Base Cost</span>: " + parsedData['BaseCost'] + "<br>" +
-      "<span class='bold'>Annual Cost</span>: " + parsedData['AnnualCost'] + "<br>" +
+      "<span class='bold'>Base Cost</span>: " + parsedData['Base Cost'] + "<br>" +
+      "<span class='bold'>Annual Cost</span>: " + parsedData['Annual Cost'] + "<br>" +
       "<span class='bold'>Other Cost Considerations</span>: " + parsedData['Other Cost Considerations'] + "<br>" +
     "</div>" +
       
@@ -633,6 +633,7 @@ function showDetails(id, that) {
       "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
       "<span class='bold'>User Support Email</span>: " + linkifyString(parsedData['Support Email']) + "<br>" +
       "<span class='bold'>User Support Material</span>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
+      "<span class='bold'>User Support Types</span>: " + parsedData['Support Material Types'] + "<br>" +
     "</div>";
     $tab.append(html);
     $selectedToolPanel.removeAttr('aria-hidden');
@@ -837,8 +838,8 @@ var parseResult = function (result) {
   parsedResult['Decision Sector'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelScopeDetail', 'ModelScopeDecisionSector']);
   parsedResult['URL'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'URLDetail', 'URLText']);
   parsedResult['Life Cycle Phase'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'LifeCycleDetail', 'CurrentLifeCyclePhase']);
-  parsedResult['BaseCost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsBaseSoftwareCost']));
-  parsedResult['AnnualCost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsRecurringAnnualCost']));
+  parsedResult['Base Cost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsBaseSoftwareCost']));
+  parsedResult['Annual Cost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsRecurringAnnual Cost']));
   parsedResult['Other Cost Considerations'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsOtherCostConsiderations']);
   parsedResult['Open Source'] = parseOpenSource(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsOpenSource']));
   parsedResult['Operating Environment'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'TechRequirementsDetail', 'TechReqOperatingEnvironmentDetail', 'OperatingEnvironmentName']);
@@ -858,6 +859,7 @@ var parseResult = function (result) {
   parsedResult['Support Email'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportEmail']);
   parsedResult['Support Phone'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportPhoneNumber']);
   parsedResult['Support Materials'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportSourceOfSupportMaterials']);
+  parsedResult['Support Material Types'] = parseSupportMaterialType(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportTypesOfSupportMaterialsDetail']));
   parsedResult['Last Software Update'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsLastKnownSoftwareUpdate']);
   parsedResult['Last Modified'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'LastModifiedDateTimeText']);
   parsedResult['Ownership Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'OwnershipTypeName']);
@@ -939,6 +941,19 @@ var parseResult = function (result) {
       return ModelOutputsModelOutputTypesDetail.ModelOutputTypeName; // return desired value if it is a property of extent
     }
     return ModelOutputsModelOutputTypesDetail;
+  }
+
+  /**
+   * Parse the support mateiral types array or object for the support material types value(s).
+   * @function
+   * @param {string} extent.SpatialExtentName - A string specifying the spatial extent.
+   * @return {string|object} - Either the value itself, or a string combining all the values.
+   */
+  function parseSupportMaterialType(UserSupportTypesOfSupportMaterialsDetail) { // possibly joins strings in an array
+    if (UserSupportTypesOfSupportMaterialsDetail.SupportMaterialTypeName) {
+      return UserSupportTypesOfSupportMaterialsDetail.SupportMaterialTypeName; // return desired value if it is a property of extent
+    }
+    return UserSupportTypesOfSupportMaterialsDetail;
   }
 
   /**
