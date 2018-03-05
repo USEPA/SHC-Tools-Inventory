@@ -1118,14 +1118,8 @@ var readSafe = function (object, propertyArray) {
               } else {
                 iValue = value[i][Object.keys(value[i])[0]];
               }
-              if (i > 0 && value.length > 2) {
-                accumulatedString += ', ';
-              }
-              if (value.length === 2) {
-                accumulatedString += ' ';
-              }
-              if (i === value.length - 1) {
-                accumulatedString += 'and ';
+              if (i > 0) {
+                accumulatedString += '; ';
               }
               accumulatedString += iValue;
             }
@@ -1151,15 +1145,7 @@ var readSafe = function (object, propertyArray) {
       for (i in object) {
         accumulatedString += object[i][propertyArray[0]];
         if (object.length - i > 1) {
-          if (object.length > 2) {
-            accumulatedString += ', ';
-          }
-          if (object.length === 2) {
-            accumulatedString += ' ';
-          }
-          if (object.length - i === 2) {
-            accumulatedString += 'and ';
-          }
+          accumulatedString += '; ';
         }
       }
     return accumulatedString;
