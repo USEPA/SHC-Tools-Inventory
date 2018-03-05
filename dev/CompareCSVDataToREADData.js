@@ -1,5 +1,5 @@
 for (var title in intendedData){
-	console.log("###" + title + "###");
+	console.log("###" + title + "### " + actualData[title.substr(0, 15)]['ID']);
 	if (actualData.hasOwnProperty(title.substr(0, 15))) {
         for (var i = 0; i < Object.keys(intendedData[title]).length; i++) {
             var colName = Object.keys(intendedData[title])[i];
