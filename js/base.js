@@ -992,7 +992,7 @@ var parseResult = function (result) {
     if (softwareCostMap.hasOwnProperty(softwareCost)) {
       return softwareCostMap[softwareCost];
     } else {
-      return "No Data";
+      return softwareCost;
     }
   }
 
