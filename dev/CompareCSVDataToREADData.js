@@ -1,6 +1,7 @@
 for (var title in intendedData){
-	console.log("###" + title + "### " + actualData[title.substr(0, 15)]['ID']);
+	console.log("###" + title + "###");
 	if (actualData.hasOwnProperty(title.substr(0, 15))) {
+		console.log(actualData[title.substr(0, 15)]['ID']);
         for (var i = 0; i < Object.keys(intendedData[title]).length; i++) {
             var colName = Object.keys(intendedData[title])[i];
             var intendedDatum = intendedData[title][colName];
@@ -76,7 +77,7 @@ for (var title in intendedData){
 				}
             }
 
-            if (intendedDatum.toLowerCase() === actualDatum.toLowerCase()) {
+            if (intendedDatum.toLowerCase().trim() === actualDatum.toLowerCase().trim()) {
                 //console.log("MATCH");
             } else if (intendedDatum.trim() === "" && actualDatum.trim() === "No Data") {
 				//console.log("MATCH - Both are blank");
