@@ -129,7 +129,6 @@
                 <hr />
                 <input autocomplete="off" class="search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text" placeholder="Enter text here">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
-                <p id="simpleFeedback">No tools were found.</p>
               </div>
               <div aria-hidden="true" aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">
                 <h3>Advanced Search</h3>
@@ -138,7 +137,6 @@
                 <input autocomplete="off" class="search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text" placeholder="Enter text here">
                 <button id="detailed-search-button" onclick="detailedSearch()">Search</button>
                 <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Form</button>
-                <div id="detailed-search-feedback">No results were found.</div>
                 <form>
                   <div aria-labelledby="search-field-label" class="form-item form-type-checkbox" id="search-field" role="group">
                     <h4 id="search-field-label">Choose fields to be searched:</h4>
@@ -536,22 +534,19 @@ var detailedSearch = function () {
   $('#results-list *').remove(); // clear result div
   resultSet.reset(); // clear result set
   resultTable.getToolSet().reset(); //reset display toolset
-  var $feedbackDiv = $('#detailed-search-feedback');
   var queryTypes = $("#search-field input:checkbox:checked").map(function () {return $(this).val()}).get();
   if (!queryTypes.length) { // ensure queryType is selected
-    $feedbackDiv.html('You must select at least one Search Field.').css('display', 'block');
+    toast({html: 'You must select at least one Search Field.', close: true});
     return;
   }
   var queryString = $('#detailed-search-text').val().trim().toLowerCase();
   var decisionSectors = $('#decision-select :checkbox:checked').map(function () {return $(this).val();});
-  $feedbackDiv.css('display', 'none');
   var os_select = checkBoxValue(document.getElementsByName('radioenvironment'));
   var cost_select = checkBoxValue(document.getElementsByName('checkbase'));
   var extent_select = $('#extent-select :checkbox:checked').map(function () {return $(this).val()});
   var results = [];
   var requests = [];
   var data = {};
-  $feedbackDiv.css('display', 'none');
   if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
     decisionSectors = [
       "Land Use",
@@ -595,10 +590,9 @@ var detailedSearch = function () {
       }
       var numberOfResults = parseResultsArray(results);
       if (0 === numberOfResults) {
-        $feedbackDiv.html('No results were found.').css('display', 'block');
+        toast({html: 'No results were found.', close: true});
         $('#results-tab').parent().attr('aria-hidden', true);
       } else {
-        $feedbackDiv.html('').css('display', 'none');
         $('#results-tab').parent().attr('aria-hidden', false);
         $("#results-tab").click();
         var url = window.location.href;
@@ -607,10 +601,10 @@ var detailedSearch = function () {
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
-      $feedbackDiv.html('Server error. Please try again another time.').css('display', 'block');
+      toast({html: 'Server error. Please try again another time.', close: true});
     });
   } else {
-    $feedbackDiv.html('Please enter a search term.').css('display', 'block');
+    toast({html: 'Please enter a search term.', close: true});
   }
 };
 
@@ -645,8 +639,6 @@ var simpleSearch = function () {
   resultTable.getToolSet().reset(); //reset display toolset
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"];
-  var $feedbackDiv = $('#simpleFeedback');
-  $feedbackDiv.css('display', 'none');
   var results = [];
   var requests = [];
   var data = {};
@@ -685,10 +677,9 @@ var simpleSearch = function () {
       }
       var numberOfResults = parseResultsArray(results);
       if (0 === numberOfResults) {
-        $feedbackDiv.html('No results were found.').css('display', 'block');
+        toast({html: 'No results were found.', close: true});
         $('#results-tab').parent().attr('aria-hidden',true);
       } else {
-        $feedbackDiv.html('').css('display', 'none');
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
         $('#loader').removeAttr('aria-hidden').show();
@@ -696,10 +687,10 @@ var simpleSearch = function () {
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
-      $feedbackDiv.html('Server error. Please try again another time.').css('display', 'block');
+      toast({html: 'Server error. Please try again another time.', close: true});
     });
   } else {
-    $feedbackDiv.html('Please enter a search term.').css('display', 'block');
+    toast({html: 'Please enter a search term.', close: true});
   }
 };
 </script>
