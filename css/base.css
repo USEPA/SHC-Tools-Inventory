@@ -280,6 +280,9 @@ tr:hover td:not(:first-child) {
 .bold {
   font-weight: bold;
 }
+hr {
+  clear: both;
+}
 .tabs,
 .tabs > li {
   margin-bottom: 0;

@@ -125,13 +125,16 @@
                 </p>
                 <p>Select one or more roles and proceed to the subrole tab or select Next.</p>
                 <div class="navbar">
-                  <button class="enabled-by-subrole persist" onclick="activateNextTab($('#subrole-tab'), 'wizard.html#subrole-tab')">Next</button>
+                  <button class="enabled-by-subrole persist next" onclick="activateNextTab($('#subrole-tab'), 'wizard.html#subrole-tab')">Next</button>
                 </div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('role', roleSelect)">Select All Roles</button>
                 <button class="button-grey" onclick="deselectAll('role', roleSelect)">Deselect All Roles</button>
                 <div class="bold" id="role-tool-count"></div>
                 <div id="role"></div>
+                <div class="bottom-bar">
+                  <button class="enabled-by-subrole persist next" onclick="activateNextTab($('#subrole-tab'), 'wizard.html#subrole-tab')">Next</button>
+                </div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
               <div aria-labelledby="subrole-tab" id="subrole-panel" role="tabpanel" aria-hidden="true">
@@ -144,13 +147,17 @@
                 Some subroles will appear under multiple roles.</p>
                 <div class="navbar">
                   <button class="persist" onclick="activateTab($('#role-tab'), 'wizard.html#role-tab')">Back</button>
-                  <button class="enabled-by-fundamental-objective persist" onclick="activateNextTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab')">Next</button>
+                  <button class="enabled-by-fundamental-objective persist next" onclick="activateNextTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab')">Next</button>
                 </div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('subrole', subroleSelect)">Select All Subroles</button>
                 <button class="button-grey" onclick="deselectAll('subrole', subroleSelect)">Deselect All Subroles</button>
                 <div class="bold" id="subrole-tool-count"></div>
                 <div id="subrole"></div>
+                <div class="bottom-bar">
+                  <button class="persist" onclick="activateTab($('#role-tab'), 'wizard.html#role-tab')">Back</button>
+                  <button class="enabled-by-fundamental-objective persist next" onclick="activateNextTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab')">Next</button>
+                </div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
               <div aria-labelledby="fundamental-objective-tab" id="fundamental-objective-panel" role="tabpanel" aria-hidden="true">
@@ -162,13 +169,17 @@
                 <p>Select one or more fundamental objectives and proceed to the objective tab or select Next.</p>
                 <div class="navbar">
                   <button class="persist" onclick="activateTab($('#subrole-tab'), 'wizard.html#subrole-tab')">Back</button>
-                  <button class="enabled-by-objective persist" onclick="activateNextTab($('#objective-tab'), 'wizard.html#objective-tab')">Next</button>
+                  <button class="enabled-by-objective persist next" onclick="activateNextTab($('#objective-tab'), 'wizard.html#objective-tab')">Next</button>
                 </div>
                 <hr />
                 <button class="button-grey" onclick="selectAll('fundamental-objective', fundamentalObjectiveSelect)">Select All Fundamental Objectives</button>
                 <button class="button-grey" onclick="deselectAll('fundamental-objective', fundamentalObjectiveSelect)">Deselect All Fundamental Objectives</button>
                 <div class="bold" id="fundamental-objective-tool-count"></div>
                 <div id="fundamental-objective"></div>
+                <div class="bottom-bar">
+                  <button class="persist" onclick="activateTab($('#subrole-tab'), 'wizard.html#subrole-tab')">Back</button>
+                  <button class="enabled-by-objective persist next" onclick="activateNextTab($('#objective-tab'), 'wizard.html#objective-tab')">Next</button>
+                </div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
               <div aria-labelledby="objective-tab" id="objective-panel" role="tabpanel" aria-hidden="true">
@@ -182,7 +193,7 @@
                   Some objectives will appear under multiple fundamental objectives.</p>
                 <div class="navbar">
                   <button class="persist" onclick="activateTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab')">Back</button>
-                  <button class="enabled-by-concept persist" onclick="activateNextTab($('#concept-tab'), 'wizard.html#concept-tab');updateConcepts()">Next</button>
+                  <button class="enabled-by-concept persist next" onclick="activateNextTab($('#concept-tab'), 'wizard.html#concept-tab');updateConcepts()">Next</button>
                 </div>
                 <hr />
                 <input id="objective-relevance" type="hidden" value="2" />
@@ -194,6 +205,10 @@
                 </div> -->
                 <div class="bold" id="objective-tool-count"></div>
                 <div id="objective"></div>
+                <div class="bottom-bar">
+                  <button class="persist" onclick="activateTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab')">Back</button>
+                  <button class="enabled-by-concept persist next" onclick="activateNextTab($('#concept-tab'), 'wizard.html#concept-tab');updateConcepts()">Next</button>
+                </div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
               <div aria-labelledby="concept-tab" id="concept-panel" role="tabpanel" aria-hidden="true">
@@ -206,7 +221,7 @@
                 <p>Use the <strong>Show Results</strong> button to display your list of targeted tools.</p>
                 <div class="navbar">
                   <button class="persist" onclick="activateTab($('#objective-tab'), 'wizard.html#objective-tab')">Back</button>
-                  <button class="button-aqua" id="concept-search-button" onclick="displayResults()">Show Results</button>
+                  <button class="button-aqua next concept-search-button" onclick="displayResults()">Show Results</button>
                   <div aria-hidden="true" id="results-notification"></div>
                 </div>
                 <hr class="park-mark" />
@@ -214,6 +229,11 @@
                 <button class="button-grey" onclick="deselectAll('concept');updateConceptsandResults()">Deselect All Concepts</button>
                 <button class="button-white right" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <div id="concept"></div>
+                <div class="bottom-bar">
+                  <button class="persist" onclick="activateTab($('#objective-tab'), 'wizard.html#objective-tab')">Back</button>
+                  <button class="button-aqua next concept-search-button" onclick="displayResults()">Show Results</button>
+                  <div aria-hidden="true" id="results-notification"></div>
+                </div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
@@ -221,8 +241,7 @@
                 <p>Select one or more tools and they will be added to your saved tools. Any unselected tools will be removed if you run additional searches. You can export your selected tools to a CSV file by using the <strong>Export</strong> button.</p>
                 <div class="navbar">
                   <button class="persist" onclick="activatePreviousUnhiddenTab()">Back</button>
-                  <!--<button class="persist" onclick="activateTab($('#concept-tab'), 'wizard.html#concept-tab')">Back</button>-->
-                  <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
+                  <button class="next" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                 </div>
                 <hr />
                 <span>Choose a display:</span>
@@ -252,6 +271,10 @@
                     </thead>
                     <tbody id="results-table-body"></tbody>
                   </table>
+                </div>
+                <div class="bottom-bar">
+                  <button class="persist" onclick="activatePreviousUnhiddenTab()">Back</button>
+                  <button class="next" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                 </div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
@@ -536,7 +559,7 @@ var objectiveDisplay = function (adjust) {
 var checkboxChangeHandler = function (checkboxGroup) {
   if (showToast[checkboxGroup] !== false && showToast['all'] !== false) {// condition: are these toasts unmuted?
     if (checkboxGroup.indexOf('table') === -1) {
-      var buttonText = (checkboxGroup === 'concept') ? ($('#concept-search-button').text()) : ('next'); //BOOKMARK: insert dynamically grabbed text for 'Display Tools' if checkboxGroup == 'concept'; else insert "next"
+      var buttonText = (checkboxGroup === 'concept') ? ($('.concept-search-button').text()) : ('next'); //BOOKMARK: insert dynamically grabbed text for 'Display Tools' if checkboxGroup == 'concept'; else insert "next"
       var message = 'Select all desired ' + checkboxGroup + 's then press the button labeled "' + buttonText + '." Selections can be changed at any time by returning to the desired tab.';
         toast({html: message, close: true, disable: true});
         showToast[checkboxGroup] = false;
@@ -1031,7 +1054,7 @@ var conceptSearch = function () {
   if (concepts.length < 1 && !savedTools.getLength()) {
     $('#results-container').hide();
     $('#results-container').attr('aria-hidden', 'true');
-    $('#concept-search-button').text('Show Results');
+    $('.concept-search-button').text('Show Results');
     return;
   } else {
     for (var i = 0; i < concepts.length; i++) {
@@ -1054,9 +1077,9 @@ var conceptSearch = function () {
     }
   }
   if (numberOfTools === 1) {
-    $('#concept-search-button').text('Show ' + numberOfTools + ' Result');
+    $('.concept-search-button').text('Show ' + numberOfTools + ' Result');
   } else {
-    $('#concept-search-button').text('Show ' + numberOfTools + ' Results');
+    $('.concept-search-button').text('Show ' + numberOfTools + ' Results');
   }
 };
 
