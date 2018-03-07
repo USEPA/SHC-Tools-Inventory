@@ -695,6 +695,8 @@ function exportCSV(resultsDiv) {
       link.click();
       document.body.removeChild(link);
     }
+  } else {
+    toast({html: 'You must select tools to export.', close: true});
   }
 }
 
