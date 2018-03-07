@@ -534,12 +534,15 @@ function addRow(parsedResult, tableId, rowData) {
  * @param {string} divID - The ID of the tool to remove.
  */
 function removeSelected(divID) {
-  $('#' + divID + ' input').each(function () {
-    if ($(this).prop("checked")) {
-      savedTools.removeTool($(this).val());
-      savedTable.getToolSet().removeTool($(this).val()); //remove tool from saved tool display tool set
-      $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
-    }
+  var $recordsToRemove = $('#' + divID + ' input:checked');
+  if (!$recordsToRemove.length) {
+    toast({html: 'Please select tools to remove.', close: true});
+    return;
+  }
+  $recordsToRemove.each(function () {
+    savedTools.removeTool($(this).val());
+    savedTable.getToolSet().removeTool($(this).val()); //remove tool from saved tool display tool set
+    $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
   });
   localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
   if ($.fn.DataTable.isDataTable('#saved-table')) {
@@ -725,6 +728,10 @@ function saveRecord() {
  */
 function saveSelectedRecords(resultsDiv) {
   var recordsToSave = $('#' + resultsDiv + ' input:checked');
+  if (!recordsToSave.length) {
+    toast({html: 'Please select tools to save.', close: true});
+    return;
+  }
   recordsToSave.each(function () {
     if (!savedTools.contains($(this).val())) {
       savedTools.addTool($(this).val());
