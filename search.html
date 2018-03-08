@@ -100,16 +100,16 @@
             <li>You can also browse all tools in the inventory by navigating to the Browse Tools tab and selecting the decision sector you are interested in.</li>
             <li>Save tools you are interested in and export them to CSV for offline review</li>
             </ul>
-            <span class="related-info"><strong>Other Search Options:</strong></span>
+            <span class="related-info"><strong>Navigation:</strong></span>
             <ul class="menu pipeline">
               <li class="menu-item">  
-                <a href="./wizard.html">Tool Finder</a>
+                <a href="./index.html">Return to Landing Page</a>
               </li>
               <li class="menu-item">  
                 <a href="./browse.html">Browse Tools</a>
               </li>
               <li class="views-row views-row-2 views-row-even views-row-last menu-item">
-                <a href="./index.html">Return to Landing Page</a>
+                <a href="./wizard.html">Tool Finder</a>
               </li>
             </ul>
             <h4 id="disclaimer-title">Disclaimer</h4>
@@ -129,7 +129,6 @@
                 <hr />
                 <input autocomplete="off" class="search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text" placeholder="Enter text here">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
-                <p id="simpleFeedback">No tools were found.</p>
               </div>
               <div aria-hidden="true" aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">
                 <h3>Advanced Search</h3>
@@ -138,7 +137,6 @@
                 <input autocomplete="off" class="search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text" placeholder="Enter text here">
                 <button id="detailed-search-button" onclick="detailedSearch()">Search</button>
                 <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Form</button>
-                <div id="detailed-search-feedback">No results were found.</div>
                 <form>
                   <div aria-labelledby="search-field-label" class="form-item form-type-checkbox" id="search-field" role="group">
                     <h4 id="search-field-label">Choose fields to be searched:</h4>
@@ -305,50 +303,29 @@
         <h2>Feedback Form</h2>
       </div>
       <div class="modal-body">
-        <form onsubmit="toast({html: 'Feedback submission is currently unavailable.', close: true});return false;">
+        <form onsubmit="submitFeedback(event)">
           <br />
           <div class="row">
             <div class="col"><p>Your feedback can help us improve this application. If you have general feedback, a bug to report, an idea or tool suggestion to add to our inventory please let us know!</p></div>
           </div>
           <div class="row cols-3">
             <div class="col">
-              <input checked id="general-feedback" name="feedback-type" type="Radio"/>
+              <input checked id="general-feedback" name="feedback-type" type="Radio" value="General Feedback"/>
               <label for="general-feedback">General feedback</label>
             </div>
             <div class="col">
-              <input id="report-a-bug" name="feedback-type" type="Radio"/>
+              <input id="report-a-bug" name="feedback-type" type="Radio" value="Bug Report"/>
               <label for="report-a-bug">Report a bug</label>
             </div>
             <div class="col">  
-              <input id="suggest-an-idea" name="feedback-type" type="Radio"/>
+              <input id="suggest-an-idea" name="feedback-type" type="Radio" value="Suggest an Idea"/>
               <label for="suggest-an-idea">Suggest an idea or tool</label>
             </div>
           </div>
           <br />
           <div class="row">
-            <div class="col size-1of1">
-              <label for="feedback-text">Feedback</label>
-              <textarea id="feedback-text" placeholder="Enter feedback" rows="5"></textarea>
-            </div>
-          </div>
-          <div class="row cols-3">
             <div class="col">
-              <label for="first-name">First Name (Optional)</label>
-              <input class="full-width" id="first-name" placeholder="Enter first name" type="text" />
-            </div>
-            <div class="col">
-              <label for="last-name">Last Name (Optional)</label>
-              <input class="full-width" id="last-name" placeholder="Enter last name" type="text"/>
-            </div>
-            <div class="col">
-              <label for="email">Email Address (Optional)</label>
-              <input class="full-width" id="email" placeholder="Enter email address" type="email"/>
-            </div>
-          </div>
-          <br />
-          <div class="row">
-            <div class="col">
-              <input id="submit-feedback" type="submit" value="Submit Feedback"/>
+              <input id="submit-feedback" type="submit" value="Send us an Email"/>
             </div>
           </div>
         </form>
@@ -435,6 +412,7 @@
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/jquery-ui.min.js"></script>
   <script src="js/base.js"></script>
+  <script src="js/feedback-modal.js"></script>
   <script src="js/search.js"></script>
 <script>
 var resultSet = new ToolSet(); // Create result and saved tool sets
@@ -560,22 +538,19 @@ var detailedSearch = function () {
   $('#results-list *').remove(); // clear result div
   resultSet.reset(); // clear result set
   resultTable.getToolSet().reset(); //reset display toolset
-  var $feedbackDiv = $('#detailed-search-feedback');
   var queryTypes = $("#search-field input:checkbox:checked").map(function () {return $(this).val()}).get();
   if (!queryTypes.length) { // ensure queryType is selected
-    $feedbackDiv.html('You must select at least one Search Field.').css('display', 'block');
+    toast({html: 'You must select at least one Search Field.', close: true});
     return;
   }
   var queryString = $('#detailed-search-text').val().trim().toLowerCase();
   var decisionSectors = $('#decision-select :checkbox:checked').map(function () {return $(this).val();});
-  $feedbackDiv.css('display', 'none');
   var os_select = checkBoxValue(document.getElementsByName('radioenvironment'));
   var cost_select = checkBoxValue(document.getElementsByName('checkbase'));
   var extent_select = $('#extent-select :checkbox:checked').map(function () {return $(this).val()});
   var results = [];
   var requests = [];
   var data = {};
-  $feedbackDiv.css('display', 'none');
   if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
     decisionSectors = [
       "Land Use",
@@ -619,10 +594,9 @@ var detailedSearch = function () {
       }
       var numberOfResults = parseResultsArray(results);
       if (0 === numberOfResults) {
-        $feedbackDiv.html('No results were found.').css('display', 'block');
+        toast({html: 'No results were found.', close: true});
         $('#results-tab').parent().attr('aria-hidden', true);
       } else {
-        $feedbackDiv.html('').css('display', 'none');
         $('#results-tab').parent().attr('aria-hidden', false);
         $("#results-tab").click();
         var url = window.location.href;
@@ -631,10 +605,10 @@ var detailedSearch = function () {
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
-      $feedbackDiv.html('Server error. Please try again another time.').css('display', 'block');
+      toast({html: 'Server error. Please try again another time.', close: true});
     });
   } else {
-    $feedbackDiv.html('Please enter a search term.').css('display', 'block');
+    toast({html: 'Please enter a search term.', close: true});
   }
 };
 
@@ -654,8 +628,6 @@ var simpleSearch = function () {
   resultTable.getToolSet().reset(); //reset display toolset
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"];
-  var $feedbackDiv = $('#simpleFeedback');
-  $feedbackDiv.css('display', 'none');
   var results = [];
   var requests = [];
   var data = {};
@@ -694,10 +666,9 @@ var simpleSearch = function () {
       }
       var numberOfResults = parseResultsArray(results);
       if (0 === numberOfResults) {
-        $feedbackDiv.html('No results were found.').css('display', 'block');
+        toast({html: 'No results were found.', close: true});
         $('#results-tab').parent().attr('aria-hidden',true);
       } else {
-        $feedbackDiv.html('').css('display', 'none');
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
         $('#loader').removeAttr('aria-hidden').show();
@@ -705,10 +676,10 @@ var simpleSearch = function () {
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
-      $feedbackDiv.html('Server error. Please try again another time.').css('display', 'block');
+      toast({html: 'Server error. Please try again another time.', close: true});
     });
   } else {
-    $feedbackDiv.html('Please enter a search term.').css('display', 'block');
+    toast({html: 'Please enter a search term.', close: true});
   }
 };
 </script>

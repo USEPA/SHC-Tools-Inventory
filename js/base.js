@@ -550,12 +550,15 @@ function addRow(parsedResult, tableId, rowData) {
  * @param {string} divID - The ID of the tool to remove.
  */
 function removeSelected(divID) {
-  $('#' + divID + ' input').each(function () {
-    if ($(this).prop("checked")) {
-      savedTools.removeTool($(this).val());
-      savedTable.getToolSet().removeTool($(this).val()); //remove tool from saved tool display tool set
-      $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
-    }
+  var $recordsToRemove = $('#' + divID + ' input:checked');
+  if (!$recordsToRemove.length) {
+    toast({html: 'Please select tools to remove.', close: true});
+    return;
+  }
+  $recordsToRemove.each(function () {
+    savedTools.removeTool($(this).val());
+    savedTable.getToolSet().removeTool($(this).val()); //remove tool from saved tool display tool set
+    $('#' + divID + ' > #' + divID + '-' + $(this).val()).remove();
   });
   localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
   if ($.fn.DataTable.isDataTable('#saved-table')) {
@@ -609,7 +612,7 @@ function showDetails(id, that) {
       "<span class='bold'>URL</span>: " + linkifyString(parsedData['URL']) + "<br>" +
       "<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>" +   
       "<span class='bold'>Resource Type</span>: " + parsedData['Resource Type'] + "<br>" + 
-      "<span class='bold'>Relationships</span>: " + parsedData['Relationships'] + "<br>" +
+      // "<span class='bold'>Relationships</span>: " + parsedData['Relationships'] + "<br>" + // Not properly implemented in READ
     "</div>" +
 
     '<div class="light-gray">' +
@@ -720,6 +723,8 @@ function exportCSV(resultsDiv) {
       link.click();
       document.body.removeChild(link);
     }
+  } else {
+    toast({html: 'You must select tools to export.', close: true});
   }
 }
 
@@ -748,6 +753,10 @@ function saveRecord() {
  */
 function saveSelectedRecords(resultsDiv) {
   var recordsToSave = $('#' + resultsDiv + ' input:checked');
+  if (!recordsToSave.length) {
+    toast({html: 'Please select tools to save.', close: true});
+    return;
+  }
   recordsToSave.each(function () {
     if (!savedTools.contains($(this).val())) {
       savedTools.addTool($(this).val());
@@ -862,7 +871,7 @@ var parseResult = function (result) {
   parsedResult['Acronym'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'Acronym']);
   parsedResult['Description'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'LongDescription']);
   parsedResult['Decision Sector'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelScopeDetail', 'ModelScopeDecisionSector']);
-  parsedResult['URL'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'InternetDetail', 'URLText']);
+  parsedResult['URL'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'URLDetail', 'URLText']);
   parsedResult['Life Cycle Phase'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'LifeCycleDetail', 'CurrentLifeCyclePhase']);
   parsedResult['BaseCost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsBaseSoftwareCost']));
   parsedResult['AnnualCost'] = parseSoftwareCost(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelDetailsDetail', 'DetailsRecurringAnnualCost']));
@@ -890,7 +899,7 @@ var parseResult = function (result) {
   parsedResult['Ownership Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'OwnershipTypeName']);
   parsedResult['Resource Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'ResourceTypeName']);
   parsedResult['Alternate Names'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'AlternateNamesDetail', 'AlternateName']);
-  parsedResult['Relationships'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'RelationshipDetail', 'InfoResourceRelationshipDetail', 'RelatedInfoResourceName']);
+  // parsedResult['Relationships'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'RelationshipDetail', 'InfoResourceRelationshipDetail', 'RelatedInfoResourceName']); // Not properly implemented in READ
 
   /**
    * return decoded value(s) accumulated into a string
@@ -1019,7 +1028,7 @@ var parseResult = function (result) {
     if (softwareCostMap.hasOwnProperty(softwareCost)) {
       return softwareCostMap[softwareCost];
     } else {
-      return "No Data";
+      return softwareCost;
     }
   }
 
@@ -1124,15 +1133,14 @@ var readSafe = function (object, propertyArray) {
           try { // try accumulating a string from all elements
             accumulatedString = '';
             for (var i = 0; i < value.length; i++) {
-              var iValue = value[i][Object.keys(value[i])[0]];
-              if (i > 0 && value.length > 2) {
-                accumulatedString += ', ';
+              var iValue;
+              if (typeof(value[i]) === 'string') {
+                iValue = value[i];
+              } else {
+                iValue = value[i][Object.keys(value[i])[0]];
               }
-              if (value.length === 2) {
-                accumulatedString += ' ';
-              }
-              if (i === value.length - 1) {
-                accumulatedString += 'and ';
+              if (i > 0) {
+                accumulatedString += '; ';
               }
               accumulatedString += iValue;
             }
@@ -1154,19 +1162,11 @@ var readSafe = function (object, propertyArray) {
     }
   } else { // first element propertyArray isn't a property of this object
     var accumulatedString = '';
-    if (object.length && typeof(object).toLowerCase !== 'string') {
+    if (object.length && typeof(object) !== 'string') {
       for (i in object) {
         accumulatedString += object[i][propertyArray[0]];
         if (object.length - i > 1) {
-          if (object.length > 2) {
-            accumulatedString += ', ';
-          }
-          if (object.length === 2) {
-            accumulatedString += ' ';
-          }
-          if (object.length - i === 2) {
-            accumulatedString += 'and ';
-          }
+          accumulatedString += '; ';
         }
       }
     return accumulatedString;
