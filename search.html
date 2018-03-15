@@ -215,10 +215,14 @@
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
                 <h3>Results</h3>
-                <p>Browse your results. Select a tool by checking the checkbox to the left of the tool name. Save tools and they will remain in the Saved Tools tab if you decide to run another search.</p><hr />
+                <p>Browse your results. Select a tool by checking the checkbox to the left of the tool name. Save tools and they will remain in the Saved Tools tab if you decide to run another search.</p>
+                <hr />
                 <span>Choose a display:</span>
                 <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: recommended for those on smaller screens.</label>
                 <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: allows filtering and column sorting.</label>
+                <br />
+                <hr />
+                <p id="result-info"></p>
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAllToolsButton('results');">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('results');">Deselect All Tools</button>
@@ -226,7 +230,6 @@
                     <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                     <button class="button-white" onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
                   </div>
-                  <hr />
                   <img alt="Loading GIF image" aria-hidden="true" id="loader" src="img/loader.gif">
                   <div id="results-list" class="list"></div>
                 </div>
@@ -260,6 +263,8 @@
                 <span>Choose a display:</span>
                 <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text: recommended for those on smaller screens.</label>
                 <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table: allows filtering and column sorting.</label>
+                <br />
+                <hr />
                 <div id="saved-list-div">
                   <button class="button-grey" onclick="selectAllToolsButton('saved');">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('saved');">Deselect All Tools</button>
@@ -267,7 +272,6 @@
                     <button class="button-white" onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
                     <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
                   </div>
-                  <hr />
                   <div id="saved-list" class="list"></div>
                 </div>
                 <div aria-hidden="true" id="saved-table-div">
@@ -411,6 +415,7 @@
   <script src="js/jquery-ui.min.js"></script>
   <script src="js/base.js"></script>
   <script src="js/feedback-modal.js"></script>
+  <script src="js/ParsedDPLData.js"></script>
   <script src="js/search.js"></script>
 <script>
 var resultSet = new ToolSet(); // Create result and saved tool sets
@@ -556,6 +561,10 @@ var detailedSearch = function () {
     ];
   }
   if (queryString) { // ensure search string is not empty
+    // Search DPL concepts
+    var concepts = findConcepts([queryString]);
+    searchParsedConcepts(concepts);
+    // Search READ data
     for (var i = 0; i < queryTypes.length; i++) {
       if (queryTypes[i] === 'Acronym') {
         data[queryTypes[i]] = queryString.substr(0, 15);
@@ -649,6 +658,10 @@ var simpleSearch = function () {
     "Transportation"
   ];
   if (queryString) { // ensure search-string is not empty
+    // Search DPL concepts
+    var concepts = findConcepts([queryString]);
+    searchParsedConcepts(concepts);
+    // Search READ Data
     for (var i = 0; i < queryTypes.length; i++) {
       if (queryTypes[i] === 'Acronym') {
         data[queryTypes[i]] = queryString.substr(0, 15);
@@ -685,6 +698,7 @@ var simpleSearch = function () {
         $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
+        $('#result-info').html(numberOfResults + " result(s) found for search term \"" + queryString + "\"");
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
       toast({html: 'Server error. Please try again another time.', close: true});

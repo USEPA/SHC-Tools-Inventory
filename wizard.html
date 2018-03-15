@@ -226,8 +226,10 @@
                 </div>
                 <hr />
                 <span>Choose a display:</span>
-                  <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: recommended for those on smaller screens.</label>
-                  <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: allows filtering and column sorting.</label>
+                <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: recommended for those on smaller screens.</label>
+                <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: allows filtering and column sorting.</label>
+                <br />
+                <hr />
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAllToolsButton('results')">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('results')">Deselect All Tools</button>
@@ -720,8 +722,8 @@ function getConceptsFromObjectives(objectives) {
   var concepts = [];
   for (var i = 0; i < objectives.length; i++) { // find the concepts associated with these objectives
     for (var j = 0; j < conceptsByObjective[objectives[i]].length; j++) {
-      if (concepts.indexOf(conceptsByObjective[objectives[i]][j]) === -1) {
-        concepts.push(conceptsByObjective[objectives[i]][j]);
+      if (concepts.indexOf(conceptsByObjective[objectives[i]][j].toLowerCase()) === -1) {
+        concepts.push(conceptsByObjective[objectives[i]][j].toLowerCase());
       }
     }
   }
@@ -882,7 +884,7 @@ var catchObjectiveSelection = function (event) {
  */
 var objectiveSelect = function () {
   var selectedElements = scrapeDictionary($("input[name='objective-checkbox']:checked"), conceptsByObjective);
-  var checked = selectedElements;
+  var checked = selectedElements.map(function(element){return element.toLowerCase()});
   calculateNumberOfTools(checked, 'objective');
   $('#concept').html('');
   updateInterface(selectedElements, $('#concept'));
@@ -964,9 +966,9 @@ function addCheckboxes(list, container, onChange, count) {
     var numberOfToolsSpan = '';
     var numberOfTools = 0;
     if (containerID === 'concept') {
-      var length = readIDsByConcept[concept].length;
+      var length = readIDsByConcept[concept.toLowerCase()].length;
       for (var j = 0; j < length; j++) {
-        if (!resultSet.contains(readIDsByConcept[concept][j])) {
+        if (!resultSet.contains(readIDsByConcept[concept.toLowerCase()][j])) {
           numberOfTools++;
         }
       }
@@ -1034,15 +1036,7 @@ var conceptSearch = function () {
     $('#concept-search-button').text('Show Results');
     return;
   } else {
-    for (var i = 0; i < concepts.length; i++) {
-      if (readIDsByConcept[concepts[i]]) {
-        for (var j = 0; j < readIDsByConcept[concepts[i]].length; j++) {
-          if (!savedTools.contains(readIDsByConcept[concepts[i]][j])) {
-            resultSet.addTool(readIDsByConcept[concepts[i]][j]);
-          }
-        }
-      }
-    }
+    searchParsedConcepts(concepts);
     localStorageSetItem('savedTools', { "toolSet" : savedTools.toolSet, "length" : savedTools.length });
   }
   var numberOfTools = resultSet.getLength();
@@ -1067,7 +1061,7 @@ var conceptSearch = function () {
 function updateConcepts() {
   $('#concept .tool-count').each(function () { // for each tool label
     var $conceptCheckbox = $('#' + $(this).parent().attr('for')); // get associated checkbox
-    var concept = $conceptCheckbox.val(); // get associated concept
+    var concept = $conceptCheckbox.val().toLowerCase(); // get associated concept
     var length = readIDsByConcept[concept].length; // number of tools related to this concept
     var numberOfTools = 0; 
     if (!$('#' + $(this).parent().attr('for')).prop('checked')) { // if this is not checked
@@ -1148,7 +1142,7 @@ var getConcepts = function (input) {
   $(input).each(function () {
     concept = $(this).val();
     if (concept.length > 1) {
-      concepts.push(concept);
+      concepts.push(concept.toLowerCase());
     }
   });
   return concepts;

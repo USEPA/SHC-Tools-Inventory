@@ -383,7 +383,6 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
 
   var sorted = sort(toolSet.getToolSet());
 
-
   for (var i = 0; i < sorted.length; i++) {
   	if (!this.toolSet.contains(sorted[i])) {
   		this.toolSet.addTool(sorted[i]);
@@ -1756,3 +1755,38 @@ $(window).bind('storage', function (e) {
     toolCache.updateCache();
   }
 });
+
+/**
+ * Adds the tools associated with the concepts to the resultSet
+ * @function
+ * @param {array} concepts - Array containing the concepts to return tools for.
+ */
+function searchParsedConcepts(concepts) {
+  for (var i = 0; i < concepts.length; i++) {
+    if (readIDsByConcept[concepts[i]]) {
+      for (var j = 0; j < readIDsByConcept[concepts[i]].length; j++) {
+        if (!savedTools.contains(readIDsByConcept[concepts[i]][j])) {
+          resultSet.addTool(readIDsByConcept[concepts[i]][j]);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Finds concepts which match the search term
+ * @param {string} searchTerm - The search term
+ * @return {array} results - An array containing the DPL concepts which contain the search term.
+ */
+function findConcepts(searchTerms) {
+	var results = [];
+	var concepts = Object.keys(readIDsByConcept);
+    for (var i = 0; i < searchTerms.length; i++) {
+      for (var j = 0; j < concepts.length; j++) {
+        if (concepts[j].indexOf(searchTerms[i]) > -1) {
+          results.push(concepts[j]);
+        }
+      }
+    }
+	return results;
+}
