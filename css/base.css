@@ -341,3 +341,11 @@ table {
   padding: 1em 1em 1em 1em;
   margin-bottom: .4em;
 }
+#export-radio {
+  display: inline;
+  margin:5px 5px 25.5px 5px;
+}
+#export-radio > label {
+  display: inline;
+  margin:5px 5px 25.5px 5px;
+}
