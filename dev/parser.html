@@ -98,7 +98,9 @@ function formatData(data, x, y){
     if(!xByY.hasOwnProperty(data[i][y])) {
       xByY[data[i][y]] = [];  
     }
-    xByY[data[i][y]].push(data[i][x]);    
+    if(xByY[data[i][y]].indexOf(data[i][x]) < 0) {
+      xByY[data[i][y]].push(data[i][x]);
+    }
   }
   return xByY;
 }
