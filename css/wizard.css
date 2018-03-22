@@ -69,6 +69,7 @@ label{
   background: transparent;
   border: none;
   width: auto;
+  margin: 0;
 }
 .icon-img {
   width: 2em;
@@ -204,4 +205,19 @@ label{
   margin-bottom: 0.5em;
   font-weight: bold;
   border-radius: 0.5em;
+}
+.next {
+  float: right;
+}
+.pagetop {
+  clear: both;
+}
+.bottom-bar {
+  display: block;
+  margin-top: 1.5em;
+}
+@media screen and (max-width: 480px) {
+  .bottom-bar {
+    display: none;
+  }
 }

@@ -283,6 +283,9 @@ tr:hover td:not(:first-child) {
 .red {
   color: #e31c3d;
 }
+hr {
+  clear: both;
+}
 .tabs,
 .tabs > li {
   margin-bottom: 0;

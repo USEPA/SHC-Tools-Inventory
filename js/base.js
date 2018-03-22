@@ -121,6 +121,14 @@ var toolCache = (function () {
             terminationCheck(result);
           }
         }
+        
+        var showUnsupportedTools = $(this).is(":checked");
+        if (showUnsupportedTools) {
+          $('#number-of-results').html(resultSet.getLength());
+        } else {
+          $('#number-of-results').html(resultSet.getLength() - terminatedTools.getLength());
+        }
+        
         localStorageSetItem('toolCache', cache);
         callback(toolSet);
       }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -380,7 +388,6 @@ ToolDisplay.prototype.displayTool = function (data) {
  * @param {object} toolSet - The ToolSet to be displayed.
  */
 ToolDisplay.prototype.displayTools = function (toolSet) {
-  console.log("displayTools");
   var html = '';
   var rows = [];
 
@@ -392,16 +399,13 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
 
   var sorted = sort(toolSet.getToolSet());
 
-
   for (var i = 0; i < sorted.length; i++) {
   	if (!this.toolSet.contains(sorted[i])) {
   		this.toolSet.addTool(sorted[i]);
 
       var toolData = toolCache.getParsedData(sorted[i]);
 
-      if (toolData["Life Cycle Phase"] === "Termination" && !$('.toggle-unsupported').prop('checked')) {
-        console.log("Don't show.")
-      } else {
+      if (!(toolData["Life Cycle Phase"] === "Termination" && !$('.toggle-unsupported').prop('checked'))) {
         html += createDiv(toolData, this.getListId());
         rows.push(createRow(toolData));
       }
@@ -416,6 +420,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
     $("#" + this.getTableId()).DataTable().columns.adjust(); // adjust table cols to the width of the container
   }
+  $('.toggle-unsupported').prop('disabled', false);
 };
 
 /**
@@ -1812,8 +1817,18 @@ $(window).bind('storage', function (e) {
 });
 
 $('.toggle-unsupported').on("change", function () {
+  var showUnsupportedTools = $(this).is(":checked");
+  $('.toggle-unsupported').prop('checked', showUnsupportedTools);
 
-  $('.toggle-unsupported').prop('checked', $(this).is(":checked"));
+  if (resultTable.getToolSet().getLength() != resultSet.getLength()) {
+    return;
+  }
+
+  if (showUnsupportedTools) {
+    $('#number-of-results').html(resultSet.getLength());
+  } else {
+    $('#number-of-results').html(resultSet.getLength() - terminatedTools.getLength());
+  }
 
   var type = $(this).attr('data-table-type');
 
@@ -1821,12 +1836,11 @@ $('.toggle-unsupported').on("change", function () {
 
   if ($.fn.DataTable.isDataTable('#' + type + '-table')) {
     $('#' + type + '-table').DataTable().clear().draw(); // clear result table 
+    // Test
+    resultTable.getToolSet().reset(); //reset display toolset
+    resultTable.displayTools(resultSet);
+    // recheck boxes that were checked....
   }
-  
-  // Test
-  resultTable.getToolSet().reset(); //reset display toolset
-  resultTable.displayTools(resultSet);
-  // recheck boxes that were checked....
 });
 
 /**
@@ -1845,3 +1859,37 @@ var parseResultsArray = function (results) {
 };
 
 var terminatedTools = new ToolSet();
+/**
+ * Adds the tools associated with the concepts to the resultSet
+ * @function
+ * @param {array} concepts - Array containing the concepts to return tools for.
+ */
+function searchParsedConcepts(concepts) {
+  for (var i = 0; i < concepts.length; i++) {
+    if (readIDsByConcept[concepts[i]]) {
+      for (var j = 0; j < readIDsByConcept[concepts[i]].length; j++) {
+        if (!savedTools.contains(readIDsByConcept[concepts[i]][j])) {
+          resultSet.addTool(readIDsByConcept[concepts[i]][j]);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Finds concepts which match the search term
+ * @param {string} searchTerm - The search term
+ * @return {array} results - An array containing the DPL concepts which contain the search term.
+ */
+function findConcepts(searchTerms) {
+	var results = [];
+	var concepts = Object.keys(readIDsByConcept);
+    for (var i = 0; i < searchTerms.length; i++) {
+      for (var j = 0; j < concepts.length; j++) {
+        if (concepts[j].indexOf(searchTerms[i]) > -1) {
+          results.push(concepts[j]);
+        }
+      }
+    }
+	return results;
+}
