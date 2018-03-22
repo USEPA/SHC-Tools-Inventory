@@ -1819,27 +1819,53 @@ $(window).bind('storage', function (e) {
 $('.toggle-unsupported').on("change", function () {
   var showUnsupportedTools = $(this).is(":checked");
   $('.toggle-unsupported').prop('checked', showUnsupportedTools);
-
   if (resultTable.getToolSet().getLength() != resultSet.getLength()) {
     return;
   }
-
   if (showUnsupportedTools) {
     $('#number-of-results').html(resultSet.getLength());
   } else {
     $('#number-of-results').html(resultSet.getLength() - terminatedTools.getLength());
   }
-
   var type = $(this).attr('data-table-type');
-
+  var checkedTools = $('#' + type + '-list input:checked');
   $('#' + type + '-list *').remove(); // clear result div
-
   if ($.fn.DataTable.isDataTable('#' + type + '-table')) {
     $('#' + type + '-table').DataTable().clear().draw(); // clear result table 
-    // Test
     resultTable.getToolSet().reset(); //reset display toolset
     resultTable.displayTools(resultSet);
     // recheck boxes that were checked....
+    checkedTools.each(function() {
+      $('#' + type + '-list-cb-' + $(this).val()).prop('checked', true);
+
+
+      var id = $(this).val();
+      var tableId = $(this).attr('id').slice(0, -14);
+      var rows = $('#' + tableId + '-table').DataTable().rows();
+      var rowNodes = rows.nodes();
+      if ($(this).prop('checked')) { // add selected class
+        $("#" + tableId + "-table").DataTable().rows(function (idx, data, node) {
+          return data[1] == id ? true: false;
+        }).nodes().to$().addClass("selected");
+        $('#' + id).prop('checked', true);
+        $('input[type="checkbox"]', rowNodes).each(function () {
+          if ($(this).val() === id) {
+            $(this).prop('checked', true);
+          }
+        });
+      } else {
+        $("#" + tableId + "-table").DataTable().rows(function (idx, data, node) {
+          return data[1] == id ? true: false;
+        }).nodes().to$().removeClass("selected");
+        $('#' + id).prop('checked', false);
+        $('input[type="checkbox"]', rowNodes).each(function () {
+          if ($(this).val() === id) {
+            $(this).prop('checked', false);
+          }
+        });
+      }
+
+    });
   }
 });
 

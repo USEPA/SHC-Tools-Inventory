@@ -1141,7 +1141,7 @@ var displayResults = function () {
       $('.toggle-unsupported').prop('disabled', true);
       createDataTable('results');
       toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
-      $('#result-info').html('<span id="number-of-results">' + "0" + "</span> result(s) found for selected concepts.");
+      $('#result-info').html('<span id="number-of-results">' + resultSet.getLength() + "</span> result(s) found for selected concepts.");
     }
   } else {
     $('#results-tab').parent().attr('aria-hidden', 'true'); // if no saved tools or results then hide the results tab and tell them to pick a concept
