@@ -129,6 +129,7 @@
                 <hr />
                 <input autocomplete="off" class="search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text" placeholder="Enter text here">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
+                <div><input class="toggle-unsupported" id="toggle-unsupported-1" type="checkbox" data-table-type="results"/><label for="toggle-unsupported-1">Include unsupported tools</label></div>
               </div>
               <div aria-hidden="true" aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">
                 <h3>Advanced Search</h3>
@@ -137,6 +138,8 @@
                 <input autocomplete="off" class="search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text" placeholder="Enter text here">
                 <button id="detailed-search-button" onclick="detailedSearch()">Search</button>
                 <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Form</button>
+                <div><input class="toggle-unsupported" id="toggle-unsupported-2" type="checkbox" data-table-type="results"/><label for="toggle-unsupported-2">Include unsupported tools</label></div>
+                <br />
                 <form>
                   <div aria-labelledby="search-field-label" class="form-item form-type-checkbox" id="search-field" role="group">
                     <h4 id="search-field-label">Choose fields to be searched:</h4>
@@ -220,7 +223,7 @@
                 <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: recommended for those on smaller screens.</label>
                 <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: allows filtering and column sorting.</label>
                 <br />
-                <div><input id="toggle-unsupported" type="checkbox" data-table-type="results"/><label for="toggle-unsupported">Show unsupported tools</label></div>
+                <div><input class="toggle-unsupported" id="toggle-unsupported-3" type="checkbox" data-table-type="results"/><label for="toggle-unsupported-3">Show unsupported tools</label></div>
                 <hr />
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAllToolsButton('results');">Select All Tools</button>

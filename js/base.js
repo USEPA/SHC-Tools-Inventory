@@ -399,7 +399,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
 
       var toolData = toolCache.getParsedData(sorted[i]);
 
-      if (toolData["Life Cycle Phase"] === "Termination" && !$('#toggle-unsupported').prop('checked')) {
+      if (toolData["Life Cycle Phase"] === "Termination" && !$('.toggle-unsupported').prop('checked')) {
         console.log("Don't show.")
       } else {
         html += createDiv(toolData, this.getListId());
@@ -1811,7 +1811,9 @@ $(window).bind('storage', function (e) {
   }
 });
 
-$('#toggle-unsupported').on("change", function () {
+$('.toggle-unsupported').on("change", function () {
+
+  $('.toggle-unsupported').prop('checked', $(this).is(":checked"));
 
   var type = $(this).attr('data-table-type');
 
