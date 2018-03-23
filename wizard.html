@@ -1042,6 +1042,7 @@ var keywordSearch = function (div, input) {
 var conceptSearch = function () {
   $('#results-notification').html('').removeClass().attr('aria-hidden', 'true');
   resultSet.reset(); // remove from resultSet
+  terminatedTools.reset();
   if ($.fn.DataTable.isDataTable('#results-table')) {
     $('#results-table').DataTable().rows('tr:not(.selected)').remove().draw(); // clear table of values not marked selected
   }
