@@ -87,6 +87,52 @@ autocompleteUpdater = {// user may pass an iterable list of fieldNames to be upd
   },
 
   /**
+   * UpdateBasedOnREADIds(queryData) fill objects with keys of all tools' ids in readIDsByConcept
+   */
+  updateBasedOnREADIds: function() {
+    var readIDs = [];
+    for (var concept in readIDsByConcept) {
+      for (var i = 0; i < readIDsByConcept[concept].length; i++) {
+        if (readIDs.indexOf(readIDsByConcept[concept][i]) === -1) {
+          readIDs.push(readIDsByConcept[concept][i]);
+        }
+      }
+    }
+
+      for (var i = 0; i < readIDs.length; i++) {
+        var toolId = readIDs[i];
+        autocompleteUpdater.tools[toolId] = true;
+        $.get(resourceDetailURL, {'ResourceId': toolId}, function(detailData){
+          autocompleteUpdater.descriptionText += ' ' + readSafe(detailData, autocompleteUpdater.fieldMap['description']);
+          autocompleteUpdater.acronym.push(readSafe(detailData, autocompleteUpdater.fieldMap['acronym']));
+          autocompleteUpdater.title.push(readSafe(detailData, autocompleteUpdater.fieldMap['title']));
+          if (readSafe(detailData, autocompleteUpdater.fieldMap['modelInput']) != 'no data on file') {
+            autocompleteUpdater.modelInputText += '; ' + readSafe(detailData, autocompleteUpdater.fieldMap['modelInput']);
+          }
+          if (readSafe(detailData, autocompleteUpdater.fieldMap['modelOutput']) != 'no data on file') {
+            autocompleteUpdater.modelOutputText += '; ' + readSafe(detailData, autocompleteUpdater.fieldMap['modelOutput']);
+          }
+          if (readSafe(detailData, autocompleteUpdater.fieldMap['modelEvaluation']) != 'no data on file') {
+            autocompleteUpdater.modelEvaluationText += '; ' + readSafe(detailData, autocompleteUpdater.fieldMap['modelEvaluation']);
+          }
+          if (readSafe(detailData, autocompleteUpdater.fieldMap['keyword']) != 'no data on file') {
+            autocompleteUpdater.keywordText += '; ' + readSafe(detailData, autocompleteUpdater.fieldMap['keyword']);
+          }
+        });
+      }
+
+    setTimeout(
+      function(){
+        this.description = this.parsem(this.descriptionText);
+        this.modelInput = this.parsem(this.modelInputText, this.relimitingRegularExpression);
+        this.modelOutput = this.parsem(this.modelOutputText, this.relimitingRegularExpression);
+        this.modelEvaluation = this.parsem(this.modelEvaluationText, this.relimitingRegularExpression);
+        this.keyword = this.parsem(this.keywordText, this.relimitingRegularExpression);
+      }.bind(autocompleteUpdater), 10000
+    );
+  },
+
+  /**
    * take an iterable of iterables
    * return a duplicate-free array of lowercased elements from each iterable
    */
