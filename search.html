@@ -400,7 +400,7 @@
                 <li><a class="menu-link social-flickr" href="https://www.flickr.com/photos/usepagov">Flickr</a></li>
                 <li><a class="menu-link social-instagram" href="https://instagram.com/epagov">Instagram</a></li>
               </ul>
-              <p class="last-updated">This page was last updated on 2017-05-18.</p>
+              <p class="last-updated">This page was last updated on 2018-03-23.</p>
             </div>
           </div>
         </div>
@@ -617,7 +617,7 @@ var detailedSearch = function () {
         $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
-        $('#result-info').html('<span id="number-of-results">' + "0" + "</span> result(s) found for search term \"" + queryString + "\"");
+        $('#result-info').html('<span id="number-of-results">' + numberOfResults + "</span> result(s) found for search term \"" + queryString + "\"");
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
       toast({html: 'Server error. Please try again another time.', close: true});
@@ -696,7 +696,7 @@ var simpleSearch = function () {
         $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
-        $('#result-info').html('<span id="number-of-results">' + "0" + "</span> result(s) found for search term \"" + queryString + "\"");
+        $('#result-info').html('<span id="number-of-results">' + numberOfResults + "</span> result(s) found for search term \"" + queryString + "\"");
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
       toast({html: 'Server error. Please try again another time.', close: true});

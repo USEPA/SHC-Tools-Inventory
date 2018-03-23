@@ -124,9 +124,9 @@ var toolCache = (function () {
         
         var showUnsupportedTools = $(this).is(":checked");
         if (showUnsupportedTools) {
-          $('#number-of-results').html(resultSet.getLength());
+          $('#number-of-results').html(toolSet.getLength());
         } else {
-          $('#number-of-results').html(resultSet.getLength() - terminatedTools.getLength());
+          $('#number-of-results').html(toolSet.getLength() - terminatedTools.getLength());
         }
         
         localStorageSetItem('toolCache', cache);
