@@ -115,7 +115,7 @@
               <input id="browse-table-radio" type="radio" name="browse-display-type" value="table" checked><label for="browse-table-radio">Table: allows filtering and column sorting.</label>
 
               <br />
-              <div><input id="toggle-unsupported" type="checkbox" data-table-type="browse"/><label for="toggle-unsupported">Show unsupported tools</label></div>
+              <div><input id="toggle-unsupported-1" class="toggle-unsupported" type="checkbox" data-table-type="browse"/><label for="toggle-unsupported-1">Show unsupported tools</label></div>
               <hr />
 
               <div id="browse-feedback"></div>
@@ -324,6 +324,7 @@
   <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/dataTables.buttons.min.js"></script>
   <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/buttons.html5.min.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
+  <script src="js/whitelist.js"></script>
   <script src="js/base.js"></script>
   <script src="js/feedback-modal.js"></script>
 <script>
@@ -388,8 +389,6 @@ $(function () { // jquery's shorthand awaits readiness of document
       $('#' + tableId + '-table').DataTable().row($parent).select();
     }
   });
-
-  $('#toggle-unsupported').prop('checked', true);
 });
 
 /**
@@ -415,39 +414,11 @@ $(function () { // jquery's shorthand awaits readiness of document
  * @function
  */
 function browseTools() {
-  var decisionSectors = [
-    "Land Use",
-    "Waste Management",
-    "Building Infrastructure",
-    "Transportation"
-  ];
-  var $feedbackDiv = $('#browse-feedback');
-  var results = [];
-  var requests = [];
-  var data = {};
-  for (var i = 0; i < decisionSectors.length; i++) {
-    data['DecisionSector'] = decisionSectors[i];
-    requests.push(executeSearch(resourceAdvancedSearchURL, data));
-    data = {};
+  for (var i = 0; i < whitelist.length; i++) {
+    resultSet.addTool(whitelist[i]);
   }
-  /*
-      .apply allows for variable parameters stored in an array
-      .when then waits for the array of promises to be resolved
-      .done then executes when all those promises are resolved
-      arguments allows for the variable number of arguments to be accessed
-    */
-  $.when.apply(null, requests).done(function () {
-    for (var i = 0; i < arguments.length; i++) {
-      results = results.concat(arguments[i][0]);
-    }
-    var numberOfResults = parseResultsArray(results);
-    if (0 !== numberOfResults) {
-      createDataTable('browse');
-      toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
-    }
-  }).fail(function (jqXHR, textStatus, errorThrown) {
-    $feedbackDiv.html('Server error. Please try again another time.').css('display', 'block');
-  });
+  createDataTable('browse');
+  toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
 }
 </script>
 </body>

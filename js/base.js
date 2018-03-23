@@ -1878,7 +1878,7 @@ $('.toggle-unsupported').on("change", function () {
  */
 var parseResultsArray = function (results) {
   for (var i = 0; i < results.length; i++) {
-    if (!resultSet.contains(results[i].ResourceId)) {
+    if ((!resultSet.contains(results[i].ResourceId)) && (whitelist.indexOf(results[i].ResourceId) > -1)) {
       resultSet.addTool(results[i].ResourceId);
     }
   }

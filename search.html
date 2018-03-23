@@ -417,6 +417,7 @@
   <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/buttons.html5.min.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/jquery-ui.min.js"></script>
+  <script src="js/whitelist.js"></script>
   <script src="js/base.js"></script>
   <script src="js/feedback-modal.js"></script>
   <script src="js/ParsedDPLData.js"></script>
@@ -556,14 +557,6 @@ var detailedSearch = function () {
   var results = [];
   var requests = [];
   var data = {};
-  if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
-    decisionSectors = [
-      "Land Use",
-      "Waste Management",
-      "Building Infrastructure",
-      "Transportation"
-    ];
-  }
   if (queryString) { // ensure search string is not empty
     // Search DPL concepts
     var concepts = findConcepts([queryString]);
@@ -579,8 +572,7 @@ var detailedSearch = function () {
       } else {
         data[queryTypes[i]] = queryString;
       }
-      for (var j = 0; j < decisionSectors.length; j++) {
-        data.DecisionSector = decisionSectors[j];
+      if (!decisionSectors[0]) { // if decision sector isnt specified no reason to search them
         var dataList = [data]; // create an initial array of query-data
         dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
         dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
@@ -588,7 +580,19 @@ var detailedSearch = function () {
         for (var iDatum = 0; iDatum < dataList.length; iDatum++) {
           requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
         }
+      } else {
+        for (var j = 0; j < decisionSectors.length; j++) {
+          data.DecisionSector = decisionSectors[j];
+          var dataList = [data]; // create an initial array of query-data
+          dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
+          dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
+          dataList = addMembers(dataList, 'SpatialExtent', extent_select); // create a data object for each selection of SpatialExtent
+          for (var iDatum = 0; iDatum < dataList.length; iDatum++) {
+            requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
+          }
+        }
       }
+      
       data = {};
     }
     /*
@@ -642,12 +646,12 @@ var simpleSearch = function () {
   var results = [];
   var requests = [];
   var data = {};
-  var decisionSectors = [
-    "Land Use",
-    "Waste Management",
-    "Building Infrastructure",
-    "Transportation"
-  ];
+  // var decisionSectors = [
+  //   "Land Use",
+  //   "Waste Management",
+  //   "Building Infrastructure",
+  //   "Transportation"
+  // ];
   if (queryString) { // ensure search-string is not empty
     // Search DPL concepts
     var concepts = findConcepts([queryString]);
@@ -663,10 +667,12 @@ var simpleSearch = function () {
       } else {
         data[queryTypes[i]] = queryString;
       }
-      for (var j = 0; j < decisionSectors.length; j++) {
-        data.DecisionSector = decisionSectors[j];
-        requests.push(executeSearch(resourceAdvancedSearchURL, data));
-      }
+      // for (var j = 0; j < decisionSectors.length; j++) {
+      //   data.DecisionSector = decisionSectors[j];
+      //   requests.push(executeSearch(resourceAdvancedSearchURL, data));
+      // }
+
+      requests.push(executeSearch(resourceAdvancedSearchURL, data));
       data = {};
     }
     /*
