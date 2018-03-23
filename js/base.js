@@ -675,6 +675,7 @@ function showDetails(id, that) {
     $selectedToolTab.removeAttr('aria-hidden');
     $selectedToolTab.attr('aria-selected', true);
     $selectedToolTab[0].click();
+    $(window).scrollTop($selectedToolTab.offset().top)
   } else {
     $tab.append(html);
     $selectedToolTab.parent().attr('aria-hidden', true);
