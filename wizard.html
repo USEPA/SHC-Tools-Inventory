@@ -663,7 +663,7 @@ var populateWithHeader = function (list, $container, onChange) {
             newItemCount++;
           }
         }
-        html += '<input class="' + containerID + '-cb" data-parent="' + containerID + '-' + count + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerID + '-checkbox" ' + newOnChange + ' />' +
+        html += '<input class="' + containerID + '-cb" data-parent="' + containerID + '-' + count + '" data-value="' + concept.replace(/"/g, '\&quot;') + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept.replace(/"/g, '\&quot;') + '" name="' + containerID + '-checkbox" ' + newOnChange + ' />' +
         '<label for="cb-' + containerID + '-' + count + '-' + id + '" class="' + containerID + '-label' + newItem + '">' + concept + newItemSpan + '</label>';
         id++;
       }
@@ -1005,7 +1005,7 @@ function addCheckboxes(list, container, onChange, count) {
         numberOfToolsSpan = ' <span class="tool-count">Add ' + numberOfTools + ' Tools' + '</span>'; 
       }
     }
-    html += '<input class="' + containerID + '-cb" data-parent="' + containerID + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerID + '-checkbox" ' + onChange + ' /><label for="cb-' + containerID + '-' + count + '-' + id + '" class="' + containerID + '-label">' + concept + numberOfToolsSpan + '</label>';
+    html += '<input class="' + containerID + '-cb" data-parent="' + containerID + '" data-value="' + concept.replace(/"/g, '\&quot;') + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept.replace(/"/g, '\&quot;') + '" name="' + containerID + '-checkbox" ' + onChange + ' /><label for="cb-' + containerID + '-' + count + '-' + id + '" class="' + containerID + '-label">' + concept + numberOfToolsSpan + '</label>';
     id++;
   }
   return html;
