@@ -550,10 +550,18 @@ var detailedSearch = function () {
     return;
   }
   var queryString = $('#detailed-search-text').val().trim().toLowerCase();
+  
+  resultSet.filters = {};
   var decisionSectors = $('#decision-select :checkbox:checked').map(function () {return $(this).val();});
   var os_select = checkBoxValue(document.getElementsByName('radioenvironment'));
   var cost_select = checkBoxValue(document.getElementsByName('checkbase'));
   var extent_select = $('#extent-select :checkbox:checked').map(function () {return $(this).val()});
+  
+  resultSet.filters.decisionSectors = decisionSectors;
+  resultSet.filters.os_select = os_select;
+  resultSet.filters.cost_select = cost_select;
+  resultSet.filters.extent_select = extent_select;
+  
   var results = [];
   var requests = [];
   var data = {};
@@ -574,9 +582,9 @@ var detailedSearch = function () {
       }
       if (!decisionSectors[0]) { // if decision sector isnt specified no reason to search them
         var dataList = [data]; // create an initial array of query-data
-        dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
-        dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
-        dataList = addMembers(dataList, 'SpatialExtent', extent_select); // create a data object for each selection of SpatialExtent
+        //dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
+        //dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
+        //dataList = addMembers(dataList, 'SpatialExtent', extent_select); // create a data object for each selection of SpatialExtent
         for (var iDatum = 0; iDatum < dataList.length; iDatum++) {
           requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
         }
@@ -584,9 +592,9 @@ var detailedSearch = function () {
         for (var j = 0; j < decisionSectors.length; j++) {
           data.DecisionSector = decisionSectors[j];
           var dataList = [data]; // create an initial array of query-data
-          dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
-          dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
-          dataList = addMembers(dataList, 'SpatialExtent', extent_select); // create a data object for each selection of SpatialExtent
+          //dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
+          //dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
+          //dataList = addMembers(dataList, 'SpatialExtent', extent_select); // create a data object for each selection of SpatialExtent
           for (var iDatum = 0; iDatum < dataList.length; iDatum++) {
             requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
           }
@@ -617,7 +625,7 @@ var detailedSearch = function () {
         $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
-        $('#result-info').html('<span id="number-of-results">' + numberOfResults + "</span> result(s) found for search term \"" + queryString + "\"");
+        $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
       toast({html: 'Server error. Please try again another time.', close: true});
@@ -697,7 +705,7 @@ var simpleSearch = function () {
         $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
-        $('#result-info').html('<span id="number-of-results">' + numberOfResults + "</span> result(s) found for search term \"" + queryString + "\"");
+        $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
       toast({html: 'Server error. Please try again another time.', close: true});
