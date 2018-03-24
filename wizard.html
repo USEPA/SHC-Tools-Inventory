@@ -43,12 +43,11 @@
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
 </head>
 <!-- NOTE, figure out body classes! -->
-<body class="node-type-page microsite" >
+<body class="node-type-page microsite wide-template" >
   <!-- Google Tag Manager -->
-  <!--DEV: REMOVED FOR DEVELOPMENT; REPLACE FOR PRODUCTION
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script>
-  -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script>
+ 
   <!-- End Google Tag Manager -->
   <div class="skip-links"><a href="#main-content" class="skip-link element-invisible element-focusable">Jump to main content</a></div>
   <header class="masthead clearfix" role="banner">
@@ -247,8 +246,11 @@
                 <span>Choose a display:</span>
                 <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: recommended for those on smaller screens.</label>
                 <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: allows filtering and column sorting.</label>
+
                 <br />
+                <div><input class="toggle-unsupported" id="toggle-unsupported-1" type="checkbox" data-table-type="results"/><label for="toggle-unsupported-1">Show unsupported tools</label></div>
                 <hr />
+                <p id="result-info"></p>
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAllToolsButton('results')">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('results')">Deselect All Tools</button>
@@ -384,8 +386,7 @@
               <li><a class="menu-link social-flickr" href="https://www.flickr.com/photos/usepagov">Flickr</a></li>
               <li><a class="menu-link social-instagram" href="https://instagram.com/epagov">Instagram</a></li>
             </ul>
-            <p class="last-updated">This page was last updated on 2017-05-18</p>
-          </div>
+            <p class="last-updated">This page was last updated on 2018-03-23</p>
         </div>
       </div>
     </div>
@@ -514,6 +515,7 @@ $(function () { // jquery's shorthand awaits readiness of document
     showToast[checkboxGroup] = true;
   }
 
+  $('#toggle-unsupported').prop('checked', true);
 });
 
 /**
@@ -659,7 +661,7 @@ var populateWithHeader = function (list, $container, onChange) {
             newItemCount++;
           }
         }
-        html += '<input class="' + containerID + '-cb" data-parent="' + containerID + '-' + count + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerID + '-checkbox" ' + newOnChange + ' />' +
+        html += '<input class="' + containerID + '-cb" data-parent="' + containerID + '-' + count + '" data-value="' + concept.replace(/"/g, '\&quot;') + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept.replace(/"/g, '\&quot;') + '" name="' + containerID + '-checkbox" ' + newOnChange + ' />' +
         '<label for="cb-' + containerID + '-' + count + '-' + id + '" class="' + containerID + '-label' + newItem + '">' + concept + newItemSpan + '</label>';
         id++;
       }
@@ -1001,7 +1003,7 @@ function addCheckboxes(list, container, onChange, count) {
         numberOfToolsSpan = ' <span class="tool-count">Add ' + numberOfTools + ' Tools' + '</span>'; 
       }
     }
-    html += '<input class="' + containerID + '-cb" data-parent="' + containerID + '" data-value="' + concept + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept + '" name="' + containerID + '-checkbox" ' + onChange + ' /><label for="cb-' + containerID + '-' + count + '-' + id + '" class="' + containerID + '-label">' + concept + numberOfToolsSpan + '</label>';
+    html += '<input class="' + containerID + '-cb" data-parent="' + containerID + '" data-value="' + concept.replace(/"/g, '\&quot;') + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept.replace(/"/g, '\&quot;') + '" name="' + containerID + '-checkbox" ' + onChange + ' /><label for="cb-' + containerID + '-' + count + '-' + id + '" class="' + containerID + '-label">' + concept + numberOfToolsSpan + '</label>';
     id++;
   }
   return html;
@@ -1038,6 +1040,7 @@ var keywordSearch = function (div, input) {
 var conceptSearch = function () {
   $('#results-notification').html('').removeClass().attr('aria-hidden', 'true');
   resultSet.reset(); // remove from resultSet
+  terminatedTools.reset();
   if ($.fn.DataTable.isDataTable('#results-table')) {
     $('#results-table').DataTable().rows('tr:not(.selected)').remove().draw(); // clear table of values not marked selected
   }
@@ -1134,8 +1137,10 @@ var displayResults = function () {
     activateNextTab($('#results-tab'), 'wizard.html#results-tab'); // activate the reults tab
     if (!resultSet.isEqual(resultTable.getToolSet())) { // if the results are new create the table and display results
       $('#loader').removeAttr('aria-hidden').show();
+      $('.toggle-unsupported').prop('disabled', true);
       createDataTable('results');
       toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
+      $('#result-info').html('<span id="number-of-results">' + resultSet.getLength() + "</span> result(s) found for selected concepts.");
     }
   } else {
     $('#results-tab').parent().attr('aria-hidden', 'true'); // if no saved tools or results then hide the results tab and tell them to pick a concept

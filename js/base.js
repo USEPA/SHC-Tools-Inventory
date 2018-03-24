@@ -113,12 +113,14 @@ var toolCache = (function () {
         if (arguments[1] === 'success') {
           var result = parseResult(arguments[0]);
           setData(result['ID'], result);
+          terminationCheck(result);
         } else {
           for (var i = 0; i < arguments.length; i++) {
             var result = parseResult(arguments[i][0]);
             setData(result['ID'], result);
+            terminationCheck(result);
           }
-        }
+        }        
         localStorageSetItem('toolCache', cache);
         callback(toolSet);
       }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -174,6 +176,12 @@ var toolCache = (function () {
   };
 })();
 
+function terminationCheck(result) {
+  if (result["Life Cycle Phase"] === "Termination") {
+    terminatedTools.addTool(result['ID'])
+  }
+}
+
 /**
  * Represents a ToolSet.
  * @constructor
@@ -181,6 +189,7 @@ var toolCache = (function () {
 function ToolSet() {
   this.toolSet = {};
   this.length = 0;
+  this.filters = {};
 
   /**
    * Returns the ToolSet
@@ -381,15 +390,120 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
     });
   }
 
+  var softwareCostMap = { // map integral data-standard to text
+    1:'$0',
+    2:'$1-$499',
+    3:'$500-$1499',
+    4:'$1500-$3999',
+    5:'>$4000'
+  };
+  function parseSoftwareCost(softwareCost) { // requires decoding a data-standard
+    if (softwareCostMap.hasOwnProperty(softwareCost)) {
+      return softwareCostMap[softwareCost];
+    } else {
+      return softwareCost;
+    }
+  }
+
+  function isToolFiltered(result) {
+    if (toolSet.hasFilters()) {
+      //console.log(toolSet.filters);
+      //console.log("=============================");
+
+      var filtered;
+      if (toolSet.filters.hasOwnProperty('decisionSectors') && toolSet.filters.decisionSectors.length > 0) {
+        filtered = true;
+        //console.log('decisionSectors');
+        //console.log(result['Decision Sector']);
+        for (var i = 0; i < toolSet.filters.decisionSectors.length; i++) {
+          var ds = toolSet.filters.decisionSectors[i];
+          if (result['Decision Sector'].toLowerCase().includes(ds.toLowerCase())) {
+            //console.log(result['Decision Sector'] + ' included ' + ds);
+            filtered = false;
+            break;
+          }
+        }
+        if (filtered) {
+          //console.log('not found so filtering');
+          return filtered;
+        }
+      }
+      //console.log("=============================");
+      if (toolSet.filters.hasOwnProperty('os_select') && toolSet.filters.os_select.length > 0) {
+        filtered = true;
+       // console.log('os_select');
+        //console.log(result['Operating Environment']);
+        for (var i = 0; i < toolSet.filters.os_select.length; i++) {
+          var os = toolSet.filters.os_select[i];
+          if (result['Operating Environment'].toLowerCase().includes(os.toLowerCase())) {
+            //console.log(result['Operating Environment'] + ' included ' + os);
+            filtered = false;
+            break;
+          }
+        }
+        if (filtered) {
+          //console.log('not found so filtering');
+          return filtered;
+        }
+      }
+      //console.log("=============================");
+      if (toolSet.filters.hasOwnProperty('cost_select') && toolSet.filters.cost_select.length > 0) {
+        filtered = true;
+       // console.log('cost_select');
+       // console.log(result['BaseCost']);
+        for (var i = 0; i < toolSet.filters.cost_select.length; i++) {
+          var c = toolSet.filters.cost_select[i];
+          if (result['BaseCost'].toLowerCase() === parseSoftwareCost(c).toLowerCase()) {
+            //console.log(result['BaseCost'] + ' equalled ' + parseSoftwareCost(c));
+            filtered = false;
+            break;
+          }
+        }
+        if (filtered) {
+          //console.log('not found so filtering');
+          return filtered;
+        }
+      }
+      //console.log("=============================");
+      if (toolSet.filters.hasOwnProperty('extent_select') && toolSet.filters.extent_select.length > 0) {
+        filtered = true;
+        //console.log('extent_select');
+        //console.log(result['Spatial Extent']);
+        for (var i = 0; i < toolSet.filters.extent_select.length; i++) {
+          var se = toolSet.filters.extent_select[i];
+          if (result['Spatial Extent'].toLowerCase().includes(se.toLowerCase())) {
+            //console.log(result['Spatial Extent'] + ' included ' + se);
+            filtered = false;
+            break;
+          }
+        }
+        if (filtered) {
+          //console.log('not found so filtering');
+          return filtered;
+        }
+      }
+    } else {
+      return false;
+    }
+    return false;
+  }
+
   var sorted = sort(toolSet.getToolSet());
 
   for (var i = 0; i < sorted.length; i++) {
   	if (!this.toolSet.contains(sorted[i])) {
-  		this.toolSet.addTool(sorted[i]);
-  		html += createDiv(toolCache.getParsedData(sorted[i]), this.getListId());
-    	rows.push(createRow(toolCache.getParsedData(sorted[i])));
+      var toolData = toolCache.getParsedData(sorted[i]);
+      if (!isToolFiltered(toolData)) {
+        if (!(toolData["Life Cycle Phase"] === "Termination" && !$('.toggle-unsupported').prop('checked'))) {
+          html += createDiv(toolData, this.getListId());
+          rows.push(createRow(toolData));
+          this.toolSet.addTool(sorted[i]);
+        }
+      }
   	}
   }
+
+  $('#number-of-results').html(this.toolSet.getLength() + ' result(s) found ');
 
   $('#loader').attr('aria-hidden', 'true').hide();
   $("#" + this.getListId()).append(html);
@@ -399,6 +513,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
     $("#" + this.getTableId()).DataTable().columns.adjust(); // adjust table cols to the width of the container
   }
+  $('.toggle-unsupported').prop('disabled', false);
 };
 
 /**
@@ -472,7 +587,7 @@ function createRow(parsedResult) {
   rowData = [ //Create row
     "",
     parsedResult['ID'],
-    '<span class="bold">' + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')') + '</span><br /><button class="col button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Tool Details</button>',
+    '<span class="bold">' + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')') + '</span><br /><button class="col button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Tool Details</button>' + (parsedResult['Life Cycle Phase'] === "Termination" ? '<br /><span class="bold red">This tool is no longer supported.</span>' : ""),
     parsedResult['Description'],
     parsedResult['Operating Environment'],
     parsedResult['Spatial Extent'],
@@ -578,24 +693,17 @@ function showDetails(id, that) {
   var $selectedToolTab = $('#selected-tool-tab');
   var $selectedToolPanel = $('#selected-tool-panel');
   if (parsedData) {
-    html = createDetailedView(parsedData, html);
-    $tab.append(html);
-    $selectedToolPanel.removeAttr('aria-hidden');
-    $('#' + origin).attr('aria-selected', false);
-    $selectedToolTab.parent().removeAttr('aria-hidden');
-    $selectedToolTab.removeAttr('aria-disabled');
-    $selectedToolTab.removeAttr('aria-hidden');
-    $selectedToolTab.attr('aria-selected', true);
-    $selectedToolTab[0].click();
-  } else {
-    $tab.append(html);
-    $selectedToolTab.parent().attr('aria-hidden', true);
-    $selectedToolPanel.attr('aria-hidden', true);
-  }
-}
-
-function createDetailedView(parsedData, html) {
-  html += "" +
+    if (parsedData['Life Cycle Phase'] === "Termination") {
+      html += 
+      '<div class="box multi alert">' +
+      '<h3 class="pane-title">Tool no longer supported</h3>' +
+      ' <div class="pane-content">' +
+        '<p>The tool might no longer be available, updated, or supported.</p>' +
+      '</div>' +
+    '</div>';
+    }
+    html += "" +
+      
     '<div class="light-gray">' +
       "<span class='bold'>Title</span></strong>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
       "<span class='bold'>Description</span></strong>: " + parsedData['Description'] + "<br>" +
@@ -653,8 +761,20 @@ function createDetailedView(parsedData, html) {
       "<span class='bold'>User Support Email</span></strong>: " + linkifyString(parsedData['Support Email']) + "<br>" +
       "<span class='bold'>User Support Material</span></strong>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
     "</div>";
-
-    return html;
+    $tab.append(html);
+    $selectedToolPanel.removeAttr('aria-hidden');
+    $('#' + origin).attr('aria-selected', false);
+    $selectedToolTab.parent().removeAttr('aria-hidden');
+    $selectedToolTab.removeAttr('aria-disabled');
+    $selectedToolTab.removeAttr('aria-hidden');
+    $selectedToolTab.attr('aria-selected', true);
+    $selectedToolTab[0].click();
+    $(window).scrollTop($selectedToolTab.offset().top)
+  } else {
+    $tab.append(html);
+    $selectedToolTab.parent().attr('aria-hidden', true);
+    $selectedToolPanel.attr('aria-hidden', true);
+  }
 }
 
 /**
@@ -767,7 +887,8 @@ function addDiv(parsedResult, containerId) {
       '<div class="col size-95of100">' +
         '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>' +
         '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label"></label>' +
-        '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span></strong>: ' + parsedResult['Description'] +
+        '<span class="bold">' + parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')</span>: ' + parsedResult['Description'] +
+        (parsedResult['Life Cycle Phase'] === "Termination" ? '<span class="bold red"> This tool is no longer supported.</span>' : "") +
       '</div>' +
     '</div>' +
     '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">' +
@@ -794,7 +915,8 @@ function createDiv(parsedResult, containerId) {
       '<div class="col size-95of100">' +
         '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>' +
         '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label">' +
-        '<span class="bold">' + parsedResult['Title'] + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? '' : ' (' + parsedResult['Acronym'] + ')') + '</span></label>: ' + parsedResult['Description'] +
+        '<span class="bold">' + parsedResult['Title'] + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? '' : ' (' + parsedResult['Acronym'] + ')') + '</span></label>: ' + parsedResult['Description'] + 
+        (parsedResult['Life Cycle Phase'] === "Termination" ? '<span class="bold red"> This tool is no longer supported.</span>' : "") +
       '</div>' +
     '</div>' +
     '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">' +
@@ -1002,6 +1124,13 @@ var parseResult = function (result) {
    * @param {number} softwareCost - An integer which represents a cost category.
    * @return {string|string} - Either the value itself, or a string containing "No Data."
    */
+  var softwareCostMap = { // map integral data-standard to text
+    1:'$0',
+    2:'$1-$499',
+    3:'$500-$1499',
+    4:'$1500-$3999',
+    5:'>$4000'
+  };
   function parseSoftwareCost(softwareCost) { // requires decoding a data-standard
     if (softwareCostMap.hasOwnProperty(softwareCost)) {
       return softwareCostMap[softwareCost];
@@ -1609,6 +1738,33 @@ var getDetailsFromId = function (id) {
 };
 
 /**
+ * Display the feedback modal when the link is clicked.
+ * @listens click
+ */
+$('#feedback-link').click(function () {
+  $('#feedback-modal').css('display', 'block');
+});
+
+/**
+ * Close the feedback modal when the close button is clicked.
+ * @listens click
+ */
+$('.close').click(function () {
+  $('#feedback-modal').css('display', 'none');
+});
+
+/**
+ * Close the feedback modal if there is a click registered on the background of the modal.
+ * @param {event} e - The click event.
+ * @listens click
+ */
+$('#feedback-modal').click(function (e) {
+  if (e.target === $('#feedback-modal')[0]) {
+    $('#feedback-modal').css('display', 'none');
+  }
+});
+
+/**
  * return selected label for each checked element and
  * console-log each label
  */
@@ -1762,6 +1918,65 @@ $(window).bind('storage', function (e) {
   }
 });
 
+$('.toggle-unsupported').on("change", function () {
+  var showUnsupportedTools = $(this).is(":checked");
+  $('.toggle-unsupported').prop('checked', showUnsupportedTools);
+  var type = $(this).attr('data-table-type');
+  var checkedTools = $('#' + type + '-list input:checked');
+  $('#' + type + '-list *').remove(); // clear result div
+  if ($.fn.DataTable.isDataTable('#' + type + '-table')) {
+    $('#' + type + '-table').DataTable().clear().draw(); // clear result table 
+    resultTable.getToolSet().reset(); //reset display toolset
+    resultTable.displayTools(resultSet);
+    // recheck boxes that were checked....
+    checkedTools.each(function() {
+      $('#' + type + '-list-cb-' + $(this).val()).prop('checked', true);
+      var id = $(this).val();
+      var tableId = $(this).attr('id').slice(0, -14);
+      var rows = $('#' + tableId + '-table').DataTable().rows();
+      var rowNodes = rows.nodes();
+      if ($(this).prop('checked')) { // add selected class
+        $("#" + tableId + "-table").DataTable().rows(function (idx, data, node) {
+          return data[1] == id ? true: false;
+        }).nodes().to$().addClass("selected");
+        $('#' + id).prop('checked', true);
+        $('input[type="checkbox"]', rowNodes).each(function () {
+          if ($(this).val() === id) {
+            $(this).prop('checked', true);
+          }
+        });
+      } else {
+        $("#" + tableId + "-table").DataTable().rows(function (idx, data, node) {
+          return data[1] == id ? true: false;
+        }).nodes().to$().removeClass("selected");
+        $('#' + id).prop('checked', false);
+        $('input[type="checkbox"]', rowNodes).each(function () {
+          if ($(this).val() === id) {
+            $(this).prop('checked', false);
+          }
+        });
+      }
+
+    });
+  }
+});
+
+/**
+ * Process the results array. Add IDs that are not already in the ResultSet or in the white list to the ResultSet.
+ * @function
+ * @param {array} results - An array containing the results from the Ajax queries.
+ * @return {number} the length of the ResultSet.
+ */
+var parseResultsArray = function (results) {
+  for (var i = 0; i < results.length; i++) {
+    if ((!resultSet.contains(results[i].ResourceId)) && (whitelist.indexOf(results[i].ResourceId) > -1)) {
+      resultSet.addTool(results[i].ResourceId);
+    }
+  }
+  return resultSet.getLength();
+};
+
+var terminatedTools = new ToolSet();
 /**
  * Adds the tools associated with the concepts to the resultSet
  * @function
@@ -1850,7 +2065,7 @@ var textToPDF = function(source) {
     for (var i = 0; i < textArray.length; i++) {
       text = textArray[i];
       var lines = Math.floor(text.length/lineWidth);
-      for (lineNumber = 0; lineNumber < lines; lineNumber++) {
+      for (lineNumber = 0; lineNumber < lines + 1; lineNumber++) {
 //console.log('The following arguments to `text` show their values...');
 //console.log("text.substring(lineNumber * lineWidth, lineNumber * lineWidth + lineWidth), margins.left, margins.top + (lineHeight * lineNumber):", text.substring(lineNumber * lineWidth, lineNumber * lineWidth + lineWidth), margins.left, margins.top + (lineHeight * lineNumber));
         doc.text(text.substring(lineNumber * lineWidth, lineNumber * lineWidth + lineWidth),
@@ -1869,7 +2084,7 @@ var textToPDF = function(source) {
   }
   //TODO export to csv
   reportToFile('results-list');
-  return;//FIXME finish TODO-list, remove console.log from everywhere, remove FIXME and TODO, then remove extra return-statements or code they shade
+  //return;//FIXME finish TODO-list, remove console.log from everywhere, remove FIXME and TODO, then remove extra return-statements or code they shade
   //TODO insert \n where appropriate
     //TODO find 80th char
     //TODO find location of first preceding space
@@ -2055,4 +2270,20 @@ function createPDFHTML(parsedData, html) {
     (parsedData['Other Requirements'] === "No Data" ? "" : "<span><strong>Other Proprietary Software Requirements</strong>: " + linkifyString(parsedData['Other Requirements']) + "</span><br>") +
     (parsedData['Technical Skills Needed'] === "No Data" ? "" : "<span><strong>Technical Skills Required</strong>: " + parsedData['Technical Skills Needed'] + "</span><br>");
     return html;
+}
+
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
+if (!String.prototype.includes) {
+  String.prototype.includes = function(search, start) {
+    'use strict';
+    if (typeof start !== 'number') {
+      start = 0;
+    }
+    
+    if (start + search.length > this.length) {
+      return false;
+    } else {
+      return this.indexOf(search, start) !== -1;
+    }
+  };
 }

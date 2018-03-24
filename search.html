@@ -43,12 +43,11 @@
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
 </head>
-<body class="node-type-web-area microsite" >
+<body class="node-type-web-area microsite wide-template" >
   <!-- Google Tag Manager -->
-  <!--REMOVED FOR DEVELOPMENT; REPLACE FOR PRODUCTION
   <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script>
-  -->
+ 
   <!-- End Google Tag Manager -->
   <div class="skip-links"><a href="#main-content" class="skip-link element-invisible element-focusable">Jump to main content</a></div>
   <header class="masthead clearfix" role="banner">
@@ -129,6 +128,7 @@
                 <hr />
                 <input autocomplete="off" class="search-input" id="simpleSearchText" aria-labelledby="simple-search-text-label" onkeydown="if (event.keyCode == 13) document.getElementById('simpleSearchBtn').click()"  title="Search for tools by entering specific keywords" type="text" placeholder="Enter text here">
                 <button id="simpleSearchBtn" onclick="simpleSearch()">Search</button>
+                <div><input class="toggle-unsupported" id="toggle-unsupported-1" type="checkbox" data-table-type="results"/><label for="toggle-unsupported-1">Include unsupported tools</label></div>
               </div>
               <div aria-hidden="true" aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">
                 <h3>Advanced Search</h3>
@@ -137,6 +137,8 @@
                 <input autocomplete="off" class="search-input" id="detailed-search-text" onkeyup="if (event.keyCode == 13) document.getElementById('detailed-search-button').click()" title="Enter a keyword to search for" type="text" placeholder="Enter text here">
                 <button id="detailed-search-button" onclick="detailedSearch()">Search</button>
                 <button id="detailed-reset" onclick="detailClearForm()" type="reset">Reset Form</button>
+                <div><input class="toggle-unsupported" id="toggle-unsupported-2" type="checkbox" data-table-type="results"/><label for="toggle-unsupported-2">Include unsupported tools</label></div>
+                <br />
                 <form>
                   <div aria-labelledby="search-field-label" class="form-item form-type-checkbox" id="search-field" role="group">
                     <h4 id="search-field-label">Choose fields to be searched:</h4>
@@ -221,6 +223,7 @@
                 <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: recommended for those on smaller screens.</label>
                 <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: allows filtering and column sorting.</label>
                 <br />
+                <div><input class="toggle-unsupported" id="toggle-unsupported-3" type="checkbox" data-table-type="results"/><label for="toggle-unsupported-3">Show unsupported tools</label></div>
                 <hr />
                 <p id="result-info"></p>
                 <div id="results-list-div">  
@@ -401,7 +404,7 @@
                 <li><a class="menu-link social-flickr" href="https://www.flickr.com/photos/usepagov">Flickr</a></li>
                 <li><a class="menu-link social-instagram" href="https://instagram.com/epagov">Instagram</a></li>
               </ul>
-              <p class="last-updated">This page was last updated on 2017-05-18.</p>
+              <p class="last-updated">This page was last updated on 2018-03-23.</p>
             </div>
           </div>
         </div>
@@ -421,6 +424,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/jquery-ui.min.js"></script>
+  <script src="js/whitelist.js"></script>
   <script src="js/base.js"></script>
   <script src="js/feedback-modal.js"></script>
   <script src="js/ParsedDPLData.js"></script>
@@ -546,6 +550,7 @@ var detailedSearch = function () {
   }
   $('#results-list *').remove(); // clear result div
   resultSet.reset(); // clear result set
+  terminatedTools.reset();
   resultTable.getToolSet().reset(); //reset display toolset
   var queryTypes = $("#search-field input:checkbox:checked").map(function () {return $(this).val()}).get();
   if (!queryTypes.length) { // ensure queryType is selected
@@ -553,21 +558,21 @@ var detailedSearch = function () {
     return;
   }
   var queryString = $('#detailed-search-text').val().trim().toLowerCase();
+  
+  resultSet.filters = {};
   var decisionSectors = $('#decision-select :checkbox:checked').map(function () {return $(this).val();});
   var os_select = checkBoxValue(document.getElementsByName('radioenvironment'));
   var cost_select = checkBoxValue(document.getElementsByName('checkbase'));
   var extent_select = $('#extent-select :checkbox:checked').map(function () {return $(this).val()});
+  
+  resultSet.filters.decisionSectors = decisionSectors;
+  resultSet.filters.os_select = os_select;
+  resultSet.filters.cost_select = cost_select;
+  resultSet.filters.extent_select = extent_select;
+  
   var results = [];
   var requests = [];
   var data = {};
-  if (!decisionSectors[0]) { // makes sure decisionSector string is not empty
-    decisionSectors = [
-      "Land Use",
-      "Waste Management",
-      "Building Infrastructure",
-      "Transportation"
-    ];
-  }
   if (queryString) { // ensure search string is not empty
     // Search DPL concepts
     var concepts = findConcepts([queryString]);
@@ -583,16 +588,16 @@ var detailedSearch = function () {
       } else {
         data[queryTypes[i]] = queryString;
       }
-      for (var j = 0; j < decisionSectors.length; j++) {
-        data.DecisionSector = decisionSectors[j];
+
         var dataList = [data]; // create an initial array of query-data
-        dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
-        dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
-        dataList = addMembers(dataList, 'SpatialExtent', extent_select); // create a data object for each selection of SpatialExtent
+        //dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
+        //dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
+        //dataList = addMembers(dataList, 'SpatialExtent', extent_select); // create a data object for each selection of SpatialExtent
         for (var iDatum = 0; iDatum < dataList.length; iDatum++) {
           requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
         }
-      }
+      
+      
       data = {};
     }
     /*
@@ -613,9 +618,11 @@ var detailedSearch = function () {
         $('#results-tab').parent().attr('aria-hidden', false);
         $("#results-tab").click();
         var url = window.location.href;
+        $('.toggle-unsupported').prop('disabled', true);
         $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
+        $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
       toast({html: 'Server error. Please try again another time.', close: true});
@@ -623,21 +630,6 @@ var detailedSearch = function () {
   } else {
     toast({html: 'Please enter a search term.', close: true});
   }
-};
-
-/**
- * Process the results array. Add IDs that are not already in the ResultSet or in the white list to the ResultSet.
- * @function
- * @param {array} results - An array containing the results from the Ajax queries.
- * @return {number} the length of the ResultSet.
- */
-var parseResultsArray = function (results) {
-  for (var i = 0; i < results.length; i++) {
-    if (!resultSet.contains(results[i].ResourceId)) {
-      resultSet.addTool(results[i].ResourceId);
-    }
-  }
-  return resultSet.getLength();
 };
 
 /**
@@ -653,18 +645,19 @@ var simpleSearch = function () {
   }
   $('#results-list *').remove(); //clear result list
   resultSet.reset(); //clear result data
+  terminatedTools.reset();
   resultTable.getToolSet().reset(); //reset display toolset
   var queryString = $('#simpleSearchText').val().trim().toLowerCase();
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"];
   var results = [];
   var requests = [];
   var data = {};
-  var decisionSectors = [
-    "Land Use",
-    "Waste Management",
-    "Building Infrastructure",
-    "Transportation"
-  ];
+  // var decisionSectors = [
+  //   "Land Use",
+  //   "Waste Management",
+  //   "Building Infrastructure",
+  //   "Transportation"
+  // ];
   if (queryString) { // ensure search-string is not empty
     // Search DPL concepts
     var concepts = findConcepts([queryString]);
@@ -680,10 +673,12 @@ var simpleSearch = function () {
       } else {
         data[queryTypes[i]] = queryString;
       }
-      for (var j = 0; j < decisionSectors.length; j++) {
-        data.DecisionSector = decisionSectors[j];
-        requests.push(executeSearch(resourceAdvancedSearchURL, data));
-      }
+      // for (var j = 0; j < decisionSectors.length; j++) {
+      //   data.DecisionSector = decisionSectors[j];
+      //   requests.push(executeSearch(resourceAdvancedSearchURL, data));
+      // }
+
+      requests.push(executeSearch(resourceAdvancedSearchURL, data));
       data = {};
     }
     /*
@@ -703,10 +698,11 @@ var simpleSearch = function () {
       } else {
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
+        $('.toggle-unsupported').prop('disabled', true);
         $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
-        $('#result-info').html(numberOfResults + " result(s) found for search term \"" + queryString + "\"");
+        $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
       toast({html: 'Server error. Please try again another time.', close: true});

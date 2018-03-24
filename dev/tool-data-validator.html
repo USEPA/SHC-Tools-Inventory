@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tool Data Validator</title>
+</head>
+<body>
+<h1>Tool Data Validator</h1>
+<p>Validate the tool data</p>
+<h2>Instructions</h2>
+<ol>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ol>
+
+<textarea id="input" rows="10" style="width:100%" placeholder="Insert text to be converted"></textarea>
+<button onclick="compareValues()">Compare CSV with READ's Data</button>
+
+<h2>Output:</h2>
+<button onclick="copyToClipboard('output')">Copy output to clipboard</button>
+<button onclick="actualData = allToolDetails()">Load tool data from READ</button>
+
+<span id="num">0</span>/<span id="denom">0</span> complete.
+
+<div id="output"></div>
+
+<script src="papaparse.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+<script src="../js/base.js"></script>
+<script>
+
+var actualData;
+
+/** small, composable functions permit flexible reuse */
+var getData = function () {
+  return document.getElementById('input').value;
+};
+
+/** requires papaparse.js loaded, E.G. in a script tag */
+function parseData(gottenData=getData()){
+  var config = { header: true };
+  var parsedData = Papa.parse(gottenData, config);
+  return parsedData;
+}
+
+function copyToClipboard(elementId) {
+  var hiddenInput = document.createElement("input");
+  hiddenInput.setAttribute("value", document.getElementById(elementId).textContent);
+  document.body.appendChild(hiddenInput);
+  hiddenInput.select();
+  document.execCommand("copy");
+  document.body.removeChild(hiddenInput);
+}
+
+/** return object containing all SHC-tool-details indexed by decision-sector */
+var allToolDetails = function () {
+  $('#denom').text(0);
+  $('#num').text(0);
+  var decisionSectors = ['building infrastructure', 'land use', 'transportation', 'waste management'];
+  /* find details in READ web services' docs */
+  var resourceAdvancedSearchURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceAdvancedSearch";
+  var resourceDetailURL = "https://ofmpub.epa.gov/readwebservices/v1/ResourceDetail";
+  var tools = {};
+  for (var j = 0; j < decisionSectors.length; j++) {
+    $.get(resourceAdvancedSearchURL, {DecisionSector:decisionSectors[j]})
+      .done(function (data) {
+        $('#denom').text(+$('#denom').text() + data.length);
+        $.each(data, function (i) { 
+          $.get(resourceDetailURL, {ResourceId:data[i].ResourceId})
+            .done(function (data) {
+              var parsedResult = parseResult(data); tools[parsedResult['Acronym']] = parsedResult;
+              $('#num').text(+$('#num').text() + 1);
+            });
+        });
+      });
+  }
+  return tools;
+};
+
+/**
+ * Compare CSV of values from Excel-workbook for planning
+ * tools-inventory-data-entry with values from READ.
+ * @parameter {string} fieldnames - specify fields from READ.
+ */
+var compareValues = function() {
+  var parsedData = parseData();
+  var intendedData = formatToolData(parsedData.data);
+  for (var tool in intendedData) {
+    if (intendedData.hasOwnProperty(tool)) {
+      if (actualData.hasOwnProperty(tool.substr(0, 15))) {
+        console.log('');
+        console.log('ID: ' + actualData[tool.substr(0, 15)]['ID']);
+
+        // Already verified
+
+        if (intendedData[tool]['Acronym'].substr(0, 15).trim() !== actualData[tool.substr(0, 15)]['Acronym'].trim()) {
+          console.log('');
+          console.log('Acronym');
+          console.log(intendedData[tool]['Acronym']);
+          console.log(actualData[tool.substr(0, 15)]['Acronym']);
+        }
+
+        if (intendedData[tool]['Keywords'].replace(/;/g, ',').trim() !== actualData[tool.substr(0, 15)]['Keywords'].trim() && actualData[tool.substr(0, 15)]['Keywords'] !== 'No Data') {
+          console.log('');
+          console.log('Keywords');
+          console.log(intendedData[tool]['Keywords'].replace(/;/g, ','));
+          console.log(actualData[tool.substr(0, 15)]['Keywords']);
+        }
+
+        if (intendedData[tool]['Model Evaluation'].trim() !== actualData[tool.substr(0, 15)]['Model Evaluation'].trim()) {
+          console.log('');
+          console.log('Model Evaluation');
+          console.log(intendedData[tool]['Model Evaluation']);
+          console.log(actualData[tool.substr(0, 15)]['Model Evaluation']);
+        }
+
+        if (intendedData[tool]['Model Inputs'].trim() !== actualData[tool.substr(0, 15)]['Model Inputs'].trim() && actualData[tool.substr(0, 15)]['Model Inputs'] !== 'No Data') {
+          console.log('');
+          console.log('Model Inputs');
+          console.log(intendedData[tool]['Model Inputs']);
+          console.log(actualData[tool.substr(0, 15)]['Model Inputs']);
+        }
+
+        if (intendedData[tool]['Model Structure'].trim() !== actualData[tool.substr(0, 15)]['Model Structure'].trim()) {
+          console.log('');
+          console.log('Model Structure');
+          console.log(intendedData[tool]['Model Structure']);
+          console.log(actualData[tool.substr(0, 15)]['Model Structure']);
+        }
+
+        var key = ['','Yes','No','Partial'];
+        if (key[intendedData[tool]['Open Source'].trim()] !== actualData[tool.substr(0, 15)]['Open Source'].trim()) {
+          console.log('');
+          console.log('Open Source');
+          console.log(intendedData[tool]['Open Source']);
+          console.log(key[intendedData[tool]['Open Source']]);
+          console.log(actualData[tool.substr(0, 15)]['Open Source']);
+        }
+
+        if (intendedData[tool]['Operating Environment'].trim() !== actualData[tool.substr(0, 15)]['Operating Environment'].trim()) {
+          console.log('');
+          console.log('Operating Environment');
+          console.log(intendedData[tool]['Operating Environment']);
+          console.log(actualData[tool.substr(0, 15)]['Operating Environment']);
+        }
+
+        if (intendedData[tool]['Output Variables'].trim() !== actualData[tool.substr(0, 15)]['Output Variables'].trim()) {
+          console.log('');
+          console.log('Output Variables');
+          console.log(intendedData[tool]['Output Variables']);
+          console.log(actualData[tool.substr(0, 15)]['Output Variables']);
+        }
+
+        if (intendedData[tool]['Spatial Extent'].trim() !== actualData[tool.substr(0, 15)]['Spatial Extent'].replace(/,/g, ';').replace('and ', '').trim() && actualData[tool.substr(0, 15)]['Spatial Extent'] !== 'No Data') {
+          console.log('');
+          console.log('Spatial Extent');
+          console.log(intendedData[tool]['Spatial Extent']);
+          console.log(actualData[tool.substr(0, 15)]['Spatial Extent'].replace(/,/g, ';').replace('and ', ''));
+        }
+
+        if (intendedData[tool]['Time Scale'].trim() !== actualData[tool.substr(0, 15)]['Time Scale'].trim()) {
+          console.log('');
+          console.log('Time Scale');
+          console.log(intendedData[tool]['Time Scale']);
+          console.log(actualData[tool.substr(0, 15)]['Time Scale']);
+        }
+
+        if (intendedData[tool]['Title'].trim() !== actualData[tool.substr(0, 15)]['Title'].trim()) {
+          console.log('');
+          console.log('Title');
+          console.log(intendedData[tool]['Title']);
+          console.log(actualData[tool.substr(0, 15)]['Title']);
+        }
+
+        if (intendedData[tool]['Description'].trim() !== actualData[tool.substr(0, 15)]['Description'].trim()) {
+          console.log('');
+          console.log('Description');
+          console.log(intendedData[tool]['Description']);
+          console.log(actualData[tool.substr(0, 15)]['Description']);
+        }
+
+        if (intendedData[tool]['Decision Sector'].trim() !== actualData[tool.substr(0, 15)]['Decision Sector'].trim()) {
+          console.log('');
+          console.log('Decision Sector');
+          console.log(intendedData[tool]['Decision Sector']);
+          console.log(actualData[tool.substr(0, 15)]['Decision Sector']);
+        }
+
+        var key = ['', 'Free', '$1-$499', '$500-$1499', '', '>$4000'];
+        if (key[intendedData[tool]['Cost'].trim()] !== actualData[tool.substr(0, 15)]['Cost'].trim()) {
+          console.log('');
+          console.log('Cost');
+          console.log(intendedData[tool]['Cost']);
+          console.log(key[intendedData[tool]['Cost']]);
+          console.log(actualData[tool.substr(0, 15)]['Cost']);
+        }
+
+        if (intendedData[tool]['Other Costs'].trim() !== actualData[tool.substr(0, 15)]['Other Costs'].trim()) {
+          console.log('');
+          console.log('Other Costs');
+          console.log(intendedData[tool]['Other Costs']);
+          console.log(actualData[tool.substr(0, 15)]['Other Costs']);
+        }
+
+        // Not in the object anymore
+        /*
+        if (intendedData[tool]['Organization'].trim() !== actualData[tool.substr(0, 15)]['Organization'].trim()) {
+          console.log('');
+          console.log('Organization');
+          console.log(intendedData[tool]['Organization']);
+          console.log(actualData[tool.substr(0, 15)]['Organization']);
+        }
+        */
+
+        // values in spreadsheet are different than the values on RWS.
+        var key = ['', '', ''];
+        if (intendedData[tool]['Life Cycle Phase'].trim() !== actualData[tool.substr(0, 15)]['Life Cycle Phase'].trim()) {
+          console.log('');
+          console.log('Life Cycle Phase');
+          console.log(intendedData[tool]['Life Cycle Phase']);
+          console.log(actualData[tool.substr(0, 15)]['Life Cycle Phase']);
+        }
+
+        // Some values are blank instead of N/A
+        if (intendedData[tool]['Operating System'].trim() !== actualData[tool.substr(0, 15)]['Operating System'].trim()) {
+          console.log('');
+          console.log('Operating System');
+          console.log(intendedData[tool]['Operating System']);
+          console.log(actualData[tool.substr(0, 15)]['Operating System']);
+        }
+
+        if (intendedData[tool]['Technical Skills Needed'].trim() !== actualData[tool.substr(0, 15)]['Technical Skills Needed'].trim()) {
+          console.log('');
+          console.log('Technical Skills Needed');
+          console.log(intendedData[tool]['Technical Skills Needed']);
+          console.log(actualData[tool.substr(0, 15)]['Technical Skills Needed']);
+        }
+
+        // Full list too long for names field on some tools
+        if (intendedData[tool]['Support Name'].trim() !== actualData[tool.substr(0, 15)]['Support Name'].trim()) {
+          console.log('');
+          console.log('Support Name');
+          console.log(intendedData[tool]['Support Name']);
+          console.log(actualData[tool.substr(0, 15)]['Support Name']);
+        }
+
+        if (intendedData[tool]['Support Phone'].trim() !== actualData[tool.substr(0, 15)]['Support Phone'].trim()) {
+          console.log('');
+          console.log('Support Phone');
+          console.log(intendedData[tool]['Support Phone']);
+          console.log(actualData[tool.substr(0, 15)]['Support Phone']);
+        }
+
+        if (intendedData[tool]['Support Materials'].trim() !== actualData[tool.substr(0, 15)]['Support Materials'].trim()) {
+          console.log('');
+          console.log('Support Materials');
+          console.log(intendedData[tool]['Support Materials']);
+          console.log(actualData[tool.substr(0, 15)]['Support Materials']);
+        }
+
+        // This field is updated when the SOR is updated
+        if (intendedData[tool]['Last Modified'].trim() !== actualData[tool.substr(0, 15)]['Last Modified'].trim()) {
+          console.log('');
+          console.log('Last Modified');
+          console.log(intendedData[tool]['Last Modified']);
+          console.log(actualData[tool.substr(0, 15)]['Last Modified']);
+        }
+
+
+        // Last 
+        if (intendedData[tool]['Last Modified'].trim() !== actualData[tool.substr(0, 15)]['Last Software Update'].trim()) {
+          console.log('');
+          console.log('Last Software Update');
+          console.log(intendedData[tool]['Last Modified']);
+          console.log(actualData[tool.substr(0, 15)]['Last Software Update']);
+        }
+        
+
+        
+        var key = ['','External','Internal']
+        if (key[intendedData[tool]['Ownership Type'].trim()] !== actualData[tool.substr(0, 15)]['Ownership Type'].trim()) {
+          console.log('');
+          console.log('Ownership Type');
+          console.log(key[intendedData[tool]['Ownership Type']]);
+          console.log(actualData[tool.substr(0, 15)]['Ownership Type']);
+        }
+        
+
+        
+        var key = ["","Model","Application or System","Data Warehouse"];
+        if (key[intendedData[tool]['Information Resource Type'].trim()] !== actualData[tool.substr(0, 15)]['Resource Type'].trim()) {
+          console.log('');
+          console.log('Resource Type');
+          console.log(key[intendedData[tool]['Information Resource Type']]);
+          console.log(actualData[tool.substr(0, 15)]['Resource Type']);
+        }
+
+
+        // No spreadsheet values in SOR
+        if (intendedData[tool]['Alternative Names'].trim() !== actualData[tool.substr(0, 15)]['Alternate Names'].trim()) {
+          console.log('');
+          console.log('Alternate Names');
+          console.log(intendedData[tool]['Alternative Names']);
+          console.log(actualData[tool.substr(0, 15)]['Alternate Names']);
+        }
+
+        if (intendedData[tool]['Interfaces to other Resources'].trim() !== actualData[tool.substr(0, 15)]['Relationships']) {
+          console.log('');
+          console.log('Interfaces to other Resources');
+          console.log(intendedData[tool]['Interfaces to other Resources']);
+          console.log(actualData[tool.substr(0, 15)]['Relationships']);
+        }
+
+        // Data is now stored as a string literal value instead of an integer key value
+        /*
+        var key = ['','All data is provided.','Data is publicly available.','Data is not publicly available but routinely available.','New data must be created.','Insufficient Information.'];
+        if (key[intendedData[tool]['Data requirements'].trim()] !== actualData[tool.substr(0, 15)]['Input Data Requirements'].trim()) {
+          console.log('');
+          console.log('Input Data Requirements');
+          console.log(key[intendedData[tool]['Data requirements']]);
+          console.log(actualData[tool.substr(0, 15)]['Input Data Requirements']);
+        }
+        */
+        
+
+        // Since the URL field is not reflected properly in RWS we can't test the values yet. 
+        /*
+        if (intendedData[tool]['URL'].trim() !== actualData[tool.substr(0, 15)]['URL'].trim()) {
+          console.log('');
+          console.log('URL');
+          console.log(intendedData[tool]['URL']);
+          console.log(actualData[tool.substr(0, 15)]['URL']);
+        }
+        */
+
+
+      } else {
+        console.log(tool.substr(0, 15) + " is not in inventory.");
+      }
+    } 
+  }
+};
+
+function formatToolData(data) {
+  var tools = {};
+  for (var i = 0; i < data.length; i++) {
+    tools[data[i]['Acronym']] = data[i];
+  }
+  return tools;
+}
+
+/**
+ * Turn CSV of keywords from text-field into an array of keywords.
+ * Useful to ensure all keywords in the spreadsheet appear in READ.
+ * The CSV has each tools' keywords on their line.
+ */
+var keywordsCSVToArray = function() {
+  var keywords = [];
+  var element = [];
+  var keywordsObjectArray = parseData()['data'];
+  for (var k = 0; k < keywordsObjectArray.length; k++) {
+      element = [];
+      element = element.concat(keywordsObjectArray[k]['keywords']);
+      if (keywordsObjectArray[k].hasOwnProperty('__parsed_extra')) {
+          element = element.concat(keywordsObjectArray[k]['__parsed_extra']);
+      }
+      keywords = keywords.concat([element]);
+  }
+  return keywords;
+};
+
+</script>
+</body>
+</html>

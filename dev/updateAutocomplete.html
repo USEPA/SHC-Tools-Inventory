@@ -4,10 +4,12 @@
 <body>
 <div id="instructions">Press the button labeled "update" then allow eleven seconds. Use the button labeled "show" to output updated autocomplete-arrays.</div>
 <button onclick="autocompleteUpdater.searchSHCTools()">Update</button>
+<button onclick="autocompleteUpdater.updateBasedOnREADIds()">Update based on READ IDs in readIDsByConcept</button>
 <button onclick="autocompleteUpdater.show()">Show</button>
 <div id="output"><div>
 <script src="https://www.epa.gov/sites/all/libraries/template2/jquery.js"></script>
 <script src="../js/base.js"></script>
+<script src="../js/parsedDPLData.js"></script>
 <script src="./updateAutocomplete.js"></script>
 <script>$ = jQuery;</script>
 </body>
