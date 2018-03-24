@@ -580,7 +580,7 @@ var detailedSearch = function () {
       } else {
         data[queryTypes[i]] = queryString;
       }
-      if (!decisionSectors[0]) { // if decision sector isnt specified no reason to search them
+
         var dataList = [data]; // create an initial array of query-data
         //dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
         //dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
@@ -588,18 +588,7 @@ var detailedSearch = function () {
         for (var iDatum = 0; iDatum < dataList.length; iDatum++) {
           requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
         }
-      } else {
-        for (var j = 0; j < decisionSectors.length; j++) {
-          data.DecisionSector = decisionSectors[j];
-          var dataList = [data]; // create an initial array of query-data
-          //dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
-          //dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
-          //dataList = addMembers(dataList, 'SpatialExtent', extent_select); // create a data object for each selection of SpatialExtent
-          for (var iDatum = 0; iDatum < dataList.length; iDatum++) {
-            requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
-          }
-        }
-      }
+      
       
       data = {};
     }
