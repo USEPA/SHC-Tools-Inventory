@@ -1828,32 +1828,130 @@ function exportTools(resultsDiv) {
   if (radioValue === "html") {
 
   } else if (radioValue === "pdf") {
-    jspdfFromHTML(document.querySelector('#results-list'));
+    text = textToPDF(document.querySelector('#results-list'));
   } else {
     toast({html: 'Select an export type.', close: true});
     return;
   }
 }
 
-// LIFTED FROM EXAMPLE AT https://stackoverflow.com/questions/18191893/generate-pdf-from-html-in-div-using-javascript?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-var jspdfFromHTML = function(source) {
-  var doc = new jsPDF();          
-  var elementHandler = {//elements to be omitted must be specified by `#id` rather than `.class`
-    '#ignorePDF': function (element, renderer) {
-      return true;
+/** digest text into lines of text to render individually in pdf */
+var textToPDF = function(source) {
+  var doc = new jsPDF('p', 'pt', 'letter');
+  var margins = {left: 40, top: 40, width: 600};
+  var lineNumber;
+  var lineNumberWithinPage = 0;
+  var iPage;
+  var textArray = source.innerText.split(/\n/);
+  var lineHeight = 15;
+  var lineWidth = 65;
+  var linesPerPage = 40;
+  var wrap = function(doc, textArray, lineHeight, lineWidth, linesPerPage, lineNumberWithinPage) {
+    for (var i = 0; i < textArray.length; i++) {
+      text = textArray[i];
+      var lines = Math.floor(text.length/lineWidth);
+      for (lineNumber = 0; lineNumber < lines; lineNumber++) {
+//console.log('The following arguments to `text` show their values...');
+//console.log("text.substring(lineNumber * lineWidth, lineNumber * lineWidth + lineWidth), margins.left, margins.top + (lineHeight * lineNumber):", text.substring(lineNumber * lineWidth, lineNumber * lineWidth + lineWidth), margins.left, margins.top + (lineHeight * lineNumber));
+        doc.text(text.substring(lineNumber * lineWidth, lineNumber * lineWidth + lineWidth),
+                 margins.left,
+                 margins.top + (lineHeight * lineNumber));
+      }
+    if (i !== textArray.length - 1) doc.addPage();
     }
+    return lineNumber;
   };
-  doc.fromHTML(
-      source,
-      0,
-      0,
-      {
-        'width': 180,'elementHandlers': elementHandler
-      });
+  var newTextArray = [];
+  for (elementIndex = 0; elementIndex < textArray.length; elementIndex++) {
+    if (textArray[elementIndex] !== 'Show Tool Details') {
+      newTextArray.push(textArray[elementIndex]);
+    }
+  }
+  //TODO export to csv
+  reportToFile('results-list');
+  return;//FIXME finish TODO-list, remove console.log from everywhere, remove FIXME and TODO, then remove extra return-statements or code they shade
+  //TODO insert \n where appropriate
+    //TODO find 80th char
+    //TODO find location of first preceding space
+    //TODO insert replace this space with \n
+    //TODO create report of form key: value
+    //TODO text(report)
+//console.log('The following arguments to `wrap` show their values...');
+//console.log("doc, newTextArray, lineHeight, lineWidth, linesPerPage, lineNumber:", doc, newTextArray, lineHeight, lineWidth, linesPerPage, lineNumber);
+  wrap(doc, newTextArray, lineHeight, lineWidth, linesPerPage, lineNumber);
   doc.output("dataurlnewwindow");
+  return doc;
 }
 
-/*FIXME uncomment if needed*/
+/** exports `text` from browser to a file */
+var exportToFile = function(text, filename) {
+  if (window.navigator.msSaveOrOpenBlob) {
+    var blob = new Blob([text], {
+      type: "text/plain;charset=utf-9;"
+    });
+    navigator.msSaveBlob(blob, filename);
+  } else {
+    var link = document.createElement("a");
+    link.setAttribute("href", 'data:text/plain;charset=utf-9,' + encodeURIComponent(text));
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+};
+
+/** produce set of results for checked list-items */
+function reportToFile(resultsDivId) {
+  var filename = 'sustainable_community_tools.txt';
+  records = document.querySelectorAll('#' + resultsDivId + ' input:checked');
+  report = JSON.stringify(records, null, 4);
+console.log("report:", report);
+  exportToFile(report, filename);
+  /*
+  if (records.length > 0) {
+    var reportContent = '';
+    var names = [];
+    var values;
+    records.each(function () {
+      values = [];
+      var record = toolCache.getParsedData($(this).val());
+      if (record) {
+        if (names.length === 0) {
+          for (var prop in record && property != 'ID') {
+            if (record.hasOwnProperty(prop)) {
+              var name = prop;
+              names.push(name);
+            }
+          }
+          reportContent = names.join() + '\n';
+        }
+        for (var property in record) {
+          if (record.hasOwnProperty(property) && property != 'ID') {
+            values.push('"' + record[property] + '"');
+          }
+        }
+        reportContent += values.join() + '\n';
+      }
+    });
+    if (window.navigator.msSaveOrOpenBlob) {
+      var blob = new Blob([reportContent], {
+        type: "text/plain;charset=utf-9;"
+      });
+      navigator.msSaveBlob(blob, filename);
+    } else {
+      var link = document.createElement("a");
+      link.setAttribute("href", 'data:text/plain;charset=utf-9,' + encodeURIComponent(reportContent));
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  } else {
+    toast({html: 'You must select tools to report.', close: true});
+  }
+  */
+}
+
 function demoFromHTML(element) {
   var pdf = new jsPDF('p', 'pt', 'letter');
   // source can be HTML-formatted string, or a reference
@@ -1958,37 +2056,3 @@ function createPDFHTML(parsedData, html) {
     (parsedData['Technical Skills Needed'] === "No Data" ? "" : "<span><strong>Technical Skills Required</strong>: " + parsedData['Technical Skills Needed'] + "</span><br>");
     return html;
 }
-
-loremString = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu sem sed risus vulputate ornare at eu risus. Nam at maximus arcu, sed tristique justo. Nam convallis risus tortor, sed accumsan massa varius vel. Quisque id velit facilisis, varius mi non, congue tellus. Sed pulvinar interdum eros, nec facilisis leo dignissim non. Duis ligula felis, egestas ut dictum ac, congue ac mauris. Ut finibus, odio vitae semper convallis, mauris urna efficitur nisi, mattis feugiat orci quam at est. Vestibulum pretium auctor tellus, ut aliquam erat vulputate nec. Quisque vitae egestas neque. Pellentesque ut ultrices erat. Nam non sapien libero. Suspendisse potenti. Vivamus sodales tortor ut neque hendrerit dictum. Praesent posuere eget arcu eu tincidunt. Aenean sed consectetur mi, vitae molestie sapien. Nam egestas dolor eu justo euismod bibendum.
-
-Ut eu feugiat risus. Quisque mi odio, ultricies nec quam quis, tempor imperdiet risus. Nulla facilisi. Maecenas tempor dui ac ligula accumsan varius. Morbi venenatis nunc suscipit, maximus arcu eget, consequat nibh. Pellentesque id interdum sapien. Aliquam ac aliquet ante.
-
-Etiam scelerisque luctus eros, id congue ante venenatis id. Nunc a tellus sollicitudin, venenatis felis accumsan, dignissim sapien. Etiam est ligula, lacinia nec euismod in, consectetur nec mi. Suspendisse vel pharetra leo. Phasellus laoreet augue eget est mollis vestibulum. Donec scelerisque mi metus, sit amet egestas lectus euismod vitae. Praesent vitae mauris malesuada ipsum euismod facilisis a nec dui. Nullam tortor mi, maximus quis faucibus at, porta sed massa.
-
-Maecenas fringilla, elit ac gravida tincidunt, nisi tortor ultrices orci, sed vehicula ipsum metus nec magna. Sed tristique quam vitae diam ornare, bibendum tempus urna posuere. Vestibulum nec nisl dapibus, accumsan ipsum a, sollicitudin lectus. Maecenas ac iaculis sem, eget sodales sapien. Suspendisse vel mollis magna. Sed dignissim, dui non tristique ultricies, augue quam tincidunt ligula, sit amet porttitor mi nibh eu dui. Vestibulum tincidunt mauris id tortor porttitor, ac pulvinar nibh lacinia. Proin id tellus scelerisque libero scelerisque feugiat in eget nunc.
-
-Etiam venenatis, erat sit amet condimentum auctor, mauris nibh elementum felis, a sollicitudin dui urna in ligula. Cras ac venenatis mauris, eu molestie metus. Suspendisse cursus lacinia varius. Quisque interdum justo eu orci lobortis consequat. Donec volutpat nulla at lacus egestas congue. Etiam ultrices nulla in nisl commodo, nec mollis arcu faucibus. Sed in pharetra felis, eget congue tellus. Nullam volutpat et nisi cursus tincidunt.
-
-Morbi in sapien sollicitudin, varius elit et, malesuada felis. Cras nec magna turpis. Maecenas condimentum porttitor nulla, eu ultrices risus tincidunt vel. Nulla facilisi. Aenean cursus, neque eu vestibulum porta, dui sapien vestibulum neque, eget mollis enim elit at nunc. In congue non neque eget imperdiet. Aenean finibus, arcu ut porttitor mollis, lacus erat mollis urna, at efficitur turpis nisl vel tortor. Sed fringilla lectus sem, vitae efficitur dolor lobortis mattis. Fusce sapien odio, posuere non volutpat vitae, mattis in massa. Sed eu fringilla nibh. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse efficitur ultricies suscipit. Quisque interdum magna at sem aliquet lobortis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ut orci a purus finibus auctor.
-
-Donec consectetur, tellus aliquam accumsan dapibus, tellus risus rhoncus erat, id lacinia ex purus vitae dui. Quisque id placerat lectus. Praesent vitae lacinia lacus. Vivamus vitae massa sit amet metus lobortis lobortis. Pellentesque non vestibulum enim, quis laoreet libero. Quisque quis dignissim dui, in tristique nisi. Cras volutpat interdum lacinia. Cras et risus pretium, vehicula purus ut, rhoncus lorem. Vivamus eu nisl ut justo fringilla cursus. Aenean pulvinar interdum tellus, at lacinia diam eleifend eu. Donec nec diam vel augue rhoncus congue. Vestibulum vitae sem libero. Pellentesque sed metus eu mi egestas commodo eu ac orci. Proin rhoncus urna mi, vitae aliquet quam vehicula malesuada. Aliquam erat volutpat. Donec diam odio, cursus eu ligula vel, consectetur euismod risus.
-
-Integer efficitur hendrerit aliquam. Vestibulum accumsan eget enim non volutpat. Quisque nulla massa, tristique ut auctor nec, rutrum sit amet augue. Mauris at libero ut arcu mollis fringilla sed non orci. In hac habitasse platea dictumst. Vivamus ante tellus, scelerisque at purus nec, fermentum tempus risus. Proin sit amet nulla dolor.
-
-Quisque congue, mauris eget dapibus pharetra, sapien libero blandit enim, at scelerisque neque magna at erat. Cras eget porttitor risus. Morbi non malesuada nisi. Ut egestas turpis non ligula feugiat pulvinar. Aenean hendrerit aliquet tempor. Nunc id justo posuere, fermentum magna a, rhoncus mi. Nullam sed libero vitae nulla condimentum hendrerit. Nunc id augue a est rutrum dignissim vitae at enim. Aenean et facilisis quam. Morbi sed quam in massa euismod faucibus. Proin arcu metus, sodales sit amet metus maximus, scelerisque accumsan nulla. Vestibulum eu vulputate lacus, ac semper mi. Donec ante dui, sollicitudin in est in, ullamcorper tristique mauris. Ut felis elit, hendrerit ut elementum eu, tristique ac nisl.
-
-Phasellus nec dui imperdiet, vestibulum libero vel, iaculis velit. Nam mauris erat, ornare ut scelerisque et, suscipit et mi. Mauris eget ex et ligula volutpat accumsan. Nunc consequat odio quis turpis ultricies, ac tincidunt ipsum vulputate. Vivamus aliquet nisi justo, sit amet ullamcorper lorem faucibus eget. Nunc sollicitudin ultrices mauris, et posuere augue. Maecenas fringilla metus lorem, at pharetra est scelerisque ac. Nam nisi velit, tristique eget aliquet in, congue in sem. Nulla elit risus, iaculis sit amet tortor vitae, mattis pretium odio. Phasellus fermentum iaculis vehicula. Aliquam mattis tincidunt vestibulum. Fusce quis tellus id nulla laoreet hendrerit id vel nulla.
-
-Donec semper odio vel dolor accumsan fermentum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed congue iaculis elit, dignissim varius neque viverra vel. Fusce sed mollis nisi. Quisque dignissim libero et congue tincidunt. Maecenas a aliquet nulla. Nunc rhoncus, neque in tempus mollis, massa nisi mattis sapien, ut lacinia elit odio sit amet erat. Mauris vel libero sollicitudin ligula consectetur convallis in vel nunc. Suspendisse tincidunt leo leo. Nam sit amet consequat arcu, et sollicitudin diam. Fusce a nisi massa. Aliquam tempus magna ut nunc accumsan, facilisis tempor nibh tincidunt. Integer sit amet nunc tristique, auctor nunc ut, aliquam tellus.
-
-Sed porttitor urna eget mi consectetur, quis venenatis velit venenatis. Ut erat diam, consectetur sed ipsum ut, feugiat pulvinar tellus. Suspendisse ac condimentum urna, ut pretium diam. In tristique justo at purus fringilla pretium. Fusce cursus sem condimentum, placerat augue id, accumsan justo. Fusce ex turpis, lobortis vel ullamcorper nec, consequat eget felis. Aenean vitae quam sem. Suspendisse a felis sem. Vivamus nec lacus ac erat ullamcorper condimentum nec a leo. Maecenas gravida nulla vel rutrum pellentesque.
-
-Suspendisse quis nisl vehicula turpis consectetur posuere a eu quam. Aliquam tincidunt turpis id iaculis efficitur. Suspendisse porttitor nisi id eleifend volutpat. Donec quam mauris, ullamcorper non mauris eu, semper pharetra quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sed metus vitae nisl tincidunt finibus id sed leo. Quisque vitae porta quam, non auctor lacus. Curabitur id dui eget libero tristique finibus ut nec metus.
-
-Praesent vel neque commodo, feugiat quam id, ultrices nibh. Sed consequat, urna ac semper aliquam, justo ex eleifend tellus, sit amet consequat neque libero ac elit. Morbi dignissim, velit accumsan mattis pulvinar, dui libero rhoncus neque, eget varius tortor lorem pretium enim. Cras eu ornare quam, at vulputate tellus. Cras vel tempus neque, non luctus odio. Donec nec ex sit amet turpis aliquet feugiat. Vestibulum vitae metus a velit dignissim varius.
-
-In hac habitasse platea dictumst. Nullam in dolor neque. Nullam tristique lectus sed urna porta, ut rutrum erat tincidunt. Vestibulum porttitor metus sed risus aliquam, et facilisis nibh mollis. Nunc maximus cursus interdum. Donec suscipit tempor elit, ut condimentum lectus. Aenean ut lectus dolor. Nunc eleifend, justo ut sagittis gravida, nunc nibh hendrerit massa, eu gravida ante arcu nec nisi.
-
-Fusce felis nisl, dictum ac nibh at, sagittis aliquam tortor. Maecenas ut tortor in augue pharetra tempor vel ut augue. Quisque at pellentesque lorem. Nullam vel dolor blandit, scelerisque justo nec, aliquam ipsum. Phasellus dapibus orci purus, nec tempor ante rhoncus in. Pellentesque commodo et massa ut lacinia. Sed fermentum congue tristique. Mauris pharetra egestas ipsum, ac sollicitudin tortor interdum sit amet. Suspendisse sollicitudin ante vitae odio tempus dictum ut in nisi. Vestibulum aliquet porta eleifend. Fusce efficitur ultricies elit, et efficitur lorem venenatis in. Fusce ut bibendum augue.
-
-Sed dictum, dolor eu dignissim posuere, risus eros venenatis ante, quis mollis turpis velit in nisi. Donec semper ipsum a ex rhoncus, in`
