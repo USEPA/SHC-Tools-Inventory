@@ -1726,6 +1726,22 @@ var allToolDetails = function () {
 };
 
 /**
+ * Returns an object containing parsed data for all tools in on the whitelist
+ * @function
+ * @return {object} - Object containing the parsed data of all tools on the whitelist.
+ */
+var whitelistedToolDetails = function () {
+  var tools = {};
+  for (var i = 0; i < whitelist.length; i++) {
+    $.get(resourceDetailURL, {ResourceId:whitelist[i]}).done(function (data) {
+      var parsedResult = parseResult(data);
+      tools[parsedResult['ID']] = parsedResult;
+    });
+  }
+  return tools;
+};
+
+/**
  * Print details for a given READ ID in the console
  * @function
  * @param {string} id - The tool ID.
