@@ -2051,7 +2051,6 @@ var renderPageInNewWindow = function(page) {
 
 /** produce report in HTML of records */
 var exportHTML = function(html, filename) {
-console.log('EXPORTING HTML!');//TODO DELETEME
   html = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>' + filename + '</title></head><body>' + html + '</body></html>';
   renderPageInNewWindow(html, filename);
 };
@@ -2113,7 +2112,6 @@ function reportToFile(resultsDivId) {
   var filename = 'sustainable_community_tools.txt';
   records = document.querySelectorAll('#' + resultsDivId + ' input:checked');
   report = JSON.stringify(records, null, 4);
-console.log("report:", report);
   exportToFile(report, filename);
   /*
   if (records.length > 0) {
