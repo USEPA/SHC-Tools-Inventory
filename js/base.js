@@ -2012,43 +2012,49 @@ function findConcepts(searchTerms) {
 	return results;
 }
 
+/** export checked tools as HTML or CSV */
 function exportTools(resultsDiv) {
   var radioValue = $('input[name="export-type"]:checked').val();
   var records = $('#' + resultsDiv + ' input:checked');
-
+  var html = '';
+	var record; 
   if (records.length <= 0) { 
     toast({html: 'Select tools to export.', close: true});
     return;
-  }
-
-  if (radioValue === "csv") {
-    exportCSV(resultsDiv, records);
-    return;
-  }
-
-  var html = '';
-  records.each(function () {
-    var record = toolCache.getParsedData($(this).val());
+  } 
+  records.each(function() {
+    record = toolCache.getParsedData($(this).val());
     if (record) {
       html += "<h2>" + record.Title + "</h2>";
-      html = createPDFHTML(record, html);
+      html = reportRecordAsHTML(record, html);
       html += "<hr>";
     }
   });
-
   html.replace('<a class="exit-disclaimer" href="https://www.epa.gov/home/exit-epa" title="EPA\'s External Link Disclaimer">Exit</a>','');
-  
-  console.log(html);
-
-  if (radioValue === "html") {
-
+if (radioValue === "csv") {
+    exportCSV(resultsDiv, records);
+  } else if (radioValue === "html") {
+    exportHTML(html, 'tool-details-exported-from-shc-tool-finder.html');
   } else if (radioValue === "pdf") {
     text = textToPDF(document.querySelector('#results-list'));
   } else {
     toast({html: 'Select an export type.', close: true});
-    return;
   }
 }
+
+/** display the given page in a new window-object */
+var renderPageInNewWindow = function(page) {
+	var win = window.open('');
+	win.document.write(page);
+	win.document.close();
+};
+
+/** produce report in HTML of records */
+var exportHTML = function(html, filename) {
+console.log('EXPORTING HTML!');//TODO DELETEME
+  html = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>' + filename + '</title></head><body>' + html + '</body></html>';
+  renderPageInNewWindow(html, filename);
+};
 
 /** digest text into lines of text to render individually in pdf */
 var textToPDF = function(source) {
@@ -2066,8 +2072,6 @@ var textToPDF = function(source) {
       text = textArray[i];
       var lines = Math.floor(text.length/lineWidth);
       for (lineNumber = 0; lineNumber < lines + 1; lineNumber++) {
-//console.log('The following arguments to `text` show their values...');
-//console.log("text.substring(lineNumber * lineWidth, lineNumber * lineWidth + lineWidth), margins.left, margins.top + (lineHeight * lineNumber):", text.substring(lineNumber * lineWidth, lineNumber * lineWidth + lineWidth), margins.left, margins.top + (lineHeight * lineNumber));
         doc.text(text.substring(lineNumber * lineWidth, lineNumber * lineWidth + lineWidth),
                  margins.left,
                  margins.top + (lineHeight * lineNumber));
@@ -2082,17 +2086,6 @@ var textToPDF = function(source) {
       newTextArray.push(textArray[elementIndex]);
     }
   }
-  //TODO export to csv
-  reportToFile('results-list');
-  //return;//FIXME finish TODO-list, remove console.log from everywhere, remove FIXME and TODO, then remove extra return-statements or code they shade
-  //TODO insert \n where appropriate
-    //TODO find 80th char
-    //TODO find location of first preceding space
-    //TODO insert replace this space with \n
-    //TODO create report of form key: value
-    //TODO text(report)
-//console.log('The following arguments to `wrap` show their values...');
-//console.log("doc, newTextArray, lineHeight, lineWidth, linesPerPage, lineNumber:", doc, newTextArray, lineHeight, lineWidth, linesPerPage, lineNumber);
   wrap(doc, newTextArray, lineHeight, lineWidth, linesPerPage, lineNumber);
   doc.output("dataurlnewwindow");
   return doc;
@@ -2208,7 +2201,7 @@ function demoFromHTML(element) {
   );
 }
 
-function createPDFHTML1(parsedData, html) {
+function reportRecordAsHTML(parsedData, html) {
   html += "" +
     "<strong><span>Title</span></strong>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
     "<strong><span>Description</span></strong>: " + parsedData['Description'] + "<br>" +
@@ -2256,7 +2249,7 @@ function createPDFHTML1(parsedData, html) {
     return html;
 }
 
-function createPDFHTML(parsedData, html) {
+function reportRecordAsHTML0(parsedData, html) {
   html += "" +
     "<div>" + parsedData['Description'] + "</div>" +
     (parsedData['URL'] === "No Data" ? "" : "<span><strong>URL</strong>: " + linkifyString(parsedData['URL']) + "</span><br>") +
