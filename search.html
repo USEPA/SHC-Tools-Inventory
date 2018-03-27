@@ -607,8 +607,14 @@ var detailedSearch = function () {
       arguments allows for the variable number of arguments to be accessed
     */
     $.when.apply(null, requests).done(function () {
+      if (arguments[1] === "success") {
+        for (var i = 0; i < arguments.length; i++) {
+          results = results.concat(arguments[0][i]);
+        }
+      } else {
       for (var i = 0; i < arguments.length; i++) {
         results = results.concat(arguments[i][0]);
+      }
       }
       var numberOfResults = parseResultsArray(results);
       if (0 === numberOfResults) {
