@@ -2294,3 +2294,46 @@ if (!String.prototype.includes) {
     }
   };
 }
+
+var Devboard = function() {
+  var devboard = document.querySelector('#devboard');
+  if (devboard === null) return;
+  var removedElements = document.querySelectorAll('.removed-content');
+  var addedElements = document.querySelectorAll('.added-content');
+  this.removedContentIsDisplayed = true;
+  this.addedContentIsDisplayed = true;
+  this.toggleRemovedContent = function() {
+    if (this.removedContentIsDisplayed) {
+      for (i = 0; i < removedElements.length; i++) {
+        removedElements[i].style.display = 'none';
+      }
+      this.removedContentIsDisplayed = false;
+    } else {
+      for (i = 0; i < removedElements.length; i++) {
+        removedElements[i].style.display = 'initial';
+      }
+      this.removedContentIsDisplayed = true;
+    }
+  };
+  this.toggleAddedContent = function() {
+    if (this.addedContentIsDisplayed) {
+      for (i = 0; i < addedElements.length; i++) {
+        addedElements[i].style.display = 'none';
+      }
+      this.addedContentIsDisplayed = false;
+    } else {
+      for (i = 0; i < addedElements.length; i++) {
+        addedElements[i].style.display = 'initial';
+      }
+      this.addedContentIsDisplayed = true;
+    }
+  };
+  toggleRemovedContent = document.createElement('button').innerText('show removed content'):
+  toggleRemovedContent.onclick(this.toggleRemovedContent());
+  devboard.appendChild(toggleRemovedContent);
+  toggleAddedContent = document.createElement('button').innerText('show added content'):
+  toggleAddedContent.onclick(this.toggleAddedContent());
+  devboard.appendChild(toggleAddedContent);
+};
+
+var devboard = new Devboard();

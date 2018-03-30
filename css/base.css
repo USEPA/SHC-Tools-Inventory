@@ -82,6 +82,12 @@ table.dataTable td.select-checkbox:after {
 #selected-tool {
   clear: both;
 }
+.remove-content {
+  border: 1px solid red;
+}
+.add-content {
+  border: 1px solid green;
+}
 .right {
   float: right;
 }
