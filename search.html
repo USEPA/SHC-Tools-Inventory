@@ -230,8 +230,13 @@
                   <button class="button-grey" onclick="selectAllToolsButton('results');">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('results');">Deselect All Tools</button>
                   <div class="right">
-                    <button class="button-white" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                     <button class="button-white" onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
+                    <button class="button-white" onclick="exportTools('results-list')">Export Selected Tools</button>
+                    <div id="export-radio">
+                      <input id="c" type="radio" name="export-type" value="csv"><label for="c">CSV</label>
+                      <input id="h" type="radio" name="export-type" value="html"><label for="h">HTML</label>
+                      <input id="p" type="radio" name="export-type" value="pdf"><label for="p">PDF</label>
+                    </div>
                   </div>
                   <img alt="Loading GIF image" aria-hidden="true" id="loader" src="img/loader.gif">
                   <div id="results-list" class="list"></div>
@@ -414,13 +419,16 @@
   <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/js/dataTables.select.min.js"></script>
   <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/dataTables.buttons.min.js"></script>
   <script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/buttons.html5.min.js"></script>
+  <!-- FIXME testing whether using different version of jspdf, either debug or min, would heal issues as noted on SO<script src="https://www.epa.gov/sites/production/files/js-scripts/jspdf.min.js"></script>
+  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.debug.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/jquery-ui.min.js"></script>
   <script src="js/whitelist.js"></script>
   <script src="js/base.js"></script>
   <script src="js/feedback-modal.js"></script>
   <script src="js/ParsedDPLData.js"></script>
-  <script src="js/search.js"></script>
+  <script src="js/search.js"></script>  
 <script>
 var resultSet = new ToolSet(); // Create result and saved tool sets
 var savedTools = new ToolSet();
@@ -604,9 +612,9 @@ var detailedSearch = function () {
           results = results.concat(arguments[0][i]);
         }
       } else {
-        for (var i = 0; i < arguments.length; i++) {
-          results = results.concat(arguments[i][0]);
-        }
+      for (var i = 0; i < arguments.length; i++) {
+        results = results.concat(arguments[i][0]);
+      }
       }
       var numberOfResults = parseResultsArray(results);
       if (0 === numberOfResults) {

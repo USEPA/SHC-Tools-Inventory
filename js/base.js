@@ -678,10 +678,11 @@ function removeSelected(divID) {
 function showDetails(id, that) {
   var origin = $(that).closest('[role="tabpanel"]').attr('aria-labelledby');
   var parsedData = toolCache.getParsedData(id);
+  var html = '';
   if (resultTable.getType() === 'wizard' || savedTools.contains(id)) {
-    var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').attr(\'aria-selected\', true);$(\'#selected-tool-tab\').attr(\'aria-selected\', false);$(' + "'#" + origin + "'" +')[0].click();">Return to Tool List</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">';
+    html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').attr(\'aria-selected\', true);$(\'#selected-tool-tab\').attr(\'aria-selected\', false);$(' + "'#" + origin + "'" +')[0].click();">Return to Tool List</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">';
   } else {
-    var html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').attr(\'aria-selected\', true);$(\'#selected-tool-tab\').attr(\'aria-selected\', false);$(' + "'#" + origin + "'" +')[0].click();">Return to Tool List</button><button class="button button-white right" onclick="saveRecord()">Save This Tool</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">';
+    html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').attr(\'aria-selected\', true);$(\'#selected-tool-tab\').attr(\'aria-selected\', false);$(' + "'#" + origin + "'" +')[0].click();">Return to Tool List</button><button class="button button-white right" onclick="saveRecord()">Save This Tool</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">';
   }
   var $tab = $("#selected-tool");
   try {
@@ -704,61 +705,61 @@ function showDetails(id, that) {
     html += "" +
       
     '<div class="light-gray">' +
-      "<span class='bold'>Title</span>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
-      "<span class='bold'>Description</span>: " + parsedData['Description'] + "<br>" +
-      "<span class='bold'>Alternate Names</span>: " + parsedData['Alternate Names'] + "<br>" +
-      "<span class='bold'>URL</span>: " + linkifyString(parsedData['URL']) + "<br>" +
-      "<span class='bold'>Ownership Type</span>: " + parsedData['Ownership Type'] + "<br>" +   
-      "<span class='bold'>Resource Type</span>: " + parsedData['Resource Type'] + "<br>" + 
-      // "<span class='bold'>Relationships</span>: " + parsedData['Relationships'] + "<br>" + // Not properly implemented in READ
+      "<span class='bold'>Title</span></strong>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
+      "<span class='bold'>Description</span></strong>: " + parsedData['Description'] + "<br>" +
+      "<span class='bold'>Alternate Names</span></strong>: " + parsedData['Alternate Names'] + "<br>" +
+      "<span class='bold'>URL</span></strong>: " + linkifyString(parsedData['URL']) + "<br>" +
+      "<span class='bold'>Ownership Type</span></strong>: " + parsedData['Ownership Type'] + "<br>" +   
+      "<span class='bold'>Resource Type</span></strong>: " + parsedData['Resource Type'] + "<br>" + 
+      // "<span class='bold'>Relationships</span></strong>: " + parsedData['Relationships'] + "<br>" + // Not properly implemented in READ
     "</div>" +
 
     '<div class="light-gray">' +
       "<h4>Cost Details</h4>" +
-      "<span class='bold'>Base Cost</span>: " + parsedData['BaseCost'] + "<br>" +
-      "<span class='bold'>Annual Cost</span>: " + parsedData['AnnualCost'] + "<br>" +
-      "<span class='bold'>Other Cost Considerations</span>: " + parsedData['Other Cost Considerations'] + "<br>" +
+      "<span class='bold'>Base Cost</span></strong>: " + parsedData['BaseCost'] + "<br>" +
+      "<span class='bold'>Annual Cost</span></strong>: " + parsedData['AnnualCost'] + "<br>" +
+      "<span class='bold'>Other Cost Considerations</span></strong>: " + parsedData['Other Cost Considerations'] + "<br>" +
     "</div>" +
       
     '<div class="light-gray">' +
       "<h4>Model Details</h4>" +
-      "<span class='bold'>Decision Sector</span>: " + parsedData['Decision Sector'] + "<br>" +
-      "<span class='bold'>Life Cycle Phase</span>: " + parsedData['Life Cycle Phase'] + "<br>" +
-      "<span class='bold'>Scope and Time Scale</span>: " + parsedData['Time Scale'] + "<br>" +
-      "<span class='bold'>Spatial Extent</span>: " + parsedData['Spatial Extent'] + "<br>" +
-      "<span class='bold'>Model Structure</span>: " + parsedData['Model Structure'] + "<br>" +
+      "<span class='bold'>Decision Sector</span></strong>: " + parsedData['Decision Sector'] + "<br>" +
+      "<span class='bold'>Life Cycle Phase</span></strong>: " + parsedData['Life Cycle Phase'] + "<br>" +
+      "<span class='bold'>Scope and Time Scale</span></strong>: " + parsedData['Time Scale'] + "<br>" +
+      "<span class='bold'>Spatial Extent</span></strong>: " + parsedData['Spatial Extent'] + "<br>" +
+      "<span class='bold'>Model Structure</span></strong>: " + parsedData['Model Structure'] + "<br>" +
     "</div>" +
 
     '<div class="light-gray">' +
       "<h4>Technical Details</h4>" +
-      "<span class='bold'>Operating System</span>: " + parsedData['Operating System'] + "<br>" +
-      "<span class='bold'>Operating Environment</span>: " + parsedData['Operating Environment'] + "<br>" +
-      "<span class='bold'>Other Proprietary Software Requirements</span>: " + linkifyString(parsedData['Other Requirements']) + "<br />" +
-      "<span class='bold'>Technical Skills Required</span>: " + parsedData['Technical Skills Needed'] + "<br />" +
-      "<span class='bold'>Open Source</span>: " + parsedData['Open Source'] + "<br>" +
-      "<span class='bold'>Last Software Update</span>: " + parsedData['Last Software Update'] + "<br>" +
+      "<span class='bold'>Operating System</span></strong>: " + parsedData['Operating System'] + "<br>" +
+      "<span class='bold'>Operating Environment</span></strong>: " + parsedData['Operating Environment'] + "<br>" +
+      "<span class='bold'>Other Proprietary Software Requirements</span></strong>: " + linkifyString(parsedData['Other Requirements']) + "<br />" +
+      "<span class='bold'>Technical Skills Required</span></strong>: " + parsedData['Technical Skills Needed'] + "<br />" +
+      "<span class='bold'>Open Source</span></strong>: " + parsedData['Open Source'] + "<br>" +
+      "<span class='bold'>Last Software Update</span></strong>: " + parsedData['Last Software Update'] + "<br>" +
     "</div>" +
 
     '<div class="light-gray">' +
       "<h4>Model Input/Output Details</h4>" +
-      "<span class='bold'>Model Inputs</span>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
-      "<span class='bold'>Model Inputs Data Requirements</span>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
-      "<span class='bold'>Model Output Types</span>: " + parsedData['Model Output Types'] + "<br>" +
-      "<span class='bold'>Model Output Variables</span>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
-      "<span class='bold'>Model Evaluation</span>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
+      "<span class='bold'>Model Inputs</span></strong>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
+      "<span class='bold'>Model Inputs Data Requirements</span></strong>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
+      "<span class='bold'>Model Output Types</span></strong>: " + parsedData['Model Output Types'] + "<br>" +
+      "<span class='bold'>Model Output Variables</span></strong>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
+      "<span class='bold'>Model Evaluation</span></strong>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
     "</div>" +
       
     '<div class="light-gray">' +
-      "<span class='bold'>Keywords</span>: " + parsedData['Keywords'] + "<br>" +
-      "<span class='bold'>Selected Concepts</span>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" +
+      "<span class='bold'>Keywords</span></strong>: " + parsedData['Keywords'] + "<br>" +
+      "<span class='bold'>Selected Concepts</span></strong>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" +
     "</div>" +
       
     '<div class="light-gray">' +
       "<h4>Support Details</h4>" +
-      "<span class='bold'>User Support Name</span>: " + parsedData['Support Name'] + "<br>" +
-      "<span class='bold'>User Support Phone</span>: " + parsedData['Support Phone'] + "<br>" +
-      "<span class='bold'>User Support Email</span>: " + linkifyString(parsedData['Support Email']) + "<br>" +
-      "<span class='bold'>User Support Material</span>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
+      "<span class='bold'>User Support Name</span></strong>: " + parsedData['Support Name'] + "<br>" +
+      "<span class='bold'>User Support Phone</span></strong>: " + parsedData['Support Phone'] + "<br>" +
+      "<span class='bold'>User Support Email</span></strong>: " + linkifyString(parsedData['Support Email']) + "<br>" +
+      "<span class='bold'>User Support Material</span></strong>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
     "</div>";
     $tab.append(html);
     $selectedToolPanel.removeAttr('aria-hidden');
@@ -781,9 +782,9 @@ function showDetails(id, that) {
  * @function
  * @param {string} resultsDiv - The ID of the div.
  */
-function exportCSV(resultsDiv) {
+function exportCSV(resultsDiv, records) {
   var filename = 'sustainable_community_tools.csv';
-  var records = $('#' + resultsDiv + ' input:checked');
+  records = (typeof records !== 'undefined') ?  records : records = $('#' + resultsDiv + ' input:checked');;
   if (records.length > 0) {
     var csvContent = '';
     var names = [];
@@ -2025,6 +2026,257 @@ function findConcepts(searchTerms) {
       }
     }
 	return results;
+}
+
+/** export checked tools as HTML or CSV */
+function exportTools(resultsDiv) {
+  var radioValue = $('input[name="export-type"]:checked').val();
+  var records = $('#' + resultsDiv + ' input:checked');
+  var html = '';
+	var record; 
+  if (records.length <= 0) { 
+    toast({html: 'Select tools to export.', close: true});
+    return;
+  } 
+  records.each(function() {
+    record = toolCache.getParsedData($(this).val());
+    if (record) {
+      html += "<h2>" + record.Title + "</h2>";
+      html = reportRecordAsHTML(record, html);
+      html += "<hr>";
+    }
+  });
+  html.replace('<a class="exit-disclaimer" href="https://www.epa.gov/home/exit-epa" title="EPA\'s External Link Disclaimer">Exit</a>','');
+if (radioValue === "csv") {
+    exportCSV(resultsDiv, records);
+  } else if (radioValue === "html") {
+    exportHTML(html, 'tool-details-exported-from-shc-tool-finder.html');
+  } else if (radioValue === "pdf") {
+    text = textToPDF(document.querySelector('#results-list'));
+  } else {
+    toast({html: 'Select an export type.', close: true});
+  }
+}
+
+/** display the given page in a new window-object */
+var renderPageInNewWindow = function(page) {
+	var win = window.open('');
+	win.document.write(page);
+	win.document.close();
+};
+
+/** produce report in HTML of records */
+var exportHTML = function(html, filename) {
+  html = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>' + filename + '</title></head><body>' + html + '</body></html>';
+  renderPageInNewWindow(html, filename);
+};
+
+/** digest text into lines of text to render individually in pdf */
+var textToPDF = function(source) {
+  var doc = new jsPDF('p', 'pt', 'letter');
+  var margins = {left: 40, top: 40, width: 600};
+  var lineNumber;
+  var lineNumberWithinPage = 0;
+  var iPage;
+  var textArray = source.innerText.split(/\n/);
+  var lineHeight = 15;
+  var lineWidth = 65;
+  var linesPerPage = 40;
+  var wrap = function(doc, textArray, lineHeight, lineWidth, linesPerPage, lineNumberWithinPage) {
+    for (var i = 0; i < textArray.length; i++) {
+      text = textArray[i];
+      var lines = Math.floor(text.length/lineWidth);
+      for (lineNumber = 0; lineNumber < lines + 1; lineNumber++) {
+        doc.text(text.substring(lineNumber * lineWidth, lineNumber * lineWidth + lineWidth),
+                 margins.left,
+                 margins.top + (lineHeight * lineNumber));
+      }
+    if (i !== textArray.length - 1) doc.addPage();
+    }
+    return lineNumber;
+  };
+  var newTextArray = [];
+  for (elementIndex = 0; elementIndex < textArray.length; elementIndex++) {
+    if (textArray[elementIndex] !== 'Show Tool Details') {
+      newTextArray.push(textArray[elementIndex]);
+    }
+  }
+  wrap(doc, newTextArray, lineHeight, lineWidth, linesPerPage, lineNumber);
+  doc.output("dataurlnewwindow");
+  return doc;
+}
+
+/** exports `text` from browser to a file */
+var exportToFile = function(text, filename) {
+  if (window.navigator.msSaveOrOpenBlob) {
+    var blob = new Blob([text], {
+      type: "text/plain;charset=utf-9;"
+    });
+    navigator.msSaveBlob(blob, filename);
+  } else {
+    var link = document.createElement("a");
+    link.setAttribute("href", 'data:text/plain;charset=utf-9,' + encodeURIComponent(text));
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+};
+
+/** produce set of results for checked list-items */
+function reportToFile(resultsDivId) {
+  var filename = 'sustainable_community_tools.txt';
+  records = document.querySelectorAll('#' + resultsDivId + ' input:checked');
+  report = JSON.stringify(records, null, 4);
+  exportToFile(report, filename);
+  /*
+  if (records.length > 0) {
+    var reportContent = '';
+    var names = [];
+    var values;
+    records.each(function () {
+      values = [];
+      var record = toolCache.getParsedData($(this).val());
+      if (record) {
+        if (names.length === 0) {
+          for (var prop in record && property != 'ID') {
+            if (record.hasOwnProperty(prop)) {
+              var name = prop;
+              names.push(name);
+            }
+          }
+          reportContent = names.join() + '\n';
+        }
+        for (var property in record) {
+          if (record.hasOwnProperty(property) && property != 'ID') {
+            values.push('"' + record[property] + '"');
+          }
+        }
+        reportContent += values.join() + '\n';
+      }
+    });
+    if (window.navigator.msSaveOrOpenBlob) {
+      var blob = new Blob([reportContent], {
+        type: "text/plain;charset=utf-9;"
+      });
+      navigator.msSaveBlob(blob, filename);
+    } else {
+      var link = document.createElement("a");
+      link.setAttribute("href", 'data:text/plain;charset=utf-9,' + encodeURIComponent(reportContent));
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  } else {
+    toast({html: 'You must select tools to report.', close: true});
+  }
+  */
+}
+
+function demoFromHTML(element) {
+  var pdf = new jsPDF('p', 'pt', 'letter');
+  // source can be HTML-formatted string, or a reference
+  // to an actual DOM element from which the text will be scraped.
+  source = element[0];
+
+  // we support special element handlers. Register them with jQuery-style 
+  // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+  // There is no support for any other type of selectors 
+  // (class, of compound) at this time.
+  specialElementHandlers = {
+      // element with id of "bypass" - jQuery style selector
+      '#bypassme': function (element, renderer) {
+          // true = "handled elsewhere, bypass text extraction"
+          return true
+      }
+  };
+  margins = {
+      top: 80,
+      bottom: 60,
+      left: 40,
+      width: 522
+  };
+  // all coords and widths are in jsPDF instance's declared units
+  // 'inches' in this case
+  pdf.fromHTML(
+      source, // HTML string or DOM elem ref.
+      margins.left, // x coord
+      margins.top, { // y coord
+          'width': margins.width, // max width of content on PDF
+          'elementHandlers': specialElementHandlers
+      },
+
+      function (dispose) {
+          // dispose: object with X, Y of the last line add to the PDF 
+          //          this allow the insertion of new lines after html
+          pdf.save('Test.pdf');
+      }, margins
+  );
+}
+
+function reportRecordAsHTML(parsedData, html) {
+  html += "" +
+    "<strong><span>Title</span></strong>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
+    "<strong><span>Description</span></strong>: " + parsedData['Description'] + "<br>" +
+    (parsedData['Alternate Names'] === "No Data" ? "" : "<strong><span>Alternate Names</span></strong>: " + parsedData['Alternate Names'] + "<br>") +
+    (parsedData['URL'] === "No Data" ? "" : "<strong><span>URL</span></strong>: " + linkifyString(parsedData['URL']) + "<br>") +
+    (parsedData['Ownership Type'] === "No Data" ? "" : "<strong><span>Ownership Type</span></strong>: " + parsedData['Ownership Type'] + "<br>") +
+    (parsedData['Resource Type'] === "No Data" ? "" : "<strong><span>Resource Type</span></strong>: " + parsedData['Resource Type'] + "<br>") +
+
+    "<h3>Cost Details</h3>" +
+    (parsedData['BaseCost'] === "No Data" ? "" : "<strong><span>Base Cost</span></strong>: " + parsedData['BaseCost'] + "<br>") +
+    (parsedData['AnnualCost'] === "No Data" ? "" : "<strong><span>Annual Cost</span></strong>: " + parsedData['AnnualCost'] + "<br>") +
+    (parsedData['Other Cost Considerations'] === "No Data" ? "" : "<strong><span>Other Cost Considerations</span></strong>: " + parsedData['Other Cost Considerations'] + "<br>") +
+      
+    "<h3>Model Details</h3>" +
+    "<strong><span>Decision Sector</span></strong>: " + parsedData['Decision Sector'] + "<br>" +
+    "<strong><span>Life Cycle Phase</span></strong>: " + parsedData['Life Cycle Phase'] + "<br>" +
+    "<strong><span>Scope and Time Scale</span></strong>: " + parsedData['Time Scale'] + "<br>" +
+    "<strong><span>Spatial Extent</span></strong>: " + parsedData['Spatial Extent'] + "<br>" +
+    "<strong><span>Model Structure</span></strong>: " + parsedData['Model Structure'] + "<br>" +
+
+    "<h3>Technical Details</h3>" +
+    "<strong><span>Operating System</span></strong>: " + parsedData['Operating System'] + "<br>" +
+    "<strong><span>Operating Environment</span></strong>: " + parsedData['Operating Environment'] + "<br>" +
+    "<strong><span>Other Proprietary Software Requirements</span></strong>: " + linkifyString(parsedData['Other Requirements']) + "<br />" +
+    "<strong><span>Technical Skills Required</span></strong>: " + parsedData['Technical Skills Needed'] + "<br />" +
+    "<strong><span>Open Source</span></strong>: " + parsedData['Open Source'] + "<br>" +
+    "<strong><span>Last Software Update</span></strong>: " + parsedData['Last Software Update'] + "<br>" +
+
+    "<h3>Model Input/Output Details</h3>" +
+    "<strong><span>Model Inputs</span></strong>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
+    "<strong><span>Model Inputs Data Requirements</span></strong>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
+    "<strong><span>Model Output Types</span></strong>: " + parsedData['Model Output Types'] + "<br>" +
+    "<strong><span>Model Output Variables</span></strong>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
+    "<strong><span>Model Evaluation</span></strong>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
+      
+    '<div>' +
+    (parsedData['Keywords'] === "No Data" ? "" : "<strong><span>Keywords</span></strong>: " + parsedData['Keywords'] + "<br>") +
+    "</div>" +
+      
+    "<h3>Support Details</h3>" +
+    (parsedData['Support Name'] === "No Data" ? "" : "<strong><span>User Support Name</span></strong>: " + parsedData['Support Name'] + "<br>") +
+    (parsedData['Support Phone'] === "No Data" ? "" : "<strong><span>User Support Phone</span></strong>: " + parsedData['Support Phone'] + "<br>") +
+    (parsedData['Support Email'] === "No Data" ? "" : "<strong><span>User Support Email</span></strong>: " + linkifyString(parsedData['Support Email']) + "<br>") +
+    (parsedData['Support Materials'] === "No Data" ? "" : "<strong><span>User Support Material</span></strong>: " + linkifyString(parsedData['Support Materials']) + "<br>");
+    return html;
+}
+
+function reportRecordAsHTML0(parsedData, html) {
+  html += "" +
+    "<div>" + parsedData['Description'] + "</div>" +
+    (parsedData['URL'] === "No Data" ? "" : "<span><strong>URL</strong>: " + linkifyString(parsedData['URL']) + "</span><br>") +
+    (parsedData['Resource Type'] === "No Data" ? "" : "<span><strong>Resource Type</strong>: " + parsedData['Resource Type'] + "</span><br>") +
+    (parsedData['BaseCost'] === "No Data" ? "" : "<span><strong>Base Cost</strong>: " + parsedData['BaseCost'] + "</span><br>") +
+    (parsedData['AnnualCost'] === "No Data" ? "" : "<span><strong>Annual Cost</strong>: " + parsedData['AnnualCost'] + "</span><br>") +
+    (parsedData['Other Cost Considerations'] === "No Data" ? "" : "<span><strong>Other Cost Considerations</strong>: " + parsedData['Other Cost Considerations'] + "</span><br>") +
+    (parsedData['Decision Sector'] === "No Data" ? "" : "<span><strong>Decision Sector</strong>: " + parsedData['Decision Sector'] + "</span><br>") +
+    (parsedData['Operating System'] === "No Data" ? "" : "<span><strong>Operating System</strong>: " + parsedData['Operating System'] + "</span><br>") +
+    (parsedData['Operating Environment'] === "No Data" ? "" : "<span><strong>Operating Environment</strong>: " + parsedData['Operating Environment'] + "</span><br>") +
+    (parsedData['Other Requirements'] === "No Data" ? "" : "<span><strong>Other Proprietary Software Requirements</strong>: " + linkifyString(parsedData['Other Requirements']) + "</span><br>") +
+    (parsedData['Technical Skills Needed'] === "No Data" ? "" : "<span><strong>Technical Skills Required</strong>: " + parsedData['Technical Skills Needed'] + "</span><br>");
+    return html;
 }
 
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
