@@ -2328,10 +2328,10 @@ var Devboard = function() {
       this.addedContentIsDisplayed = true;
     }
   };
-  toggleRemovedContent = document.createElement('button').innerText('show removed content'):
+  toggleRemovedContent = document.createElement('button').innerText('show removed content');
   toggleRemovedContent.onclick(this.toggleRemovedContent());
   devboard.appendChild(toggleRemovedContent);
-  toggleAddedContent = document.createElement('button').innerText('show added content'):
+  toggleAddedContent = document.createElement('button').innerText('show added content');
   toggleAddedContent.onclick(this.toggleAddedContent());
   devboard.appendChild(toggleAddedContent);
 };
