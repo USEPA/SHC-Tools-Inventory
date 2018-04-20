@@ -11,16 +11,26 @@ var autocompleteArrays = { // node.js sorted arrays to ensure ECMAScript-compati
 var concatenatedAutocompleteTerms = [];
 var orderedAutocompleteTerms = [];
 concatenatedAutocompleteTerms = concatenatedAutocompleteTerms.concat(autocompleteArrays.Name, autocompleteArrays.Acronym, autocompleteArrays.ShortDescriptionForReports, autocompleteArrays.Keywords, autocompleteArrays.DPLConcepts);
-for (i = 0; i < concatenatedAutocompleteTerms.length; i++) {
-  if (orderedAutocompleteTerms.indexOf(concatenatedAutocompleteTerms[i]) === -1) {
-    orderedAutocompleteTerms.push(concatenatedAutocompleteTerms[i]);
-    orderedAutocompleteTerms.sort();
-  }
-}
-console.log((concatenatedAutocompleteTerms.length - orderedAutocompleteTerms.length)/concatenatedAutocompleteTerms.length);
+orderedAutocompleteTerms = removeDuplicatesFromArray(concatenatedAutocompleteTerms).sort();
 $(".search-input").autocomplete({
   source: orderedAutocompleteTerms
 });
+
+function removeDuplicatesFromArray(a) {
+  var seen = {};
+  var out = [];
+  var len = a.length;
+  var j = 0;
+  for(var i = 0; i < len; i++) {
+      var item = a[i];
+      var itemLowerCase = item.toLowerCase();
+      if(seen[itemLowerCase] !== 1) {
+        seen[itemLowerCase] = 1;
+        out[j++] = item;
+      }
+  }
+  return out;
+}
 
 /**
  * Resets the Autocomplete source based on which Search Fields are checked
@@ -31,9 +41,11 @@ $('input[name="search-field"]').click(function () {
 	$textField.autocomplete('destroy');
 	$('input[name="search-field"]:checked').each(function () { // for each checked Search Field
 		autocomplete = autocomplete.concat(autocompleteArrays[$(this).val()]); // concat the array of terms
-	});
+  });
+  autocomplete = autocomplete.concat(autocompleteArrays.DPLConcepts);
+  var orderedAutocompleteTerms = removeDuplicatesFromArray(autocomplete).sort();
 	$textField.autocomplete({
-    source: autocomplete // create new auto complete with new terms 
+    source: orderedAutocompleteTerms // create new auto complete with new terms 
   });
 });
 
