@@ -631,8 +631,8 @@ var detailedSearch = function () {
         $('.toggle-unsupported').prop('disabled', true);
         $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
+        $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\""); 
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
-        $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
       toast({html: 'Server error. Please try again another time.', close: true});
@@ -711,8 +711,8 @@ var simpleSearch = function () {
         $('.toggle-unsupported').prop('disabled', true);
         $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
-        toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
         $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
+        toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
       toast({html: 'Server error. Please try again another time.', close: true});
