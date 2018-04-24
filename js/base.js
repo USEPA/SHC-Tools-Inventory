@@ -493,6 +493,9 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   for (var i = 0; i < sorted.length; i++) {
   	if (!this.toolSet.contains(sorted[i])) {
       var toolData = toolCache.getParsedData(sorted[i]);
+      if (toolData === null) {
+        console.log(sorted[i] + " data is null.");
+      }
       if (toolData !== null && !isToolFiltered(toolData)) {
         if (!(toolData["Life Cycle Phase"] === "Termination" && !$('.toggle-unsupported').prop('checked'))) {
           html += createDiv(toolData, this.getListId());
