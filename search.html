@@ -150,6 +150,8 @@
                     <label class="option" for="description">Description</label>
                     <input class="form-checkbox" checked id="keywords" name="search-field" type="checkbox" value="Keywords" />
                     <label class="option" for="keywords">Keywords</label>
+                    <input class="form-checkbox" checked id="dpl-concepts" name="search-field" type="checkbox" value="DPLConcepts" />
+                    <label class="option" for="dpl-concepts">DPL Concepts</label>
                     <input class="form-checkbox" id="model-input" name="search-field" type="checkbox" value="ModelInputs" />
                     <label class="option" for="model-input">Model Inputs</label>
                     <input class="form-checkbox" id="output-variables" name="search-field" type="checkbox" value="OutputVariables" />
@@ -574,9 +576,11 @@ var detailedSearch = function () {
   var requests = [];
   var data = {};
   if (queryString) { // ensure search string is not empty
-    // Search DPL concepts
-    var concepts = findConcepts([queryString]);
-    searchParsedConcepts(concepts);
+    if ($('#dpl-concepts').prop('checked')) {
+      // Search DPL concepts
+      var concepts = findConcepts([queryString]);
+      searchParsedConcepts(concepts);
+    }
     // Search READ data
     for (var i = 0; i < queryTypes.length; i++) {
       if (queryTypes[i] === 'Acronym') {

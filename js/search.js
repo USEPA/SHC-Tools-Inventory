@@ -40,9 +40,8 @@ $('input[name="search-field"]').click(function () {
 	var autocomplete = [];
 	$textField.autocomplete('destroy');
 	$('input[name="search-field"]:checked').each(function () { // for each checked Search Field
-		autocomplete = autocomplete.concat(autocompleteArrays[$(this).val()]); // concat the array of terms
+    autocomplete = autocomplete.concat(autocompleteArrays[$(this).val()]); // concat the array of terms
   });
-  autocomplete = autocomplete.concat(autocompleteArrays.DPLConcepts);
   var orderedAutocompleteTerms = removeDuplicatesFromArray(autocomplete).sort();
 	$textField.autocomplete({
     source: orderedAutocompleteTerms // create new auto complete with new terms 
