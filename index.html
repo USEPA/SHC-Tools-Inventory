@@ -111,7 +111,7 @@
 
       <h3 id="read-title" class="title">The Tool Inventory</h3>
       <p>The Environmental Protection Agency’s <a href="https://www.epa.gov/aboutepa/about-sustainable-and-healthy-communities-research-program">Sustainable and Healthy Communities Research Program (SHCRP)</a> has an inventory of decision support tools. This inventory is designed to guide non-experts and professionals who seek solutions to community level development needs that will sustain human wellbeing and ecological functions.</p>
-      <p>This web-based inventory provides a searchable resource for building owners, developers, municipal planners, architects, engineers, and other interested community stakeholders. The tools in the inventory provide data, model scenarios, and narratives that guide the user through decision-making processes in ways that promote sustainability at the community level. The current inventory contains just over 70 tools, but the content pool will expand and contract as new tools are added and old tools are phased out. If any links to tools appear broken or missing, please let us know.</p>
+      <p>This web-based inventory provides a searchable resource for building owners, developers, municipal planners, architects, engineers, and other interested community stakeholders. The tools in the inventory provide data, model scenarios, and narratives that guide the user through decision-making processes in ways that promote sustainability at the community level. The current inventory contains <span id="current-tool-count"></span> tools, but the content pool will expand and contract as new tools are added and old tools are phased out. If any links to tools appear broken or missing, please let us know.</p>
       <p>The tools in the inventory occupy the following four decision sectors:</p>
       <dl>
         <dt class="bold">Buildings and Related Infrastructure</dt>
@@ -355,5 +355,9 @@
   <script src="https://www.epa.gov/sites/all/modules/custom/epa_core/js/alert.js"></script>
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/ie.js"></script><![endif]-->
   <script src="js/feedback-modal.js"></script>
+  <script src="js/whitelist.js"></script>
+  <script>
+    jQuery('#current-tool-count').html(whitelist.length);
+  </script>
 </body>
 </html>
