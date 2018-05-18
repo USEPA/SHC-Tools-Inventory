@@ -748,7 +748,7 @@ function showDetails(id, that) {
       "<span class='bold'>Model Inputs</span></strong>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
       "<span class='bold'>Model Inputs Data Requirements</span></strong>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
       "<span class='bold'>Model Output Types</span></strong>: " + parsedData['Model Output Types'] + "<br>" +
-      "<span class='bold'>Model Output Variables</span></strong>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
+      "<span class='bold'>Model Variables</span></strong>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
       "<span class='bold'>Model Evaluation</span></strong>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
     "</div>" +
       
@@ -2253,7 +2253,7 @@ function reportRecordAsHTML(parsedData, html) {
     "<strong><span>Model Inputs</span></strong>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
     "<strong><span>Model Inputs Data Requirements</span></strong>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
     "<strong><span>Model Output Types</span></strong>: " + parsedData['Model Output Types'] + "<br>" +
-    "<strong><span>Model Output Variables</span></strong>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
+    "<strong><span>Model Variables</span></strong>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
     "<strong><span>Model Evaluation</span></strong>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
       
     '<div>' +
