@@ -14,7 +14,7 @@ function submitFeedback(event) {
  * Display the feedback modal when the link is clicked.
  * @listens click
  */
-jQuery('#feedback-link').click(function () {
+jQuery('.feedback-link').click(function () {
     jQuery('#feedback-modal').css('display', 'block');
   });
   
