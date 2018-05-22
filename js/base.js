@@ -609,7 +609,7 @@ function createRow(parsedResult) {
     parsedResult['Model Inputs'],
     parsedResult['Input Data Requirements'],
     parsedResult['Model Output Types'],
-    parsedResult['Output Variables'],
+    parsedResult['Model Variables'],
     parsedResult['Model Evaluation'],
     parsedResult['Keywords'],
     parsedResult['Support Name'],
@@ -748,7 +748,7 @@ function showDetails(id, that) {
       "<span class='bold'>Model Inputs</span></strong>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
       "<span class='bold'>Model Inputs Data Requirements</span></strong>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
       "<span class='bold'>Model Output Types</span></strong>: " + parsedData['Model Output Types'] + "<br>" +
-      "<span class='bold'>Model Variables</span></strong>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
+      "<span class='bold'>Model Variables</span></strong>: " + linkifyString(parsedData['Model Variables']) + "<br>" +
       "<span class='bold'>Model Evaluation</span></strong>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
     "</div>" +
       
@@ -992,7 +992,7 @@ var parseResult = function (result) {
   parsedResult['Model Inputs'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelInputsDetail', 'ModelInputsTextArea']);
   parsedResult['Input Data Requirements'] = parseDataRequirements(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelInputsDetail', 'ModelInputsDataRequirements']));
   parsedResult['Model Output Types'] = parseModelOutputType(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelOutputsDetail', 'ModelOutputsModelOutputTypesDetail']));
-  parsedResult['Output Variables'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelOutputsDetail', 'ModelOutputsModelVariablesTextArea']);
+  parsedResult['Model Variables'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelOutputsDetail', 'ModelOutputsModelVariablesTextArea']);
   parsedResult['Model Evaluation'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ModelEvaluationDetail', 'ModelEvaluationTextArea']);
   parsedResult['Keywords'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'KeywordDetail', 'KeywordText']);
   parsedResult['Support Name'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'UserSupportDetail', 'UserSupportName']);
@@ -2253,7 +2253,7 @@ function reportRecordAsHTML(parsedData, html) {
     "<strong><span>Model Inputs</span></strong>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
     "<strong><span>Model Inputs Data Requirements</span></strong>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
     "<strong><span>Model Output Types</span></strong>: " + parsedData['Model Output Types'] + "<br>" +
-    "<strong><span>Model Variables</span></strong>: " + linkifyString(parsedData['Output Variables']) + "<br>" +
+    "<strong><span>Model Variables</span></strong>: " + linkifyString(parsedData['Model Variables']) + "<br>" +
     "<strong><span>Model Evaluation</span></strong>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
       
     '<div>' +
