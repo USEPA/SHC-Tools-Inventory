@@ -1,0 +1,13 @@
+{
+  "name": "shc-tool-finder",
+  "version": "1.0.0",
+  "description": "SHC Tool Finder",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/USEPA/SHC-Tools-Inventory",
+  "devDependencies": {
+    "electron": "^2.0.0"
+  }
+}
