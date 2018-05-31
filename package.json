@@ -4,10 +4,25 @@
   "description": "SHC Tool Finder",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder"
   },
   "repository": "https://github.com/USEPA/SHC-Tools-Inventory",
   "devDependencies": {
-    "electron": "^2.0.0"
+    "electron": "^2.0.0",
+    "electron-builder": "^20.13.3"
+  },
+  "dependencies": {
+    "npm": "^6.1.0"
+  },
+  "build": {
+    "asar": true,
+    "appId": "shctools.app",
+    "mac": {
+      "category": "shctools.app"
+    },
+    "nsis": {
+      "oneClick": false
+    }
   }
 }

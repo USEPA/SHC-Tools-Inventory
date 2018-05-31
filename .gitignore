@@ -10,3 +10,4 @@ deleteme
 .gitignore
 
 node_modules/
+dist/
