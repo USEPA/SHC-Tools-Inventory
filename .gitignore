@@ -1,5 +1,13 @@
 debug.log
-mockup.html.orig
-deleteme.changesToMockup
+
+mockup.html
+.orig
+deleteme
+.changesToMockup
+
 *.doc
+
 .gitignore
+
+node_modules/
+dist/
