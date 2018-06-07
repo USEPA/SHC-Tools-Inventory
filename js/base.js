@@ -2038,17 +2038,20 @@ function exportTools(resultsDiv) {
   var radioValue = $('input[name="export-type"]:checked').val();
   var records = $('#' + resultsDiv + ' input:checked');
   var html = '';
-	var record; 
+  var record; 
+  var selectedTools = {};
   if (records.length <= 0) { 
     toast({html: 'Select tools to export.', close: true});
     return;
   } 
   records.each(function() {
-    record = toolCache.getParsedData($(this).val());
+    var id = $(this).val();
+    record = toolCache.getParsedData(id);
     if (record) {
       html += "<h2>" + record.Title + "</h2>";
       html = reportRecordAsHTML(record, html);
       html += "<hr>";
+      selectedTools[id] = record;
     }
   });
   html.replace('<a class="exit-disclaimer" href="https://www.epa.gov/home/exit-epa" title="EPA\'s External Link Disclaimer">Exit</a>','');
@@ -2057,7 +2060,7 @@ if (radioValue === "csv") {
   } else if (radioValue === "html") {
     exportHTML(html, 'tool-details-exported-from-shc-tool-finder.html');
   } else if (radioValue === "pdf") {
-    text = textToPDF(document.querySelector('#results-list'));
+    textToPDF(selectedTools);
   } else {
     toast({html: 'Select an export type.', close: true});
   }
@@ -2077,39 +2080,43 @@ var exportHTML = function(html, filename) {
 };
 
 /** digest text into lines of text to render individually in pdf */
-var textToPDF = function(source) {
-  var doc = new jsPDF('p', 'pt', 'letter');
-  var margins = {left: 40, top: 40, width: 600};
-  var lineNumber;
-  var lineNumberWithinPage = 0;
-  var iPage;
-  var textArray = source.innerText.split(/\n/);
-  var lineHeight = 15;
-  var lineWidth = 65;
-  var linesPerPage = 40;
-  var wrap = function(doc, textArray, lineHeight, lineWidth, linesPerPage, lineNumberWithinPage) {
-    for (var i = 0; i < textArray.length; i++) {
-      text = textArray[i];
-      var lines = Math.floor(text.length/lineWidth);
-      for (lineNumber = 0; lineNumber < lines + 1; lineNumber++) {
-        doc.text(text.substring(lineNumber * lineWidth, lineNumber * lineWidth + lineWidth),
-                 margins.left,
-                 margins.top + (lineHeight * lineNumber));
+var textToPDF = function(selectedTools) {
+  var doNotInclude = ["ID", "Last Modified"];  
+  var doc = new PDFDocument();
+  var stream = doc.pipe(blobStream());
+  doc.font('Helvetica-Bold').fontSize(18).text("Sustainable and Healthy Communities Research Program Decision Support Tools");
+  doc.font('Helvetica-Bold').fontSize(18).text("Environmental Protection Agency");
+  doc.font('Helvetica-Bold').fontSize(18).text(" ");
+  for (var toolID in selectedTools) {
+    var tool = selectedTools[toolID];
+    for (var prop in tool) {
+      var attribute = tool[prop] + '';
+      if (attribute.toLowerCase() !== "no data" && doNotInclude.indexOf(prop) === -1) {
+        if (prop === "URL") {
+          var urls = tool.URL.split('; ');
+          doc.font('Helvetica-Bold').fontSize(12).text(prop, {
+            continued: true
+          }).font('Helvetica').text(": ", {
+            continued: true
+          });
+          for (var i = 0; i < urls.length; i++) {
+            doc.font('Helvetica').text(urls[i]);
+          }
+        } else {
+          doc.font('Helvetica-Bold').fontSize(12).text(prop, {
+            continued: true
+          }).font('Helvetica').text(": " + attribute);
+        } 
       }
-    if (i !== textArray.length - 1) doc.addPage();
     }
-    return lineNumber;
-  };
-  var newTextArray = [];
-  for (elementIndex = 0; elementIndex < textArray.length; elementIndex++) {
-    if (textArray[elementIndex] !== 'Show Tool Details') {
-      newTextArray.push(textArray[elementIndex]);
-    }
+    doc.text(' ');
   }
-  wrap(doc, newTextArray, lineHeight, lineWidth, linesPerPage, lineNumber);
-  doc.output("dataurlnewwindow");
-  return doc;
-}
+  doc.end();
+  stream.on('finish', function() {
+    blob = stream.toBlob('application/pdf');
+    saveAs(blob, 'MyFile.pdf');
+  });
+};
 
 /** exports `text` from browser to a file */
 var exportToFile = function(text, filename) {
