@@ -358,3 +358,7 @@ table {
   display: inline;
   margin:5px 5px 25.5px 5px;
 }
+
+.dataTables_filter {
+  margin-right: 5px;
+}
