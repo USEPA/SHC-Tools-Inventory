@@ -127,8 +127,8 @@
                   <button class="enabled-by-subrole persist next" onclick="activateNextTab($('#subrole-tab'), 'wizard.html#subrole-tab')">Next</button>
                 </div>
                 <hr />
-                <button class="button-grey" onclick="selectAll('role', roleSelect)">Select All Roles</button>
-                <button class="button-grey" onclick="deselectAll('role', roleSelect)">Deselect All Roles</button>
+                <button onclick="selectAll('role', roleSelect)">Select All Roles</button>
+                <button onclick="deselectAll('role', roleSelect)">Deselect All Roles</button>
                 <div class="bold" id="role-tool-count"></div>
                 <div id="role"></div>
                 <div class="bottom-bar">
@@ -149,8 +149,8 @@
                   <button class="enabled-by-fundamental-objective persist next" onclick="activateNextTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab')">Next</button>
                 </div>
                 <hr />
-                <button class="button-grey" onclick="selectAll('subrole', subroleSelect)">Select All Subroles</button>
-                <button class="button-grey" onclick="deselectAll('subrole', subroleSelect)">Deselect All Subroles</button>
+                <button onclick="selectAll('subrole', subroleSelect)">Select All Subroles</button>
+                <button onclick="deselectAll('subrole', subroleSelect)">Deselect All Subroles</button>
                 <div class="bold" id="subrole-tool-count"></div>
                 <div id="subrole"></div>
                 <div class="bottom-bar">
@@ -171,8 +171,8 @@
                   <button class="enabled-by-objective persist next" onclick="activateNextTab($('#objective-tab'), 'wizard.html#objective-tab')">Next</button>
                 </div>
                 <hr />
-                <button class="button-grey" onclick="selectAll('fundamental-objective', fundamentalObjectiveSelect)">Select All Fundamental Objectives</button>
-                <button class="button-grey" onclick="deselectAll('fundamental-objective', fundamentalObjectiveSelect)">Deselect All Fundamental Objectives</button>
+                <button onclick="selectAll('fundamental-objective', fundamentalObjectiveSelect)">Select All Fundamental Objectives</button>
+                <button onclick="deselectAll('fundamental-objective', fundamentalObjectiveSelect)">Deselect All Fundamental Objectives</button>
                 <div class="bold" id="fundamental-objective-tool-count"></div>
                 <div id="fundamental-objective"></div>
                 <div class="bottom-bar">
@@ -196,11 +196,11 @@
                 </div>
                 <hr />
                 <input id="objective-relevance" type="hidden" value="2" />
-                <button class="button-grey" onclick="selectAll('objective', objectiveSelect)">Select All Objectives</button>
-                <button class="button-grey" onclick="deselectAll('objective', objectiveSelect)">Deselect All Objectives</button>
+                <button onclick="selectAll('objective', objectiveSelect)">Select All Objectives</button>
+                <button onclick="deselectAll('objective', objectiveSelect)">Deselect All Objectives</button>
                 <!-- <div class="right">
-                  <button class="button-white" onclick="objectiveDisplay(-1)" id="objective-relevance-decrease" title="Removes less relevant objectives from the list.">Show Fewer Objectives</button>
-                  <button class="button-white" onclick="objectiveDisplay(1)" id="objective-relevance-increase" title="Adds potentially less relevant objectives to the list.">Show More Objectives</button>
+                  <button onclick="objectiveDisplay(-1)" id="objective-relevance-decrease" title="Removes less relevant objectives from the list.">Show Fewer Objectives</button>
+                  <button onclick="objectiveDisplay(1)" id="objective-relevance-increase" title="Adds potentially less relevant objectives to the list.">Show More Objectives</button>
                 </div> -->
                 <div class="bold" id="objective-tool-count"></div>
                 <div id="objective"></div>
@@ -220,17 +220,17 @@
                 <p>Use the <strong>Show Results</strong> button to display your list of targeted tools.</p>
                 <div class="navbar">
                   <button class="persist" onclick="activateTab($('#objective-tab'), 'wizard.html#objective-tab')">Back</button>
-                  <button class="button-aqua next concept-search-button" onclick="displayResults()">Show Results</button>
+                  <button class="next concept-search-button" onclick="displayResults()">Show Results</button>
                   <div aria-hidden="true" id="results-notification"></div>
                 </div>
                 <hr class="park-mark" />
-                <button class="button-grey" onclick="selectAll('concept');updateConceptsandResults()">Select All Concepts</button>
-                <button class="button-grey" onclick="deselectAll('concept');updateConceptsandResults()">Deselect All Concepts</button>
-                <button class="button-white right" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
+                <button onclick="selectAll('concept');updateConceptsandResults()">Select All Concepts</button>
+                <button onclick="deselectAll('concept');updateConceptsandResults()">Deselect All Concepts</button>
+                <button class="right" id="expand-concepts" onclick="broadenConcepts()">Add Additional Concepts</button>
                 <div id="concept"></div>
                 <div class="bottom-bar">
                   <button class="persist" onclick="activateTab($('#objective-tab'), 'wizard.html#objective-tab')">Back</button>
-                  <button class="button-aqua next concept-search-button" onclick="displayResults()">Show Results</button>
+                  <button class="next concept-search-button" onclick="displayResults()">Show Results</button>
                   <div aria-hidden="true" id="results-notification"></div>
                 </div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
@@ -251,9 +251,9 @@
                 <hr />
                 <p id="result-info"></p>
                 <div id="results-list-div">  
-                  <button class="button-grey" onclick="selectAllToolsButton('results')">Select All Tools</button>
-                  <button class="button-grey" onclick="deselectAllToolsButton('results')">Deselect All Tools</button>
-                  <button class="button-white" onclick="exportTools('results-list')">Export Selected Tools</button>
+                  <button onclick="selectAllToolsButton('results')">Select All Tools</button>
+                  <button onclick="deselectAllToolsButton('results')">Deselect All Tools</button>
+                  <button onclick="exportTools('results-list')">Export Selected Tools</button>
                   <div class="export-radio">
                     <input id="c-navbar" type="radio" name="export-type" value="csv"><label for="c-navbar">CSV</label>
                     <input id="p-navbar" type="radio" name="export-type" value="pdf"><label for="p-navbar">PDF</label>

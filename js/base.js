@@ -1438,14 +1438,14 @@ function createDataTable(name) {
           action: function () {
             selectFilteredToolsButton(name);
           },
-          className: 'button button-grey'
+          className: 'button'
         },
         {
           text: 'Deselect All Tools',
           action: function () {
             deselectFilteredToolsButton(name);
           },
-          className: 'button button-grey'
+          className: 'button'
         }
       ]
     });
@@ -1461,7 +1461,7 @@ function createDataTable(name) {
           action: function () {
             saveSelectedRecords(name + '-list');
           },
-          className: 'button button-white'
+          className: 'button'
         }
       );
     }
@@ -1473,7 +1473,7 @@ function createDataTable(name) {
           action: function () {
             exportTools(name + '-table');
           },
-          className: 'button button-white'
+          className: 'button'
         }
       );
     }
@@ -1489,7 +1489,7 @@ function createDataTable(name) {
           action: function () {
             removeSelected(name + '-list');
           },
-          className: 'button button-white'
+          className: 'button'
         }
       );
     }

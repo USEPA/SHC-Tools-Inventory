@@ -229,10 +229,10 @@
                 <hr />
                 <p id="result-info"></p>
                 <div id="results-list-div">  
-                  <button class="button-grey" onclick="selectAllToolsButton('results');">Select All Tools</button>
-                  <button class="button-grey" onclick="deselectAllToolsButton('results');">Deselect All Tools</button>
-                  <button class="button-white" onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
-                  <button class="button-white" onclick="exportTools('results-list')">Export Selected Tools</button>
+                  <button onclick="selectAllToolsButton('results');">Select All Tools</button>
+                  <button onclick="deselectAllToolsButton('results');">Deselect All Tools</button>
+                  <button onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
+                  <button onclick="exportTools('results-list')">Export Selected Tools</button>
                   <div class="export-radio">
                     <input id="c-results" type="radio" name="export-type" value="csv"><label for="c-results">CSV</label>
                     <input id="p-results" type="radio" name="export-type" value="pdf"><label for="p-results">PDF</label>
@@ -273,16 +273,14 @@
                 <br />
                 <hr />
                 <div id="saved-list-div">
-                  <button class="button-grey" onclick="selectAllToolsButton('saved');">Select All Tools</button>
-                  <button class="button-grey" onclick="deselectAllToolsButton('saved');">Deselect All Tools</button>
-                  
-                    <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
-                    <button class="button-white" onclick="exportTools('saved-list')">Export Selected Tools</button>
-                    <div class="export-radio">
-                      <input id="c-saved" type="radio" name="export-type" value="csv"><label for="c-saved">CSV</label>
-                      <input id="p-saved" type="radio" name="export-type" value="pdf"><label for="p-saved">PDF</label>
-                    </div>
-                  
+                  <button onclick="selectAllToolsButton('saved');">Select All Tools</button>
+                  <button onclick="deselectAllToolsButton('saved');">Deselect All Tools</button>
+                  <button onclick="removeSelected('saved-list')">Remove Selected Tools</button>
+                  <button onclick="exportTools('saved-list')">Export Selected Tools</button>
+                  <div class="export-radio">
+                    <input id="c-saved" type="radio" name="export-type" value="csv"><label for="c-saved">CSV</label>
+                    <input id="p-saved" type="radio" name="export-type" value="pdf"><label for="p-saved">PDF</label>
+                  </div>
                   <div id="saved-list" class="list"></div>
                 </div>
                 <div aria-hidden="true" id="saved-table-div">

@@ -157,10 +157,10 @@
                 </table>
               </div>
               <div id="browse-list-div" aria-hidden="true">
-                <button class="button-grey" onclick="selectAllToolsButton('browse');">Select All Tools</button>
-                <button class="button-grey" onclick="deselectAllToolsButton('browse');">Deselect All Tools</button>
-                <button class="button-white" onclick="saveSelectedRecords('browse-list')">Save Selected Tools</button>
-                <button class="button-white" onclick="exportTools('browse-list')">Export Selected Tools</button>
+                <button onclick="selectAllToolsButton('browse');">Select All Tools</button>
+                <button onclick="deselectAllToolsButton('browse');">Deselect All Tools</button>
+                <button onclick="saveSelectedRecords('browse-list')">Save Selected Tools</button>
+                <button onclick="exportTools('browse-list')">Export Selected Tools</button>
                 <div class="export-radio">
                   <input id="c-browse" type="radio" name="export-type" value="csv"><label for="c-browse">CSV</label>
                   <input id="p-browse" type="radio" name="export-type" value="pdf"><label for="p-browse">PDF</label>
@@ -182,16 +182,14 @@
               <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text: recommended for those on smaller screens.</label>
               <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table: allows filtering and column sorting.</label>
               <div id="saved-list-div">
-                <button class="button-grey" onclick="selectAllToolsButton('saved');">Select All Tools</button>
-                <button class="button-grey" onclick="deselectAllToolsButton('saved');">Deselect All Tools</button>
-                
-                  <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
-                  <button class="button-white" onclick="exportTools('saved-list')">Export Selected Tools</button>
-                  <div class="export-radio">
-                    <input id="c-saved" type="radio" name="export-type" value="csv"><label for="c-saved">CSV</label>
-                    <input id="p-saved" type="radio" name="export-type" value="pdf"><label for="p-saved">PDF</label>
-                  </div>
-                
+                <button onclick="selectAllToolsButton('saved');">Select All Tools</button>
+                <button onclick="deselectAllToolsButton('saved');">Deselect All Tools</button>
+                <button onclick="removeSelected('saved-list')">Remove Selected Tools</button>
+                <button onclick="exportTools('saved-list')">Export Selected Tools</button>
+                <div class="export-radio">
+                  <input id="c-saved" type="radio" name="export-type" value="csv"><label for="c-saved">CSV</label>
+                  <input id="p-saved" type="radio" name="export-type" value="pdf"><label for="p-saved">PDF</label>
+                </div>
                 <hr />
                 <div id="saved-list" class="list"></div>
               </div>

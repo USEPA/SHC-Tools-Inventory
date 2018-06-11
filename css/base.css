@@ -70,6 +70,18 @@ a.button-white:active {
 a.button {
   margin-right: 3px;
 }
+a.button:active {
+  color: white;
+}
+a.button:focus {
+  color: white;
+}
+a.button:hover {
+  color: white;
+}
+a.button:visited {
+  color: white;
+}
 table.dataTable td.select-checkbox:before,
 table.dataTable td.select-checkbox:after {
   top: initial;
@@ -362,3 +374,4 @@ table {
 .dataTables_filter {
   margin-right: 5px;
 }
+
