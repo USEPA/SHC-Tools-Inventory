@@ -559,8 +559,8 @@ $('[name="saved-display-type"]').change(function () {
  */
 $('[name="browse-display-type"]').change(function () {
   if ($(this).attr('id') === 'browse-table-radio') {
-    $('.browse-list-div').attr('aria-hidden', true);
-    $('.browse-table-div').attr('aria-hidden', false);
+    $('#browse-list-div').attr('aria-hidden', true);
+    $('#browse-table-div').attr('aria-hidden', false);
     if ($.fn.DataTable.isDataTable('#building-infrastructure-table')) {
       $('#building-infrastructure-table').DataTable().columns.adjust(); // adjust table cols to the width of the container
     }
@@ -574,8 +574,8 @@ $('[name="browse-display-type"]').change(function () {
       $('#transportation-table').DataTable().columns.adjust(); // adjust table cols to the width of the container
     }
   } else if ($(this).attr('id') === 'browse-list-radio') { // show list
-    $('.browse-table-div').attr('aria-hidden', true);
-    $('.browse-list-div').attr('aria-hidden', false);
+    $('#browse-table-div').attr('aria-hidden', true);
+    $('#browse-list-div').attr('aria-hidden', false);
   }
 });
 
