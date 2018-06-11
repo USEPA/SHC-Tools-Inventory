@@ -234,10 +234,9 @@
                   <div class="right">
                     <button class="button-white" onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
                     <button class="button-white" onclick="exportTools('results-list')">Export Selected Tools</button>
-                    <div id="export-radio">
-                      <input id="c" type="radio" name="export-type" value="csv"><label for="c">CSV</label>
-                      <!--<input id="h" type="radio" name="export-type" value="html"><label for="h">HTML</label>-->
-                      <input id="p" type="radio" name="export-type" value="pdf"><label for="p">PDF</label>
+                    <div class="export-radio">
+                      <input id="c-results" type="radio" name="export-type" value="csv"><label for="c-results">CSV</label>
+                      <input id="p-results" type="radio" name="export-type" value="pdf"><label for="p-results">PDF</label>
                     </div>
                   </div>
                   <img alt="Loading GIF image" aria-hidden="true" id="loader" src="img/loader.gif">
@@ -279,8 +278,12 @@
                   <button class="button-grey" onclick="selectAllToolsButton('saved');">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('saved');">Deselect All Tools</button>
                   <div class="right">
-                    <button class="button-white" onclick="exportCSV('saved-list')">Export Selected Tools to CSV</button>
                     <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
+                    <button class="button-white" onclick="exportTools('saved-list')">Export Selected Tools</button>
+                    <div class="export-radio">
+                      <input id="c-saved" type="radio" name="export-type" value="csv"><label for="c-saved">CSV</label>
+                      <input id="p-saved" type="radio" name="export-type" value="pdf"><label for="p-saved">PDF</label>
+                    </div>
                   </div>
                   <div id="saved-list" class="list"></div>
                 </div>
@@ -432,7 +435,7 @@
   <script src="js/ParsedDPLData.js"></script>
   <script src="js/search.js"></script>
   <script src="js/blob-stream.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+  <script src="js/FileSaver.js"></script>
   <script src="js/pdfkit.js"></script>
 <script>
 var resultSet = new ToolSet(); // Create result and saved tool sets

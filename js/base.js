@@ -125,7 +125,7 @@ var toolCache = (function () {
         callback(toolSet);
       }).fail(function (jqXHR, textStatus, errorThrown) {
         $('#loader').attr('aria-hidden', 'true').hide();
-        toast({html: 'Could not load results. Try again later.', close: true});
+        toast({html: 'Could not load results (' + jqXHR.status + ' ' + errorThrown + '). Please try again later.', close: true});
       });
     },
 
@@ -1402,7 +1402,7 @@ function createDataTable(name) {
       paging = false;
     }
     var table = $('#' + name + '-table').DataTable({
-      dom: 'Bfrtip',
+      dom: '<"toolbar">Bfrtip',
       processing: true,
       responsive: {
         details: false
@@ -1450,19 +1450,9 @@ function createDataTable(name) {
       ]
     });
 
-    var dtButtons = [];
+    $("div.toolbar").html('<div class="export-radio right"><input id="c-results" type="radio" name="export-type" value="csv"><label for="c-results">CSV</label><input id="p-results" type="radio" name="export-type" value="pdf"><label for="p-results">PDF</label></div>');
 
-    if (resultTable.getType() === 'search' || resultTable.getType() === 'browse') {
-      dtButtons.push(
-        {
-          text: 'Export Selected Tools to CSV',
-          action: function () {
-            exportCSV(name + '-list');
-          },
-          className: 'button button-white'
-        }
-      );
-    }
+    var dtButtons = [];
 
     if (name !== 'saved' && (resultTable.getType() === 'search' || resultTable.getType() === 'browse')) {
       dtButtons.push(
@@ -1470,6 +1460,18 @@ function createDataTable(name) {
           text: 'Save Selected Tools',
           action: function () {
             saveSelectedRecords(name + '-list');
+          },
+          className: 'button button-white'
+        }
+      );
+    }
+
+    if (resultTable.getType() === 'search' || resultTable.getType() === 'browse') {
+      dtButtons.push(
+        {
+          text: 'Export Selected Tools',
+          action: function () {
+            exportTools(name + '-table');
           },
           className: 'button button-white'
         }
@@ -2035,7 +2037,9 @@ function findConcepts(searchTerms) {
 
 /** export checked tools as HTML or CSV */
 function exportTools(resultsDiv) {
-  var radioValue = $('input[name="export-type"]:checked').val();
+  console.log('#' + resultsDiv + '-div input[name="export-type"]:checked');
+  var radioValue = $('#' + resultsDiv + '-div input[name="export-type"]:checked').val();
+  console.log(radioValue);
   var records = $('#' + resultsDiv + ' input:checked');
   var html = '';
   var record; 
@@ -2114,7 +2118,7 @@ var textToPDF = function(selectedTools) {
   doc.end();
   stream.on('finish', function() {
     blob = stream.toBlob('application/pdf');
-    saveAs(blob, 'MyFile.pdf');
+    saveAs(blob, 'sustainable_community_tools.pdf');
   });
 };
 

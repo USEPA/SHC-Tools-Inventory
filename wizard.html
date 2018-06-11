@@ -240,7 +240,6 @@
                 <p>Select one or more tools and they will be added to your saved tools. Any unselected tools will be removed if you run additional searches. You can export your selected tools to a CSV file by using the <strong>Export</strong> button.</p>
                 <div class="navbar">
                   <button class="persist" onclick="activatePreviousUnhiddenTab()">Back</button>
-                  <button class="next" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                 </div>
                 <hr />
                 <span>Choose a display:</span>
@@ -254,6 +253,11 @@
                 <div id="results-list-div">  
                   <button class="button-grey" onclick="selectAllToolsButton('results')">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('results')">Deselect All Tools</button>
+                  <button class="button-white next" onclick="exportTools('results-list')">Export Selected Tools</button>
+                  <div class="export-radio right">
+                    <input id="c-navbar" type="radio" name="export-type" value="csv"><label for="c-navbar">CSV</label>
+                    <input id="p-navbar" type="radio" name="export-type" value="pdf"><label for="p-navbar">PDF</label>
+                  </div>
                   <div class="row">
                     <img alt="Loading GIF" aria-hidden="true" id="loader" src="img/loader.gif">
                   </div>
@@ -278,7 +282,6 @@
                 </div>
                 <div class="bottom-bar">
                   <button class="persist" onclick="activatePreviousUnhiddenTab()">Back</button>
-                  <button class="next" onclick="exportCSV('results-list')">Export Selected Tools to CSV</button>
                 </div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
@@ -405,6 +408,9 @@
 <script src="js/base.js"></script>
 <script src="js/feedback-modal.js"></script>
 <script src="js/ParsedDPLData.js"></script>
+<script src="js/blob-stream.js"></script>
+<script src="js/FileSaver.js"></script>
+<script src="js/pdfkit.js"></script>
 <script>
 var advancedSearchFields = ["Name","Acronym","ShortDescriptionForReports","OwnershipType","OtherCostConsiderations","OpenSource","AlternativeNames","Keywords","Organization","ContactPerson","Email","Internet","LifeCycle","OperatingEnvironment","CompatibleOperatingSystems","OtherPropSoftwareReqs","ModelInputs","DataRequirements","ModelOutputTypes","OutputVariables","SourceOfSupportMaterials","TypesOfSupportMaterials","ModelEvaluation","ModelStructure","TimeScale","SpatialExtent","TechSkills","BaseCostOfSoftware","StewardDefinedTags","DecisionSector","Format"];
 // details at READ web services' docs-page
