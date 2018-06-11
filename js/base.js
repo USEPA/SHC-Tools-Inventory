@@ -1402,7 +1402,7 @@ function createDataTable(name) {
       paging = false;
     }
     var table = $('#' + name + '-table').DataTable({
-      dom: '<"toolbar">Bfrtip',
+      dom: 'B<"toolbar">frtip',
       processing: true,
       responsive: {
         details: false
@@ -1450,7 +1450,7 @@ function createDataTable(name) {
       ]
     });
 
-    $("div.toolbar").html('<div class="export-radio right"><input id="c-results" type="radio" name="export-type" value="csv"><label for="c-results">CSV</label><input id="p-results" type="radio" name="export-type" value="pdf"><label for="p-results">PDF</label></div>');
+    $("div.toolbar").html('<div class="export-radio"><input id="c-results" type="radio" name="export-type" value="csv"><label for="c-results">CSV</label><input id="p-results" type="radio" name="export-type" value="pdf"><label for="p-results">PDF</label></div>');
 
     var dtButtons = [];
 
@@ -1466,7 +1466,7 @@ function createDataTable(name) {
       );
     }
 
-    if (resultTable.getType() === 'search' || resultTable.getType() === 'browse') {
+    if (resultTable.getType() === 'search' || resultTable.getType() === 'browse' || resultTable.getType() === 'wizard') {
       dtButtons.push(
         {
           text: 'Export Selected Tools',
@@ -1501,9 +1501,9 @@ function createDataTable(name) {
 
     table.buttons(0, null).container().css('display', 'block').wrap("<div></div>");
     if (name !== 'saved' && resultTable.getType() === 'search') {
-      table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');
+      table.buttons(1, null).container().insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');
     } else {
-    	table.buttons(1, null).container().css('float', 'right').insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');
+    	table.buttons(1, null).container().insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');
     }
 
     $('.dt-button').removeClass('dt-button');
@@ -2037,9 +2037,7 @@ function findConcepts(searchTerms) {
 
 /** export checked tools as HTML or CSV */
 function exportTools(resultsDiv) {
-  console.log('#' + resultsDiv + '-div input[name="export-type"]:checked');
   var radioValue = $('#' + resultsDiv + '-div input[name="export-type"]:checked').val();
-  console.log(radioValue);
   var records = $('#' + resultsDiv + ' input:checked');
   var html = '';
   var record; 
