@@ -13,12 +13,6 @@
   width: 960px;
   height: 600px;
 }
-#page-map {
-  border: 1px solid lightgrey;
-  float: left;
-  padding: 1em 1em 0 1em;
-  margin-right: 1em;
-}
 .next {
   position: fixed;
   bottom: 1ex;
