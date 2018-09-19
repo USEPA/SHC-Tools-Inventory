@@ -1176,13 +1176,16 @@ var getSelectedConceptsAssociatedWithTool = function (toolID) {
     var toolConcepts = getToolConcepts(toolID);
     for (var i in selectedConcepts) { // build array of tool's associated concepts that are selected
       for (var j in toolConcepts) {
-        if (selectedConcepts[i].value === toolConcepts[j]) {
-          selectedConceptsAssociatedWithTool.push(selectedConcepts[i].value);
-        }
+		    if (selectedConcepts[i].value) {
+          var selectedConcept = selectedConcepts[i].value.toLowerCase()
+          if (selectedConcept === toolConcepts[j]) {
+            selectedConceptsAssociatedWithTool.push(selectedConcepts[i].value);
+          }
+		    }
       }
     }
     // return array of selected concepts associated with tool
-    return selectedConceptsAssociatedWithTool.join(', ');
+    return selectedConceptsAssociatedWithTool.join('; ');
   } else {
     return "Not Provided";
   }
