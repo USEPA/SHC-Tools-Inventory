@@ -1005,6 +1005,8 @@ var parseResult = function (result) {
   parsedResult['Resource Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'ResourceTypeName']);
   parsedResult['Alternate Names'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'AlternateNamesDetail', 'AlternateName']);
   // parsedResult['Relationships'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'RelationshipDetail', 'InfoResourceRelationshipDetail', 'RelatedInfoResourceName']); // Not properly implemented in READ
+  parsedResult['Contact Detail'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ContactDetail', 'IndividualContactDetail', 'EmailAddressText']);
+  parsedResult['Steward Tag'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'TagDetail', 'InfoResourceStewardTagText']);  
 
   /**
    * return decoded value(s) accumulated into a string
@@ -1182,7 +1184,7 @@ var getSelectedConceptsAssociatedWithTool = function (toolID) {
     // return array of selected concepts associated with tool
     return selectedConceptsAssociatedWithTool.join(', ');
   } else {
-    return "none";
+    return "Not Provided";
   }
 };
 
@@ -1269,7 +1271,7 @@ var readSafe = function (object, propertyArray) {
         return readSafe(value,propertyArray.slice(1)); // pass the second element through the last element of the property array
       } catch (e) {
         console.log('error: ',e); // dev
-        return 'No Data'; // return 'No Data'
+        return "Not Provided"; // return "Not Provided"
       }
     }
   } else { // first element propertyArray isn't a property of this object
@@ -1283,7 +1285,7 @@ var readSafe = function (object, propertyArray) {
       }
     return accumulatedString;
     } else {
-      return 'No Data'; // fail safely: return 'No Data'
+      return "Not Provided"; // fail safely: return "Not Provided"
     }
   }
 };
@@ -1300,7 +1302,7 @@ var isNil = function (obj) {
     obj.hasOwnProperty('xsi:nil') ||
     obj === null ||
     obj === '' ||
-    String(obj).toLowerCase() === 'no data'
+    String(obj).toLowerCase() === "not provided"
   );
 };
 
@@ -1313,13 +1315,13 @@ var isNil = function (obj) {
 var validata = function (obj) {
   try {
     if (isNil(obj)) {
-      return 'No Data';
+      return "Not Provided";
     } else {
       return obj;
     }
   } catch (e) {
-    console.log('ERROR: validata() returned "no data" for' + obj + 'because it threw error' + e);
-    return 'No Data';
+    console.log('ERROR: validata() returned "Not Provided" for' + obj + 'because it threw error' + e);
+    return "Not Provided";
   }
 };
 
@@ -2093,7 +2095,7 @@ var textToPDF = function(selectedTools) {
     var tool = selectedTools[toolID];
     for (var prop in tool) {
       var attribute = tool[prop] + '';
-      if (attribute.toLowerCase() !== "no data" && doNotInclude.indexOf(prop) === -1) {
+      if (attribute.toLowerCase() !== "not provided" && doNotInclude.indexOf(prop) === -1) {
         if (prop === "URL") {
           var urls = tool.URL.split('; ');
           doc.font('Helvetica-Bold').fontSize(12).text(prop, {
@@ -2233,15 +2235,15 @@ function reportRecordAsHTML(parsedData, html) {
   html += "" +
     "<strong><span>Title</span></strong>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
     "<strong><span>Description</span></strong>: " + parsedData['Description'] + "<br>" +
-    (parsedData['Alternate Names'] === "No Data" ? "" : "<strong><span>Alternate Names</span></strong>: " + parsedData['Alternate Names'] + "<br>") +
-    (parsedData['URL'] === "No Data" ? "" : "<strong><span>URL</span></strong>: " + linkifyString(parsedData['URL']) + "<br>") +
-    (parsedData['Ownership Type'] === "No Data" ? "" : "<strong><span>Ownership Type</span></strong>: " + parsedData['Ownership Type'] + "<br>") +
-    (parsedData['Resource Type'] === "No Data" ? "" : "<strong><span>Resource Type</span></strong>: " + parsedData['Resource Type'] + "<br>") +
+    (parsedData['Alternate Names'] === "Not Provided" ? "" : "<strong><span>Alternate Names</span></strong>: " + parsedData['Alternate Names'] + "<br>") +
+    (parsedData['URL'] === "Not Provided" ? "" : "<strong><span>URL</span></strong>: " + linkifyString(parsedData['URL']) + "<br>") +
+    (parsedData['Ownership Type'] === "Not Provided" ? "" : "<strong><span>Ownership Type</span></strong>: " + parsedData['Ownership Type'] + "<br>") +
+    (parsedData['Resource Type'] === "Not Provided" ? "" : "<strong><span>Resource Type</span></strong>: " + parsedData['Resource Type'] + "<br>") +
 
     "<h3>Cost Details</h3>" +
-    (parsedData['BaseCost'] === "No Data" ? "" : "<strong><span>Base Cost</span></strong>: " + parsedData['BaseCost'] + "<br>") +
-    (parsedData['AnnualCost'] === "No Data" ? "" : "<strong><span>Annual Cost</span></strong>: " + parsedData['AnnualCost'] + "<br>") +
-    (parsedData['Other Cost Considerations'] === "No Data" ? "" : "<strong><span>Other Cost Considerations</span></strong>: " + parsedData['Other Cost Considerations'] + "<br>") +
+    (parsedData['BaseCost'] === "Not Provided" ? "" : "<strong><span>Base Cost</span></strong>: " + parsedData['BaseCost'] + "<br>") +
+    (parsedData['AnnualCost'] === "Not Provided" ? "" : "<strong><span>Annual Cost</span></strong>: " + parsedData['AnnualCost'] + "<br>") +
+    (parsedData['Other Cost Considerations'] === "Not Provided" ? "" : "<strong><span>Other Cost Considerations</span></strong>: " + parsedData['Other Cost Considerations'] + "<br>") +
       
     "<h3>Model Details</h3>" +
     "<strong><span>Decision Sector</span></strong>: " + parsedData['Decision Sector'] + "<br>" +
@@ -2266,30 +2268,30 @@ function reportRecordAsHTML(parsedData, html) {
     "<strong><span>Model Evaluation</span></strong>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
       
     '<div>' +
-    (parsedData['Keywords'] === "No Data" ? "" : "<strong><span>Keywords</span></strong>: " + parsedData['Keywords'] + "<br>") +
+    (parsedData['Keywords'] === "Not Provided" ? "" : "<strong><span>Keywords</span></strong>: " + parsedData['Keywords'] + "<br>") +
     "</div>" +
       
     "<h3>Support Details</h3>" +
-    (parsedData['Support Name'] === "No Data" ? "" : "<strong><span>User Support Name</span></strong>: " + parsedData['Support Name'] + "<br>") +
-    (parsedData['Support Phone'] === "No Data" ? "" : "<strong><span>User Support Phone</span></strong>: " + parsedData['Support Phone'] + "<br>") +
-    (parsedData['Support Email'] === "No Data" ? "" : "<strong><span>User Support Email</span></strong>: " + linkifyString(parsedData['Support Email']) + "<br>") +
-    (parsedData['Support Materials'] === "No Data" ? "" : "<strong><span>User Support Material</span></strong>: " + linkifyString(parsedData['Support Materials']) + "<br>");
+    (parsedData['Support Name'] === "Not Provided" ? "" : "<strong><span>User Support Name</span></strong>: " + parsedData['Support Name'] + "<br>") +
+    (parsedData['Support Phone'] === "Not Provided" ? "" : "<strong><span>User Support Phone</span></strong>: " + parsedData['Support Phone'] + "<br>") +
+    (parsedData['Support Email'] === "Not Provided" ? "" : "<strong><span>User Support Email</span></strong>: " + linkifyString(parsedData['Support Email']) + "<br>") +
+    (parsedData['Support Materials'] === "Not Provided" ? "" : "<strong><span>User Support Material</span></strong>: " + linkifyString(parsedData['Support Materials']) + "<br>");
     return html;
 }
 
 function reportRecordAsHTML0(parsedData, html) {
   html += "" +
     "<div>" + parsedData['Description'] + "</div>" +
-    (parsedData['URL'] === "No Data" ? "" : "<span><strong>URL</strong>: " + linkifyString(parsedData['URL']) + "</span><br>") +
-    (parsedData['Resource Type'] === "No Data" ? "" : "<span><strong>Resource Type</strong>: " + parsedData['Resource Type'] + "</span><br>") +
-    (parsedData['BaseCost'] === "No Data" ? "" : "<span><strong>Base Cost</strong>: " + parsedData['BaseCost'] + "</span><br>") +
-    (parsedData['AnnualCost'] === "No Data" ? "" : "<span><strong>Annual Cost</strong>: " + parsedData['AnnualCost'] + "</span><br>") +
-    (parsedData['Other Cost Considerations'] === "No Data" ? "" : "<span><strong>Other Cost Considerations</strong>: " + parsedData['Other Cost Considerations'] + "</span><br>") +
-    (parsedData['Decision Sector'] === "No Data" ? "" : "<span><strong>Decision Sector</strong>: " + parsedData['Decision Sector'] + "</span><br>") +
-    (parsedData['Operating System'] === "No Data" ? "" : "<span><strong>Operating System</strong>: " + parsedData['Operating System'] + "</span><br>") +
-    (parsedData['Operating Environment'] === "No Data" ? "" : "<span><strong>Operating Environment</strong>: " + parsedData['Operating Environment'] + "</span><br>") +
-    (parsedData['Other Requirements'] === "No Data" ? "" : "<span><strong>Other Proprietary Software Requirements</strong>: " + linkifyString(parsedData['Other Requirements']) + "</span><br>") +
-    (parsedData['Technical Skills Needed'] === "No Data" ? "" : "<span><strong>Technical Skills Required</strong>: " + parsedData['Technical Skills Needed'] + "</span><br>");
+    (parsedData['URL'] === "Not Provided" ? "" : "<span><strong>URL</strong>: " + linkifyString(parsedData['URL']) + "</span><br>") +
+    (parsedData['Resource Type'] === "Not Provided" ? "" : "<span><strong>Resource Type</strong>: " + parsedData['Resource Type'] + "</span><br>") +
+    (parsedData['BaseCost'] === "Not Provided" ? "" : "<span><strong>Base Cost</strong>: " + parsedData['BaseCost'] + "</span><br>") +
+    (parsedData['AnnualCost'] === "Not Provided" ? "" : "<span><strong>Annual Cost</strong>: " + parsedData['AnnualCost'] + "</span><br>") +
+    (parsedData['Other Cost Considerations'] === "Not Provided" ? "" : "<span><strong>Other Cost Considerations</strong>: " + parsedData['Other Cost Considerations'] + "</span><br>") +
+    (parsedData['Decision Sector'] === "Not Provided" ? "" : "<span><strong>Decision Sector</strong>: " + parsedData['Decision Sector'] + "</span><br>") +
+    (parsedData['Operating System'] === "Not Provided" ? "" : "<span><strong>Operating System</strong>: " + parsedData['Operating System'] + "</span><br>") +
+    (parsedData['Operating Environment'] === "Not Provided" ? "" : "<span><strong>Operating Environment</strong>: " + parsedData['Operating Environment'] + "</span><br>") +
+    (parsedData['Other Requirements'] === "Not Provided" ? "" : "<span><strong>Other Proprietary Software Requirements</strong>: " + linkifyString(parsedData['Other Requirements']) + "</span><br>") +
+    (parsedData['Technical Skills Needed'] === "Not Provided" ? "" : "<span><strong>Technical Skills Required</strong>: " + parsedData['Technical Skills Needed'] + "</span><br>");
     return html;
 }
 
