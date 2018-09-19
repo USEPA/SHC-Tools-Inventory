@@ -754,7 +754,7 @@ function showDetails(id, that) {
       
     '<div class="light-gray">' +
       "<span class='bold'>Keywords</span></strong>: " + parsedData['Keywords'] + "<br>" +
-      "<span class='bold'>Selected Concepts</span></strong>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" +
+      (resultTable.getType() === 'wizard' ? "<span class='bold'>Selected Concepts</span></strong>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" : '' ) +
     "</div>" +
       
     '<div class="light-gray">' +
