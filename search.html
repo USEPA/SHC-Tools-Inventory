@@ -179,16 +179,12 @@
                     <h4 id="cost-label">Choose cost ranges to find only tools labeled with one of these cost ranges:</h4>
                     <input class="form-checkbox" id="checkbasefree" name="checkbase" type="checkbox" value="1" />
                     <label class="option" for="checkbasefree">Free</label>
-                    
                     <input class="form-checkbox" id="checkbase1" name="checkbase" type="checkbox" value="2" />
                     <label class="option" for="checkbase1">$1-$499</label>
-                    
                     <input class="form-checkbox" id="checkbase500" name="checkbase" type="checkbox" value="3" />
                     <label class="option" for="checkbase500">$500-$1499</label>
-                    
                     <input class="form-checkbox" id="checkbase1500" name="checkbase" type="checkbox" value="4" />
                     <label class="option" for="checkbase1500">$1500-$3999</label>
-                    
                     <input class="form-checkbox" id="checkbase4000" name="checkbase" type="checkbox" value="5" />
                     <label class="option" for="checkbase4000">&gt;$4000</label>
                   </div>
@@ -273,14 +269,12 @@
                 <div id="saved-list-div">
                   <button class="button-grey" onclick="selectAllToolsButton('saved');">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('saved');">Deselect All Tools</button>
-                  
                     <button class="button-white" onclick="removeSelected('saved-list')">Remove Selected Tools</button>
                     <button class="button-white" onclick="exportTools('saved-list')">Export Selected Tools</button>
                     <div class="export-radio">
                       <input id="c-saved" type="radio" name="export-type" value="csv"><label for="c-saved">CSV</label>
                       <input id="p-saved" type="radio" name="export-type" value="pdf"><label for="p-saved">PDF</label>
                     </div>
-                  
                   <div id="saved-list" class="list"></div>
                 </div>
                 <div aria-hidden="true" id="saved-table-div">
@@ -595,15 +589,13 @@ var detailedSearch = function () {
         data[queryTypes[i]] = queryString;
       }
 
-        var dataList = [data]; // create an initial array of query-data
-        //dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
-        //dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
-        //dataList = addMembers(dataList, 'SpatialExtent', extent_select); // create a data object for each selection of SpatialExtent
-        for (var iDatum = 0; iDatum < dataList.length; iDatum++) {
-          requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
-        }
-      
-      
+      var dataList = [data]; // create an initial array of query-data
+      //dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
+      //dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
+      //dataList = addMembers(dataList, 'SpatialExtent', extent_select); // create a data object for each selection of SpatialExtent
+      for (var iDatum = 0; iDatum < dataList.length; iDatum++) {
+        requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
+      }
       data = {};
     }
     /*
