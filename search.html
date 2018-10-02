@@ -47,7 +47,7 @@
   <!-- Google Tag Manager -->
   <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script>
- 
+
   <!-- End Google Tag Manager -->
   <div class="skip-links"><a href="#main-content" class="skip-link element-invisible element-focusable">Jump to main content</a></div>
   <header class="masthead clearfix" role="banner">
@@ -99,10 +99,10 @@
             </ul>
             <span class="related-info"><strong>Navigation:</strong></span>
             <ul class="menu pipeline">
-              <li class="menu-item">  
+              <li class="menu-item">
                 <a href="./index.html">Return to Landing Page</a>
               </li>
-              <li class="menu-item">  
+              <li class="menu-item">
                 <a href="./browse.html">Browse Tools</a>
               </li>
               <li class="views-row views-row-2 views-row-even views-row-last menu-item">
@@ -222,7 +222,7 @@
                 <div><input class="toggle-unsupported" id="toggle-unsupported-3" type="checkbox" data-table-type="results"/><label for="toggle-unsupported-3">Show unsupported tools</label></div>
                 <hr />
                 <p id="result-info"></p>
-                <div id="results-list-div">  
+                <div id="results-list-div">
                   <button class="button-grey" onclick="selectAllToolsButton('results');">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('results');">Deselect All Tools</button>
                   <button class="button-white" onclick="saveSelectedRecords('results-list')">Save Selected Tools</button>
@@ -322,7 +322,7 @@
               <input id="report-a-bug" name="feedback-type" type="Radio" value="Bug Report"/>
               <label for="report-a-bug">Report a bug</label>
             </div>
-            <div class="col">  
+            <div class="col">
               <input id="suggest-an-idea" name="feedback-type" type="Radio" value="Suggest an Idea"/>
               <label for="suggest-an-idea">Suggest an idea or tool</label>
             </div>
@@ -431,7 +431,7 @@
 var resultSet = new ToolSet(); // Create result and saved tool sets
 var savedTools = new ToolSet();
 
-var resultTable = new ToolDisplay('results-table', 'results-list', 'search'); // Create ToolDisplay Objects we need 
+var resultTable = new ToolDisplay('results-table', 'results-list', 'search'); // Create ToolDisplay Objects we need
 var savedTable = new ToolDisplay('saved-table', 'saved-list', 'search');
 
 $(function () { // jquery's shorthand awaits readiness of document
@@ -472,7 +472,7 @@ $(function () { // jquery's shorthand awaits readiness of document
   });
 
   /**
-   * Toggles the selected state of a tool via a DataTable row 
+   * Toggles the selected state of a tool via a DataTable row
    * @listens click
    */
   $('tbody').on('click', 'input[type="checkbox"]', function () {
@@ -515,7 +515,7 @@ var initializeTabs = function () {
  * EXAMPLE:
  * dataList = addMembers(dataList, 'Operating Environment', os_select);
  * this example creates an element of dataArray for each (i, j) where
- * i = someCurrentDataObject, j = someFieldValue) 
+ * i = someCurrentDataObject, j = someFieldValue)
  */
 function addMembers(dataList, fieldName, fieldValues) {
   if (fieldValues.length > 0) {// are any values selected?
@@ -544,7 +544,7 @@ function addMembers(dataList, fieldName, fieldValues) {
 var detailedSearch = function () {
   $('.search-input').autocomplete('close');
   if ($.fn.DataTable.isDataTable('#results-table')) {
-    $('#results-table').DataTable().clear().draw(); // clear result table 
+    $('#results-table').DataTable().clear().draw(); // clear result table
   }
   $('#results-list *').remove(); // clear result div
   resultSet.reset(); // clear result set
@@ -556,18 +556,18 @@ var detailedSearch = function () {
     return;
   }
   var queryString = $('#detailed-search-text').val().trim().toLowerCase();
-  
+
   resultSet.filters = {};
   var decisionSectors = $('#decision-select :checkbox:checked').map(function () {return $(this).val();});
   var os_select = checkBoxValue(document.getElementsByName('radioenvironment'));
   var cost_select = checkBoxValue(document.getElementsByName('checkbase'));
   var extent_select = $('#extent-select :checkbox:checked').map(function () {return $(this).val()});
-  
+
   resultSet.filters.decisionSectors = decisionSectors;
   resultSet.filters.os_select = os_select;
   resultSet.filters.cost_select = cost_select;
   resultSet.filters.extent_select = extent_select;
-  
+
   var results = [];
   var requests = [];
   var data = {};
@@ -625,7 +625,7 @@ var detailedSearch = function () {
         $('.toggle-unsupported').prop('disabled', true);
         $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
-        $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\""); 
+        $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {

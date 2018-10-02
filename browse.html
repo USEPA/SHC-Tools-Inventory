@@ -46,7 +46,7 @@
   <!-- Google Tag Manager -->
   <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script>
- 
+
   <!-- End Google Tag Manager -->
   <div class="skip-links"><a href="#main-content" class="skip-link element-invisible element-focusable">Jump to main content</a></div>
   <header class="masthead clearfix" role="banner">
@@ -80,16 +80,16 @@
       <div class="panel-pane pane-node-content" >
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
-            <h2 id="page-description-title" class="title">Description</h2>  
+            <h2 id="page-description-title" class="title">Description</h2>
             <p>Browse Tools allows users to view the entire inventory at once. Click on a tool to view more details. Save tools by selecting the checkbox. Export the tools to CSV.</p>
             <p>Enter search terms in the "Search" box. Results will appear immediately if they contain the search text. Sort results using the sort arrows in each column heading</p>
           </div>
           <span class="related-info"><strong>Navigation:</strong></span>
           <ul class="menu pipeline">
-            <li class="menu-item">  
+            <li class="menu-item">
               <a href="./index.html">Return to Landing Page</a>
             </li>
-            <li class="menu-item">  
+            <li class="menu-item">
               <a href="./search.html">Keyword Search</a>
             </li>
             <li class="views-row views-row-2 views-row-even views-row-last menu-item">
@@ -338,7 +338,7 @@
 var resultSet = new ToolSet(); // Create result and saved tool sets
 var savedTools = new ToolSet();
 
-var resultTable = new ToolDisplay('browse-table', 'browse-list', 'browse'); // Create ToolDisplay Objects we need 
+var resultTable = new ToolDisplay('browse-table', 'browse-list', 'browse'); // Create ToolDisplay Objects we need
 var savedTable = new ToolDisplay('saved-table', 'saved-list', 'browse');
 
 $(function () { // jquery's shorthand awaits readiness of document
@@ -380,7 +380,7 @@ $(function () { // jquery's shorthand awaits readiness of document
   });
 
   /**
-   * Toggles the selected state of a tool via a DataTable row 
+   * Toggles the selected state of a tool via a DataTable row
    * @listens click
    */
   $('tbody').on('click', 'input[type="checkbox"]', function () {

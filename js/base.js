@@ -82,7 +82,7 @@ var toolCache = (function () {
         $.get(resourceDetailURL, {ResourceId:id}).done( // if we don't have the data, get the data and then run the passed in function
           function (data) {
             setData(id, parseResult(data)); // store the data in cache
-            localStorageSetItem('toolCache', cache);          
+            localStorageSetItem('toolCache', cache);
             callback(getData(id)); // run the passed in function
           }
         );
@@ -120,7 +120,7 @@ var toolCache = (function () {
             setData(result['ID'], result);
             terminationCheck(result);
           }
-        }        
+        }
         localStorageSetItem('toolCache', cache);
         callback(toolSet);
       }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -697,7 +697,7 @@ function showDetails(id, that) {
   var $selectedToolPanel = $('#selected-tool-panel');
   if (parsedData) {
     if (parsedData['Life Cycle Phase'] === "Termination") {
-      html += 
+      html +=
       '<div class="box multi alert">' +
       '<h3 class="pane-title">Tool no longer supported</h3>' +
       ' <div class="pane-content">' +
@@ -706,14 +706,14 @@ function showDetails(id, that) {
     '</div>';
     }
     html += "" +
-      
+
     '<div class="light-gray">' +
       "<span class='bold'>Title</span></strong>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
       "<span class='bold'>Description</span></strong>: " + parsedData['Description'] + "<br>" +
       "<span class='bold'>Alternate Names</span></strong>: " + parsedData['Alternate Names'] + "<br>" +
       "<span class='bold'>URL</span></strong>: " + linkifyString(parsedData['URL']) + "<br>" +
-      "<span class='bold'>Ownership Type</span></strong>: " + parsedData['Ownership Type'] + "<br>" +   
-      "<span class='bold'>Resource Type</span></strong>: " + parsedData['Resource Type'] + "<br>" + 
+      "<span class='bold'>Ownership Type</span></strong>: " + parsedData['Ownership Type'] + "<br>" +
+      "<span class='bold'>Resource Type</span></strong>: " + parsedData['Resource Type'] + "<br>" +
       // "<span class='bold'>Relationships</span></strong>: " + parsedData['Relationships'] + "<br>" + // Not properly implemented in READ
     "</div>" +
 
@@ -723,7 +723,7 @@ function showDetails(id, that) {
       "<span class='bold'>Annual Cost</span></strong>: " + parsedData['AnnualCost'] + "<br>" +
       "<span class='bold'>Other Cost Considerations</span></strong>: " + parsedData['Other Cost Considerations'] + "<br>" +
     "</div>" +
-      
+
     '<div class="light-gray">' +
       "<h4>Model Details</h4>" +
       "<span class='bold'>Decision Sector</span></strong>: " + parsedData['Decision Sector'] + "<br>" +
@@ -751,12 +751,12 @@ function showDetails(id, that) {
       "<span class='bold'>Model Variables</span></strong>: " + linkifyString(parsedData['Model Variables']) + "<br>" +
       "<span class='bold'>Model Evaluation</span></strong>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
     "</div>" +
-      
+
     '<div class="light-gray">' +
       "<span class='bold'>Keywords</span></strong>: " + parsedData['Keywords'] + "<br>" +
       (resultTable.getType() === 'wizard' ? "<span class='bold'>Selected Concepts</span></strong>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" : '' ) +
     "</div>" +
-      
+
     '<div class="light-gray">' +
       "<h4>Support Details</h4>" +
       "<span class='bold'>User Support Name</span></strong>: " + parsedData['Support Name'] + "<br>" +
@@ -920,7 +920,7 @@ function createDiv(parsedResult, containerId) {
       '<div class="col size-95of100">' +
         '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>' +
         '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label">' +
-        '<span class="bold">' + parsedResult['Title'] + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? '' : ' (' + parsedResult['Acronym'] + ')') + '</span></label>: ' + parsedResult['Description'] + 
+        '<span class="bold">' + parsedResult['Title'] + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? '' : ' (' + parsedResult['Acronym'] + ')') + '</span></label>: ' + parsedResult['Description'] +
         (parsedResult['Life Cycle Phase'] === "Termination" ? '<span class="bold red"> This tool is no longer supported.</span>' : "") +
       '</div>' +
     '</div>' +
@@ -1006,7 +1006,7 @@ var parseResult = function (result) {
   parsedResult['Alternate Names'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'AlternateNamesDetail', 'AlternateName']);
   // parsedResult['Relationships'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'RelationshipDetail', 'InfoResourceRelationshipDetail', 'RelatedInfoResourceName']); // Not properly implemented in READ
   parsedResult['Contact Detail'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ContactDetail', 'IndividualContactDetail', 'EmailAddressText']);
-  parsedResult['Steward Tag'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'TagDetail', 'InfoResourceStewardTagText']);  
+  parsedResult['Steward Tag'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'TagDetail', 'InfoResourceStewardTagText']);
 
   /**
    * return decoded value(s) accumulated into a string
@@ -1897,11 +1897,11 @@ function arrayCompare(a1, a2) {
       return false;
     }
   }
-  return true; 
+  return true;
 }
 
 /**
- * Listens for changes in the local storage. If 
+ * Listens for changes in the local storage. If
  * @param {event} e - The storage event.
  * @listens storage
  */
@@ -1953,7 +1953,7 @@ $('.toggle-unsupported').on("change", function () {
   var checkedTools = $('#' + type + '-list input:checked');
   $('#' + type + '-list *').remove(); // clear result div
   if ($.fn.DataTable.isDataTable('#' + type + '-table')) {
-    $('#' + type + '-table').DataTable().clear().draw(); // clear result table 
+    $('#' + type + '-table').DataTable().clear().draw(); // clear result table
     resultTable.getToolSet().reset(); //reset display toolset
     resultTable.displayTools(resultSet);
     // recheck boxes that were checked....
@@ -1984,7 +1984,6 @@ $('.toggle-unsupported').on("change", function () {
           }
         });
       }
-
     });
   }
 });
@@ -2045,12 +2044,12 @@ function exportTools(resultsDiv) {
   var radioValue = $('#' + resultsDiv + '-div input[name="export-type"]:checked').val();
   var records = $('#' + resultsDiv + ' input:checked');
   var html = '';
-  var record; 
+  var record;
   var selectedTools = {};
-  if (records.length <= 0) { 
+  if (records.length <= 0) {
     toast({html: 'Select tools to export.', close: true});
     return;
-  } 
+  }
   records.each(function() {
     var id = $(this).val();
     record = toolCache.getParsedData(id);
@@ -2088,7 +2087,7 @@ var exportHTML = function(html, filename) {
 
 /** digest text into lines of text to render individually in pdf */
 var textToPDF = function(selectedTools) {
-  var doNotInclude = ["ID", "Last Modified"];  
+  var doNotInclude = ["ID", "Last Modified"];
   var doc = new PDFDocument();
   var stream = doc.pipe(blobStream());
   doc.font('Helvetica-Bold').fontSize(18).text("Sustainable and Healthy Communities Research Program Decision Support Tools");
@@ -2113,7 +2112,7 @@ var textToPDF = function(selectedTools) {
           doc.font('Helvetica-Bold').fontSize(12).text(prop, {
             continued: true
           }).font('Helvetica').text(": " + attribute);
-        } 
+        }
       }
     }
     doc.text(' ');
@@ -2199,9 +2198,9 @@ function demoFromHTML(element) {
   // to an actual DOM element from which the text will be scraped.
   source = element[0];
 
-  // we support special element handlers. Register them with jQuery-style 
+  // we support special element handlers. Register them with jQuery-style
   // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
-  // There is no support for any other type of selectors 
+  // There is no support for any other type of selectors
   // (class, of compound) at this time.
   specialElementHandlers = {
       // element with id of "bypass" - jQuery style selector
@@ -2227,7 +2226,7 @@ function demoFromHTML(element) {
       },
 
       function (dispose) {
-          // dispose: object with X, Y of the last line add to the PDF 
+          // dispose: object with X, Y of the last line add to the PDF
           //          this allow the insertion of new lines after html
           pdf.save('Test.pdf');
       }, margins
@@ -2247,7 +2246,7 @@ function reportRecordAsHTML(parsedData, html) {
     (parsedData['BaseCost'] === "Not Provided" ? "" : "<strong><span>Base Cost</span></strong>: " + parsedData['BaseCost'] + "<br>") +
     (parsedData['AnnualCost'] === "Not Provided" ? "" : "<strong><span>Annual Cost</span></strong>: " + parsedData['AnnualCost'] + "<br>") +
     (parsedData['Other Cost Considerations'] === "Not Provided" ? "" : "<strong><span>Other Cost Considerations</span></strong>: " + parsedData['Other Cost Considerations'] + "<br>") +
-      
+
     "<h3>Model Details</h3>" +
     "<strong><span>Decision Sector</span></strong>: " + parsedData['Decision Sector'] + "<br>" +
     "<strong><span>Life Cycle Phase</span></strong>: " + parsedData['Life Cycle Phase'] + "<br>" +
@@ -2269,11 +2268,11 @@ function reportRecordAsHTML(parsedData, html) {
     "<strong><span>Model Output Types</span></strong>: " + parsedData['Model Output Types'] + "<br>" +
     "<strong><span>Model Variables</span></strong>: " + linkifyString(parsedData['Model Variables']) + "<br>" +
     "<strong><span>Model Evaluation</span></strong>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
-      
+
     '<div>' +
     (parsedData['Keywords'] === "Not Provided" ? "" : "<strong><span>Keywords</span></strong>: " + parsedData['Keywords'] + "<br>") +
     "</div>" +
-      
+
     "<h3>Support Details</h3>" +
     (parsedData['Support Name'] === "Not Provided" ? "" : "<strong><span>User Support Name</span></strong>: " + parsedData['Support Name'] + "<br>") +
     (parsedData['Support Phone'] === "Not Provided" ? "" : "<strong><span>User Support Phone</span></strong>: " + parsedData['Support Phone'] + "<br>") +
@@ -2305,7 +2304,7 @@ if (!String.prototype.includes) {
     if (typeof start !== 'number') {
       start = 0;
     }
-    
+
     if (start + search.length > this.length) {
       return false;
     } else {
@@ -2356,3 +2355,36 @@ var Devboard = function() {
 };
 
 var devboard = new Devboard();
+
+var questions = {
+  "Operating System" : "What operating systems is this tool compatible with?",
+  "Spatial Extent" : "What are the spatial extents of the model? (Building, City, Continent, County, Globe, Nation, Neighborhood, Region, Site, State, Watershed).",
+  "Time Scale" : "What time scales does this tool operate on (Annual, Multi-Year, Other, Point in Time)?",
+  "BaseCost" : "What is the base cost for using your tool?",
+  "AnnualCost" : "Are there any annual costs for using your tool?",
+  "Other Cost Considerations" : "Are there any other cost considerations for using your tool?",
+  "Open Source" : "Is this tool open source?",
+  "Support Name" : "Is there a support person?",
+  "Support Phone" : "Is there a support phone number?",
+  "Support Email" : "Is there a support email?",
+  "Support Materials" : "Is there a link to support materials you can provide or a contact name for support?",
+  "Operating Environment" : "What platforms (desktop, web, mobile) is your tool compatible with?",
+  "Technical Skills Needed" : "Are there any technical skills required for operation of this tool?",
+  "Input Data Requirements" : "Is the data required: Provided; Generally Publicly Available; Not Publicly Available, but Routinely Available; New Data Must be Created?",
+  "Model Output Types" : "What kind of outputs does this model output? (3-D Visualizations, Movies; Checklists; Data (spreadsheet, database); GIS layers; Graphs; Indicators; Indices, Aggregate Scores; Maps; Monetary Values; Narratives, Reports; Other; Priority Ranks).",
+  "Other Requirements" : "Are there any other proprietary software requirements?",
+  "Keywords" : "What keywords or phrases would you associate with your tool?",
+  "Model Evaluation" : "What information or references can you provide which can be used to evaluate the effectiveness of your tool?",
+  "Alternate Names" : "Is this tool known by any other names?",
+  "Model Variables" : "What variables are used by this model?",
+  "Model Inputs" : "What inputs are required to run this model?",
+
+  "Title" : "What is the name of this tool?",
+  "Acronym" : "Is there an acronym for this tool?",
+  "Description" : "Can you provide a description for this tool?",
+  "URL" : "What is the URL for this tool?",
+  "Resource Type" : "Is this tool an application, model, or data warehouse?",
+  "Last Software Update" : "When was this tool last updated?",
+  "Model Structure" : "Can you provide a description and/or references pertaining to: the conceptual model, a list of key variables and/or parameters, the model structure, and governing equations?",
+  "Life Cycle Phase" : "Is this application currently supported?"
+};

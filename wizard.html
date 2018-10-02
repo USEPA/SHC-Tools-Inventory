@@ -47,7 +47,7 @@
   <!-- Google Tag Manager -->
   <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script>
- 
+
   <!-- End Google Tag Manager -->
   <div class="skip-links"><a href="#main-content" class="skip-link element-invisible element-focusable">Jump to main content</a></div>
   <header class="masthead clearfix" role="banner">
@@ -96,7 +96,7 @@
               <li class="menu-item">
                 <a href="./index.html">Return to Landing Page</a>
               </li>
-              <li class="menu-item">  
+              <li class="menu-item">
                 <a href="./search.html">Keyword Search</a>
               </li>
               <li class="views-row views-row-2 views-row-even views-row-last menu-item">
@@ -245,12 +245,11 @@
                 <span>Choose a display:</span>
                 <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: recommended for those on smaller screens.</label>
                 <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: allows filtering and column sorting.</label>
-
                 <br />
                 <div><input class="toggle-unsupported" id="toggle-unsupported-1" type="checkbox" data-table-type="results"/><label for="toggle-unsupported-1">Show unsupported tools</label></div>
                 <hr />
                 <p id="result-info"></p>
-                <div id="results-list-div">  
+                <div id="results-list-div">
                   <button class="button-grey" onclick="selectAllToolsButton('results')">Select All Tools</button>
                   <button class="button-grey" onclick="deselectAllToolsButton('results')">Deselect All Tools</button>
                   <button class="button-white" onclick="exportTools('results-list')">Export Selected Tools</button>
@@ -309,7 +308,7 @@
                           <input id="report-a-bug" name="feedback-type" type="Radio" value="Bug Report"/>
                           <label for="report-a-bug">Report a bug</label>
                         </div>
-                        <div class="col">  
+                        <div class="col">
                           <input id="suggest-an-idea" name="feedback-type" type="Radio" value="Suggest an Idea"/>
                           <label for="suggest-an-idea">Suggest an idea or tool</label>
                         </div>
@@ -420,13 +419,13 @@ var showToast = {'initialized':true};
 var resultSet = new ToolSet(); // Create result and saved tool sets
 var savedTools = new ToolSet();
 
-var resultTable = new ToolDisplay('results-table', 'results-list', 'wizard'); // Create ToolDisplay Objects we need 
+var resultTable = new ToolDisplay('results-table', 'results-list', 'wizard'); // Create ToolDisplay Objects we need
 
 /**
  * Create listener for changes in the URL hash fragment and changes the page if the URL fragment page is not the page being displayed
  * @listens onhashchange
  */
-window.onhashchange = function () { 
+window.onhashchange = function () {
   if (location.hash === '') {
     $('#role-tab').parent().siblings('li').children('[role=tab][aria-selected=true]').attr('aria-selected', 'false'); // deactivate active tab
     $('#role-tab').attr('aria-selected', 'true') // list this tab as active
@@ -448,7 +447,7 @@ $(function () { // jquery's shorthand awaits readiness of document
   initializeTabs(); // initialize tabs and their listeners
   loadCache(); //load cache from local storage
   loadSavedTools(); // load saved tools
-  
+
   /**
    * Updates the interface when a concept checkbox changes state.
    * @listens change
@@ -545,7 +544,7 @@ var initializeTabs = function () {
 /**
  * Show more or fewer objectives
  * @function
- * @param {number} - A number that symbolizes if we add or subtract objectives from displaying. 
+ * @param {number} - A number that symbolizes if we add or subtract objectives from displaying.
  */
 var objectiveDisplay = function (adjust) {
   $('#objective-relevance').val(parseInt($('#objective-relevance').val()) + parseInt(adjust));
@@ -561,7 +560,7 @@ var objectiveDisplay = function (adjust) {
   fundamentalObjectiveSelect();
 };
 
-/** 
+/**
  * Handle selection and deselection to inform users of necessary information.
  * @function
  * @param {string} checkboxGroup - The ID of the container.
@@ -592,7 +591,7 @@ var updateInterface = function (list, $container, onChange) {
   populate(list, $container, onChange);// populate list into $container
   toggleTab(list, $container);// enable next tab iff list not empty
   var nextButtonClassSubstring = $container.attr("id");// identify next button by who enables it
-  toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty 
+  toggleNext(list, nextButtonClassSubstring);// enable next button iff list not empty
 };
 
 /**
@@ -648,8 +647,8 @@ var populateWithHeader = function (list, $container, onChange) {
   var newItemCount = 0;
   for (var key in list) {
     if (list.hasOwnProperty(key)) {
-      html += '<h5 class="highlighted" data-parent="' + containerID + '" data-value="' + key + '" id="' + containerID + '-' + count + '-header' + '">' + key + 
-        '<button class="small-button" onclick="selectAll(\'' + containerID + '-' + count + '\', ' + containerID + 'Select)">Select All</button>' + 
+      html += '<h5 class="highlighted" data-parent="' + containerID + '" data-value="' + key + '" id="' + containerID + '-' + count + '-header' + '">' + key +
+        '<button class="small-button" onclick="selectAll(\'' + containerID + '-' + count + '\', ' + containerID + 'Select)">Select All</button>' +
         '<button class="small-button" onclick="deselectAll(\'' + containerID + '-' + count + '\', ' + containerID + 'Select)">Deselect All</button></h5>' +
         '<div class="subclass" data-parent="' + containerID + '" id="' + containerID + '-' + count + '">';
       var newOnChange = 'onchange="checkboxChangeHandler(\'' + containerID + '\');' + onChange + '"';
@@ -677,11 +676,11 @@ var populateWithHeader = function (list, $container, onChange) {
   }
   if (newItemCount > 0) {
     toast({html: 'Added ' + newItemCount + ' new items to the list.', close: true});
-  }  
+  }
   $container.html(html);
   toggleTab(list, $container); // enable next tab iff list not empty
   var nextButtonClassSubstring = containerID; // identify next button by who enables it
-  toggleNext(list, nextButtonClassSubstring); // enable next button iff list not empty 
+  toggleNext(list, nextButtonClassSubstring); // enable next button iff list not empty
   $container.find('input[type=checkbox]').each( function (i, v) { // look through each element in $container
     if (currentlySelected.indexOf(v.value) !== -1) { // check if item was currentlySelected
       $($(v)[0]).prop('checked', true); // select item
@@ -836,7 +835,7 @@ var subroleSelect = function () {
               list.push(prop);
             }
             break;
-          }          
+          }
         }
       }
     }
@@ -894,7 +893,7 @@ var fundamentalObjectiveSelect = function () {
   populateWithHeader(ObjectivesFromSelectionsByFundamentalObjective, $('#objective'), "catchObjectiveSelection(event)");
   toggleTab(objectives, $('#objective'));// enable next tab iff list not empty
   var nextButtonClassSubstring = $('#objective').attr("id");// identify next button by who enables it
-  toggleNext(objectives, nextButtonClassSubstring);// enable next button iff list not empty 
+  toggleNext(objectives, nextButtonClassSubstring);// enable next button iff list not empty
   objectiveSelect();
 };
 
@@ -1004,9 +1003,9 @@ function addCheckboxes(list, container, onChange, count) {
         }
       }
       if (numberOfTools === 1) {
-        numberOfToolsSpan = ' <span class="tool-count">Add ' + numberOfTools + ' Tool' + '</span>'; 
+        numberOfToolsSpan = ' <span class="tool-count">Add ' + numberOfTools + ' Tool' + '</span>';
       } else {
-        numberOfToolsSpan = ' <span class="tool-count">Add ' + numberOfTools + ' Tools' + '</span>'; 
+        numberOfToolsSpan = ' <span class="tool-count">Add ' + numberOfTools + ' Tools' + '</span>';
       }
     }
     html += '<input class="' + containerID + '-cb" data-parent="' + containerID + '" data-value="' + concept.replace(/"/g, '\&quot;') + '" type="checkbox" id="cb-' + containerID + '-' + count + '-' + id + '" value="' + concept.replace(/"/g, '\&quot;') + '" name="' + containerID + '-checkbox" ' + onChange + ' /><label for="cb-' + containerID + '-' + count + '-' + id + '" class="' + containerID + '-label">' + concept + numberOfToolsSpan + '</label>';
@@ -1095,7 +1094,7 @@ function updateConcepts() {
     var $conceptCheckbox = $('#' + $(this).parent().attr('for')); // get associated checkbox
     var concept = $conceptCheckbox.val().toLowerCase(); // get associated concept
     var length = readIDsByConcept[concept].length; // number of tools related to this concept
-    var numberOfTools = 0; 
+    var numberOfTools = 0;
     if (!$('#' + $(this).parent().attr('for')).prop('checked')) { // if this is not checked
       for (var j = 0; j < length; j++) {
         var toolId = readIDsByConcept[concept][j];
@@ -1125,7 +1124,7 @@ function updateConcepts() {
 }
 
 /**
- * Runs a concept search and updates the list of concepts 
+ * Runs a concept search and updates the list of concepts
  * @function
  */
 function updateConceptsandResults() {
@@ -1280,7 +1279,7 @@ var activateNextTab = function ($nextTab, URLToShow) {
 var activatePreviousUnhiddenTab = function () {
   var pageName = 'wizard.html';// parametrize the name of the page
   var $currentTab = $('.menu-internal[aria-selected="true"]')[0];// get the active tab
-  for (var i = $('.menu-internal').length - 1; i >= 0; i--) {// cycle backwards through menu 
+  for (var i = $('.menu-internal').length - 1; i >= 0; i--) {// cycle backwards through menu
     var $tab = $('.menu-internal')[i];// get the ith tab once
     if ($tab.id === $currentTab.id) {
       var activateNextUnhiddenTabFlag = true;// flag when current tab is seen
