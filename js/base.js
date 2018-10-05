@@ -385,7 +385,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   var rows = [];
 
   function sort(obj) {
-    return Object.keys(obj).sort(function(a, b) {
+    return Object.keys(obj).sort(function (a, b) {
       return obj[b] - obj[a];
     });
   }
@@ -590,7 +590,9 @@ function createRow(parsedResult) {
   rowData = [ //Create row
     "",
     parsedResult['ID'],
-    '<span class="bold">' + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] + ' (' + parsedResult['Acronym'] + ')') + '</span><br /><button class="col button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Tool Details</button>' + (parsedResult['Life Cycle Phase'] === "Termination" ? '<br /><span class="bold red">This tool is no longer supported.</span>' : ""),
+      '<span class="bold">' + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] +
+      ' (' + parsedResult['Acronym'] + ')') + '</span><br /><button class="col button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Tool Details</button>' +
+      (parsedResult['Life Cycle Phase'] === "Termination" ? '<br /><span class="bold red">This tool is no longer supported.</span>' : ""),
     parsedResult['Description'],
     parsedResult['Operating Environment'],
     parsedResult['Spatial Extent'],
@@ -885,7 +887,6 @@ function saveSelectedRecords(resultsDiv) {
  */
 function addDiv(parsedResult, containerId) {
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries
-  var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
   var $container = $('#' + containerId);
   var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
     '<div class="row" role="button">' +
@@ -913,8 +914,6 @@ function addDiv(parsedResult, containerId) {
  */
 function createDiv(parsedResult, containerId) {
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries
-  var prefixForExternalDetails = 'https://ofmpub.epa.gov/sor_internet/registry/systmreg/resourcedetail/general/description/description.do?infoResourcePkId=';
-  var $container = $('#' + containerId);
   var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
     '<div class="row" role="button">' +
       '<div class="col size-95of100">' +
@@ -1561,7 +1560,7 @@ function selectFilteredToolsButton(name) {
   $('input[type="checkbox"]', rowNodes).prop('checked', true);
 
   var toolsToSelect = [];
-  rowNodes.to$().each(function() {
+  rowNodes.to$().each(function () {
     $('#' + name + '-list-cb-' + $(this).find('input[type="checkbox"]').val()).prop('checked', true);
     toolsToSelect.push($(this).find('input[type="checkbox"]').val());
   });
@@ -1586,7 +1585,7 @@ function deselectFilteredToolsButton(name) {
   $('input[type="checkbox"]', rowNodes).prop('checked', false);
 
   var toolsToDeselect = [];
-  rowNodes.to$().each(function() {
+  rowNodes.to$().each(function () {
     $('#' + name + '-list-cb-' + $(this).find('input[type="checkbox"]').val()).prop('checked', false);
     toolsToDeselect.push($(this).find('input[type="checkbox"]').val());
   });
@@ -1712,7 +1711,6 @@ function printArray(arrayToPrint) {
  */
 var allTools = function () {
   var tools = {};
-  var decisionSectors = ['land use','transportation','building infrastructure','waste management'];
   tools.transportation = {};
   $.get(resourceAdvancedSearchURL, {DecisionSector:'Transportation'}).done(function (data) {$.each(data, function (i) {tools.transportation[data[i].ResourceId] = data[i].ResourceId;});});
   tools.wasteManagement = {};
@@ -1796,9 +1794,9 @@ $('#feedback-modal').click(function (e) {
  * return selected label for each checked element and
  * console-log each label
  */
-var debugGetSelected = function(){
+var debugGetSelected = function (){
     var selected = [];
-    $.each($(':checked').next('label'), function(i,d){
+    $.each($(':checked').next('label'), function (i,d){
         console.log(i,d);
         selected += i + ' ' + d.className + ': ' + d.innerText + '; '
     });
@@ -1957,7 +1955,7 @@ $('.toggle-unsupported').on("change", function () {
     resultTable.getToolSet().reset(); //reset display toolset
     resultTable.displayTools(resultSet);
     // recheck boxes that were checked....
-    checkedTools.each(function() {
+    checkedTools.each(function () {
       $('#' + type + '-list-cb-' + $(this).val()).prop('checked', true);
       var id = $(this).val();
       var tableId = $(this).attr('id').slice(0, -14);
@@ -2029,13 +2027,13 @@ function searchParsedConcepts(concepts) {
 function findConcepts(searchTerms) {
 	var results = [];
 	var concepts = Object.keys(readIDsByConcept);
-    for (var i = 0; i < searchTerms.length; i++) {
-      for (var j = 0; j < concepts.length; j++) {
-        if (concepts[j].indexOf(searchTerms[i]) > -1) {
-          results.push(concepts[j]);
-        }
+  for (var i = 0; i < searchTerms.length; i++) {
+    for (var j = 0; j < concepts.length; j++) {
+      if (concepts[j].indexOf(searchTerms[i]) > -1) {
+        results.push(concepts[j]);
       }
     }
+  }
 	return results;
 }
 
@@ -2050,7 +2048,7 @@ function exportTools(resultsDiv) {
     toast({html: 'Select tools to export.', close: true});
     return;
   }
-  records.each(function() {
+  records.each(function () {
     var id = $(this).val();
     record = toolCache.getParsedData(id);
     if (record) {
@@ -2073,20 +2071,20 @@ if (radioValue === "csv") {
 }
 
 /** display the given page in a new window-object */
-var renderPageInNewWindow = function(page) {
+var renderPageInNewWindow = function (page) {
 	var win = window.open('');
 	win.document.write(page);
 	win.document.close();
 };
 
 /** produce report in HTML of records */
-var exportHTML = function(html, filename) {
+var exportHTML = function (html, filename) {
   html = '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>' + filename + '</title></head><body>' + html + '</body></html>';
   renderPageInNewWindow(html, filename);
 };
 
 /** digest text into lines of text to render individually in pdf */
-var textToPDF = function(selectedTools) {
+var textToPDF = function (selectedTools) {
   var doNotInclude = ["ID", "Last Modified"];
   var doc = new PDFDocument();
   var stream = doc.pipe(blobStream());
@@ -2118,14 +2116,14 @@ var textToPDF = function(selectedTools) {
     doc.text(' ');
   }
   doc.end();
-  stream.on('finish', function() {
+  stream.on('finish', function () {
     blob = stream.toBlob('application/pdf');
     saveAs(blob, 'sustainable_community_tools.pdf');
   });
 };
 
 /** exports `text` from browser to a file */
-var exportToFile = function(text, filename) {
+var exportToFile = function (text, filename) {
   if (window.navigator.msSaveOrOpenBlob) {
     var blob = new Blob([text], {
       type: "text/plain;charset=utf-9;"
@@ -2299,12 +2297,11 @@ function reportRecordAsHTML0(parsedData, html) {
 
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
 if (!String.prototype.includes) {
-  String.prototype.includes = function(search, start) {
+  String.prototype.includes = function (search, start) {
     'use strict';
     if (typeof start !== 'number') {
       start = 0;
     }
-
     if (start + search.length > this.length) {
       return false;
     } else {
@@ -2313,14 +2310,14 @@ if (!String.prototype.includes) {
   };
 }
 
-var Devboard = function() {
+var Devboard = function () {
   var devboard = document.querySelector('#devboard');
   if (devboard === null) return;
   var removedElements = document.querySelectorAll('.removed-content');
   var addedElements = document.querySelectorAll('.added-content');
   this.removedContentIsDisplayed = true;
   this.addedContentIsDisplayed = true;
-  this.toggleRemovedContent = function() {
+  this.toggleRemovedContent = function () {
     if (this.removedContentIsDisplayed) {
       for (i = 0; i < removedElements.length; i++) {
         removedElements[i].style.display = 'none';
@@ -2333,7 +2330,7 @@ var Devboard = function() {
       this.removedContentIsDisplayed = true;
     }
   };
-  this.toggleAddedContent = function() {
+  this.toggleAddedContent = function () {
     if (this.addedContentIsDisplayed) {
       for (i = 0; i < addedElements.length; i++) {
         addedElements[i].style.display = 'none';

@@ -133,3 +133,292 @@ function detailClearForm() {
   checkboxClear(document.getElementsByName('checkbase'));
   checkboxClear(document.getElementsByName('extent-check'));
 }
+
+
+var resultSet = new ToolSet(); // Create result and saved tool sets
+var savedTools = new ToolSet();
+
+var resultTable = new ToolDisplay('results-table', 'results-list', 'search'); // Create ToolDisplay Objects we need
+var savedTable = new ToolDisplay('saved-table', 'saved-list', 'search');
+
+$(function () { // jquery's shorthand awaits readiness of document
+  initializeTabs();// initialize tabs and their listeners
+  loadCache(); //load cache from local storage
+  loadSavedTools(); // load saved tools
+
+  /**
+   * Toggles the selected state of tool via a list div checkbox.
+   * @listens change
+   */
+  $(".list").on("change", "input:checkbox", function () {
+    var id = $(this).val();
+    var tableId = $(this).attr('id').slice(0, -14);
+    var rows = $('#' + tableId + '-table').DataTable().rows();
+    var rowNodes = rows.nodes();
+    if ($(this).prop('checked')) { // add selected class
+      $("#" + tableId + "-table").DataTable().rows(function (idx, data, node) {
+        return data[1] == id ? true: false;
+      }).nodes().to$().addClass("selected");
+      $('#' + id).prop('checked', true);
+      $('input[type="checkbox"]', rowNodes).each(function () {
+        if ($(this).val() === id) {
+          $(this).prop('checked', true);
+        }
+      });
+    } else {
+      $("#" + tableId + "-table").DataTable().rows(function (idx, data, node) {
+        return data[1] == id ? true: false;
+      }).nodes().to$().removeClass("selected");
+      $('#' + id).prop('checked', false);
+      $('input[type="checkbox"]', rowNodes).each(function () {
+        if ($(this).val() === id) {
+          $(this).prop('checked', false);
+        }
+      });
+    }
+  });
+
+  /**
+   * Toggles the selected state of a tool via a DataTable row
+   * @listens click
+   */
+  $('tbody').on('click', 'input[type="checkbox"]', function () {
+    var $parent = $(this).parent().parent();
+    var tableId = $(this).closest('table').attr('id').slice(0, -6);
+    var readId = $(this).val(); // get ID
+    if ($parent.hasClass('selected')) { // remove selected class
+      $('#' + tableId + '-list-cb-' + readId).prop('checked', false);
+      $('#' + tableId + '-table').DataTable().row($parent).deselect();
+    } else {
+      $('#' + tableId + '-list-cb-' + readId).prop('checked', true);
+      $('#' + tableId + '-table').DataTable().row($parent).select();
+    }
+  });
+});
+
+/**
+ * Initialize tabs; create listener for switching tabs
+ * @function
+ */
+var initializeTabs = function () {
+  $('#tabs > div').hide(); // hide all tab-panels
+  $('#tabs div:first').show(); // show first tab-panel
+  $('#tabs-nav li:first').addClass('active'); // class tabs active for styling
+  $('.menu-internal').click(function () { // add listener to tabbing elements
+    $('#tabs-nav li').removeClass('active'); // remove active styling from all tabs
+    var currentTab = $(this).attr('href'); // get name of clicked tab
+    $('#tabs-nav li a[href="' + currentTab + '"]').parent().addClass('active'); // activate the clicked tab
+    $('#tabs > div').hide(); // hide all panels
+    $(currentTab).show(); // show clicked tab's panel
+    return false;// return false for success; conventionially return truthy description of failure
+  });
+};
+
+/**
+ * Expand an array of data-objects to add a member of name
+ * fieldName for each value from fieldValues.
+ * This allows expansion of an array of data-objects for
+ * each selected value from fieldValues.
+ * EXAMPLE:
+ * dataList = addMembers(dataList, 'Operating Environment', os_select);
+ * this example creates an element of dataArray for each (i, j) where
+ * i = someCurrentDataObject, j = someFieldValue)
+ */
+function addMembers(dataList, fieldName, fieldValues) {
+  if (fieldValues.length > 0) {// are any values selected?
+    var tmpDataList = [];// create a temp copy of dataList
+    for (var iFieldValue = 0; iFieldValue < fieldValues.length; iFieldValue++) {// loop through os-selections
+      for (var iDatum = 0; iDatum < dataList.length; iDatum++) {// loop through current data-objects
+        // expand the temp object to be num_osSelections * num_previousDataObjects
+        tmpDataList[fieldValues.length * iDatum + iFieldValue] = {}; //create new object
+        for (var prop in dataList[iDatum]) { // loop over and copy values to new object. tmp = dataList does not create a new object.
+          tmpDataList[fieldValues.length * iDatum + iFieldValue][prop] = dataList[iDatum][prop];
+        }
+        // add member for value of fieldValues
+        tmpDataList[fieldValues.length * iDatum + iFieldValue][fieldName] = fieldValues[iFieldValue];
+      }
+    }
+    return tmpDataList;
+  } else {
+    return dataList;
+  }
+}
+
+/**
+ * Search for text and choose other criteria for tools.
+ * @function
+ */
+var detailedSearch = function () {
+  $('.search-input').autocomplete('close');
+  if ($.fn.DataTable.isDataTable('#results-table')) {
+    $('#results-table').DataTable().clear().draw(); // clear result table
+  }
+  $('#results-list *').remove(); // clear result div
+  resultSet.reset(); // clear result set
+  terminatedTools.reset();
+  resultTable.getToolSet().reset(); //reset display toolset
+  var queryTypes = $("#search-field input:checkbox:checked").map(function () {return $(this).val()}).get();
+  if (!queryTypes.length) { // ensure queryType is selected
+    toast({html: 'You must select at least one Search Field.', close: true});
+    return;
+  }
+  var queryString = $('#detailed-search-text').val().trim().toLowerCase();
+
+  resultSet.filters = {};
+  var decisionSectors = $('#decision-select :checkbox:checked').map(function () {return $(this).val();});
+  var os_select = checkBoxValue(document.getElementsByName('radioenvironment'));
+  var cost_select = checkBoxValue(document.getElementsByName('checkbase'));
+  var extent_select = $('#extent-select :checkbox:checked').map(function () {return $(this).val()});
+
+  resultSet.filters.decisionSectors = decisionSectors;
+  resultSet.filters.os_select = os_select;
+  resultSet.filters.cost_select = cost_select;
+  resultSet.filters.extent_select = extent_select;
+
+  var results = [];
+  var requests = [];
+  var data = {};
+  if (queryString) { // ensure search string is not empty
+    if ($('#dpl-concepts').prop('checked')) {
+      // Search DPL concepts
+      var concepts = findConcepts([queryString]);
+      searchParsedConcepts(concepts);
+    }
+    // Search READ data
+    for (var i = 0; i < queryTypes.length; i++) {
+      if (queryTypes[i] === 'Acronym') {
+        data[queryTypes[i]] = queryString.substr(0, 15);
+      } else if (queryTypes[i] === 'Name') {
+        data[queryTypes[i]] = queryString.substr(0, 35);
+      } else if (queryTypes[i] === 'ShortDescriptionForReports') {
+        data[queryTypes[i]] = queryString.substr(0, 255);
+      } else {
+        data[queryTypes[i]] = queryString;
+      }
+
+      var dataList = [data]; // create an initial array of query-data
+      //dataList = addMembers(dataList, 'OperatingEnvironment', os_select); // create a data object for each selection of OperatingEnvironment
+      //dataList = addMembers(dataList, 'BaseCostOfSoftware', cost_select); // create a data object for each selection of BaseCostOfSoftware
+      //dataList = addMembers(dataList, 'SpatialExtent', extent_select); // create a data object for each selection of SpatialExtent
+      for (var iDatum = 0; iDatum < dataList.length; iDatum++) {
+        requests.push(executeSearch(resourceAdvancedSearchURL, dataList[iDatum]));
+      }
+      data = {};
+    }
+    /*
+      .apply allows for variable parameters stored in an array
+      .when then waits for the array of promises to be resolved
+      .done then executes when all those promises are resolved
+      arguments allows for the variable number of arguments to be accessed
+    */
+    $.when.apply(null, requests).done(function () {
+      if (arguments[1] === "success") {
+        for (var i = 0; i < arguments.length; i++) {
+          results = results.concat(arguments[0][i]);
+        }
+      } else {
+        for (var i = 0; i < arguments.length; i++) {
+          results = results.concat(arguments[i][0]);
+        }
+      }
+      var numberOfResults = parseResultsArray(results);
+      if (0 === numberOfResults) {
+        toast({html: 'No results were found.', close: true});
+        $('#results-tab').parent().attr('aria-hidden', true);
+      } else {
+        $('#results-tab').parent().attr('aria-hidden', false);
+        $("#results-tab").click();
+        var url = window.location.href;
+        $('.toggle-unsupported').prop('disabled', true);
+        $('#loader').removeAttr('aria-hidden').show();
+        createDataTable('results');
+        $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
+        toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
+      }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      toast({html: 'Server error. Please try again another time.', close: true});
+    });
+  } else {
+    toast({html: 'Please enter a search term.', close: true});
+  }
+};
+
+/**
+ * Performs a search for the specified term.
+ * @function
+ * @param {array} results - An array containing the results from the Ajax queries.
+ * @return {number} the length of the ResultSet.
+ */
+var simpleSearch = function () {
+  $('.search-input').autocomplete('close');
+  if ($.fn.DataTable.isDataTable('#results-table')) {
+    $('#results-table').DataTable().clear().draw(); //clear result table
+  }
+  $('#results-list *').remove(); //clear result list
+  resultSet.reset(); //clear result data
+  terminatedTools.reset();
+  resultTable.getToolSet().reset(); //reset display toolset
+  var queryString = $('#simpleSearchText').val().trim().toLowerCase();
+  var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"];
+  var results = [];
+  var requests = [];
+  var data = {};
+  // var decisionSectors = [
+  //   "Land Use",
+  //   "Waste Management",
+  //   "Building Infrastructure",
+  //   "Transportation"
+  // ];
+  if (queryString) { // ensure search-string is not empty
+    // Search DPL concepts
+    var concepts = findConcepts([queryString]);
+    searchParsedConcepts(concepts);
+    // Search READ Data
+    for (var i = 0; i < queryTypes.length; i++) {
+      if (queryTypes[i] === 'Acronym') {
+        data[queryTypes[i]] = queryString.substr(0, 15);
+      } else if (queryTypes[i] === 'Name') {
+        data[queryTypes[i]] = queryString.substr(0, 35);
+      } else if (queryTypes[i] === 'ShortDescriptionForReports') {
+        data[queryTypes[i]] = queryString.substr(0, 255);
+      } else {
+        data[queryTypes[i]] = queryString;
+      }
+      // for (var j = 0; j < decisionSectors.length; j++) {
+      //   data.DecisionSector = decisionSectors[j];
+      //   requests.push(executeSearch(resourceAdvancedSearchURL, data));
+      // }
+
+      requests.push(executeSearch(resourceAdvancedSearchURL, data));
+      data = {};
+    }
+    /*
+      .apply allows for variable parameters stored in an array
+      .when then waits for the array of promises to be resolved
+      .done then executes when all those promises are resolved
+      arguments allows for the variable number of arguments to be accessed
+    */
+    $.when.apply(null, requests).done(function () {
+      for (var i = 0; i < arguments.length; i++) {
+        results = results.concat(arguments[i][0]);
+      }
+      var numberOfResults = parseResultsArray(results);
+      if (0 === numberOfResults) {
+        toast({html: 'No results were found.', close: true});
+        $('#results-tab').parent().attr('aria-hidden',true);
+      } else {
+        $('#results-tab').parent().attr('aria-hidden',false);
+        $("#results-tab").click();
+        $('.toggle-unsupported').prop('disabled', true);
+        $('#loader').removeAttr('aria-hidden').show();
+        createDataTable('results');
+        $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
+        toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
+      }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      toast({html: 'Server error. Please try again another time.', close: true});
+    });
+  } else {
+    toast({html: 'Please enter a search term.', close: true});
+  }
+};
