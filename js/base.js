@@ -497,7 +497,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
         console.log(sorted[i] + " data is null.");
       }
       if (toolData !== null && !isToolFiltered(toolData)) {
-        if (!(toolData["Life Cycle Phase"] === "Termination" && !$('.toggle-unsupported').prop('checked'))) {
+        if (!(toolData["Life Cycle Phase"] === "Termination" && !$('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('checked'))) {
           html += createDiv(toolData, this.getListId());
           rows.push(createRow(toolData));
           this.toolSet.addTool(sorted[i]);
@@ -516,7 +516,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
     $("#" + this.getTableId()).DataTable().columns.adjust(); // adjust table cols to the width of the container
   }
-  $('.toggle-unsupported').prop('disabled', false);
+  $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', false);
 };
 
 /**
@@ -684,11 +684,7 @@ function showDetails(id, that) {
   var origin = $(that).closest('[role="tabpanel"]').attr('aria-labelledby');
   var parsedData = toolCache.getParsedData(id);
   var html = '';
-  if (resultTable.getType() === 'wizard' || savedTools.contains(id)) {
-    html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').attr(\'aria-selected\', true);$(\'#selected-tool-tab\').attr(\'aria-selected\', false);$(' + "'#" + origin + "'" +')[0].click();">Return to Tool List</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">';
-  } else {
-    html = '<button class="button button-grey" onclick="$(' + "'#" + origin + "'" +').attr(\'aria-selected\', true);$(\'#selected-tool-tab\').attr(\'aria-selected\', false);$(' + "'#" + origin + "'" +')[0].click();">Return to Tool List</button><button class="button button-white right" onclick="saveRecord()">Save This Tool</button><div id="selected-tool-div" data-read-id="' + parsedData['ID'] + '">';
-  }
+  
   var $tab = $("#selected-tool");
   try {
     $tab.empty();
@@ -886,6 +882,7 @@ function saveSelectedRecords(resultsDiv) {
  * @param {string} containerId - The ID of the container the DIV will be appended to.
  */
 function addDiv(parsedResult, containerId) {
+  console.log("addDiv");
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries
   var $container = $('#' + containerId);
   var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
@@ -897,8 +894,8 @@ function addDiv(parsedResult, containerId) {
         (parsedResult['Life Cycle Phase'] === "Termination" ? '<span class="bold red"> This tool is no longer supported.</span>' : "") +
       '</div>' +
     '</div>' +
-    '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">' +
-      '<button class="col bold button-grey">Show Tool Details</button>' +
+    '<div class="row expand" id="' + parsedResult['ID'] + '" tabindex="0">' +
+      '<button class="col bold button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Show Tool Details</button>' +
       '<div class="col accordion-result"></div>' +
     '</div>' +
   '</div>';
@@ -913,6 +910,7 @@ function addDiv(parsedResult, containerId) {
  * @return {string} - The HTML to create a DIV.
  */
 function createDiv(parsedResult, containerId) {
+  console.log("createDiv");
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries
   var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
     '<div class="row" role="button">' +
@@ -923,23 +921,13 @@ function createDiv(parsedResult, containerId) {
         (parsedResult['Life Cycle Phase'] === "Termination" ? '<span class="bold red"> This tool is no longer supported.</span>' : "") +
       '</div>' +
     '</div>' +
-    '<div class="row expand" data-id="' + parsedResult['ID'] + '" tabindex="0">' +
-      '<button class="col bold button-grey">Show Tool Details</button>' +
+    '<div class="row" id="' + parsedResult['ID'] + '" tabindex="0">' +
+      '<button class="col bold button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Show Tool Details</button>' +
     '</div>' +
   '</div>';
 
   return html;
 }
-
-/**
- * On click listener for the expandable details section of the lists
- * @listens click
- */
-$('.list').on('click', '.expand', function () {
-  var $this = $(this);
-  var readId = $this.attr('data-id');
-  showDetails(readId, this);
-});
 
 /**
  * map details of a result into accessible locations
@@ -1408,6 +1396,9 @@ function createDataTable(name) {
     var table = $('#' + name + '-table').DataTable({
       dom: 'B<"toolbar">frtip',
       processing: true,
+      language: {
+        loadingRecords: "Please wait - loading..."
+     },
       responsive: {
         details: false
       },
@@ -1454,10 +1445,17 @@ function createDataTable(name) {
       ]
     });
 
-    $("div.toolbar").html('<div class="export-radio"><input id="c-results" type="radio" name="export-type" value="csv"><label for="c-results">CSV</label><input id="p-results" type="radio" name="export-type" value="pdf"><label for="p-results">PDF</label></div>');
+    $("#" + name + "-table-div .toolbar").html(
+      '<div class="export-radio">' +
+      '<input id="c-' + name + '-table" type="radio" name="export-type" value="csv">' + 
+      '<label for="c-' + name + '-table">CSV</label>' + 
+      '<input id="p-' + name + '-table" type="radio" name="export-type" value="pdf">' + 
+      '<label for="p-' + name + '-table">PDF</label></div>'
+    );
 
     var dtButtons = [];
 
+    // Is not saved table. Is on Search or Browse app
     if (name !== 'saved' && (resultTable.getType() === 'search' || resultTable.getType() === 'browse')) {
       dtButtons.push(
         {
@@ -1470,22 +1468,7 @@ function createDataTable(name) {
       );
     }
 
-    if (resultTable.getType() === 'search' || resultTable.getType() === 'browse' || resultTable.getType() === 'wizard') {
-      dtButtons.push(
-        {
-          text: 'Export Selected Tools',
-          action: function () {
-            exportTools(name + '-table');
-          },
-          className: 'button button-white'
-        }
-      );
-    }
-
-    if (name === 'browse') {
-      $('.dataTables_empty').html('<img id="loader" src="img/loader.gif">');
-    }
-
+    // Is saved table on Search or Browse app
     if (name === 'saved' && (resultTable.getType() === 'search' || resultTable.getType() === 'browse')) {
       dtButtons.push(
         {
@@ -1498,13 +1481,31 @@ function createDataTable(name) {
       );
     }
 
+    // is a table on the Search, Browse, or Wizard app
+    if (resultTable.getType() === 'search' || resultTable.getType() === 'browse' || resultTable.getType() === 'wizard') {
+      dtButtons.push(
+        {
+          text: 'Export Selected Tools',
+          action: function () {
+            exportTools(name + '-table');
+          },
+          className: 'button button-white'
+        }
+      );
+    }
+
+    // Is the browse tool
+    if (name === 'browse') {
+      $('.dataTables_empty').html('<img id="loader" src="/sites/staging/files/2018-10/loader.gif">');
+    }
+
     new $.fn.dataTable.Buttons(table, {
         buttons: dtButtons
       }
     );
 
     table.buttons(0, null).container().css('display', 'block').wrap("<div></div>");
-    if (name !== 'saved' && resultTable.getType() === 'search') {
+    if (name !== 'saved' && resultTable.getType() === 'search' || resultTable.getType() === 'browse') {
       table.buttons(1, null).container().insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');
     } else {
     	table.buttons(1, null).container().insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');
@@ -1944,11 +1945,19 @@ $(window).bind('storage', function (e) {
   }
 });
 
-$('.toggle-unsupported').on("change", function () {
+$('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').on("change", function () {
+  console.log("toggled unsupported")
   var showUnsupportedTools = $(this).is(":checked");
-  $('.toggle-unsupported').prop('checked', showUnsupportedTools);
-  var type = $(this).attr('data-table-type');
+  $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('checked', showUnsupportedTools);
+  var type = resultTable.getType();
+  console.log(type)
+
+  if (type !== "browse") {
+    type = "results";
+  }
+
   var checkedTools = $('#' + type + '-list input:checked');
+  console.log(checkedTools)
   $('#' + type + '-list *').remove(); // clear result div
   if ($.fn.DataTable.isDataTable('#' + type + '-table')) {
     $('#' + type + '-table').DataTable().clear().draw(); // clear result table
@@ -2385,3 +2394,5 @@ var questions = {
   "Model Structure" : "Can you provide a description and/or references pertaining to: the conceptual model, a list of key variables and/or parameters, the model structure, and governing equations?",
   "Life Cycle Phase" : "Is this application currently supported?"
 };
+
+$('table').css('width', '100%');

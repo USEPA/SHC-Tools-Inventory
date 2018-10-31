@@ -20,8 +20,9 @@
 .option {
   margin-right: 1.4rem;
 }
-.search-input {
+#simple-search-text, #detailed-search-text {
   width: 40em;
+  margin-right: 3px;
 }
 .accordion-pane {
   display: none;

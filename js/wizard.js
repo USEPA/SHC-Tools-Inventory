@@ -107,7 +107,7 @@ $(function () { // jquery's shorthand awaits readiness of document
     showToast[checkboxGroup] = true;
   }
 
-  $('#toggle-unsupported').prop('checked', true);
+  $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('checked', true);
 });
 
 /**
@@ -632,7 +632,6 @@ var keywordSearch = function (div, input) {
  * @function
  */
 var conceptSearch = function () {
-  $('#results-notification').html('').removeClass().attr('aria-hidden', 'true');
   resultSet.reset(); // remove from resultSet
   terminatedTools.reset();
   if ($.fn.DataTable.isDataTable('#results-table')) {
@@ -731,7 +730,7 @@ var displayResults = function () {
     activateNextTab($('#results-tab'), 'wizard.html#results-tab'); // activate the reults tab
     if (!resultSet.isEqual(resultTable.getToolSet())) { // if the results are new create the table and display results
       $('#loader').removeAttr('aria-hidden').show();
-      $('.toggle-unsupported').prop('disabled', true);
+      $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', true);
       createDataTable('results');
       $('#result-info').html('<span id="number-of-results">' + resultSet.getLength() + " result(s) found</span> for selected concepts.");
       toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
@@ -899,3 +898,131 @@ var activateTab = function ($nextTab, URLToShow) {
   $nextTab.prop('disabled', false); // enable tab
   $nextTab[0].click(); // activate tab
 };
+
+$('#role-help-button').on('click', function () {
+  $('#role-help').toggle();
+});
+
+$('#subrole-help-button').on('click', function () {
+  $('#subrole-help').toggle();
+});
+
+$('#fundamental-objective-help-button').on('click', function () {
+  $('#fundamental-objective-help').toggle();
+});
+
+$('#objective-help-button').on('click', function () {
+  $('#objective-help').toggle();
+});
+
+$('#concept-help-button').on('click', function () {
+  $('#concept-help').toggle();
+});
+
+// Select roles, subroles... etc.
+$('#select-roles, #deselect-roles').on('click', function () {
+  selectAll('role', roleSelect);
+});
+$('#deselect-roles').on('click', function () {
+  deselectAll('role', roleSelect);
+});
+
+$('#select-subroles').on('click', function () {
+  selectAll('subrole', subroleSelect);
+});
+$('#deselect-subroles').on('click', function () {
+  deselectAll('subrole', subroleSelect);
+});
+
+$('#select-fundamental-objectives').on('click', function () {
+  selectAll('fundamental-objective', fundamentalObjectiveSelect);
+});
+$('#deselect-fundamental-objectives').on('click', function () {
+  deselectAll('fundamental-objective', fundamentalObjectiveSelect);
+});
+
+$('#select-objectives').on('click', function () {
+  selectAll('objective', objectiveSelect);
+});
+$('#deselect-objectives').on('click', function () {
+  deselectAll('objective', objectiveSelect);
+});
+
+$('#select-concepts').on('click', function () {
+  selectAll('concept');
+  updateConceptsandResults();
+});
+$('#deselect-concepts').on('click', function () {
+  deselectAll('concept');
+  updateConceptsandResults();
+});
+
+// Next button listeners
+$('#role-next-button, #role-next-button-mobile').on('click', function () {
+  activateNextTab($('#subrole-tab'), 'wizard.html#subrole-tab');
+});
+
+$('#subrole-next-button, #subrole-next-button-mobile').on('click', function () {
+  activateNextTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab');
+});
+
+$('#fundamental-objective-next-button, #fundamental-objective-next-button-mobile').on('click', function () {
+  activateNextTab($('#objective-tab'), 'wizard.html#objective-tab');
+});
+
+$('#objective-next-button, #objective-next-button-mobile').on('click', function () {
+  activateNextTab($('#concept-tab'), 'wizard.html#concept-tab');
+  updateConcepts();
+});
+
+$('#show-results-button, #show-results-button-mobile').on('click', function () {
+  displayResults();
+});
+
+// Back button listeners
+$('#subrole-back-button, #subrole-back-button-mobile').on('click', function () {
+  activateTab($('#role-tab'), 'wizard.html#role-tab');
+});
+
+$('#fundamental-objective-back-button, #fundamental-objective-back-button-mobile').on('click', function () {
+  activateTab($('#subrole-tab'), 'wizard.html#subrole-tab');
+});
+
+$('#objective-back-button, #objective-back-button-mobile').on('click', function () {
+  activateTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab');
+});
+
+$('#concept-back-button, #concept-back-button-mobile').on('click', function () {
+  activateTab($('#objective-tab'), 'wizard.html#objective-tab');
+});
+
+$('#navbar-back, #bottom-bar-back').on('click', function () {
+  activatePreviousUnhiddenTab();
+});
+
+$('#feedback-form').on('click', function () {
+  submitFeedback(event);
+});
+
+// Expand concept 
+$('#expand-concepts').on('click', function () {
+  broadenConcepts();
+});
+
+// Select all buttons
+$("#select-all-btn").on('click', function () {
+  selectAllToolsButton('results');
+});
+$("#deselect-all-btn").on('click', function () {
+  deselectAllToolsButton('results');
+});
+
+// Save selected
+$("#save-selected-btn").on('click', function () {
+  saveSelectedRecords('results-list');
+});
+
+// Export button
+$("#export-btn").on('click', function () {
+  exportTools('results-list');
+});

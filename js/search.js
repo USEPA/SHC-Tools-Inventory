@@ -12,7 +12,7 @@ var concatenatedAutocompleteTerms = [];
 var orderedAutocompleteTerms = [];
 concatenatedAutocompleteTerms = concatenatedAutocompleteTerms.concat(autocompleteArrays.Name, autocompleteArrays.Acronym, autocompleteArrays.ShortDescriptionForReports, autocompleteArrays.Keywords, autocompleteArrays.DPLConcepts);
 orderedAutocompleteTerms = removeDuplicatesFromArray(concatenatedAutocompleteTerms).sort();
-$(".search-input").autocomplete({
+$("#simple-search-text, #detailed-search-text").autocomplete({
   source: orderedAutocompleteTerms
 });
 
@@ -249,7 +249,7 @@ function addMembers(dataList, fieldName, fieldValues) {
  * @function
  */
 var detailedSearch = function () {
-  $('.search-input').autocomplete('close');
+  $('#simple-search-text, #detailed-search-text').autocomplete('close');
   if ($.fn.DataTable.isDataTable('#results-table')) {
     $('#results-table').DataTable().clear().draw(); // clear result table
   }
@@ -312,6 +312,7 @@ var detailedSearch = function () {
       arguments allows for the variable number of arguments to be accessed
     */
     $.when.apply(null, requests).done(function () {
+      $('#detailed-search-loader').hide();
       if (arguments[1] === "success") {
         for (var i = 0; i < arguments.length; i++) {
           results = results.concat(arguments[0][i]);
@@ -329,7 +330,7 @@ var detailedSearch = function () {
         $('#results-tab').parent().attr('aria-hidden', false);
         $("#results-tab").click();
         var url = window.location.href;
-        $('.toggle-unsupported').prop('disabled', true);
+        $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', true);
         $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
         $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
@@ -350,7 +351,7 @@ var detailedSearch = function () {
  * @return {number} the length of the ResultSet.
  */
 var simpleSearch = function () {
-  $('.search-input').autocomplete('close');
+  $('#simple-search-text, #detailed-search-text').autocomplete('close');
   if ($.fn.DataTable.isDataTable('#results-table')) {
     $('#results-table').DataTable().clear().draw(); //clear result table
   }
@@ -358,7 +359,7 @@ var simpleSearch = function () {
   resultSet.reset(); //clear result data
   terminatedTools.reset();
   resultTable.getToolSet().reset(); //reset display toolset
-  var queryString = $('#simpleSearchText').val().trim().toLowerCase();
+  var queryString = $('#simple-search-text').val().trim().toLowerCase();
   var queryTypes = ["Acronym", "Name", "ShortDescriptionForReports", "Keywords"];
   var results = [];
   var requests = [];
@@ -399,6 +400,7 @@ var simpleSearch = function () {
       arguments allows for the variable number of arguments to be accessed
     */
     $.when.apply(null, requests).done(function () {
+      $('#simple-search-loader').hide();
       for (var i = 0; i < arguments.length; i++) {
         results = results.concat(arguments[i][0]);
       }
@@ -409,7 +411,7 @@ var simpleSearch = function () {
       } else {
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
-        $('.toggle-unsupported').prop('disabled', true);
+        $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', true);
         $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
         $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
@@ -422,3 +424,59 @@ var simpleSearch = function () {
     toast({html: 'Please enter a search term.', close: true});
   }
 };
+
+$("#simple-search-button").on('click', function () {
+  $('#simple-search-loader').show();
+  simpleSearch();
+});
+
+$("#detailed-search-button").on('click', function () {
+  $('#detailed-search-loader').show();
+  detailedSearch();
+});
+
+$("#detailed-reset").on('click', function () {
+  detailClearForm();
+});
+
+$("#detailed-search-text").on('keyup', function () {
+  if (event.keyCode == 13) {
+    document.getElementById('detailed-search-button').click();
+  }
+});
+
+
+$("#select-all-saved-btn").on('click', function () {
+  selectAllToolsButton('saved');
+});
+$("#deselect-all-saved-btn").on('click', function () {
+  deselectAllToolsButton('saved');
+});
+$("#remove-selected-btn").on('click', function () {
+  removeSelected('saved-list');
+});
+$("#export-selected-btn").on('click', function () {
+  exportTools('saved-list');
+});
+
+$("#select-all-btn").on('click', function () {
+  selectAllToolsButton('results');
+});
+$("#deselect-all-btn").on('click', function () {
+  deselectAllToolsButton('results');
+});
+$("#save-selected-btn").on('click', function () {
+  saveSelectedRecords('results-list');
+});
+$("#export-btn").on('click', function () {
+  exportTools('results-list');
+});
+
+$("#simple-search-text").on('keydown', function () {
+  if (event.keyCode == 13) {
+    document.getElementById('simple-search-button').click();
+  }
+});
+
+$('#simple-search-loader').hide();
+$('#detailed-search-loader').hide();

@@ -26,41 +26,83 @@
 }
 .button-grey, 
 a.button-grey,
-a.button-grey:visited {
+a.button-grey:visited,
+#select-all-saved-btn,
+#select-all-btn,
+#deselect-all-btn,
+#deselect-all-saved-btn {
   background-color: #5b616b;
   color: #fff;
+  margin-right: 3px;
 }
 .button-grey:hover,
-.button-grey:focus {
+.button-grey:focus,
+#select-all-saved-btn:hover,
+#select-all-saved-btn:focus,
+#select-all-btn:hover,
+#select-all-btn:focus,
+#deselect-all-saved-btn:hover,
+#deselect-all-saved-btn:focus,
+#deselect-all-btn:hover,
+#deselect-all-btn:focus {
   background-color: #323a45;
   color: #fff;
 }
-.button-grey:active {
+.button-grey:active,
+#select-all-saved-btn:active,
+#select-all-btn:active,
+#deselect-all-saved-btn:active,
+#deselect-all-btn:active {
   background-color: #212121;
   color: #fff;
 }
 .button-white,
 a.button-white,
-a.button-white:visited {
+a.button-white:visited,
+#remove-selected-btn,
+#remove-selected-btn:visited,
+#export-selected-btn,
+#export-btn,
+#export-selected-btn:visited,
+#export-btn:visited,
+#save-selected-btn,
+#save-selected-btn:visited {
   background-color: #fff;
   box-shadow: inset 0 0 0 2px #0071bc;
   color: #0071bc;
+  margin-right: 3px;
 }
 .button-white:hover,
 .button-white:focus,
 a.button-white:hover,
-a.button-white:focus {
+a.button-white:focus,
+#remove-selected-btn:hover,
+#remove-selected-btn:focus,
+#export-selected-btn:hover,
+#export-btn:hover,
+#export-selected-btn:focus,
+#export-btn:focus,
+#save-selected-btn:hover,
+#save-selected-btn:focus {
   background-color: #fff;
   box-shadow: inset 0 0 0 2px #205493;
   color: #205493;
 }
 .button-white:active,
-a.button-white:active {
+a.button-white:active,
+#remove-selected-btn:active,
+#export-selected-btn:active,
+#export-btn:active,
+#save-selected-btn:active {
   background-color: #fff;
   box-shadow: inset 0 0 0 2px #112e51;
   color: #112e51;
 }
-.button-white:disabled {
+.button-white:disabled,
+#remove-selected-btn:disabled,
+#export-selected-btn:disabled,
+#export-btn:disabled,
+#save-selected-btn:disabled {
   background-color: #aeb0b5;
   color: #fff;
   pointer-events: none;
@@ -91,7 +133,7 @@ table.dataTable td.select-checkbox:after {
 .right {
   float: right;
 }
-.list button {
+#browse-list button, #saved-list button, #results-list button {
 	width: calc(100% - 2em);
   display: block;
   margin: auto;
@@ -120,7 +162,7 @@ tr:hover td:not(:first-child) {
 #feedback-text {
   width: 100%;
 }
-.modal {
+#feedback-modal {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
   display: none;
@@ -133,7 +175,7 @@ tr:hover td:not(:first-child) {
   width: 100%;
   z-index: 1;
 }
-.modal-content {
+#modal-content {
   background-color: #f1f1f1;
   border: 1px solid #aeb0b5;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -151,33 +193,33 @@ tr:hover td:not(:first-child) {
   from {top: -300px; opacity: 0}
   to {top: 0; opacity: 1}
 }
-.close {
+#close-modal {
   color: white;
   line-height: 0.5em;
   float: right;
   font-size: 1.5em;
 }
-.close:hover,
-.close:focus {
+#close-modal:hover,
+#close-modal:focus {
   color: #000;
   cursor: pointer;
   text-decoration: none;
 }
-.modal-header {
+#modal-header {
   background-color: #2e8540;
   color: #fff;
   padding: 0.9em 1em 0 1em;
 }
-.modal-body {
+#modal-body {
   padding: 2px 16px;
 }
-.modal-footer {
+#modal-footer {
   background-color: #4aa564;
   color: white;
   padding: 2px 16px;
 }
 @media screen and (max-width: 39.9375em) {
-  .modal {
+  #feedback-modal {
     top: 0;
     left: 0;
     width: 100%;
@@ -189,7 +231,7 @@ tr:hover td:not(:first-child) {
     border-radius: 0;
     padding-top: 0;
   }
-  .modal-content {
+  #modal-content {
     width: 100%;
   }
   #submit-feedback {
@@ -350,15 +392,23 @@ table {
   padding: 1em 1em 1em 1em;
   margin-bottom: .4em;
 }
-.export-radio {
+.export-radio,
+#export-radio1,
+#export-radio2 {
   display: inline;
   margin:5px 5px 25.5px 5px;
 }
-.export-radio > label {
+.export-radio > label,
+#export-radio1 > label,
+#export-radio2 > label {
   display: inline;
   margin:5px 5px 25.5px 5px;
 }
 
 .dataTables_filter {
   margin-right: 5px;
+}
+
+button {
+  margin-right: 3px;
 }

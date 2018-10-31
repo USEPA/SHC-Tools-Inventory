@@ -65,13 +65,34 @@ label{
 }
 .icon-button,
 .icon-button:hover,
-.icon-button:focus {
+.icon-button:focus,
+#role-help-button,
+#role-help-button:hover,
+#role-help-button:focus,
+#subrole-help-button,
+#subrole-help-button:hover,
+#subrole-help-button:focus,
+#fundamental-objective-help-button,
+#fundamental-objective-help-button:hover,
+#fundamental-objective-help-button:focus,
+#objective-help-button,
+#objective-help-button:hover,
+#objective-help-button:focus,
+#concept-help-button,
+#concept-help-button:hover,
+#concept-help-button:focus {
   background: transparent;
   border: none;
   width: auto;
   margin: 0;
 }
-.icon-img {
+
+.icon-img,
+#role-help-button > img,
+#subrole-help-button > img,
+#fundamental-objective-help-button > img,
+#objective-help-button > img,
+#concept-help-button > img {
   width: 2em;
 }
 .navbar {
@@ -212,12 +233,12 @@ label{
 .pagetop {
   clear: both;
 }
-.bottom-bar {
+#bottom-bar {
   display: block;
   margin-top: 1.5em;
 }
 @media screen and (max-width: 480px) {
-  .bottom-bar {
+  #bottom-bar {
     display: none;
   }
 }

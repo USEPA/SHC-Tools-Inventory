@@ -104,3 +104,9 @@ button:disabled {
 .method {
   margin-bottom: 1.5em;
 }
+
+#methods .button {
+  color: white;
+  width: inherit;
+  margin: 0;
+}

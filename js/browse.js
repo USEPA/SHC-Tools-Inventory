@@ -90,3 +90,33 @@ function browseTools() {
   createDataTable('browse');
   toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
 }
+
+$("#select-all-saved-btn").on('click', function () {
+  selectAllToolsButton('saved');
+});
+$("#deselect-all-saved-btn").on('click', function () {
+  deselectAllToolsButton('saved');
+});
+$("#remove-selected-btn").on('click', function () {
+  removeSelected('saved-list');
+});
+$("#export-selected-btn").on('click', function () {
+  exportTools('saved-list');
+});
+
+$("#select-all-btn").on('click', function () {
+  selectAllToolsButton('browse');
+});
+$("#deselect-all-btn").on('click', function () {
+  deselectAllToolsButton('browse');
+});
+$("#save-selected-btn").on('click', function () {
+  saveSelectedRecords('browse-list');
+});
+$("#export-btn").on('click', function () {
+  exportTools('browse-list');
+});
+
+$("#browse-tools-tab").on('click', function () {
+  browseTools();
+});
