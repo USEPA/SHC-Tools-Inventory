@@ -1,0 +1,416 @@
+System for Urban Stormwater Treatment and Analysis Integration (SUSTAIN) |  | https://www.epa.gov/water-research/system-urban-stormwater-treatment-and-analysis-integration-sustain | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+National Stormwater Calculator (SWC) |  | https://www.epa.gov/water-research/national-stormwater-calculator | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Open Source: Is this tool open source?
+Other Requirements: Are there any other proprietary software requirements?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Support Name: Is there a support person?
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+Random-Utility-Based Multiregional Input-Output (RUBMRIO) |  | http://www.ce.utexas.edu/prof/kockelman/RUBMRIO_Website/homepage.htm | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Operating System: What operating systems is this tool compatible with?
+Other Requirements: Are there any other proprietary software requirements?
+Time Scale: What time scales does this tool operate on (Annual, Multi-Year, Other, Point in Time)?
+Spatial Extent: What are the spatial extents of the model? (Building, City, Continent, County, Globe, Nation, Neighborhood, Region, Site, State, Watershed).
+Model Structure: Can you provide a description and/or references pertaining to: the conceptual model, a list of key variables and/or parameters, the model structure, and governing equations?
+Model Output Types: What kind of outputs does this model output? (3-D Visualizations, Movies; Checklists; Data (spreadsheet, database); GIS layers; Graphs; Indicators; Indices, Aggregate Scores; Maps; Monetary Values; Narratives, Reports; Other; Priority Ranks).
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Alternate Names: Is this tool known by any other names?
+
+Social Values for Ecosystem Services (SolVES) |  | https://solves.cr.usgs.gov/ | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Time Scale: What time scales does this tool operate on (Annual, Multi-Year, Other, Point in Time)?
+Spatial Extent: What are the spatial extents of the model? (Building, City, Continent, County, Globe, Nation, Neighborhood, Region, Site, State, Watershed).
+Technical Skills Needed: Are there any technical skills required for operation of this tool?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Keywords: What keywords or phrases would you associate with your tool?
+Alternate Names: Is this tool known by any other names?
+
+Wildlife Habitat Benefits Estimation Toolkit (Wildlife Habita) |  | https://gcmd.nasa.gov/KeywordSearch/Metadata.do?Portal=GCMD&MetadataType=1&MetadataView=Full&KeywordPath=&EntryId=WHPRP | Not Provided
+Life Cycle Phase: Is this application currently supported?
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+Watershed Management Optimization Support Tool (WMOST) |  | https://www.epa.gov/ceam/wmost | Not Provided
+Life Cycle Phase: Is this application currently supported?
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Spatial Extent: What are the spatial extents of the model? (Building, City, Continent, County, Globe, Nation, Neighborhood, Region, Site, State, Watershed).
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+CorPlan (CorPlan) |  | http://www.citiesthatwork.com/corplan | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Open Source: Is this tool open source?
+Support Name: Is there a support person?
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+UrbanSim (UrbanSim) |  | http://www.urbansim.com/ | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Other Requirements: Are there any other proprietary software requirements?
+Spatial Extent: What are the spatial extents of the model? (Building, City, Continent, County, Globe, Nation, Neighborhood, Region, Site, State, Watershed).
+Keywords: What keywords or phrases would you associate with your tool?
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+UPlan: Urban Growth Model (UPlan: Urban Gr) |  | http://ice.ucdavis.edu/project/uplan | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Open Source: Is this tool open source?
+Time Scale: What time scales does this tool operate on (Annual, Multi-Year, Other, Point in Time)?
+Keywords: What keywords or phrases would you associate with your tool?
+Alternate Names: Is this tool known by any other names?
+
+C2RouteApp (C2RouteApp) |  | http://www.c2logix.com/c2routeapp | Not Provided
+BaseCost: What is the base cost for using your tool?
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Operating System: What operating systems is this tool compatible with?
+Other Requirements: Are there any other proprietary software requirements?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Support Name: Is there a support person?
+
+Environmental Assessment System for Environmental TECHnologies (EASETECH) |  | http://www.easetech.dk/ | Not Provided
+Other Requirements: Are there any other proprietary software requirements?
+Time Scale: What time scales does this tool operate on (Annual, Multi-Year, Other, Point in Time)?
+Spatial Extent: What are the spatial extents of the model? (Building, City, Continent, County, Globe, Nation, Neighborhood, Region, Site, State, Watershed).
+Technical Skills Needed: Are there any technical skills required for operation of this tool?
+Model Inputs: What inputs are required to run this model?
+Input Data Requirements: Is the data required: Provided; Generally Publicly Available; Not Publicly Available, but Routinely Available; New Data Must be Created?
+Model Output Types: What kind of outputs does this model output? (3-D Visualizations, Movies; Checklists; Data (spreadsheet, database); GIS layers; Graphs; Indicators; Indices, Aggregate Scores; Maps; Monetary Values; Narratives, Reports; Other; Priority Ranks).
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Keywords: What keywords or phrases would you associate with your tool?
+Alternate Names: Is this tool known by any other names?
+
+Waste and Resources Assessment Tool for the Environment (WRATE) |  | http://www.wrate-lca.co.uk | Not Provided
+BaseCost: What is the base cost for using your tool?
+Open Source: Is this tool open source?
+Operating Environment: What platforms (desktop, web, mobile) is your tool compatible with?
+Operating System: What operating systems is this tool compatible with?
+Other Requirements: Are there any other proprietary software requirements?
+Time Scale: What time scales does this tool operate on (Annual, Multi-Year, Other, Point in Time)?
+Spatial Extent: What are the spatial extents of the model? (Building, City, Continent, County, Globe, Nation, Neighborhood, Region, Site, State, Watershed).
+Technical Skills Needed: Are there any technical skills required for operation of this tool?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Support Name: Is there a support person?
+Support Phone: Is there a support phone number?
+Support Materials: Is there a link to support materials you can provide or a contact name for support?
+Alternate Names: Is this tool known by any other names?
+
+Food Waste Assessment Tool (Food Waste Asse) |  | https://www.epa.gov/sustainable-management-food/tools-preventing-and-diverting-wasted-food#calculator | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Keywords: What keywords or phrases would you associate with your tool?
+
+Waste Target-Setting Tool (Waste Target-Se) |  | http://www.sustainabilityroadmap.org/strategies/targetwaste.shtml#target | Not Provided
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Support Name: Is there a support person?
+Support Email: Is there a support email?
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+Electronics Environmental Benefits Calculator (Electronics Env) |  | http://isse.utk.edu/ccp/projects/benefitscalculator/elecbenecalc.html | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Spatial Extent: What are the spatial extents of the model? (Building, City, Continent, County, Globe, Nation, Neighborhood, Region, Site, State, Watershed).
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Alternate Names: Is this tool known by any other names?
+
+Integrated Waste Management Tool for Municipalities (Integrated Wast) |  | https://uwaterloo.ca/integrated-waste-management-model-for-municipalities/ | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Open Source: Is this tool open source?
+Operating Environment: What platforms (desktop, web, mobile) is your tool compatible with?
+Operating System: What operating systems is this tool compatible with?
+Other Requirements: Are there any other proprietary software requirements?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Support Phone: Is there a support phone number?
+Last Software Update: When was this tool last updated?
+Alternate Names: Is this tool known by any other names?
+
+Umberto NXT (Umberto NXT) |  | https://www.ifu.com/en/umberto/ | Not Provided
+BaseCost: What is the base cost for using your tool?
+AnnualCost: Are there any annual costs for using your tool?
+Other Requirements: Are there any other proprietary software requirements?
+Input Data Requirements: Is the data required: Provided; Generally Publicly Available; Not Publicly Available, but Routinely Available; New Data Must be Created?
+Last Software Update: When was this tool last updated?
+
+Waste Management Planning system (WAMPS) |  | https://wamps.ivl.se/prod/ | Not Provided
+Life Cycle Phase: Is this application currently supported?
+AnnualCost: Are there any annual costs for using your tool?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Support Name: Is there a support person?
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+Global Emission Model for Integrated Systems (GEMIS) |  | http://iinas.org/about-gemis.html | Not Provided
+Other Requirements: Are there any other proprietary software requirements?
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+Landfill Gas Emissions Model (LandGEM) |  | https://www.epa.gov/catc/clean-air-technology-center-products#software | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+InfoSWMM (InfoSWMM) |  | http://www.innovyze.com/products/infoswmm/ | Not Provided
+
+MIKE URBAN (MIKE URBAN) |  | https://www.mikepoweredbydhi.com/products/mike-urban | Not Provided
+BaseCost: What is the base cost for using your tool?
+AnnualCost: Are there any annual costs for using your tool?
+Other Requirements: Are there any other proprietary software requirements?
+Model Inputs: What inputs are required to run this model?
+Alternate Names: Is this tool known by any other names?
+
+Storm and Sanitary Analysis (Storm and Sanit) |  | https://www.autodesk.com/products/autocad-civil-3d/overview | Not Provided
+Keywords: What keywords or phrases would you associate with your tool?
+Support Name: Is there a support person?
+Support Email: Is there a support email?
+Support Phone: Is there a support phone number?
+
+CivilStorm (CivilStorm) |  | https://www.bentley.com/en/products/product-line/hydraulics-and-hydrology-software/civilstorm | Not Provided
+BaseCost: What is the base cost for using your tool?
+AnnualCost: Are there any annual costs for using your tool?
+Other Requirements: Are there any other proprietary software requirements?
+Model Variables: What variables are used by this model?
+Support Email: Is there a support email?
+Alternate Names: Is this tool known by any other names?
+
+Source Loading and Management Model for Windows (WinSLAMM) |  | http://www.winslamm.com/default.html | Not Provided
+Other Requirements: Are there any other proprietary software requirements?
+Support Phone: Is there a support phone number?
+
+PCSWMM (PCSWMM) |  | https://www.pcswmm.com/ | Not Provided
+Other Requirements: Are there any other proprietary software requirements?
+Support Name: Is there a support person?
+Alternate Names: Is this tool known by any other names?
+
+Stormwater & Wastewater Management Model (XPSWMM) |  | http://innovyze.com/products/xpswmm/ | Not Provided
+Other Requirements: Are there any other proprietary software requirements?
+
+NatureServe Vista (NatureServe Vis) |  | http://www.natureserve.org/conservation-tools/data-maps-tools/natureserve-vista | Not Provided
+Technical Skills Needed: Are there any technical skills required for operation of this tool?
+Support Name: Is there a support person?
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+Scenario Planning Analytical Resources Core INDEX (SPARC INDEX) |  | http://www.crit.com/sparc/ | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Other Requirements: Are there any other proprietary software requirements?
+Technical Skills Needed: Are there any technical skills required for operation of this tool?
+Model Inputs: What inputs are required to run this model?
+Model Variables: What variables are used by this model?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+
+CommunityViz (CommunityViz) |  | http://communityviz.city-explained.com/communityviz/index.html | Not Provided
+Support Name: Is there a support person?
+
+Envision Tomorrow (ET+) |  | http://envisiontomorrow.org/ | Not Provided
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Support Name: Is there a support person?
+Support Email: Is there a support email?
+
+ATHENA Impact Estimator for Buildings (ATHENA Impact E) |  | https://calculatelca.com/software/impact-estimator/ | Not Provided
+Other Requirements: Are there any other proprietary software requirements?
+Support Name: Is there a support person?
+
+SimaPro (SimaPro) |  | https://ltsexperts.com/services/software/simapro-lca-software/ | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Other Requirements: Are there any other proprietary software requirements?
+Spatial Extent: What are the spatial extents of the model? (Building, City, Continent, County, Globe, Nation, Neighborhood, Region, Site, State, Watershed).
+Support Name: Is there a support person?
+Last Software Update: When was this tool last updated?
+
+Building for Environmental and Economic Sustainability (BEES) |  | https://www.nist.gov/services-resources/software/bees | Not Provided
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Other Requirements: Are there any other proprietary software requirements?
+Alternate Names: Is this tool known by any other names?
+
+Targeted Retrofit Energy Analysis Tool (TREAT) |  | http://psdconsulting.com/software/treat/ | Not Provided
+Other Requirements: Are there any other proprietary software requirements?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Support Name: Is there a support person?
+Support Email: Is there a support email?
+Alternate Names: Is this tool known by any other names?
+
+Eco-Bat (Eco-Bat) |  | http://ecobat.heig-vd.ch/index.php?option=com_content&view=article&id=64&Itemid=61&lang=en | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Operating System: What operating systems is this tool compatible with?
+Other Requirements: Are there any other proprietary software requirements?
+Alternate Names: Is this tool known by any other names?
+
+Infrastructure Voluntary Evaluation Sustainability Tool (INVEST) |  | https://www.sustainablehighways.org/ | Not Provided
+Other Requirements: Are there any other proprietary software requirements?
+Input Data Requirements: Is the data required: Provided; Generally Publicly Available; Not Publicly Available, but Routinely Available; New Data Must be Created?
+
+The Energy and Emissions Reduction Policy Analysis Tool (EERPAT) |  | https://planning.dot.gov/FHWA_tool/default.aspx | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Alternate Names: Is this tool known by any other names?
+
+Surface Transportation Efficiency Analysis Model (STEAM) |  | https://www.fhwa.dot.gov/tpm/ | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Open Source: Is this tool open source?
+Other Requirements: Are there any other proprietary software requirements?
+Keywords: What keywords or phrases would you associate with your tool?
+Support Name: Is there a support person?
+Support Email: Is there a support email?
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+EnergyPlus (E+) |  | https://energyplus.net/ | Not Provided
+Other Requirements: Are there any other proprietary software requirements?
+
+Intelligent Transportation System Deployment Analysis System (IDAS) |  | https://ops.fhwa.dot.gov/trafficanalysistools/idas.htm | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Other Requirements: Are there any other proprietary software requirements?
+Spatial Extent: What are the spatial extents of the model? (Building, City, Continent, County, Globe, Nation, Neighborhood, Region, Site, State, Watershed).
+Keywords: What keywords or phrases would you associate with your tool?
+Alternate Names: Is this tool known by any other names?
+
+eSight (eSight) |  | https://www.esightenergy.com/us/ | Not Provided
+BaseCost: What is the base cost for using your tool?
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Model Inputs: What inputs are required to run this model?
+Support Materials: Is there a link to support materials you can provide or a contact name for support?
+Alternate Names: Is this tool known by any other names?
+
+Solar Reflectance Index Calculator (SRI) |  | https://www.usgbc.org/resources/lawrence-berkeley-national-laboratory-sri-calculator | Not Provided
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+Building Life Cycle Cost (BLCC5) |  | https://energy.gov/eere/femp/building-life-cycle-cost-programs | Not Provided
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Open Source: Is this tool open source?
+Alternate Names: Is this tool known by any other names?
+
+SmartGAP (SmartGAP) |  | http://www.trb.org/main/blurbs/168842.aspx | Not Provided
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Open Source: Is this tool open source?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Alternate Names: Is this tool known by any other names?
+
+Urban Footprint (Urban Footprint) |  | https://urbanfootprint.com/ | Not Provided
+BaseCost: What is the base cost for using your tool?
+Other Requirements: Are there any other proprietary software requirements?
+Alternate Names: Is this tool known by any other names?
+
+Cool Roof Calculator (Cool Roof Calcu) |  | https://web.ornl.gov/sci/buildings/tools/cool-roof/ | Not Provided
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Open Source: Is this tool open source?
+Operating System: What operating systems is this tool compatible with?
+Other Requirements: Are there any other proprietary software requirements?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Support Name: Is there a support person?
+Support Email: Is there a support email?
+Support Phone: Is there a support phone number?
+
+Roof Savings Calculator (RSC) |  | https://rsc.ornl.gov/ | Not Provided
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Operating System: What operating systems is this tool compatible with?
+Other Requirements: Are there any other proprietary software requirements?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Support Name: Is there a support person?
+Support Email: Is there a support email?
+Support Phone: Is there a support phone number?
+Support Materials: Is there a link to support materials you can provide or a contact name for support?
+Alternate Names: Is this tool known by any other names?
+
+Quick Energy Simulation Tool (eQuest) |  | http://www.doe2.com/equest/ | Not Provided
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Open Source: Is this tool open source?
+Other Requirements: Are there any other proprietary software requirements?
+Support Email: Is there a support email?
+Alternate Names: Is this tool known by any other names?
+
+MetroQuest (MetroQuest) |  | http://metroquest.com/ | Not Provided
+BaseCost: What is the base cost for using your tool?
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Operating System: What operating systems is this tool compatible with?
+Other Requirements: Are there any other proprietary software requirements?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Support Name: Is there a support person?
+Support Materials: Is there a link to support materials you can provide or a contact name for support?
+Alternate Names: Is this tool known by any other names?
+
+Conservation Planning System (C-Plan) |  | http://www.edg.org.au/edg-free-resources/cplan.html | Not Provided
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Alternate Names: Is this tool known by any other names?
+
+Integrated Transport and Health Impact Modelling Tool (ITHIM) |  | http://www.cedar.iph.cam.ac.uk/research/modelling/ithim/ | Not Provided
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Model Inputs: What inputs are required to run this model?
+Input Data Requirements: Is the data required: Provided; Generally Publicly Available; Not Publicly Available, but Routinely Available; New Data Must be Created?
+Alternate Names: Is this tool known by any other names?
+
+IDRISI (IDRISI) |  | https://clarklabs.org/terrset/land-change-modeler/ | Not Provided
+Technical Skills Needed: Are there any technical skills required for operation of this tool?
+Model Output Types: What kind of outputs does this model output? (3-D Visualizations, Movies; Checklists; Data (spreadsheet, database); GIS layers; Graphs; Indicators; Indices, Aggregate Scores; Maps; Monetary Values; Narratives, Reports; Other; Priority Ranks).
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Alternate Names: Is this tool known by any other names?
+
+StreetMix (StreetMix) |  | https://streetmix.net | Not Provided
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Operating System: What operating systems is this tool compatible with?
+Other Requirements: Are there any other proprietary software requirements?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Support Name: Is there a support person?
+Support Phone: Is there a support phone number?
+Support Materials: Is there a link to support materials you can provide or a contact name for support?
+Alternate Names: Is this tool known by any other names?
+
+GHG Emissions from Transport or Mobile Sources Calculator (GHG Emissions f) |  | http://www.ghgprotocol.org/calculation-tools | Not Provided
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Keywords: What keywords or phrases would you associate with your tool?
+Alternate Names: Is this tool known by any other names?
+
+The Greenhouse Gases, Regulated Emissions, and Energy Use in Transportation Model (GREET) |  | https://greet.es.anl.gov/ | Not Provided
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Spatial Extent: What are the spatial extents of the model? (Building, City, Continent, County, Globe, Nation, Neighborhood, Region, Site, State, Watershed).
+Support Phone: Is there a support phone number?
+Alternate Names: Is this tool known by any other names?
+
+Alternative Fuel Life-Cycle Environmental and Economic Transportation (AFLEET) |  | https://greet.es.anl.gov/afleet | Not Provided
+
+Clean Cities Area of Interest 4: Alternative Fuel and Advanced Technology Vehicles Pilot Program Emissions Benefit Tool (Clean Cities Ar) |  | Not Provided | Not Provided
+URL: What is the URL for this tool?
+AnnualCost: Are there any annual costs for using your tool?
+Other Cost Considerations: Are there any other cost considerations for using your tool?
+Spatial Extent: What are the spatial extents of the model? (Building, City, Continent, County, Globe, Nation, Neighborhood, Region, Site, State, Watershed).
+Model Evaluation: What information or references can you provide which can be used to evaluate the effectiveness of your tool?
+Keywords: What keywords or phrases would you associate with your tool?
+Support Name: Is there a support person?
+Support Phone: Is there a support phone number?
+Support Materials: Is there a link to support materials you can provide or a contact name for support?
+Alternate Names: Is this tool known by any other names?
+
