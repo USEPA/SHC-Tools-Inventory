@@ -1,0 +1,103 @@
+<link href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.16/datatables.min.css" rel="stylesheet">
+<link href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/css/select.dataTables.min.css" rel="stylesheet">
+<link href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/css/responsive.dataTables.min.css" rel="stylesheet">
+<link href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/css/buttons.dataTables.min.css" rel="stylesheet">
+<link href="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/css/base.css" media="all" rel="stylesheet" type="text/css">
+<link href="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/css/browse.css" media="all" rel="stylesheet" type="text/css">
+
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.16/datatables.min.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/js/dataTables.responsive.min.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/js/dataTables.select.min.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/dataTables.buttons.min.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/buttons.html5.min.js"></script>
+
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/whitelist.min.js"></script>
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/base.min.js"></script>
+
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/feedback-modal.min.js"></script>
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/ParsedDPLData.min.js"></script>
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/blob-stream.min.js"></script>
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/FileSaver.min.js"></script>
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/pdfkit.min.js"></script>
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/browse.min.js"></script>
+<style>
+  #feedback-modal {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+    height: 100%;
+    left: 0;
+    overflow: auto;
+    padding-top: 100px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
+  #modal-content {
+    background-color: #f1f1f1;
+    border: 1px solid #aeb0b5;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: auto;
+    padding: 0;
+    position: relative;
+    width: 80%;
+    max-width: 50em;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.5s;
+    animation-name: animatetop;
+    animation-duration: 0.5s
+  }
+  @keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+  }
+  #close-modal {
+    color: white;
+    line-height: 0.5em;
+    float: right;
+    font-size: 1.5em;
+  }
+  #close-modal:hover,
+  #close-modal:focus {
+    color: #000;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  #modal-header {
+    background-color: #2e8540;
+    color: #fff;
+    padding: 0.9em 1em 0 1em;
+  }
+  #modal-body {
+    padding: 2px 16px;
+  }
+  #modal-footer {
+    background-color: #4aa564;
+    color: white;
+    padding: 2px 16px;
+  }
+  @media screen and (max-width: 39.9375em) {
+    #feedback-modal {
+      top: 0;
+      left: 0;
+      width: 100%;
+      max-width: none;
+      height: 100%;
+      min-height: 100vh;
+      margin-left: 0;
+      border: 0;
+      border-radius: 0;
+      padding-top: 0;
+    }
+    #modal-content {
+      width: 100%;
+    }
+  }
+  table {
+    width: 100%;
+  }
+  .dt-buttons {
+    margin-right: 3px;
+  }
+</style>

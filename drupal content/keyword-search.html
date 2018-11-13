@@ -1,0 +1,174 @@
+<h2 class="title" id="page-description-title">Description</h2>
+
+<p>Keyword Search is a search tool that helps users find relevant tools from an inventory of tools designed to support sustainable and healthy communities.</p>
+
+<h3>Using Keyword Search:</h3>
+
+<ul>
+	<li>Search for text in a tool's title, acronym, keywords, or description by entering your keyword and pressing the Search button.</li>
+	<li>Advanced Search lets users require that tools
+		<ul>
+			<li>occupy a selected decision sector,</li>
+			<li>operate within a selected environment,</li>
+			<li>cost a specified amount, and</li>
+			<li>pertain to a specified spatial extent.</li>
+		</ul>
+	</li>
+	<li>You can also browse all tools in the inventory by navigating to the Browse Tools tab and selecting the decision sector you are interested in.</li>
+	<li>Save tools you are interested in and export them to CSV for offline review</li>
+</ul>
+
+<p><span class="related-info"><strong>Navigation:</strong></span></p>
+
+<ul class="menu pipeline">
+	<li class="menu-item"><a href="node/211042">Return to Landing Page</a></li>
+	<li class="menu-item"><a href="node/211047">Browse Tools</a></li>
+	<li class="views-row views-row-2 views-row-even views-row-last menu-item"><a href="node/211043">Guided Search</a></li>
+</ul>
+
+<h4 id="disclaimer-title">Disclaimer</h4>
+
+<p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
+
+<div aria-live="polite" id="toast">&nbsp;</div>
+
+<div id="tabs">
+	<ul class="tabs" id="tabs-nav" role="tablist">
+		<li class="active"><a aria-controls="simple-search-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#simple-search-panel" id="simple-search-tab" role="tab">Search</a></li>
+		<li><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" role="tab">Advanced Search</a></li>
+		<li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#results-panel" id="results-tab" role="tab">Results</a></li>
+		<li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#saved-tools-panel" id="saved-tools-tab" role="tab">Saved Tools</a></li>
+		<li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" role="tab">Selected Tool</a></li>
+	</ul>
+
+	<div aria-hidden="false" aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel">
+		<h3>Search</h3>
+		<label for="simple-search-text" id="simple-search-text-label">Enter text to search for and press the Search button.</label>
+
+		<hr> <input aria-labelledby="simple-search-text-label" autocomplete="off" id="simple-search-text" placeholder="Enter text here" title="Search for tools by entering specific keywords" type="text"><button id="simple-search-button">Search</button>
+
+		<div aria-hidden="true" id="simple-search-loader"><img alt="Loading GIF" src="/sites/staging/files/2018-10/loader.gif"></div>
+
+		<div>
+			<br>
+			<label for="toggle-unsupported-1">Include unsupported tools</label>
+		</div>
+	</div>
+
+	<div aria-hidden="true" aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">
+		<h3>Advanced Search</h3>
+		<label for="detailed-search-text">Specify requirements of tools while searching for text contained in the chosen fields.</label>
+
+		<hr> <input autocomplete="off" id="detailed-search-text" placeholder="Enter text here" title="Enter a keyword to search for" type="text"><button id="detailed-search-button">Search</button><button id="detailed-reset" type="reset">Reset Form</button>
+
+		<div><input id="toggle-unsupported-2" type="checkbox"><label for="toggle-unsupported-2">Include unsupported tools</label></div>
+		&nbsp;
+
+		<form>
+			<div aria-labelledby="search-field-label" class="form-item form-type-checkbox" id="search-field" role="group">
+				<h4 id="search-field-label">Choose fields to be searched:</h4>
+				<input checked="checked" class="form-checkbox" id="title" name="search-field" type="checkbox" value="Name"> <label class="option" for="title">Title</label> <input checked="checked" class="form-checkbox" id="acronym" name="search-field" type="checkbox" value="Acronym"> <label class="option" for="acronym">Acronym</label> <input checked="checked" class="form-checkbox" id="description" name="search-field" type="checkbox" value="ShortDescriptionForReports"> <label class="option" for="description">Description</label> <input checked="checked" class="form-checkbox" id="keywords" name="search-field" type="checkbox" value="Keywords"> <label class="option" for="keywords">Keywords</label> <input checked="checked" class="form-checkbox" id="dpl-concepts" name="search-field" type="checkbox" value="DPLConcepts"> <label class="option" for="dpl-concepts">DPL Concepts</label> <input class="form-checkbox" id="model-input" name="search-field" type="checkbox" value="ModelInputs"> <label class="option" for="model-input">Model Inputs</label> <input class="form-checkbox" id="output-variables" name="search-field" type="checkbox" value="OutputVariables"> <label class="option" for="output-variables">Output Variables</label></div>
+
+			<div aria-labelledby="decision-sector-label" class="form-item form-type-checkbox" id="decision-select" role="group">
+				<h4 id="decision-sector-label">Choose decision sectors to find only tools in these decision sectors:</h4>
+				<input class="form-checkbox" id="decision-sector-building" name="decision-sector-check" type="checkbox" value="building infrastructure"> <label class="option" for="decision-sector-building">Building and Infrastructure</label> <input class="form-checkbox" id="decision-sector-land" name="decision-sector-check" type="checkbox" value="land use"> <label class="option" for="decision-sector-land">Land Use</label> <input class="form-checkbox" id="decision-sector-transportation" name="decision-sector-check" type="checkbox" value="transportation"> <label class="option" for="decision-sector-transportation">Transportation</label> <input class="form-checkbox" id="decision-sector-waste" name="decision-sector-check" type="checkbox" value="waste management"> <label class="option" for="decision-sector-waste">Waste Management</label></div>
+
+			<div aria-labelledby="operating-environment-label" class="form-item form-type-checkbox" id="operating-environment-select" role="group">
+				<h4 id="operating-environment-label">Choose operating environments to find only tools labeled with one of these operating environments:</h4>
+				<input class="form-checkbox" id="radioenvironment_desktop" name="radioenvironment" type="checkbox" value="desktop"> <label class="option" for="radioenvironment_desktop">Desktop</label> <input class="form-checkbox" id="radioenvironment_browser" name="radioenvironment" type="checkbox" value="browser"> <label class="option" for="radioenvironment_browser">Browser</label> <input class="form-checkbox" id="radioenvironment_mobile" name="radioenvironment" type="checkbox" value="mobile"> <label class="option" for="radioenvironment_mobile">Mobile</label></div>
+
+			<div aria-labelledby="cost-label" class="form-item form-type-checkbox group" id="cost-select">
+				<h4 id="cost-label">Choose cost ranges to find only tools labeled with one of these cost ranges:</h4>
+				<input class="form-checkbox" id="checkbasefree" name="checkbase" type="checkbox" value="1"> <label class="option" for="checkbasefree">Free</label> <input class="form-checkbox" id="checkbase1" name="checkbase" type="checkbox" value="2"> <label class="option" for="checkbase1">$1-$499</label> <input class="form-checkbox" id="checkbase500" name="checkbase" type="checkbox" value="3"> <label class="option" for="checkbase500">$500-$1499</label> <input class="form-checkbox" id="checkbase1500" name="checkbase" type="checkbox" value="4"> <label class="option" for="checkbase1500">$1500-$3999</label> <input class="form-checkbox" id="checkbase4000" name="checkbase" type="checkbox" value="5"> <label class="option" for="checkbase4000">&gt;$4000</label></div>
+
+			<div aria-labelledby="extent-label" class="form-item form-type-checkbox group" id="extent-select">
+				<h4 id="extent-label">Choose spatial extents to find only tools labeled with at least one chosen spatial extents:</h4>
+				<input class="form-checkbox" id="extent-building" name="extent-check" type="checkbox" value="building"> <label class="option" for="extent-building">Building</label> <input class="form-checkbox" id="extent-site" name="extent-check" type="checkbox" value="site"> <label class="option" for="extent-site">Site</label> <input class="form-checkbox" id="extent-neighborhood" name="extent-check" type="checkbox" value="neighborhood"> <label class="option" for="extent-neighborhood">Neighborhood</label> <input class="form-checkbox" id="extent-city" name="extent-check" type="checkbox" value="city"> <label class="option" for="extent-city">City</label> <input class="form-checkbox" id="extent-county" name="extent-check" type="checkbox" value="county"> <label class="option" for="extent-county">County</label> <input class="form-checkbox" id="extent-state" name="extent-check" type="checkbox" value="state"> <label class="option" for="extent-state">State</label> <input class="form-checkbox" id="extent-nation" name="extent-check" type="checkbox" value="nation"> <label class="option" for="extent-nation">Nation</label> <input class="form-checkbox" id="extent-continent" name="extent-check" type="checkbox" value="continent"> <label class="option" for="extent-continent">Continent</label> <input class="form-checkbox" id="extent-globe" name="extent-check" type="checkbox" value="globe"> <label class="option" for="extent-globe">Globe</label></div>
+		</form>
+	</div>
+
+	<div aria-hidden="true" aria-labelledby="results-tab" id="results-panel" role="tabpanel">
+		<h3>Results</h3>
+
+		<p>Browse your results. Select a tool by checking the checkbox to the left of the tool name. Save tools and they will remain in the Saved Tools tab if you decide to run another search.</p>
+
+		<hr><span>Choose a display:</span> <input checked="checked" id="list-radio" name="display-type" type="radio" value="text"><label for="list-radio">Text: recommended for those on smaller screens.</label> <input id="table-radio" name="display-type" type="radio" value="table"><label for="table-radio">Table: allows filtering and column sorting.</label>
+
+		<div><input id="toggle-unsupported-3" type="checkbox"><label for="toggle-unsupported-3">Show unsupported tools</label></div>
+
+		<hr>
+		<p id="result-info">&nbsp;</p>
+
+		<div id="results-list-div"><button id="select-all-btn">Select All Tools</button><button id="deselect-all-btn">Deselect All Tools</button><button id="save-selected-btn">Save Selected Tools</button><button id="export-btn">Export Selected Tools</button>
+
+			<div id="export-radio2"><input id="c-results" name="export-type" type="radio" value="csv"><label for="c-results">CSV</label> <input id="p-results" name="export-type" type="radio" value="pdf"><label for="p-results">PDF</label></div>
+			<img alt="Loading GIF image" aria-hidden="true" id="loader" src="/sites/staging/files/2018-10/loader.gif">
+			<div id="results-list">&nbsp;</div>
+		</div>
+
+		<div aria-hidden="true" id="results-table-div">
+			<table id="results-table">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th>&nbsp;</th>
+						<th>Title</th>
+						<th>Description</th>
+						<th>Operating Environment</th>
+						<th>Spatial Extent</th>
+						<th>Decision Sector</th>
+						<th>Base Cost</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+	</div>
+
+	<div aria-hidden="true" aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel">
+		<h3>Selected Tool</h3>
+
+		<p>Here are the tool details for your selected tool.</p>
+
+		<hr>
+		<div id="selected-tool">&nbsp;</div>
+	</div>
+
+	<div aria-hidden="true" aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel">
+		<h3>Saved Tools</h3>
+
+		<p>These are the tools you chose to save.</p>
+
+		<p>Select the tools you would like to export to a downloadable CSV file.</p>
+
+		<hr><span>Choose a display:</span> <input checked="checked" id="saved-list-radio" name="saved-display-type" type="radio" value="text"><label for="saved-list-radio">Text: recommended for those on smaller screens.</label> <input id="saved-table-radio" name="saved-display-type" type="radio" value="table"><label for="saved-table-radio">Table: allows filtering and column sorting.</label>
+
+		<hr>
+		<div id="saved-list-div"><button id="select-all-saved-btn">Select All Tools</button><button id="deselect-all-saved-btn">Deselect All Tools</button><button id="remove-selected-btn">Remove Selected Tools</button><button id="export-selected-btn">Export Selected Tools</button>
+
+			<div id="export-radio1"><input id="c-saved" name="export-type" type="radio" value="csv"><label for="c-saved">CSV</label> <input id="p-saved" name="export-type" type="radio" value="pdf"><label for="p-saved">PDF</label></div>
+
+			<div id="saved-list">&nbsp;</div>
+		</div>
+
+		<div aria-hidden="true" id="saved-table-div">
+			<table id="saved-table">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th>&nbsp;</th>
+						<th>Title</th>
+						<th>Description</th>
+						<th>Operating Environment</th>
+						<th>Spatial Extent</th>
+						<th>Decision Sector</th>
+						<th>Base Cost</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+
+		<p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+	</div>
+</div>

@@ -1,0 +1,130 @@
+<div class="node node-page clearfix view-mode-full">
+	<h2 class="title" id="page-description-title">Description</h2>
+
+	<p>Browse Tools allows users to view the entire inventory at once. Click on a tool to view more details. Save tools by selecting the checkbox. Export the tools to CSV.</p>
+
+	<p>Enter search terms in the "Search" box. Results will appear immediately if they contain the search text. Sort results using the sort arrows in each column heading</p>
+</div>
+<p><span class="related-info"><strong>Navigation:</strong></span></p>
+
+<ul class="menu pipeline">
+	<li class="menu-item"><a href="node/211042">Return to Landing Page</a></li>
+	<li class="menu-item"><a href="node/211047">Browse Tools</a></li>
+	<li class="views-row views-row-2 views-row-even views-row-last menu-item"><a href="node/211046">Keyword Search</a></li>
+</ul>
+<h3 id="disclaimer-title">Disclaimer</h3>
+
+<p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
+
+<div aria-live="polite" id="toast">&nbsp;</div>
+
+<div id="tabs">
+	<ul class="tabs" id="tabs-nav" role="tablist">
+		<li class="active"><a aria-controls="browse-tools-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#browse-tools-panel" id="browse-tools-tab" role="tab">Browse Tools</a></li>
+		<li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#selected-tool-panel" id="selected-tool-tab" role="tab">Selected Tool</a></li>
+		<li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#saved-tools-panel" id="saved-tools-tab" role="tab">Saved Tools</a></li>
+	</ul>
+
+	<div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel"><span>Choose a display:</span> <input id="browse-list-radio" name="browse-display-type" type="radio" value="text"><label for="browse-list-radio">Text: recommended for those on smaller screens.</label> <input checked="checked" id="browse-table-radio" name="browse-display-type" type="radio" value="table"><label for="browse-table-radio">Table: allows filtering and column sorting.</label>
+
+		<div><input id="toggle-unsupported-1" type="checkbox"><label for="toggle-unsupported-1">Show unsupported tools</label></div>
+
+		<hr>
+		<div id="browse-feedback">&nbsp;</div>
+
+		<div id="browse-table-div">
+			<table id="browse-table">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th>&nbsp;</th>
+						<th>Title</th>
+						<th>Description</th>
+						<th>Operating Environment</th>
+						<th>Spatial Extent</th>
+						<th>Decision Sector</th>
+						<th>Base Cost</th>
+						<th>Annual Cost</th>
+						<th>Other Cost Considerations</th>
+						<th>URL</th>
+						<th>Life Cycle Phase</th>
+						<th>Open Source</th>
+						<th>Operating System</th>
+						<th>Other Requirements</th>
+						<th>Time Scale</th>
+						<!-- spatial extent -->
+						<th>Technical Skills Needed</th>
+						<th>Model Structure</th>
+						<th>Model Inputs</th>
+						<th>Input Data Requirements</th>
+						<th>Model Output Types</th>
+						<th>Output Variables</th>
+						<th>Model Evaluation</th>
+						<th>Keywords</th>
+						<th>Support Name</th>
+						<th>Support Phone</th>
+						<th>Support Email</th>
+						<th>Support Materials</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+
+		<div aria-hidden="true" id="browse-list-div"><button id="select-all-btn">Select All Tools</button><button id="deselect-all-btn">Deselect All Tools</button><button id="save-selected-btn">Save Selected Tools</button><button id="export-btn">Export Selected Tools</button>
+
+			<div id="export-radio1"><input id="c-browse" name="export-type" type="radio" value="csv"><label for="c-browse">CSV</label> <input id="p-browse" name="export-type" type="radio" value="pdf"><label for="p-browse">PDF</label></div>
+
+			<div id="browse-list">&nbsp;</div>
+		</div>
+
+		<p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+	</div>
+
+	<div aria-hidden="true" aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel">
+		<h3>Selected Tool</h3>
+
+		<p>Here are the tool details for your selected tool.</p>
+
+		<hr>
+		<div id="selected-tool">&nbsp;</div>
+	</div>
+
+	<div aria-hidden="true" aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel">
+		<h3>Saved Tools</h3>
+
+		<p>These are the tools you chose to save.</p>
+
+		<p>Select the tools you would like to export to a downloadable CSV file.</p>
+
+		<hr><span>Choose a display:</span> <input checked="checked" id="saved-list-radio" name="saved-display-type" type="radio" value="text"><label for="saved-list-radio">Text: recommended for those on smaller screens.</label> <input id="saved-table-radio" name="saved-display-type" type="radio" value="table"><label for="saved-table-radio">Table: allows filtering and column sorting.</label>
+
+		<div id="saved-list-div"><button id="select-all-saved-btn">Select All Tools</button><button id="deselect-all-saved-btn">Deselect All Tools</button><button id="remove-selected-btn">Remove Selected Tools</button><button id="export-selected-btn">Export Selected Tools</button>
+
+			<div id="export-radio2"><input id="c-saved" name="export-type" type="radio" value="csv"><label for="c-saved">CSV</label> <input id="p-saved" name="export-type" type="radio" value="pdf"><label for="p-saved">PDF</label></div>
+
+			<hr>
+			<div id="saved-list">&nbsp;</div>
+		</div>
+
+		<div aria-hidden="true" id="saved-table-div">
+			<table id="saved-table">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th>&nbsp;</th>
+						<th>Title</th>
+						<th>Description</th>
+						<th>Operating Environment</th>
+						<th>Spatial Extent</th>
+						<th>Decision Sector</th>
+						<th>Base Cost</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+
+		<p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+	</div>
+</div>

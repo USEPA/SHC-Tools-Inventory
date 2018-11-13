@@ -1,0 +1,197 @@
+<link href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.css" rel="stylesheet">
+<link href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/css/select.dataTables.min.css" rel="stylesheet">
+<link href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/css/responsive.dataTables.min.css" rel="stylesheet">
+<link href="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/css/buttons.dataTables.min.css" rel="stylesheet">
+<link href="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/css/base.css" media="all" rel="stylesheet" type="text/css">
+<link href="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/css/wizard.css" media="all" rel="stylesheet" type="text/css">
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/datatables.min.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Responsive/js/dataTables.responsive.min.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Select/js/dataTables.select.min.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/dataTables.buttons.min.js"></script>
+<script src="https://www.epa.gov/sites/all/libraries/js/datatables-1.10.12/Buttons/js/buttons.html5.min.js"></script>
+
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/base.min.js"></script>
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/feedback-modal.min.js"></script>
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/ParsedDPLData.min.js"></script>
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/blob-stream.min.js"></script>
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/FileSaver.min.js"></script>
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/pdfkit.min.js"></script>
+<script src="https://webcms.appdev.epa.gov/sites/staging/files/js-scripts/shc-tools-inventory/js/wizard.min.js"></script>
+
+<script>
+
+$('#role-help-button').on('click', function () {
+  $('#role-help').toggle();
+});
+
+$('#subrole-help-button').on('click', function () {
+  $('#subrole-help').toggle();
+});
+
+$('#fundamental-objective-help-button').on('click', function () {
+  $('#fundamental-objective-help').toggle();
+});
+
+$('#objective-help-button').on('click', function () {
+  $('#objective-help').toggle();
+});
+
+$('#concept-help-button').on('click', function () {
+  $('#concept-help').toggle();
+});
+
+// Select roles, subroles... etc.
+$('#select-roles, #deselect-roles').on('click', function () {
+  selectAll('role', roleSelect);
+});
+$('#deselect-roles').on('click', function () {
+  deselectAll('role', roleSelect);
+});
+
+$('#select-subroles').on('click', function () {
+  selectAll('subrole', subroleSelect);
+});
+$('#deselect-subroles').on('click', function () {
+  deselectAll('subrole', subroleSelect);
+});
+
+$('#select-fundamental-objectives').on('click', function () {
+  selectAll('fundamental-objective', fundamentalObjectiveSelect);
+});
+$('#deselect-fundamental-objectives').on('click', function () {
+  deselectAll('fundamental-objective', fundamentalObjectiveSelect);
+});
+
+$('#select-objectives').on('click', function () {
+  selectAll('objective', objectiveSelect);
+});
+$('#deselect-objectives').on('click', function () {
+  deselectAll('objective', objectiveSelect);
+});
+
+$('#select-concepts').on('click', function () {
+  selectAll('concept');
+  updateConceptsandResults();
+});
+$('#deselect-concepts').on('click', function () {
+  deselectAll('concept');
+  updateConceptsandResults();
+});
+
+// Next button listeners
+$('#role-next-button, #role-next-button-mobile').on('click', function () {
+  activateNextTab($('#subrole-tab'), 'wizard.html#subrole-tab');
+});
+
+$('#subrole-next-button, #subrole-next-button-mobile').on('click', function () {
+  activateNextTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab');
+});
+
+$('#fundamental-objective-next-button, #fundamental-objective-next-button-mobile').on('click', function () {
+  activateNextTab($('#objective-tab'), 'wizard.html#objective-tab');
+});
+
+$('#objective-next-button, #objective-next-button-mobile').on('click', function () {
+  activateNextTab($('#concept-tab'), 'wizard.html#concept-tab');
+  updateConcepts();
+});
+
+$('#show-results-button, #show-results-button-mobile').on('click', function () {
+  displayResults();
+});
+
+// Back button listeners
+$('#subrole-back-button, #subrole-back-button-mobile').on('click', function () {
+  activateTab($('#role-tab'), 'wizard.html#role-tab');
+});
+
+$('#fundamental-objective-back-button, #fundamental-objective-back-button-mobile').on('click', function () {
+  activateTab($('#subrole-tab'), 'wizard.html#subrole-tab');
+});
+
+$('#objective-back-button, #objective-back-button-mobile').on('click', function () {
+  activateTab($('#fundamental-objective-tab'), 'wizard.html#fundamental-objective-tab');
+});
+
+$('#concept-back-button, #concept-back-button-mobile').on('click', function () {
+  activateTab($('#objective-tab'), 'wizard.html#objective-tab');
+});
+
+$('#navbar-back, #bottom-bar-back').on('click', function () {
+  activatePreviousUnhiddenTab();
+});
+
+$('#feedback-form').on('click', function () {
+  submitFeedback(event);
+});
+
+// Expand concept 
+$('#expand-concepts').on('click', function () {
+  broadenConcepts();
+});
+
+// Select all buttons
+$("#select-all-btn").on('click', function () {
+  selectAllToolsButton('results');
+});
+$("#deselect-all-btn").on('click', function () {
+  deselectAllToolsButton('results');
+});
+
+// Save selected
+$("#save-selected-btn").on('click', function () {
+  saveSelectedRecords('results-list');
+});
+
+// Export button
+$("#export-btn").on('click', function () {
+  exportTools('results-list');
+});
+</script>
+<style>
+  button {
+    margin-right:4px;
+  }
+
+  .icon-button,
+  .icon-button:hover,
+  .icon-button:focus,
+  #role-help-button,
+  #role-help-button:hover,
+  #role-help-button:focus,
+  #subrole-help-button,
+  #subrole-help-button:hover,
+  #subrole-help-button:focus,
+  #fundamental-objective-help-button,
+  #fundamental-objective-help-button:hover,
+  #fundamental-objective-help-button:focus,
+  #objective-help-button,
+  #objective-help-button:hover,
+  #objective-help-button:focus,
+  #concept-help-button,
+  #concept-help-button:hover,
+  #concept-help-button:focus {
+    background: transparent;
+    border: none;
+    width: auto;
+    margin: 0;
+  }
+
+  .icon-img,
+  #role-help-button > img,
+  #subrole-help-button > img,
+  #fundamental-objective-help-button > img,
+  #objective-help-button > img,
+  #concept-help-button > img {
+    width: 2em;
+  }
+  #bottom-bar {
+    display: block;
+    margin-top: 1.5em;
+  }
+  @media screen and (max-width: 480px) {
+    #bottom-bar {
+      display: none;
+    }
+  }
+</style>
