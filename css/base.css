@@ -367,7 +367,7 @@ hr {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-[aria-hidden="true"] {
+.main-column [aria-hidden="true"] {
   display: none;
 }
 .results-label {
@@ -383,7 +383,7 @@ hr {
 button:disabled {
   background-color: #aeb0b5
 }
-table {
+.main-column table {
   width: 100%;
 }
 .light-gray {
@@ -409,6 +409,6 @@ table {
   margin-right: 5px;
 }
 
-button {
+.main-column button {
   margin-right: 3px;
 }
