@@ -63,7 +63,7 @@ label {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-[aria-hidden="true"] {
+.main-column [aria-hidden="true"] {
   display: none;
 }
 .result-label {
