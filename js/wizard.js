@@ -47,7 +47,7 @@ $(function () { // jquery's shorthand awaits readiness of document
    * Toggles the saved state of a tool via a list div checkbox.
    * @listens change
    */
-  $(".list").on("change", "input:checkbox", function () {
+  $("#results-list-div, #saved-list-div, #browse-list-div").on("change", "input:checkbox", function () {
     var id = $(this).val();
     var rows = $('#results-table').DataTable().rows();
     var rowNodes = rows.nodes();

@@ -150,7 +150,7 @@ $(function () { // jquery's shorthand awaits readiness of document
    * Toggles the selected state of tool via a list div checkbox.
    * @listens change
    */
-  $(".list").on("change", "input:checkbox", function () {
+  $("#results-list-div, #saved-list-div, #browse-list-div").on("change", "input:checkbox", function () {
     var id = $(this).val();
     var tableId = $(this).attr('id').slice(0, -14);
     var rows = $('#' + tableId + '-table').DataTable().rows();
