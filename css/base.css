@@ -309,7 +309,7 @@ tr:hover td:not(:first-child) {
   color: #212121!important;
   background-color: #e4e2e0!important
 }
-.toast-button {
+.main-column .toast-button {
   margin: 0 auto;
   display: block;
   padding: 0.2941em 0.58825em;
