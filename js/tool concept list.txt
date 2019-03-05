@@ -3838,9 +3838,63 @@ Finance & Insurance
 
 
 Tool: Municipal Solid Waste Decision Support Tool
-[];
+Air Quality
+Assessment & Analysis
+Assessment, Decision Support, Research & Development
+Atmospheric Emissions
+Bacteria
+Chemical & Metal Contaminants
+Comprehensive or Management Plans
+Debris
+Decision Support Tools
+Discharges
+Environmental Cleanup/Remediation & Emergency Response
+Fecal coliform
+Funding & Incentives
+Greenhouse Gases
+Mediation of Waste, Toxics & Other Nuisances
+Nitrogen
+Nutrients
+Pathogens
+Phosphorus
+Point & Mobile Source Controls
+Public Policy Administration
+Remediation & Recovery Services
+Resource Use Management
+Solid Waste Disposal & Recycling Services
+Terrestrial Debris & Litter
+Toxic Metals
+Toxins
+Utilities
+Water Purification & Waste Treatment
+Environmental Policies and Programs
+Health & Safety
+Administration of Environmental Quality
+Hazardous Wastes
+Industrial Wastes
+Infrastructure
+Municipal Wastes
+Solid Waste Disposal Sites
+Waste & Materials Management
+Waste Management Policies & Programs
+Environmental Management Plans
+Outdoor Air Quality
+Waste Management
+Management of Companies
+Waste Collection
+Communities
+Governance
+Policy Evaluation
+Sustainable Resource Use
+Alternative Scenarios
+Public Utility Policies
+cost of goods & services
+cost of infrastructure construction & maintenance
+Household Waste Disposal Choices
+Valuation
 
-Lakes Ecosystem Services
+
+Tool: Lakes Ecosystem Services
 Applied Chemicals
 Aquatic Acidity
 Aquatic Habitat
@@ -8751,4 +8805,158 @@ Insurance
 
 
 Tool: Environmental Justice Screening and Mapping Tool
-[];
+Air & Climate Regulation
+Air Emissions Regulations
+Air Quality
+Air Quality Regulation
+Alternatives to Toxic Substances
+Assessment & Analysis
+Assessment, Decision Support, Research & Development
+Atmospheric Emissions
+Biological Raw Materials
+Carbon Dioxide (CO2) Emission
+Characterization & Classification
+Chemical Use Regulations
+Chemical Variables
+Chlorofluorocarbon (CFC) Emission
+Conservation, Restoration, & Ecosystem Management
+Data Access & Management
+Decision Support Tools
+Discharge & Emissions Limitations
+Discharges
+Ecosystem Services
+Environmental Cleanup/Remediation & Emergency Response
+Food & Raw Materials Sectors
+Funding & Incentives
+Greenhouse Gas Emissions
+Greenhouse Gases
+Indicators & Metrics
+Individual & Family Behavior
+Marine Habitat
+Methane (CH4) Emission
+Nitrogen Oxide (NOx) Emission
+Nitrous Oxide (N2O) Emission
+Non-Methane Hydrocarbon Emission
+Particulates Emissions
+Public Policy Administration
+Resource Use Management
+Technical Assistance
+Urban Green Space
+Water Resources
+Education, Outreach & Engagement
+Environmental Policies and Programs
+Environmental State
+Health & Safety
+Health Policies & Programs
+Human Needs Sectors
+Human State
+Human Well-Being
+Landuse Management & Urban/Regional Planning
+Regulating Services
+Supporting Services
+Administration of Public Health Programs
+Environmental Restoration
+Perception of safety
+Autoimmune Diseases
+Cancer
+Disease Regulation
+Environmental Management Plans
+Human Illness or Disease
+Indoor Air Quality
+Outdoor Air Quality
+Social Drivers
+Exposure to Risk
+Exposure to Toxins
+human mortality
+Life Span
+Natural Gas Combustion
+Ecosystem Management
+Living Habitat
+Access to Open Space & Recreational Opportunities
+Biotechnology Research & Development
+Civic Organizations
+Civic Satisfaction
+Communities
+community & neighborhood  organizations
+Community or Stakeholder Engagement
+Community Vibrancy
+Cultural & Social Well-Being
+Cultural Resources
+Education & Information
+Equity
+Freedom from Pain & Suffering
+Governance
+Health Sector
+Household Conservation Choices
+Property Values
+public sentiment, opposition, or support
+Recreational Value
+Sense of Place
+Social Resilience & Adaptive Capacity
+unrealized benefits
+Vulnerability
+Vulnerability to Illness
+Tribal Identity
+Administration of Green Infrastructure Programs
+Access to Education
+Community Diversity & Distribution
+Educational Disparity
+Endowment for Future Generations
+Existence & Intrinsic Value
+Health Disparity
+Human Population Demographics & Distribution
+Individual Health Care Choices
+Justice & Law Enforcement
+Poverty Demographics & Distribution
+Race Demographics & Distribution
+Wealth Disparity
+Age Demographics & Distribution
+Community Population Size
+Economic Demographics & Distribution
+Educational Attainment Demographics & Distribution
+Gender Demographics & Distribution
+Human Population Density & Distribution
+Urban Canopy Cover
+Vulnerability to Crime
+Administration of Housing & Urban Development
+Urbanization
+cost of goods & services
+cost of infrastructure construction & maintenance
+cost of living
+cost of production
+Economic Prosperity
+Human Behavior
+Role of Decision Makers
+Household Waste Disposal Choices
+Body Systems
+Happiness & Fulfillment
+Housing Affordability
+Immune System
+Obesity
+Security
+Sense of Belonging
+Values & Ethics
+Economic Productivity
+Administration of Economic Programs
+Ability to Work
+Access to Health Care
+Access to Healthy Food
+Access to Housing
+Access to Jobs
+Access to Transportation
+Community Identity
+Compassion & Desire for Fairness
+Cultural Identity
+Economic State
+Employment
+Enforcement of Justice & Public Order
+Ethnic Identity
+Growth
+Household Financial Choices
+Household Spending Power
+Income
+Individuals
+Medical Care
+Religious Identity
+Rural Identity
+Urban Identity
