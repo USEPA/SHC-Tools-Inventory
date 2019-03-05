@@ -33,6 +33,7 @@ $(function () { // jquery's shorthand awaits readiness of document
   updateInterface(Object.keys(subrolesByRole), $('#role'), "roleSelect()"); // populate roles into #role div
   initializeTabs(); // initialize tabs and their listeners
   loadCache(); //load cache from local storage
+  $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('checked', true);
   loadSavedTools(); // load saved tools
 
   /**
@@ -106,8 +107,6 @@ $(function () { // jquery's shorthand awaits readiness of document
     var checkboxGroup = instructionalCheckboxes[checkboxGroupIndex];
     showToast[checkboxGroup] = true;
   }
-
-  $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('checked', true);
 });
 
 /**
@@ -155,7 +154,7 @@ var objectiveDisplay = function (adjust) {
 var checkboxChangeHandler = function (checkboxGroup) {
   if (showToast[checkboxGroup] !== false && showToast['all'] !== false) {// condition: are these toasts unmuted?
     if (checkboxGroup.indexOf('table') === -1) {
-      var buttonText = (checkboxGroup === 'concept') ? ($('.concept-search-button').text()) : ('next'); //BOOKMARK: insert dynamically grabbed text for 'Display Tools' if checkboxGroup == 'concept'; else insert "next"
+      var buttonText = (checkboxGroup === 'concept') ? ($('#show-results-button').text()) : ('next'); //BOOKMARK: insert dynamically grabbed text for 'Display Tools' if checkboxGroup == 'concept'; else insert "next"
       var message = 'Select all desired ' + checkboxGroup + 's then press the button labeled "' + buttonText + '." Selections can be changed at any time by returning to the desired tab.';
         toast({html: message, close: true, disable: true});
         showToast[checkboxGroup] = false;
