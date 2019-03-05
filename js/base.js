@@ -489,12 +489,11 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   }
 
   var sorted = sort(toolSet.getToolSet());
-
   for (var i = 0; i < sorted.length; i++) {
   	if (!this.toolSet.contains(sorted[i])) {
       var toolData = toolCache.getParsedData(sorted[i]);
       if (toolData === null) {
-        console.log(sorted[i] + " data is null.");
+        //console.log(sorted[i] + " data is null.");
       }
       if (toolData !== null && !isToolFiltered(toolData)) {
         if (!(toolData["Life Cycle Phase"] === "Termination" && !$('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('checked'))) {
@@ -762,6 +761,27 @@ function showDetails(id, that) {
       "<span class='bold'>User Support Email</span></strong>: " + linkifyString(parsedData['Support Email']) + "<br>" +
       "<span class='bold'>User Support Material</span></strong>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
     "</div>";
+
+    if (parsedData["Contact Detail"].hasOwnProperty('publicContact') && parsedData["Contact Detail"].publicContact.length) {
+      html += '<div class="light-gray">' +
+        "<h4>Public Point of Contact</h4>";
+        for (var i = 0; i < parsedData["Contact Detail"].publicContact.length; i++) {
+          if (parsedData["Contact Detail"].publicContact[i]['FirstName'] && parsedData["Contact Detail"].publicContact[i]['LastName']) {
+            html += parsedData["Contact Detail"].publicContact[i]['FirstName'] + ' ' + parsedData["Contact Detail"].publicContact[i]['LastName'] + "<br>";
+          }
+          if (parsedData["Contact Detail"].publicContact[i]['OrganizationName']) {
+            html += parsedData["Contact Detail"].publicContact[i]['OrganizationName'] + "<br>";
+          }
+          if (parsedData["Contact Detail"].publicContact[i]['TelephoneNumber']) {
+            html += parsedData["Contact Detail"].publicContact[i]['TelephoneNumber'] + "<br>";
+          }
+          if (parsedData["Contact Detail"].publicContact[i]['EmailAddressText']) {
+            html += linkifyString(parsedData["Contact Detail"].publicContact[i]['EmailAddressText']) + "<br>";
+          }
+        }
+      html += "</div>";
+    }
+
     $tab.append(html);
     $selectedToolPanel.removeAttr('aria-hidden');
     $('#' + origin).attr('aria-selected', false);
@@ -882,7 +902,6 @@ function saveSelectedRecords(resultsDiv) {
  * @param {string} containerId - The ID of the container the DIV will be appended to.
  */
 function addDiv(parsedResult, containerId) {
-  console.log("addDiv");
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries
   var $container = $('#' + containerId);
   var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
@@ -910,7 +929,6 @@ function addDiv(parsedResult, containerId) {
  * @return {string} - The HTML to create a DIV.
  */
 function createDiv(parsedResult, containerId) {
-  console.log("createDiv");
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries
   var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
     '<div class="row" role="button">' +
@@ -992,7 +1010,7 @@ var parseResult = function (result) {
   parsedResult['Resource Type'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'ResourceTypeName']);
   parsedResult['Alternate Names'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'GeneralDetail', 'AlternateNamesDetail', 'AlternateName']);
   // parsedResult['Relationships'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'RelationshipDetail', 'InfoResourceRelationshipDetail', 'RelatedInfoResourceName']); // Not properly implemented in READ
-  parsedResult['Contact Detail'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ContactDetail', 'IndividualContactDetail', 'EmailAddressText']);
+  parsedResult['Contact Detail'] = parseContactDetail(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ContactDetail']));
   parsedResult['Steward Tag'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'TagDetail', 'InfoResourceStewardTagText']);
 
   /**
@@ -1041,6 +1059,32 @@ var parseResult = function (result) {
         return accumulatedString;
       }
     }
+  }
+
+  /**
+   * Parse the contact detail array or object for the contact value(s).
+   * @function
+   * @param {object|array} contactDetail - An object containing the property, or an array of objects contain the property.
+   * @param {string} extent.TechnicalSkillName - A string specifying the technical skill.
+   * @return {string|object} - Either the value itself, or a string combining all the values.
+   */
+  function parseContactDetail(contactDetail) { // possibly joins strings in an array
+    var contacts = {};
+    contacts.resourceSteward = [];
+    contacts.publicContact = [];
+    if (contactDetail === "Not Provided") {
+      return contactDetail;
+    }
+    for (var i = 0; i < contactDetail.IndividualContactDetail.length; i++) {
+      if (contactDetail.IndividualContactDetail[i].RoleName === "Primary Information Resource Steward") {
+        contacts.resourceSteward.push(contactDetail.IndividualContactDetail[i]);
+      } else if (contactDetail.IndividualContactDetail[i].RoleName === "Secondary Information Resource Steward") {
+        contacts.resourceSteward.push(contactDetail.IndividualContactDetail[i]);
+      } else if (contactDetail.IndividualContactDetail[i].RoleName === "Public Point of Contact") {
+        contacts.publicContact.push(contactDetail.IndividualContactDetail[i]);
+      }
+    }
+    return contacts;
   }
 
   /**
@@ -1856,6 +1900,8 @@ function loadSavedTools() {
         $('#saved-tools-panel').attr("aria-hidden", false);
         toolCache.handleToolSet(savedTools, savedTable.displayTools.bind(savedTable));
       } else {
+        resultSet.toolSet = cachedSavedTools.toolSet;
+        resultSet.length = cachedSavedTools.length;
         createDataTable('results');
         $('#results-tab').parent().attr("aria-hidden", false); // enable tab button.
         $('#results-tab').removeAttr("aria-disabled")
@@ -1946,18 +1992,13 @@ $(window).bind('storage', function (e) {
 });
 
 $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').on("change", function () {
-  console.log("toggled unsupported")
   var showUnsupportedTools = $(this).is(":checked");
   $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('checked', showUnsupportedTools);
   var type = resultTable.getType();
-  console.log(type)
-
   if (type !== "browse") {
     type = "results";
   }
-
   var checkedTools = $('#' + type + '-list input:checked');
-  console.log(checkedTools)
   $('#' + type + '-list *').remove(); // clear result div
   if ($.fn.DataTable.isDataTable('#' + type + '-table')) {
     $('#' + type + '-table').DataTable().clear().draw(); // clear result table
