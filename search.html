@@ -36,7 +36,7 @@
   <link rel="alternate" type="application/atom+xml" title="Greenversations, EPA's Blog" href="https://blog.epa.gov/blog/feed/" />
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
 </head>
-<body class="node-type-page microsite wide-template" >
+<body class="node-type-page microsite" >
   <!-- Google Tag Manager -->
   <!-- <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script> -->
@@ -111,22 +111,18 @@
                 <li><a aria-controls="detailed-search-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#detailed-search-panel" id="detailed-search-tab" role="tab">Advanced Search</a></li>
                 <li aria-hidden="true"><a aria-controls="results-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#results-panel" id="results-tab" role="tab">Results</a></li>
                 <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="4" href="#saved-tools-panel" id="saved-tools-tab" role="tab">Saved Tools</a></li>
-                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" role="tab">Selected Tool</a></li>
+                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="5" href="#selected-tool-panel" id="selected-tool-tab" role="tab">Tool Details</a></li>
               </ul>
               <div aria-hidden="false" aria-labelledby="simple-search-tab" id="simple-search-panel" role="tabpanel">
-                <h3>Search</h3>
-                <label for="simple-search-text" id="simple-search-text-label">Enter text to search for and press the Search button.</label>
-                <hr />
-                <input autocomplete="off" id="simple-search-text" aria-labelledby="simple-search-text-label" title="Search for tools by entering specific keywords" type="text" placeholder="Enter text here">
+                <label for="simple-search-text" id="simple-search-text-label">Enter keywords to search for and press the Search button</label>
+                <input autocomplete="off" id="simple-search-text" aria-labelledby="simple-search-text-label" title="Search for tools by entering specific keywords" type="text">
                 <button id="simple-search-button">Search</button>
                 <img alt="Loading GIF" id="simple-search-loader" src="img/loader.gif">
                 <div><input id="toggle-unsupported-1" type="checkbox" /><label for="toggle-unsupported-1">Include unsupported tools</label></div>
               </div>
               <div aria-hidden="true" aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">
-                <h3>Advanced Search</h3>
-                <label for="detailed-search-text">Specify requirements of tools while searching for text contained in the chosen fields.</label>
-                <hr />
-                <input autocomplete="off" id="detailed-search-text" title="Enter a keyword to search for" type="text" placeholder="Enter text here">
+                <label for="detailed-search-text">Search for keywords in the specified search fields and specify requirements the tool must have</label>
+                <input autocomplete="off" id="detailed-search-text" title="Enter a keyword to search for" type="text">
                 <button id="detailed-search-button" >Search</button>
                 <button id="detailed-reset" type="reset">Reset Form</button>
                 <img alt="Loading GIF" id="detailed-search-loader" src="img/loader.gif">
@@ -207,25 +203,33 @@
                 </form>
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
-                <h3>Results</h3>
                 <p>Browse your results. Select a tool by checking the checkbox to the left of the tool name. Save tools and they will remain in the Saved Tools tab if you decide to run another search.</p>
-                <hr />
                 <span>Choose a display:</span>
                 <input id="list-radio" type="radio" name="display-type" value="text" checked><label for="list-radio">Text: recommended for those on smaller screens.</label>
                 <input id="table-radio" type="radio" name="display-type" value="table"><label for="table-radio">Table: allows filtering and column sorting.</label>
                 <br />
-                <div><input id="toggle-unsupported-3" type="checkbox" /><label for="toggle-unsupported-3">Show unsupported tools</label></div>
-                <hr />
+
                 <p id="result-info"></p>
-                <div id="results-list-div">
-                  <button id="select-all-btn">Select All Tools</button>
-                  <button id="deselect-all-btn">Deselect All Tools</button>
-                  <button id="save-selected-btn">Save Selected Tools</button>
-                  <button id="export-btn">Export Selected Tools</button>
-                  <div id="export-radio2">
+
+
+                <div class="row">
+                  <div class="col">
+                    <button id="select-all-btn">Select All Tools</button>
+                    <button id="deselect-all-btn">Deselect All Tools</button>
+                  </div>
+                  <div class="col">
+                    <button id="save-selected-btn">Save Selected Tools</button>
+                    <button id="export-btn">Export Selected Tools</button>
+                  </div>
+                  <div id="export-radio2" class="col">
                     <input id="c-results" type="radio" name="export-type" value="csv"><label for="c-results">CSV</label>
                     <input id="p-results" type="radio" name="export-type" value="pdf"><label for="p-results">PDF</label>
                   </div>
+                </div>
+
+
+
+                <div id="results-list-div">
                   <img alt="Loading GIF image" aria-hidden="true" id="loader" src="img/loader.gif">
                   <div id="results-list"></div>
                 </div>
@@ -248,28 +252,34 @@
                 </div>
               </div>
               <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
-                <h3>Selected Tool</h3>
-                <p>Here are the tool details for your selected tool.</p><hr />
                 <div id="selected-tool"></div>
               </div>
               <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
-                <h3>Saved Tools</h3>
-                <p>These are the tools you chose to save.</p>
-                <p>Select the tools you would like to export to a downloadable CSV file.</p><hr />
+                <p>These are the tools you chose to save. Select the tools you would like to export to a downloadable CSV file.</p>
                 <span>Choose a display:</span>
                 <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text: recommended for those on smaller screens.</label>
                 <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table: allows filtering and column sorting.</label>
                 <br />
-                <hr />
-                <div id="saved-list-div">
-                  <button id="select-all-saved-btn">Select All Tools</button>
-                  <button id="deselect-all-saved-btn">Deselect All Tools</button>
-                  <button id="remove-selected-btn">Remove Selected Tools</button>
-                  <button id="export-selected-btn">Export Selected Tools</button>
-                  <div id="export-radio1">
+
+                <div class="row">
+                  <div class="col">
+                    <button id="select-all-saved-btn">Select All Tools</button>
+                    <button id="deselect-all-saved-btn">Deselect All Tools</button>
+                  </div>
+                  <div class="col">
+                    <button id="remove-selected-btn">Remove Selected Tools</button>
+                    <button id="export-selected-btn">Export Selected Tools</button>
+                  </div>
+                  <div id="export-radio1" class="col">
                     <input id="c-saved" type="radio" name="export-type" value="csv"><label for="c-saved">CSV</label>
                     <input id="p-saved" type="radio" name="export-type" value="pdf"><label for="p-saved">PDF</label>
                   </div>
+                </div>
+
+
+
+
+                <div id="saved-list-div">
                   <div id="saved-list"></div>
                 </div>
                 <div aria-hidden="true" id="saved-table-div">

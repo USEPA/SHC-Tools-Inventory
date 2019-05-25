@@ -104,9 +104,10 @@ label{
 #tabsnav li {
   padding-left: 0; /* override s.css */
   padding-right: 0; /* override s.css */
+  margin: 0 0.0em 0 0.514em;
 }
 #tabsnav li a {
-  background: #205493;
+  background: #0071bc;
   border-radius: 0 !important; /* override s.css */
   color: #fff;
   float: left;
@@ -123,7 +124,7 @@ label{
 #tabsnav li a:after {
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent;
-  border-left: 20px solid #205493;
+  border-left: 20px solid #0071bc;
   content: "";
   position: absolute;
   right: -20px;
@@ -155,12 +156,21 @@ label{
 #tabsnav li:last-child a:after {
   display: none;
 }
-#tabsnav li a:hover, #tabsnav li a.active {
-  background: #00a6d2;
-  color: #000;
+#tabsnav li a:hover,
+#tabsnav li a:focus {
+  background: #205493;
+  color: #fff;
 }
-#tabsnav li a:hover:after, #tabsnav li a.active:after {
-  border-left-color: #00a6d2;
+#tabsnav li a.active {
+  background: #112e51;
+  color: #fff;
+}
+#tabsnav li a:hover:after,
+#tabsnav li a:focus:after {
+  border-left-color: #205493;
+}
+#tabsnav li a.active:after {
+  border-left-color: #112e51;
 }
 @media (max-width: 1000px) {
   #tabsnav {
@@ -205,6 +215,21 @@ label{
   display: inline-block;
   vertical-align: middle;
   padding: 0.5em 0.5em;
+  background-color: #fff;
+  box-shadow: inset 0 0 0 2px #0071bc;
+  color: #0071bc;
+  margin-right: 3px;
+}
+.small-button:hover,
+.small-button:focus {
+  background-color: #fff;
+  box-shadow: inset 0 0 0 2px #205493;
+  color: #205493;
+}
+.small-button:active {
+  background-color: #fff;
+  box-shadow: inset 0 0 0 2px #112e51;
+  color: #112e51;
 }
 .tool-label {
   padding: .1em 0.5em;
@@ -226,9 +251,6 @@ label{
   margin-bottom: 0.5em;
   font-weight: bold;
   border-radius: 0.5em;
-}
-.next {
-  float: right;
 }
 .pagetop {
   clear: both;

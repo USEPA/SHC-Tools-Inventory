@@ -1,0 +1,34 @@
+## Required
+Short Description
+Description
+Ownership Type
+Information Resource Type
+Current Life-Cycle Phase
+Operating Environment
+
+## Not Required
+Alternate Names - Can not be added
+Keywords - Can be Blank
+URL - Can not be added
+Compatible Operating Systems - Can be N/A
+Other Proprietary Software Requirements - Can be N/A
+Model Inputs - Can be N/A
+Data Requirements - Can be Blank, or Insufficent Information
+Model Variables - Can be blank
+Model Output Types - None have to be checked
+Types of Support Materials - None have to be checked
+Source of Support Materials - Can be blank
+Support Phone - Can be blank
+Support Name - Can't be erased?
+Support Email Address - Can't be erased?
+Base Software Cost - Can be blank
+Recurring Annual Cost - Can be blank
+Other Cost Considerations - Can be blank
+Open Source - Can be blank
+Last Known Software Update - Can be blank
+Model Structure - Can be N/A
+Model Evaluation - Can be N/A
+Decision Sector - Can be Blank
+Time Scale - None have to be checked
+Spatial Extent - None have to be checked
+Technical Skills Needed to Apply Model - None have to be checked, but has a None Option

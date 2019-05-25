@@ -112,13 +112,21 @@ var toolCache = (function () {
       $.when.apply(null, requests).done(function () {
         if (arguments[1] === 'success') {
           var result = parseResult(arguments[0]);
-          setData(result['ID'], result);
-          terminationCheck(result);
+          if (result.Public === 'Y') {
+            setData(result['ID'], result);
+            terminationCheck(result);
+          } else {
+            console.log(result)
+          }
         } else {
           for (var i = 0; i < arguments.length; i++) {
             var result = parseResult(arguments[i][0]);
-            setData(result['ID'], result);
-            terminationCheck(result);
+            if (result.Public === 'Y') {
+              setData(result['ID'], result);
+              terminationCheck(result);
+            } else {
+              console.log(result)
+            }
           }
         }
         localStorageSetItem('toolCache', cache);
@@ -589,8 +597,13 @@ function createRow(parsedResult) {
   rowData = [ //Create row
     "",
     parsedResult['ID'],
-      '<span class="bold">' + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] +
-      ' (' + parsedResult['Acronym'] + ')') + '</span><br /><button class="col button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Tool Details</button>' +
+      '<span class="bold">' +
+      (parsedResult['URL'] !== "" ? '<a href="' + parsedResult['URL'] + '" target="_blank">' + 
+      (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] || !parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] +
+      ' (' + parsedResult['Acronym'] + ')') + 
+      '</a></span>' : (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] || !parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] +
+      ' (' + parsedResult['Acronym'] + ')')) +
+      '<button class="col button-grey show-details-tbl-btn shadow-sm" onclick="showDetails(' + parsedResult['ID'] + ', this)">View Details</button>' +
       (parsedResult['Life Cycle Phase'] === "Termination" ? '<br /><span class="bold red">This tool is no longer supported.</span>' : ""),
     parsedResult['Description'],
     parsedResult['Operating Environment'],
@@ -704,24 +717,26 @@ function showDetails(id, that) {
     }
     html += "" +
 
-    '<div class="light-gray">' +
-      "<span class='bold'>Title</span></strong>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
-      "<span class='bold'>Description</span></strong>: " + parsedData['Description'] + "<br>" +
+    "<h3>" + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '</h3>' +
+    "<p>" + parsedData['Description'] + "</p>" +
+
+    '<div class="list-div shadow-sm">' +
       "<span class='bold'>Alternate Names</span></strong>: " + parsedData['Alternate Names'] + "<br>" +
       "<span class='bold'>URL</span></strong>: " + linkifyString(parsedData['URL']) + "<br>" +
       "<span class='bold'>Ownership Type</span></strong>: " + parsedData['Ownership Type'] + "<br>" +
       "<span class='bold'>Resource Type</span></strong>: " + parsedData['Resource Type'] + "<br>" +
-      // "<span class='bold'>Relationships</span></strong>: " + parsedData['Relationships'] + "<br>" + // Not properly implemented in READ
+      "<span class='bold'>Keywords</span></strong>: " + parsedData['Keywords'] + "<br>" +
+      (resultTable.getType() === 'wizard' ? "<span class='bold'>Selected Concepts</span></strong>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) : '' ) +
     "</div>" +
 
-    '<div class="light-gray">' +
+    '<div class="list-div shadow-sm">' +
       "<h4>Cost Details</h4>" +
       "<span class='bold'>Base Cost</span></strong>: " + parsedData['BaseCost'] + "<br>" +
       "<span class='bold'>Annual Cost</span></strong>: " + parsedData['AnnualCost'] + "<br>" +
       "<span class='bold'>Other Cost Considerations</span></strong>: " + parsedData['Other Cost Considerations'] + "<br>" +
     "</div>" +
 
-    '<div class="light-gray">' +
+    '<div class="list-div shadow-sm">' +
       "<h4>Model Details</h4>" +
       "<span class='bold'>Decision Sector</span></strong>: " + parsedData['Decision Sector'] + "<br>" +
       "<span class='bold'>Life Cycle Phase</span></strong>: " + parsedData['Life Cycle Phase'] + "<br>" +
@@ -730,7 +745,7 @@ function showDetails(id, that) {
       "<span class='bold'>Model Structure</span></strong>: " + parsedData['Model Structure'] + "<br>" +
     "</div>" +
 
-    '<div class="light-gray">' +
+    '<div class="list-div shadow-sm">' +
       "<h4>Technical Details</h4>" +
       "<span class='bold'>Operating System</span></strong>: " + parsedData['Operating System'] + "<br>" +
       "<span class='bold'>Operating Environment</span></strong>: " + parsedData['Operating Environment'] + "<br>" +
@@ -740,7 +755,7 @@ function showDetails(id, that) {
       "<span class='bold'>Last Software Update</span></strong>: " + parsedData['Last Software Update'] + "<br>" +
     "</div>" +
 
-    '<div class="light-gray">' +
+    '<div class="list-div shadow-sm">' +
       "<h4>Model Input/Output Details</h4>" +
       "<span class='bold'>Model Inputs</span></strong>: " + linkifyString(parsedData['Model Inputs']) + "<br>" +
       "<span class='bold'>Model Inputs Data Requirements</span></strong>: " + linkifyString(parsedData['Input Data Requirements']) + "<br>" +
@@ -749,12 +764,7 @@ function showDetails(id, that) {
       "<span class='bold'>Model Evaluation</span></strong>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
     "</div>" +
 
-    '<div class="light-gray">' +
-      "<span class='bold'>Keywords</span></strong>: " + parsedData['Keywords'] + "<br>" +
-      (resultTable.getType() === 'wizard' ? "<span class='bold'>Selected Concepts</span></strong>: " +  getSelectedConceptsAssociatedWithTool(parsedData['ID']) + "<br />" : '' ) +
-    "</div>" +
-
-    '<div class="light-gray">' +
+    '<div class="list-div shadow-sm">' +
       "<h4>Support Details</h4>" +
       "<span class='bold'>User Support Name</span></strong>: " + parsedData['Support Name'] + "<br>" +
       "<span class='bold'>User Support Phone</span></strong>: " + parsedData['Support Phone'] + "<br>" +
@@ -763,7 +773,7 @@ function showDetails(id, that) {
     "</div>";
 
     if (parsedData["Contact Detail"].hasOwnProperty('publicContact') && parsedData["Contact Detail"].publicContact.length) {
-      html += '<div class="light-gray">' +
+      html += '<div class="list-div shadow-sm">' +
         "<h4>Public Point of Contact</h4>";
         for (var i = 0; i < parsedData["Contact Detail"].publicContact.length; i++) {
           if (parsedData["Contact Detail"].publicContact[i]['FirstName'] && parsedData["Contact Detail"].publicContact[i]['LastName']) {
@@ -914,7 +924,7 @@ function addDiv(parsedResult, containerId) {
       '</div>' +
     '</div>' +
     '<div class="row expand" id="' + parsedResult['ID'] + '" tabindex="0">' +
-      '<button class="col bold button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Show Tool Details</button>' +
+      '<button class="col bold button-grey show-details-btn shadow-sm" onclick="showDetails(' + parsedResult['ID'] + ', this)">View Details</button>' +
       '<div class="col accordion-result"></div>' +
     '</div>' +
   '</div>';
@@ -930,17 +940,26 @@ function addDiv(parsedResult, containerId) {
  */
 function createDiv(parsedResult, containerId) {
   // append READ-ID of a tool to URL below to point to details via the EPA's System of Registries
-  var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div">' +
+  var html = '<div id="' + containerId + '-' + parsedResult['ID'] + '" class="list-div shadow-sm">' +
     '<div class="row" role="button">' +
-      '<div class="col size-95of100">' +
+      '<div class="col size-95of100" style="padding-bottom: .5rem;">' +
         '<input class="results-checkbox" type="checkbox" id="' + containerId + '-cb-' + parsedResult['ID'] + '" value="' + parsedResult['ID'] + '"/>' +
         '<label for="' + containerId + '-cb-' + parsedResult['ID'] + '" class="results-label">' +
-        '<span class="bold">' + parsedResult['Title'] + (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] ? '' : ' (' + parsedResult['Acronym'] + ')') + '</span></label>: ' + parsedResult['Description'] +
+
+        '<span class="bold">' +
+        (parsedResult['URL'] ? '<a href="' + parsedResult['URL'] + '" target="_blank">' + 
+        (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] || !parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] +
+        ' (' + parsedResult['Acronym'] + ')') + 
+        '</a>' : (parsedResult['Title'].substr(0, 15) === parsedResult['Acronym'] || !parsedResult['Acronym'] ? parsedResult['Title'] : parsedResult['Title'] +
+        ' (' + parsedResult['Acronym'] + ')')) + "</span><br />" +
+        
+        parsedResult['Description'] +
+
         (parsedResult['Life Cycle Phase'] === "Termination" ? '<span class="bold red"> This tool is no longer supported.</span>' : "") +
       '</div>' +
     '</div>' +
     '<div class="row" id="' + parsedResult['ID'] + '" tabindex="0">' +
-      '<button class="col bold button-grey" onclick="showDetails(' + parsedResult['ID'] + ', this)">Show Tool Details</button>' +
+      '<button class="col bold button-grey show-details-btn shadow-sm" onclick="showDetails(' + parsedResult['ID'] + ', this)">View Details</button>' +
     '</div>' +
   '</div>';
 
@@ -1012,6 +1031,7 @@ var parseResult = function (result) {
   // parsedResult['Relationships'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'RelationshipDetail', 'InfoResourceRelationshipDetail', 'RelatedInfoResourceName']); // Not properly implemented in READ
   parsedResult['Contact Detail'] = parseContactDetail(readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'ContactDetail']));
   parsedResult['Steward Tag'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'TagDetail', 'InfoResourceStewardTagText']);
+  parsedResult['Public'] = readSafe(result, ['READExportDetail', 'InfoResourceDetail', 'AccessDetail', 'ApprovedPublicDisplayIndicator']);
 
   /**
    * return decoded value(s) accumulated into a string
@@ -1072,7 +1092,7 @@ var parseResult = function (result) {
     var contacts = {};
     contacts.resourceSteward = [];
     contacts.publicContact = [];
-    if (contactDetail === "Not Provided") {
+    if (contactDetail === "") {
       return contactDetail;
     }
     for (var i = 0; i < contactDetail.IndividualContactDetail.length; i++) {
@@ -1218,7 +1238,7 @@ var getSelectedConceptsAssociatedWithTool = function (toolID) {
     // return array of selected concepts associated with tool
     return selectedConceptsAssociatedWithTool.join('; ');
   } else {
-    return "Not Provided";
+    return "";
   }
 };
 
@@ -1305,7 +1325,7 @@ var readSafe = function (object, propertyArray) {
         return readSafe(value,propertyArray.slice(1)); // pass the second element through the last element of the property array
       } catch (e) {
         console.log('error: ',e); // dev
-        return "Not Provided"; // return "Not Provided"
+        return ""; // return ""
       }
     }
   } else { // first element propertyArray isn't a property of this object
@@ -1319,7 +1339,7 @@ var readSafe = function (object, propertyArray) {
       }
     return accumulatedString;
     } else {
-      return "Not Provided"; // fail safely: return "Not Provided"
+      return ""; // fail safely: return ""
     }
   }
 };
@@ -1336,7 +1356,7 @@ var isNil = function (obj) {
     obj.hasOwnProperty('xsi:nil') ||
     obj === null ||
     obj === '' ||
-    String(obj).toLowerCase() === "not provided"
+    String(obj).toLowerCase() === ""
   );
 };
 
@@ -1349,13 +1369,13 @@ var isNil = function (obj) {
 var validata = function (obj) {
   try {
     if (isNil(obj)) {
-      return "Not Provided";
+      return "";
     } else {
       return obj;
     }
   } catch (e) {
-    console.log('ERROR: validata() returned "Not Provided" for' + obj + 'because it threw error' + e);
-    return "Not Provided";
+    console.log('ERROR: validata() returned "" for' + obj + 'because it threw error' + e);
+    return "";
   }
 };
 
@@ -1438,7 +1458,7 @@ function createDataTable(name) {
       paging = false;
     }
     var table = $('#' + name + '-table').DataTable({
-      dom: 'B<"toolbar">frtip',
+      dom: 'frtip',
       processing: true,
       language: {
         loadingRecords: "Please wait - loading..."
@@ -1470,92 +1490,13 @@ function createDataTable(name) {
           width: '50em'
         }
       ],
-      order: [[2, 'asc']],
-      buttons: [
-        {
-          text: 'Select All Tools',
-          action: function () {
-            selectFilteredToolsButton(name);
-          },
-          className: 'button button-grey'
-        },
-        {
-          text: 'Deselect All Tools',
-          action: function () {
-            deselectFilteredToolsButton(name);
-          },
-          className: 'button button-grey'
-        }
-      ]
+      order: [[2, 'asc']]
     });
-
-    $("#" + name + "-table-div .toolbar").html(
-      '<div class="export-radio">' +
-      '<input id="c-' + name + '-table" type="radio" name="export-type" value="csv">' + 
-      '<label for="c-' + name + '-table">CSV</label>' + 
-      '<input id="p-' + name + '-table" type="radio" name="export-type" value="pdf">' + 
-      '<label for="p-' + name + '-table">PDF</label></div>'
-    );
-
-    var dtButtons = [];
-
-    // Is not saved table. Is on Search or Browse app
-    if (name !== 'saved' && (resultTable.getType() === 'search' || resultTable.getType() === 'browse')) {
-      dtButtons.push(
-        {
-          text: 'Save Selected Tools',
-          action: function () {
-            saveSelectedRecords(name + '-list');
-          },
-          className: 'button button-white'
-        }
-      );
-    }
-
-    // Is saved table on Search or Browse app
-    if (name === 'saved' && (resultTable.getType() === 'search' || resultTable.getType() === 'browse')) {
-      dtButtons.push(
-        {
-          text: 'Remove Selected Tools',
-          action: function () {
-            removeSelected(name + '-list');
-          },
-          className: 'button button-white'
-        }
-      );
-    }
-
-    // is a table on the Search, Browse, or Wizard app
-    if (resultTable.getType() === 'search' || resultTable.getType() === 'browse' || resultTable.getType() === 'wizard') {
-      dtButtons.push(
-        {
-          text: 'Export Selected Tools',
-          action: function () {
-            exportTools(name + '-table');
-          },
-          className: 'button button-white'
-        }
-      );
-    }
 
     // Is the browse tool
     if (name === 'browse') {
       $('.dataTables_empty').html('<img id="loader" src="/sites/staging/files/2018-10/loader.gif">');
     }
-
-    new $.fn.dataTable.Buttons(table, {
-        buttons: dtButtons
-      }
-    );
-
-    table.buttons(0, null).container().css('display', 'block').wrap("<div></div>");
-    if (name !== 'saved' && resultTable.getType() === 'search' || resultTable.getType() === 'browse') {
-      table.buttons(1, null).container().insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');
-    } else {
-    	table.buttons(1, null).container().insertAfter('#' + name + '-table_wrapper > div > ' + '.dt-buttons');
-    }
-
-    $('.dt-button').removeClass('dt-button');
   }
 }
 
@@ -2089,7 +2030,7 @@ function findConcepts(searchTerms) {
 
 /** export checked tools as HTML or CSV */
 function exportTools(resultsDiv) {
-  var radioValue = $('#' + resultsDiv + '-div input[name="export-type"]:checked').val();
+  var radioValue = $('#' + resultsDiv + '-div').prev().find('input[name="export-type"]:checked').val();
   var records = $('#' + resultsDiv + ' input:checked');
   var html = '';
   var record;
@@ -2145,7 +2086,7 @@ var textToPDF = function (selectedTools) {
     var tool = selectedTools[toolID];
     for (var prop in tool) {
       var attribute = tool[prop] + '';
-      if (attribute.toLowerCase() !== "not provided" && doNotInclude.indexOf(prop) === -1) {
+      if (attribute.toLowerCase() !== "" && doNotInclude.indexOf(prop) === -1) {
         if (prop === "URL") {
           var urls = tool.URL.split('; ');
           doc.font('Helvetica-Bold').fontSize(12).text(prop, {
@@ -2285,15 +2226,15 @@ function reportRecordAsHTML(parsedData, html) {
   html += "" +
     "<strong><span>Title</span></strong>: " + (parsedData['Title'].substr(0, 15) === parsedData['Acronym'] ? parsedData['Title'] : parsedData['Title'] + ' (' + parsedData['Acronym'] + ')') + '<br>' +
     "<strong><span>Description</span></strong>: " + parsedData['Description'] + "<br>" +
-    (parsedData['Alternate Names'] === "Not Provided" ? "" : "<strong><span>Alternate Names</span></strong>: " + parsedData['Alternate Names'] + "<br>") +
-    (parsedData['URL'] === "Not Provided" ? "" : "<strong><span>URL</span></strong>: " + linkifyString(parsedData['URL']) + "<br>") +
-    (parsedData['Ownership Type'] === "Not Provided" ? "" : "<strong><span>Ownership Type</span></strong>: " + parsedData['Ownership Type'] + "<br>") +
-    (parsedData['Resource Type'] === "Not Provided" ? "" : "<strong><span>Resource Type</span></strong>: " + parsedData['Resource Type'] + "<br>") +
+    (parsedData['Alternate Names'] === "" ? "" : "<strong><span>Alternate Names</span></strong>: " + parsedData['Alternate Names'] + "<br>") +
+    (parsedData['URL'] === "" ? "" : "<strong><span>URL</span></strong>: " + linkifyString(parsedData['URL']) + "<br>") +
+    (parsedData['Ownership Type'] === "" ? "" : "<strong><span>Ownership Type</span></strong>: " + parsedData['Ownership Type'] + "<br>") +
+    (parsedData['Resource Type'] === "" ? "" : "<strong><span>Resource Type</span></strong>: " + parsedData['Resource Type'] + "<br>") +
 
     "<h3>Cost Details</h3>" +
-    (parsedData['BaseCost'] === "Not Provided" ? "" : "<strong><span>Base Cost</span></strong>: " + parsedData['BaseCost'] + "<br>") +
-    (parsedData['AnnualCost'] === "Not Provided" ? "" : "<strong><span>Annual Cost</span></strong>: " + parsedData['AnnualCost'] + "<br>") +
-    (parsedData['Other Cost Considerations'] === "Not Provided" ? "" : "<strong><span>Other Cost Considerations</span></strong>: " + parsedData['Other Cost Considerations'] + "<br>") +
+    (parsedData['BaseCost'] === "" ? "" : "<strong><span>Base Cost</span></strong>: " + parsedData['BaseCost'] + "<br>") +
+    (parsedData['AnnualCost'] === "" ? "" : "<strong><span>Annual Cost</span></strong>: " + parsedData['AnnualCost'] + "<br>") +
+    (parsedData['Other Cost Considerations'] === "" ? "" : "<strong><span>Other Cost Considerations</span></strong>: " + parsedData['Other Cost Considerations'] + "<br>") +
 
     "<h3>Model Details</h3>" +
     "<strong><span>Decision Sector</span></strong>: " + parsedData['Decision Sector'] + "<br>" +
@@ -2318,30 +2259,30 @@ function reportRecordAsHTML(parsedData, html) {
     "<strong><span>Model Evaluation</span></strong>: " + linkifyString(parsedData['Model Evaluation']) + "<br>" +
 
     '<div>' +
-    (parsedData['Keywords'] === "Not Provided" ? "" : "<strong><span>Keywords</span></strong>: " + parsedData['Keywords'] + "<br>") +
+    (parsedData['Keywords'] === "" ? "" : "<strong><span>Keywords</span></strong>: " + parsedData['Keywords'] + "<br>") +
     "</div>" +
 
     "<h3>Support Details</h3>" +
-    (parsedData['Support Name'] === "Not Provided" ? "" : "<strong><span>User Support Name</span></strong>: " + parsedData['Support Name'] + "<br>") +
-    (parsedData['Support Phone'] === "Not Provided" ? "" : "<strong><span>User Support Phone</span></strong>: " + parsedData['Support Phone'] + "<br>") +
-    (parsedData['Support Email'] === "Not Provided" ? "" : "<strong><span>User Support Email</span></strong>: " + linkifyString(parsedData['Support Email']) + "<br>") +
-    (parsedData['Support Materials'] === "Not Provided" ? "" : "<strong><span>User Support Material</span></strong>: " + linkifyString(parsedData['Support Materials']) + "<br>");
+    (parsedData['Support Name'] === "" ? "" : "<strong><span>User Support Name</span></strong>: " + parsedData['Support Name'] + "<br>") +
+    (parsedData['Support Phone'] === "" ? "" : "<strong><span>User Support Phone</span></strong>: " + parsedData['Support Phone'] + "<br>") +
+    (parsedData['Support Email'] === "" ? "" : "<strong><span>User Support Email</span></strong>: " + linkifyString(parsedData['Support Email']) + "<br>") +
+    (parsedData['Support Materials'] === "" ? "" : "<strong><span>User Support Material</span></strong>: " + linkifyString(parsedData['Support Materials']) + "<br>");
     return html;
 }
 
 function reportRecordAsHTML0(parsedData, html) {
   html += "" +
     "<div>" + parsedData['Description'] + "</div>" +
-    (parsedData['URL'] === "Not Provided" ? "" : "<span><strong>URL</strong>: " + linkifyString(parsedData['URL']) + "</span><br>") +
-    (parsedData['Resource Type'] === "Not Provided" ? "" : "<span><strong>Resource Type</strong>: " + parsedData['Resource Type'] + "</span><br>") +
-    (parsedData['BaseCost'] === "Not Provided" ? "" : "<span><strong>Base Cost</strong>: " + parsedData['BaseCost'] + "</span><br>") +
-    (parsedData['AnnualCost'] === "Not Provided" ? "" : "<span><strong>Annual Cost</strong>: " + parsedData['AnnualCost'] + "</span><br>") +
-    (parsedData['Other Cost Considerations'] === "Not Provided" ? "" : "<span><strong>Other Cost Considerations</strong>: " + parsedData['Other Cost Considerations'] + "</span><br>") +
-    (parsedData['Decision Sector'] === "Not Provided" ? "" : "<span><strong>Decision Sector</strong>: " + parsedData['Decision Sector'] + "</span><br>") +
-    (parsedData['Operating System'] === "Not Provided" ? "" : "<span><strong>Operating System</strong>: " + parsedData['Operating System'] + "</span><br>") +
-    (parsedData['Operating Environment'] === "Not Provided" ? "" : "<span><strong>Operating Environment</strong>: " + parsedData['Operating Environment'] + "</span><br>") +
-    (parsedData['Other Requirements'] === "Not Provided" ? "" : "<span><strong>Other Proprietary Software Requirements</strong>: " + linkifyString(parsedData['Other Requirements']) + "</span><br>") +
-    (parsedData['Technical Skills Needed'] === "Not Provided" ? "" : "<span><strong>Technical Skills Required</strong>: " + parsedData['Technical Skills Needed'] + "</span><br>");
+    (parsedData['URL'] === "" ? "" : "<span><strong>URL</strong>: " + linkifyString(parsedData['URL']) + "</span><br>") +
+    (parsedData['Resource Type'] === "" ? "" : "<span><strong>Resource Type</strong>: " + parsedData['Resource Type'] + "</span><br>") +
+    (parsedData['BaseCost'] === "" ? "" : "<span><strong>Base Cost</strong>: " + parsedData['BaseCost'] + "</span><br>") +
+    (parsedData['AnnualCost'] === "" ? "" : "<span><strong>Annual Cost</strong>: " + parsedData['AnnualCost'] + "</span><br>") +
+    (parsedData['Other Cost Considerations'] === "" ? "" : "<span><strong>Other Cost Considerations</strong>: " + parsedData['Other Cost Considerations'] + "</span><br>") +
+    (parsedData['Decision Sector'] === "" ? "" : "<span><strong>Decision Sector</strong>: " + parsedData['Decision Sector'] + "</span><br>") +
+    (parsedData['Operating System'] === "" ? "" : "<span><strong>Operating System</strong>: " + parsedData['Operating System'] + "</span><br>") +
+    (parsedData['Operating Environment'] === "" ? "" : "<span><strong>Operating Environment</strong>: " + parsedData['Operating Environment'] + "</span><br>") +
+    (parsedData['Other Requirements'] === "" ? "" : "<span><strong>Other Proprietary Software Requirements</strong>: " + linkifyString(parsedData['Other Requirements']) + "</span><br>") +
+    (parsedData['Technical Skills Needed'] === "" ? "" : "<span><strong>Technical Skills Required</strong>: " + parsedData['Technical Skills Needed'] + "</span><br>");
     return html;
 }
 

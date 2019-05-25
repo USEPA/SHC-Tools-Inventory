@@ -37,7 +37,7 @@
   <!--[if lt IE 9]><script src="https://www.epa.gov/sites/all/themes/epa/js/html5.js"></script><![endif]-->
 </head>
 <!-- NOTE, figure out body classes! -->
-<body class="node-type-page microsite wide-template" >
+<body class="node-type-page microsite" >
   <!-- Google Tag Manager -->
   <!-- <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-L8ZB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-L8ZB');</script> -->
@@ -90,13 +90,13 @@
             <div aria-live="polite" id="toast"></div>
             <div id="tabs">
               <ul class="tabs" id="tabsnav" role="tablist">
-                <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal active" href="#role-tab" id="role-tab" role="tab" title="Click here to modify the role tab.">Role</a></li>
-                <li aria-hidden="true"><a aria-controls="subrole-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Role" data-href="#subrole-tab" id="subrole-tab" role="tab" title="Click here to modify the subrole tab.">Subrole</a></li>
-                <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Subrole" data-href="#fundamental-objective-tab" id="fundamental-objective-tab" role="tab" title="Click here to modify the fundamental objective tab.">Fundamental Objective</a></li>
-                <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Fundamental Objective" data-href="#objective-tab" id="objective-tab" role="tab" title="Click here to modify the objective tab.">Objective</a></li>
-                <li aria-hidden="true"><a aria-controls="concept-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Objective" data-href="#concept-tab" id="concept-tab" role="tab" title="Click here to modify the concept tab.">Concept</a></li>
+                <li><a aria-controls="role-panel" aria-selected="true" class="menu-internal active" href="#role-tab" id="role-tab" role="tab" title="Click here to modify the role tab.">Roles</a></li>
+                <li aria-hidden="true"><a aria-controls="subrole-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Role" data-href="#subrole-tab" id="subrole-tab" role="tab" title="Click here to modify the subrole tab.">Subroles</a></li>
+                <li aria-hidden="true"><a aria-controls="fundamental-objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Subrole" data-href="#fundamental-objective-tab" id="fundamental-objective-tab" role="tab" title="Click here to modify the fundamental objective tab.">Fundamental Objectives</a></li>
+                <li aria-hidden="true"><a aria-controls="objective-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Fundamental Objective" data-href="#objective-tab" id="objective-tab" role="tab" title="Click here to modify the objective tab.">Objectives</a></li>
+                <li aria-hidden="true"><a aria-controls="concept-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Objective" data-href="#concept-tab" id="concept-tab" role="tab" title="Click here to modify the concept tab.">Concepts</a></li>
                 <li aria-hidden="true"><a aria-controls="results-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Concept" href="#results-tab" id="results-tab" role="tab" title="Click here to view the result tab.">Results</a></li>
-                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Results" href="#selected-tool-tab" id="selected-tool-tab" role="tab" title="Click here to view the selected tool tab.">Selected Tool</a></li>
+                <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-disabled="true" aria-hidden="true" aria-selected="false" class="menu-internal" data-name="Results" href="#selected-tool-tab" id="selected-tool-tab" role="tab" title="Click here to view the selected tool tab.">Tool Info</a></li>
               </ul>
               <div aria-labelledby="role-tab" id="role-panel" role="tabpanel" aria-hidden="false">
                 <h4>Roles  - Who are you?
@@ -112,8 +112,8 @@
                   <button id="role-next-button" class="enabled-by-subrole persist next" >Next</button>
                 </div>
                 <hr />
-                <button id="select-roles" class="button-grey">Select All Roles</button>
-                <button id="deselect-roles" class="button-grey">Deselect All Roles</button>
+                <button id="select-roles">Select All Roles</button>
+                <button id="deselect-roles">Deselect All Roles</button>
                 <div class="bold" id="role-tool-count"></div>
                 <div id="role"></div>
                 <div class="bottom-bar">
@@ -137,8 +137,8 @@
                   <button id="subrole-next-button" class="enabled-by-fundamental-objective persist next">Next</button>
                 </div>
                 <hr />
-                <button id="select-subroles" class="button-grey">Select All Subroles</button>
-                <button id="deselect-subroles" class="button-grey">Deselect All Subroles</button>
+                <button id="select-subroles">Select All Subroles</button>
+                <button id="deselect-subroles">Deselect All Subroles</button>
                 <div class="bold" id="subrole-tool-count"></div>
                 <div id="subrole"></div>
                 <div class="bottom-bar">
@@ -162,8 +162,8 @@
                   <button id="fundamental-objective-next-button" class="enabled-by-objective persist next">Next</button>
                 </div>
                 <hr />
-                <button id="select-fundamental-objectives" class="button-grey">Select All Fundamental Objectives</button>
-                <button id="deselect-fundamental-objectives" class="button-grey">Deselect All Fundamental Objectives</button>
+                <button id="select-fundamental-objectives">Select All Fundamental Objectives</button>
+                <button id="deselect-fundamental-objectives">Deselect All Fundamental Objectives</button>
                 <div class="bold" id="fundamental-objective-tool-count"></div>
                 <div id="fundamental-objective"></div>
                 <div class="bottom-bar">
@@ -190,8 +190,8 @@
                 </div>
                 <hr />
                 <input id="objective-relevance" type="hidden" value="2" />
-                <button id="select-objectives" class="button-grey">Select All Objectives</button>
-                <button id="deselect-objectives" class="button-grey">Deselect All Objectives</button>
+                <button id="select-objectives">Select All Objectives</button>
+                <button id="deselect-objectives">Deselect All Objectives</button>
                 <div class="bold" id="objective-tool-count"></div>
                 <div id="objective"></div>
                 <div class="bottom-bar">
@@ -213,21 +213,21 @@
                 <p>Use the <strong>Show Results</strong> button to display your list of targeted tools.</p>
                 <div class="navbar">
                   <button id="concept-back-button" class="persist">Back</button>
-                  <button id="show-results-button" class="button-aqua next concept-search-button">Show Results</button>
+                  <button id="show-results-button" class="next concept-search-button">Show Results</button>
                 </div>
                 <hr class="park-mark" />
-                <button id="select-concepts" class="button-grey">Select All Concepts</button>
-                <button id="deselect-concepts" class="button-grey">Deselect All Concepts</button>
-                <button class="button-white right" id="expand-concepts">Add Additional Concepts</button>
+                <button id="select-concepts">Select All Concepts</button>
+                <button id="deselect-concepts">Deselect All Concepts</button>
+                <button class="right" id="expand-concepts">Add Additional Concepts</button>
                 <div id="concept"></div>
                 <div class="bottom-bar">
                   <button id="concept-back-button-mobile" class="persist">Back</button>
-                  <button id="show-results-button-mobile" class="button-aqua next concept-search-button">Show Results</button>
+                  <button id="show-results-button-mobile" class="next concept-search-button">Show Results</button>
                 </div>
                 <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
               </div>
               <div aria-labelledby="results-tab" id="results-panel" role="tabpanel" aria-hidden="true">
-                <h3 id="tools">Tools</h3>
+                <h3 id="tools">Results</h3>
                 <p>Select one or more tools and they will be added to your saved tools. Any unselected tools will be removed if you run additional searches. You can export your selected tools to a CSV file by using the <strong>Export</strong> button.</p>
                 <div class="navbar">
                   <button id="navbar-back" class="persist">Back</button>
@@ -241,9 +241,9 @@
                 <hr />
                 <p id="result-info"></p>
                 <div id="results-list-div">
-                  <button id="select-all-btn" class="button-grey" >Select All Tools</button>
-                  <button id="deselect-all-btn" class="button-grey" >Deselect All Tools</button>
-                  <button id="export-btn" class="button-white" >Export Selected Tools</button>
+                  <button id="select-all-btn" >Select All Tools</button>
+                  <button id="deselect-all-btn" >Deselect All Tools</button>
+                  <button id="export-btn">Export Selected Tools</button>
                   <div id="export-radio1">
                     <input id="c-navbar" type="radio" name="export-type" value="csv"><label for="c-navbar">CSV</label>
                     <input id="p-navbar" type="radio" name="export-type" value="pdf"><label for="p-navbar">PDF</label>

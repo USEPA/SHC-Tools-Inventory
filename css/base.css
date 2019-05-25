@@ -2,63 +2,35 @@
   background-color: #e7f4e4;
   cursor: pointer;
 }
-.button-aqua {
-  background-color: #02bfe7;
-  color: #000;
-}
-.button-aqua:hover,
-.button-aqua:focus {
-  background-color: #00a6d2;
-}
-.button-aqua:active {
-  background-color: #046b99;
-  color: #fff;
-}
-.button-red {
-  background-color: #e31c3d;
-}
-.button-red:hover,
-.button-red:focus {
-  background-color: #cd2026;
-}
-.button-red:active {
-  background-color: #981b1e;
-}
+
+
+
 .button-grey, 
 a.button-grey,
-a.button-grey:visited,
-#select-all-saved-btn,
-#select-all-btn,
-#deselect-all-btn,
-#deselect-all-saved-btn {
-  background-color: #5b616b;
-  color: #fff;
+a.button-grey:visited {
+  background-color: #aeb0b5;
+  color: #000;
   margin-right: 3px;
 }
 .button-grey:hover,
-.button-grey:focus,
-#select-all-saved-btn:hover,
-#select-all-saved-btn:focus,
-#select-all-btn:hover,
-#select-all-btn:focus,
-#deselect-all-saved-btn:hover,
-#deselect-all-saved-btn:focus,
-#deselect-all-btn:hover,
-#deselect-all-btn:focus {
+.button-grey:focus {
   background-color: #323a45;
   color: #fff;
 }
-.button-grey:active,
-#select-all-saved-btn:active,
-#select-all-btn:active,
-#deselect-all-saved-btn:active,
-#deselect-all-btn:active {
+.button-grey:active {
   background-color: #212121;
   color: #fff;
 }
+
+
+
 .button-white,
 a.button-white,
 a.button-white:visited,
+#select-all-saved-btn,
+#select-all-btn,
+#deselect-all-btn,
+#deselect-all-saved-btn,
 #remove-selected-btn,
 #remove-selected-btn:visited,
 #export-selected-btn,
@@ -66,7 +38,26 @@ a.button-white:visited,
 #export-selected-btn:visited,
 #export-btn:visited,
 #save-selected-btn,
-#save-selected-btn:visited {
+#save-selected-btn:visited,
+
+#select-roles,
+#select-subroles,
+#deselect-roles,
+#deselect-subroles,
+
+
+
+#select-fundamental-objectives,
+#deselect-fundamental-objectives,
+
+#select-objectives,
+#deselect-objectives,
+
+#select-concepts,
+#deselect-concepts,
+#expand-concepts
+
+{
   background-color: #fff;
   box-shadow: inset 0 0 0 2px #0071bc;
   color: #0071bc;
@@ -76,6 +67,47 @@ a.button-white:visited,
 .button-white:focus,
 a.button-white:hover,
 a.button-white:focus,
+
+#select-roles:hover,
+#select-roles:focus,
+#deselect-roles:hover,
+#deselect-roles:focus,
+
+#select-subroles:hover,
+#select-subroles:focus,
+#deselect-subroles:hover,
+#deselect-subroles:focus,
+
+
+#select-fundamental-objectives:hover,
+#select-fnndamental-objectives:focus,
+#deselect-fundamental-objectives:hover,
+#deselect-fundamental-objectives:focus,
+
+
+#select-objectives:hover,
+#select-objectives:focus,
+#deselect-objectives:hover,
+#deselect-objectives:focus,
+
+#select-concepts:hover,
+#select-concepts:focus,
+#deselect-concepts:hover,
+#deselect-concepts:focus,
+
+#select-all-saved-btn:hover,
+#select-all-saved-btn:focus,
+#select-all-btn:hover,
+#select-all-btn:focus,
+#deselect-all-saved-btn:hover,
+#deselect-all-saved-btn:focus,
+#deselect-all-btn:hover,
+#deselect-all-btn:focus,
+
+#expand-concepts:hover,
+#expand-concepts:focus,
+
+
 #remove-selected-btn:hover,
 #remove-selected-btn:focus,
 #export-selected-btn:hover,
@@ -90,6 +122,30 @@ a.button-white:focus,
 }
 .button-white:active,
 a.button-white:active,
+#select-all-saved-btn:active,
+#select-all-btn:active,
+#deselect-all-saved-btn:active,
+#deselect-all-btn:active,
+
+
+#select-roles:active,
+#select-subroles:active,
+#deselect-roles:active,
+#deselect-subroles:active,
+
+
+
+#select-fundamental-objectives:active,
+#deselect-fundamental-objectives:active,
+
+#select-objectives:active,
+#deselect-objectives:active,
+
+#select-concepts:active,
+#deselect-concepts:active,
+#expand-concepts:active,
+
+
 #remove-selected-btn:active,
 #export-selected-btn:active,
 #export-btn:active,
@@ -133,13 +189,13 @@ table.dataTable td.select-checkbox:after {
 .right {
   float: right;
 }
-#browse-list button, #saved-list button, #results-list button {
+/* #browse-list button, #saved-list button, #results-list button {
 	width: calc(100% - 2em);
   display: block;
   margin: auto;
   padding: .2em;
   float: none !important;
-}
+} */
 #loader {
   display: block; 
   margin-left: auto; 
@@ -351,9 +407,9 @@ hr {
 }
 .list-div {
   background-color: #f1f1f1;
+  border: 1px solid rgba(0,0,0,.125);
   margin-top: 0.5em;
-  border-radius: 5px;
-  padding: 2px;
+  padding: 0.5rem 0.5rem 0 0.5rem;
 }
 [role=tab] {
   margin: 1px 0 0;
@@ -362,10 +418,8 @@ hr {
 }
 [role=tabpanel] {
   padding: 0.5em;
-  border: 2px solid #d6d7d9;
-  border-radius: 5px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  border: 1px solid rgba(0,0,0,.125);
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
 }
 .main-column [aria-hidden="true"] {
   display: none;
@@ -409,10 +463,41 @@ button:disabled {
   margin-right: 5px;
 }
 
-.main-column button {
+/* .main-column button {
   margin-right: 3px;
-}
+} */
 
 table.dataTable tbody td {
   vertical-align: top;
+}
+
+input[type="checkbox"]:focus + label::before {
+  outline: rgb(59, 153, 252) auto 5px;
+}
+input[type="radio"]:focus + label::before {
+  outline: rgb(59, 153, 252) auto 5px;
+}
+.shadow-sm {
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+}
+.show-details-btn {
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 0;
+  display: block;
+  float: none !important;
+  margin: auto;
+  padding: 0.5rem;
+  width: calc(100% - 1em);
+}
+.show-details-tbl-btn {
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 0;
+  display: block;
+  float: none !important;
+  margin: 1em 0 0 0;
+  padding: 0.5rem;
+  width: 100%;
+}
+.dataTables_filter input[type="search"] {
+  margin: 0 0 1em 0.5em;
 }
