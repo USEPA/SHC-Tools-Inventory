@@ -132,7 +132,7 @@ var toolCache = (function () {
         localStorageSetItem('toolCache', cache);
         callback(toolSet);
       }).fail(function (jqXHR, textStatus, errorThrown) {
-        $('#loader').attr('aria-hidden', 'true').hide();
+        $('#b-loader').attr('aria-hidden', 'true').hide();
         toast({html: 'Could not load results (' + jqXHR.status + ' ' + errorThrown + '). Please try again later.', close: true});
       });
     },
@@ -515,7 +515,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
 
   $('#number-of-results').html(this.toolSet.getLength() + ' result(s) found ');
 
-  $('#loader').attr('aria-hidden', 'true').hide();
+  $('#rl-loader').attr('aria-hidden', 'true').hide();
   $("#" + this.getListId()).append(html);
   if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
     $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
@@ -1495,7 +1495,7 @@ function createDataTable(name) {
 
     // Is the browse tool
     if (name === 'browse') {
-      $('.dataTables_empty').html('<img id="loader" src="/sites/staging/files/2018-10/loader.gif">');
+      $('.dataTables_empty').html('<div id="b-load-wrapper"><div title="Loading..." id="b-loader"></div></div>');
     }
   }
 }

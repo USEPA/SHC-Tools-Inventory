@@ -312,7 +312,6 @@ var detailedSearch = function () {
       arguments allows for the variable number of arguments to be accessed
     */
     $.when.apply(null, requests).done(function () {
-      $('#detailed-search-loader').hide();
       if (arguments[1] === "success") {
         for (var i = 0; i < arguments.length; i++) {
           results = results.concat(arguments[0][i]);
@@ -331,13 +330,14 @@ var detailedSearch = function () {
         $("#results-tab").click();
         var url = window.location.href;
         $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', true);
-        $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
         $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
       toast({html: 'Server error. Please try again another time.', close: true});
+    }).always(() => {
+      $('#as-loader').attr('aria-hidden', 'true').hide();
     });
   } else {
     toast({html: 'Please enter a search term.', close: true});
@@ -400,7 +400,6 @@ var simpleSearch = function () {
       arguments allows for the variable number of arguments to be accessed
     */
     $.when.apply(null, requests).done(function () {
-      $('#simple-search-loader').hide();
       for (var i = 0; i < arguments.length; i++) {
         results = results.concat(arguments[i][0]);
       }
@@ -412,13 +411,14 @@ var simpleSearch = function () {
         $('#results-tab').parent().attr('aria-hidden',false);
         $("#results-tab").click();
         $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', true);
-        $('#loader').removeAttr('aria-hidden').show();
         createDataTable('results');
         $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
       toast({html: 'Server error. Please try again another time.', close: true});
+    }).always(() => {
+      $('#ss-loader').attr('aria-hidden', 'true').hide();
     });
   } else {
     toast({html: 'Please enter a search term.', close: true});
@@ -426,12 +426,12 @@ var simpleSearch = function () {
 };
 
 $("#simple-search-button").on('click', function () {
-  $('#simple-search-loader').show();
+  $('#ss-loader').attr('aria-hidden', 'false').show();
   simpleSearch();
 });
 
 $("#detailed-search-button").on('click', function () {
-  $('#detailed-search-loader').show();
+  $('#as-loader').attr('aria-hidden', 'false').show();
   detailedSearch();
 });
 
@@ -478,5 +478,6 @@ $("#simple-search-text").on('keydown', function () {
   }
 });
 
-$('#simple-search-loader').hide();
-$('#detailed-search-loader').hide();
+$('#ss-loader').attr('aria-hidden', 'true').hide();
+$('#as-loader').attr('aria-hidden', 'true').hide();
+$('#rl-loader').attr('aria-hidden', 'true').hide();

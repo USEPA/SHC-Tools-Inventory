@@ -728,7 +728,7 @@ var displayResults = function () {
     toggleTab(Object.keys(resultSet.getToolSet()).concat(Object.keys(savedTools.getToolSet())), $('#tools')); // send an array containing the results and saved tools to toggle tab
     activateNextTab($('#results-tab'), 'wizard.html#results-tab'); // activate the reults tab
     if (!resultSet.isEqual(resultTable.getToolSet())) { // if the results are new create the table and display results
-      $('#loader').removeAttr('aria-hidden').show();
+      $('#rl-loader').removeAttr('aria-hidden').show();
       $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', true);
       createDataTable('results');
       $('#result-info').html('<span id="number-of-results">' + resultSet.getLength() + " result(s) found</span> for selected concepts.");

@@ -117,7 +117,9 @@
                 <label for="simple-search-text" id="simple-search-text-label">Enter keywords to search for and press the Search button</label>
                 <input autocomplete="off" id="simple-search-text" aria-labelledby="simple-search-text-label" title="Search for tools by entering specific keywords" type="text">
                 <button id="simple-search-button">Search</button>
-                <img alt="Loading GIF" id="simple-search-loader" src="img/loader.gif">
+                <div id="ss-load-wrapper">
+                  <div title="Loading..." id="ss-loader"></div>
+                </div>
                 <div><input id="toggle-unsupported-1" type="checkbox" /><label for="toggle-unsupported-1">Include unsupported tools</label></div>
               </div>
               <div aria-hidden="true" aria-labelledby="detailed-search-tab" id="detailed-search-panel" role="tabpanel">
@@ -125,7 +127,9 @@
                 <input autocomplete="off" id="detailed-search-text" title="Enter a keyword to search for" type="text">
                 <button id="detailed-search-button" >Search</button>
                 <button id="detailed-reset" type="reset">Reset Form</button>
-                <img alt="Loading GIF" id="detailed-search-loader" src="img/loader.gif">
+                <div id="as-load-wrapper">
+                  <div title="Loading..." id="as-loader"></div>
+                </div>
                 <div><input id="toggle-unsupported-2" type="checkbox" /><label for="toggle-unsupported-2">Include unsupported tools</label></div>
                 <br />
                 <form>
@@ -230,7 +234,9 @@
 
 
                 <div id="results-list-div">
-                  <img alt="Loading GIF image" aria-hidden="true" id="loader" src="img/loader.gif">
+                  <div id="rl-load-wrapper">
+                    <div title="Loading..." id="rl-loader"></div>
+                  </div>
                   <div id="results-list"></div>
                 </div>
                 <div aria-hidden="true" id="results-table-div">
