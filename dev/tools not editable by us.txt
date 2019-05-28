@@ -1,0 +1,1200 @@
+READ ID: 24
+Title: Envirofacts Information Warehouse
+Resource Type: Data Warehouse
+URL: http://intranet.epa.gov/enviro; http://www.epa.gov/enviro
+Primary Information Resource Steward: William Muldrow Muldrow.Bill@epa.gov (202) 566-0692 EPA / OMS-EI - Office of Mission Support - Environmental Information
+Data Warehouse
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 43
+Title: Facility Registry Service
+Resource Type: System or Application
+URL: https://www.epa.gov/frs; https://www.epa.gov/frs/fla-facility-linkage-application
+Primary Information Resource Steward: Susan Smiley Baker smiley.susan@epa.gov (919) 541-3993 EPA / OMS-EI - Office of Mission Support - Environmental Information
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 58
+Title: Central Data Exchange
+Resource Type: System or Application
+URL: https://cdx.epa.gov/SSL/cdx/login.asp; https://cdx.epa.gov/; http://epa.gov/cdx/
+Primary Information Resource Steward: Dana Gava gava.dana@epa.gov (202) 566-0194 [object Object]
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 232
+Title: AIRNOW
+Resource Type: System or Application
+URL: http://airnow.gov
+Primary Information Resource Steward: Phillip Dickerson Dickerson.Phil@epa.gov (919) 541-4814 EPA / OAR - Office of Air and Radiation
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 445
+Title: Aquatox
+Resource Type: Model
+URL: http://water.epa.gov/scitech/datait/models/aquatox/
+Primary Information Resource Steward: Brenda Rashleigh Rashleigh.Brenda@epa.gov (401) 782-3014 EPA / ORD - Office of Research and Development
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Input Data Requirements
+Model Output Types
+Model Variables
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 576
+Title: Industrial Waste Management Evaluation Model
+Resource Type: Model
+URL: https://www.epa.gov/smm/industrial-waste-management-evaluation-model-version-31
+Primary Information Resource Steward: Taetaye Shimeles Shimeles.Taetaye@epa.gov (703) 308-8729 EPA / OLEM - Office of Land and Emergency Management
+Secondary Information Resource Steward: Rita Chow Chow.Rita@epa.gov (703) 308-6158 EPA / OLEM - Office of Land and Emergency Management
+Other Requirements
+Model Variables
+Support Materials
+
+READ ID: 638
+Title: Enviromapper
+Resource Type: System or Application
+URL: http://www.epa.gov/emefdata/em4ef.home
+Primary Information Resource Steward: Kim Balassiano Balassiano.Kim@epa.gov (202) 566-0709 EPA / OMS-EI - Office of Mission Support - Environmental Information
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Steward Tag
+
+READ ID: 1078
+Title: Data on Aquatic Resources Tracking for Effective Regulation
+Resource Type: System or Application
+URL: https://ofmext.epa.gov/darter/gov.epa.darter.Darter/
+Primary Information Resource Steward: Charles Kovatch Kovatch.Charles@epa.gov (202) 566-0399 EPA / OW - Office of Water
+Secondary Information Resource Steward: Brian Topping Topping.Brian@epa.gov (202) 566-5680 EPA / OW - Office of Water
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Steward Tag
+
+READ ID: 1091
+Title: Water Contaminant Information Tool
+Resource Type: System or Application
+URL: https://www.epa.gov/waterlabnetwork/access-water-contaminant-information-tool
+Primary Information Resource Steward: George Gardenier Gardenier.George@epa.gov (202) 564-0000 EPA / OW - Office of Water
+Secondary Information Resource Steward: Latisha Mapp Mapp.Latisha@epa.gov (202) 564-1390 EPA / OW - Office of Water
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 1144
+Title: Comprehensive Environmental Response, Compensation and Liability Information System (CERCLIS) Database Online/CPAD
+Resource Type: System or Application
+URL: http://cumulis.epa.gov/supercpad/cursites/srchsites.cfm; http://cumulis.epa.gov/supercpad/cursites/srchsites.cfm
+Primary Information Resource Steward: William Bushee Bushee.William@epa.gov (703) 603-8963 EPA / OLEM - Office of Land and Emergency Management
+Secondary Information Resource Steward: Steve Wyman Wyman.Steve@epa.gov (703) 603-8882 EPA / OLEM - Office of Land and Emergency Management
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+
+READ ID: 10880
+Title: Ecotoxicology Database
+Resource Type: System or Application
+URL: www.epa.gov/ecotox
+Primary Information Resource Steward: Sarah Lopez Lopez.Sarah@epa.gov (218) 529-5072 [object Object]
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 11194
+Title: Pesticide Registration Information System
+Resource Type: System or Application
+URL: http://w2032pccth034:7777/prism/index.htm
+Primary Information Resource Steward: Robert Schultz Schultz.Robert@epa.gov (703) 308-8186 EPA / OCSPP - Office of Chemical Safety and Pollution Prevention
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 11225
+Title: Hazardous Waste Clean-Up Information Websites
+Resource Type: System or Application
+URL: https://clu-in.org/
+Primary Information Resource Steward: Michael Adam Adam.Michael@epa.gov (703) 603-9915 EPA / OLEM - Office of Land and Emergency Management
+Secondary Information Resource Steward: Jean Balent balent.jean@epa.gov (703) 603-9924 EPA / OLEM - Office of Land and Emergency Management
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+
+READ ID: 11270
+Title: Emission Inventory System
+Resource Type: System or Application
+URL: https://www.epa.gov/air-emissions-inventories/emission-inventory-system-eis-gateway; https://www.epa.gov/air-emissions-inventories; https://eis.epa.gov/eis-system-web
+Primary Information Resource Steward: Jonathan Miller Miller.Jonathan@epa.gov (919) 541-7738 EPA / OAR - Office of Air and Radiation
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 11626
+Title: Exposure and Fate Assessment Screening Tool
+Resource Type: Model
+URL: http://www.epa.gov/oppt/exposure/
+Primary Information Resource Steward: David Tobias Tobias.David@epa.gov (202) 564-8534 [object Object]
+Secondary Information Resource Steward: James Kwon Kwon.James@epa.gov (202) 564-8538 [object Object]
+Decision Sector
+Life Cycle Phase
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Input Data Requirements
+Model Output Types
+Model Variables
+Support Materials
+Last Software Update
+Steward Tag
+
+READ ID: 11631
+Title: Toxics Release Inventory Processing System
+Resource Type: System or Application
+URL: http://www.epa.gov/tri
+Primary Information Resource Steward: Shane Knipschild Knipschild.Shane@epa.gov (202) 566-2712 EPA / OMS-EI - Office of Mission Support - Environmental Information
+Secondary Information Resource Steward: Timothy Antisdel Antisdel.Timothy@epa.gov (202) 566-0733 EPA / OMS-EI - Office of Mission Support - Environmental Information
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 11667
+Title: Report on the Environment
+Resource Type: System or Application
+URL: https://cfpub.epa.gov/roe/; http://www.epa.gov/roe/
+Primary Information Resource Steward: Patricia Murphy Murphy.Patricia@epa.gov (732) 906-6830 EPA / ORD - Office of Research and Development
+Secondary Information Resource Steward: Scot Hagerthey Hagerthey.Scot@epa.gov (703) 347-0315 [object Object]
+Secondary Information Resource Steward: Maureen Johnson Johnson.Maureen@epa.gov (703) 347-8611 EPA / ORD - Office of Research and Development
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Last Software Update
+Steward Tag
+
+READ ID: 11707
+Title: MyEnvironment
+Resource Type: System or Application
+URL: http://www.epa.gov/myenvironment
+Primary Information Resource Steward: Kim Balassiano Balassiano.Kim@epa.gov (202) 566-0709 EPA / OMS-EI - Office of Mission Support - Environmental Information
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 11708
+Title: General Assistance Program
+Resource Type: System or Application
+URL: http://iaspub.epa.gov/GAP_Online/
+Primary Information Resource Steward: David Jones Jones.David@epa.gov (202) 564-4368 [object Object]
+Secondary Information Resource Steward: Anucha Abunassar Abunassar.Elias@epa.gov (202) 564-7856 EPA / OITA - Office of International and Tribal Affairs
+Secondary Information Resource Steward: Jeff Besougloff Besougloff.Jeff@epa.gov (202) 564-0292 EPA / OITA - Office of International and Tribal Affairs
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Steward Tag
+
+READ ID: 11728
+Title: Cleanups In My Community II
+Resource Type: System or Application
+URL: https://www.epa.gov/cleanups/cleanups-my-community; http://www.epa.gov/cimc; https://ofmpub.epa.gov/apex/cimc/f?p=CIMC:MAP::::71::
+Primary Information Resource Steward: Elizabeth Jenkins Jenkins.Lisa@epa.gov (202) 566-1941 EPA / OLEM - Office of Land and Emergency Management
+Secondary Information Resource Steward: Steven Lennartz Lennartz.Steven@epa.gov (703) 347-0145 EPA / OCSPP / OPP / EFED - Environmental Fate and Effects Division
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 11729
+Title: My Right-to-Know
+Resource Type: System or Application
+URL: http://myrtk.epa.gov/info
+Primary Information Resource Steward: William Muldrow Muldrow.Bill@epa.gov (202) 566-0692 EPA / OMS-EI - Office of Mission Support - Environmental Information
+Secondary Information Resource Steward: Steve Witkin Witkin.Steve@epa.gov (202) 566-0638 EPA / OCSPP - Office of Chemical Safety and Pollution Prevention
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Steward Tag
+
+READ ID: 11738
+Title: Health and Environmental Research Online (HERO)
+Resource Type: System or Application
+URL: https://hero.epa.gov/hero; http://hero.epa.gov/heronet
+Primary Information Resource Steward: Samuel Thacker Thacker.Samuel@epa.gov (919) 541-5159 [object Object]
+Secondary Information Resource Steward: Ryan Jones Jones.Ryan@epa.gov (919) 541-9415 [object Object]
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 11829
+Title: WATER QUALITY ANALYSIS SIMULATION
+Resource Type: Model
+URL: http://www.epa.gov/athens/wwqtsc/html/wasp.html
+Primary Information Resource Steward: Tim Wool Wool.Tim@epa.gov (404) 562-9260 EPA / Region 4 - R4
+Decision Sector
+Life Cycle Phase
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Input Data Requirements
+Model Output Types
+Model Variables
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 11884
+Title: Forestry and Agricultural Sector Optimization Model - Greenhouse Gas Version
+Resource Type: Model
+URL: http://agecon2.tamu.edu/people/faculty/mccarl-bruce/FASOM.html
+Primary Information Resource Steward: Sara Bushey Ohrel Ohrel.Sara@epa.gov (202) 343-9712 EPA / OAR - Office of Air and Radiation
+Decision Sector
+BaseCost
+AnnualCost
+Open Source
+Model Variables
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Steward Tag
+
+READ ID: 11980
+Title: Global Timber Model
+Resource Type: Model
+URL: http://www.epa.gov/climatechange/EPAactivities/economics/modeling.html, http://aede.osu.edu/programs-and-research/forests-and-land-use/global-timber-market-and-forestry-data-project
+Primary Information Resource Steward: Sara Bushey Ohrel Ohrel.Sara@epa.gov (202) 343-9712 EPA / OAR - Office of Air and Radiation
+Decision Sector
+BaseCost
+AnnualCost
+Open Source
+Model Variables
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 11981
+Title: EPANET VERSION 2.0
+Resource Type: Model
+URL: http://www.epa.gov/ORD/NRMRL/wswrd/epanet.html
+Primary Information Resource Steward: Valerie Brandon brandon.valerie@epa.gov (202) 564-3541 EPA / ORD - Office of Research and Development
+Decision Sector
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Input Data Requirements
+Model Output Types
+Model Variables
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12019
+Title: Waste Reduction Algorithm
+Resource Type: System or Application
+URL: Not Provided
+Primary Information Resource Steward: Douglas Young Young.Douglas@epa.gov (513) 569-7624 EPA / ORD - Office of Research and Development
+Decision Sector
+URL
+Life Cycle Phase
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12085
+Title: Storm Water Management Model
+Resource Type: System or Application
+URL: Not Provided
+Primary Information Resource Steward: Tim Wool Wool.Tim@epa.gov (404) 562-9260 EPA / Region 4 - R4
+Decision Sector
+URL
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Input Data Requirements
+Model Output Types
+Model Variables
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12090
+Title: Incident Waste Assessment and Tonnage Estimator (I-WASTE)
+Resource Type: System or Application
+URL: Not Provided
+Primary Information Resource Steward: Paul Lemieux Lemieux.Paul@epa.gov (919) 541-0962 EPA / ORD - Office of Research and Development
+Decision Sector
+URL
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12197
+Title: EnviroAtlas
+Resource Type: System or Application
+URL: Not Provided
+Primary Information Resource Steward: Anne Neale Neale.Anne@epa.gov (919) 541-3832 EPA / ORD - Office of Research and Development
+Decision Sector
+URL
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12205
+Title: Regional Energy Deployment System Model
+Resource Type: Model
+URL: Not Provided
+Primary Information Resource Steward: James McFarland McFarland.James@epa.gov (202) 343-9566 EPA / OAR - Office of Air and Radiation
+Decision Sector
+URL
+Other Cost Considerations
+Model Structure
+Model Evaluation
+Keywords
+Support Name
+Support Email
+Support Phone
+Support Materials
+Alternate Names
+Steward Tag
+
+READ ID: 12259
+Title: Global Change Explorer
+Resource Type: System or Application
+URL: Not Provided
+Primary Information Resource Steward: Philip Morefield Morefield.Philip@epa.gov (703) 308-8135 [object Object]
+Decision Sector
+URL
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12311
+Title: Fed Facts: Information about Federal Electronic Docket Facilities
+Resource Type: System or Application
+URL: https://www.epa.gov/fedfac/fedfacts
+Primary Information Resource Steward: Jyl Lapachin Lapachin.Jyl@epa.gov (202) 564-0560 [object Object]
+Secondary Information Resource Steward: Benjamin Simes Simes.Benjamin@epa.gov (202) 564-0527 [object Object]
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12315
+Title: RE-Powering's Electronic Decision Tree
+Resource Type: System or Application
+URL: https://www.epa.gov/re-powering/re-powerings-electronic-decision-tree
+Primary Information Resource Steward: Lora Strine Strine.Lora@epa.gov (202) 564-1521 EPA / OA - Office of the Administrator
+Secondary Information Resource Steward: Adam Klinger Klinger.Adam@epa.gov (202) 566-0546 EPA / OLEM / OAA / OCPA - Office of Communications, Partnerships and Analysis
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12328
+Title: EPA H2O
+Resource Type: System or Application
+URL: http://www.epa.gov/ged/tbes/index.html
+Primary Information Resource Steward: Marc Russell Russell.Marc@epa.gov (850) 934-9344 [object Object]
+Secondary Information Resource Steward: Jim Harvey Harvey.Jim@epa.gov (850) 934-9237 EPA / ORD - Office of Research and Development
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12339
+Title: Municipal Solid Waste Decision Support Tool
+Resource Type: System or Application
+URL: Not Provided
+Primary Information Resource Steward: Susan Thorneloe Thorneloe.Susan@epa.gov (919) 541-2709 EPA / ORD - Office of Research and Development
+Secondary Information Resource Steward: Ozge Kaplan Kaplan.Ozge@epa.gov (919) 541-5069 [object Object]
+Decision Sector
+URL
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Input Data Requirements
+Model Output Types
+Model Variables
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12359
+Title: Lakes Ecosystem Services
+Resource Type: System or Application
+URL: http://gispub4.epa.gov/LES/
+Secondary Information Resource Steward: Henry Walker Walker.Henry@epa.gov (401) 782-3134 EPA / ORD - Office of Research and Development
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12394
+Title: Decision Analysis for a Sustainable Environment, Economy, and Society (not yet deployed)
+Resource Type: System or Application
+URL: Not Provided
+Primary Information Resource Steward: Brian Dyson Dyson.Brian@epa.gov (513) 569-7789 [object Object]
+Secondary Information Resource Steward: Marilyn Tenbrink Tenbrink.Marilyn@epa.gov (401) 782-3078 EPA / ORD - Office of Research and Development
+Decision Sector
+URL
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12400
+Title: International BMP Database and EPA Geoplatform
+Resource Type: System or Application
+URL: Not Provided
+Primary Information Resource Steward: Lewis Rossman Rossman.Lewis@epa.gov (000) 000-0000 EPA / ORD - Office of Research and Development
+Decision Sector
+URL
+Life Cycle Phase
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12612
+Title: All Hazards Waste Management Planning Tool
+Resource Type: System or Application
+URL: Not Provided
+Primary Information Resource Steward: Anna Tschursin Tschursin.Anna@epa.gov (703) 308-8805 EPA / OLEM - Office of Land and Emergency Management
+Decision Sector
+URL
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12644
+Title: Community Cumulative Assessment Tool
+Resource Type: System or Application
+URL: Not Provided
+Primary Information Resource Steward: Timothy Barzyk Barzyk.Timothy@epa.gov (919) 541-1520 [object Object]
+Secondary Information Resource Steward: James Quackenboss Quackenboss.James@epa.gov (702) 798-2642 EPA / ORD - Office of Research and Development
+Decision Sector
+URL
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12645
+Title: Rapid Benefit Indicators Tool
+Resource Type: System or Application
+URL: Not Provided
+Primary Information Resource Steward: Walter Berry Berry.Walter@epa.gov (401) 782-3101 EPA / ORD - Office of Research and Development
+Decision Sector
+URL
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12659
+Title: Water Finance Clearinghouse
+Resource Type: System or Application
+URL: https://ofmpub.epa.gov/apex/wfc/f?p=165:1
+Primary Information Resource Steward: Kristyn Abhold Abhold.Kristyn@epa.gov (202) 566-0000 [object Object]
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Alternate Names
+Steward Tag
+
+READ ID: 12671
+Title: Environmental Justice Screening and Mapping Tool
+Resource Type: System or Application
+URL: https://www.epa.gov/ejscreen
+Primary Information Resource Steward: Audrie Washington Washington.Audrie@epa.gov (312) 886-0669 EPA / Region 5 - R5
+Decision Sector
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Variables
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Last Software Update
+Steward Tag

@@ -1,0 +1,771 @@
+READ ID: 12500
+Title: Hydrological Simulation Program - FORTRAN
+Resource Type: Model
+URL: https://www.epa.gov/exposure-assessment-models/hspf
+AnnualCost
+Other Cost Considerations
+Other Requirements
+Support Name
+Support Email
+Alternate Names
+Contact Detail
+
+READ ID: 12501
+Title: System for Urban Stormwater Treatment and Analysis Integration
+Resource Type: Model
+URL: https://www.epa.gov/water-research/system-urban-stormwater-treatment-and-analysis-integration-sustain
+AnnualCost
+Other Cost Considerations
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12503
+Title: National Stormwater Calculator
+Resource Type: Model
+URL: https://www.epa.gov/water-research/national-stormwater-calculator
+Other Cost Considerations
+Open Source
+Other Requirements
+Model Evaluation
+Support Name
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12504
+Title: RapidFire
+Resource Type: Model
+URL: Not Provided
+URL
+BaseCost
+AnnualCost
+Other Cost Considerations
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Technical Skills Needed
+Model Structure
+Model Evaluation
+Keywords
+Support Name
+Support Email
+Support Materials
+Alternate Names
+Contact Detail
+
+READ ID: 12505
+Title: Random-Utility-Based Multiregional Input-Output
+Resource Type: Model
+URL: http://www.ce.utexas.edu/prof/kockelman/RUBMRIO_Website/homepage.htm
+AnnualCost
+Other Cost Considerations
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Model Structure
+Model Output Types
+Model Evaluation
+Alternate Names
+Contact Detail
+
+READ ID: 12506
+Title: Social Values for Ecosystem Services
+Resource Type: Model
+URL: https://solves.cr.usgs.gov/
+AnnualCost
+Other Cost Considerations
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Evaluation
+Keywords
+Alternate Names
+Contact Detail
+
+READ ID: 12507
+Title: Wildlife Habitat Benefits Estimation Toolkit
+Resource Type: Model
+URL: https://gcmd.nasa.gov/KeywordSearch/Metadata.do?Portal=GCMD&MetadataType=1&MetadataView=Full&KeywordPath=&EntryId=WHPRP
+Life Cycle Phase
+AnnualCost
+Other Cost Considerations
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12508
+Title: Watershed Management Optimization Support Tool
+Resource Type: Model
+URL: https://www.epa.gov/ceam/wmost
+Life Cycle Phase
+AnnualCost
+Other Cost Considerations
+Spatial Extent
+Model Evaluation
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12509
+Title: CorPlan
+Resource Type: Model
+URL: http://www.citiesthatwork.com/corplan
+AnnualCost
+Other Cost Considerations
+Open Source
+Support Name
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12510
+Title: UrbanSim
+Resource Type: Model
+URL: http://www.urbansim.com/
+AnnualCost
+Other Cost Considerations
+Other Requirements
+Spatial Extent
+Keywords
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12511
+Title: UPlan: Urban Growth Model
+Resource Type: Model
+URL: http://ice.ucdavis.edu/project/uplan
+AnnualCost
+Other Cost Considerations
+Open Source
+Time Scale
+Keywords
+Alternate Names
+Contact Detail
+
+READ ID: 12512
+Title: C2RouteApp
+Resource Type: Model
+URL: http://www.c2logix.com/c2routeapp
+BaseCost
+AnnualCost
+Other Cost Considerations
+Operating System
+Other Requirements
+Model Evaluation
+Support Name
+Contact Detail
+
+READ ID: 12513
+Title: Environmental Assessment System for Environmental TECHnologies
+Resource Type: Model
+URL: http://www.easetech.dk/
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Evaluation
+Keywords
+Alternate Names
+Contact Detail
+
+READ ID: 12514
+Title: Waste and Resources Assessment Tool for the Environment
+Resource Type: Model
+URL: http://www.wrate-lca.co.uk
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Time Scale
+Spatial Extent
+Technical Skills Needed
+Model Evaluation
+Support Name
+Support Phone
+Support Materials
+Alternate Names
+Contact Detail
+
+READ ID: 12515
+Title: Food Waste Assessment Tool
+Resource Type: Model
+URL: https://www.epa.gov/sustainable-management-food/tools-preventing-and-diverting-wasted-food#calculator
+AnnualCost
+Other Cost Considerations
+Model Evaluation
+Keywords
+Contact Detail
+
+READ ID: 12516
+Title: Waste Target-Setting Tool
+Resource Type: Model
+URL: http://www.sustainabilityroadmap.org/strategies/targetwaste.shtml#target
+Other Cost Considerations
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12517
+Title: Electronics Environmental Benefits Calculator
+Resource Type: Model
+URL: http://isse.utk.edu/ccp/projects/benefitscalculator/elecbenecalc.html
+Other Cost Considerations
+Open Source
+Spatial Extent
+Model Evaluation
+Alternate Names
+Contact Detail
+
+READ ID: 12518
+Title: Integrated Waste Management Tool for Municipalities
+Resource Type: Model
+URL: https://uwaterloo.ca/integrated-waste-management-model-for-municipalities/
+AnnualCost
+Open Source
+Operating Environment
+Operating System
+Other Requirements
+Model Evaluation
+Support Phone
+Last Software Update
+Alternate Names
+Contact Detail
+
+READ ID: 12519
+Title: Umberto NXT
+Resource Type: Model
+URL: https://www.ifu.com/en/umberto/
+BaseCost
+AnnualCost
+Other Requirements
+Input Data Requirements
+Last Software Update
+Contact Detail
+
+READ ID: 12520
+Title: Waste Management Planning system
+Resource Type: Model
+URL: https://wamps.ivl.se/prod/
+Life Cycle Phase
+AnnualCost
+Model Evaluation
+Support Name
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12521
+Title: Clean Air and Climate Protection Software
+Resource Type: Model
+URL: Not Provided
+URL
+AnnualCost
+Other Requirements
+Spatial Extent
+Technical Skills Needed
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Evaluation
+Keywords
+Support Name
+Support Phone
+Support Materials
+Contact Detail
+
+READ ID: 12522
+Title: Global Emission Model for Integrated Systems
+Resource Type: Model
+URL: http://iinas.org/about-gemis.html
+Other Requirements
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12524
+Title: Landfill Gas Emissions Model
+Resource Type: Model
+URL: https://www.epa.gov/catc/clean-air-technology-center-products#software
+AnnualCost
+Other Cost Considerations
+Model Evaluation
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12526
+Title: InfoSWMM
+Resource Type: Model
+URL: http://www.innovyze.com/products/infoswmm/
+Contact Detail
+
+READ ID: 12527
+Title: MIKE URBAN
+Resource Type: Model
+URL: https://www.mikepoweredbydhi.com/products/mike-urban
+BaseCost
+AnnualCost
+Other Requirements
+Model Inputs
+Alternate Names
+Contact Detail
+
+READ ID: 12528
+Title: Storm and Sanitary Analysis
+Resource Type: Model
+URL: https://www.autodesk.com/products/autocad-civil-3d/overview
+Keywords
+Support Name
+Support Email
+Support Phone
+Contact Detail
+
+READ ID: 12529
+Title: CivilStorm
+Resource Type: Model
+URL: https://www.bentley.com/en/products/product-line/hydraulics-and-hydrology-software/civilstorm
+BaseCost
+AnnualCost
+Other Requirements
+Model Variables
+Support Email
+Alternate Names
+Contact Detail
+
+READ ID: 12530
+Title: Source Loading and Management Model for Windows
+Resource Type: Model
+URL: http://www.winslamm.com/default.html
+Other Requirements
+Support Phone
+Contact Detail
+
+READ ID: 12531
+Title: PCSWMM
+Resource Type: Model
+URL: https://www.pcswmm.com/
+Other Requirements
+Support Name
+Alternate Names
+Contact Detail
+
+READ ID: 12532
+Title: Stormwater & Wastewater Management Model
+Resource Type: System or Application
+URL: http://innovyze.com/products/xpswmm/
+Other Requirements
+Contact Detail
+
+READ ID: 12533
+Title: NatureServe Vista
+Resource Type: Model
+URL: http://www.natureserve.org/conservation-tools/data-maps-tools/natureserve-vista
+Technical Skills Needed
+Support Name
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12534
+Title: Scenario Planning Analytical Resources Core INDEX
+Resource Type: Model
+URL: http://www.crit.com/sparc/
+AnnualCost
+Other Cost Considerations
+Other Requirements
+Technical Skills Needed
+Model Inputs
+Model Variables
+Model Evaluation
+Contact Detail
+
+READ ID: 12536
+Title: CommunityViz
+Resource Type: Model
+URL: http://communityviz.city-explained.com/communityviz/index.html
+Support Name
+Contact Detail
+
+READ ID: 12537
+Title: Envision Tomorrow
+Resource Type: Model
+URL: http://envisiontomorrow.org/
+Other Cost Considerations
+Support Name
+Support Email
+Contact Detail
+
+READ ID: 12538
+Title: ATHENA Impact Estimator for Buildings
+Resource Type: Model
+URL: https://calculatelca.com/software/impact-estimator/
+Other Requirements
+Support Name
+Contact Detail
+
+READ ID: 12539
+Title: SimaPro
+Resource Type: Model
+URL: https://ltsexperts.com/services/software/simapro-lca-software/
+AnnualCost
+Other Cost Considerations
+Other Requirements
+Spatial Extent
+Support Name
+Last Software Update
+Contact Detail
+
+READ ID: 12540
+Title: Building for Environmental and Economic Sustainability
+Resource Type: Model
+URL: https://www.nist.gov/services-resources/software/bees
+Other Cost Considerations
+Other Requirements
+Alternate Names
+Contact Detail
+
+READ ID: 12541
+Title: LandUse Analyst
+Resource Type: Model
+URL: http://www.argusone.com/DHV/LandUse.html
+Spatial Extent
+Model Evaluation
+Support Name
+Support Materials
+Alternate Names
+Contact Detail
+
+READ ID: 12542
+Title: Targeted Retrofit Energy Analysis Tool
+Resource Type: Model
+URL: http://psdconsulting.com/software/treat/
+Other Requirements
+Model Evaluation
+Support Name
+Support Email
+Alternate Names
+Contact Detail
+
+READ ID: 12543
+Title: Eco-Bat
+Resource Type: Model
+URL: http://ecobat.heig-vd.ch/index.php?option=com_content&view=article&id=64&Itemid=61&lang=en
+AnnualCost
+Other Cost Considerations
+Operating System
+Other Requirements
+Alternate Names
+Contact Detail
+
+READ ID: 12544
+Title: Infrastructure Voluntary Evaluation Sustainability Tool
+Resource Type: Model
+URL: https://www.sustainablehighways.org/
+Other Requirements
+Input Data Requirements
+Contact Detail
+
+READ ID: 12545
+Title: The Energy and Emissions Reduction Policy Analysis Tool
+Resource Type: Model
+URL: https://planning.dot.gov/FHWA_tool/default.aspx
+AnnualCost
+Other Cost Considerations
+Model Evaluation
+Alternate Names
+Contact Detail
+
+READ ID: 12547
+Title: Surface Transportation Efficiency Analysis Model
+Resource Type: Model
+URL: https://www.fhwa.dot.gov/tpm/
+AnnualCost
+Other Cost Considerations
+Open Source
+Other Requirements
+Keywords
+Support Name
+Support Email
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12548
+Title: EnergyPlus
+Resource Type: Model
+URL: https://energyplus.net/
+Other Requirements
+Contact Detail
+
+READ ID: 12549
+Title: Intelligent Transportation System Deployment Analysis System
+Resource Type: Model
+URL: https://ops.fhwa.dot.gov/trafficanalysistools/idas.htm
+AnnualCost
+Other Cost Considerations
+Other Requirements
+Spatial Extent
+Keywords
+Alternate Names
+Contact Detail
+
+READ ID: 12550
+Title: eSight
+Resource Type: Model
+URL: https://www.esightenergy.com/us/
+BaseCost
+AnnualCost
+Other Cost Considerations
+Model Inputs
+Support Materials
+Alternate Names
+Contact Detail
+
+READ ID: 12552
+Title: Solar Reflectance Index Calculator
+Resource Type: Model
+URL: https://www.usgbc.org/resources/lawrence-berkeley-national-laboratory-sri-calculator
+AnnualCost
+Other Cost Considerations
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12553
+Title: Building Life Cycle Cost
+Resource Type: Model
+URL: https://energy.gov/eere/femp/building-life-cycle-cost-programs
+Other Cost Considerations
+Open Source
+Alternate Names
+Contact Detail
+
+READ ID: 12554
+Title: SmartGAP
+Resource Type: Model
+URL: http://www.trb.org/main/blurbs/168842.aspx
+Other Cost Considerations
+Open Source
+Model Evaluation
+Alternate Names
+Contact Detail
+
+READ ID: 12555
+Title: Federal Renewable Energy Screening Assistant
+Resource Type: Model
+URL: Not Provided
+URL
+AnnualCost
+Other Cost Considerations
+Operating System
+Other Requirements
+Alternate Names
+Contact Detail
+
+READ ID: 12556
+Title: Urban Footprint
+Resource Type: Model
+URL: https://urbanfootprint.com/
+BaseCost
+Other Requirements
+Alternate Names
+Contact Detail
+
+READ ID: 12557
+Title: Cool Roof Calculator
+Resource Type: Model
+URL: https://web.ornl.gov/sci/buildings/tools/cool-roof/
+Other Cost Considerations
+Open Source
+Operating System
+Other Requirements
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Contact Detail
+
+READ ID: 12558
+Title: Roof Savings Calculator
+Resource Type: Model
+URL: https://rsc.ornl.gov/
+Other Cost Considerations
+Operating System
+Other Requirements
+Model Evaluation
+Support Name
+Support Email
+Support Phone
+Support Materials
+Alternate Names
+Contact Detail
+
+READ ID: 12559
+Title: VE-Ware
+Resource Type: Model
+URL: Not Provided
+URL
+AnnualCost
+Other Cost Considerations
+Other Requirements
+Model Evaluation
+Keywords
+Support Name
+Support Materials
+Contact Detail
+
+READ ID: 12560
+Title: Quick Energy Simulation Tool
+Resource Type: Model
+URL: http://www.doe2.com/equest/
+Other Cost Considerations
+Open Source
+Other Requirements
+Support Email
+Alternate Names
+Contact Detail
+
+READ ID: 12561
+Title: VE-Toolkit
+Resource Type: Model
+URL: Not Provided
+URL
+AnnualCost
+Other Cost Considerations
+Operating System
+Other Requirements
+Technical Skills Needed
+Model Structure
+Model Inputs
+Input Data Requirements
+Model Output Types
+Model Evaluation
+Keywords
+Support Name
+Support Materials
+Contact Detail
+
+READ ID: 12562
+Title: MetroQuest
+Resource Type: Model
+URL: http://metroquest.com/
+BaseCost
+AnnualCost
+Other Cost Considerations
+Operating System
+Other Requirements
+Model Evaluation
+Support Name
+Support Materials
+Alternate Names
+Contact Detail
+
+READ ID: 12563
+Title: Conservation Planning System
+Resource Type: Model
+URL: http://www.edg.org.au/edg-free-resources/cplan.html
+Other Cost Considerations
+Alternate Names
+Contact Detail
+
+READ ID: 12564
+Title: Integrated Transport and Health Impact Modelling Tool
+Resource Type: Model
+URL: http://www.cedar.iph.cam.ac.uk/research/modelling/ithim/
+Other Cost Considerations
+Model Inputs
+Input Data Requirements
+Alternate Names
+Contact Detail
+
+READ ID: 12565
+Title: IDRISI
+Resource Type: Model
+URL: https://clarklabs.org/terrset/land-change-modeler/
+Technical Skills Needed
+Model Output Types
+Model Evaluation
+Alternate Names
+Contact Detail
+
+READ ID: 12566
+Title: StreetMix
+Resource Type: Model
+URL: https://streetmix.net
+Other Cost Considerations
+Operating System
+Other Requirements
+Model Evaluation
+Support Name
+Support Phone
+Support Materials
+Alternate Names
+Contact Detail
+
+READ ID: 12567
+Title: GHG Emissions from Transport or Mobile Sources Calculator
+Resource Type: Model
+URL: http://www.ghgprotocol.org/calculation-tools
+Other Cost Considerations
+Model Evaluation
+Keywords
+Alternate Names
+Contact Detail
+
+READ ID: 12568
+Title: The Greenhouse Gases, Regulated Emissions, and Energy Use in Transportation Model
+Resource Type: Model
+URL: https://greet.es.anl.gov/
+Other Cost Considerations
+Spatial Extent
+Support Phone
+Alternate Names
+Contact Detail
+
+READ ID: 12569
+Title: Alternative Fuel Life-Cycle Environmental and Economic Transportation
+Resource Type: Model
+URL: https://greet.es.anl.gov/afleet
+Contact Detail
+
+READ ID: 12570
+Title: Clean Cities Area of Interest 4: Alternative Fuel and Advanced Technology Vehicles Pilot Program Emissions Benefit Tool
+Resource Type: Model
+URL: Not Provided
+URL
+AnnualCost
+Other Cost Considerations
+Spatial Extent
+Model Evaluation
+Keywords
+Support Name
+Support Phone
+Support Materials
+Alternate Names
+Contact Detail
+
+READ ID: 12571
+Title: AirCRED
+Resource Type: Model
+URL: Not Provided
+URL
+AnnualCost
+Other Cost Considerations
+Open Source
+Spatial Extent
+Model Evaluation
+Keywords
+Support Materials
+Alternate Names
+Contact Detail
