@@ -95,6 +95,9 @@ label{
 #concept-help-button > img {
   width: 2em;
 }
+#role-help-button:focus {
+  outline: 2px solid Highlight;
+}
 .navbar {
   display: inline;
 }

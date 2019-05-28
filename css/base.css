@@ -212,9 +212,6 @@ tr:hover td:not(:first-child) {
 .dt-body-center > input[type='checkbox'] + label:before {
   margin: 0;
 }
-.dt-body-center > input[type='checkbox']:focus + label:before {
-  outline: 2px solid Highlight;
-}
 #feedback-text {
   width: 100%;
 }
@@ -472,10 +469,10 @@ table.dataTable tbody td {
 }
 
 input[type="checkbox"]:focus + label::before {
-  outline: rgb(59, 153, 252) auto 5px;
+  outline: 2px solid Highlight;
 }
 input[type="radio"]:focus + label::before {
-  outline: rgb(59, 153, 252) auto 5px;
+  outline: 2px solid Highlight;
 }
 .shadow-sm {
   box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
