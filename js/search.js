@@ -257,7 +257,11 @@ var detailedSearch = function () {
   resultSet.reset(); // clear result set
   terminatedTools.reset();
   resultTable.getToolSet().reset(); //reset display toolset
-  var queryTypes = $("#search-field input:checkbox:checked").map(function () {return $(this).val()}).get();
+  var queryTypes = $("#search-field input:checkbox:checked").map(function () {
+    if ($(this).val() !== "DPLConcepts") {
+      return $(this).val();
+    }
+  }).get();
   if (!queryTypes.length) { // ensure queryType is selected
     toast({html: 'You must select at least one Search Field.', close: true});
     return;
