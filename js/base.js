@@ -513,17 +513,25 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   	}
   }
 
-  $('#number-of-results').html(this.toolSet.getLength() + ' result(s) found ');
-
-  $('#rl-loader').attr('aria-hidden', 'true').hide();
-  $("#" + this.getListId()).append(html);
-  if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
-    $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
+  if (this.toolSet.getLength()) {
+    $('#results-tab').parent().attr('aria-hidden', false);
+    $("#results-tab").click();
+    $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', true);
+    createDataTable('results');
+    $('#number-of-results').html(this.toolSet.getLength() + ' result(s) found ');
+    $('#rl-loader').attr('aria-hidden', 'true').hide();
+    $("#" + this.getListId()).append(html);
+    if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
+      $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
+    }
+    if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
+      $("#" + this.getTableId()).DataTable().columns.adjust(); // adjust table cols to the width of the container
+    }
+    $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', false);
+  } else {
+    toast({html: 'No results were found.', close: true});
+    $('#results-tab').parent().attr('aria-hidden', true);
   }
-  if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
-    $("#" + this.getTableId()).DataTable().columns.adjust(); // adjust table cols to the width of the container
-  }
-  $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', false);
 };
 
 /**
