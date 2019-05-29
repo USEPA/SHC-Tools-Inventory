@@ -336,7 +336,7 @@ var detailedSearch = function () {
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
       toast({html: 'Server error. Please try again another time.', close: true});
-    }).always(() => {
+    }).always(function () {
       $('#as-loader').attr('aria-hidden', 'true').hide();
     });
   } else {
@@ -417,7 +417,7 @@ var simpleSearch = function () {
       }
     }).fail(function (jqXHR, textStatus, errorThrown) {
       toast({html: 'Server error. Please try again another time.', close: true});
-    }).always(() => {
+    }).always(function () {
       $('#ss-loader').attr('aria-hidden', 'true').hide();
     });
   } else {
