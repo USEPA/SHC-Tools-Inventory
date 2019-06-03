@@ -330,6 +330,10 @@ var detailedSearch = function () {
         toast({html: 'No results were found.', close: true});
         $('#results-tab').parent().attr('aria-hidden', true);
       } else {
+        $('#results-tab').parent().attr('aria-hidden', false);
+        $("#results-tab").click();
+        $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', true);
+        createDataTable('results');
         $('#result-info').html('<span id="number-of-results">Finding results</span> for search term \"' + queryString + "\"");
         toolCache.handleToolSet(resultSet, resultTable.displayTools.bind(resultTable));
       }

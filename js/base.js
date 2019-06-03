@@ -413,89 +413,6 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
     }
   }
 
-  function isToolFiltered(result) {
-    if (toolSet.hasFilters()) {
-      //console.log(toolSet.filters);
-      //console.log("=============================");
-
-      var filtered;
-      if (toolSet.filters.hasOwnProperty('decisionSectors') && toolSet.filters.decisionSectors.length > 0) {
-        filtered = true;
-        //console.log('decisionSectors');
-        //console.log(result['Decision Sector']);
-        for (var i = 0; i < toolSet.filters.decisionSectors.length; i++) {
-          var ds = toolSet.filters.decisionSectors[i];
-          if (result['Decision Sector'].toLowerCase().includes(ds.toLowerCase())) {
-            //console.log(result['Decision Sector'] + ' included ' + ds);
-            filtered = false;
-            break;
-          }
-        }
-        if (filtered) {
-          //console.log('not found so filtering');
-          return filtered;
-        }
-      }
-      //console.log("=============================");
-      if (toolSet.filters.hasOwnProperty('os_select') && toolSet.filters.os_select.length > 0) {
-        filtered = true;
-       // console.log('os_select');
-        //console.log(result['Operating Environment']);
-        for (var i = 0; i < toolSet.filters.os_select.length; i++) {
-          var os = toolSet.filters.os_select[i];
-          if (result['Operating Environment'].toLowerCase().includes(os.toLowerCase())) {
-            //console.log(result['Operating Environment'] + ' included ' + os);
-            filtered = false;
-            break;
-          }
-        }
-        if (filtered) {
-          //console.log('not found so filtering');
-          return filtered;
-        }
-      }
-      //console.log("=============================");
-      if (toolSet.filters.hasOwnProperty('cost_select') && toolSet.filters.cost_select.length > 0) {
-        filtered = true;
-       // console.log('cost_select');
-       // console.log(result['BaseCost']);
-        for (var i = 0; i < toolSet.filters.cost_select.length; i++) {
-          var c = toolSet.filters.cost_select[i];
-          if (result['BaseCost'].toLowerCase() === parseSoftwareCost(c).toLowerCase()) {
-            //console.log(result['BaseCost'] + ' equalled ' + parseSoftwareCost(c));
-            filtered = false;
-            break;
-          }
-        }
-        if (filtered) {
-          //console.log('not found so filtering');
-          return filtered;
-        }
-      }
-      //console.log("=============================");
-      if (toolSet.filters.hasOwnProperty('extent_select') && toolSet.filters.extent_select.length > 0) {
-        filtered = true;
-        //console.log('extent_select');
-        //console.log(result['Spatial Extent']);
-        for (var i = 0; i < toolSet.filters.extent_select.length; i++) {
-          var se = toolSet.filters.extent_select[i];
-          if (result['Spatial Extent'].toLowerCase().includes(se.toLowerCase())) {
-            //console.log(result['Spatial Extent'] + ' included ' + se);
-            filtered = false;
-            break;
-          }
-        }
-        if (filtered) {
-          //console.log('not found so filtering');
-          return filtered;
-        }
-      }
-    } else {
-      return false;
-    }
-    return false;
-  }
-
   var sorted = sort(toolSet.getToolSet());
   for (var i = 0; i < sorted.length; i++) {
   	if (!this.toolSet.contains(sorted[i])) {
@@ -503,7 +420,7 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
       if (toolData === null) {
         //console.log(sorted[i] + " data is null.");
       }
-      if (toolData !== null && !isToolFiltered(toolData)) {
+      if (toolData !== null && !isToolFiltered(toolData, toolSet)) {
         if (!(toolData["Life Cycle Phase"] === "Termination" && !$('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('checked'))) {
           html += createDiv(toolData, this.getListId());
           rows.push(createRow(toolData));
@@ -513,26 +430,101 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   	}
   }
 
-  if (this.toolSet.getLength()) {
-    $('#results-tab').parent().attr('aria-hidden', false);
-    $("#results-tab").click();
-    $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', true);
-    createDataTable('results');
-    $('#number-of-results').html(this.toolSet.getLength() + ' result(s) found ');
-    $('#rl-loader').attr('aria-hidden', 'true').hide();
-    $("#" + this.getListId()).append(html);
-    if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
-      $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
-    }
-    if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
-      $("#" + this.getTableId()).DataTable().columns.adjust(); // adjust table cols to the width of the container
-    }
-    $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', false);
-  } else {
-    toast({html: 'No results were found.', close: true});
-    $('#results-tab').parent().attr('aria-hidden', true);
+  $('#number-of-results').html(this.toolSet.getLength() + ' result(s) found ');
+
+  $('#rl-loader').attr('aria-hidden', 'true').hide();
+  $("#" + this.getListId()).append(html);
+  if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
+    $("#" + this.getTableId()).DataTable().rows.add(rows).draw();
   }
+  if ($.fn.DataTable.isDataTable("#" + this.getTableId())) {
+    $("#" + this.getTableId()).DataTable().columns.adjust(); // adjust table cols to the width of the container
+  }
+  $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', false);
 };
+
+function isToolFiltered(result, toolSet) {
+  if (toolSet.hasFilters()) {
+    //console.log(toolSet.filters);
+    //console.log("=============================");
+
+    var filtered;
+    if (toolSet.filters.hasOwnProperty('decisionSectors') && toolSet.filters.decisionSectors.length > 0) {
+      filtered = true;
+      //console.log('decisionSectors');
+      //console.log(result['Decision Sector']);
+      for (var i = 0; i < toolSet.filters.decisionSectors.length; i++) {
+        var ds = toolSet.filters.decisionSectors[i];
+        if (result['Decision Sector'].toLowerCase().includes(ds.toLowerCase())) {
+          //console.log(result['Decision Sector'] + ' included ' + ds);
+          filtered = false;
+          break;
+        }
+      }
+      if (filtered) {
+        //console.log('not found so filtering');
+        return filtered;
+      }
+    }
+    //console.log("=============================");
+    if (toolSet.filters.hasOwnProperty('os_select') && toolSet.filters.os_select.length > 0) {
+      filtered = true;
+     // console.log('os_select');
+      //console.log(result['Operating Environment']);
+      for (var i = 0; i < toolSet.filters.os_select.length; i++) {
+        var os = toolSet.filters.os_select[i];
+        if (result['Operating Environment'].toLowerCase().includes(os.toLowerCase())) {
+          //console.log(result['Operating Environment'] + ' included ' + os);
+          filtered = false;
+          break;
+        }
+      }
+      if (filtered) {
+        //console.log('not found so filtering');
+        return filtered;
+      }
+    }
+    //console.log("=============================");
+    if (toolSet.filters.hasOwnProperty('cost_select') && toolSet.filters.cost_select.length > 0) {
+      filtered = true;
+     // console.log('cost_select');
+     // console.log(result['BaseCost']);
+      for (var i = 0; i < toolSet.filters.cost_select.length; i++) {
+        var c = toolSet.filters.cost_select[i];
+        if (result['BaseCost'].toLowerCase() === parseSoftwareCost(c).toLowerCase()) {
+          //console.log(result['BaseCost'] + ' equalled ' + parseSoftwareCost(c));
+          filtered = false;
+          break;
+        }
+      }
+      if (filtered) {
+        //console.log('not found so filtering');
+        return filtered;
+      }
+    }
+    //console.log("=============================");
+    if (toolSet.filters.hasOwnProperty('extent_select') && toolSet.filters.extent_select.length > 0) {
+      filtered = true;
+      //console.log('extent_select');
+      //console.log(result['Spatial Extent']);
+      for (var i = 0; i < toolSet.filters.extent_select.length; i++) {
+        var se = toolSet.filters.extent_select[i];
+        if (result['Spatial Extent'].toLowerCase().includes(se.toLowerCase())) {
+          //console.log(result['Spatial Extent'] + ' included ' + se);
+          filtered = false;
+          break;
+        }
+      }
+      if (filtered) {
+        //console.log('not found so filtering');
+        return filtered;
+      }
+    }
+  } else {
+    return false;
+  }
+  return false;
+}
 
 /**
  * Toggle result table or list display styles
@@ -1993,7 +1985,7 @@ $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').on("cha
  */
 var parseResultsArray = function (results) {
   for (var i = 0; i < results.length; i++) {
-    if ((!resultSet.contains(results[i].ResourceId)) && (whitelist.indexOf(results[i].ResourceId) > -1)) {
+    if ((!resultSet.contains(results[i].ResourceId)) && (whitelist.indexOf(results[i].ResourceId) > -1) && !isToolFiltered(toolCache.getParsedData(results[i].ResourceId), resultSet)) {
       resultSet.addTool(results[i].ResourceId);
     }
   }
