@@ -95,7 +95,11 @@ label{
 #concept-help-button > img {
   width: 2em;
 }
-#role-help-button:focus {
+#role-help-button:focus,
+#subrole-help-button:focus,
+#fundamental-objective-help-button:focus,
+#objective-help-button:focus,
+#concept-help-button:focus {
   outline: 2px solid Highlight;
 }
 .navbar {
