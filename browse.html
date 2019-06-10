@@ -75,15 +75,9 @@
         <div class="pane-content">
           <div class="node node-page clearfix view-mode-full">
             <p>Browse Tools allows users to view the entire inventory at once. Click on a tool to view more details. Save tools by selecting the checkbox. Export the tools to CSV.</p>
+            <p>Enter search terms in the "Search" box. Results will appear immediately if they contain the search text. Sort results using the sort arrows in each column heading</p>
           </div>
-          <h3>Using Browse Tools</h3>
-          <ul>
-            <li>Enter search terms in the "Search" box. Results will appear immediately if they contain the search text.</li>
-            <li> Sort results using the sort arrows in each column heading.</li>
-          </ul>
-          <h5 id="disclaimer-title">Disclaimer</h5>
-          <p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
-          <span class="related-info"><strong>Navigation</strong></span>
+          <span class="related-info"><strong>Navigation:</strong></span>
           <ul class="menu pipeline">
             <li class="menu-item">
               <a href="./index.html">Return to Landing Page</a>
@@ -95,15 +89,18 @@
               <a href="./wizard.html">Guided Search</a>
             </li>
           </ul>
+          <h3 id="disclaimer-title">Disclaimer</h3>
+          <p id="disclaimer-text">The tools listed are for informational purposes only. The EPA and its employees do not endorse any product, services, or organizations listed.</p>
           <div aria-live="polite" id="toast"></div>
           <div id="tabs">
             <ul class="tabs" id="tabs-nav" role="tablist">
               <li class="active"><a aria-controls="browse-tools-panel" aria-selected="true" class="menu-internal" data-tab-number="1" href="#browse-tools-panel" id="browse-tools-tab" role="tab">Browse Tools</a></li>
-              <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#selected-tool-panel" id="selected-tool-tab" role="tab">Tool Details</a></li>
-              <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#saved-tools-panel" id="saved-tools-tab" role="tab">Saved Tools</a></li>
+              <li aria-hidden="true"><a aria-controls="saved-tools-panel" aria-selected="false" class="menu-internal" data-tab-number="2" href="#saved-tools-panel" id="saved-tools-tab" role="tab">Saved Tools</a></li>
+              <li aria-hidden="true"><a aria-controls="selected-tool-panel" aria-selected="false" class="menu-internal" data-tab-number="3" href="#selected-tool-panel" id="selected-tool-tab" role="tab">Tool Details</a></li>
             </ul>
             <div aria-labelledby="browse-tools-tab" id="browse-tools-panel" role="tabpanel" >
-              <span>Choose a display:</span>
+              <p>Browse the tool inventory. Select a tool by checking the checkbox to the left of the tool name. Save tools and they will remain in the Saved Tools tab until you remove them.</p>
+              <span>Choose a display</span>
               <input id="browse-list-radio" type="radio" name="browse-display-type" value="text"><label for="browse-list-radio">Text: recommended for those on smaller screens.</label>
               <input id="browse-table-radio" type="radio" name="browse-display-type" value="table" checked><label for="browse-table-radio">Table: allows filtering and column sorting.</label>
               <br />
@@ -171,15 +168,12 @@
               </div>
               <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
             </div>
-            <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
-              <div id="selected-tool"></div>
-            </div>
             <div aria-labelledby="saved-tools-tab" id="saved-tools-panel" role="tabpanel" aria-hidden="true">
               <p>These are the tools you chose to save. Select the tools you would like to export to a downloadable CSV file.</p>
-              <span>Choose a display:</span>
+              <span>Choose a display</span>
               <input id="saved-list-radio" type="radio" name="saved-display-type" value="text" checked><label for="saved-list-radio">Text: recommended for those on smaller screens.</label>
               <input id="saved-table-radio" type="radio" name="saved-display-type" value="table"><label for="saved-table-radio">Table: allows filtering and column sorting.</label>
-
+              <br />
               <div class="row">
                 <div class="col">
                   <button id="select-all-saved-btn">Select All Tools</button>
@@ -216,6 +210,9 @@
                 </table>
               </div>
               <p class="pagetop"><a href="#tabs">Return to top of section</a></p>
+            </div>
+            <div aria-labelledby="selected-tool-tab" id="selected-tool-panel" role="tabpanel" aria-hidden="true">
+              <div id="selected-tool"></div>
             </div>
           </div>
         </div>

@@ -22,7 +22,7 @@
     border-radius: 0; 
   }
 }
-label{
+label {
   border-radius: 0.5em;
 }
 .success {
@@ -30,6 +30,7 @@ label{
   border-radius: 0.5em;
   background-color: #e7f4e4;
   margin-bottom: 1.5em;
+  padding: 0;
 }
 .warning {
   border: 0.5em solid #fff1d2;
@@ -108,8 +109,7 @@ label{
 #tabsnav {
   list-style: none;
   padding-bottom: 0;
-  padding-inline-start: 20.4px;
-  padding-left: 20.4px;
+  padding-left: 3.3%;
 }
 #tabsnav li {
   padding-left: 0; /* override s.css */
@@ -160,7 +160,7 @@ label{
 #tabsnav li:last-child a {
   border-top-right-radius: 3px !important;
   border-bottom-right-radius: 3px !important;
-  padding-right: 15px;
+  /* padding-right: 15px; */
 }
 #tabsnav li:last-child a:after {
   display: none;
