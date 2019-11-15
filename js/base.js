@@ -115,8 +115,6 @@ var toolCache = (function () {
           if (result.Public === 'Y') {
             setData(result['ID'], result);
             terminationCheck(result);
-          } else {
-            console.log(result)
           }
         } else {
           for (var i = 0; i < arguments.length; i++) {
@@ -514,7 +512,6 @@ ToolDisplay.prototype.displayTools = function (toolSet) {
   }
 
   if (this.toolSet.getLength()) {
-    console.log('1')
     $('#results-tab').parent().attr('aria-hidden', false);
     $("#results-tab").click();
     $('#toggle-unsupported-1, #toggle-unsupported-2, #toggle-unsupported-3').prop('disabled', true);
@@ -781,7 +778,7 @@ function showDetails(id, that) {
       "<span class='bold'>User Support Material</span></strong>: " + linkifyString(parsedData['Support Materials']) + "<br>" +
     "</div>";
 
-    if (parsedData["Contact Detail"].hasOwnProperty('publicContact') && parsedData["Contact Detail"].publicContact.length) {
+    if (parsedData["Contact Detail"] && parsedData["Contact Detail"].hasOwnProperty('publicContact') && parsedData["Contact Detail"].publicContact.length) {
       html += '<div class="list-div shadow-sm">' +
         "<h4>Public Point of Contact</h4>";
         for (var i = 0; i < parsedData["Contact Detail"].publicContact.length; i++) {
@@ -1104,16 +1101,18 @@ var parseResult = function (result) {
     if (contactDetail === "") {
       return contactDetail;
     }
-    for (var i = 0; i < contactDetail.IndividualContactDetail.length; i++) {
-      if (contactDetail.IndividualContactDetail[i].RoleName === "Primary Information Resource Steward") {
-        contacts.resourceSteward.push(contactDetail.IndividualContactDetail[i]);
-      } else if (contactDetail.IndividualContactDetail[i].RoleName === "Secondary Information Resource Steward") {
-        contacts.resourceSteward.push(contactDetail.IndividualContactDetail[i]);
-      } else if (contactDetail.IndividualContactDetail[i].RoleName === "Public Point of Contact") {
-        contacts.publicContact.push(contactDetail.IndividualContactDetail[i]);
+	if (contactDetail.IndividualContactDetail) {
+	  for (var i = 0; i < contactDetail.IndividualContactDetail.length; i++) {
+        if (contactDetail.IndividualContactDetail[i].RoleName === "Primary Information Resource Steward") {
+          contacts.resourceSteward.push(contactDetail.IndividualContactDetail[i]);
+        } else if (contactDetail.IndividualContactDetail[i].RoleName === "Secondary Information Resource Steward") {
+          contacts.resourceSteward.push(contactDetail.IndividualContactDetail[i]);
+        } else if (contactDetail.IndividualContactDetail[i].RoleName === "Public Point of Contact") {
+          contacts.publicContact.push(contactDetail.IndividualContactDetail[i]);
+        }
       }
-    }
-    return contacts;
+      return contacts;
+	}
   }
 
   /**
@@ -1503,8 +1502,8 @@ function createDataTable(name) {
     });
 
     // Is the browse tool
-    if (name === 'browse') {
-      $('.dataTables_empty').html('<div id="b-load-wrapper"><div title="Loading..." id="b-loader"></div></div>');
+    if (name === "browse") {
+      $(".dataTables_empty").html('<img id="loader" src="/sites/staging/files/2018-12/loader.gif">');
     }
   }
 }
