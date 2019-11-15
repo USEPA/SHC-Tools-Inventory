@@ -19,7 +19,7 @@
   }
   .navbar div {
     margin: 0.2em 0 0.2em 0;
-    border-radius: 0; 
+    border-radius: 0;
   }
 }
 label {
@@ -191,7 +191,7 @@ label {
   #tabsnav li a {
     float: none;
     padding: 0;
-    margin: 0 0 5px 0; 
+    margin: 0 0 5px 0;
   }
   #tabsnav li a:before,
   #tabsnav li a:after {
@@ -241,7 +241,7 @@ label {
   color: #112e51;
 }
 .tool-label {
-  padding: .1em 0.5em;
+  padding: 0.1em 0.5em;
   margin-bottom: 0.1em;
 }
 .subclass {

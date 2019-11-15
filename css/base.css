@@ -2,7 +2,7 @@
   background-color: #e7f4e4;
   cursor: pointer;
 }
-.button-grey, 
+.button-grey,
 a.button-grey,
 a.button-grey:visited {
   background-color: #aeb0b5;
@@ -164,8 +164,8 @@ table.dataTable td.select-checkbox:after {
   float: none !important;
 } */
 #loader {
-  display: block; 
-  margin-left: auto; 
+  display: block;
+  margin-left: auto;
   margin-right: auto;
 }
 tbody > tr.selected,
@@ -177,7 +177,7 @@ table.dataTable tbody > tr > .selected {
 tr:hover td:not(:first-child) {
   background-color: #e7f4e4;
 }
-.dt-body-center > input[type='checkbox'] + label:before {
+.dt-body-center > input[type="checkbox"] + label:before {
   margin: 0;
 }
 #feedback-text {
@@ -208,11 +208,17 @@ tr:hover td:not(:first-child) {
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.5s;
   animation-name: animatetop;
-  animation-duration: 0.5s
+  animation-duration: 0.5s;
 }
 @keyframes animatetop {
-  from {top: -300px; opacity: 0}
-  to {top: 0; opacity: 1}
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
 }
 #close-modal {
   color: white;
@@ -256,7 +262,7 @@ tr:hover td:not(:first-child) {
     width: 100%;
   }
   #submit-feedback {
-    width: 100%; 
+    width: 100%;
   }
   button,
   a.button,
@@ -296,18 +302,31 @@ tr:hover td:not(:first-child) {
 }
 /* Animations to slide toast in and out */
 @keyframes fadein {
-  from {top: 100%; opacity: 0;}
-  to {top: 0; opacity: 1;}
+  from {
+    top: 100%;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
 }
 @keyframes fadeout {
-  from {top: 0; opacity: 1;}
-  to {top: 100%; opacity: 0;}
+  from {
+    top: 0;
+    opacity: 1;
+  }
+  to {
+    top: 100%;
+    opacity: 0;
+  }
 }
-.unselectable { /* Makes text in an element unselectable */
+.unselectable {
+  /* Makes text in an element unselectable */
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .toast-close-button {
   border: none;
@@ -324,11 +343,11 @@ tr:hover td:not(:first-child) {
   white-space: nowrap;
   position: absolute;
   right: 0;
-  top: 0
+  top: 0;
 }
 .toast-close-button:hover {
-  color: #212121!important;
-  background-color: #e4e2e0!important
+  color: #212121 !important;
+  background-color: #e4e2e0 !important;
 }
 .main-column .toast-button {
   margin: 0 auto;
@@ -339,10 +358,10 @@ tr:hover td:not(:first-child) {
 #tabsnav *,
 #tabsnav *:before,
 #tabsnav *:after {
-  -webkit-transition: all .25s linear;
-     -moz-transition: all .25s linear;
-      -ms-transition: all .25s linear;
-          transition: all .25s linear;
+  -webkit-transition: all 0.25s linear;
+  -moz-transition: all 0.25s linear;
+  -ms-transition: all 0.25s linear;
+  transition: all 0.25s linear;
 }
 
 /* shared */
@@ -372,19 +391,19 @@ hr {
 }
 .list-div {
   background-color: #f1f1f1;
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, 0.125);
   margin-top: 0.5em;
   padding: 0.5rem 0.5rem 0 0.5rem;
 }
-[role=tab] {
+[role="tab"] {
   margin: 1px 0 0;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
-[role=tabpanel] {
+[role="tabpanel"] {
   padding: 0.5em;
-  border: 1px solid rgba(0,0,0,.125);
-  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
 .main-column [aria-hidden="true"] {
   display: none;
@@ -400,7 +419,7 @@ hr {
   background-color: #d6d7d9;
 }
 button:disabled {
-  background-color: #aeb0b5
+  background-color: #aeb0b5;
 }
 .main-column table {
   width: 100%;
@@ -409,19 +428,19 @@ button:disabled {
   background-color: #d6d7d9;
   border-radius: 3px;
   padding: 1em 1em 1em 1em;
-  margin-bottom: .4em;
+  margin-bottom: 0.4em;
 }
 .export-radio,
 #export-radio1,
 #export-radio2 {
   display: inline;
-  margin:5px 5px 25.5px 5px;
+  margin: 5px 5px 25.5px 5px;
 }
 .export-radio > label,
 #export-radio1 > label,
 #export-radio2 > label {
   display: inline;
-  margin:5px 5px 25.5px 5px;
+  margin: 5px 5px 25.5px 5px;
 }
 
 .dataTables_filter {
@@ -443,19 +462,19 @@ input[type="radio"]:focus + label::before {
   outline: 2px solid Highlight;
 }
 .shadow-sm {
-  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
 .show-details-btn {
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0;
   display: block;
   float: none !important;
   margin: auto;
   padding: 0.5rem;
-  width: calc(100% - 1em);
+  width: calc(100% - 1.4em);
 }
 .show-details-tbl-btn {
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0;
   display: block;
   float: none !important;
@@ -475,13 +494,21 @@ input[type="radio"]:focus + label::before {
   z-index: 99;
 }
 @-webkit-keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { tranform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    tranform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 #ss-loader,
 #as-loader,
