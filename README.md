@@ -3,7 +3,7 @@
 ## Introduction
 
 This tool helps users find software that promote sustainability.
-Users of the wizard answer questions about a scenario to find relevant software-tools.
+Users of the wizard answer questions about a scenario to find relevant software tools.
 Once results are found, users can review or print the details of user-selected softwares.
 
 ## Usage
@@ -34,16 +34,6 @@ $ python
 >>> dt.send_to_csv(checked_links, filename.csv)
 ```
 
-## Help
-
-Explain which communication channels are available to request help.
-Communication channels with a proven track record are mailing lists, IRC channels, and forums.
-Tell users how and where to submit bugs or feature requests, possibly turning them into project participants.
-
-The documentation for this project should provide a great help.
-Please maintain documentation by documenting new work in a consistent manner.
-If you appreciate good documentation then follow the golden rule: "doc unto others as you would have them doc unto you."
-
 ## Installation
 
 Installation is getting the documents and a web-browser.
@@ -67,7 +57,7 @@ Allen Brookes, Seth Jenkins, Marilyn Tenbrink, Ingrid Heilke, Julia Twitchell, R
 
 ## License
 
-This tool uses jquery. Jquery's license is noted.  
+This tool uses jQuery. jQuery's license is noted.  
 
 ## EPA Disclaimer
 
