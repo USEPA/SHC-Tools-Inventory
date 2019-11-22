@@ -38,6 +38,12 @@ $ python
 
 Installation is getting the documents and a web-browser.
 
+Notes about project:
+
+To launch the project locally after you download the repo you can use the command line to run “python -m http.server” which will then allow you to run the pages on, for example http://localhost:8000/. It will tell you what port it runs on, but you can also specify a port if you want. There’s also an extension called “Live Server” for Visual Studio Code that is handy for this. 
+
+When moving the code to Drupal you only need the main main content of the page since Drupal will insert that into their template for an EPA page. I always disable rich-text on the editor to get the plain HTML, not the WYSIWYG interface. Below the editor there’s a Page Javascript section where you can either insert CSS or Javascript directly in `<style>` or `<script`> tags or link to the files. This is where you link the JS libraries or CSS files.
+
 ### Requirements
 
 This project requires a web-browser with javascript enabled.

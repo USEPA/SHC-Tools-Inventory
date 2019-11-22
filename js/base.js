@@ -1101,8 +1101,8 @@ var parseResult = function (result) {
     if (contactDetail === "") {
       return contactDetail;
     }
-	if (contactDetail.IndividualContactDetail) {
-	  for (var i = 0; i < contactDetail.IndividualContactDetail.length; i++) {
+    if (contactDetail.IndividualContactDetail) {
+      for (var i = 0; i < contactDetail.IndividualContactDetail.length; i++) {
         if (contactDetail.IndividualContactDetail[i].RoleName === "Primary Information Resource Steward") {
           contacts.resourceSteward.push(contactDetail.IndividualContactDetail[i]);
         } else if (contactDetail.IndividualContactDetail[i].RoleName === "Secondary Information Resource Steward") {
@@ -1112,7 +1112,7 @@ var parseResult = function (result) {
         }
       }
       return contacts;
-	}
+    }
   }
 
   /**
